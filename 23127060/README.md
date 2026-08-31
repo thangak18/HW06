@@ -2,9 +2,9 @@
 
 ## Student Information
 - **Full Name:** TODO
-- **Student ID:** TODO
+- **Student ID:** 23127060
 - **GitHub Username:** TODO
-- **Workspace:** `member-2/`
+- **Workspace:** `23127060/`
 
 ---
 
@@ -23,7 +23,7 @@
 1. **AI Generation:** Prompt-driven generation of test cases (target **≥ 35 AI-generated test cases per API**).
 2. **Human Audit:** Audit and label every AI test case (`VALID` / `INVALID` / `INCOMPLETE`) with rationale.
 3. **Human Extension:** Design and append **≥ 5 human extension test cases per API** focusing on edge cases, security vulnerabilities, and state transitions missed by AI.
-4. **Execution:** Execute with Postman & Newman with mandatory `X-Student-Id: {StudentID}` header.
+4. **Execution:** Execute with Postman & Newman with mandatory `X-Student-Id: 23127060` header.
 5. **Bug Reporting:** File genuine bugs discovered during testing on GitHub Issues and in Markdown report.
 
 ---
@@ -37,7 +37,7 @@
   ```javascript
   pm.request.headers.upsert({
       key: 'X-Student-Id',
-      value: pm.environment.get('studentId') || 'TODO'
+      value: '23127060'
   });
   ```
 - **Newman HTML Extra Report:** Exported to `newman/report.html`

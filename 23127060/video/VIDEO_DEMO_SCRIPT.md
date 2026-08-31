@@ -1,9 +1,9 @@
 # Kịch bản Video Demo HW06 (Thời lượng: >= 6 phút)
 
 **Sinh viên:** TODO  
-**MSSV:** {StudentID}  
+**MSSV:** 23127060  
 **Bài tập:** HW06 – API Testing (EShop SUT)  
-**Yêu cầu:** Tự thuyết minh tiếng Việt, quay trực tiếp màn hình thực thi Postman, Newman CLI và header `X-Student-Id: {StudentID}`.
+**Yêu cầu:** Tự thuyết minh tiếng Việt, quay trực tiếp màn hình thực thi Postman, Newman CLI và header `X-Student-Id: 23127060`.
 
 ---
 
@@ -16,7 +16,7 @@
 
 ### 0:45 – 2:30 | Trình diễn Postman Collection & Pre-request Script
 - Mở Postman hiển thị Collection chứa 3 API test suite.
-- Mở Pre-request script minh chứng tự động gắn header `X-Student-Id: {StudentID}`.
+- Mở Pre-request script minh chứng tự động gắn header `X-Student-Id: 23127060`.
 - Mở Postman Console và gửi 1 request mẫu, chỉ rõ header `X-Student-Id` được gửi thành công đến SUT.
 - Trình bày các test assertion (status code, schema validation `tv4`/`ajv`, token chaining).
 

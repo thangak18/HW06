@@ -23,8 +23,8 @@
 | Member | Full Name | Student ID | GitHub Handle | Pool A (Auth / Catalog) | Pool B (Cart / Order) | Pool C (Admin) | Personal Workspace |
 |---|---|---|---|---|---|---|---|
 | **Member 1** | Nguyễn Tấn Thắng | 23127259 | @thangak18 | TODO | TODO | TODO | [`23127259/`](./23127259/) |
-| **Member 2** | TODO | TODO | TODO | TODO | TODO | TODO | [`member-2/`](./member-2/) |
-| **Member 3** | TODO | TODO | TODO | TODO | TODO | TODO | [`member-3/`](./member-3/) |
+| **Member 2** | TODO | 23127060 | TODO | TODO | TODO | TODO | [`23127060/`](./23127060/) |
+| **Member 3** | TODO | 23127195 | TODO | TODO | TODO | TODO | [`23127195/`](./23127195/) |
 
 ---
 
@@ -67,8 +67,10 @@ HW06/
 │   │   ├── VIDEO_DEMO_SCRIPT.md
 │   │   └── VIDEO_RECORDING_CHECKLIST.md
 │   └── scripts/                       # Personal automation & Newman run scripts
-├── member-2/                          # Member 2 workspace (identical structure)
-├── member-3/                          # Member 3 workspace (identical structure)
+├── 23127060/                          # Member 2 (23127060) workspace
+│   └── (identical individual structure)
+├── 23127195/                          # Member 3 (23127195) workspace
+│   └── (identical individual structure)
 ├── scripts/                           # Shared utility scripts
 └── .github/workflows/                 # CI/CD automation workflows
 ```
