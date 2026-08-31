@@ -6,11 +6,11 @@ This document tracks the API feature assignments for each member of the team to 
 
 ## 1. Team Allocation Table
 
-| Member | Student Name | Student ID | GitHub Handle | Pool A Feature (Auth / Prod) | Pool B Feature (Cart / Order) | Pool C Feature (Admin) | Workspace Folder |
+| Member | Student Name | Student ID | GitHub Handle | Pool A Feature (Auth / Prod) | Pool B Feature (Cart / Order) | Pool C Feature (Admin) | Personal Workspace |
 |---|---|---|---|---|---|---|---|
-| **Member 1** | TODO | TODO | TODO | TODO | TODO | TODO | `members/member-1` |
-| **Member 2** | TODO | TODO | TODO | TODO | TODO | TODO | `members/member-2` |
-| **Member 3** | TODO | TODO | TODO | TODO | TODO | TODO | `members/member-3` |
+| **Member 1** | Nguyễn Tấn Thắng | 23127259 | @thangak18 | TODO | TODO | TODO | [`23127259/`](../23127259/) |
+| **Member 2** | TODO | TODO | TODO | TODO | TODO | TODO | [`member-2/`](../member-2/) |
+| **Member 3** | TODO | TODO | TODO | TODO | TODO | TODO | [`member-3/`](../member-3/) |
 
 ---
 

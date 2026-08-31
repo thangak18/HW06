@@ -4,11 +4,11 @@ This directory holds GitHub Actions workflow definitions for continuous API test
 
 ---
 
-## Workflow Structure Overview
+## Workflow Execution per Workspace
 
 Workflows in this directory can be configured to:
 1. Spin up the SUT (EShop backend service and mock database).
 2. Install Newman and necessary reporters (`newman-reporter-htmlextra`).
-3. Execute the Postman collections for each member workspace.
+3. Execute the Postman collections for each student workspace (`23127259/`, `member-2/`, `member-3/`).
 4. Upload generated HTML test reports as build artifacts.
-5. Provide evidence for both **Passing Pipeline** and **Failing Pipeline** submissions as required by the HW06 specification.
+5. Provide evidence for both **Passing Pipeline** and **Failing Pipeline** runs as required by the HW06 specification.
