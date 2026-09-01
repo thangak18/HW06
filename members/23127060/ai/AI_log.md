@@ -35,3 +35,19 @@ File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py bui
 - Files touched: testcases/API-1_generated.csv, testcases/API-2_generated.csv, testcases/API-3_generated.csv
 - Human verified: pending
 
+### #5 · 2026-09-01T14:37:58+07:00 · STEP 2c · Vong 3/4 - sinh test case SECURITY SEC-01..07
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step2c_sec.txt`
+  > [STEP 2 — VONG 2c / 4: SECURITY] Vong 3/4. Chi sinh nhom SEC.
+- Output: `ai/interactions/20260901T143758+0700_vong-3-4-sinh-test-case-security-sec-01-_OUTPUT.md`
+- Files touched: testcases/API-1_generated.csv, testcases/API-2_generated.csv, testcases/API-3_generated.csv
+- Human verified: pending
+
+### #6 · 2026-09-01T14:37:58+07:00 · STEP 2d · Vong 4/4 - sinh test case SCHEMA VALIDATION
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step2d_sch.txt`
+  > [STEP 2 — VONG 2d / 4: SCHEMA VALIDATION] Vong 4/4, vong cuoi. Chi sinh nhom SCH.
+- Output: `ai/interactions/20260901T143758+0700_vong-4-4-sinh-test-case-schema-validatio_OUTPUT.md`
+- Files touched: testcases/API-1_generated.csv, testcases/API-2_generated.csv, testcases/API-3_generated.csv
+- Human verified: pending
+
