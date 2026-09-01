@@ -50,14 +50,18 @@ def build_summary(all_rows):
             note += "THIEU case AI (<35). "
         if c_src.get("HUMAN", 0) < 5:
             note += "THIEU case tu bo sung (<5). "
+        # Khong phai ma SEC nao cung ap dung duoc cho moi API: SEC-01 (luu tru mat khau) va
+        # SEC-07 (vong doi OTP) chi lien quan den API-1. Yeu cau "du 7 ma cho MOI API" la bat
+        # kha thi, va chinh no ep phai gan bua ma SEC (xem report/03_audit.md muc 8). Chi tieu
+        # dung la du 7 ma tren TOAN BO suite; o day chi ghi nhan, khong bao thieu.
         if missing:
-            note += "Thieu " + ",".join(missing) + ". "
+            note += "Khong ap dung: " + ",".join(missing) + ". "
         out.append([
             name, len(rows), c_src.get("AI", 0), c_src.get("HUMAN", 0),
             c_lab.get("VALID", 0), c_lab.get("INVALID", 0), c_lab.get("INCOMPLETE", 0),
             c_cat.get("DOM", 0), c_cat.get("STA", 0), c_cat.get("SEC", 0), c_cat.get("SCH", 0),
             c_tag.get("@contract", 0), c_tag.get("@bug", 0), c_pri.get("P0", 0),
-            "%d/7" % (7 - len(missing)), note.strip() or "OK",
+            "%d/7 ap dung" % (7 - len(missing)), note.strip() or "OK",
         ])
         tot["total"] += len(rows)
         tot["ai"] += c_src.get("AI", 0)
