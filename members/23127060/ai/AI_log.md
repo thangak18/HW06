@@ -27,3 +27,11 @@ File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py bui
 - Files touched: testcases/API-1_generated.csv, testcases/API-2_generated.csv, testcases/API-3_generated.csv
 - Human verified: pending
 
+### #4 · 2026-09-01T14:37:10+07:00 · STEP 2b · Vong 2/4 - sinh test case STATE TRANSITION
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step2b_sta.txt`
+  > [STEP 2 — VONG 2b / 4: STATE TRANSITION] Vong 2/4. Chi sinh nhom STA, khong dung lai nhom DOM da sinh o vong truoc.
+- Output: `ai/interactions/20260901T143710+0700_vong-2-4-sinh-test-case-state-transition_OUTPUT.md`
+- Files touched: testcases/API-1_generated.csv, testcases/API-2_generated.csv, testcases/API-3_generated.csv
+- Human verified: pending
+
