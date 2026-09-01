@@ -1,0 +1,200 @@
+{
+  "info": {
+    "_postman_id": "563f5b56-a50b-553d-8f09-c54a5ec5e3c1",
+    "name": "HW06 - 23127195 - DD1 - Phan vung so dien thoai (FR-04)",
+    "description": "Data-driven: chay POST /api/users/me mot lan cho moi dong trong postman/data/api1_phone_partitions.csv.\n\nFR-04: so dien thoai hop le phai bat dau bang so 0 va co 10-11 chu so.\n\nChay bang: newman run <collection> -e <environment> -d postman/data/api1_phone_partitions.csv",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "[SETUP] Dang ky tai khoan data-driven",
+      "id": "317df0fd-6bf7-5d2d-b9ad-128540c87a67",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Dang ky hoac da ton tai', function () {",
+              "    pm.expect([200, 500]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "register"
+          ]
+        },
+        "description": "Chay lai moi vong lap — chap nhan ca truong hop tai khoan da ton tai.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"DD Tester 23127195\",\n  \"email\": \"{{ddEmail}}\",\n  \"password\": \"DdTester123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "[SETUP] Dang nhap lay token",
+      "id": "e9c841ca-9106-5799-976d-827a5e4de273",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Dang nhap thanh cong', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.collectionVariables.set('ddToken', pm.response.json().token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{ddEmail}}\",\n  \"password\": \"DdTester123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Cap nhat ho so voi so dien thoai tu file du lieu",
+      "id": "b5cd94e8-1167-5e49-8c93-49f65690920d",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Ky vong duoc lay tu cot expect_valid cua file CSV",
+              "var expectValid = String(pm.iterationData.get('expect_valid')).trim().toLowerCase() === 'yes';",
+              "var phone       = pm.iterationData.get('phone');",
+              "var partition   = pm.iterationData.get('partition');",
+              "",
+              "pm.test('[' + partition + '] phone=' + JSON.stringify(phone) + ' -> ' +",
+              "        (expectValid ? 'phai duoc chap nhan (200)' : 'phai bi tu choi (400)'), function () {",
+              "    if (expectValid) {",
+              "        pm.expect(pm.response.code, 'so hop le bi tu choi').to.eql(200);",
+              "    } else {",
+              "        pm.expect(pm.response.code,",
+              "            'so KHONG hop le theo FR-04 nhung van duoc chap nhan').to.eql(400);",
+              "    }",
+              "});",
+              "",
+              "pm.test('Khong tra ve loi may chu (5xx)', function () {",
+              "    pm.expect(pm.response.code).to.be.below(500);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{ddToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users/me",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "me"
+          ]
+        },
+        "description": "Moi vong lap lay mot gia tri `phone` va ky vong tuong ung tu file CSV.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"DD Tester 23127195\",\n  \"shipping_address\": \"227 Nguyen Van Cu, Q5\",\n  \"phone\": \"{{phone}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "var sid = pm.environment.get('studentId') || '23127195';",
+          "pm.request.headers.upsert({ key: 'X-Student-Id', value: sid });",
+          "console.log('[X-Student-Id] ' + sid + '  ->  ' + pm.request.method + ' ' + pm.request.url.getPath()",
+          "    + '   | iteration ' + (pm.info.iteration + 1));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('[GLOBAL] Request mang header X-Student-Id dung dinh dang', function () {",
+          "    pm.expect(pm.request.headers.get('X-Student-Id')).to.match(/^\\d{8}$/);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "studentId",
+      "value": "23127195"
+    }
+  ]
+}
