@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management)" tests="74" time="0.446">
+  <testsuite name="00 - Setup &amp; Fixtures / TC-A1-S01 [SETUP] Dang ky tai khoan thu nghiem rieng cho API-1" id="d34f8c5b-9dea-5b5a-955a-572cfc4bac90" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.031">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.031" classname="00SetupAmpFixturesTcA1S01SetupDangKyTaiKhoanThuNghiemRiengChoApi1"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.031" classname="00SetupAmpFixturesTcA1S01SetupDangKyTaiKhoanThuNghiemRiengChoApi1"/>
+    <testcase name="Status code la 200" time="0.031" classname="00SetupAmpFixturesTcA1S01SetupDangKyTaiKhoanThuNghiemRiengChoApi1"/>
+  </testsuite>
+  <testsuite name="00 - Setup &amp; Fixtures / TC-A1-S02 [SETUP] Dang nhap de lay JWT cua user thuong" id="b6780135-7411-5937-a6fa-c3c05c38c24f" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.011">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.011" classname="00SetupAmpFixturesTcA1S02SetupDangNhapDeLayJwtCuaUserThuong"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.011" classname="00SetupAmpFixturesTcA1S02SetupDangNhapDeLayJwtCuaUserThuong"/>
+    <testcase name="Status code la 200" time="0.011" classname="00SetupAmpFixturesTcA1S02SetupDangNhapDeLayJwtCuaUserThuong"/>
+    <testcase name="Response co truong 'token'" time="0.011" classname="00SetupAmpFixturesTcA1S02SetupDangNhapDeLayJwtCuaUserThuong"/>
+  </testsuite>
+  <testsuite name="00 - Setup &amp; Fixtures / TC-A1-S03 [SETUP] Dang nhap admin de doi chieu quyen" id="ba3100c0-5d83-5f19-b4ad-e55063505e38" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.010">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.010" classname="00SetupAmpFixturesTcA1S03SetupDangNhapAdminDeDoiChieuQuyen"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.010" classname="00SetupAmpFixturesTcA1S03SetupDangNhapAdminDeDoiChieuQuyen"/>
+    <testcase name="Status code la 200" time="0.010" classname="00SetupAmpFixturesTcA1S03SetupDangNhapAdminDeDoiChieuQuyen"/>
+    <testcase name="user.role == admin" time="0.010" classname="00SetupAmpFixturesTcA1S03SetupDangNhapAdminDeDoiChieuQuyen"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-001 name hop le -> 200 va doc lai dung gia tri" id="b6570500-98c7-58f5-8f2e-8d03355daad5" timestamp="2026-09-01T13:06:59.215Z" tests="5" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="01DomainPartitionNameTcA1001NameHopLe200VaDocLaiDungGiaTri"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="01DomainPartitionNameTcA1001NameHopLe200VaDocLaiDungGiaTri"/>
+    <testcase name="Status code la 200" time="0.005" classname="01DomainPartitionNameTcA1001NameHopLe200VaDocLaiDungGiaTri"/>
+    <testcase name="Response co truong 'message'" time="0.005" classname="01DomainPartitionNameTcA1001NameHopLe200VaDocLaiDungGiaTri"/>
+    <testcase name="Doc lai ho so phai thay ten moi" time="0.005" classname="01DomainPartitionNameTcA1001NameHopLe200VaDocLaiDungGiaTri"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-002-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-002" id="97eed2ab-3c23-5665-8b1a-4709ac1e8a62" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="01DomainPartitionNameTcA1002BaseSetupDuaHoSoVeBaselineTruocTcA1002"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="01DomainPartitionNameTcA1002BaseSetupDuaHoSoVeBaselineTruocTcA1002"/>
+    <testcase name="Status code la 200" time="0.005" classname="01DomainPartitionNameTcA1002BaseSetupDuaHoSoVeBaselineTruocTcA1002"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-002 name rong &quot;&quot; -> 400 (ho ten la truong bat buoc)" id="0758c0b4-1a72-50e4-898e-28ac52005ae7" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.011">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.011" classname="01DomainPartitionNameTcA1002NameRongQuotQuot400HoTenLaTruongBatBuoc"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.011" classname="01DomainPartitionNameTcA1002NameRongQuotQuot400HoTenLaTruongBatBuoc"/>
+    <testcase name="Status code la 400" time="0.011" classname="01DomainPartitionNameTcA1002NameRongQuotQuot400HoTenLaTruongBatBuoc">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 01 - Domain Partition: name / TC-A1-002 name rong "" -> 400 (ho ten la truong bat buoc).]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:6).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-003-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-003" id="038317ef-cc4d-5dd8-bff2-f063291d2418" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.008">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.008" classname="01DomainPartitionNameTcA1003BaseSetupDuaHoSoVeBaselineTruocTcA1003"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.008" classname="01DomainPartitionNameTcA1003BaseSetupDuaHoSoVeBaselineTruocTcA1003"/>
+    <testcase name="Status code la 200" time="0.008" classname="01DomainPartitionNameTcA1003BaseSetupDuaHoSoVeBaselineTruocTcA1003"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-003 name = null -> 400 (khong duoc ghi NULL de mat ten)" id="633dbb9f-09fa-5fb7-a915-07623c3310da" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="01DomainPartitionNameTcA1003NameNull400KhongDuocGhiNullDeMatTen"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="01DomainPartitionNameTcA1003NameNull400KhongDuocGhiNullDeMatTen"/>
+    <testcase name="Status code la 400" time="0.006" classname="01DomainPartitionNameTcA1003NameNull400KhongDuocGhiNullDeMatTen">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 01 - Domain Partition: name / TC-A1-003 name = null -> 400 (khong duoc ghi NULL de mat ten).]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:8).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-004-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-004" id="86778da8-47b2-53a4-9643-e1c140a6aad3" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.008">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.008" classname="01DomainPartitionNameTcA1004BaseSetupDuaHoSoVeBaselineTruocTcA1004"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.008" classname="01DomainPartitionNameTcA1004BaseSetupDuaHoSoVeBaselineTruocTcA1004"/>
+    <testcase name="Status code la 200" time="0.008" classname="01DomainPartitionNameTcA1004BaseSetupDuaHoSoVeBaselineTruocTcA1004"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-004 name chi gom khoang trang -> 400" id="9c05df6c-b5c6-568f-9fa0-d3aca1a246cf" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="01DomainPartitionNameTcA1004NameChiGomKhoangTrang400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="01DomainPartitionNameTcA1004NameChiGomKhoangTrang400"/>
+    <testcase name="Status code la 400" time="0.005" classname="01DomainPartitionNameTcA1004NameChiGomKhoangTrang400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 01 - Domain Partition: name / TC-A1-004 name chi gom khoang trang -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:10).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-005-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-005" id="2d7efea4-50d2-5a72-860c-314587a15bcb" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.008">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.008" classname="01DomainPartitionNameTcA1005BaseSetupDuaHoSoVeBaselineTruocTcA1005"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.008" classname="01DomainPartitionNameTcA1005BaseSetupDuaHoSoVeBaselineTruocTcA1005"/>
+    <testcase name="Status code la 200" time="0.008" classname="01DomainPartitionNameTcA1005BaseSetupDuaHoSoVeBaselineTruocTcA1005"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-005 name dai 500 ky tu -> khong duoc 500" id="8b493204-c3bb-59d8-b590-ab72bdd637be" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="01DomainPartitionNameTcA1005NameDai500KyTuKhongDuoc500"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="01DomainPartitionNameTcA1005NameDai500KyTuKhongDuoc500"/>
+    <testcase name="Status code thuoc [200, 400, 413]" time="0.007" classname="01DomainPartitionNameTcA1005NameDai500KyTuKhongDuoc500"/>
+    <testcase name="Response time &lt; 3000ms" time="0.007" classname="01DomainPartitionNameTcA1005NameDai500KyTuKhongDuoc500"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-006-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-006" id="3dae261d-313d-501f-92d9-0efd90340eea" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="01DomainPartitionNameTcA1006BaseSetupDuaHoSoVeBaselineTruocTcA1006"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="01DomainPartitionNameTcA1006BaseSetupDuaHoSoVeBaselineTruocTcA1006"/>
+    <testcase name="Status code la 200" time="0.006" classname="01DomainPartitionNameTcA1006BaseSetupDuaHoSoVeBaselineTruocTcA1006"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-006 name sai kieu (so nguyen) -> 400" id="811d66da-c700-5422-bfd7-5772066a7100" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="01DomainPartitionNameTcA1006NameSaiKieuSoNguyen400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="01DomainPartitionNameTcA1006NameSaiKieuSoNguyen400"/>
+    <testcase name="Status code la 400" time="0.004" classname="01DomainPartitionNameTcA1006NameSaiKieuSoNguyen400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 01 - Domain Partition: name / TC-A1-006 name sai kieu (so nguyen) -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:14).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-007 name tieng Viet co dau -> luu va doc lai dung (UTF-8)" id="023d32f2-eac8-551b-a5dd-10e194db7388" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="01DomainPartitionNameTcA1007NameTiengVietCoDauLuuVaDocLaiDungUtf8"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="01DomainPartitionNameTcA1007NameTiengVietCoDauLuuVaDocLaiDungUtf8"/>
+    <testcase name="Status code la 200" time="0.003" classname="01DomainPartitionNameTcA1007NameTiengVietCoDauLuuVaDocLaiDungUtf8"/>
+    <testcase name="Doc lai giu nguyen dau tieng Viet" time="0.003" classname="01DomainPartitionNameTcA1007NameTiengVietCoDauLuuVaDocLaiDungUtf8"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-008-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-008" id="3cb8b98e-83b7-5958-b64c-2f7bdddddabf" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.008">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.008" classname="01DomainPartitionNameTcA1008BaseSetupDuaHoSoVeBaselineTruocTcA1008"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.008" classname="01DomainPartitionNameTcA1008BaseSetupDuaHoSoVeBaselineTruocTcA1008"/>
+    <testcase name="Status code la 200" time="0.008" classname="01DomainPartitionNameTcA1008BaseSetupDuaHoSoVeBaselineTruocTcA1008"/>
+  </testsuite>
+  <testsuite name="01 - Domain Partition: name / TC-A1-008 name chua payload XSS -> luu nguyen van, khong 5xx" id="0c79299d-c9a4-5dce-b48d-0b9d2548d504" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="01DomainPartitionNameTcA1008NameChuaPayloadXssLuuNguyenVanKhong5Xx"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="01DomainPartitionNameTcA1008NameChuaPayloadXssLuuNguyenVanKhong5Xx"/>
+    <testcase name="Status code thuoc [200, 400]" time="0.003" classname="01DomainPartitionNameTcA1008NameChuaPayloadXssLuuNguyenVanKhong5Xx"/>
+    <testcase name="Neu chap nhan thi phai luu nguyen van (khong bien dang)" time="0.003" classname="01DomainPartitionNameTcA1008NameChuaPayloadXssLuuNguyenVanKhong5Xx"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-009-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-009" id="f90763b0-8e56-5c9c-b6da-5924bfd5706e" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.009">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.009" classname="02DomainPartitionPhoneTcA1009BaseSetupDuaHoSoVeBaselineTruocTcA1009"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.009" classname="02DomainPartitionPhoneTcA1009BaseSetupDuaHoSoVeBaselineTruocTcA1009"/>
+    <testcase name="Status code la 200" time="0.009" classname="02DomainPartitionPhoneTcA1009BaseSetupDuaHoSoVeBaselineTruocTcA1009"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-009 phone 10 chu so bat dau bang 0 (bien duoi hop le) -> 200" id="34f6c80e-441f-5c5b-8a05-076204d47289" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.011">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.011" classname="02DomainPartitionPhoneTcA1009Phone10ChuSoBatDauBang0BienDuoiHopLe200"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.011" classname="02DomainPartitionPhoneTcA1009Phone10ChuSoBatDauBang0BienDuoiHopLe200"/>
+    <testcase name="Status code la 200" time="0.011" classname="02DomainPartitionPhoneTcA1009Phone10ChuSoBatDauBang0BienDuoiHopLe200"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-010-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-010" id="f4a8a379-e6e2-5ff5-a701-b56c3cc4f565" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.010">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.010" classname="02DomainPartitionPhoneTcA1010BaseSetupDuaHoSoVeBaselineTruocTcA1010"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.010" classname="02DomainPartitionPhoneTcA1010BaseSetupDuaHoSoVeBaselineTruocTcA1010"/>
+    <testcase name="Status code la 200" time="0.010" classname="02DomainPartitionPhoneTcA1010BaseSetupDuaHoSoVeBaselineTruocTcA1010"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-010 phone 11 chu so bat dau bang 0 (bien tren hop le) -> 200" id="3cac92da-f00f-53e6-a086-a2549e6e0ea2" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.009">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.009" classname="02DomainPartitionPhoneTcA1010Phone11ChuSoBatDauBang0BienTrenHopLe200"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.009" classname="02DomainPartitionPhoneTcA1010Phone11ChuSoBatDauBang0BienTrenHopLe200"/>
+    <testcase name="Status code la 200" time="0.009" classname="02DomainPartitionPhoneTcA1010Phone11ChuSoBatDauBang0BienTrenHopLe200"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-011-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-011" id="b35dadc5-ef69-5e0d-9c39-88c709176b49" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.011">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.011" classname="02DomainPartitionPhoneTcA1011BaseSetupDuaHoSoVeBaselineTruocTcA1011"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.011" classname="02DomainPartitionPhoneTcA1011BaseSetupDuaHoSoVeBaselineTruocTcA1011"/>
+    <testcase name="Status code la 200" time="0.011" classname="02DomainPartitionPhoneTcA1011BaseSetupDuaHoSoVeBaselineTruocTcA1011"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-011 phone 9 chu so (duoi bien) -> 400" id="1f14b42b-65e7-5dba-994a-f962b4ac7c6b" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="02DomainPartitionPhoneTcA1011Phone9ChuSoDuoiBien400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="02DomainPartitionPhoneTcA1011Phone9ChuSoDuoiBien400"/>
+    <testcase name="Status code la 400" time="0.003" classname="02DomainPartitionPhoneTcA1011Phone9ChuSoDuoiBien400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-011 phone 9 chu so (duoi bien) -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:23).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-012-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-012" id="335e4395-73cf-5eb3-8230-189aded50cce" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="02DomainPartitionPhoneTcA1012BaseSetupDuaHoSoVeBaselineTruocTcA1012"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="02DomainPartitionPhoneTcA1012BaseSetupDuaHoSoVeBaselineTruocTcA1012"/>
+    <testcase name="Status code la 200" time="0.004" classname="02DomainPartitionPhoneTcA1012BaseSetupDuaHoSoVeBaselineTruocTcA1012"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-012 phone 12 chu so (tren bien) -> 400" id="0d978b82-4364-58d9-9d99-fa7dfce9a14d" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="02DomainPartitionPhoneTcA1012Phone12ChuSoTrenBien400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="02DomainPartitionPhoneTcA1012Phone12ChuSoTrenBien400"/>
+    <testcase name="Status code la 400" time="0.005" classname="02DomainPartitionPhoneTcA1012Phone12ChuSoTrenBien400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-012 phone 12 chu so (tren bien) -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:25).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-013-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-013" id="b4da30a9-87fd-5d20-a59c-8de69d2375c2" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="02DomainPartitionPhoneTcA1013BaseSetupDuaHoSoVeBaselineTruocTcA1013"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="02DomainPartitionPhoneTcA1013BaseSetupDuaHoSoVeBaselineTruocTcA1013"/>
+    <testcase name="Status code la 200" time="0.004" classname="02DomainPartitionPhoneTcA1013BaseSetupDuaHoSoVeBaselineTruocTcA1013"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-013 phone du 10 so nhung KHONG bat dau bang 0 -> 400" id="26645978-accc-5ccf-bd54-cb65efa2096e" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="02DomainPartitionPhoneTcA1013PhoneDu10SoNhungKhongBatDauBang0400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="02DomainPartitionPhoneTcA1013PhoneDu10SoNhungKhongBatDauBang0400"/>
+    <testcase name="Status code la 400" time="0.003" classname="02DomainPartitionPhoneTcA1013PhoneDu10SoNhungKhongBatDauBang0400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-013 phone du 10 so nhung KHONG bat dau bang 0 -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:27).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-014-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-014" id="62dc5d99-c383-51c6-a402-861b95f8bbc8" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="02DomainPartitionPhoneTcA1014BaseSetupDuaHoSoVeBaselineTruocTcA1014"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="02DomainPartitionPhoneTcA1014BaseSetupDuaHoSoVeBaselineTruocTcA1014"/>
+    <testcase name="Status code la 200" time="0.003" classname="02DomainPartitionPhoneTcA1014BaseSetupDuaHoSoVeBaselineTruocTcA1014"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-014 phone chua chu cai -> 400" id="67e1d9dd-3ed6-57f8-ba4b-3549304edade" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="02DomainPartitionPhoneTcA1014PhoneChuaChuCai400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="02DomainPartitionPhoneTcA1014PhoneChuaChuCai400"/>
+    <testcase name="Status code la 400" time="0.007" classname="02DomainPartitionPhoneTcA1014PhoneChuaChuCai400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-014 phone chua chu cai -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:29).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-015-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-015" id="191524a3-1db5-50e3-bf48-72b8ac27695b" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="02DomainPartitionPhoneTcA1015BaseSetupDuaHoSoVeBaselineTruocTcA1015"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="02DomainPartitionPhoneTcA1015BaseSetupDuaHoSoVeBaselineTruocTcA1015"/>
+    <testcase name="Status code la 200" time="0.004" classname="02DomainPartitionPhoneTcA1015BaseSetupDuaHoSoVeBaselineTruocTcA1015"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-015 phone co dau gach ngang &quot;0912-345-678&quot; -> 400" id="fa4d11b4-fd89-5db1-b0ea-565b0a4742f1" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="02DomainPartitionPhoneTcA1015PhoneCoDauGachNgangQuot0912345678Quot400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="02DomainPartitionPhoneTcA1015PhoneCoDauGachNgangQuot0912345678Quot400"/>
+    <testcase name="Status code la 400" time="0.004" classname="02DomainPartitionPhoneTcA1015PhoneCoDauGachNgangQuot0912345678Quot400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-015 phone co dau gach ngang "0912-345-678" -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:31).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-016-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-016" id="f6987a0a-83b9-5567-abf6-f86604d99bc5" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="02DomainPartitionPhoneTcA1016BaseSetupDuaHoSoVeBaselineTruocTcA1016"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="02DomainPartitionPhoneTcA1016BaseSetupDuaHoSoVeBaselineTruocTcA1016"/>
+    <testcase name="Status code la 200" time="0.004" classname="02DomainPartitionPhoneTcA1016BaseSetupDuaHoSoVeBaselineTruocTcA1016"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-016 phone dinh dang quoc te &quot;+84912345678&quot; -> 400" id="e29ab369-2df6-5f05-b4e4-ee45c421b874" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="02DomainPartitionPhoneTcA1016PhoneDinhDangQuocTeQuot84912345678Quot400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="02DomainPartitionPhoneTcA1016PhoneDinhDangQuocTeQuot84912345678Quot400"/>
+    <testcase name="Status code la 400" time="0.003" classname="02DomainPartitionPhoneTcA1016PhoneDinhDangQuocTeQuot84912345678Quot400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-016 phone dinh dang quoc te "+84912345678" -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:33).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-017-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-017" id="17aca016-9f09-50e5-974a-e2b531ff1f60" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="02DomainPartitionPhoneTcA1017BaseSetupDuaHoSoVeBaselineTruocTcA1017"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="02DomainPartitionPhoneTcA1017BaseSetupDuaHoSoVeBaselineTruocTcA1017"/>
+    <testcase name="Status code la 200" time="0.006" classname="02DomainPartitionPhoneTcA1017BaseSetupDuaHoSoVeBaselineTruocTcA1017"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-017 phone rong &quot;&quot; -> 400" id="d725ecb2-662a-5d72-b2fc-534c98e6f34c" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="02DomainPartitionPhoneTcA1017PhoneRongQuotQuot400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="02DomainPartitionPhoneTcA1017PhoneRongQuotQuot400"/>
+    <testcase name="Status code la 400" time="0.006" classname="02DomainPartitionPhoneTcA1017PhoneRongQuotQuot400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-017 phone rong "" -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:35).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-018-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-018" id="0eee823f-1720-5c34-beab-20a3bb7a334d" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="02DomainPartitionPhoneTcA1018BaseSetupDuaHoSoVeBaselineTruocTcA1018"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="02DomainPartitionPhoneTcA1018BaseSetupDuaHoSoVeBaselineTruocTcA1018"/>
+    <testcase name="Status code la 200" time="0.007" classname="02DomainPartitionPhoneTcA1018BaseSetupDuaHoSoVeBaselineTruocTcA1018"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-018 phone sai kieu (number) -> 400" id="64e00531-2bfb-56cb-aaf2-ba6c78b7309e" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="02DomainPartitionPhoneTcA1018PhoneSaiKieuNumber400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="02DomainPartitionPhoneTcA1018PhoneSaiKieuNumber400"/>
+    <testcase name="Status code la 400" time="0.007" classname="02DomainPartitionPhoneTcA1018PhoneSaiKieuNumber400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-018 phone sai kieu (number) -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:37).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-019-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-019" id="e7f8ce9d-0fd3-5853-95cd-9b59e5bfe71c" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.010">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.010" classname="02DomainPartitionPhoneTcA1019BaseSetupDuaHoSoVeBaselineTruocTcA1019"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.010" classname="02DomainPartitionPhoneTcA1019BaseSetupDuaHoSoVeBaselineTruocTcA1019"/>
+    <testcase name="Status code la 200" time="0.010" classname="02DomainPartitionPhoneTcA1019BaseSetupDuaHoSoVeBaselineTruocTcA1019"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-019 phone co khoang trang bao quanh -> 400 hoac trim, khong 5xx" id="ab98c503-93a0-5b3b-9995-5556edd45353" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="1" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="02DomainPartitionPhoneTcA1019PhoneCoKhoangTrangBaoQuanh400HoacTrimKhong5Xx"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="02DomainPartitionPhoneTcA1019PhoneCoKhoangTrangBaoQuanh400HoacTrimKhong5Xx"/>
+    <testcase name="Status code thuoc [200, 400]" time="0.002" classname="02DomainPartitionPhoneTcA1019PhoneCoKhoangTrangBaoQuanh400HoacTrimKhong5Xx"/>
+    <testcase name="Neu chap nhan thi phai luu gia tri da trim" time="0.002" classname="02DomainPartitionPhoneTcA1019PhoneCoKhoangTrangBaoQuanh400HoacTrimKhong5Xx">
+      <failure type="AssertionFailure" message="expected '  0912345678  ' to deeply equal '0912345678'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-019 phone co khoang trang bao quanh -> 400 hoac trim, khong 5xx.]]>
+        <![CDATA[Test description: Neu chap nhan thi phai luu gia tri da trim.]]>
+        <![CDATA[Error message: expected '  0912345678  ' to deeply equal '0912345678'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected '  0912345678  ' to deeply equal '0912345678'
+   at Object.eval sandbox-script.js:2:39).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-020-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-020" id="efba5284-7ec5-5df6-bed4-2038664b2582" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="02DomainPartitionPhoneTcA1020BaseSetupDuaHoSoVeBaselineTruocTcA1020"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="02DomainPartitionPhoneTcA1020BaseSetupDuaHoSoVeBaselineTruocTcA1020"/>
+    <testcase name="Status code la 200" time="0.007" classname="02DomainPartitionPhoneTcA1020BaseSetupDuaHoSoVeBaselineTruocTcA1020"/>
+  </testsuite>
+  <testsuite name="02 - Domain Partition: phone / TC-A1-020 phone = null -> 400" id="9e5bf31e-6dfe-5cb0-9d44-8b5fae0a2ee6" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="02DomainPartitionPhoneTcA1020PhoneNull400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="02DomainPartitionPhoneTcA1020PhoneNull400"/>
+    <testcase name="Status code la 400" time="0.007" classname="02DomainPartitionPhoneTcA1020PhoneNull400">
+      <failure type="AssertionFailure" message="expected response to have status code 400 but got 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 02 - Domain Partition: phone / TC-A1-020 phone = null -> 400.]]>
+        <![CDATA[Test description: Status code la 400.]]>
+        <![CDATA[Error message: expected response to have status code 400 but got 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 400 but got 200
+   at Object.eval sandbox-script.js:1:41).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="03 - Domain Partition: shipping_address / TC-A1-021 shipping_address hop le -> 200 va doc lai dung" id="f351ed17-e8fe-500a-b89a-9a9587a329f4" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="03DomainPartitionShippingAddressTcA1021ShippingAddressHopLe200VaDocLaiDung"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="03DomainPartitionShippingAddressTcA1021ShippingAddressHopLe200VaDocLaiDung"/>
+    <testcase name="Status code la 200" time="0.003" classname="03DomainPartitionShippingAddressTcA1021ShippingAddressHopLe200VaDocLaiDung"/>
+    <testcase name="Doc lai dung dia chi" time="0.003" classname="03DomainPartitionShippingAddressTcA1021ShippingAddressHopLe200VaDocLaiDung"/>
+  </testsuite>
+  <testsuite name="03 - Domain Partition: shipping_address / TC-A1-022 shipping_address rong -> chap nhan (truong khong bat buoc)" id="270c3292-ebb7-58ab-83a5-e81a40f27be1" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.010">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.010" classname="03DomainPartitionShippingAddressTcA1022ShippingAddressRongChapNhanTruongKhongBatBuoc"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.010" classname="03DomainPartitionShippingAddressTcA1022ShippingAddressRongChapNhanTruongKhongBatBuoc"/>
+    <testcase name="Status code la 200" time="0.010" classname="03DomainPartitionShippingAddressTcA1022ShippingAddressRongChapNhanTruongKhongBatBuoc"/>
+  </testsuite>
+  <testsuite name="03 - Domain Partition: shipping_address / TC-A1-023-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-023" id="61e06625-8def-5dbe-9f4a-41b47ba449e6" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="03DomainPartitionShippingAddressTcA1023BaseSetupDuaHoSoVeBaselineTruocTcA1023"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="03DomainPartitionShippingAddressTcA1023BaseSetupDuaHoSoVeBaselineTruocTcA1023"/>
+    <testcase name="Status code la 200" time="0.005" classname="03DomainPartitionShippingAddressTcA1023BaseSetupDuaHoSoVeBaselineTruocTcA1023"/>
+  </testsuite>
+  <testsuite name="03 - Domain Partition: shipping_address / TC-A1-023 shipping_address dai 2000 ky tu -> khong 5xx" id="e86dc3db-92e5-5509-9144-76ec902bbbab" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.009">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.009" classname="03DomainPartitionShippingAddressTcA1023ShippingAddressDai2000KyTuKhong5Xx"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.009" classname="03DomainPartitionShippingAddressTcA1023ShippingAddressDai2000KyTuKhong5Xx"/>
+    <testcase name="Status code thuoc [200, 400, 413]" time="0.009" classname="03DomainPartitionShippingAddressTcA1023ShippingAddressDai2000KyTuKhong5Xx"/>
+    <testcase name="Response time &lt; 3000ms" time="0.009" classname="03DomainPartitionShippingAddressTcA1023ShippingAddressDai2000KyTuKhong5Xx"/>
+  </testsuite>
+  <testsuite name="03 - Domain Partition: shipping_address / TC-A1-024-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-024" id="63286165-4c4e-5a43-b2dd-3bc3b140e449" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="03DomainPartitionShippingAddressTcA1024BaseSetupDuaHoSoVeBaselineTruocTcA1024"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="03DomainPartitionShippingAddressTcA1024BaseSetupDuaHoSoVeBaselineTruocTcA1024"/>
+    <testcase name="Status code la 200" time="0.005" classname="03DomainPartitionShippingAddressTcA1024BaseSetupDuaHoSoVeBaselineTruocTcA1024"/>
+  </testsuite>
+  <testsuite name="03 - Domain Partition: shipping_address / TC-A1-024 shipping_address chua payload SQL injection -> khong ro ri loi SQL" id="d18de194-b763-5553-9396-5245b83474eb" timestamp="2026-09-01T13:06:59.215Z" tests="5" failures="0" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="03DomainPartitionShippingAddressTcA1024ShippingAddressChuaPayloadSqlInjectionKhongRoRiLoiSql"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="03DomainPartitionShippingAddressTcA1024ShippingAddressChuaPayloadSqlInjectionKhongRoRiLoiSql"/>
+    <testcase name="Status code thuoc [200, 400]" time="0.002" classname="03DomainPartitionShippingAddressTcA1024ShippingAddressChuaPayloadSqlInjectionKhongRoRiLoiSql"/>
+    <testcase name="Khong ro ri loi SQL" time="0.002" classname="03DomainPartitionShippingAddressTcA1024ShippingAddressChuaPayloadSqlInjectionKhongRoRiLoiSql"/>
+    <testcase name="SQLi khong duoc nang quyen tai khoan" time="0.002" classname="03DomainPartitionShippingAddressTcA1024ShippingAddressChuaPayloadSqlInjectionKhongRoRiLoiSql"/>
+  </testsuite>
+  <testsuite name="03 - Domain Partition: shipping_address / TC-A1-025 shipping_address = null -> chap nhan (xoa dia chi mac dinh)" id="c759c25b-6b5c-567e-b3ac-a1f79b371585" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="03DomainPartitionShippingAddressTcA1025ShippingAddressNullChapNhanXoaDiaChiMacDinh"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="03DomainPartitionShippingAddressTcA1025ShippingAddressNullChapNhanXoaDiaChiMacDinh"/>
+    <testcase name="Status code la 200" time="0.006" classname="03DomainPartitionShippingAddressTcA1025ShippingAddressNullChapNhanXoaDiaChiMacDinh"/>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-026 [S1] Ghi roi doc: PUT xong GET phai phan anh dung 3 truong" id="f037186d-88b2-5a04-82e8-0cf7dff9cb63" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1026S1GhiRoiDocPutXongGetPhaiPhanAnhDung3Truong"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1026S1GhiRoiDocPutXongGetPhaiPhanAnhDung3Truong"/>
+    <testcase name="Status code la 200" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1026S1GhiRoiDocPutXongGetPhaiPhanAnhDung3Truong"/>
+    <testcase name="Ca 3 truong deu duoc luu dung" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1026S1GhiRoiDocPutXongGetPhaiPhanAnhDung3Truong"/>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-027 [S1 -> S2] Cap nhat lan hai phai ghi de lan mot" id="927868f1-3fad-58f0-89a2-3b772061d3ba" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1027S1S2CapNhatLanHaiPhaiGhiDeLanMot"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1027S1S2CapNhatLanHaiPhaiGhiDeLanMot"/>
+    <testcase name="Status code la 200" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1027S1S2CapNhatLanHaiPhaiGhiDeLanMot"/>
+    <testcase name="Gia tri S1 da bi thay the hoan toan" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1027S1S2CapNhatLanHaiPhaiGhiDeLanMot"/>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-028-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-028" id="fd242966-5d41-55f6-b29b-1ec830ed0b35" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1028BaseSetupDuaHoSoVeBaselineTruocTcA1028"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1028BaseSetupDuaHoSoVeBaselineTruocTcA1028"/>
+    <testcase name="Status code la 200" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1028BaseSetupDuaHoSoVeBaselineTruocTcA1028"/>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-028 Cap nhat MOT PHAN (chi gui name) khong duoc xoa trang cac truong con lai" id="be0a7002-7633-5560-82bb-c6bf3da6cdae" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="1" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1028CapNhatMotPhanChiGuiNameKhongDuocXoaTrangCacTruongConLai"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1028CapNhatMotPhanChiGuiNameKhongDuocXoaTrangCacTruongConLai"/>
+    <testcase name="Status code la 200" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1028CapNhatMotPhanChiGuiNameKhongDuocXoaTrangCacTruongConLai"/>
+    <testcase name="Cac truong khong gui phai duoc bao toan" time="0.003" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1028CapNhatMotPhanChiGuiNameKhongDuocXoaTrangCacTruongConLai">
+      <failure type="AssertionFailure" message="phone bi xoa trang khi cap nhat mot phan: expected null to deeply equal '0912345678'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 04 - State Transition: vong doi ho so & phien / TC-A1-028 Cap nhat MOT PHAN (chi gui name) khong duoc xoa trang cac truong con lai.]]>
+        <![CDATA[Test description: Cac truong khong gui phai duoc bao toan.]]>
+        <![CDATA[Error message: phone bi xoa trang khi cap nhat mot phan: expected null to deeply equal '0912345678'.]]>
+        <![CDATA[Stacktrace: AssertionError: phone bi xoa trang khi cap nhat mot phan: expected null to deeply equal '0912345678'
+   at Object.eval sandbox-script.js:2:52).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-029-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-029" id="f969e32d-8359-537e-b253-c71af4ca6a38" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1029BaseSetupDuaHoSoVeBaselineTruocTcA1029"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1029BaseSetupDuaHoSoVeBaselineTruocTcA1029"/>
+    <testcase name="Status code la 200" time="0.004" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1029BaseSetupDuaHoSoVeBaselineTruocTcA1029"/>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-029 Khong duoc doi email qua PUT /api/users/me" id="f8ae7a45-1feb-5f3b-ae34-0a381c0f7c6f" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.001">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.001" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1029KhongDuocDoiEmailQuaPutApiUsersMe"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.001" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1029KhongDuocDoiEmailQuaPutApiUsersMe"/>
+    <testcase name="Email KHONG duoc thay doi (FR-04)" time="0.001" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1029KhongDuocDoiEmailQuaPutApiUsersMe"/>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-030-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-030" id="a31b8f75-bf33-5cba-a407-79a51359cdc8" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1030BaseSetupDuaHoSoVeBaselineTruocTcA1030"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1030BaseSetupDuaHoSoVeBaselineTruocTcA1030"/>
+    <testcase name="Status code la 200" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1030BaseSetupDuaHoSoVeBaselineTruocTcA1030"/>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-030 Khong duoc doi id (khoa chinh) qua PUT" id="45e3b3a2-ec37-5d45-90a6-688e15fe76d2" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1030KhongDuocDoiIdKhoaChinhQuaPut"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1030KhongDuocDoiIdKhoaChinhQuaPut"/>
+    <testcase name="id KHONG duoc thay doi" time="0.002" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1030KhongDuocDoiIdKhoaChinhQuaPut"/>
+  </testsuite>
+  <testsuite name="04 - State Transition: vong doi ho so &amp; phien / TC-A1-031 Cap nhat ho so KHONG duoc lam mat hieu luc token dang dung" id="6687c408-df1d-597b-a79a-eec7bfab45c9" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1031CapNhatHoSoKhongDuocLamMatHieuLucTokenDangDung"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1031CapNhatHoSoKhongDuocLamMatHieuLucTokenDangDung"/>
+    <testcase name="Status code la 200" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1031CapNhatHoSoKhongDuocLamMatHieuLucTokenDangDung"/>
+    <testcase name="Response co truong 'id'" time="0.006" classname="04StateTransitionVongDoiHoSoAmpPhienTcA1031CapNhatHoSoKhongDuocLamMatHieuLucTokenDangDung"/>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-032 SEC-02: GET /api/users/me khong kem token -> 401" id="14cf64f2-9e18-5c62-ae3f-ada4d2d2a4fd" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1032Sec02GetApiUsersMeKhongKemToken401"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1032Sec02GetApiUsersMeKhongKemToken401"/>
+    <testcase name="Status code la 401" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1032Sec02GetApiUsersMeKhongKemToken401"/>
+    <testcase name="Khong ro ri du lieu ho so" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1032Sec02GetApiUsersMeKhongKemToken401"/>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-033 SEC-02: PUT /api/users/me khong kem token -> 401" id="f56480bb-e4da-5c79-a8de-f0e805e1cfe6" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="05SecuritySec01Sec02Sec06TcA1033Sec02PutApiUsersMeKhongKemToken401"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="05SecuritySec01Sec02Sec06TcA1033Sec02PutApiUsersMeKhongKemToken401"/>
+    <testcase name="Status code la 401" time="0.004" classname="05SecuritySec01Sec02Sec06TcA1033Sec02PutApiUsersMeKhongKemToken401"/>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-034 SEC-02: token sai dinh dang -> 403" id="3ae9ead3-ffbf-52e4-bb63-7f4c3a95e200" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1034Sec02TokenSaiDinhDang403"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1034Sec02TokenSaiDinhDang403"/>
+    <testcase name="Status code thuoc [401, 403]" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1034Sec02TokenSaiDinhDang403"/>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-035 SEC-02: JWT ky bang khoa SAI (gia mao admin) -> 403" id="cf15acef-1656-5038-ba9c-f9af50eb260f" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1035Sec02JwtKyBangKhoaSaiGiaMaoAdmin403"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1035Sec02JwtKyBangKhoaSaiGiaMaoAdmin403"/>
+    <testcase name="Status code thuoc [401, 403]" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1035Sec02JwtKyBangKhoaSaiGiaMaoAdmin403"/>
+    <testcase name="Khong duoc tra ho so cho token gia mao" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1035Sec02JwtKyBangKhoaSaiGiaMaoAdmin403"/>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-036 SEC-02: JWT dung thuat toan &quot;none&quot; -> 403" id="690e52e1-3706-50e2-a9d9-591450cc5e59" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1036Sec02JwtDungThuatToanQuotNoneQuot403"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1036Sec02JwtDungThuatToanQuotNoneQuot403"/>
+    <testcase name="Status code thuoc [401, 403]" time="0.003" classname="05SecuritySec01Sec02Sec06TcA1036Sec02JwtDungThuatToanQuotNoneQuot403"/>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-037-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-037" id="59ea2e32-319f-5da2-b9ca-7d9d8ea68b52" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.009">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.009" classname="05SecuritySec01Sec02Sec06TcA1037BaseSetupDuaHoSoVeBaselineTruocTcA1037"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.009" classname="05SecuritySec01Sec02Sec06TcA1037BaseSetupDuaHoSoVeBaselineTruocTcA1037"/>
+    <testcase name="Status code la 200" time="0.009" classname="05SecuritySec01Sec02Sec06TcA1037BaseSetupDuaHoSoVeBaselineTruocTcA1037"/>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-037 SEC-06: gui kem role=admin KHONG duoc nang quyen tai khoan" id="70680156-353c-5042-8a79-416378aa6f94" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="1" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1037Sec06GuiKemRoleAdminKhongDuocNangQuyenTaiKhoan"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1037Sec06GuiKemRoleAdminKhongDuocNangQuyenTaiKhoan"/>
+    <testcase name="SEC-06: role phai van la user sau khi cap nhat" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1037Sec06GuiKemRoleAdminKhongDuocNangQuyenTaiKhoan">
+      <failure type="AssertionFailure" message="TAI KHOAN DA BI NANG QUYEN LEN ADMIN: expected 'admin' to deeply equal 'user'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-037 SEC-06: gui kem role=admin KHONG duoc nang quyen tai khoan.]]>
+        <![CDATA[Test description: SEC-06: role phai van la user sau khi cap nhat.]]>
+        <![CDATA[Error message: TAI KHOAN DA BI NANG QUYEN LEN ADMIN: expected 'admin' to deeply equal 'user'.]]>
+        <![CDATA[Stacktrace: AssertionError: TAI KHOAN DA BI NANG QUYEN LEN ADMIN: expected 'admin' to deeply equal 'user'
+   at Object.eval sandbox-script.js:1:64).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-038 SEC-06 (tac dong): sau khi tu dat role=admin, token MOI khong duoc mo khoa API admin" id="5eafc7fe-d3da-5e38-a666-a17edc22408a" timestamp="2026-09-01T13:06:59.215Z" tests="5" failures="2" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1038Sec06TacDongSauKhiTuDatRoleAdminTokenMoiKhongDuocMoKhoaApiAdmin"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1038Sec06TacDongSauKhiTuDatRoleAdminTokenMoiKhongDuocMoKhoaApiAdmin"/>
+    <testcase name="Status code la 200" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1038Sec06TacDongSauKhiTuDatRoleAdminTokenMoiKhongDuocMoKhoaApiAdmin"/>
+    <testcase name="Token moi khong duoc mang role=admin" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1038Sec06TacDongSauKhiTuDatRoleAdminTokenMoiKhongDuocMoKhoaApiAdmin">
+      <failure type="AssertionFailure" message="JWT moi da mang quyen admin: expected 'admin' to deeply equal 'user'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-038 SEC-06 (tac dong): sau khi tu dat role=admin, token MOI khong duoc mo khoa API admin.]]>
+        <![CDATA[Test description: Token moi khong duoc mang role=admin.]]>
+        <![CDATA[Error message: JWT moi da mang quyen admin: expected 'admin' to deeply equal 'user'.]]>
+        <![CDATA[Stacktrace: AssertionError: JWT moi da mang quyen admin: expected 'admin' to deeply equal 'user'
+   at Object.eval sandbox-script.js:2:65).]]>
+      </failure>
+    </testcase>
+    <testcase name="Token nay khong duoc goi duoc GET /api/admin/users" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1038Sec06TacDongSauKhiTuDatRoleAdminTokenMoiKhongDuocMoKhoaApiAdmin">
+      <failure type="AssertionFailure" message="da doc duoc toan bo danh sach nguoi dung: expected 200 to be one of [ 401, 403 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-038 SEC-06 (tac dong): sau khi tu dat role=admin, token MOI khong duoc mo khoa API admin.]]>
+        <![CDATA[Test description: Token nay khong duoc goi duoc GET /api/admin/users.]]>
+        <![CDATA[Error message: da doc duoc toan bo danh sach nguoi dung: expected 200 to be one of [ 401, 403 ].]]>
+        <![CDATA[Stacktrace: AssertionError: da doc duoc toan bo danh sach nguoi dung: expected 200 to be one of [ 401, 403 ]
+   at Object.eval sandbox-script.js:3:65).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-039 SEC-01: GET /api/users/me khong duoc tra mat khau" id="e9a4703a-e7b7-59fb-b176-5a3b19e506b7" timestamp="2026-09-01T13:06:59.215Z" tests="5" failures="2" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1039Sec01GetApiUsersMeKhongDuocTraMatKhau"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1039Sec01GetApiUsersMeKhongDuocTraMatKhau"/>
+    <testcase name="Status code la 200" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1039Sec01GetApiUsersMeKhongDuocTraMatKhau"/>
+    <testcase name="SEC-01: khong duoc tra truong password" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1039Sec01GetApiUsersMeKhongDuocTraMatKhau">
+      <failure type="AssertionFailure" message="expected { Object (id, name, ...) } to not have nested property 'password'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-039 SEC-01: GET /api/users/me khong duoc tra mat khau.]]>
+        <![CDATA[Test description: SEC-01: khong duoc tra truong password.]]>
+        <![CDATA[Error message: expected { Object (id, name, ...) } to not have nested property 'password'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { Object (id, name, ...) } to not have nested property 'password'
+   at Object.eval sandbox-script.js:2:66).]]>
+      </failure>
+    </testcase>
+    <testcase name="SEC-01: khong duoc phan chieu mat khau plaintext" time="0.005" classname="05SecuritySec01Sec02Sec06TcA1039Sec01GetApiUsersMeKhongDuocTraMatKhau">
+      <failure type="AssertionFailure" message="expected '{&quot;id&quot;:3,&quot;name&quot;:&quot;Escalation Test&quot;,&quot;ema…' not to match /Profile123!/i">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-039 SEC-01: GET /api/users/me khong duoc tra mat khau.]]>
+        <![CDATA[Test description: SEC-01: khong duoc phan chieu mat khau plaintext.]]>
+        <![CDATA[Error message: expected '{"id":3,"name":"Escalation Test","ema…' not to match /Profile123!/i.]]>
+        <![CDATA[Stacktrace: AssertionError: expected '{"id":3,"name":"Escalation Test","ema…' not to match /Profile123!/i
+   at Object.eval sandbox-script.js:3:66).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-040 SEC-01: GET /api/users/me khong duoc tra reset_token" id="3209cf8b-1113-5fc4-8012-d4bb4fb0109d" timestamp="2026-09-01T13:06:59.215Z" tests="5" failures="2" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="05SecuritySec01Sec02Sec06TcA1040Sec01GetApiUsersMeKhongDuocTraResetToken"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="05SecuritySec01Sec02Sec06TcA1040Sec01GetApiUsersMeKhongDuocTraResetToken"/>
+    <testcase name="Status code la 200" time="0.004" classname="05SecuritySec01Sec02Sec06TcA1040Sec01GetApiUsersMeKhongDuocTraResetToken"/>
+    <testcase name="Khong duoc lo ma OTP dat lai mat khau" time="0.004" classname="05SecuritySec01Sec02Sec06TcA1040Sec01GetApiUsersMeKhongDuocTraResetToken">
+      <failure type="AssertionFailure" message="expected { Object (id, name, ...) } to not have nested property 'reset_token'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-040 SEC-01: GET /api/users/me khong duoc tra reset_token.]]>
+        <![CDATA[Test description: Khong duoc lo ma OTP dat lai mat khau.]]>
+        <![CDATA[Error message: expected { Object (id, name, ...) } to not have nested property 'reset_token'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { Object (id, name, ...) } to not have nested property 'reset_token'
+   at Object.eval sandbox-script.js:2:67).]]>
+      </failure>
+    </testcase>
+    <testcase name="Khong duoc lo bo dem dang nhap sai" time="0.004" classname="05SecuritySec01Sec02Sec06TcA1040Sec01GetApiUsersMeKhongDuocTraResetToken">
+      <failure type="AssertionFailure" message="expected { Object (id, name, ...) } to not have nested property 'login_attempts'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-040 SEC-01: GET /api/users/me khong duoc tra reset_token.]]>
+        <![CDATA[Test description: Khong duoc lo bo dem dang nhap sai.]]>
+        <![CDATA[Error message: expected { Object (id, name, ...) } to not have nested property 'login_attempts'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { Object (id, name, ...) } to not have nested property 'login_attempts'
+   at Object.eval sandbox-script.js:3:67).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-041 IDOR: gui user_id cua nguoi khac khong duoc sua ho so nguoi do" id="9f16f547-2b9c-53e5-a494-f20a7abe2cab" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1041IdorGuiUserIdCuaNguoiKhacKhongDuocSuaHoSoNguoiDo"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1041IdorGuiUserIdCuaNguoiKhacKhongDuocSuaHoSoNguoiDo"/>
+    <testcase name="Ho so cua admin khong bi sua" time="0.002" classname="05SecuritySec01Sec02Sec06TcA1041IdorGuiUserIdCuaNguoiKhacKhongDuocSuaHoSoNguoiDo"/>
+  </testsuite>
+  <testsuite name="06 - Schema Validation / TC-A1-042 Schema: GET /api/users/me khop hop dong API va KHONG co truong thua" id="05ca102f-c769-569c-a1cc-83ee9cecece5" timestamp="2026-09-01T13:06:59.215Z" tests="8" failures="1" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="06SchemaValidationTcA1042SchemaGetApiUsersMeKhopHopDongApiVaKhongCoTruongThua"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="06SchemaValidationTcA1042SchemaGetApiUsersMeKhopHopDongApiVaKhongCoTruongThua"/>
+    <testcase name="Status code la 200" time="0.006" classname="06SchemaValidationTcA1042SchemaGetApiUsersMeKhopHopDongApiVaKhongCoTruongThua"/>
+    <testcase name="Content-Type la application/json" time="0.006" classname="06SchemaValidationTcA1042SchemaGetApiUsersMeKhopHopDongApiVaKhongCoTruongThua"/>
+    <testcase name="Kieu du lieu cua 'id' la number" time="0.006" classname="06SchemaValidationTcA1042SchemaGetApiUsersMeKhopHopDongApiVaKhongCoTruongThua"/>
+    <testcase name="Kieu du lieu cua 'email' la string" time="0.006" classname="06SchemaValidationTcA1042SchemaGetApiUsersMeKhopHopDongApiVaKhongCoTruongThua"/>
+    <testcase name="role phai thuoc tap {user, admin}" time="0.006" classname="06SchemaValidationTcA1042SchemaGetApiUsersMeKhopHopDongApiVaKhongCoTruongThua"/>
+    <testcase name="Khong co truong nao ngoai hop dong API" time="0.006" classname="06SchemaValidationTcA1042SchemaGetApiUsersMeKhopHopDongApiVaKhongCoTruongThua">
+      <failure type="AssertionFailure" message="truong thua bi ro ri: password, login_attempts, locked_until, reset_token: expected [ 'password', 'login_attempts', …(2) ] to be empty">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 6c84dc0a-9c92-54fa-8d7b-c432a749bd44.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management).]]>
+        <![CDATA[Request name: 06 - Schema Validation / TC-A1-042 Schema: GET /api/users/me khop hop dong API va KHONG co truong thua.]]>
+        <![CDATA[Test description: Khong co truong nao ngoai hop dong API.]]>
+        <![CDATA[Error message: truong thua bi ro ri: password, login_attempts, locked_until, reset_token: expected [ 'password', 'login_attempts', …(2) ] to be empty.]]>
+        <![CDATA[Stacktrace: AssertionError: truong thua bi ro ri: password, login_attempts, locked_until, reset_token: expected [ 'password', 'login_attempts', …(2) ] to be empty
+   at Object.eval sandbox-script.js:6:69).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="06 - Schema Validation / TC-A1-043-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-043" id="b451b301-0e3a-5e67-8a55-3903ee82dfe7" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.010">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.010" classname="06SchemaValidationTcA1043BaseSetupDuaHoSoVeBaselineTruocTcA1043"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.010" classname="06SchemaValidationTcA1043BaseSetupDuaHoSoVeBaselineTruocTcA1043"/>
+    <testcase name="Status code la 200" time="0.010" classname="06SchemaValidationTcA1043BaseSetupDuaHoSoVeBaselineTruocTcA1043"/>
+  </testsuite>
+  <testsuite name="06 - Schema Validation / TC-A1-043 Schema: PUT /api/users/me tra ve dung { message: string }" id="d8ad77c4-2e17-5049-a23e-fe42d3be4e1b" timestamp="2026-09-01T13:06:59.215Z" tests="5" failures="0" errors="0" time="0.008">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.008" classname="06SchemaValidationTcA1043SchemaPutApiUsersMeTraVeDungMessageString"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.008" classname="06SchemaValidationTcA1043SchemaPutApiUsersMeTraVeDungMessageString"/>
+    <testcase name="Status code la 200" time="0.008" classname="06SchemaValidationTcA1043SchemaPutApiUsersMeTraVeDungMessageString"/>
+    <testcase name="Content-Type la application/json" time="0.008" classname="06SchemaValidationTcA1043SchemaPutApiUsersMeTraVeDungMessageString"/>
+    <testcase name="Response khop JSON Schema cua spec" time="0.008" classname="06SchemaValidationTcA1043SchemaPutApiUsersMeTraVeDungMessageString"/>
+  </testsuite>
+  <testsuite name="06 - Schema Validation / TC-A1-044 Schema: response loi dung dinh dang { error: string }" id="5663bfde-098a-50d7-98c5-a971b737ed83" timestamp="2026-09-01T13:06:59.215Z" tests="5" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="06SchemaValidationTcA1044SchemaResponseLoiDungDinhDangErrorString"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="06SchemaValidationTcA1044SchemaResponseLoiDungDinhDangErrorString"/>
+    <testcase name="Status code la 401" time="0.005" classname="06SchemaValidationTcA1044SchemaResponseLoiDungDinhDangErrorString"/>
+    <testcase name="Content-Type la application/json" time="0.005" classname="06SchemaValidationTcA1044SchemaResponseLoiDungDinhDangErrorString"/>
+    <testcase name="Response khop JSON Schema cua spec" time="0.005" classname="06SchemaValidationTcA1044SchemaResponseLoiDungDinhDangErrorString"/>
+  </testsuite>
+  <testsuite name="06 - Schema Validation / TC-A1-045 Schema: GET /api/users/me phan hoi duoi 2000ms" id="29a7d7ff-a466-5c32-9caf-d1e34de65552" timestamp="2026-09-01T13:06:59.215Z" tests="4" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="06SchemaValidationTcA1045SchemaGetApiUsersMePhanHoiDuoi2000Ms"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="06SchemaValidationTcA1045SchemaGetApiUsersMePhanHoiDuoi2000Ms"/>
+    <testcase name="Status code la 200" time="0.006" classname="06SchemaValidationTcA1045SchemaGetApiUsersMePhanHoiDuoi2000Ms"/>
+    <testcase name="Response time &lt; 2000ms" time="0.006" classname="06SchemaValidationTcA1045SchemaGetApiUsersMePhanHoiDuoi2000Ms"/>
+  </testsuite>
+  <testsuite name="99 - Teardown / TC-A1-Z99 [TEARDOWN] Tra ho so ve baseline" id="cff91d25-4c62-5fdd-8269-325645b2964d" timestamp="2026-09-01T13:06:59.215Z" tests="3" failures="0" errors="0" time="0.010">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.010" classname="99TeardownTcA1Z99TeardownTraHoSoVeBaseline"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.010" classname="99TeardownTcA1Z99TeardownTraHoSoVeBaseline"/>
+    <testcase name="Status code la 200" time="0.010" classname="99TeardownTcA1Z99TeardownTraHoSoVeBaseline"/>
+  </testsuite>
+</testsuites>

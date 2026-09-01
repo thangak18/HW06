@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon)" tests="57" time="0.321">
+  <testsuite name="00 - Setup &amp; Fixtures / TC-A2-S01 [SETUP] Dang ky nguoi dung dung cho nhom kiem thu cong thuc / nguong" id="bb453446-d135-5625-8111-4c46d30ebfa8" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.025">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.025" classname="00SetupAmpFixturesTcA2S01SetupDangKyNguoiDungDungChoNhomKiemThuCongThucNguong"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.025" classname="00SetupAmpFixturesTcA2S01SetupDangKyNguoiDungDungChoNhomKiemThuCongThucNguong"/>
+    <testcase name="Status code la 200" time="0.025" classname="00SetupAmpFixturesTcA2S01SetupDangKyNguoiDungDungChoNhomKiemThuCongThucNguong"/>
+  </testsuite>
+  <testsuite name="00 - Setup &amp; Fixtures / TC-A2-S02 [SETUP] Dang nhap nguoi dung 'cong thuc'" id="411191fe-88a6-5e41-8f3c-3722516e8d10" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="00SetupAmpFixturesTcA2S02SetupDangNhapNguoiDungCongThuc"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="00SetupAmpFixturesTcA2S02SetupDangNhapNguoiDungCongThuc"/>
+    <testcase name="Status code la 200" time="0.003" classname="00SetupAmpFixturesTcA2S02SetupDangNhapNguoiDungCongThuc"/>
+  </testsuite>
+  <testsuite name="00 - Setup &amp; Fixtures / TC-A2-S03 [SETUP] Dang ky nguoi dung dung cho nhom kiem thu so luot (C5)" id="cd93778b-8e83-5892-8b1f-00e727e122a5" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="00SetupAmpFixturesTcA2S03SetupDangKyNguoiDungDungChoNhomKiemThuSoLuotC5"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="00SetupAmpFixturesTcA2S03SetupDangKyNguoiDungDungChoNhomKiemThuSoLuotC5"/>
+    <testcase name="Status code la 200" time="0.006" classname="00SetupAmpFixturesTcA2S03SetupDangKyNguoiDungDungChoNhomKiemThuSoLuotC5"/>
+  </testsuite>
+  <testsuite name="00 - Setup &amp; Fixtures / TC-A2-S04 [SETUP] Dang nhap nguoi dung 'dem luot'" id="9979ab1c-cb99-593b-a548-f445d694c035" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="00SetupAmpFixturesTcA2S04SetupDangNhapNguoiDungDemLuot"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="00SetupAmpFixturesTcA2S04SetupDangNhapNguoiDungDemLuot"/>
+    <testcase name="Status code la 200" time="0.007" classname="00SetupAmpFixturesTcA2S04SetupDangNhapNguoiDungDemLuot"/>
+  </testsuite>
+  <testsuite name="01 - Decision Table C1: ma ton tai &amp; dang hoat dong / TC-A2-001 C1 dung: ma SAVE10 ton tai va is_active=1 -> vuot qua C1" id="2f675eaa-e975-5bd8-8f62-5709edf73c88" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2001C1DungMaSave10TonTaiVaIsActive1VuotQuaC1"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2001C1DungMaSave10TonTaiVaIsActive1VuotQuaC1"/>
+    <testcase name="C1: ma phai duoc tim thay (khong 404)" time="0.006" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2001C1DungMaSave10TonTaiVaIsActive1VuotQuaC1"/>
+  </testsuite>
+  <testsuite name="01 - Decision Table C1: ma ton tai &amp; dang hoat dong / TC-A2-002 C1 sai: ma khong ton tai -> 404" id="0ebaa712-033c-5276-a062-79f0841924ba" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2002C1SaiMaKhongTonTai404"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2002C1SaiMaKhongTonTai404"/>
+    <testcase name="Status code la 404" time="0.002" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2002C1SaiMaKhongTonTai404"/>
+    <testcase name="Response co truong 'error'" time="0.002" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2002C1SaiMaKhongTonTai404"/>
+  </testsuite>
+  <testsuite name="01 - Decision Table C1: ma ton tai &amp; dang hoat dong / TC-A2-003 code rong &quot;&quot; -> 400" id="8f1bf70d-d627-5296-bb7d-05e4735f786f" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2003CodeRongQuotQuot400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2003CodeRongQuotQuot400"/>
+    <testcase name="Status code la 400" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2003CodeRongQuotQuot400"/>
+  </testsuite>
+  <testsuite name="01 - Decision Table C1: ma ton tai &amp; dang hoat dong / TC-A2-004 thieu truong code -> 400" id="eab20999-6925-5473-b243-9c759122fdb8" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2004ThieuTruongCode400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2004ThieuTruongCode400"/>
+    <testcase name="Status code la 400" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2004ThieuTruongCode400"/>
+  </testsuite>
+  <testsuite name="01 - Decision Table C1: ma ton tai &amp; dang hoat dong / TC-A2-005 code = null -> 400" id="b40a57e9-6b13-512b-a889-b10016013976" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2005CodeNull400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2005CodeNull400"/>
+    <testcase name="Status code la 400" time="0.004" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2005CodeNull400"/>
+  </testsuite>
+  <testsuite name="01 - Decision Table C1: ma ton tai &amp; dang hoat dong / TC-A2-006 code viet thuong &quot;save10&quot; -> phai nhan dien la cung mot ma" id="0464e9bb-87a3-5905-ab24-1886c7da14c5" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="1" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2006CodeVietThuongQuotSave10QuotPhaiNhanDienLaCungMotMa"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2006CodeVietThuongQuotSave10QuotPhaiNhanDienLaCungMotMa"/>
+    <testcase name="Status code la 200" time="0.005" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2006CodeVietThuongQuotSave10QuotPhaiNhanDienLaCungMotMa">
+      <failure type="AssertionFailure" message="expected response to have status code 200 but got 404">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 01 - Decision Table C1: ma ton tai & dang hoat dong / TC-A2-006 code viet thuong "save10" -> phai nhan dien la cung mot ma.]]>
+        <![CDATA[Test description: Status code la 200.]]>
+        <![CDATA[Error message: expected response to have status code 200 but got 404.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 200 but got 404
+   at Object.eval sandbox-script.js:1:10).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="01 - Decision Table C1: ma ton tai &amp; dang hoat dong / TC-A2-007 code co khoang trang bao quanh -> trim roi nhan dien" id="5d5a54c6-aab1-5515-a76a-7ff019691557" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2007CodeCoKhoangTrangBaoQuanhTrimRoiNhanDien"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2007CodeCoKhoangTrangBaoQuanhTrimRoiNhanDien"/>
+    <testcase name="Status code thuoc [200, 400, 404]" time="0.002" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2007CodeCoKhoangTrangBaoQuanhTrimRoiNhanDien"/>
+    <testcase name="Khong 5xx" time="0.002" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2007CodeCoKhoangTrangBaoQuanhTrimRoiNhanDien"/>
+  </testsuite>
+  <testsuite name="01 - Decision Table C1: ma ton tai &amp; dang hoat dong / TC-A2-008 code sai kieu (number) -> 400/404, khong 5xx" id="50de5e04-bda1-5da4-b96e-06aa9687a12c" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2008CodeSaiKieuNumber400404Khong5Xx"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2008CodeSaiKieuNumber400404Khong5Xx"/>
+    <testcase name="Status code thuoc [400, 404]" time="0.006" classname="01DecisionTableC1MaTonTaiAmpDangHoatDongTcA2008CodeSaiKieuNumber400404Khong5Xx"/>
+  </testsuite>
+  <testsuite name="02 - Decision Table C2: con han su dung / TC-A2-009 C2 sai: ma EXPIRED (het han 2020-01-01), don du nguong -> 400 het han" id="7db05dcc-1b8a-5118-a2cd-36153b2a0bc7" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="02DecisionTableC2ConHanSuDungTcA2009C2SaiMaExpiredHetHan20200101DonDuNguong400HetHan"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="02DecisionTableC2ConHanSuDungTcA2009C2SaiMaExpiredHetHan20200101DonDuNguong400HetHan"/>
+    <testcase name="Status code la 400" time="0.006" classname="02DecisionTableC2ConHanSuDungTcA2009C2SaiMaExpiredHetHan20200101DonDuNguong400HetHan"/>
+    <testcase name="Thong bao noi ro ma da het han" time="0.006" classname="02DecisionTableC2ConHanSuDungTcA2009C2SaiMaExpiredHetHan20200101DonDuNguong400HetHan"/>
+  </testsuite>
+  <testsuite name="02 - Decision Table C2: con han su dung / TC-A2-010 C2 sai + C3 sai cung luc: ma het han VA don duoi nguong -> khong duoc thanh cong" id="ff2fa3e1-19c3-5343-8e83-c6e57791e516" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="1" errors="0" time="0.024">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.024" classname="02DecisionTableC2ConHanSuDungTcA2010C2SaiC3SaiCungLucMaHetHanVaDonDuoiNguongKhongDuocThanhCong"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.024" classname="02DecisionTableC2ConHanSuDungTcA2010C2SaiC3SaiCungLucMaHetHanVaDonDuoiNguongKhongDuocThanhCong"/>
+    <testcase name="Status code la 400" time="0.024" classname="02DecisionTableC2ConHanSuDungTcA2010C2SaiC3SaiCungLucMaHetHanVaDonDuoiNguongKhongDuocThanhCong"/>
+    <testcase name="Uu tien bao ma da het han thay vi bao chua du nguong" time="0.024" classname="02DecisionTableC2ConHanSuDungTcA2010C2SaiC3SaiCungLucMaHetHanVaDonDuoiNguongKhongDuocThanhCong">
+      <failure type="AssertionFailure" message="expected '{&quot;error&quot;:&quot;Đơn hàng chưa đủ giá trị tố…' to match /h.t h.n|expired/i">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 02 - Decision Table C2: con han su dung / TC-A2-010 C2 sai + C3 sai cung luc: ma het han VA don duoi nguong -> khong duoc thanh cong.]]>
+        <![CDATA[Test description: Uu tien bao ma da het han thay vi bao chua du nguong.]]>
+        <![CDATA[Error message: expected '{"error":"Đơn hàng chưa đủ giá trị tố…' to match /h.t h.n|expired/i.]]>
+        <![CDATA[Stacktrace: AssertionError: expected '{"error":"Đơn hàng chưa đủ giá trị tố…' to match /h.t h.n|expired/i
+   at Object.eval sandbox-script.js:2:14).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="02 - Decision Table C2: con han su dung / TC-A2-011 C2 dung: ma SAVE10 con han (2099-12-31) -> vuot qua C2" id="0362d786-691e-5f3a-bac1-442c0ff93abf" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="02DecisionTableC2ConHanSuDungTcA2011C2DungMaSave10ConHan20991231VuotQuaC2"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="02DecisionTableC2ConHanSuDungTcA2011C2DungMaSave10ConHan20991231VuotQuaC2"/>
+    <testcase name="Khong duoc bao het han" time="0.005" classname="02DecisionTableC2ConHanSuDungTcA2011C2DungMaSave10ConHan20991231VuotQuaC2"/>
+  </testsuite>
+  <testsuite name="03 - Decision Table C3: nguong don hang (BVA) / TC-A2-012 BVA min-1: SAVE10 voi total = 299.999 (min = 300.000) -> 400" id="f0e84aa7-62e9-5a06-a7cc-b059e8ba4a42" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="03DecisionTableC3NguongDonHangBvaTcA2012BvaMin1Save10VoiTotal299999Min300000400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="03DecisionTableC3NguongDonHangBvaTcA2012BvaMin1Save10VoiTotal299999Min300000400"/>
+    <testcase name="Status code la 400" time="0.006" classname="03DecisionTableC3NguongDonHangBvaTcA2012BvaMin1Save10VoiTotal299999Min300000400"/>
+  </testsuite>
+  <testsuite name="03 - Decision Table C3: nguong don hang (BVA) / TC-A2-013 BVA min: SAVE10 voi total = 300.000 (= min) -> PHAI duoc chap nhan" id="239319fc-cbf5-5ae8-9ee1-7a6f2b98b279" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="2" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="03DecisionTableC3NguongDonHangBvaTcA2013BvaMinSave10VoiTotal300000MinPhaiDuocChapNhan"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="03DecisionTableC3NguongDonHangBvaTcA2013BvaMinSave10VoiTotal300000MinPhaiDuocChapNhan"/>
+    <testcase name="Status code la 200" time="0.004" classname="03DecisionTableC3NguongDonHangBvaTcA2013BvaMinSave10VoiTotal300000MinPhaiDuocChapNhan">
+      <failure type="AssertionFailure" message="expected response to have status code 200 but got 400">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 03 - Decision Table C3: nguong don hang (BVA) / TC-A2-013 BVA min: SAVE10 voi total = 300.000 (= min) -> PHAI duoc chap nhan.]]>
+        <![CDATA[Test description: Status code la 200.]]>
+        <![CDATA[Error message: expected response to have status code 200 but got 400.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 200 but got 400
+   at Object.eval sandbox-script.js:1:17).]]>
+      </failure>
+    </testcase>
+    <testcase name="success == True" time="0.004" classname="03DecisionTableC3NguongDonHangBvaTcA2013BvaMinSave10VoiTotal300000MinPhaiDuocChapNhan">
+      <failure type="AssertionFailure" message="expected undefined to deeply equal true">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 03 - Decision Table C3: nguong don hang (BVA) / TC-A2-013 BVA min: SAVE10 voi total = 300.000 (= min) -> PHAI duoc chap nhan.]]>
+        <![CDATA[Test description: success == True.]]>
+        <![CDATA[Error message: expected undefined to deeply equal true.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to deeply equal true
+   at Object.eval sandbox-script.js:2:17).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="03 - Decision Table C3: nguong don hang (BVA) / TC-A2-014 BVA min+1: SAVE10 voi total = 300.001 -> 200" id="d322260f-8526-5a86-a0fd-0c7946fe8e16" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="03DecisionTableC3NguongDonHangBvaTcA2014BvaMin1Save10VoiTotal300001200"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="03DecisionTableC3NguongDonHangBvaTcA2014BvaMin1Save10VoiTotal300001200"/>
+    <testcase name="Status code la 200" time="0.005" classname="03DecisionTableC3NguongDonHangBvaTcA2014BvaMin1Save10VoiTotal300001200"/>
+    <testcase name="success == True" time="0.005" classname="03DecisionTableC3NguongDonHangBvaTcA2014BvaMin1Save10VoiTotal300001200"/>
+  </testsuite>
+  <testsuite name="03 - Decision Table C3: nguong don hang (BVA) / TC-A2-015 BVA min: BIGBUY voi total = 500.000 (= min) -> PHAI duoc chap nhan" id="5bb663f4-44fb-5d34-a762-13d3c037fb60" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="2" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="03DecisionTableC3NguongDonHangBvaTcA2015BvaMinBigbuyVoiTotal500000MinPhaiDuocChapNhan"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="03DecisionTableC3NguongDonHangBvaTcA2015BvaMinBigbuyVoiTotal500000MinPhaiDuocChapNhan"/>
+    <testcase name="Status code la 200" time="0.003" classname="03DecisionTableC3NguongDonHangBvaTcA2015BvaMinBigbuyVoiTotal500000MinPhaiDuocChapNhan">
+      <failure type="AssertionFailure" message="expected response to have status code 200 but got 400">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 03 - Decision Table C3: nguong don hang (BVA) / TC-A2-015 BVA min: BIGBUY voi total = 500.000 (= min) -> PHAI duoc chap nhan.]]>
+        <![CDATA[Test description: Status code la 200.]]>
+        <![CDATA[Error message: expected response to have status code 200 but got 400.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 200 but got 400
+   at Object.eval sandbox-script.js:1:19).]]>
+      </failure>
+    </testcase>
+    <testcase name="success == True" time="0.003" classname="03DecisionTableC3NguongDonHangBvaTcA2015BvaMinBigbuyVoiTotal500000MinPhaiDuocChapNhan">
+      <failure type="AssertionFailure" message="expected undefined to deeply equal true">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 03 - Decision Table C3: nguong don hang (BVA) / TC-A2-015 BVA min: BIGBUY voi total = 500.000 (= min) -> PHAI duoc chap nhan.]]>
+        <![CDATA[Test description: success == True.]]>
+        <![CDATA[Error message: expected undefined to deeply equal true.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to deeply equal true
+   at Object.eval sandbox-script.js:2:19).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="03 - Decision Table C3: nguong don hang (BVA) / TC-A2-016 BVA min-1: BIGBUY voi total = 499.999 -> 400" id="8d481675-9725-55f8-977c-6f2d2d9aa5eb" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="03DecisionTableC3NguongDonHangBvaTcA2016BvaMin1BigbuyVoiTotal499999400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="03DecisionTableC3NguongDonHangBvaTcA2016BvaMin1BigbuyVoiTotal499999400"/>
+    <testcase name="Status code la 400" time="0.006" classname="03DecisionTableC3NguongDonHangBvaTcA2016BvaMin1BigbuyVoiTotal499999400"/>
+  </testsuite>
+  <testsuite name="04 - Decision Table C4: yeu cau dang nhap / TC-A2-017 C4 sai: goi apply-coupon KHONG kem JWT -> 401" id="c2f1a008-aa82-5428-b151-a9b35c9f25af" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="2" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="04DecisionTableC4YeuCauDangNhapTcA2017C4SaiGoiApplyCouponKhongKemJwt401"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="04DecisionTableC4YeuCauDangNhapTcA2017C4SaiGoiApplyCouponKhongKemJwt401"/>
+    <testcase name="Status code thuoc [401, 403]" time="0.006" classname="04DecisionTableC4YeuCauDangNhapTcA2017C4SaiGoiApplyCouponKhongKemJwt401">
+      <failure type="AssertionFailure" message="expected [ 401, 403 ] to include 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 04 - Decision Table C4: yeu cau dang nhap / TC-A2-017 C4 sai: goi apply-coupon KHONG kem JWT -> 401.]]>
+        <![CDATA[Test description: Status code thuoc [401, 403].]]>
+        <![CDATA[Error message: expected [ 401, 403 ] to include 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected [ 401, 403 ] to include 200
+   at Object.eval sandbox-script.js:1:21).]]>
+      </failure>
+    </testcase>
+    <testcase name="Khong duoc tra ket qua tinh tien" time="0.006" classname="04DecisionTableC4YeuCauDangNhapTcA2017C4SaiGoiApplyCouponKhongKemJwt401">
+      <failure type="AssertionFailure" message="expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 04 - Decision Table C4: yeu cau dang nhap / TC-A2-017 C4 sai: goi apply-coupon KHONG kem JWT -> 401.]]>
+        <![CDATA[Test description: Khong duoc tra ket qua tinh tien.]]>
+        <![CDATA[Error message: expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'
+   at Object.eval sandbox-script.js:2:21).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="04 - Decision Table C4: yeu cau dang nhap / TC-A2-018 C4 sai: token khong hop le -> 403" id="05f8bd38-d511-513f-a94d-225691430aea" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="1" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="04DecisionTableC4YeuCauDangNhapTcA2018C4SaiTokenKhongHopLe403"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="04DecisionTableC4YeuCauDangNhapTcA2018C4SaiTokenKhongHopLe403"/>
+    <testcase name="Status code thuoc [401, 403]" time="0.004" classname="04DecisionTableC4YeuCauDangNhapTcA2018C4SaiTokenKhongHopLe403">
+      <failure type="AssertionFailure" message="expected [ 401, 403 ] to include 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 04 - Decision Table C4: yeu cau dang nhap / TC-A2-018 C4 sai: token khong hop le -> 403.]]>
+        <![CDATA[Test description: Status code thuoc [401, 403].]]>
+        <![CDATA[Error message: expected [ 401, 403 ] to include 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected [ 401, 403 ] to include 200
+   at Object.eval sandbox-script.js:1:22).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="04 - Decision Table C4: yeu cau dang nhap / TC-A2-019 C4 dung: token hop le -> duoc phep tinh giam gia" id="51c77553-b477-523f-bca1-0bcd08a699d2" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="04DecisionTableC4YeuCauDangNhapTcA2019C4DungTokenHopLeDuocPhepTinhGiamGia"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="04DecisionTableC4YeuCauDangNhapTcA2019C4DungTokenHopLeDuocPhepTinhGiamGia"/>
+    <testcase name="Status code la 200" time="0.007" classname="04DecisionTableC4YeuCauDangNhapTcA2019C4DungTokenHopLeDuocPhepTinhGiamGia"/>
+  </testsuite>
+  <testsuite name="04 - Decision Table C4: yeu cau dang nhap / TC-A2-020 POST /api/coupon-usage khong kem token -> 401" id="1613fcdf-f3ef-5419-8c8b-775cc594bb0d" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="04DecisionTableC4YeuCauDangNhapTcA2020PostApiCouponUsageKhongKemToken401"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="04DecisionTableC4YeuCauDangNhapTcA2020PostApiCouponUsageKhongKemToken401"/>
+    <testcase name="Status code thuoc [401, 403]" time="0.006" classname="04DecisionTableC4YeuCauDangNhapTcA2020PostApiCouponUsageKhongKemToken401"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-021 [S0 -> ap dung lan 1] SAVE10 (max 1 luot) cho nguoi dung chua tung dung -> 200" id="4511b59f-13ed-5931-bb70-6556fcdb8349" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2021S0ApDungLan1Save10Max1LuotChoNguoiDungChuaTungDung200"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2021S0ApDungLan1Save10Max1LuotChoNguoiDungChuaTungDung200"/>
+    <testcase name="Status code la 200" time="0.003" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2021S0ApDungLan1Save10Max1LuotChoNguoiDungChuaTungDung200"/>
+    <testcase name="success == True" time="0.003" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2021S0ApDungLan1Save10Max1LuotChoNguoiDungChuaTungDung200"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-022 [SETUP] Ghi nhan luot su dung SAVE10 (mo phong checkout thanh cong)" id="98350844-07de-580a-976e-f02aa68e6767" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2022SetupGhiNhanLuotSuDungSave10MoPhongCheckoutThanhCong"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2022SetupGhiNhanLuotSuDungSave10MoPhongCheckoutThanhCong"/>
+    <testcase name="Status code la 200" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2022SetupGhiNhanLuotSuDungSave10MoPhongCheckoutThanhCong"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-023 [S1 = max] C5 sai: dung SAVE10 lan 2 -> 400 het luot" id="e1eeab49-73eb-5e71-a47a-94ac03b101c7" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2023S1MaxC5SaiDungSave10Lan2400HetLuot"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2023S1MaxC5SaiDungSave10Lan2400HetLuot"/>
+    <testcase name="Status code la 400" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2023S1MaxC5SaiDungSave10Lan2400HetLuot"/>
+    <testcase name="Response co truong 'error'" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2023S1MaxC5SaiDungSave10Lan2400HetLuot"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-024 C5: bo trong user_id de LACH kiem tra so luot -> van phai bi chan" id="0830486c-2998-522a-8314-e55da1023801" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="2" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2024C5BoTrongUserIdDeLachKiemTraSoLuotVanPhaiBiChan"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2024C5BoTrongUserIdDeLachKiemTraSoLuotVanPhaiBiChan"/>
+    <testcase name="Status code thuoc [400, 401]" time="0.004" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2024C5BoTrongUserIdDeLachKiemTraSoLuotVanPhaiBiChan">
+      <failure type="AssertionFailure" message="expected [ 400, 401 ] to include 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-024 C5: bo trong user_id de LACH kiem tra so luot -> van phai bi chan.]]>
+        <![CDATA[Test description: Status code thuoc [400, 401].]]>
+        <![CDATA[Error message: expected [ 400, 401 ] to include 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected [ 400, 401 ] to include 200
+   at Object.eval sandbox-script.js:1:28).]]>
+      </failure>
+    </testcase>
+    <testcase name="Khong duoc tinh giam gia khi da het luot" time="0.004" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2024C5BoTrongUserIdDeLachKiemTraSoLuotVanPhaiBiChan">
+      <failure type="AssertionFailure" message="expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-024 C5: bo trong user_id de LACH kiem tra so luot -> van phai bi chan.]]>
+        <![CDATA[Test description: Khong duoc tinh giam gia khi da het luot.]]>
+        <![CDATA[Error message: expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'
+   at Object.eval sandbox-script.js:2:28).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-025 C5 (IDOR): truyen user_id cua nguoi khac de muon luot -> phai bi chan" id="f2687907-d7e9-52f7-91d0-2f2ef1284095" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="2" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2025C5IdorTruyenUserIdCuaNguoiKhacDeMuonLuotPhaiBiChan"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2025C5IdorTruyenUserIdCuaNguoiKhacDeMuonLuotPhaiBiChan"/>
+    <testcase name="Status code thuoc [400, 401, 403]" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2025C5IdorTruyenUserIdCuaNguoiKhacDeMuonLuotPhaiBiChan">
+      <failure type="AssertionFailure" message="expected [ 400, 401, 403 ] to include 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-025 C5 (IDOR): truyen user_id cua nguoi khac de muon luot -> phai bi chan.]]>
+        <![CDATA[Test description: Status code thuoc [400, 401, 403].]]>
+        <![CDATA[Error message: expected [ 400, 401, 403 ] to include 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected [ 400, 401, 403 ] to include 200
+   at Object.eval sandbox-script.js:1:29).]]>
+      </failure>
+    </testcase>
+    <testcase name="Khong duoc muon luot cua nguoi khac" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2025C5IdorTruyenUserIdCuaNguoiKhacDeMuonLuotPhaiBiChan">
+      <failure type="AssertionFailure" message="expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-025 C5 (IDOR): truyen user_id cua nguoi khac de muon luot -> phai bi chan.]]>
+        <![CDATA[Test description: Khong duoc muon luot cua nguoi khac.]]>
+        <![CDATA[Error message: expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { success: true, coupon_id: 1, …(3) } to not have nested property 'final_amount'
+   at Object.eval sandbox-script.js:2:29).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-026 C5: VIP100 cho phep 2 luot - lan 1 -> 200" id="b88918a7-2f3b-5385-86d5-51712bb8e63a" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2026C5Vip100ChoPhep2LuotLan1200"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2026C5Vip100ChoPhep2LuotLan1200"/>
+    <testcase name="Status code la 200" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2026C5Vip100ChoPhep2LuotLan1200"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-027 [SETUP] Ghi nhan luot VIP100 lan 1" id="93dca9b8-5384-5ef5-b1f1-6f08c7b96307" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.016">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.016" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2027SetupGhiNhanLuotVip100Lan1"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.016" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2027SetupGhiNhanLuotVip100Lan1"/>
+    <testcase name="Status code la 200" time="0.016" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2027SetupGhiNhanLuotVip100Lan1"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-028 C5: VIP100 lan 2 (usage = 1 &lt; max = 2) -> van 200" id="05458893-f968-5e3c-b8dd-4de7ee3bb258" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2028C5Vip100Lan2Usage1LtMax2Van200"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2028C5Vip100Lan2Usage1LtMax2Van200"/>
+    <testcase name="Status code la 200" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2028C5Vip100Lan2Usage1LtMax2Van200"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-029 [SETUP] Ghi nhan luot VIP100 lan 2" id="8e3e22ff-9a6c-5b2f-ac11-78aabadc46f8" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.011">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.011" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2029SetupGhiNhanLuotVip100Lan2"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.011" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2029SetupGhiNhanLuotVip100Lan2"/>
+    <testcase name="Status code la 200" time="0.011" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2029SetupGhiNhanLuotVip100Lan2"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-030 [S2 = max] C5 sai: VIP100 lan 3 -> 400 het luot" id="37dfbabf-2bf0-5fc6-844c-c1cca2459e25" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2030S2MaxC5SaiVip100Lan3400HetLuot"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2030S2MaxC5SaiVip100Lan3400HetLuot"/>
+    <testcase name="Status code la 400" time="0.006" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2030S2MaxC5SaiVip100Lan3400HetLuot"/>
+  </testsuite>
+  <testsuite name="05 - Decision Table C5 + State Transition: so luot / nguoi / TC-A2-031 So luot phai dem RIENG cho tung nguoi: nguoi dung khac van dung duoc SAVE10" id="575d1016-7acd-58c0-a82a-9610a4cc8e53" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2031SoLuotPhaiDemRiengChoTungNguoiNguoiDungKhacVanDungDuocSave10"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2031SoLuotPhaiDemRiengChoTungNguoiNguoiDungKhacVanDungDuocSave10"/>
+    <testcase name="Status code la 200" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2031SoLuotPhaiDemRiengChoTungNguoiNguoiDungKhacVanDungDuocSave10"/>
+    <testcase name="success == True" time="0.005" classname="05DecisionTableC5StateTransitionSoLuotNguoiTcA2031SoLuotPhaiDemRiengChoTungNguoiNguoiDungKhacVanDungDuocSave10"/>
+  </testsuite>
+  <testsuite name="06 - Oracle: cong thuc tinh giam gia / TC-A2-032 percent: SAVE10 10% tren 500.000 -> discount = 50.000, final = 450.000" id="8dcfa918-1ccc-54c8-adf8-0d52b008d6c0" timestamp="2026-09-01T13:07:08.207Z" tests="5" failures="2" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2032PercentSave1010Tren500000Discount50000Final450000"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2032PercentSave1010Tren500000Discount50000Final450000"/>
+    <testcase name="Status code la 200" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2032PercentSave1010Tren500000Discount50000Final450000"/>
+    <testcase name="discount_amount == 50000" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2032PercentSave1010Tren500000Discount50000Final450000">
+      <failure type="AssertionFailure" message="expected -4500000 to deeply equal 50000">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 06 - Oracle: cong thuc tinh giam gia / TC-A2-032 percent: SAVE10 10% tren 500.000 -> discount = 50.000, final = 450.000.]]>
+        <![CDATA[Test description: discount_amount == 50000.]]>
+        <![CDATA[Error message: expected -4500000 to deeply equal 50000.]]>
+        <![CDATA[Stacktrace: AssertionError: expected -4500000 to deeply equal 50000
+   at Object.eval sandbox-script.js:2:36).]]>
+      </failure>
+    </testcase>
+    <testcase name="final_amount == 450000" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2032PercentSave1010Tren500000Discount50000Final450000">
+      <failure type="AssertionFailure" message="expected 5000000 to deeply equal 450000">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 06 - Oracle: cong thuc tinh giam gia / TC-A2-032 percent: SAVE10 10% tren 500.000 -> discount = 50.000, final = 450.000.]]>
+        <![CDATA[Test description: final_amount == 450000.]]>
+        <![CDATA[Error message: expected 5000000 to deeply equal 450000.]]>
+        <![CDATA[Stacktrace: AssertionError: expected 5000000 to deeply equal 450000
+   at Object.eval sandbox-script.js:3:36).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="06 - Oracle: cong thuc tinh giam gia / TC-A2-033 percent: SAVE10 10% tren 1.000.000 -> discount = 100.000, final = 900.000" id="5246bc9f-2076-56c5-9fcc-bef814d3c1a1" timestamp="2026-09-01T13:07:08.207Z" tests="5" failures="2" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2033PercentSave1010Tren1000000Discount100000Final900000"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2033PercentSave1010Tren1000000Discount100000Final900000"/>
+    <testcase name="Status code la 200" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2033PercentSave1010Tren1000000Discount100000Final900000"/>
+    <testcase name="discount_amount == 100000" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2033PercentSave1010Tren1000000Discount100000Final900000">
+      <failure type="AssertionFailure" message="expected -9000000 to deeply equal 100000">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 06 - Oracle: cong thuc tinh giam gia / TC-A2-033 percent: SAVE10 10% tren 1.000.000 -> discount = 100.000, final = 900.000.]]>
+        <![CDATA[Test description: discount_amount == 100000.]]>
+        <![CDATA[Error message: expected -9000000 to deeply equal 100000.]]>
+        <![CDATA[Stacktrace: AssertionError: expected -9000000 to deeply equal 100000
+   at Object.eval sandbox-script.js:2:37).]]>
+      </failure>
+    </testcase>
+    <testcase name="final_amount == 900000" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2033PercentSave1010Tren1000000Discount100000Final900000">
+      <failure type="AssertionFailure" message="expected 10000000 to deeply equal 900000">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 06 - Oracle: cong thuc tinh giam gia / TC-A2-033 percent: SAVE10 10% tren 1.000.000 -> discount = 100.000, final = 900.000.]]>
+        <![CDATA[Test description: final_amount == 900000.]]>
+        <![CDATA[Error message: expected 10000000 to deeply equal 900000.]]>
+        <![CDATA[Stacktrace: AssertionError: expected 10000000 to deeply equal 900000
+   at Object.eval sandbox-script.js:3:37).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="06 - Oracle: cong thuc tinh giam gia / TC-A2-034 fixed: BIGBUY giam 50.000 tren 600.000 -> final = 550.000" id="1394fe04-3411-5800-95cd-0e6d758ab569" timestamp="2026-09-01T13:07:08.207Z" tests="5" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2034FixedBigbuyGiam50000Tren600000Final550000"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2034FixedBigbuyGiam50000Tren600000Final550000"/>
+    <testcase name="Status code la 200" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2034FixedBigbuyGiam50000Tren600000Final550000"/>
+    <testcase name="discount_amount == 50000" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2034FixedBigbuyGiam50000Tren600000Final550000"/>
+    <testcase name="final_amount == 550000" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2034FixedBigbuyGiam50000Tren600000Final550000"/>
+  </testsuite>
+  <testsuite name="06 - Oracle: cong thuc tinh giam gia / TC-A2-035 fixed: VIP100 giam 100.000 tren 400.000 -> final = 300.000" id="009718ab-24df-55d0-a51c-156c1c1b2d79" timestamp="2026-09-01T13:07:08.207Z" tests="5" failures="0" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="06OracleCongThucTinhGiamGiaTcA2035FixedVip100Giam100000Tren400000Final300000"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="06OracleCongThucTinhGiamGiaTcA2035FixedVip100Giam100000Tren400000Final300000"/>
+    <testcase name="Status code la 200" time="0.002" classname="06OracleCongThucTinhGiamGiaTcA2035FixedVip100Giam100000Tren400000Final300000"/>
+    <testcase name="discount_amount == 100000" time="0.002" classname="06OracleCongThucTinhGiamGiaTcA2035FixedVip100Giam100000Tren400000Final300000"/>
+    <testcase name="final_amount == 300000" time="0.002" classname="06OracleCongThucTinhGiamGiaTcA2035FixedVip100Giam100000Tren400000Final300000"/>
+  </testsuite>
+  <testsuite name="06 - Oracle: cong thuc tinh giam gia / TC-A2-036 Bat bien: 0 &lt;= discount_amount &lt;= total_amount (khong bao gio am, khong vuot don)" id="2398d5bf-7f35-54b9-a42b-41952cec24fc" timestamp="2026-09-01T13:07:08.207Z" tests="6" failures="2" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2036BatBien0LtDiscountAmountLtTotalAmountKhongBaoGioAmKhongVuotDon"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2036BatBien0LtDiscountAmountLtTotalAmountKhongBaoGioAmKhongVuotDon"/>
+    <testcase name="Status code la 200" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2036BatBien0LtDiscountAmountLtTotalAmountKhongBaoGioAmKhongVuotDon"/>
+    <testcase name="Giam gia khong duoc am" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2036BatBien0LtDiscountAmountLtTotalAmountKhongBaoGioAmKhongVuotDon">
+      <failure type="AssertionFailure" message="giam gia am -> khach phai tra nhieu hon gia goc: expected -4500000 to be at least +0">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 06 - Oracle: cong thuc tinh giam gia / TC-A2-036 Bat bien: 0 <= discount_amount <= total_amount (khong bao gio am, khong vuot don).]]>
+        <![CDATA[Test description: Giam gia khong duoc am.]]>
+        <![CDATA[Error message: giam gia am -> khach phai tra nhieu hon gia goc: expected -4500000 to be at least +0.]]>
+        <![CDATA[Stacktrace: AssertionError: giam gia am -> khach phai tra nhieu hon gia goc: expected -4500000 to be at least +0
+   at Object.eval sandbox-script.js:2:40).]]>
+      </failure>
+    </testcase>
+    <testcase name="Giam gia khong duoc vuot qua tong don" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2036BatBien0LtDiscountAmountLtTotalAmountKhongBaoGioAmKhongVuotDon"/>
+    <testcase name="So tien phai tra khong duoc lon hon gia goc" time="0.004" classname="06OracleCongThucTinhGiamGiaTcA2036BatBien0LtDiscountAmountLtTotalAmountKhongBaoGioAmKhongVuotDon">
+      <failure type="AssertionFailure" message="final_amount > total_amount: expected 5000000 to be at most 500000">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 06 - Oracle: cong thuc tinh giam gia / TC-A2-036 Bat bien: 0 <= discount_amount <= total_amount (khong bao gio am, khong vuot don).]]>
+        <![CDATA[Test description: So tien phai tra khong duoc lon hon gia goc.]]>
+        <![CDATA[Error message: final_amount > total_amount: expected 5000000 to be at most 500000.]]>
+        <![CDATA[Stacktrace: AssertionError: final_amount > total_amount: expected 5000000 to be at most 500000
+   at Object.eval sandbox-script.js:4:40).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="06 - Oracle: cong thuc tinh giam gia / TC-A2-037 Bat bien: final_amount = total_amount - discount_amount (nhat quan noi tai)" id="1efe7bdd-79d6-5279-8a02-6c7d037b17c8" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="06OracleCongThucTinhGiamGiaTcA2037BatBienFinalAmountTotalAmountDiscountAmountNhatQuanNoiTai"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="06OracleCongThucTinhGiamGiaTcA2037BatBienFinalAmountTotalAmountDiscountAmountNhatQuanNoiTai"/>
+    <testcase name="Status code la 200" time="0.006" classname="06OracleCongThucTinhGiamGiaTcA2037BatBienFinalAmountTotalAmountDiscountAmountNhatQuanNoiTai"/>
+    <testcase name="final_amount + discount_amount = total_amount" time="0.006" classname="06OracleCongThucTinhGiamGiaTcA2037BatBienFinalAmountTotalAmountDiscountAmountNhatQuanNoiTai"/>
+  </testsuite>
+  <testsuite name="07 - Domain Partition: total_amount / TC-A2-038 total_amount = 0 -> 400" id="2c8281e5-ab57-5649-b234-3db42747cdc9" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.006" classname="07DomainPartitionTotalAmountTcA2038TotalAmount0400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.006" classname="07DomainPartitionTotalAmountTcA2038TotalAmount0400"/>
+    <testcase name="Status code la 400" time="0.006" classname="07DomainPartitionTotalAmountTcA2038TotalAmount0400"/>
+  </testsuite>
+  <testsuite name="07 - Domain Partition: total_amount / TC-A2-039 total_amount am -> 400" id="e8dced40-9f6d-5752-826a-16b9c572d3fd" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="07DomainPartitionTotalAmountTcA2039TotalAmountAm400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="07DomainPartitionTotalAmountTcA2039TotalAmountAm400"/>
+    <testcase name="Status code la 400" time="0.005" classname="07DomainPartitionTotalAmountTcA2039TotalAmountAm400"/>
+  </testsuite>
+  <testsuite name="07 - Domain Partition: total_amount / TC-A2-040 thieu truong total_amount -> 400" id="e12cb309-913c-5212-93d5-9c13a6e862f6" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="07DomainPartitionTotalAmountTcA2040ThieuTruongTotalAmount400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="07DomainPartitionTotalAmountTcA2040ThieuTruongTotalAmount400"/>
+    <testcase name="Status code la 400" time="0.003" classname="07DomainPartitionTotalAmountTcA2040ThieuTruongTotalAmount400"/>
+  </testsuite>
+  <testsuite name="07 - Domain Partition: total_amount / TC-A2-041 total_amount = null -> 400" id="31bb9cb5-66b0-5155-98f9-8dc7c4c6dfdf" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="07DomainPartitionTotalAmountTcA2041TotalAmountNull400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="07DomainPartitionTotalAmountTcA2041TotalAmountNull400"/>
+    <testcase name="Status code la 400" time="0.005" classname="07DomainPartitionTotalAmountTcA2041TotalAmountNull400"/>
+  </testsuite>
+  <testsuite name="07 - Domain Partition: total_amount / TC-A2-042 total_amount la chuoi khong phai so -> 400" id="091ab019-bb1f-54e2-9c36-a8f2ed2286ce" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="07DomainPartitionTotalAmountTcA2042TotalAmountLaChuoiKhongPhaiSo400"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="07DomainPartitionTotalAmountTcA2042TotalAmountLaChuoiKhongPhaiSo400"/>
+    <testcase name="Status code la 400" time="0.005" classname="07DomainPartitionTotalAmountTcA2042TotalAmountLaChuoiKhongPhaiSo400"/>
+  </testsuite>
+  <testsuite name="07 - Domain Partition: total_amount / TC-A2-043 total_amount la chuoi so &quot;500000&quot; -> phai xu ly nhat quan" id="bb8788c1-00cf-503d-9585-f8ca80f74a8d" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.007">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.007" classname="07DomainPartitionTotalAmountTcA2043TotalAmountLaChuoiSoQuot500000QuotPhaiXuLyNhatQuan"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.007" classname="07DomainPartitionTotalAmountTcA2043TotalAmountLaChuoiSoQuot500000QuotPhaiXuLyNhatQuan"/>
+    <testcase name="Don 90.000 (&lt; nguong 300.000) phai bi tu choi du gui duoi dang chuoi" time="0.007" classname="07DomainPartitionTotalAmountTcA2043TotalAmountLaChuoiSoQuot500000QuotPhaiXuLyNhatQuan"/>
+  </testsuite>
+  <testsuite name="07 - Domain Partition: total_amount / TC-A2-044 total_amount cuc lon (1e15) -> khong tran so, khong 5xx" id="e0c3294e-eecb-5d2e-9257-b4898bc286cc" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="1" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="07DomainPartitionTotalAmountTcA2044TotalAmountCucLon1E15KhongTranSoKhong5Xx"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="07DomainPartitionTotalAmountTcA2044TotalAmountCucLon1E15KhongTranSoKhong5Xx"/>
+    <testcase name="Khong 5xx" time="0.003" classname="07DomainPartitionTotalAmountTcA2044TotalAmountCucLon1E15KhongTranSoKhong5Xx"/>
+    <testcase name="Neu chap nhan thi ket qua phai la so nguyen an toan" time="0.003" classname="07DomainPartitionTotalAmountTcA2044TotalAmountCucLon1E15KhongTranSoKhong5Xx">
+      <failure type="AssertionFailure" message="final_amount vuot khoang so nguyen an toan: expected false to be true">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: f3be15fd-668d-58af-8659-be2a52e7ff1e.]]>
+        <![CDATA[Collection name: HW06 · 23127195 · API-2 (FR-09) — Ap dung Ma Giam Gia (Coupon).]]>
+        <![CDATA[Request name: 07 - Domain Partition: total_amount / TC-A2-044 total_amount cuc lon (1e15) -> khong tran so, khong 5xx.]]>
+        <![CDATA[Test description: Neu chap nhan thi ket qua phai la so nguyen an toan.]]>
+        <![CDATA[Error message: final_amount vuot khoang so nguyen an toan: expected false to be true.]]>
+        <![CDATA[Stacktrace: AssertionError: final_amount vuot khoang so nguyen an toan: expected false to be true
+   at Object.eval sandbox-script.js:2:48).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="07 - Domain Partition: total_amount / TC-A2-045 total_amount thap phan (300000.5) -> xu ly nhat quan, khong 5xx" id="ec4651e2-f767-5da8-97ab-46e9b10089f0" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="07DomainPartitionTotalAmountTcA2045TotalAmountThapPhan3000005XuLyNhatQuanKhong5Xx"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="07DomainPartitionTotalAmountTcA2045TotalAmountThapPhan3000005XuLyNhatQuanKhong5Xx"/>
+    <testcase name="Khong 5xx" time="0.002" classname="07DomainPartitionTotalAmountTcA2045TotalAmountThapPhan3000005XuLyNhatQuanKhong5Xx"/>
+  </testsuite>
+  <testsuite name="08 - Security: SEC-05 / ro ri thong tin / TC-A2-046 SEC-05: SQL Injection qua truong code" id="f200caf7-1b4e-5656-b655-e3799798a0c8" timestamp="2026-09-01T13:07:08.207Z" tests="5" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="08SecuritySec05RoRiThongTinTcA2046Sec05SqlInjectionQuaTruongCode"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="08SecuritySec05RoRiThongTinTcA2046Sec05SqlInjectionQuaTruongCode"/>
+    <testcase name="Status code thuoc [400, 404]" time="0.005" classname="08SecuritySec05RoRiThongTinTcA2046Sec05SqlInjectionQuaTruongCode"/>
+    <testcase name="Khong ro ri loi SQL" time="0.005" classname="08SecuritySec05RoRiThongTinTcA2046Sec05SqlInjectionQuaTruongCode"/>
+    <testcase name="SQLi khong duoc tra ve ket qua giam gia" time="0.005" classname="08SecuritySec05RoRiThongTinTcA2046Sec05SqlInjectionQuaTruongCode"/>
+  </testsuite>
+  <testsuite name="08 - Security: SEC-05 / ro ri thong tin / TC-A2-047 SEC-05: SQL Injection qua truong user_id" id="0f1ebcff-277a-5b75-b1b4-425c7c07e385" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.004">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.004" classname="08SecuritySec05RoRiThongTinTcA2047Sec05SqlInjectionQuaTruongUserId"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.004" classname="08SecuritySec05RoRiThongTinTcA2047Sec05SqlInjectionQuaTruongUserId"/>
+    <testcase name="Khong 5xx" time="0.004" classname="08SecuritySec05RoRiThongTinTcA2047Sec05SqlInjectionQuaTruongUserId"/>
+    <testcase name="Khong ro ri loi SQL" time="0.004" classname="08SecuritySec05RoRiThongTinTcA2047Sec05SqlInjectionQuaTruongUserId"/>
+  </testsuite>
+  <testsuite name="08 - Security: SEC-05 / ro ri thong tin / TC-A2-048 Thong bao loi khong duoc ro ri cau hinh noi bo cua ma giam gia" id="1fa21a0a-6e83-58cb-badf-dd717f726805" timestamp="2026-09-01T13:07:08.207Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="08SecuritySec05RoRiThongTinTcA2048ThongBaoLoiKhongDuocRoRiCauHinhNoiBoCuaMaGiamGia"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="08SecuritySec05RoRiThongTinTcA2048ThongBaoLoiKhongDuocRoRiCauHinhNoiBoCuaMaGiamGia"/>
+    <testcase name="Status code la 400" time="0.003" classname="08SecuritySec05RoRiThongTinTcA2048ThongBaoLoiKhongDuocRoRiCauHinhNoiBoCuaMaGiamGia"/>
+    <testcase name="Khong lo ten cot CSDL trong thong bao loi" time="0.003" classname="08SecuritySec05RoRiThongTinTcA2048ThongBaoLoiKhongDuocRoRiCauHinhNoiBoCuaMaGiamGia"/>
+  </testsuite>
+  <testsuite name="09 - Schema Validation / TC-A2-049 Schema: response thanh cong khop hop dong API" id="7a2ba494-0eb9-5819-aedc-7172a875a7e8" timestamp="2026-09-01T13:07:08.207Z" tests="5" failures="0" errors="0" time="0.002">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.002" classname="09SchemaValidationTcA2049SchemaResponseThanhCongKhopHopDongApi"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.002" classname="09SchemaValidationTcA2049SchemaResponseThanhCongKhopHopDongApi"/>
+    <testcase name="Status code la 200" time="0.002" classname="09SchemaValidationTcA2049SchemaResponseThanhCongKhopHopDongApi"/>
+    <testcase name="Content-Type la application/json" time="0.002" classname="09SchemaValidationTcA2049SchemaResponseThanhCongKhopHopDongApi"/>
+    <testcase name="Response khop JSON Schema cua spec" time="0.002" classname="09SchemaValidationTcA2049SchemaResponseThanhCongKhopHopDongApi"/>
+  </testsuite>
+  <testsuite name="09 - Schema Validation / TC-A2-050 Schema: discount_amount va final_amount phai la kieu SO, khong phai chuoi" id="81acac4b-33e6-5d80-a1f6-cd951f754129" timestamp="2026-09-01T13:07:08.207Z" tests="5" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="09SchemaValidationTcA2050SchemaDiscountAmountVaFinalAmountPhaiLaKieuSoKhongPhaiChuoi"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="09SchemaValidationTcA2050SchemaDiscountAmountVaFinalAmountPhaiLaKieuSoKhongPhaiChuoi"/>
+    <testcase name="Status code la 200" time="0.005" classname="09SchemaValidationTcA2050SchemaDiscountAmountVaFinalAmountPhaiLaKieuSoKhongPhaiChuoi"/>
+    <testcase name="Kieu du lieu cua 'discount_amount' la number" time="0.005" classname="09SchemaValidationTcA2050SchemaDiscountAmountVaFinalAmountPhaiLaKieuSoKhongPhaiChuoi"/>
+    <testcase name="Kieu du lieu cua 'final_amount' la number" time="0.005" classname="09SchemaValidationTcA2050SchemaDiscountAmountVaFinalAmountPhaiLaKieuSoKhongPhaiChuoi"/>
+  </testsuite>
+  <testsuite name="09 - Schema Validation / TC-A2-051 Schema: response loi khop dinh dang { error: string }" id="f23c21e9-031a-5a83-bbc0-7349bf4fb16a" timestamp="2026-09-01T13:07:08.207Z" tests="5" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="09SchemaValidationTcA2051SchemaResponseLoiKhopDinhDangErrorString"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="09SchemaValidationTcA2051SchemaResponseLoiKhopDinhDangErrorString"/>
+    <testcase name="Status code la 404" time="0.005" classname="09SchemaValidationTcA2051SchemaResponseLoiKhopDinhDangErrorString"/>
+    <testcase name="Content-Type la application/json" time="0.005" classname="09SchemaValidationTcA2051SchemaResponseLoiKhopDinhDangErrorString"/>
+    <testcase name="Response khop JSON Schema cua spec" time="0.005" classname="09SchemaValidationTcA2051SchemaResponseLoiKhopDinhDangErrorString"/>
+  </testsuite>
+  <testsuite name="09 - Schema Validation / TC-A2-052 Schema: response khong duoc ro ri toan bo ban ghi coupon" id="71aaa73e-0c61-5e3b-b1fa-79fbc69c350f" timestamp="2026-09-01T13:07:08.207Z" tests="6" failures="0" errors="0" time="0.005">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.005" classname="09SchemaValidationTcA2052SchemaResponseKhongDuocRoRiToanBoBanGhiCoupon"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.005" classname="09SchemaValidationTcA2052SchemaResponseKhongDuocRoRiToanBoBanGhiCoupon"/>
+    <testcase name="Status code la 200" time="0.005" classname="09SchemaValidationTcA2052SchemaResponseKhongDuocRoRiToanBoBanGhiCoupon"/>
+    <testcase name="Response KHONG duoc co truong 'is_active'" time="0.005" classname="09SchemaValidationTcA2052SchemaResponseKhongDuocRoRiToanBoBanGhiCoupon"/>
+    <testcase name="Response KHONG duoc co truong 'max_uses_per_user'" time="0.005" classname="09SchemaValidationTcA2052SchemaResponseKhongDuocRoRiToanBoBanGhiCoupon"/>
+    <testcase name="Khong co truong nao ngoai hop dong API" time="0.005" classname="09SchemaValidationTcA2052SchemaResponseKhongDuocRoRiToanBoBanGhiCoupon"/>
+  </testsuite>
+  <testsuite name="09 - Schema Validation / TC-A2-053 Schema: apply-coupon phan hoi duoi 2000ms" id="e782a585-e621-5d45-9c37-3792dd501403" timestamp="2026-09-01T13:07:08.207Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="[GLOBAL] Request mang header X-Student-Id dung dinh dang" time="0.003" classname="09SchemaValidationTcA2053SchemaApplyCouponPhanHoiDuoi2000Ms"/>
+    <testcase name="[GLOBAL] Server khong ro ri stack trace / duong dan he thong" time="0.003" classname="09SchemaValidationTcA2053SchemaApplyCouponPhanHoiDuoi2000Ms"/>
+    <testcase name="Response time &lt; 2000ms" time="0.003" classname="09SchemaValidationTcA2053SchemaApplyCouponPhanHoiDuoi2000Ms"/>
+  </testsuite>
+</testsuites>
