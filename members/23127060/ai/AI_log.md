@@ -91,3 +91,11 @@ File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py bui
 - Files touched: agent-skill/eshop-api-23127060/scripts/capture_bug_evidence.py, agent-skill/eshop-api-23127060/scripts/make_bug_report.py, bugs/BUG_REPORT.md, bugs/evidence/*.md, bugs/ISSUE_TEMPLATES/*.md
 - Human verified: pending
 
+### #12 · 2026-09-01T15:43:43+07:00 · STEP 8 · Workflow CI/CD + kiem chung 2 lan chay tren may cuc bo
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step8_cicd.txt`
+  > [STEP 8 — CI/CD] De bai muc 6: "Add your API test cases to a CI/CD pipeline for the SUT (for example, run Newman
+- Output: `ai/interactions/20260901T154343+0700_workflow-ci-cd-kiem-chung-2-lan-chay-tre_OUTPUT.md`
+- Files touched: .github/workflows/api-tests-23127060.yml, ci/api-tests-23127060.yml, ci/CI_CD_REPORT.md, ci/inject_failing_test.py, ci/evidence/local_ci_run_pass.log, ci/evidence/local_ci_run_fail.log, ci/evidence/header_evidence.md
+- Human verified: pending
+

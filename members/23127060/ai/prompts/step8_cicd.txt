@@ -1,0 +1,17 @@
+[STEP 8 — CI/CD]
+
+De bai muc 6: "Add your API test cases to a CI/CD pipeline for the SUT (for example, run Newman
+in GitHub Actions in your repository), and write a short CI/CD report describing the pipeline
+configuration and the two runs below, with screenshots and links. Provide two sample commits:
+one whose pipeline run shows all API test cases passing, and another whose pipeline run shows
+one test case failing."
+
+Yeu cau:
+1. Viet workflow GitHub Actions chay Newman cho ca 3 API, ghim dung commit cua SUT.
+2. Xu ly dung van de CSDL: phai dua CSDL ve trang thai goc truoc MOI collection.
+3. Lan chay "all passing" phai trung thuc. SUT co 34 bug that nen bo test day du BAT BUOC do;
+   khong duoc sua ky vong cho khop hanh vi sai de lam dep ket qua.
+4. Lan chay "one failing" phai la mot thay doi nho, co chu dich, tra lai duoc bang script.
+5. Kiem chung ca hai kich ban tren may cuc bo TRUOC khi ghi vao bao cao, lay so lieu that.
+6. Neu khong the tu day ma len GitHub (repo khong phai cua sinh vien) thi phai noi ro va viet
+   san quy trinh cho sinh vien tu lam, khong duoc bo qua hoac giau di.
