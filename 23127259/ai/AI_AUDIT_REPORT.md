@@ -242,6 +242,13 @@
 - **Date & Time:** 2026-09-01 21:19:28+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 2A.4: FR-10 Authentication, RBAC, and Ownership AI Test Generation
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1352, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1352, Output: Step 1388)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-028`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md)
+### INT-029: Phase 2A.5: FR-10 Input Domain, ID, Schema, Persistence, and SEC-05 Final AI Generation
+- **Date & Time:** 2026-09-01 21:23:04+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2A.5: FR-10 Input Domain, ID, Schema, Persistence, and SEC-05 Final AI Generation
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1389, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-029`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md)

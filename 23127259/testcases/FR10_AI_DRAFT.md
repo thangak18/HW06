@@ -14,8 +14,8 @@
 |---|---|---:|---:|:---:|
 | `FR10-AI-001` – `FR10-AI-012` | Batch 1: Core Valid Forward Transitions, Valid Cancellations & Skip Transitions | 12 | 12 | **GENERATED** |
 | `FR10-AI-013` – `FR10-AI-024` | Batch 2: Backward Regressions, Terminal Immutability & User In-Transit Cancel | 12 | 24 | **GENERATED** |
-| `FR10-AI-025` – `FR10-AI-034` | Batch 3: Authentication (`SEC-02`), RBAC (`SEC-03`) & Ownership Boundaries | 10 | 34 | **GENERATED (34 RAW CASES PENDING HUMAN AUDIT)** |
-| `FR10-AI-035` – `FR10-AI-042` | Batch 4: Status Domain, Order ID Boundaries & Schema/SEC-05 | 8 | 42 | Pending Phase 2A.5 |
+| `FR10-AI-025` – `FR10-AI-034` | Batch 3: Authentication (`SEC-02`), RBAC (`SEC-03`) & Ownership Boundaries | 10 | 34 | **GENERATED** |
+| `FR10-AI-035` – `FR10-AI-042` | Batch 4: Status Domain, Order ID Boundaries, Schema/Persistence & SEC-05 Probe | 8 | 42 | **GENERATED (42 RAW CASES PENDING HUMAN AUDIT - FROZEN)** |
 
 ---
 
@@ -1055,7 +1055,7 @@
   3. Query `GET /api/orders/:id` to verify state was NOT altered.
 - **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `403 Forbidden`)
 - **Expected Semantic Result:** Request rejected because the admin status endpoint requires administrator role regardless of whether the target state is cancellation.
-- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Expected State After:** `pending`
 - **Persistence Verification Plan:** Send `GET /api/orders/:id` with admin token; assert `response.order.status === "pending"`.
 - **Oracle Confidence:** HIGH
 - **Notes:** Verifies normal user cannot bypass route-level RBAC by invoking valid state values on admin endpoints.
@@ -1151,3 +1151,275 @@
 - **Persistence Verification Plan:** Send `GET /api/orders/{{orderAId}}` with $U_A$ / Admin token; assert `response.order.status === "confirmed"`.
 - **Oracle Confidence:** HIGH
 - **Notes:** Evaluates ownership boundary in the second cancellable lifecycle state.
+
+---
+
+## 5. Raw AI Test Cases (Batch 4: Input Domain, Order ID Boundaries, Schema/Persistence & SEC-05)
+
+---
+
+### FR10-AI-035 – Status Domain: Undocumented Status Enum Value
+
+- **Test Case ID:** `FR10-AI-035`
+- **Title:** Undocumented Status Enum Value (`status: "processing"`)
+- **Technique:** Equivalence Partitioning / Domain Boundary Testing (Invalid Status Enum)
+- **Requirement:** SRS Section 4.10, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / DOMAIN VALIDATION`
+- **Preconditions:** Fresh order in `pending` state; admin credentials active.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "processing"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates order $\rightarrow$ state is `pending`.
+  2. Admin sends `PUT /api/admin/orders/:id/status` with `status: "processing"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Status mutation rejected because `"processing"` is not one of the five documented states (`pending`, `confirmed`, `shipping`, `delivered`, `canceled`); order state remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` using admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Evaluates status enumeration validation on admin status route.
+
+---
+
+### FR10-AI-036 – Status Domain: Missing Required Status Property in Request Body
+
+- **Test Case ID:** `FR10-AI-036`
+- **Title:** Missing Required `status` Property in Mutation Body
+- **Technique:** Schema / Required Property Validation
+- **Requirement:** API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SCHEMA VALIDATION`
+- **Preconditions:** Fresh order in `pending` state; admin credentials active.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:** `{}`
+- **Action / Sequence:**
+  1. Helper creates order $\rightarrow$ state is `pending`.
+  2. Admin sends `PUT /api/admin/orders/:id/status` with empty JSON body `{}`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Request rejected due to missing mandatory `status` property; order state remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` using admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Verifies required schema properties are strictly enforced.
+
+---
+
+### FR10-AI-037 – Status Domain: Null Status Value in Mutation Body
+
+- **Test Case ID:** `FR10-AI-037`
+- **Title:** Null `status` Value in Mutation Body
+- **Technique:** Boundary Value Analysis / Null Value Handling
+- **Requirement:** API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / INPUT VALIDATION`
+- **Preconditions:** Fresh order in `pending` state; admin credentials active.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": null
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates order $\rightarrow$ state is `pending`.
+  2. Admin sends `PUT /api/admin/orders/:id/status` with `status: null`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Request rejected; null values are invalid for the required status string field; order state remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` using admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Validates null rejection on state mutation route.
+
+---
+
+### FR10-AI-038 – Status Domain: Wrong JSON Type for Status Field
+
+- **Test Case ID:** `FR10-AI-038`
+- **Title:** Non-String JSON Type for `status` Field (`status: 123`)
+- **Technique:** Data Type / Schema Robustness Testing
+- **Requirement:** API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `PARTIALLY SPECIFICATION-BACKED / INPUT CONTRACT`
+- **Preconditions:** Fresh order in `pending` state; admin credentials active.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": 123
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates order $\rightarrow$ state is `pending`.
+  2. Admin sends `PUT /api/admin/orders/:id/status` with numeric status `123`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Request rejected due to data type mismatch; status field requires a string value; order state remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` using admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Evaluates type safety and prevents unexpected numeric parsing or coercion.
+
+---
+
+### FR10-AI-039 – Order ID Partitions: Well-Formed Non-Existing Order ID
+
+- **Test Case ID:** `FR10-AI-039`
+- **Title:** Well-Formed Non-Existing Order ID (`:id = 999999`)
+- **Technique:** Equivalence Partitioning (Non-Existent Resource ID)
+- **Requirement:** API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / RESOURCE RESOLUTION`
+- **Preconditions:** Admin credentials active; order ID `999999` is confirmed non-existent in database.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** Non-existent order target
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = 999999`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Admin sends `PUT /api/admin/orders/999999/status` with `status: "confirmed"`.
+  2. Verify error response is returned and no side effects occur on other existing orders.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `404 Not Found`)
+- **Expected Semantic Result:** Request rejected because the target order ID does not exist; no database record is created or mutated.
+- **Expected State After:** Resource remains non-existent
+- **Persistence Verification Plan:** Assert failure response; query existing orders to verify no unintended order mutations occurred.
+- **Oracle Confidence:** HIGH
+- **Notes:** Evaluates resource existence validation on state mutation route.
+
+---
+
+### FR10-AI-040 – Order ID Partitions: Malformed / Non-Numeric Order ID Path Parameter
+
+- **Test Case ID:** `FR10-AI-040`
+- **Title:** Malformed Non-Numeric Order ID Path Parameter (`:id = "not-an-id"`)
+- **Technique:** Path Parameter Format / Boundary Testing
+- **Requirement:** API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / PARAMETER VALIDATION`
+- **Preconditions:** Admin credentials active.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** N/A (Invalid path parameter syntax)
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = not-an-id`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Admin sends `PUT /api/admin/orders/not-an-id/status` with `status: "confirmed"`.
+  2. Verify error response and assert no order state alteration.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `400 Bad Request` or `404 Not Found`)
+- **Expected Semantic Result:** Request rejected due to malformed path parameter format; no order is selected or modified.
+- **Expected State After:** N/A (No order mutated)
+- **Persistence Verification Plan:** Assert failure response; verify existing orders remain unaltered.
+- **Oracle Confidence:** HIGH
+- **Notes:** Validates route parsing when non-integer strings are passed as path IDs without SQL injection payload.
+
+---
+
+### FR10-AI-041 – Response + Persistence Consistency on Valid Transition
+
+- **Test Case ID:** `FR10-AI-041`
+- **Title:** Valid Transition Response Schema and Persisted-State Consistency
+- **Technique:** Response Schema & State Persistence Consistency Testing
+- **Requirement:** API-SPEC `PUT /api/admin/orders/:id/status`, `GET /api/orders/:id`, SRS Section 4.10
+- **Oracle Classification:** `SPECIFICATION-BACKED / RESPONSE CONTRACT & PERSISTENCE`
+- **Preconditions:** Fresh order created in `pending` state; admin credentials active.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `pending`
+- **Request Method:** `PUT` (followed by `GET`)
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates order $\rightarrow$ state is `pending`.
+  2. Admin sends `PUT /api/admin/orders/:id/status` with `status: "confirmed"`.
+  3. Validate mutation response body matches documented contract schema.
+  4. Perform follow-up `GET /api/orders/:id` to assert persisted status consistency.
+- **Expected HTTP Status:** `200 OK` (if documented)
+- **Expected Semantic Result:**
+  - **Mutation Response:** Confirms successful transition and returns documented order response attributes.
+  - **Persisted State:** Subsequent `GET /api/orders/:id` returns `status: "confirmed"`.
+- **Expected State After:** `confirmed`
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` with admin/user token; assert `response.order.status === "confirmed"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Isolates response schema conformance and verifies immediate read-after-write consistency on valid state transitions.
+
+---
+
+### FR10-AI-042 – SEC-05: Partial Black-Box Behavioral SQL Injection Probe in Order ID Path Parameter
+
+- **Test Case ID:** `FR10-AI-042`
+- **Title:** SEC-05 SQL Injection Behavioral Probe in Order ID Path Parameter
+- **Technique:** Security / Injection Testing (SEC-05 Black-Box Parameter Probe)
+- **Requirement:** SEC-05 SQL Injection Standard, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SEC-05 / PARTIAL BLACK-BOX BEHAVIORAL EVIDENCE`
+- **Preconditions:** Multiple orders exist in database; admin credentials active.
+- **Actor:** Attacker attempting SQL Injection via Path Parameter
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** Baseline existing database orders
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = 1%27%20OR%20%271%27=%271` (URL-encoded `1' OR '1'='1`)
+- **Request Body:**
+  ```json
+  {
+    "status": "delivered"
+  }
+  ```
+- **Action / Sequence:**
+  1. Attacker sends `PUT /api/admin/orders/1%27%20OR%20%271%27=%271/status` with `status: "delivered"`.
+  2. Verify injection string does NOT execute raw SQL or cause bulk / unauthorized order state mutation.
+  3. Query existing orders to confirm no unauthorized mass state changes occurred.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `400 Bad Request` or `404 Not Found`)
+- **Expected Semantic Result:** Injection attempt is neutralized; query is treated safely without executing injected SQL syntax; no unintended orders are updated.
+- **Expected State After:** All database orders retain their original, unmutated states.
+- **Persistence Verification Plan:** Query existing orders via `GET /api/orders/:id`; assert no unintended orders transitioned to `delivered`.
+- **Oracle Confidence:** MEDIUM-HIGH (Black-box behavioral probe; provides behavioral evidence without claiming internal code proof).
+- **Notes:** Behavioral SEC-05 black-box validation probe targeting path parameter routing and database query boundary.
