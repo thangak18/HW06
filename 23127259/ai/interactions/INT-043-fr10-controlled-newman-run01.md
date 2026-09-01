@@ -807,12 +807,119 @@ Do NOT perform Run 02 in the same interaction.
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2D.1B FR-10 Newman Run 01 Report
+
+## AI Audit
+- **INT-042 Output Backfilled:** [`23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md)
+- **INT-043 Prompt Stored:** [`23127259/ai/interactions/INT-043-fr10-controlled-newman-run01.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-043-fr10-controlled-newman-run01.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **INT-043 Output Pending:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`
+
+---
+
+## Pre-Run Gates
+- **Raw SHA-256 (`303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc`):** **PASS**
+- **Fixture Isolation Validator (`validate_fr10_fixture_isolation.py`):** **PASS** (10/10)
+- **Actor Readiness Validator (`validate_fr10_actor_readiness.py`):** **PASS** (10/10)
+
+---
+
+## Newman Command
+- **Version:** Newman `6.2.2`
+- **Command:**
+  ```bash
+  npx newman run /Volumes/Thang/HW06/HW06/23127259/postman/collections/FR10_Order_State_Machine.postman_collection.json \
+    -e /Volumes/Thang/HW06/HW06/23127259/postman/environments/FR10-local.postman_environment.json \
+    -r cli,json,htmlextra \
+    --reporter-json-export /Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01.json \
+    --reporter-htmlextra-export /Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01.html | tee /Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01-cli.txt
+  ```
+- **Execution Timestamps:** Start `1788278202237`, End `1788278203804` (Duration: `1.57s`)
+- **Process Exit Code:** `1` (Assertion failures caused by unpopulated setup tokens)
+
+---
+
+## Execution Metrics
+- **Iterations:** `1`
+- **Collection Request Definitions Executed:** `139` (4 setup helpers + 135 formal step items)
+- **Script-Triggered HTTP Calls (`pm.sendRequest`):** `36`
+- **Total HTTP Requests Sent:** `175`
+- **Prerequest & Test Scripts Executed:** `322`
+- **Assertions Evaluated:** `175`
+- **Passed Assertions:** `45`
+- **Failed Assertions:** `130`
+- **Request / Connection Errors:** `0`
+- **Total Runtime:** `1.57s`
+
+---
+
+## Formal Reconciliation
+- **Formal Test Cases:** `46` (41 AI + 5 HUM; AI-012 excluded)
+- **`PASS`:** `2` (Unauthenticated SEC-02 negative probes `FR10-AI-025`, `FR10-AI-028` that expected 401)
+- **`BLOCKED – HARNESS/SETUP`:** `42` (Setup checkout requests received 401 due to unpopulated tokens)
+- **`EXPLORATORY OBSERVATION`:** `2` (`FR10-HUM-004`, `FR10-HUM-005`)
+- **`FAIL – EXPECTED ORACLE VIOLATION`:** `0` (Zero genuine SUT bugs declared in Run 01)
+
+---
+
+## Failure Inventory
+
+| Formal ID | Step Name | Category | Expected | Actual Failure Message | Confirmation Needed |
+|---|---|---|---|---|:---:|
+| `SETUP` | `[SETUP] Login Admin` | HARNESS / SETUP | Status 200/201 | `expected 404 to be one of [ 200, 201 ]` (URL was `/api/auth/login`) | YES (Harness Repair) |
+| `SETUP` | `[SETUP] Login User A` | HARNESS / SETUP | Status 200/201 | `expected 404 to be one of [ 200, 201 ]` (URL was `/api/auth/login`) | YES (Harness Repair) |
+| `SETUP` | `[SETUP] Login User B` | HARNESS / SETUP | Status 200/201 | `expected 404 to be one of [ 200, 201 ]` (URL was `/api/auth/login`) | YES (Harness Repair) |
+| `FR10-AI-001` | `[FR10-AI-001][SETUP-CREATE] Checkout` | HARNESS / SETUP | Status 200/201 | `expected 401 to be one of [ 200, 201 ]` (Empty bearer token) | YES (Harness Repair) |
+| `FR10-AI-001` | `[FR10-AI-001][ACTION] Admin Confirms` | HARNESS / SETUP | Status 200/201 | `expected 401 to be one of [ 200, 201 ]` (Empty bearer token) | YES (Harness Repair) |
+| `FR10-AI-002..041` | Co-located Setup & Action Steps | HARNESS / SETUP | Status 200/201 | Received 401/404 due to upstream unpopulated token | YES (Harness Repair) |
+
+---
+
+## Security Observations
+- **`FR10-AI-025` & `FR10-AI-028` (SEC-02 Missing Authorization):** Passed cleanly (SUT correctly rejected unauthenticated requests with HTTP 401).
+- **`FR10-AI-026`, `027`, `029` (SEC-02 Malformed Token):** Evaluated; blocked by fixture setup.
+- **`FR10-AI-030..032` (SEC-03 RBAC):** Blocked by fixture setup token absence; to be formally evaluated in Run 02.
+- **`FR10-AI-033..034` (Cross-User Ownership / IDOR):** Blocked by fixture setup token absence.
+- **`FR10-AI-042` (SEC-05 Injection Defense):** Blocked by fixture setup token absence.
+
+---
+
+## Exploratory Human Cases
+- **`FR10-HUM-004` (Idempotent Confirmed Transition):** Setup checkout blocked by token absence.
+- **`FR10-HUM-005` (Text/Plain Content-Type Mutation):** Setup checkout blocked by token absence.
+
+---
+
+## Isolation
+- **Downstream Contamination Observed:** **`NO`** (Each formal case independently attempted its own co-located setup and action without leaking order IDs or crashing the collection runner).
+
+---
+
+## Evidence
+- **CLI Log:** [`23127259/evidence/fr10/newman/FR10-run01-cli.txt`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01-cli.txt) (`SHA-256: 368d24e3ff788f4e0b07d9b1df542554be786098154f9abe0b8ab222cad8a25f`)
+- **JSON Report:** [`23127259/evidence/fr10/newman/FR10-run01.json`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01.json) (`SHA-256: d893515103fffbcc5cd4e8ad31981464893f42c43ceb07a0c6daff1760969d67`)
+- **HTML Interactive Report:** [`23127259/evidence/fr10/newman/FR10-run01.html`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01.html) (`SHA-256: 569c8c2e0111075fb82dc10e1fb553be9e45bee0a04d78d586544b08c40ec6a4`)
+
+---
+
+## Full Run Verdict
+### **`HARNESS_REPAIR_REQUIRED`**
+
+### Root Cause & Required Fix for Run 02:
+- **Root Cause:** In Folder `00 – Setup / Authentication Helpers`, the 3 login requests (`[SETUP] Login Admin`, `[SETUP] Login User A`, `[SETUP] Login User B`) targeted `/api/auth/login` (which returned 404) instead of the active SUT route `/api/login`. As a result, tokens were not extracted into environment variables, causing downstream checkouts to fail with 401.
+- **Protocol Adherence:** Run 01 evidence is preserved verbatim without alteration. The collection fix will be applied in Phase 2D.1C for Run 02.
+
+---
+
+## Git
+- **Commit SHA:** [`1bf476a`](https://github.com/thangak18/HW06/commit/1bf476a) (`test(23127259): execute FR-10 Newman run 01`)
+- **Push Result:** Pushed to `origin/thang/hw06-implementation`
+- **Working Tree:** Clean
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Executing Phase 2D.1B controlled Newman Run 01 for FR-10 Order State Machine (46 formal test cases).
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** COMPLETED. Phase 2D.1B executed Newman Run 01 across 46 formal test cases (175 total runtime HTTP requests). Result: 130 assertion failures caused by harness auth route mismatch in Folder 00 (`/api/auth/login` returned 404, preventing token extraction). Classified as `HARNESS_REPAIR_REQUIRED`. Transitioning to Phase 2D.1C for reconciliation correction and harness repair.
+- **Status:** COMPLETED & COMMITTED (`1bf476a`).
+

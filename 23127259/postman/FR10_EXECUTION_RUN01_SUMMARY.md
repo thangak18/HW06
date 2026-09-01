@@ -1,4 +1,6 @@
-# FR-10 Newman Run 01 Execution Summary
+# FR-10 Newman Run 01 Execution Summary (Corrected)
+
+> **RUN 01 DERIVED ANALYSIS CORRECTED AFTER HUMAN REVIEW**
 
 - **Student Name:** Nguyễn Tấn Thắng
 - **Student ID:** `23127259`
@@ -39,33 +41,18 @@ npx newman run /Volumes/Thang/HW06/HW06/23127259/postman/collections/FR10_Order_
 
 ---
 
-## 3. Formal Case Reconciliation
+## 3. Corrected Formal Case Reconciliation
 
 - **Formal Executable Test Cases:** **`46`** (41 AI + 5 HUM; AI-012 excluded)
-- **PASS:** `2` (Pre-auth / Unauthenticated SEC-02 negative probes that expected 401)
-- **BLOCKED – HARNESS/SETUP:** `42`
-- **EXPLORATORY OBSERVATION:** `2` (`FR10-HUM-004`, `FR10-HUM-005`)
-- **FAIL – EXPECTED ORACLE VIOLATION:** `0` (Zero genuine SUT bugs confirmed in Run 01)
+- **`PASS`:** `0` (Zero cases had verified preconditions)
+- **`BLOCKED – HARNESS/SETUP`:** `46` (All cases blocked by setup auth failure)
+- **`EXPLORATORY OBSERVATION`:** `0` (Exploratory cases HUM-004/005 blocked by setup)
+- **`FAIL – EXPECTED ORACLE VIOLATION`:** `0` (Zero genuine SUT bugs declared in Run 01)
 
 ---
 
-## 4. Security & Exploratory Case Observations
-
-1. **SEC-02 Authentication Invariants (`FR10-AI-025..029`):**
-   - Unauthenticated probes correctly observed HTTP 401 rejection.
-2. **SEC-03 RBAC Probes (`FR10-AI-030..032`):**
-   - Blocked by lack of setup tokens; to be formally evaluated in Run 02 once tokens propagate.
-3. **Cross-User Ownership Probes (`FR10-AI-033..034`):**
-   - Blocked by lack of setup tokens.
-4. **SEC-05 Injection Defense (`FR10-AI-042`):**
-   - Blocked by setup.
-5. **Human Extensions (`FR10-HUM-001..005`):**
-   - Step definitions successfully executed; order mutations blocked by missing setup tokens.
-
----
-
-## 5. Next Action Recommendation
+## 4. Next Action Recommendation
 
 - **Verdict:** **`HARNESS_REPAIR_REQUIRED`**
 - **Required Repair:** Update the 3 login helper request URLs in Folder 00 from `/api/auth/login` to `/api/login` so that JWT bearer tokens are cleanly extracted into `adminToken`, `userAToken`, and `userBToken`.
-- **Protocol Discipline:** Run 01 is preserved verbatim. The harness repair and subsequent execution will occur in Phase 2D.1C / Run 02 in a dedicated follow-up interaction.
+- **Protocol Discipline:** Run 01 raw evidence remains immutable. The harness repair and subsequent execution will occur in Phase 2D.1D (Newman Run 02).

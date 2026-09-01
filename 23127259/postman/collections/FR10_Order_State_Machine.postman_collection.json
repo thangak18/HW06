@@ -26,7 +26,7 @@
   ],
   "item": [
     {
-      "name": "00 \u2013 Setup / Authentication Helpers",
+      "name": "00 – Setup / Authentication Helpers",
       "item": [
         {
           "name": "[SETUP] Register User B (Non-Owner) Account",
@@ -90,7 +90,6 @@
               ],
               "path": [
                 "api",
-                "auth",
                 "login"
               ]
             }
@@ -134,7 +133,6 @@
               ],
               "path": [
                 "api",
-                "auth",
                 "login"
               ]
             }
@@ -178,7 +176,6 @@
               ],
               "path": [
                 "api",
-                "auth",
                 "login"
               ]
             }
@@ -204,7 +201,7 @@
       ]
     },
     {
-      "name": "01 \u2013 Valid Forward & Lifecycle Transitions",
+      "name": "01 – Valid Forward & Lifecycle Transitions",
       "item": [
         {
           "name": "[FR10-AI-001][SETUP-CREATE] Create Isolated Order Fixture",
@@ -994,7 +991,7 @@
       ]
     },
     {
-      "name": "02 \u2013 Order Cancellation Pathways",
+      "name": "02 – Order Cancellation Pathways",
       "item": [
         {
           "name": "[FR10-AI-005][SETUP-CREATE] Create Isolated Order Fixture",
@@ -1605,7 +1602,7 @@
       ]
     },
     {
-      "name": "03 \u2013 Invalid Forward Skips & Backward Regressions",
+      "name": "03 – Invalid Forward Skips & Backward Regressions",
       "item": [
         {
           "name": "[FR10-AI-009][SETUP-CREATE] Create Isolated Order Fixture",
@@ -2845,7 +2842,7 @@
       ]
     },
     {
-      "name": "04 \u2013 Terminal-State Immutability",
+      "name": "04 – Terminal-State Immutability",
       "item": [
         {
           "name": "[FR10-AI-017][SETUP-CREATE] Create Isolated Order Fixture",
@@ -4574,7 +4571,7 @@
       ]
     },
     {
-      "name": "05 \u2013 SEC-02 Authentication Invariants",
+      "name": "05 – SEC-02 Authentication Invariants",
       "item": [
         {
           "name": "[FR10-AI-025][SETUP-CREATE] Create Isolated Order Fixture",
@@ -5189,7 +5186,7 @@
       ]
     },
     {
-      "name": "06 \u2013 SEC-03 Role-Based Access Control (RBAC)",
+      "name": "06 – SEC-03 Role-Based Access Control (RBAC)",
       "item": [
         {
           "name": "[FR10-AI-030][SETUP-CREATE] Create Isolated Order Fixture",
@@ -5565,7 +5562,7 @@
       ]
     },
     {
-      "name": "07 \u2013 Cross-User Ownership & Partial Authorization",
+      "name": "07 – Cross-User Ownership & Partial Authorization",
       "item": [
         {
           "name": "[FR10-AI-033][SETUP-CREATE] Create Isolated Order Fixture",
@@ -5864,7 +5861,7 @@
       ]
     },
     {
-      "name": "08 \u2013 Status Enum & Order-ID Input Domain",
+      "name": "08 – Status Enum & Order-ID Input Domain",
       "item": [
         {
           "name": "[FR10-AI-035][SETUP-CREATE] Create Isolated Order Fixture",
@@ -6460,7 +6457,7 @@
       ]
     },
     {
-      "name": "09 \u2013 Response Schema, Persistence & SEC-05",
+      "name": "09 – Response Schema, Persistence & SEC-05",
       "item": [
         {
           "name": "[FR10-AI-041][SETUP-CREATE] Create Isolated Order Fixture",
@@ -6668,7 +6665,7 @@
       ]
     },
     {
-      "name": "10 \u2013 Human-Designed Extension Cases",
+      "name": "10 – Human-Designed Extension Cases",
       "item": [
         {
           "name": "[FR10-HUM-001][SETUP-CREATE] Create Isolated Order Fixture",
