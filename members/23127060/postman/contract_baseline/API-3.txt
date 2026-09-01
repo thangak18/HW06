@@ -1,0 +1,21 @@
+# Moc hoi quy API-3 - sinh tu 23127060_API-3_20260901-151839.json.gz
+# 17 / 86 test case dang duoc SUT dap ung tai commit eshop-sut 85af3ba.
+# Day KHONG phai danh sach 'case dung'. Day la nhung gi SUT dang lam dung
+# va khong duoc phep pha. Sinh boi derive_contract.py, khong sua tay.
+TC-C3-DOM-035
+TC-C3-DOM-038
+TC-C3-DOM-041
+TC-C3-DOM-042
+TC-C3-DOM-044
+TC-C3-DOM-049
+TC-C3-DOM-050
+TC-C3-DOM-051
+TC-C3-DOM-901
+TC-C3-DOM-902
+TC-C3-SCH-001
+TC-C3-SCH-002
+TC-C3-SEC-004
+TC-C3-STA-002
+TC-C3-STA-003
+TC-C3-STA-008
+TC-C3-STA-009

@@ -177,9 +177,14 @@ REWRITE = {
         "khong he dat rang buoc khoa ngoai giua san pham va don hang. AI suy dien tu kinh nghiem CSDL. "
         "DA SUA: ky vong 200 (xoa thanh cong) va bo sung khang dinh san pham thuc su bien mat.",
         {"Expected_Status": "200",
-         "Expected_Assertions": "body co message; GET /api/products/1 sau do KHONG duoc tra ve san pham (bug C-04 tra 200 {})",
-         "Title": "DELETE /api/products/:id | id = 1 (xoa san pham dang ton tai)",
+         "Endpoint": "/api/products/{{newProductId}}",
+         "Expected_Assertions": "body co message; GET lai san pham do sau khi xoa KHONG duoc tra ve du lieu (bug C-04 tra 200 {})",
+         "Title": "DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)",
          "Bug_Ref": "C-08"}),
+    # Ghi chu them: ban dau case nay xoa san pham id = 1. Nhung id = 1 la vat co dinh duoc
+    # hang chuc case khac dung lam moc (vd TC-C3-DOM-051 kiem kieu cua price o id le). Xoa no
+    # o giua lan chay khien nhung case chay sau do that bai vi mot ly do khong lien quan gi
+    # den chinh chung. Da doi sang san pham thu do folder _setup tao rieng.
     "TC-C3-STA-007": ("INVALID",
         "R2 - Ky vong 409 khong co can cu: SRS khong yeu cau ten san pham duy nhat, va cot 'name' "
         "trong database.js khong co rang buoc UNIQUE. DA SUA: ky vong 201 (tao thanh cong) va chuyen "

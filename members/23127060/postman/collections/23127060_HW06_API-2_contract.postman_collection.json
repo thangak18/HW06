@@ -1,0 +1,3185 @@
+{
+  "info": {
+    "_postman_id": "485d078e-8037-42c7-a877-cd964a347c20",
+    "name": "23127060_HW06_API-2",
+    "description": "HW06 API Testing - SV 23127060 Ninh Van Khai - API-2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "_setup - chuan bi du lieu va token",
+      "item": [
+        {
+          "name": "00 Dang ky user nan nhan (bo qua neu da co)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "description": "SUT khong co rang buoc UNIQUE tren email nen goi lai se tao ban ghi trung. Vi vay quy trinh chuan la: restart backend (DB duoc seed lai) roi moi chay collection.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Victim 23127060\", \"email\": \"{{userEmail}}\", \"password\": \"{{userPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[_setup] endpoint register phan hoi\", function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 409, 500]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "01 Dang ky user tan cong",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Attacker 23127060\", \"email\": \"{{attackerEmail}}\", \"password\": \"{{attackerPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[_setup] endpoint register phan hoi\", function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 409, 500]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 Login nan nhan -> token_user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{userEmail}}\", \"password\": \"{{userPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var ok = pm.response.code === 200;",
+                  "pm.test(\"[_setup] user nan nhan dang nhap duoc\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.have.property(\"token\");",
+                  "});",
+                  "if (ok) {",
+                  "  var j = pm.response.json();",
+                  "  pm.environment.set(\"token_user\", j.token);",
+                  "  if (j.user && j.user.id) { pm.environment.set(\"userId\", j.user.id); }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 Login ke tan cong -> token_attacker",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{attackerEmail}}\", \"password\": \"{{attackerPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var ok = pm.response.code === 200;",
+                  "pm.test(\"[_setup] ke tan cong dang nhap duoc\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.have.property(\"token\");",
+                  "});",
+                  "if (ok) {",
+                  "  var j = pm.response.json();",
+                  "  pm.environment.set(\"token_attacker\", j.token);",
+                  "  if (j.user && j.user.id) { pm.environment.set(\"attackerId\", j.user.id); }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 Login admin -> token_admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var ok = pm.response.code === 200;",
+                  "pm.test(\"[_setup] admin dang nhap duoc\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.have.property(\"token\");",
+                  "});",
+                  "if (ok) {",
+                  "  var j = pm.response.json();",
+                  "  pm.environment.set(\"token_admin\", j.token);",
+                  "  if (j.user && j.user.id) { pm.environment.set(\"adminId\", j.user.id); }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 Tao don hang cua nan nhan -> victimOrderId",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            },
+            "description": "Don hang nay la muc tieu cua cac case IDOR (SEC-02).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 500000, \"shipping_address\": \"1 Vo Van Ngan, Thu Duc\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[_setup] tao duoc don hang cua nan nhan\", function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "  pm.expect(pm.response.json()).to.have.property(\"orderId\");",
+                  "});",
+                  "if (pm.response.code < 300) {",
+                  "  pm.environment.set(\"victimOrderId\", pm.response.json().orderId);",
+                  "  pm.environment.set(\"orderId\", pm.response.json().orderId);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Phai chay TRUOC moi folder khac. Dat cac bien: token_user, token_attacker, token_admin, userId, orderId, newProductId..."
+    },
+    {
+      "name": "DOM - Domain partition",
+      "item": [
+        {
+          "name": "TC-B2-DOM-026 @bug | POST /api/apply-coupon | code = EXPIRED (Decision table T3 - ma ",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-026 | DOM | Oracle=SPEC | Tag=@bug | Bug=B-08",
+                  "// POST /api/apply-coupon | code = EXPIRED (Decision table T3 - ma het han)",
+                  "",
+                  "pm.test(\"TC-B2-DOM-026 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-026 | body la JSON\", function () {",
+                  "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-026 | co truong error\", function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "POST /api/apply-coupon | code = EXPIRED (Decision table T3 - ma het han)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-08\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"EXPIRED\",\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-027 @contract | POST /api/apply-coupon | code = VIP100 (Decision table T4 - ma f",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-027 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// POST /api/apply-coupon | code = VIP100 (Decision table T4 - ma fixed con luot dung (max 2 luot/user). Khong co coupon is_active=0 nao duoc seed nen dong T4 goc (ma bi vo hieu hoa) khong kiem duoc qua API - xem report/01_api_selection.md)",
+                  "",
+                  "pm.test(\"TC-B2-DOM-027 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-027 | discount_amount = 100000\", function () {",
+                  "  var j = pm.response.json();",
+                  "  pm.expect(j.discount_amount).to.eql(100000);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "POST /api/apply-coupon | code = VIP100 (Decision table T4 - ma fixed con luot dung (max 2 luot/user). Khong co coupon is_active=0 nao duoc seed nen dong T4 goc (ma bi vo hieu hoa) khong kiem duoc qua API - xem report/01_api_selection.md)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"VIP100\",\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-028 @contract | POST /api/apply-coupon | code = KHONGCOMA23127060 (Decision tabl",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-028 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// POST /api/apply-coupon | code = KHONGCOMA23127060 (Decision table T5 - ma khong ton tai)",
+                  "",
+                  "pm.test(\"TC-B2-DOM-028 | HTTP 404\", function () {",
+                  "  pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-028 | body la JSON\", function () {",
+                  "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-028 | co truong error\", function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "POST /api/apply-coupon | code = KHONGCOMA23127060 (Decision table T5 - ma khong ton tai)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"KHONGCOMA23127060\",\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-029 @contract | POST /api/apply-coupon | code =  (ma rong)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-029 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// POST /api/apply-coupon | code =  (ma rong)",
+                  "",
+                  "pm.test(\"TC-B2-DOM-029 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-029 | body la JSON\", function () {",
+                  "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-029 | co truong error\", function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "POST /api/apply-coupon | code =  (ma rong)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"\",\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-030 @contract | POST /api/apply-coupon | code = <thieu key> (thieu code)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-030 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// POST /api/apply-coupon | code = <thieu key> (thieu code)",
+                  "",
+                  "pm.test(\"TC-B2-DOM-030 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-030 | body la JSON\", function () {",
+                  "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-030 | co truong error\", function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "POST /api/apply-coupon | code = <thieu key> (thieu code)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-033 @contract | POST /api/apply-coupon | total_amount = 299999 (BVA - duoi min_o",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-033 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// POST /api/apply-coupon | total_amount = 299999 (BVA - duoi min_order_amount 300000 cua SAVE10 dung 1 dong)",
+                  "",
+                  "pm.test(\"TC-B2-DOM-033 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-033 | body la JSON\", function () {",
+                  "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-033 | co truong error\", function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "POST /api/apply-coupon | total_amount = 299999 (BVA - duoi min_order_amount 300000 cua SAVE10 dung 1 dong)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"SAVE10\",\"total_amount\":299999,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-036 @contract | POST /api/apply-coupon | total_amount = -200000 (tong tien am)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-036 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// POST /api/apply-coupon | total_amount = -200000 (tong tien am)",
+                  "",
+                  "pm.test(\"TC-B2-DOM-036 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-036 | body la JSON\", function () {",
+                  "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-036 | co truong error\", function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "POST /api/apply-coupon | total_amount = -200000 (tong tien am)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"SAVE10\",\"total_amount\":-200000,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-037 @contract | POST /api/apply-coupon | total_amount = 10000 (don 10k nho hon s",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-037 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// POST /api/apply-coupon | total_amount = 10000 (don 10k nho hon so tien giam - final_amount khong duoc am)",
+                  "",
+                  "pm.test(\"TC-B2-DOM-037 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-037 | body la JSON\", function () {",
+                  "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-037 | co truong error\", function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "POST /api/apply-coupon | total_amount = 10000 (don 10k nho hon so tien giam - final_amount khong duoc am)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"SAVE10\",\"total_amount\":10000,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-901 @bug | Checkout voi total_amount = 1 roi doc lai don hang de xac nhan s",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-901 | DOM | Oracle=SPEC | Tag=@bug | Bug=B-01",
+                  "// Checkout voi total_amount = 1 roi doc lai don hang de xac nhan so tien that su duoc luu",
+                  "",
+                  "pm.test(\"TC-B2-DOM-901 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] total_amount cua don hang phai bang tong tinh tu gio hang (30000000), KHONG duoc bang 1",
+                  "",
+                  "// [CHUA TU DONG HOA] SRS FR-08: 'Backend phai tu tinh lai tong tien",
+                  "",
+                  "// [CHUA TU DONG HOA] khong chap nhan gia tri total_amount do client gui len'"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            },
+            "description": "Checkout voi total_amount = 1 roi doc lai don hang de xac nhan so tien that su duoc luu\n\nPreconditions: Gio hang co 1 san pham gia 30.000.000d. Da goi POST /api/checkout voi total_amount = 1\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-01\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-DOM-902 @bug | Sau khi thanh toan thanh cong, gio hang phai duoc xoa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-DOM-902 | DOM | Oracle=SPEC | Tag=@bug | Bug=B-13",
+                  "// Sau khi thanh toan thanh cong, gio hang phai duoc xoa",
+                  "",
+                  "pm.test(\"TC-B2-DOM-902 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-DOM-902 | gio hang phai la mang rong sau checkout (SRS FR-08: 'Sau thanh toan thanh cong, \", function () {",
+                  "  var j = pm.response.json();",
+                  "  pm.expect(Array.isArray(j)).to.be.true;",
+                  "  pm.expect(j.length, 'phai rong').to.eql(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cart"
+              ]
+            },
+            "description": "Sau khi thanh toan thanh cong, gio hang phai duoc xoa\n\nPreconditions: Da them san pham vao gio va goi POST /api/checkout thanh cong\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-13\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "STA - State transition",
+      "item": [
+        {
+          "name": "TC-B2-STA-001 @contract | Chuyen trang thai pending -> confirmed (hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'pending' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'pending');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-001 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai pending -> confirmed (hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-001 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] trang thai sau khi goi = confirmed"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai pending -> confirmed (hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"confirmed\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-002 @contract | Chuyen trang thai confirmed -> shipping (hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'confirmed' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'confirmed');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-002 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai confirmed -> shipping (hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-002 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] trang thai sau khi goi = shipping"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai confirmed -> shipping (hop le)\n\nPreconditions: Doi tuong dang o trang thai confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"shipping\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-003 @contract | Chuyen trang thai shipping -> delivered (hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'shipping' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\", \"shipping\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'shipping');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-003 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai shipping -> delivered (hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-003 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] trang thai sau khi goi = delivered"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai shipping -> delivered (hop le)\n\nPreconditions: Doi tuong dang o trang thai shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"delivered\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-004 @contract | Chuyen trang thai pending -> canceled (hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'pending' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'pending');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-004 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai pending -> canceled (hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-004 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] trang thai sau khi goi = canceled"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Chuyen trang thai pending -> canceled (hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-005 @contract | Chuyen trang thai confirmed -> canceled (hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'confirmed' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'confirmed');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-005 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai confirmed -> canceled (hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-005 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] trang thai sau khi goi = canceled"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Chuyen trang thai confirmed -> canceled (hop le)\n\nPreconditions: Doi tuong dang o trang thai confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-006 @contract | Chuyen trang thai pending -> shipping (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'pending' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'pending');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-006 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai pending -> shipping (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-006 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-006 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-006 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai pending -> shipping (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. Nhay coc trang thai\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"shipping\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-007 @contract | Chuyen trang thai pending -> delivered (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'pending' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'pending');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-007 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai pending -> delivered (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-007 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-007 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-007 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai pending -> delivered (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"delivered\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-008 @contract | Chuyen trang thai confirmed -> pending (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'confirmed' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'confirmed');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-008 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai confirmed -> pending (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-008 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-008 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-008 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai confirmed -> pending (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai confirmed. Lui trang thai\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"pending\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-009 @contract | Chuyen trang thai confirmed -> delivered (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'confirmed' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'confirmed');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-009 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai confirmed -> delivered (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-009 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-009 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-009 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai confirmed -> delivered (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"delivered\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-010 @contract | Chuyen trang thai shipping -> pending (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'shipping' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\", \"shipping\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'shipping');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-010 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai shipping -> pending (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-010 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-010 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-010 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai shipping -> pending (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"pending\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-011 @contract | Chuyen trang thai shipping -> confirmed (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'shipping' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\", \"shipping\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'shipping');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-011 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai shipping -> confirmed (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-011 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-011 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-011 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai shipping -> confirmed (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"confirmed\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-013 @contract | Chuyen trang thai delivered -> shipping (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'delivered' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\", \"shipping\", \"delivered\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'delivered');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-013 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai delivered -> shipping (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-013 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-013 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-013 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai delivered -> shipping (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai delivered. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"shipping\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-014 @contract | Chuyen trang thai delivered -> canceled (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'delivered' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\", \"shipping\", \"delivered\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'delivered');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-014 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai delivered -> canceled (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-014 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-014 | body.error chua Invalid state transition\", function () {",
+                  "  var e = pm.response.json().error || '';",
+                  "  pm.expect(e, 'phai co thong bao tu choi').to.be.a('string').and.to.not.be.empty;",
+                  "  pm.expect(e.toLowerCase()).to.satisfy(function (m) {",
+                  "    return m.indexOf('cannot cancel') >= 0 || m.indexOf('invalid state transition') >= 0;",
+                  "  });",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-014 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Chuyen trang thai delivered -> canceled (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai delivered. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-015 @contract | Chuyen trang thai delivered -> delivered (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'delivered' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"confirmed\", \"shipping\", \"delivered\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'delivered');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-015 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai delivered -> delivered (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-015 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-015 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-015 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai delivered -> delivered (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai delivered. Trang thai cuoi - khong doi duoc nua\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"delivered\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-017 @contract | Chuyen trang thai canceled -> confirmed (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'canceled' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"canceled\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'canceled');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-017 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai canceled -> confirmed (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-017 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-017 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-017 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai canceled -> confirmed (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai canceled. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"confirmed\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-018 @contract | Chuyen trang thai canceled -> canceled (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'canceled' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [\"canceled\"];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'canceled');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-018 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai canceled -> canceled (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-018 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-018 | body.error chua Invalid state transition\", function () {",
+                  "  var e = pm.response.json().error || '';",
+                  "  pm.expect(e, 'phai co thong bao tu choi').to.be.a('string').and.to.not.be.empty;",
+                  "  pm.expect(e.toLowerCase()).to.satisfy(function (m) {",
+                  "    return m.indexOf('cannot cancel') >= 0 || m.indexOf('invalid state transition') >= 0;",
+                  "  });",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-018 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Chuyen trang thai canceled -> canceled (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai canceled. Huy 2 lan\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-019 @contract | Chuyen trang thai pending -> invalid_value (KHONG hop le)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'pending' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'pending');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-019 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai pending -> invalid_value (KHONG hop le)",
+                  "",
+                  "pm.test(\"TC-B2-STA-019 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-019 | body.error chua Invalid state transition\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-019 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen trang thai pending -> invalid_value (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. Gia tri trang thai khong nam trong enum\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"khong_ton_tai_23127060\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-STA-902 @contract | Chuyen tu pending sang chinh pending phai bi tu choi",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don hang moi va dua ve trang thai 'pending' de case chay doc lap",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var sid = pm.environment.get('studentId');",
+                  "var hUser = { 'Content-Type': 'application/json', 'X-Student-Id': sid,",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var duong = [];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId;",
+                  "  pm.environment.set('orderId', oid);",
+                  "  pm.environment.set('statusTruocKhiGoi', 'pending');",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    var st = duong[i];",
+                  "    if (st === 'canceled') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: st }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-STA-902 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen tu pending sang chinh pending phai bi tu choi",
+                  "",
+                  "pm.test(\"TC-B2-STA-902 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-902 | body.error chua 'Invalid state transition'\", function () {",
+                  "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
+                  "});",
+                  "",
+                  "pm.test(\"TC-B2-STA-902 | trang thai KHONG doi\", function () {",
+                  "  var oid = pm.environment.get('orderId');",
+                  "  var truoc = pm.environment.get('statusTruocKhiGoi');",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r) { return; }",
+                  "      var sau = r.json().status;",
+                  "      pm.expect(sau, 'trang thai KHONG duoc doi').to.eql(truoc);",
+                  "    });",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] so do FR-10 khong co mui ten nao tu mot trang thai ve chinh no"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_attacker}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Chuyen tu pending sang chinh pending phai bi tu choi\n\nPreconditions: Don dang o trang thai pending\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"pending\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SEC - Security SEC-01..07",
+      "item": [
+        {
+          "name": "TC-B2-SEC-003 @contract | [SEC-02] Checkout khong kem token phai bi tu choi",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-SEC-003 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// [SEC-02] Checkout khong kem token phai bi tu choi",
+                  "",
+                  "pm.test(\"TC-B2-SEC-003 | HTTP 401\", function () {",
+                  "  pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] tra 403 khi token hop le nhung role != 'admin'",
+                  "",
+                  "pm.test(\"TC-B2-SEC-003 | hanh dong admin KHONG duoc thuc hien\", function () {",
+                  "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
+                  "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
+                  "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/products',",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r || soTruoc < 0) { return; }",
+                  "      pm.expect(r.json().length, 'so ban ghi truoc/sau phai bang nhau').to.eql(soTruoc);",
+                  "    });",
+                  "});",
+                  "",
+                  "if (pm.response.code < 300) {",
+                  "  var j = pm.response.json();",
+                  "  if (j.orderId) { pm.environment.set('orderId', j.orderId); }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            },
+            "description": "[SEC-02] Checkout khong kem token phai bi tu choi\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-02\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-03 -> SEC-02). Thieu JWT -> SEC-02; SEC-03 danh rieng cho viec kiem role.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"product_id\":1,\"quantity\":1}],\"total_amount\":100000,\"shipping_address\":\"Q5\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-SEC-005 @contract | [SEC-02] Token JWT bi sua chu ky phai bi tu choi",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-SEC-005 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// [SEC-02] Token JWT bi sua chu ky phai bi tu choi",
+                  "",
+                  "pm.test(\"TC-B2-SEC-005 | HTTP 403\", function () {",
+                  "  pm.response.to.have.status(403);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] tra 403 khi token hop le nhung role != 'admin'",
+                  "",
+                  "pm.test(\"TC-B2-SEC-005 | hanh dong admin KHONG duoc thuc hien\", function () {",
+                  "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
+                  "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
+                  "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/products',",
+                  "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "    function (e, r) {",
+                  "      if (e || !r || soTruoc < 0) { return; }",
+                  "      pm.expect(r.json().length, 'so ban ghi truoc/sau phai bang nhau').to.eql(soTruoc);",
+                  "    });",
+                  "});",
+                  "",
+                  "if (pm.response.code < 300) {",
+                  "  var j = pm.response.json();",
+                  "  if (j.orderId) { pm.environment.set('orderId', j.orderId); }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0.invalid23127060"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            },
+            "description": "[SEC-02] Token JWT bi sua chu ky phai bi tu choi\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-02\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-03 -> SEC-02). Token sai chu ky = token khong hop le -> SEC-02.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"product_id\":1,\"quantity\":1}],\"total_amount\":100000,\"shipping_address\":\"Q5\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-SEC-013 @bug | [-] Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage lim",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-SEC-013 | SEC | Oracle=SPEC | Tag=@bug | Bug=B-11",
+                  "// [-] Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage limit",
+                  "",
+                  "pm.test(\"TC-B2-SEC-013 | HTTP 400\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] tu lan thu N+1 phai bi tu choi theo usage_limit"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "[-] Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage limit\n\nPreconditions: Chay Collection Runner 10 iteration\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-11\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-07 -> -). Han muc su dung coupon la FR-09 dieu kien C5, khong nam trong SEC-01..07.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"SAVE10\",\"total_amount\":200000,\"user_id\":\"{{userId}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SCH - Schema validation",
+      "item": [
+        {
+          "name": "TC-B2-SCH-004 @contract | Response cua GET /api/orders/:id khop schema don hang day du",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-SCH-004 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Response cua GET /api/orders/:id khop schema don hang day du",
+                  "",
+                  "pm.test(\"TC-B2-SCH-004 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] co id, user_id, total_amount (number), status (enum 5 gia tri), shipping_address"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            },
+            "description": "Response cua GET /api/orders/:id khop schema don hang day du\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-SCH-005 @contract | Truong status luon thuoc enum 5 gia tri hop le",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-SCH-005 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Truong status luon thuoc enum 5 gia tri hop le",
+                  "",
+                  "pm.test(\"TC-B2-SCH-005 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] moi phan tu co status thuoc [pending,confirmed,shipping,delivered,canceled]"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/my-orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "my-orders"
+              ]
+            },
+            "description": "Truong status luon thuoc enum 5 gia tri hop le\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-B2-SCH-006 @contract | total_amount luon la number, khong bao gio la string",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-B2-SCH-006 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// total_amount luon la number, khong bao gio la string",
+                  "",
+                  "pm.test(\"TC-B2-SCH-006 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] typeof total_amount === 'number' cho moi phan tu"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/my-orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "my-orders"
+              ]
+            },
+            "description": "total_amount luon la number, khong bao gio la string\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "",
+          "function H() {",
+          "  return { \"Content-Type\": \"application/json\", \"X-Student-Id\": pm.environment.get(\"studentId\") };",
+          "}",
+          "function AUTH(tok) {",
+          "  var h = H(); h[\"Authorization\"] = \"Bearer \" + tok; return h;",
+          "}",
+          "function BASE() { return pm.environment.get(\"baseUrl\"); }",
+          "// ===== HW06 - API Testing - SV 23127060 - Ninh Van Khai =====",
+          "const STUDENT_ID = pm.environment.get(\"studentId\") || \"23127060\";",
+          "",
+          "// 1) Header bat buoc cua de bai (muc 6.4) - dat o cap COLLECTION nen ap cho MOI request",
+          "pm.request.headers.upsert({ key: \"X-Student-Id\", value: STUDENT_ID });",
+          "pm.request.headers.upsert({ key: \"Accept\", value: \"application/json\" });",
+          "",
+          "// 2) Dong log de chup man hinh Postman Console lam bang chung chong gian lan (de bai muc 11).",
+          "//    Newman giu lai dong nay trong bao cao HTML nho co --reporter-htmlextra-logs.",
+          "console.log(",
+          "  \"[HW06][\" + STUDENT_ID + \"] \" +",
+          "  pm.request.method + \" \" + pm.request.url.toString() +",
+          "  \" | X-Student-Id=\" + STUDENT_ID +",
+          "  \" | \" + new Date().toISOString()",
+          ");",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test(\"[COMMON] Response time < 5000ms\", function () {",
+          "  pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "pm.test(\"[COMMON] Server tra ve mot response hop le (khong sap)\", function () {",
+          "  pm.expect(pm.response.code).to.be.at.least(100);",
+          "  pm.expect(pm.response.code).to.be.below(600);",
+          "});",
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "schema_checkout_success",
+      "value": "{\"type\": \"object\", \"required\": [\"message\", \"orderId\"], \"properties\": {\"message\": {\"type\": \"string\"}, \"orderId\": {\"type\": \"integer\"}}, \"additionalProperties\": false}"
+    },
+    {
+      "key": "schema_coupon_success",
+      "value": "{\"type\": \"object\", \"required\": [\"success\", \"coupon_id\", \"discount_amount\", \"final_amount\", \"message\"], \"properties\": {\"success\": {\"type\": \"boolean\"}, \"coupon_id\": {\"type\": \"integer\"}, \"discount_amount\": {\"type\": \"number\", \"minimum\": 0}, \"final_amount\": {\"type\": \"number\", \"minimum\": 0}, \"message\": {\"type\": \"string\"}}, \"additionalProperties\": false, \"$comment\": \"minimum 0 tren discount_amount chinh la phep kiem bat bug B-05: cong thuc percent sai cho ra so am.\"}"
+    },
+    {
+      "key": "schema_order",
+      "value": "{\"type\": \"object\", \"required\": [\"id\", \"user_id\", \"total_amount\", \"status\", \"created_at\"], \"properties\": {\"id\": {\"type\": \"integer\"}, \"user_id\": {\"type\": \"integer\"}, \"total_amount\": {\"type\": \"number\", \"exclusiveMinimum\": 0}, \"status\": {\"type\": \"string\", \"enum\": [\"pending\", \"confirmed\", \"shipping\", \"delivered\", \"canceled\"]}, \"shipping_address\": {\"type\": [\"string\", \"null\"]}, \"created_at\": {\"type\": \"string\"}}, \"additionalProperties\": false, \"$comment\": \"exclusiveMinimum 0 tren total_amount bat bug B-01 (checkout chap nhan 0 va so am).\"}"
+    },
+    {
+      "key": "schema_order_list",
+      "value": "{\"type\": \"array\", \"items\": {\"type\": \"object\", \"required\": [\"id\", \"user_id\", \"total_amount\", \"status\", \"created_at\"], \"properties\": {\"id\": {\"type\": \"integer\"}, \"user_id\": {\"type\": \"integer\"}, \"total_amount\": {\"type\": \"number\", \"exclusiveMinimum\": 0}, \"status\": {\"type\": \"string\", \"enum\": [\"pending\", \"confirmed\", \"shipping\", \"delivered\", \"canceled\"]}, \"shipping_address\": {\"type\": [\"string\", \"null\"]}, \"created_at\": {\"type\": \"string\"}}, \"additionalProperties\": false, \"$comment\": \"exclusiveMinimum 0 tren total_amount bat bug B-01 (checkout chap nhan 0 va so am).\"}, \"$comment\": \"Danh sach don hang cua chinh minh (GET /api/orders/my-orders): moi phan tu phai khop schema 'order'.\"}"
+    },
+    {
+      "key": "schema_error",
+      "value": "{\"type\": \"object\", \"required\": [\"error\"], \"properties\": {\"error\": {\"type\": \"string\"}}, \"additionalProperties\": false}"
+    },
+    {
+      "key": "schema_default",
+      "value": "{}"
+    }
+  ]
+}

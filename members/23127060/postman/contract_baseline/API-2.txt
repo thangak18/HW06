@@ -1,0 +1,38 @@
+# Moc hoi quy API-2 - sinh tu 23127060_API-2_20260901-151831.json.gz
+# 34 / 87 test case dang duoc SUT dap ung tai commit eshop-sut 85af3ba.
+# Day KHONG phai danh sach 'case dung'. Day la nhung gi SUT dang lam dung
+# va khong duoc phep pha. Sinh boi derive_contract.py, khong sua tay.
+TC-B2-DOM-026
+TC-B2-DOM-027
+TC-B2-DOM-028
+TC-B2-DOM-029
+TC-B2-DOM-030
+TC-B2-DOM-033
+TC-B2-DOM-036
+TC-B2-DOM-037
+TC-B2-DOM-901
+TC-B2-DOM-902
+TC-B2-SCH-004
+TC-B2-SCH-005
+TC-B2-SCH-006
+TC-B2-SEC-003
+TC-B2-SEC-005
+TC-B2-SEC-013
+TC-B2-STA-001
+TC-B2-STA-002
+TC-B2-STA-003
+TC-B2-STA-004
+TC-B2-STA-005
+TC-B2-STA-006
+TC-B2-STA-007
+TC-B2-STA-008
+TC-B2-STA-009
+TC-B2-STA-010
+TC-B2-STA-011
+TC-B2-STA-013
+TC-B2-STA-014
+TC-B2-STA-015
+TC-B2-STA-017
+TC-B2-STA-018
+TC-B2-STA-019
+TC-B2-STA-902

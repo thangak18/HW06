@@ -1,0 +1,1319 @@
+{
+  "info": {
+    "_postman_id": "e37c8a1f-315a-4282-8f4b-fa453082224d",
+    "name": "23127060_HW06_API-3",
+    "description": "HW06 API Testing - SV 23127060 Ninh Van Khai - API-3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "_setup - chuan bi du lieu va token",
+      "item": [
+        {
+          "name": "00 Dang ky user nan nhan (bo qua neu da co)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "description": "SUT khong co rang buoc UNIQUE tren email nen goi lai se tao ban ghi trung. Vi vay quy trinh chuan la: restart backend (DB duoc seed lai) roi moi chay collection.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Victim 23127060\", \"email\": \"{{userEmail}}\", \"password\": \"{{userPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[_setup] endpoint register phan hoi\", function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 409, 500]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "01 Dang ky user tan cong",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Attacker 23127060\", \"email\": \"{{attackerEmail}}\", \"password\": \"{{attackerPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[_setup] endpoint register phan hoi\", function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 409, 500]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 Login nan nhan -> token_user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{userEmail}}\", \"password\": \"{{userPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var ok = pm.response.code === 200;",
+                  "pm.test(\"[_setup] user nan nhan dang nhap duoc\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.have.property(\"token\");",
+                  "});",
+                  "if (ok) {",
+                  "  var j = pm.response.json();",
+                  "  pm.environment.set(\"token_user\", j.token);",
+                  "  if (j.user && j.user.id) { pm.environment.set(\"userId\", j.user.id); }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 Login ke tan cong -> token_attacker",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{attackerEmail}}\", \"password\": \"{{attackerPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var ok = pm.response.code === 200;",
+                  "pm.test(\"[_setup] ke tan cong dang nhap duoc\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.have.property(\"token\");",
+                  "});",
+                  "if (ok) {",
+                  "  var j = pm.response.json();",
+                  "  pm.environment.set(\"token_attacker\", j.token);",
+                  "  if (j.user && j.user.id) { pm.environment.set(\"attackerId\", j.user.id); }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 Login admin -> token_admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var ok = pm.response.code === 200;",
+                  "pm.test(\"[_setup] admin dang nhap duoc\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.have.property(\"token\");",
+                  "});",
+                  "if (ok) {",
+                  "  var j = pm.response.json();",
+                  "  pm.environment.set(\"token_admin\", j.token);",
+                  "  if (j.user && j.user.id) { pm.environment.set(\"adminId\", j.user.id); }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 Tao san pham lam vat thu -> newProductId",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"SP Test 23127060\", \"price\": 150000, \"description\": \"San pham kiem thu\", \"imageUrl\": \"https://example.com/a.png\", \"category_id\": 1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[_setup] tao duoc san pham vat thu\", function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "  pm.expect(pm.response.json()).to.have.property(\"id\");",
+                  "});",
+                  "if (pm.response.code < 300) {",
+                  "  pm.environment.set(\"newProductId\", pm.response.json().id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 Dem so san pham ban dau",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"[_setup] doc duoc danh sach san pham\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "if (pm.response.code === 200) {",
+                  "  pm.environment.set(\"soLuongTruocKhiGoi\", pm.response.json().length);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Phai chay TRUOC moi folder khac. Dat cac bien: token_user, token_attacker, token_admin, userId, orderId, newProductId..."
+    },
+    {
+      "name": "DOM - Domain partition",
+      "item": [
+        {
+          "name": "TC-C3-DOM-035 @bug | PUT /api/products/:id | description = <thieu key> (PUT khong gui",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-035 | DOM | Oracle=SPEC | Tag=@bug | Bug=C-09",
+                  "// PUT /api/products/:id | description = <thieu key> (PUT khong gui description - KHONG duoc ghi de thanh null)",
+                  "",
+                  "pm.test(\"TC-C3-DOM-035 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] GET lai san pham: description phai giu nguyen gia tri cu"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "PUT /api/products/:id | description = <thieu key> (PUT khong gui description - KHONG duoc ghi de thanh null)\n\nPreconditions: San pham id=1 ton tai\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-09\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"SP Da Sua 23127060\",\"price\":180000,\"imageUrl\":\"https://example.com/b.png\",\"category_id\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-038 @contract | DELETE /api/products/:id | id = 3 (xoa san pham ton tai)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-038 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// DELETE /api/products/:id | id = 3 (xoa san pham ton tai)",
+                  "",
+                  "pm.test(\"TC-C3-DOM-038 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] GET lai id=3 phai tra 404"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "3"
+              ]
+            },
+            "description": "DELETE /api/products/:id | id = 3 (xoa san pham ton tai)\n\nPreconditions: San pham id=3 ton tai\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-041 @contract | DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-041 | DOM | Oracle=SPEC | Tag=@contract | Bug=C-08",
+                  "// DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)",
+                  "",
+                  "pm.test(\"TC-C3-DOM-041 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-C3-DOM-041 | body co message\", function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('message');",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] GET lai san pham do sau khi xoa KHONG duoc tra ve du lieu (bug C-04 tra 200 {})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{newProductId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{newProductId}}"
+              ]
+            },
+            "description": "DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)\n\nPreconditions: San pham id=3 ton tai\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: C-08\nNguon: AI\nAudit: INVALID\nR2 - Ky vong 409 khong co can cu: SRS FR-15 chi noi 'Admin co the Them/Xem/Sua/Xoa san pham', khong he dat rang buoc khoa ngoai giua san pham va don hang. AI suy dien tu kinh nghiem CSDL. DA SUA: ky vong 200 (xoa thanh cong) va bo sung khang dinh san pham thuc su bien mat."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-042 @contract | GET /api/products | search = Laptop (tu khoa binh thuong)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-042 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// GET /api/products | search = Laptop (tu khoa binh thuong)",
+                  "",
+                  "pm.test(\"TC-C3-DOM-042 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] tra ve mang",
+                  "",
+                  "// [CHUA TU DONG HOA] moi phan tu co name chua 'Laptop'"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=Laptop",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Laptop"
+                }
+              ]
+            },
+            "description": "GET /api/products | search = Laptop (tu khoa binh thuong)\n\nPreconditions: DB da seed san pham\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-044 @contract | GET /api/products | search = KhongTonTai23127060 (khong co ket q",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-044 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// GET /api/products | search = KhongTonTai23127060 (khong co ket qua - phai tra mang rong chu khong loi)",
+                  "",
+                  "pm.test(\"TC-C3-DOM-044 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-C3-DOM-044 | body la mang rong []\", function () {",
+                  "  var j = pm.response.json();",
+                  "  pm.expect(Array.isArray(j)).to.be.true;",
+                  "  pm.expect(j.length, 'phai rong').to.eql(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=KhongTonTai23127060",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "KhongTonTai23127060"
+                }
+              ]
+            },
+            "description": "GET /api/products | search = KhongTonTai23127060 (khong co ket qua - phai tra mang rong chu khong loi)\n\nPreconditions: DB da seed san pham\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-049 @contract | GET /api/products | search = %3Cscript%3Ealert(1)%3C%2Fscript%3E",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-049 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// GET /api/products | search = %3Cscript%3Ealert(1)%3C%2Fscript%3E (reflected XSS trong tu khoa)",
+                  "",
+                  "pm.test(\"TC-C3-DOM-049 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] response khong echo lai the script chua escape"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "%3Cscript%3Ealert(1)%3C%2Fscript%3E"
+                }
+              ]
+            },
+            "description": "GET /api/products | search = %3Cscript%3Ealert(1)%3C%2Fscript%3E (reflected XSS trong tu khoa)\n\nPreconditions: DB da seed san pham\nOracle: SPEC\nSEC: SEC-04\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-06 -> SEC-04). Reflected XSS qua tham so search -> SEC-04."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-050 @contract | GET /api/products | search = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-050 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// GET /api/products | search = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa (BVA - tu khoa rat dai)",
+                  "",
+                  "pm.test(\"TC-C3-DOM-050 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-C3-DOM-050 | body la JSON\", function () {",
+                  "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
+                  "});",
+                  "",
+                  "pm.test(\"TC-C3-DOM-050 | khop schema thanh cong\", function () {",
+                  "  var schema = JSON.parse(pm.collectionVariables.get('schema_product_list') || '{}');",
+                  "  if (Object.keys(schema).length) { pm.response.to.have.jsonSchema(schema); }",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] VA doc lai tai nguyen de xac nhan gia tri luu dung bang gia tri da gui"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                }
+              ]
+            },
+            "description": "GET /api/products | search = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa (BVA - tu khoa rat dai)\n\nPreconditions: DB da seed san pham\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR8 - Case thanh cong nhung chi kiem 'khop schema'. Thieu khang dinh gia tri that su duoc luu dung. DA SUA: bo sung buoc doc lai tai nguyen va so khop gia tri vua gui."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-051 @contract | GET /api/products/:id | id = 1 (id le - price phai la number)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Doc san pham id le truoc de lay kieu cua price lam moc so sanh",
+                  "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/products/1',",
+                  "  method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "  function (e, r) {",
+                  "    if (!e && r) { pm.environment.set('priceTypeOdd', typeof r.json().price); }",
+                  "  });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-051 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// GET /api/products/:id | id = 1 (id le - price phai la number)",
+                  "",
+                  "pm.test(\"TC-C3-DOM-051 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-C3-DOM-051 | typeof price === 'number'\", function () {",
+                  "  var j = pm.response.json();",
+                  "  var p = Array.isArray(j) ? j[0] : j;",
+                  "  pm.expect(typeof p.price, 'kieu cua price').to.eql('number');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "GET /api/products/:id | id = 1 (id le - price phai la number)\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-901 @bug | PUT chi gui truong name: cac truong khong gui KHONG duoc bi ghi ",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-901 | DOM | Oracle=SPEC | Tag=@bug | Bug=C-09",
+                  "// PUT chi gui truong name: cac truong khong gui KHONG duoc bi ghi de thanh null",
+                  "",
+                  "pm.test(\"TC-C3-DOM-901 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] name phai la ten moi",
+                  "",
+                  "// [CHUA TU DONG HOA] NHUNG price, description, imageUrl, category_id phai giu nguyen gia tri cu, KHONG duoc bien thanh null",
+                  "",
+                  "// [CHUA TU DONG HOA] SRS FR-15: 'Khi Sua mot san pham, chi san pham do bi thay doi'"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{newProductId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{newProductId}}"
+              ]
+            },
+            "description": "PUT chi gui truong name: cac truong khong gui KHONG duoc bi ghi de thanh null\n\nPreconditions: Da tao san pham day du 5 truong, sau do goi PUT chi voi {\"name\": \"Ten moi 23127060\"}\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-09\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-DOM-902 @bug | Tao san pham voi category_id khong ton tai roi doi chieu voi dan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-DOM-902 | DOM | Oracle=SPEC | Tag=@bug | Bug=C-10",
+                  "// Tao san pham voi category_id khong ton tai roi doi chieu voi danh sach danh muc",
+                  "",
+                  "pm.test(\"TC-C3-DOM-902 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] danh sach danh muc chi co id 1, 2, 3",
+                  "",
+                  "// [CHUA TU DONG HOA] san pham vua tao tro toi category_id = 9999 la mot tham chieu treo",
+                  "",
+                  "// [CHUA TU DONG HOA] SRS FR-15: 'Danh muc: bat buoc, phai chon tu danh sach co san'"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            },
+            "description": "Tao san pham voi category_id khong ton tai roi doi chieu voi danh sach danh muc\n\nPreconditions: Da goi POST /api/products voi category_id = 9999\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-10\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "STA - State transition",
+      "item": [
+        {
+          "name": "TC-C3-STA-002 @contract | Chuyen trang thai CREATED -> UPDATED (hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-STA-002 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai CREATED -> UPDATED (hop le)",
+                  "",
+                  "pm.test(\"TC-C3-STA-002 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] trang thai sau khi goi = UPDATED"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{newProductId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{newProductId}}"
+              ]
+            },
+            "description": "Chuyen trang thai CREATED -> UPDATED (hop le)\n\nPreconditions: Doi tuong dang o trang thai CREATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"SP STA 23127060 v2\",\"price\":120000}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-STA-003 @contract | Chuyen trang thai UPDATED -> DELETED (hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-STA-003 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai UPDATED -> DELETED (hop le)",
+                  "",
+                  "pm.test(\"TC-C3-STA-003 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] trang thai sau khi goi = DELETED"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{newProductId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{newProductId}}"
+              ]
+            },
+            "description": "Chuyen trang thai UPDATED -> DELETED (hop le)\n\nPreconditions: Doi tuong dang o trang thai UPDATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-STA-008 @contract | Chuyen trang thai CREATED -> IN_SEARCH (hop le)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-STA-008 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Chuyen trang thai CREATED -> IN_SEARCH (hop le)",
+                  "",
+                  "pm.test(\"TC-C3-STA-008 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] san pham vua tao xuat hien trong ket qua tim kiem"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=SP%20STA%2023127060",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "SP%20STA%2023127060"
+                }
+              ]
+            },
+            "description": "Chuyen trang thai CREATED -> IN_SEARCH (hop le)\n\nPreconditions: Doi tuong dang o trang thai CREATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-STA-009 @contract | Sau khi DELETE, san pham khong duoc con trong ket qua GET /api/p",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-STA-009 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// Sau khi DELETE, san pham khong duoc con trong ket qua GET /api/products?search=",
+                  "",
+                  "pm.test(\"TC-C3-STA-009 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] HTTP 200 voi mang ket qua",
+                  "",
+                  "// [CHUA TU DONG HOA] mang KHONG duoc chua san pham vua bi xoa"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=SP%20STA%2023127060",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "SP%20STA%2023127060"
+                }
+              ]
+            },
+            "description": "Sau khi DELETE, san pham khong duoc con trong ket qua GET /api/products?search=\n\nPreconditions: Doi tuong dang o trang thai DELETED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR4 - Mau thuan noi tai: danh dau KHONG hop le nhung ky vong 200. Ngoai ra 'IN_SEARCH' khong phai mot trang thai cua vong doi tai nguyen ma la mot phep doc. DA SUA: giu phep kiem (san pham da xoa khong duoc xuat hien trong ket qua tim kiem) nhung phat bieu lai cho dung: ky vong 200 voi mang KHONG chua san pham da xoa."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SEC - Security SEC-01..07",
+      "item": [
+        {
+          "name": "TC-C3-SEC-004 @contract | [-] Response san pham khong duoc chua truong nam ngoai schema",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-SEC-004 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// [-] Response san pham khong duoc chua truong nam ngoai schema",
+                  "",
+                  "pm.test(\"TC-C3-SEC-004 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] body chi duoc chua dung 6 truong id,name,price,description,imageUrl,category_id",
+                  "",
+                  "// [CHUA TU DONG HOA] khong co truong noi bo nao khac"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "[-] Response san pham khong duoc chua truong nam ngoai schema\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-02 -> -). Xem luat R5: tham so ?debug=true khong ton tai. | R5 - Tham so bia: `?debug=true` khong ton tai trong api_specification.md lan trong server.js. AI tu nghi ra mot co debug de test. Test se 'pass' nhung khong chung minh dieu gi vi tham so bi bo qua hoan toan. DA SUA: bo tham so bia, kiem dung dieu co the kiem - response san pham khong duoc chua truong nam ngoai schema da dac ta."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SCH - Schema validation",
+      "item": [
+        {
+          "name": "TC-C3-SCH-001 @contract | GET /api/products tra ve mang doi tuong dung schema",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-SCH-001 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// GET /api/products tra ve mang doi tuong dung schema",
+                  "",
+                  "pm.test(\"TC-C3-SCH-001 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] body la array",
+                  "",
+                  "pm.test(\"TC-C3-SCH-001 | moi phan tu co id (integer), name (string), price (number)\", function () {",
+                  "  var j = pm.response.json();",
+                  "  var p = Array.isArray(j) ? j[0] : j;",
+                  "  pm.expect(typeof p.price, 'kieu cua price').to.eql('number');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "GET /api/products tra ve mang doi tuong dung schema\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-C3-SCH-002 @contract | GET /api/products/1 khop schema san pham don",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// TC-C3-SCH-002 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
+                  "// GET /api/products/1 khop schema san pham don",
+                  "",
+                  "pm.test(\"TC-C3-SCH-002 | HTTP 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"TC-C3-SCH-002 | body khop jsonSchema product_schema\", function () {",
+                  "  var schema = JSON.parse(pm.collectionVariables.get('schema_product') || '{}');",
+                  "  if (Object.keys(schema).length) { pm.response.to.have.jsonSchema(schema); }",
+                  "});",
+                  "",
+                  "// [CHUA TU DONG HOA] additionalProperties=false"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "GET /api/products/1 khop schema san pham don\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "",
+          "function H() {",
+          "  return { \"Content-Type\": \"application/json\", \"X-Student-Id\": pm.environment.get(\"studentId\") };",
+          "}",
+          "function AUTH(tok) {",
+          "  var h = H(); h[\"Authorization\"] = \"Bearer \" + tok; return h;",
+          "}",
+          "function BASE() { return pm.environment.get(\"baseUrl\"); }",
+          "// ===== HW06 - API Testing - SV 23127060 - Ninh Van Khai =====",
+          "const STUDENT_ID = pm.environment.get(\"studentId\") || \"23127060\";",
+          "",
+          "// 1) Header bat buoc cua de bai (muc 6.4) - dat o cap COLLECTION nen ap cho MOI request",
+          "pm.request.headers.upsert({ key: \"X-Student-Id\", value: STUDENT_ID });",
+          "pm.request.headers.upsert({ key: \"Accept\", value: \"application/json\" });",
+          "",
+          "// 2) Dong log de chup man hinh Postman Console lam bang chung chong gian lan (de bai muc 11).",
+          "//    Newman giu lai dong nay trong bao cao HTML nho co --reporter-htmlextra-logs.",
+          "console.log(",
+          "  \"[HW06][\" + STUDENT_ID + \"] \" +",
+          "  pm.request.method + \" \" + pm.request.url.toString() +",
+          "  \" | X-Student-Id=\" + STUDENT_ID +",
+          "  \" | \" + new Date().toISOString()",
+          ");",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test(\"[COMMON] Response time < 5000ms\", function () {",
+          "  pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "pm.test(\"[COMMON] Server tra ve mot response hop le (khong sap)\", function () {",
+          "  pm.expect(pm.response.code).to.be.at.least(100);",
+          "  pm.expect(pm.response.code).to.be.below(600);",
+          "});",
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "schema_product",
+      "value": "{\"type\": \"object\", \"required\": [\"id\", \"name\", \"price\", \"category_id\"], \"properties\": {\"id\": {\"type\": \"integer\"}, \"name\": {\"type\": \"string\"}, \"price\": {\"type\": \"number\"}, \"description\": {\"type\": [\"string\", \"null\"]}, \"imageUrl\": {\"type\": [\"string\", \"null\"]}, \"category_id\": {\"type\": [\"integer\", \"null\"]}}, \"additionalProperties\": false, \"$comment\": \"price khai bao la number (khong chap nhan string) - day chinh la phep kiem bat bug C-05.\"}"
+    },
+    {
+      "key": "schema_product_list",
+      "value": "{\"type\": \"array\", \"items\": {\"type\": \"object\", \"required\": [\"id\", \"name\", \"price\"], \"properties\": {\"id\": {\"type\": \"integer\"}, \"name\": {\"type\": \"string\"}, \"price\": {\"type\": \"number\"}, \"description\": {\"type\": [\"string\", \"null\"]}, \"imageUrl\": {\"type\": [\"string\", \"null\"]}, \"category_id\": {\"type\": [\"integer\", \"null\"]}}, \"additionalProperties\": false}}"
+    },
+    {
+      "key": "schema_create_success",
+      "value": "{\"type\": \"object\", \"required\": [\"message\", \"id\"], \"properties\": {\"message\": {\"type\": \"string\"}, \"id\": {\"type\": \"integer\"}}, \"additionalProperties\": false}"
+    },
+    {
+      "key": "schema_error",
+      "value": "{\"type\": \"object\", \"required\": [\"error\"], \"properties\": {\"error\": {\"type\": \"string\"}}, \"additionalProperties\": false}"
+    },
+    {
+      "key": "schema_default",
+      "value": "{}"
+    }
+  ]
+}

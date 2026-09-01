@@ -1,0 +1,352 @@
+{
+  "info": {
+    "_postman_id": "51b0e57d-1807-4ac8-8105-e50b4b162195",
+    "name": "23127060_HW06_DataDriven",
+    "description": "Collection chay bang DATA FILE (Postman Collection Runner / newman -d).\n\nMoi folder ung voi mot file trong postman/data/. Chay tung folder mot voi dung data file\ncua no - xem report/05_postman_features.md muc 'Data-driven run'.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const STUDENT_ID = pm.environment.get(\"studentId\") || \"23127060\";",
+          "pm.request.headers.upsert({ key: \"X-Student-Id\", value: STUDENT_ID });",
+          "pm.request.headers.upsert({ key: \"Accept\", value: \"application/json\" });",
+          "console.log(\"[HW06][\" + STUDENT_ID + \"] \" + pm.request.method + \" \" + pm.request.url.toString()",
+          "  + \" | X-Student-Id=\" + STUDENT_ID + \" | vong \" + (pm.info.iteration + 1) + \" | \" + new Date().toISOString());"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "DD1 - Brute force OTP (data: brute_force_tokens.csv)",
+      "item": [
+        {
+          "name": "Thu mot gia tri OTP 4 chu so",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reset-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"{{userEmail}}\",\"resetToken\":\"{{bruteToken}}\",\"newPassword\":\"Brute1234!\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Xin mot OTP that de (a) chac chan co OTP dang cho, (b) do do dai cua no",
+                  "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/forgot-password',",
+                  "  method: 'POST', header: { 'Content-Type': 'application/json',",
+                  "    'X-Student-Id': pm.environment.get('studentId') },",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ email: pm.environment.get('userEmail') }) } },",
+                  "  function (e, r) {",
+                  "    if (!e && r && r.code === 200) { pm.environment.set('resetToken', String(r.json().resetToken)); }",
+                  "  });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// SEC-07: OTP phai co du entropy (>= 6 chu so). Voi 4 chu so, khong gian chi 9000 gia tri.",
+                  "// Neu bat ky vong nao trong 20 vong doan trung, tai khoan da bi chiem.",
+                  "pm.test(\"[DD1] Vong \" + (pm.info.iteration + 1) + \": OTP doan bua phai bi tu choi\", function () {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "if (pm.response.code === 200) {",
+                  "  console.log(\"[HW06][23127060][CANH BAO] doan TRUNG OTP o vong \" + (pm.info.iteration + 1)",
+                  "    + \" voi gia tri \" + pm.iterationData.get(\"bruteToken\"));",
+                  "}",
+                  "pm.test(\"[DD1] SEC-07: OTP that phai dai >= 6 chu so\", function () {",
+                  "  var otp = String(pm.environment.get(\"resetToken\") || \"\");",
+                  "  pm.expect(otp.length, \"do dai OTP thuc te cua SUT\").to.be.at.least(6);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DD2 - Bang chuyen trang thai FR-10 (data: state_transitions.csv)",
+      "item": [
+        {
+          "name": "Chuyen {{from_status}} -> {{to_status}}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_user}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"{{to_status}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Tao don moi va dua ve trang thai xuat phat {{from_status}} cua vong nay",
+                  "var base = pm.environment.get('baseUrl');",
+                  "var hUser = { 'Content-Type': 'application/json',",
+                  "  'X-Student-Id': pm.environment.get('studentId'),",
+                  "  'Authorization': 'Bearer ' + pm.environment.get('token_user') };",
+                  "var tu = pm.iterationData.get('from_status');",
+                  "var duong = { pending: [], confirmed: ['confirmed'], shipping: ['confirmed','shipping'],",
+                  "  delivered: ['confirmed','shipping','delivered'], canceled: ['CANCEL'] }[tu] || [];",
+                  "pm.sendRequest({ url: base + '/api/checkout', method: 'POST', header: hUser,",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ total_amount: 500000,",
+                  "    shipping_address: 'Q5 TPHCM 23127060' }) } }, function (e, r) {",
+                  "  if (e || !r || !r.json().orderId) { return; }",
+                  "  var oid = r.json().orderId; pm.environment.set('orderId', oid);",
+                  "  (function buoc(i) {",
+                  "    if (i >= duong.length) { return; }",
+                  "    if (duong[i] === 'CANCEL') {",
+                  "      pm.sendRequest({ url: base + '/api/orders/' + oid + '/cancel', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: '{}' } }, function () { buoc(i + 1); });",
+                  "    } else {",
+                  "      pm.sendRequest({ url: base + '/api/admin/orders/' + oid + '/status', method: 'PUT',",
+                  "        header: hUser, body: { mode: 'raw', raw: JSON.stringify({ status: duong[i] }) } },",
+                  "        function () { buoc(i + 1); });",
+                  "    }",
+                  "  })(0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mong = Number(pm.iterationData.get(\"expected_status\"));",
+                  "var tu = pm.iterationData.get(\"from_status\"), den = pm.iterationData.get(\"to_status\");",
+                  "pm.test(\"[DD2] \" + tu + \" -> \" + den + \" ky vong HTTP \" + mong, function () {",
+                  "  pm.response.to.have.status(mong);",
+                  "});",
+                  "pm.test(\"[DD2] \" + tu + \" -> \" + den + \": trang thai sau khi goi dung nhu mong doi\", function () {",
+                  "  var nen = (mong === 200) ? den : tu;",
+                  "  var oid = pm.environment.get(\"orderId\");",
+                  "  pm.sendRequest({ url: pm.environment.get(\"baseUrl\") + \"/api/orders/\" + oid,",
+                  "    method: \"GET\", header: { \"X-Student-Id\": pm.environment.get(\"studentId\") } },",
+                  "    function (e, r) { if (!e && r) { pm.expect(r.json().status).to.eql(nen); } });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DD3 - Lam dung han muc coupon (data: coupon_abuse.csv)",
+      "item": [
+        {
+          "name": "Ap ma {{code}} lan {{lan}}",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"{{code}}\",\"total_amount\":{{total_amount}},\"user_id\":{{userIdOrNull}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Vong nao ghi 'khong' o cot gui_user_id thi bo han truong user_id khoi body,",
+                  "// de tai hien duong vong B-07 (bo bot du lieu de bo qua kiem tra han muc).",
+                  "var guiUid = pm.iterationData.get('gui_user_id');",
+                  "pm.environment.set('userIdOrNull', guiUid === 'khong' ? 'null' : pm.environment.get('userId'));",
+                  "// Ghi nhan luot dung de lan sau dem duoc",
+                  "if (Number(pm.iterationData.get('lan')) > 1) {",
+                  "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/coupon-usage', method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json',",
+                  "      'X-Student-Id': pm.environment.get('studentId'),",
+                  "      'Authorization': 'Bearer ' + pm.environment.get('token_user') },",
+                  "    body: { mode: 'raw', raw: JSON.stringify({ coupon_id: 3 }) } }, function () { });",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mong = Number(pm.iterationData.get(\"expected_status\"));",
+                  "pm.test(\"[DD3] Lan \" + pm.iterationData.get(\"lan\") + \" ky vong HTTP \" + mong, function () {",
+                  "  pm.response.to.have.status(mong);",
+                  "});",
+                  "pm.test(\"[DD3] FR-09 C5: khong duoc vuot han muc max_uses_per_user\", function () {",
+                  "  if (pm.iterationData.get(\"gui_user_id\") === \"khong\") {",
+                  "    pm.expect(pm.response.code, \"bo user_id ma van duoc ap ma la bug B-07\").to.not.eql(200);",
+                  "  } else { pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]); }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DD4 - Dau vao khong hop le cho POST /api/products (data: product_invalid.csv)",
+      "item": [
+        {
+          "name": "Tao san pham: {{ghi_chu}}",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"{{ten}}\",\"price\":{{giaJson}},\"description\":\"data-driven 23127060\",\"imageUrl\":\"https://example.com/a.png\",\"category_id\":{{danh_muc}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Cot 'gia' co the la so hoac chuoi; boc dau nhay dung cach de JSON hop le",
+                  "var g = pm.iterationData.get('gia');",
+                  "pm.environment.set('giaJson', isNaN(Number(g)) ? JSON.stringify(String(g)) : String(g));",
+                  "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/products',",
+                  "  method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId') } },",
+                  "  function (e, r) { if (!e && r) { pm.environment.set('soLuongTruocKhiGoi', r.json().length); } });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mong = Number(pm.iterationData.get(\"expected_status\"));",
+                  "pm.test(\"[DD4] \" + pm.iterationData.get(\"ghi_chu\") + \" -> HTTP \" + mong, function () {",
+                  "  pm.response.to.have.status(mong);",
+                  "});",
+                  "pm.test(\"[DD4] Dau vao khong hop le KHONG duoc tao ban ghi moi\", function () {",
+                  "  if (mong < 300) { pm.expect(pm.response.json()).to.have.property(\"id\"); return; }",
+                  "  var truoc = Number(pm.environment.get(\"soLuongTruocKhiGoi\"));",
+                  "  pm.sendRequest({ url: pm.environment.get(\"baseUrl\") + \"/api/products\",",
+                  "    method: \"GET\", header: { \"X-Student-Id\": pm.environment.get(\"studentId\") } },",
+                  "    function (e, r) { if (!e && r) { pm.expect(r.json().length, \"so san pham\").to.eql(truoc); } });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

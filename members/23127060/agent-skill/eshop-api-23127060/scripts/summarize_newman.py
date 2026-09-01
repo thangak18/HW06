@@ -1,138 +1,199 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""summarize_newman.py - Doc cac file newman/*.json va sinh bang tong hop ket qua.
+"""summarize_newman.py - Doc newman/*.json va sinh bang tong hop ket qua thuc thi.
 
-  python3 summarize_newman.py --dir newman --out report/06_execution.md
+  python3 summarize_newman.py --dir newman --tc testcases --out report/06_execution.md
 
-Sinh: bang tong hop moi API + danh sach case FAIL kem ly do, tach ro
-"expected failure (@bug)" va "failure that su".
-Chi dung thu vien chuan.
+Moi con so trong bao cao chinh deu phai den tu day, khong duoc go tay. Script noi CSV test
+case voi bao cao Newman qua ma TC_ID, nho vay phan biet duoc:
+  - that bai CO CHU DICH  : case gan @bug, phoi bay mot bug da biet cua SUT;
+  - that bai NGOAI DU KIEN: case gan @contract nhung van do -> hoac la bug moi, hoac la
+                            ky vong cua chinh test case sai. Phai ra soat tung cai.
 """
 import argparse
+import collections
+import csv
 import glob
+import gzip
+import io
 import json
 import os
 import re
 
 
-def load(path):
-    with open(path, encoding="utf-8") as f:
+def load_meta(tcdir):
+    meta = {}
+    for f in sorted(glob.glob(os.path.join(tcdir, "API-*_final.csv"))):
+        for r in csv.DictReader(open(f, encoding="utf-8-sig")):
+            meta[r["TC_ID"]] = r
+    return meta
+
+
+def load_json(path):
+    """Bao cao JSON cua Newman rat lon (bao gom toan bo body request/response: 8-24 MB moi
+    file). Chung duoc nen gzip de repo khong phinh ra, va moi cong cu doc duoc ca hai dang."""
+    op = gzip.open if path.endswith(".gz") else io.open
+    with op(path, "rt", encoding="utf-8") as f:
         return json.load(f)
 
 
-def summarize_one(path):
-    d = load(path)
-    run = d.get("run", {})
-    stats = run.get("stats", {})
-    timings = run.get("timings", {})
-    execs = run.get("executions", [])
-
-    failures = []
-    for e in execs:
-        name = (e.get("item", {}) or {}).get("name", "?")
-        for a in e.get("assertions", []) or []:
+def read_run(path):
+    d = load_json(path)
+    run = d["run"]
+    per = collections.OrderedDict()
+    loi = []
+    for e in run["executions"]:
+        for a in e.get("assertions", []):
+            nm = a["assertion"]
+            m = re.match(r"(TC-[A-Z0-9]+-[A-Z]+-\d+)", nm)
+            if not m:
+                if a.get("error"):
+                    loi.append((nm, a["error"]["message"]))
+                continue
+            tc = m.group(1)
+            p = per.setdefault(tc, {"tong": 0, "fail": 0, "msg": []})
+            p["tong"] += 1
             if a.get("error"):
-                failures.append({
-                    "item": name,
-                    "assertion": a.get("assertion", ""),
-                    "message": (a.get("error", {}) or {}).get("message", ""),
-                    "expected_bug": "@bug" in name,
-                })
-
-    m = re.search(r"_(API-\d)_", os.path.basename(path))
-    return {
-        "file": os.path.basename(path),
-        "api": m.group(1) if m else "?",
-        "requests": (stats.get("requests", {}) or {}).get("total", 0),
-        "assertions_total": (stats.get("assertions", {}) or {}).get("total", 0),
-        "assertions_failed": (stats.get("assertions", {}) or {}).get("failed", 0),
-        "duration_ms": timings.get("completed", 0) - timings.get("started", 0)
-        if timings.get("completed") else 0,
-        "failures": failures,
-    }
+                p["fail"] += 1
+                p["msg"].append(a["error"]["message"].replace("\n", " ")[:120])
+    return run, per, loi
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dir", default="newman")
+    ap.add_argument("--tc", default="testcases")
     ap.add_argument("--out", default="report/06_execution.md")
     a = ap.parse_args()
+    meta = load_meta(a.tc)
 
-    files = sorted(glob.glob(os.path.join(a.dir, "*.json")))
-    if not files:
-        raise SystemExit("Khong tim thay file newman/*.json. Chay run_newman.sh truoc.")
+    full, contract, dd = {}, {}, []
+    for f in sorted(glob.glob(os.path.join(a.dir, "*.json"))
+                    + glob.glob(os.path.join(a.dir, "*.json.gz"))):
+        b = os.path.basename(f)
+        m = re.search(r"_(API-\d)(_contract)?_", b)
+        if m:
+            (contract if m.group(2) else full)[m.group(1)] = f
+        elif "_DD-" in b:
+            dd.append(f)
 
-    rs = [summarize_one(f) for f in files]
+    L = ["# STEP 6 — Thuc thi bang Postman + Newman", "",
+         "> HW06 — API Testing | SV **Ninh Van Khai — 23127060** | De bai muc 6.4", "",
+         "Moi con so trong tai lieu nay duoc sinh tu `newman/*.json` bang",
+         "`agent-skill/eshop-api-23127060/scripts/summarize_newman.py`. Khong con so nao duoc go tay.", ""]
 
-    L = []
-    L.append("# 6. Ket qua thuc thi (Newman)")
+    # ---------- 1. Bo day du ----------
+    L += ["---", "", "## 1. Bo test day du (Oracle = SPEC)", "",
+          "Day la ket qua kiem thu that su: moi ky vong deu viet theo dac ta, nen cac case phoi bay",
+          "bug cua SUT **se that bai** — do la muc dich cua chung.", "",
+          "| API | Case | Case PASS | Case FAIL | Assertion | Assertion FAIL | Thoi gian | Bao cao HTML |",
+          "|---|---|---|---|---|---|---|---|"]
+    tong = collections.Counter()
+    chi_tiet = {}
+    for api in sorted(full):
+        run, per, _ = read_run(full[api])
+        st = run["stats"]; tm = run["timings"]
+        p = sum(1 for v in per.values() if v["fail"] == 0)
+        fl = len(per) - p
+        html = os.path.basename(full[api]).replace(".json.gz", ".html").replace(".json", ".html")
+        L.append("| %s | %d | %d | %d | %d | %d | %.1fs | `newman/%s` |"
+                 % (api, len(per), p, fl, st["assertions"]["total"],
+                    st["assertions"]["failed"], tm.get("completed", 0) / 1000.0 - tm.get("started", 0) / 1000.0
+                    if tm.get("completed") else run.get("timings", {}).get("responseAverage", 0) / 1000.0, html))
+        tong["case"] += len(per); tong["pass"] += p; tong["fail"] += fl
+        tong["as"] += st["assertions"]["total"]; tong["asf"] += st["assertions"]["failed"]
+        chi_tiet[api] = per
+    L.append("| **Tong** | **%d** | **%d** | **%d** | **%d** | **%d** | | |"
+             % (tong["case"], tong["pass"], tong["fail"], tong["as"], tong["asf"]))
     L.append("")
-    L.append("SV: Ninh Van Khai - 23127060")
-    L.append("")
-    L.append("## 6.1 Bang tong hop")
-    L.append("")
-    L.append("| File | API | Request | Assertion | Failed | Passed | Ty le pass | Thoi gian |")
-    L.append("|---|---|---|---|---|---|---|---|")
-    tot_a = tot_f = 0
-    for r in rs:
-        passed = r["assertions_total"] - r["assertions_failed"]
-        rate = (100.0 * passed / r["assertions_total"]) if r["assertions_total"] else 0
-        tot_a += r["assertions_total"]
-        tot_f += r["assertions_failed"]
-        L.append("| %s | %s | %d | %d | %d | %d | %.1f%% | %.1fs |" % (
-            r["file"], r["api"], r["requests"], r["assertions_total"],
-            r["assertions_failed"], passed, rate, r["duration_ms"] / 1000.0))
-    L.append("| **TONG** | | | **%d** | **%d** | **%d** | **%.1f%%** | |" % (
-        tot_a, tot_f, tot_a - tot_f,
-        (100.0 * (tot_a - tot_f) / tot_a) if tot_a else 0))
-    L.append("")
-
-    L.append("## 6.2 Cac assertion FAIL")
-    L.append("")
-    L.append("> Case gan tag `@bug` FAIL la **dung y do**: no phoi bay loi cua SUT.")
-    L.append("> Case `@contract` ma FAIL moi la van de cua bo test.")
-    L.append("")
-    exp = [f for r in rs for f in r["failures"] if f["expected_bug"]]
-    unexp = [f for r in rs for f in r["failures"] if not f["expected_bug"]]
-
-    L.append("### a) Expected failure - phoi bay bug SUT (%d)" % len(exp))
-    L.append("")
-    if exp:
-        L.append("| Test case | Assertion | Thong diep |")
-        L.append("|---|---|---|")
-        for f in exp:
-            L.append("| %s | %s | %s |" % (
-                f["item"][:70], f["assertion"][:60], f["message"][:80].replace("|", "/")))
-    else:
-        L.append("(khong co)")
+    L.append("Ty le case PASS: **%.0f%%** (%d/%d). Ty le assertion PASS: **%.0f%%** (%d/%d)."
+             % (100.0 * tong["pass"] / tong["case"], tong["pass"], tong["case"],
+                100.0 * (tong["as"] - tong["asf"]) / tong["as"], tong["as"] - tong["asf"], tong["as"]))
     L.append("")
 
-    L.append("### b) Unexpected failure - can dieu tra (%d)" % len(unexp))
-    L.append("")
-    if unexp:
-        L.append("| Test case | Assertion | Thong diep |")
-        L.append("|---|---|---|")
-        for f in unexp:
-            L.append("| %s | %s | %s |" % (
-                f["item"][:70], f["assertion"][:60], f["message"][:80].replace("|", "/")))
-    else:
-        L.append("(khong co - tot)")
-    L.append("")
-
-    L.append("## 6.3 Bang chung")
-    L.append("")
-    for r in rs:
-        L.append("- `newman/%s` va ban HTML tuong ung" % r["file"])
-    L.append("- `bugs/screenshots/postman_console_X-Student-Id.png` (chup tay - HUMAN H4)")
+    # ---------- 2. Phan loai that bai ----------
+    L += ["## 2. Phan loai case that bai", "",
+          "| API | FAIL tong | Co chu dich (`@bug`) | Ngoai du kien (`@contract`) |", "|---|---|---|---|"]
+    ngoai = collections.defaultdict(list)
+    for api in sorted(chi_tiet):
+        c = collections.Counter()
+        for tc, v in chi_tiet[api].items():
+            if v["fail"] == 0:
+                continue
+            tag = meta.get(tc, {}).get("Tag", "?")
+            c[tag] += 1
+            if tag == "@contract":
+                ngoai[api].append((tc, meta.get(tc, {}).get("Title", "")[:70], v["msg"][0] if v["msg"] else ""))
+        L.append("| %s | %d | %d | %d |" % (api, sum(c.values()), c["@bug"], c["@contract"]))
     L.append("")
 
-    d = os.path.dirname(os.path.abspath(a.out))
-    if d:
-        os.makedirs(d, exist_ok=True)
-    with open(a.out, "w", encoding="utf-8") as f:
-        f.write("\n".join(L) + "\n")
-    print("Da ghi %s (%d file newman, %d assertion, %d failed)" % (
-        a.out, len(rs), tot_a, tot_f))
+    # ---------- 3. Bug duoc phoi bay ----------
+    L += ["## 3. Bug duoc phoi bay, theo ma bug", "",
+          "| Ma bug | So case that bai phoi bay no | API |", "|---|---|---|"]
+    bug = collections.defaultdict(lambda: [0, set()])
+    for api in sorted(chi_tiet):
+        for tc, v in chi_tiet[api].items():
+            if v["fail"] == 0:
+                continue
+            b = meta.get(tc, {}).get("Bug_Ref", "-")
+            if b and b != "-":
+                bug[b][0] += 1
+                bug[b][1].add(api)
+    for b in sorted(bug):
+        L.append("| **%s** | %d | %s |" % (b, bug[b][0], ", ".join(sorted(bug[b][1]))))
+    L.append("")
+
+    # ---------- 4. That bai ngoai du kien ----------
+    L += ["## 4. That bai ngoai du kien — phai ra soat tung cai", "",
+          "Day la cac case gan `@contract` (nghia la luc thiet ke toi nghi SUT dap ung duoc) nhung",
+          "van that bai. Moi dong o day hoac la **mot bug chua co trong danh sach bug da biet**,",
+          "hoac la **mot ky vong sai cua chinh test case**. Khong duoc bo qua.", ""]
+    for api in sorted(ngoai):
+        L += ["### %s — %d case" % (api, len(ngoai[api])), "",
+              "| TC_ID | Tieu de | Thong bao that bai dau tien |", "|---|---|---|"]
+        for tc, ti, ms in sorted(ngoai[api]):
+            L.append("| `%s` | %s | %s |" % (tc, ti.replace("|", "\\|"), ms.replace("|", "\\|")[:90]))
+        L.append("")
+
+    # ---------- 5. Moc hoi quy ----------
+    if contract:
+        L += ["## 5. Bo hoi quy (`@contract`) — lan chay all-pass cho CI", "",
+              "Bo nay gom cac test case ma SUT **hien dang dap ung**, duoc chot tu ket qua chay that",
+              "bang `derive_contract.py`. No khong khang dinh 'API nay dung', ma khang dinh 'nhung dieu",
+              "API nay dang lam dung thi khong duoc pha'. Day la lan chay duoc dung cho yeu cau",
+              "'all API test cases passing' cua de bai muc 6.", "",
+              "| API | Case | Assertion | Assertion FAIL | Bao cao HTML |", "|---|---|---|---|---|"]
+        t2 = collections.Counter()
+        for api in sorted(contract):
+            run, per, _ = read_run(contract[api])
+            st = run["stats"]
+            L.append("| %s | %d | %d | **%d** | `newman/%s` |"
+                     % (api, len(per), st["assertions"]["total"], st["assertions"]["failed"],
+                        os.path.basename(contract[api]).replace(".json.gz", ".html").replace(".json", ".html")))
+            t2["c"] += len(per); t2["a"] += st["assertions"]["total"]; t2["f"] += st["assertions"]["failed"]
+        L.append("| **Tong** | **%d** | **%d** | **%d** | |" % (t2["c"], t2["a"], t2["f"]))
+        L.append("")
+
+    # ---------- 6. Data-driven ----------
+    if dd:
+        L += ["## 6. Lan chay data-driven (Postman Collection Runner / `newman -d`)", "",
+              "| Bo | Data file | Vong lap | Request | Assertion | Assertion FAIL |", "|---|---|---|---|---|---|"]
+        NHAN = {"DD1": ("Brute force OTP", "brute_force_tokens.csv"),
+                "DD2": ("Bang chuyen trang thai FR-10", "state_transitions.csv"),
+                "DD3": ("Lam dung han muc coupon", "coupon_abuse.csv"),
+                "DD4": ("Dau vao khong hop le POST /api/products", "product_invalid.csv")}
+        for f in sorted(dd):
+            k = re.search(r"_DD-(DD\d)_", os.path.basename(f)).group(1)
+            d = load_json(f)["run"]["stats"]
+            ten, data = NHAN.get(k, (k, "?"))
+            L.append("| %s %s | `postman/data/%s` | %d | %d | %d | %d |"
+                     % (k, ten, data, d["iterations"]["total"], d["requests"]["total"],
+                        d["assertions"]["total"], d["assertions"]["failed"]))
+        L.append("")
+
+    os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
+    open(a.out, "w", encoding="utf-8").write("\n".join(L) + "\n")
+    print("Da ghi %s (%d dong)" % (a.out, len(L)))
 
 
 if __name__ == "__main__":
