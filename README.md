@@ -20,11 +20,14 @@
 
 ### Team Allocation Matrix
 
+> ⚠ **Ràng buộc §5 của đề bài:** không hai thành viên nào được chọn trùng bộ 3 API.
+> Thành viên 23127195 đã chốt **FR-04 / FR-09 / FR-16**; hai thành viên còn lại cần điền và đối chiếu.
+
 | Member | Full Name | Student ID | GitHub Handle | Pool A (Auth / Catalog) | Pool B (Cart / Order) | Pool C (Admin) | Personal Workspace |
 |---|---|---|---|---|---|---|---|
 | **Member 1** | Nguyễn Tấn Thắng | 23127259 | @thangak18 | TODO | TODO | TODO | [`23127259/`](./23127259/) |
 | **Member 2** | TODO | 23127060 | TODO | TODO | TODO | TODO | [`23127060/`](./23127060/) |
-| **Member 3** | TODO | 23127195 | TODO | TODO | TODO | TODO | [`23127195/`](./23127195/) |
+| **Member 3** | TODO | 23127195 | @hungtmh | **FR-04** — Hồ sơ cá nhân<br>`GET/PUT /api/users/me` | **FR-09** — Mã giảm giá<br>`POST /api/apply-coupon` | **FR-16** — Import sản phẩm<br>`POST /api/admin/import-products` | [`23127195/`](./23127195/) |
 
 ---
 

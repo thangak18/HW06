@@ -3006,6 +3006,7 @@
                   "}",
                   "",
                   "// TC-A2-044 | total_amount cuc lon (1e15) -> khong tran so, khong 5xx | nguon: HUMAN | audit: VALID",
+                  "// !! Case nay ky vong theo SPEC; SUT hien sai -> BUG-A2-08 (test se FAIL co chu dich)",
                   "pm.test('Khong 5xx', function () {",
                   "    pm.expect(pm.response.code).to.be.below(500);",
                   "});",

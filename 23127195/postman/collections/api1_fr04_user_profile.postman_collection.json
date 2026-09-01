@@ -2459,6 +2459,7 @@
                   "}",
                   "",
                   "// TC-A1-019 | phone co khoang trang bao quanh -> 400 hoac trim, khong 5xx | nguon: AI | audit: INCOMPLETE",
+                  "// !! Case nay ky vong theo SPEC; SUT hien sai -> BUG-A1-03 (test se FAIL co chu dich)",
                   "pm.test(\"Status code thuoc [200, 400]\", function () {",
                   "    pm.expect([200, 400]).to.include(pm.response.code);",
                   "});",
