@@ -26,6 +26,7 @@
 | **INT-009** | 2026-09-01 19:02 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.5: FR-02 Response Schema and Error-Contract Test Generation | YES (Verbatim) | [`INT-009-fr02-schema-error-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-009-fr02-schema-error-generation.md) |
 | **INT-010** | 2026-09-01 19:26 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part A): AI Prompt Log Verbatim Repair | YES (Verbatim) | [`INT-010-ai-prompt-log-verbatim-repair.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-010-ai-prompt-log-verbatim-repair.md) |
 | **INT-011** | 2026-09-01 19:33 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part B): FR-02 AI Generation Coverage Review and Freeze | YES (Verbatim) | [`INT-011-fr02-generation-coverage-freeze.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-011-fr02-generation-coverage-freeze.md) |
+| **INT-012** | 2026-09-01 19:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.0: INT-011 Audit Repair + FR-02 Human Audit Workspace Preparation | YES (Verbatim) | [`INT-012-fr02-human-audit-preparation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-012-fr02-human-audit-preparation.md) |
 
 ---
 
@@ -4087,132 +4088,1069 @@ EXACT ORIGINAL PROMPT VERBATIM
 ### Exact Prompt
 
 ```text
-/Speckit /Speckit We are starting:
+/Speckit /Speckit We are continuing with:
 
-PHASE 1A.6 – AI PROMPT LOG REPAIR + FR-02 AI GENERATION COVERAGE REVIEW AND FREEZE
+PHASE 1A.6 (PART B) – FR-02 AI COVERAGE REVIEW, GENERATION FREEZE, AND COMMIT
 
-IMPORTANT:
+IMPORTANT AUDIT NUMBERING CORRECTION:
 
-Before freezing FR-02 generation, the consolidated AI prompt log must be
-corrected because the current AI_PROMPT_LOG.md contains abbreviated /
-summarized prompts while labelling them "YES (Verbatim)".
+The immediately PREVIOUS interaction, which repaired AI_PROMPT_LOG.md using
+transcript_full.jsonl, was itself a real AI interaction.
 
-That is NOT acceptable for the HW06 AI Audit.
+Therefore:
 
-Current FR-02 raw AI-generated inventory:
+PREVIOUS INTERACTION = INT-010
+CURRENT INTERACTION = INT-011
 
-FR02-AI-001 .. FR02-AI-037
-
-Raw AI case count:
-37
-
-DO NOT:
-- generate FR02-HUM cases
-- perform VALID / INVALID / INCOMPLETE Human Audit
-- silently rewrite existing AI-generated cases
-- execute Postman
-- execute Newman
-- run formal tests
-- confirm bugs
-- create GitHub Issues
-- generate FR-10 / FR-14 cases
-- modify EShop SUT
-- merge to main
+Do NOT reuse INT-010 for this turn.
 
 ==================================================
-PART A – REPAIR THE CONSOLIDATED PROMPT LOG
+1. FIRST BACKFILL INT-010
 ==================================================
 
-Target file:
+Before doing coverage review, create:
+
+23127259/ai/interactions/INT-010-ai-prompt-log-verbatim-repair.md
+
+INT-010 corresponds to the immediately previous interaction whose purpose was:
+
+"AI Prompt Log Verbatim Repair"
+
+Use the actual Antigravity transcript/history to recover:
+
+- exact previous user prompt
+- exact previous AI output
+- real Tool
+- real Model
+- real Date
+- real Local Time
+- timezone UTC+07:00
+
+The previous AI output began with:
+
+# Phase 1A.6 (Part A) – AI Prompt Log Verbatim Repair Complete
+
+Do NOT reconstruct either prompt or output.
+
+Extract them from the real transcript/session.
+
+Then append INT-010 to:
 
 23127259/ai/prompts/AI_PROMPT_LOG.md
 
-The current file contains abbreviated prompt text such as:
+with the COMPLETE exact prompt verbatim.
 
-"..."
-"DO NOT: ..."
-"Selected scope: ..."
-summarized numbered requirements
+Also update:
 
-while marking:
-
-Prompt Available: YES (Verbatim)
-
-This is incorrect.
-
-"VERBATIM" means the COMPLETE original prompt exactly as submitted,
-including:
-
-- every paragraph
-- every instruction
-- every numbered section
-- every prohibition
-- every code block
-- every example
-- all wording
-- formatting/content order
-
-A summarized or shortened version is NOT verbatim.
+23127259/ai/AI_AUDIT_REPORT.md
 
 ==================================================
-A1. INSPECT ALL INTERACTION SOURCES
+2. CURRENT INTERACTION = INT-011
 ==================================================
+
+This current prompt is:
+
+INT-011
+
+Create:
+
+23127259/ai/interactions/INT-011-fr02-generation-coverage-freeze.md
+
+For INT-011 preserve:
+
+- actual Tool
+- actual Model
+- actual Date/Time
+- THIS COMPLETE PROMPT verbatim
+- the COMPLETE AI output produced by this interaction
+
+Also append THIS FULL PROMPT to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+and add INT-011 to:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+From now on:
+EVERY new user prompt = a new INT number.
+
+==================================================
+3. VERIFY AI OUTPUT EVIDENCE FOR INT-001..010
+==================================================
+
+The prompt log is now repaired, but HW06 also requires AI OUTPUT.
 
 Inspect:
 
-23127259/ai/interactions/
+23127259/ai/interactions/INT-001*
+through
+23127259/ai/interactions/INT-010*
 
-for:
+For every interaction verify whether it contains the COMPLETE exact AI output.
 
-INT-001
-INT-002
-INT-003
-INT-004
+Use statuses:
+
+EXACT OUTPUT AVAILABLE
+OUTPUT PARTIAL
+OUTPUT MISSING – TODO
+
+Do NOT call an output verbatim if it is only a summary.
+
+If the full output exists in transcript_full.jsonl or agent history:
+extract and save it exactly.
+
+If not available:
+mark TODO honestly.
+
+Do NOT regenerate old outputs.
+
+Update master table:
+
+| INT | Exact Prompt | Exact Output | Transcript Source | Status |
+|---|---|---|---|---|
+
+==================================================
+4. PRESERVE RAW FR-02 AI INVENTORY
+==================================================
+
+Current raw file:
+
+23127259/testcases/FR02_AI_DRAFT.md
+
+contains:
+
+FR02-AI-001 .. FR02-AI-037
+
+Raw AI count:
+37
+
+DO NOT:
+
+- delete
+- merge
+- renumber
+- rewrite
+- silently correct
+- change Oracle Confidence
+- assign VALID / INVALID / INCOMPLETE
+- create FR02-HUM cases
+
+The raw AI output must remain preserved for the later mandatory Human Audit.
+
+==================================================
+5. CREATE FR-02 AI GENERATION COVERAGE REVIEW
+==================================================
+
+Create:
+
+23127259/testcases/FR02_AI_GENERATION_REVIEW.md
+
+Use:
+
+# FR-02 AI Generation Coverage Review
+
+## 1. Raw Inventory
+
+Feature:
+FR-02 – Login and Account Lockout
+
+Pool:
+A
+
+Raw AI-generated cases:
+37
+
+ID range:
+FR02-AI-001 .. FR02-AI-037
+
+Generation interactions:
+INT-005 .. INT-009
+
+## 2. Stage Accounting
+
+| Stage | Interaction | IDs | Count |
+|---|---|---|---:|
+| Requirement / Domain Analysis | INT-005 | Analysis only | 0 |
+| Domain / BVA | INT-006 | FR02-AI-001..014 | 14 |
+| Lockout / State | INT-007 | FR02-AI-015..024 | 10 |
+| Security | INT-008 | FR02-AI-025..031 | 7 |
+| Schema / Error Contract | INT-009 | FR02-AI-032..037 | 6 |
+| TOTAL | | FR02-AI-001..037 | 37 |
+
+==================================================
+6. BUILD REQUIREMENT COVERAGE MATRIX
+==================================================
+
+Map all 37 raw cases to these areas:
+
+- valid authentication
+- invalid credentials
+- registered email
+- unregistered email
+- malformed email
+- empty email
+- missing email
+- null email
+- whitespace email
+- correct password
+- incorrect password
+- empty password
+- missing password
+- null password
+- lockout N=1
+- lockout N=2
+- lockout N=3
+- active lock
+- correct credentials while locked
+- 30-second pre-expiry boundary
+- post-expiry behavior
+- successful-login reset
+- consecutive-failure semantics
+- SQL injection behavioral probes
+- credential enumeration / generic error
+- sensitive response information
+- token issuance on success
+- token omission on failure
+- JWT supporting behavior
+- successful response schema
+- invalid-credential error schema
+- locked-account error schema
+- malformed JSON handling
+- Content-Type behavior
+- extraneous-field behavior
+- other exploratory / SPEC-UNDEFINED behavior
+
+Use:
+
+| Coverage Area | Raw AI Case IDs | Coverage Present? | Notes |
+|---|---|---|---|
+
+Do not perform Human Audit verdicts.
+
+==================================================
+7. POTENTIAL QUESTIONS FOR LATER HUMAN AUDIT
+==================================================
+
+Add:
+
+## Potential Questions for Later Human Audit
+
+Allowed labels ONLY:
+
+POTENTIAL OVERLAP
+POTENTIAL SCOPE QUESTION
+POTENTIAL SPEC ASSUMPTION
+POTENTIAL ORACLE QUESTION
+POTENTIAL SECURITY CLASSIFICATION QUESTION
+
+Do NOT use:
+
+VALID
+INVALID
+INCOMPLETE
+
+At minimum inspect and flag where appropriate:
+
+FR02-AI-024
+Potential assumption that post-lock-expiry failure progression is automatically
+a fresh counter state.
+
+FR02-AI-028
+Sensitive data exposure in response is different from SEC-01 password storage
+at rest.
+
+FR02-AI-030
+Uses downstream protected endpoint behavior; supporting / indirect FR-02 scope.
+
+FR02-AI-031
+Tampered JWT downstream behavior may similarly cross feature boundary.
+
+FR02-AI-036
+Check whether exact Content-Type requirement is explicitly documented or
+AI-inferred.
+
+FR02-AI-037
+Extraneous properties / role handling may be exploratory and may lack a
+formal login-spec oracle.
+
+Also identify any other potential duplicate or questionable assumption.
+
+Do not fix them.
+
+==================================================
+8. COVERAGE GAP CHECK
+==================================================
+
+Evaluate only HW06-required FR-02 dimensions:
+
+- domain partitions
+- boundary analysis
+- relevant state transitions
+- applicable security
+- schema validation
+
+If all major areas are represented, write:
+
+No critical AI-generation coverage gap exists before Human Audit.
+
+Do NOT generate additional cases for padding.
+
+If a true required area has zero coverage:
+report the gap but do not automatically generate new cases in this turn.
+
+==================================================
+9. CREATE GENERATION MANIFEST
+==================================================
+
+Create:
+
+23127259/testcases/FR02_AI_GENERATION_MANIFEST.md
+
+Include:
+
+# FR-02 AI Generation Manifest
+
+Feature:
+FR-02 – Login and Account Lockout
+
+Pool:
+A
+
+Raw AI-generated count:
+37
+
+ID range:
+FR02-AI-001 .. FR02-AI-037
+
+Generation interactions:
 INT-005
 INT-006
 INT-007
 INT-008
 INT-009
 
-Also inspect any available local Antigravity/session/history transcript that
-contains the actual interaction.
+Generation-support interactions:
+INT-010
+INT-011
 
-For each INT determine whether the FULL ORIGINAL PROMPT is genuinely available.
+Techniques represented:
+- Equivalence Partitioning
+- Boundary Value Analysis
+- State Transition Testing
+- Sequence Testing
+- Negative Testing
+- Security Probes
+- Schema Validation
+- Error Contract Testing
 
-Preferred source priority:
+Oracle sources:
+- EShop SRS
+- api_specification.md
+- HW06 requirements where applicable
 
-1. exact prompt already stored in the corresponding INT file
-2. exact active Antigravity conversation/session transcript
-3. saved local interaction/session history
-4. other verifiable raw transcript
+Declaration:
 
-Do NOT infer the prompt from:
-- an AI output
-- a plan
+"These 37 test cases are raw AI-generated test cases. They have not yet
+undergone the mandatory student Human Test-Case Audit. Potential AI errors,
+unsupported assumptions, overlap, or incomplete cases are intentionally
+preserved for later VALID / INVALID / INCOMPLETE classification."
+
+==================================================
+10. HASH THE RAW AI ARTIFACT
+==================================================
+
+Run:
+
+shasum -a 256 23127259/testcases/FR02_AI_DRAFT.md
+
+Record:
+
+Raw Generation SHA-256:
+<hash>
+
+in:
+
+FR02_AI_GENERATION_MANIFEST.md
+
+This is engineering evidence, not a PDF requirement.
+
+==================================================
+11. FREEZE RAW AI GENERATION
+==================================================
+
+If:
+
+- 37 cases still exist
+- IDs remain FR02-AI-001..037
+- no raw cases were silently rewritten
+- major HW06 dimensions have coverage
+- AI audit evidence is honestly documented
+
+then mark:
+
+FR-02 AI GENERATION STATUS: FROZEN
+
+Important:
+
+This freezes only the RAW AI-generated inventory.
+
+It does NOT mean:
+- tests are valid
+- tests are executable
+- tests passed
+- Human Audit is complete
+
+==================================================
+12. SECRET / EVIDENCE SAFETY CHECK
+==================================================
+
+Before committing run:
+
+git diff
+git status
+
+Inspect all changed files.
+
+Verify NO:
+
+- runtime JWT values
+- API keys
+- secrets
+- private tokens
+- fake test executions
+- fake Newman reports
+- fake screenshots
+- confirmed bug claims without execution
+- modifications to other group members
+- modifications to official SUT source
+
+If a real JWT appears in documentation/transcripts:
+replace only its VALUE with:
+
+[REDACTED_RUNTIME_JWT]
+
+Preserve surrounding context.
+
+==================================================
+13. COMMIT THE COMPLETED FR-02 AI GENERATION STEP
+==================================================
+
+After checks pass:
+
+stage only relevant files for:
+
+- FR-02 requirement analysis
+- raw FR-02 AI generation
+- generation coverage review
+- generation manifest
+- AI audit records
+- prompt log
+- interaction policy
+
+Commit:
+
+test(23127259): add AI-generated FR-02 test cases
+
+Expected included files:
+
+23127259/docs/FR02_REQUIREMENT_ANALYSIS.md
+23127259/testcases/FR02_AI_DRAFT.md
+23127259/testcases/FR02_AI_GENERATION_REVIEW.md
+23127259/testcases/FR02_AI_GENERATION_MANIFEST.md
+
+23127259/ai/AI_AUDIT_REPORT.md
+23127259/ai/prompts/AI_PROMPT_LOG.md
+23127259/ai/interactions/README.md
+
+INT-001..011 interaction files that were updated/created for audit integrity.
+
+Do not stage unrelated future artifacts.
+
+Push:
+
+origin/thang/hw06-implementation
+
+Do NOT merge to main.
+
+==================================================
+14. FINAL COMPLETION REPORT
+==================================================
+
+Return:
+
+# Phase 1A.6 Completion Report
+
+## A. AI Audit Evidence
+
+| INT | Exact Prompt? | Exact Output? | Transcript Source | Status |
+|---|---|---|---|---|
+
+Include:
+INT-001 .. INT-011
+
+## B. Prompt Log
+
+- total interactions indexed
+- exact prompts stored
+- prompts requiring TODO
+- consistency issues
+
+## C. AI Output Evidence
+
+- exact outputs recovered
+- partial outputs
+- missing outputs/TODO
+
+## D. FR-02 Generation
+
+- raw case count
+- ID range
+- stage accounting
+- coverage summary
+- potential questions
+- critical coverage gaps
+
+## E. Freeze
+
+- status
+- SHA-256
+
+## F. Git
+
+- files committed
+- commit SHA
+- push result
+- git status
+
+Then STOP.
+
+DO NOT BEGIN HUMAN AUDIT.
+
+Next phase:
+
+PHASE 1B – FR-02 HUMAN TEST-CASE AUDIT
+```
+
+---
+
+## INT-012 – Phase 1B.0: INT-011 Audit Repair + FR-02 Human Audit Workspace Preparation
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 19:37:53+07:00
+- **Interaction File:** [`../interactions/INT-012-fr02-human-audit-preparation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-012-fr02-human-audit-preparation.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are starting:
+
+PHASE 1B.0 – INT-011 AUDIT REPAIR + FR-02 HUMAN AUDIT WORKSPACE PREPARATION
+
+IMPORTANT:
+
+The FR-02 raw AI generation has already been frozen:
+
+FR02-AI-001 .. FR02-AI-037
+Raw AI-generated count: 37
+Generation commit: f6164ef
+
+DO NOT modify the frozen raw AI-generated test cases.
+
+This interaction has TWO purposes:
+
+A. Correct a possible AI Audit evidence problem for INT-011.
+B. Prepare the mandatory HUMAN Test-Case Audit workspace.
+
+This interaction itself is:
+
+INT-012
+
+DO NOT perform the student's Human Audit decisions in this turn.
+
+==================================================
+PART A – REPAIR / VERIFY INT-011 EXACT OUTPUT
+==================================================
+
+There is a potential integrity issue in the previous completion report.
+
+INT-011 was reported as:
+
+Exact Prompt: YES
+Exact Output: YES
+Transcript source: transcript_full.jsonl Step 481
+
+However, Step 481 appears to be the USER INPUT that started INT-011.
+
+An AI interaction cannot truthfully preserve its own final output before that
+output has actually completed.
+
+Therefore verify INT-011 again from the NOW-COMPLETED transcript.
+
+==================================================
+A1. FIND THE REAL INT-011 TRANSCRIPT PAIR
+==================================================
+
+Inspect:
+
+/Users/thangnhi/.gemini/antigravity-ide/brain/c80640ee-13f9-4258-ac3b-ab554a6053f1/.system_generated/logs/transcript_full.jsonl
+
+Do NOT assume any output step number in advance.
+
+Locate:
+
+1. the USER_INPUT containing the complete prompt beginning approximately with:
+
+PHASE 1A.6 (PART B) – FR-02 AI COVERAGE REVIEW, GENERATION FREEZE, AND COMMIT
+
+2. the corresponding COMPLETED AI OUTPUT beginning approximately with:
+
+# Phase 1A.6 Completion Report
+
+Verify the JSONL entry `type` for both.
+
+Record the actual step/index for:
+- INT-011 prompt
+- INT-011 output
+
+The prompt entry and output entry MUST be different transcript records.
+
+==================================================
+A2. REPAIR INT-011 IF NECESSARY
+==================================================
+
+Update:
+
+23127259/ai/interactions/INT-011-fr02-generation-coverage-freeze.md
+
+Ensure it contains:
+
+## Exact Prompt
+
+the complete actual INT-011 USER prompt verbatim.
+
+## Exact AI Output
+
+the complete actual final AI response verbatim.
+
+Do NOT store:
+- this INT-012 prompt
 - a summary
-- memory
-- another similar prompt
+- the USER_INPUT as AI output
+- reconstructed output
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+with the verified INT-011 prompt/output transcript indices.
+
+AI_PROMPT_LOG.md contains prompts only, so ensure INT-011 prompt remains the
+exact prompt and do NOT insert AI output there.
 
 ==================================================
-A2. REPLACE SUMMARIES WITH FULL EXACT PROMPTS
+A3. DO NOT REWRITE HISTORY
 ==================================================
 
-For every interaction whose full original prompt is available:
+Generation commit:
 
-replace the abbreviated section in:
+f6164ef
+
+has already been pushed.
+
+Do NOT:
+- amend it
+- force push
+- reset history
+- delete evidence of the previous audit mistake
+
+If INT-011 evidence required correction, create a NEW correction commit:
+
+docs(23127259): correct INT-011 AI audit evidence
+
+Push normally to:
+
+origin/thang/hw06-implementation
+
+This transparent correction is preferable to rewriting Git history.
+
+==================================================
+PART B – LOG THIS CURRENT INTERACTION AS INT-012
+==================================================
+
+Current interaction:
+
+INT-012
+
+Create:
+
+23127259/ai/interactions/INT-012-fr02-human-audit-preparation.md
+
+Record:
+
+- actual Tool
+- actual Model
+- actual Date
+- actual Local Time
+- timezone UTC+07:00
+- Stage:
+  FR-02 Human Audit Preparation
+
+Save THIS COMPLETE PROMPT verbatim.
+
+Append THIS COMPLETE PROMPT verbatim to:
 
 23127259/ai/prompts/AI_PROMPT_LOG.md
 
-with the COMPLETE ORIGINAL PROMPT VERBATIM.
+Update:
 
-Example:
+23127259/ai/AI_AUDIT_REPORT.md
 
-WRONG:
+IMPORTANT:
 
-```text
-1. Fix SEC mappings
-2. Separate spec from implementation
-3. Fix FR-14 oracle
+The complete final AI output for INT-012 cannot be extracted until this
+interaction has finished.
+
+Therefore do NOT fabricate the final Exact AI Output inside INT-012 before the
+response exists.
+
+Use a temporary marker if necessary:
+
+Exact AI Output:
+PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+The NEXT interaction must backfill the completed INT-012 output from the real
+transcript.
+
+This rule applies to every future interaction.
+
+==================================================
+PART C – HUMAN AUDIT PRINCIPLE
+==================================================
+
+HW06 requires the learner to audit EVERY AI-generated test case and classify it:
+
+VALID
+INVALID
+INCOMPLETE
+
+with:
+- reasoning
+- corrections where necessary
+
+Therefore the FINAL verdict must be a STUDENT decision.
+
+AI may:
+- organize the cases
+- reproduce specification evidence
+- identify the relevant requirement
+- point out specification ambiguity
+- prepare a review worksheet
+
+AI MUST NOT:
+- automatically assign final VALID / INVALID / INCOMPLETE verdicts
+- automatically write the student's final rationale
+- pretend that AI review is Human Review
+- silently correct the raw AI-generated test cases
+
+The student's explicit decision must be captured separately.
+
+==================================================
+PART D – PRESERVE FROZEN RAW GENERATION
+==================================================
+
+Read but DO NOT MODIFY:
+
+23127259/testcases/FR02_AI_DRAFT.md
+
+Frozen raw inventory:
+
+FR02-AI-001 .. FR02-AI-037
+
+SHA-256 currently recorded:
+
+b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c
+
+Verify the file hash still matches.
+
+Run:
+
+shasum -a 256 23127259/testcases/FR02_AI_DRAFT.md
+
+If the hash differs:
+
+STOP and report:
+
+RAW AI GENERATION INTEGRITY WARNING
+
+Do not continue Human Audit preparation until investigated.
+
+==================================================
+PART E – CREATE HUMAN AUDIT WORKSHEET
+==================================================
+
+Create or initialize:
+
+23127259/ai/TC_AUDIT_FR02.md
+
+Use:
+
+# FR-02 Human Test-Case Audit
+
+Feature:
+FR-02 – Login and Account Lockout
+
+Raw AI Generation:
+FR02-AI-001 .. FR02-AI-037
+
+Raw AI Generation Hash:
+b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c
+
+## Audit Policy
+
+Every raw AI-generated case must receive a STUDENT verdict:
+
+- VALID
+- INVALID
+- INCOMPLETE
+
+For every case record:
+
+1. raw AI case ID
+2. raw AI title
+3. specification/oracle basis
+4. student verdict
+5. student reasoning
+6. student correction, if required
+7. final disposition
+8. student decision timestamp
+
+The AI may prepare evidence but must not invent the student's decision.
+
+==================================================
+E1. MASTER AUDIT TABLE
+==================================================
+
+Create one row for all 37 cases:
+
+| AI Case ID | Raw Title | Oracle Basis | Student Verdict | Student Reasoning | Student Correction | Final Disposition | Decision Time |
+|---|---|---|---|---|---|---|---|
+
+Populate:
+
+AI Case ID
+Raw Title
+Oracle Basis
+
+Leave these fields EMPTY / PENDING STUDENT REVIEW:
+
+Student Verdict
+Student Reasoning
+Student Correction
+Final Disposition
+Decision Time
+
+Use exactly:
+
+PENDING STUDENT REVIEW
+
+Do not pre-fill verdicts.
+
+==================================================
+PART F – PREPARE HUMAN REVIEW BATCH 1
+==================================================
+
+For manageability, Human Audit will be performed in FOUR batches:
+
+Batch 1:
+FR02-AI-001 .. FR02-AI-010
+
+Batch 2:
+FR02-AI-011 .. FR02-AI-020
+
+Batch 3:
+FR02-AI-021 .. FR02-AI-030
+
+Batch 4:
+FR02-AI-031 .. FR02-AI-037
+
+THIS interaction prepares ONLY Batch 1.
+
+Do NOT audit Batch 2–4 yet.
+
+==================================================
+F1. BATCH 1 REVIEW PACKET
+==================================================
+
+At the end of TC_AUDIT_FR02.md add:
+
+## Human Review Batch 1 – FR02-AI-001..010
+
+For EACH case reproduce concisely:
+
+### FR02-AI-00X – <Raw Title>
+
+Raw Technique:
+<from frozen case>
+
+Raw AI Expected Result:
+<copy accurately from frozen case>
+
+Relevant Specification Evidence:
+<quote/reference only what SRS/API-SPEC actually supports>
+
+Specification Ambiguity:
+<if any, otherwise NONE IDENTIFIED>
+
+Human Decision:
+
+Verdict:
+PENDING STUDENT REVIEW
+
+Reasoning:
+PENDING STUDENT REVIEW
+
+Correction:
+PENDING STUDENT REVIEW
+
+Final Disposition:
+PENDING STUDENT REVIEW
+
+Do NOT recommend a verdict.
+
+Do NOT write:
+"should be VALID"
+"likely INVALID"
+"this is INCOMPLETE"
+
+The purpose is to give the student the evidence needed to decide.
+
+==================================================
+PART G – STUDENT RESPONSE FORMAT
+==================================================
+
+At the END of the AI response, present Batch 1 in a compact decision table:
+
+| ID | Short Test Objective | Key Oracle Question | Student Verdict |
+|---|---|---|---|
+| FR02-AI-001 | ... | ... | ? |
 ...
+| FR02-AI-010 | ... | ... | ? |
+
+Then explicitly ask the student to provide their decisions.
+
+Use this response format:
+
+FR02-AI-001
+Verdict: VALID / INVALID / INCOMPLETE
+Reasoning: <student's own reasoning>
+Correction: <NONE or student's correction>
+
+FR02-AI-002
+Verdict:
+Reasoning:
+Correction:
+
+...
+
+FR02-AI-010
+Verdict:
+Reasoning:
+Correction:
+
+Do NOT proceed to Batch 2 until the student has supplied Batch 1 decisions.
+
+==================================================
+PART H – IMPORTANT: DO NOT AUTO-FILL HUMAN DECISIONS
+==================================================
+
+Even if a case seems obviously wrong, do not assign the verdict.
+
+For example, later cases may contain possible issues such as:
+
+- unsupported internal counter assumptions
+- overlap
+- cross-feature JWT checks
+- Content-Type assumptions
+- exploratory extraneous-field behavior
+
+Those may be presented as specification questions when their batch is reached,
+but the student's verdict is still required.
+
+This preserves the distinction:
+
+AI-assisted evidence preparation
+vs
+Human test-case audit decision.
+
+==================================================
+PART I – GIT POLICY
+==================================================
+
+Do NOT commit the incomplete Human Audit worksheet yet.
+
+The Human Audit procedural commit should occur after ALL 37 cases have received
+real student decisions.
+
+Expected later commit:
+
+test(23127259): audit AI-generated FR-02 test cases
+
+For now:
+
+- INT-011 audit correction may be separately committed if necessary
+- TC_AUDIT_FR02.md remains uncommitted while audit is incomplete
+- INT-012 audit preparation evidence remains uncommitted until the appropriate
+  audit checkpoint unless the correction commit requires otherwise
+
+Do NOT mix Human Extension cases into this commit.
+
+==================================================
+PART J – END REPORT
+==================================================
+
+Return:
+
+# Phase 1B.0 Completion Report
+
+## 1. INT-011 Evidence Repair
+
+- verified prompt transcript step
+- verified output transcript step
+- prompt entry type
+- output entry type
+- correction required? YES/NO
+- correction commit SHA, if applicable
+
+## 2. INT-012 Audit Logging
+
+- exact prompt stored?
+- prompt log updated?
+- output status:
+  PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+## 3. Raw Generation Integrity
+
+- case count
+- current SHA-256
+- matches frozen manifest? YES/NO
+
+## 4. Human Audit Workspace
+
+- TC_AUDIT_FR02.md created/updated
+- rows prepared: 37
+- student verdicts pre-filled: 0
+- Batch 1 prepared: FR02-AI-001..010
+
+## 5. Git Status
+
+Show git status.
+
+Then present the Batch 1 Student Decision Table and STOP.
+
+DO NOT BEGIN BATCH 2.
+
+DO NOT ASSIGN HUMAN VERDICTS.
 ```
 
