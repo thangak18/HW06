@@ -112,17 +112,15 @@ def assertion_to_js(case_id, idx, a):
             "pm.expect(Number(dig(J(), %s))).to.be.at.most(%s);" % (js_str(a["path"]), a["v"]),
         )
 
-    if t == "arrayLen":
+    if t in ("arrayLen", "arrayLenGte"):
+        path = a.get("path", "-")
+        target = "J()" if path in ("-", "", None) else "dig(J(), %s)" % js_str(path)
+        label = "goc" if path in ("-", "", None) else "'%s'" % path
+        cmp_ = "to.eql" if t == "arrayLen" else "to.be.at.least"
+        word = "dung" if t == "arrayLen" else ">="
         return block(
-            "Mang co %s phan tu" % a["v"],
-            "pm.expect(J()).to.be.an('array').with.lengthOf(%d);" % a["v"],
-        )
-
-    if t == "arrayLenGte":
-        return block(
-            "Mang co >= %s phan tu" % a["v"],
-            "pm.expect(J()).to.be.an('array');\n"
-            "pm.expect(J().length).to.be.at.least(%d);" % a["v"],
+            "Mang %s co %s %s phan tu" % (label, word, a["v"]),
+            "pm.expect(%s).to.be.an('array'); pm.expect(%s.length).%s(%d);" % (target, target, cmp_, a["v"]),
         )
 
     if t == "bodyNotMatch":
@@ -249,15 +247,14 @@ def build_item(spec, case):
             ),
         },
     }
-    if req.get("auth") == "admin":
-        item["request"]["header"].append(
-            {"key": "Authorization", "value": "Bearer {{adminToken}}"})
-    elif req.get("auth") == "user":
-        item["request"]["header"].append(
-            {"key": "Authorization", "value": "Bearer {{userToken}}"})
-    elif req.get("auth") == "raw":
+    auth = req.get("auth")
+    if auth == "raw":
         item["request"]["header"].append(
             {"key": "Authorization", "value": req["authValue"]})
+    elif auth:
+        # "admin" -> {{adminToken}}, "user" -> {{userToken}}, "formula" -> {{formulaToken}} ...
+        item["request"]["header"].append(
+            {"key": "Authorization", "value": "Bearer {{%sToken}}" % auth})
 
     for h in req.get("headers", []):
         item["request"]["header"].append(h)
