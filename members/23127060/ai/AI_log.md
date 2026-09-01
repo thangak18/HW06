@@ -59,3 +59,11 @@ File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py bui
 - Files touched: agent-skill/eshop-api-23127060/scripts/audit_testcases.py, testcases/API-1_audited.csv, testcases/API-2_audited.csv, testcases/API-3_audited.csv, report/03_audit.md, agent-skill/eshop-api-23127060/references/TESTCASE_TAXONOMY.md
 - Human verified: pending
 
+### #8 · 2026-09-01T14:56:08+07:00 · STEP 4 · Bo sung 18 test case AI bo sot, phan tich nguyen nhan
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step4_extend.txt`
+  > [STEP 4 — EXTEND: bo sung test case AI bo sot] De bai muc 6.3: "Add at least five test cases of your own that the AI missed - especially around
+- Output: `ai/interactions/20260901T145608+0700_bo-sung-18-test-case-ai-bo-sot-phan-tich_OUTPUT.md`
+- Files touched: agent-skill/eshop-api-23127060/scripts/extend_testcases.py, testcases/API-1_final.csv, testcases/API-2_final.csv, testcases/API-3_final.csv, report/04_extend.md
+- Human verified: pending
+
