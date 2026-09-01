@@ -51,7 +51,10 @@ mkdir -p "$OUTDIR"
 
 # ---- 1) Dua CSDL ve trang thai goc bang cach khoi dong lai backend ----
 echo "[1/4] Khoi dong lai SUT de CSDL ve trang thai seed goc..."
-pkill -f "node server.js" >/dev/null 2>&1 || true
+# Dung mau "[n]ode" thay vi "node": pkill -f so khop tren TOAN BO dong lenh, nen mot mau
+# chua nguyen van "node server.js" se khop luon chinh dong lenh dang goi pkill (va shell cha
+# cua no), tu giet phien lam viec. Dat mot ky tu vao ngoac vuong lam mau khong con khop chinh no.
+pkill -f "[n]ode server\.js" >/dev/null 2>&1 || true
 sleep 1
 # setsid --fork tach han tien trinh backend ra khoi phien lam viec cua script nay.
 # Neu dung "node server.js &" thi backend van la con cua script, va script se treo o buoc

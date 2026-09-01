@@ -21,7 +21,10 @@ if [ -z "${SUT_DIR:-}" ]; then
 fi
 
 echo "[1/3] Khoi dong lai SUT (CSDL ve trang thai seed goc)..."
-pkill -f "node server.js" >/dev/null 2>&1 || true
+# Dung mau "[n]ode" thay vi "node": pkill -f so khop tren TOAN BO dong lenh, nen mot mau
+# chua nguyen van "node server.js" se khop luon chinh dong lenh dang goi pkill (va shell cha
+# cua no), tu giet phien lam viec. Dat mot ky tu vao ngoac vuong lam mau khong con khop chinh no.
+pkill -f "[n]ode server\.js" >/dev/null 2>&1 || true
 sleep 1
 ( cd "$SUT_DIR" && setsid --fork node server.js ) > /tmp/eshop_${SID}.log 2>&1 < /dev/null || true
 for i in $(seq 1 30); do curl -sf "$BASE_URL/api/products" >/dev/null 2>&1 && break; sleep 1; done

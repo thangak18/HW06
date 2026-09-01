@@ -83,3 +83,11 @@ File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py bui
 - Files touched: newman/*.html, newman/*.json.gz, report/06_execution.md, ci/evidence/header_evidence.md, postman/contract_baseline/*.txt, agent-skill/eshop-api-23127060/scripts/summarize_newman.py, agent-skill/eshop-api-23127060/scripts/derive_contract.py, agent-skill/eshop-api-23127060/scripts/verify_header.py, agent-skill/eshop-api-23127060/scripts/run_newman.sh, agent-skill/eshop-api-23127060/scripts/run_datadriven.sh
 - Human verified: pending
 
+### #11 · 2026-09-01T15:37:40+07:00 · STEP 7 · Thu bang chung va viet bug report cho 34 bug
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step7_bugs.txt`
+  > [STEP 7 — Bug report + GitHub Issues] De bai muc 6.5: "Report any genuine bugs you find - including bugs the AI missed - both in the
+- Output: `ai/interactions/20260901T153740+0700_thu-bang-chung-va-viet-bug-report-cho-34_OUTPUT.md`
+- Files touched: agent-skill/eshop-api-23127060/scripts/capture_bug_evidence.py, agent-skill/eshop-api-23127060/scripts/make_bug_report.py, bugs/BUG_REPORT.md, bugs/evidence/*.md, bugs/ISSUE_TEMPLATES/*.md
+- Human verified: pending
+

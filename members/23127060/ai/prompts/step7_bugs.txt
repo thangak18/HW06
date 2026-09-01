@@ -1,0 +1,14 @@
+[STEP 7 — Bug report + GitHub Issues]
+
+De bai muc 6.5: "Report any genuine bugs you find - including bugs the AI missed - both in the
+Markdown report and on your GitHub Issues page, with a screenshot attached to each issue."
+
+Yeu cau:
+1. KHONG bia bug. Moi bug phai co request that + response that tai hien duoc, va tro duoc ve
+   dong code cu the trong eshop-sut/backend/server.js.
+2. Khong go tay request/response vao bao cao. Viet mot script chay lai kich ban tai hien cua
+   tung bug roi ghi nguyen van cap request/response ra file; bao cao trich thang tu do.
+3. Moi bug ghi ro: muc do, yeu cau bi vi pham (dan chieu SRS), anh huong nghiep vu, buoc tai
+   hien, ket qua thuc te, ket qua mong doi, de xuat sua.
+4. Sinh san file de dan len GitHub Issues cho tung bug.
+5. Neu trong luc thu bang chung phat hien them bug moi thi bo sung vao danh sach.
