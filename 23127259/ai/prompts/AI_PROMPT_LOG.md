@@ -31,6 +31,8 @@
 | **INT-014** | 2026-09-01 19:51 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation | YES (Verbatim) | [`INT-014-fr02-human-audit-batch2.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-014-fr02-human-audit-batch2.md) |
 | **INT-015** | 2026-09-01 19:54 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation | YES (Verbatim) | [`INT-015-fr02-human-audit-batch3.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-015-fr02-human-audit-batch3.md) |
 | **INT-016** | 2026-09-01 19:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion | YES (Verbatim) | [`INT-016-fr02-human-audit-batch4-completion.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-016-fr02-human-audit-batch4-completion.md) |
+| **INT-017** | 2026-09-01 19:59 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.0: FR-02 Human Extension Gap Analysis & Student Design Workspace | YES (Verbatim) | [`INT-017-fr02-human-extension-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md) |
+| **INT-018** | 2026-09-01 20:03 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.1: FR-02 Student-Selected Human Extension Finalization | YES (Verbatim) | [`INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md) |
 
 ---
 
@@ -5401,5 +5403,1054 @@ FR02-AI-037
 Verdict: INCOMPLETE
 Reasoning: Supplying unexpected fields such as role="admin" is a valuable parameter-injection and privilege-escalation probe. However, the login specification does not define whether unknown fields must be rejected or ignored. Therefore the HTTP 200-versus-400 behavior is SPEC-UNDEFINED. The useful security assertion is only that client-supplied login fields must not elevate the authenticated user's actual role.
 Correction: Retain the test as an exploratory/additional-security parameter-injection case. Do not require either silent ignoring or HTTP 400. Assert only that the supplied role field cannot alter the authenticated account's real authorization role.
+```
+
+---
+
+## INT-017 – Phase 1C.0: FR-02 Human Extension Gap Analysis & Student Design Workspace
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 19:59:15+07:00
+- **Interaction File:** [`../interactions/INT-017-fr02-human-extension-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are starting:
+
+PHASE 1C.0 – FR-02 HUMAN EXTENSION GAP ANALYSIS AND STUDENT DESIGN WORKSPACE
+
+Current state:
+
+Raw AI-generated FR-02 cases:
+37
+
+Human Audit complete:
+37 / 37
+
+Audit result:
+- VALID: 16
+- INCOMPLETE WITH CORRECTIONS: 19
+- INVALID / REJECTED DUPLICATES: 2
+
+Final usable AI-derived inventory after Human Audit:
+35 cases
+
+Human Audit commit:
+5deecd7
+
+IMPORTANT:
+
+HW06 now requires:
+
+AT LEAST FIVE TEST CASES OF THE STUDENT'S OWN DESIGN
+THAT THE AI MISSED.
+
+Therefore THIS AI MUST NOT GENERATE THE HUMAN-DESIGNED TEST CASES.
+
+DO NOT create:
+
+FR02-HUM-001
+FR02-HUM-002
+FR02-HUM-003
+FR02-HUM-004
+FR02-HUM-005
+
+or any other FR02-HUM case in this interaction.
+
+DO NOT suggest complete test-case titles, exact payloads, steps, expected
+results, or ready-to-copy Human test cases.
+
+The student's own reasoning must determine the final Human extensions.
+
+This interaction only prepares COVERAGE EVIDENCE and a BLANK DESIGN WORKSPACE.
+
+==================================================
+1. AUDIT NUMBERING
+==================================================
+
+The previous completed interaction is:
+
+INT-016
+Phase 1B.4 – Human Audit Batch 4 / Audit Completion
+
+Current interaction is:
+
+INT-017
+
+First verify and backfill the COMPLETE exact output of INT-016 from the
+completed Antigravity transcript.
+
+Do not guess transcript step numbers.
+
+Find the actual:
+- USER_INPUT
+- corresponding PLANNER_RESPONSE
+
+Update the INT-016 interaction file if necessary.
+
+Then create:
+
+23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md
+
+Record:
+- actual tool
+- actual model
+- actual date/time
+- timezone UTC+07:00
+- THIS COMPLETE PROMPT verbatim
+
+Append this exact prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+For INT-017 Exact AI Output use:
+
+PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+until this interaction has actually completed.
+
+==================================================
+2. DO NOT MODIFY RAW AI GENERATION
+==================================================
+
+Do not modify:
+
+23127259/testcases/FR02_AI_DRAFT.md
+
+Verify SHA-256 remains:
+
+b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c
+
+If hash differs:
+STOP and report integrity warning.
+
+==================================================
+3. READ THE COMPLETED HUMAN AUDIT
+==================================================
+
+Read:
+
+23127259/ai/TC_AUDIT_FR02.md
+
+Also read:
+
+23127259/testcases/FR02_AI_GENERATION_REVIEW.md
+23127259/docs/FR02_REQUIREMENT_ANALYSIS.md
+
+and authoritative:
+- EShop SRS
+- api_specification.md
+
+Build the CURRENT POST-AUDIT coverage picture.
+
+Remember:
+
+35 AI-derived cases remain usable.
+
+Two raw cases are rejected duplicates:
+FR02-AI-016
+FR02-AI-017
+
+Do not count rejected duplicates as distinct executable coverage.
+
+==================================================
+4. CREATE HUMAN EXTENSION DESIGN WORKSPACE
+==================================================
+
+Create:
+
+23127259/testcases/FR02_HUMAN_EXTENSION_DESIGN.md
+
+Use:
+
+# FR-02 Human-Designed Extension Workspace
+
+Feature:
+FR-02 – Login and Account Lockout
+
+Purpose:
+Identify specification-relevant coverage not already represented by the
+35 usable AI-derived cases, so the student can independently design at least
+five additional tests.
+
+IMPORTANT:
+
+No Human test case in this file is AI-generated.
+
+The AI may identify coverage status and evidence only.
+
+Final test concepts, test data, steps, expected results, and rationale must be
+entered by the student.
+
+==================================================
+5. BUILD POST-AUDIT COVERAGE MATRIX
+==================================================
+
+Create:
+
+## Existing Coverage Matrix
+
+Use columns:
+
+| Requirement / Dimension | Existing Usable AI Cases | Coverage Level | Evidence / Spec Basis |
+|---|---|---|---|
+
+Coverage Level values:
+
+COVERED
+PARTIALLY COVERED
+NOT COVERED
+SPEC-UNDEFINED
+
+Review dimensions including:
+
+- successful user authentication
+- successful admin authentication
+- invalid registered-user credentials
+- unknown email
+- generic credential error non-disclosure
+- email domain partitions
+- password domain partitions
+- missing/null inputs
+- N=1 failure
+- N=2 failure
+- N=3 lock threshold
+- active lock
+- valid password while locked
+- pre-expiry timing
+- post-expiry authentication
+- successful-login reset
+- consecutive-failure semantics
+- SQL injection behavioral probes
+- SEC-01 storage-at-rest evidence
+- SEC-02 token dependency
+- SEC-05 parameterized-query evidence
+- success schema
+- error schema
+- malformed transport behavior
+- other specification-defined FR-02 behavior
+
+Do NOT invent requirements.
+
+==================================================
+6. IDENTIFY GAPS, NOT TEST CASES
+==================================================
+
+Create:
+
+## Candidate Coverage Gaps for Student Review
+
+For each genuine gap use only:
+
+### Gap G-XX
+
+Requirement / Dimension:
+<name>
+
+Current Coverage:
+NOT COVERED / PARTIALLY COVERED
+
+Why it is a gap:
+<explain what existing AI cases do and do not cover>
+
+Specification Basis:
+<exact SRS / API-SPEC basis>
+
+Why existing AI cases do not fully cover it:
+<analysis>
+
+Student Design Status:
+NOT SELECTED
+
+IMPORTANT:
+
+You may identify gaps.
+
+You MUST NOT provide:
+
+- a test-case title
+- exact test data
+- exact payload
+- exact step sequence
+- exact expected response
+- exact boundary value to use
+- a ready-made test design
+
+Do not turn a gap into a test case.
+
+==================================================
+7. SEPARATE FORMAL GAPS FROM EXPLORATORY IDEAS
+==================================================
+
+Use two sections:
+
+## A. Specification-Backed Coverage Gaps
+
+Only behaviors directly supported by the specification.
+
+## B. Exploratory / Engineering Opportunities
+
+Ideas that may be useful engineering tests but whose exact expected result is
+not defined by SRS/API-SPEC.
+
+Do not mix the two.
+
+The student's >=5 Human cases should preferably be chosen from
+specification-backed gaps where available.
+
+==================================================
+8. SEC-01 AND SEC-05 SPECIAL ATTENTION
+==================================================
+
+The completed Human Audit already found that black-box API probes do NOT fully
+prove:
+
+SEC-01:
+passwords are not stored in plaintext
+
+SEC-05:
+database queries use parameterized queries
+
+Identify whether these represent partially covered requirements requiring
+supplemental verification.
+
+However:
+
+DO NOT design the test for the student.
+
+Only explain:
+- what is currently proven
+- what remains unproven
+- what kind of evidence category would be required at a high level
+
+Do not provide implementation instructions or complete Human test cases.
+
+==================================================
+9. BLANK STUDENT DESIGN TABLE
+==================================================
+
+Add:
+
+## Student-Selected Human Extensions
+
+Create exactly 5 blank slots initially:
+
+### HUMAN SLOT 1
+
+Selected Gap ID:
+PENDING STUDENT DECISION
+
+Why I selected this gap:
+PENDING STUDENT DECISION
+
+My Test Objective:
+PENDING STUDENT DECISION
+
+My Test Data:
+PENDING STUDENT DECISION
+
+My Preconditions:
+PENDING STUDENT DECISION
+
+My Steps:
+PENDING STUDENT DECISION
+
+My Expected Result:
+PENDING STUDENT DECISION
+
+Why AI missed this:
+PENDING STUDENT DECISION
+
+---
+
+Repeat for HUMAN SLOT 2 through HUMAN SLOT 5.
+
+Do NOT populate these fields.
+
+==================================================
+10. DO NOT ASSIGN FR02-HUM IDS YET
+==================================================
+
+Do not create formal IDs until the student has selected and described the five
+tests.
+
+After the student's design decisions are supplied, the next phase may assign:
+
+FR02-HUM-001 .. FR02-HUM-005
+
+But those IDs must represent the student's decisions, not AI-generated test
+designs.
+
+==================================================
+11. STUDENT DECISION OUTPUT
+==================================================
+
+At the end of the AI response show ONLY a compact gap-selection table:
+
+| Gap ID | Requirement / Dimension | Coverage | Why Existing AI Coverage Is Insufficient | Student Select? |
+|---|---|---|---|---|
+
+Do not give a "recommended five".
+
+Do not rank them.
+
+Do not say:
+"choose these five"
+
+The student must select.
+
+Then provide this response template:
+
+HUMAN SLOT 1
+Selected Gap ID:
+Why I selected this gap:
+My Test Objective:
+
+HUMAN SLOT 2
+Selected Gap ID:
+Why I selected this gap:
+My Test Objective:
+
+HUMAN SLOT 3
+Selected Gap ID:
+Why I selected this gap:
+My Test Objective:
+
+HUMAN SLOT 4
+Selected Gap ID:
+Why I selected this gap:
+My Test Objective:
+
+HUMAN SLOT 5
+Selected Gap ID:
+Why I selected this gap:
+My Test Objective:
+
+STOP after presenting the gap matrix.
+
+Do not generate the test details.
+
+==================================================
+12. GIT POLICY
+==================================================
+
+Do NOT commit the incomplete Human Extension design workspace.
+
+The next procedural commit occurs only after the student's >=5 Human test
+cases have actually been designed and recorded.
+
+Do not modify the existing Human Audit commit.
+
+Do not amend or force-push previous commits.
+
+==================================================
+13. END REPORT
+==================================================
+
+Return:
+
+# Phase 1C.0 Completion Report
+
+## Audit Evidence
+- INT-016 output backfilled: YES/NO
+- INT-017 prompt stored: YES/NO
+- INT-017 output status: PENDING
+
+## FR-02 Current Inventory
+- raw AI-generated: 37
+- usable AI-derived after audit: 35
+- rejected duplicates: 2
+- Human-designed cases: 0
+
+## Gap Analysis
+- specification-backed gaps found: N
+- partial coverage dimensions: N
+- exploratory opportunities: N
+
+## Human Workspace
+- file created
+- blank Human slots: 5
+- FR02-HUM IDs created: 0
+- AI-generated Human test designs: 0
+
+## Git Status
+Show git status.
+
+Then present the student gap-selection table and STOP.
+
+Do NOT proceed to Postman.
+Do NOT create Human test cases.
+```
+
+---
+
+## INT-018 – Phase 1C.1: FR-02 Student-Selected Human Extension Finalization
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 20:03:37+07:00
+- **Interaction File:** [`../interactions/INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are starting:
+
+PHASE 1C.1 – FR-02 STUDENT-SELECTED HUMAN EXTENSION FINALIZATION
+
+The student has reviewed the FR-02 post-audit gap analysis and has now
+APPROVED the following five extension directions as the final Human extension
+suite.
+
+IMPORTANT PROVENANCE NOTE:
+
+These directions were finalized by the student after reviewing an AI-assisted
+coverage-gap analysis.
+
+Do NOT falsely claim that no AI assistance was involved.
+
+Use wording such as:
+
+"Student-selected and finalized after AI-assisted gap analysis."
+
+Do NOT describe them as:
+"entirely independently invented without AI."
+
+However, these cases are separate from the original AI-generated inventory
+FR02-AI-001..037 and must use FR02-HUM identifiers.
+
+==================================================
+1. AUDIT INTERACTION NUMBERING
+==================================================
+
+Previous interaction:
+
+INT-017
+FR-02 Human Extension Gap Analysis
+
+Current interaction:
+
+INT-018
+
+First backfill the COMPLETE exact AI output for INT-017 from the completed
+Antigravity transcript.
+
+Locate the actual:
+- USER_INPUT for INT-017
+- corresponding PLANNER_RESPONSE
+
+Do not guess transcript steps.
+
+Then create:
+
+23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md
+
+Record:
+- actual Tool
+- actual Model
+- actual Date
+- actual Local Time
+- timezone UTC+07:00
+- Stage:
+  FR-02 Student-Selected Human Extension Finalization
+- THIS COMPLETE PROMPT verbatim
+
+Append THIS complete prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+For INT-018 Exact AI Output use:
+
+PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+until this interaction actually completes.
+
+==================================================
+2. PRESERVE RAW AI GENERATION
+==================================================
+
+DO NOT modify:
+
+23127259/testcases/FR02_AI_DRAFT.md
+
+Verify SHA-256 remains:
+
+b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c
+
+Also preserve:
+
+23127259/ai/TC_AUDIT_FR02.md
+
+Do not change previously recorded Human Audit verdicts.
+
+==================================================
+3. FINAL STUDENT-SELECTION SET
+==================================================
+
+The student approves the following five directions.
+
+--------------------------------------------------
+HUMAN EXTENSION 1
+--------------------------------------------------
+
+Source Gap:
+G-02
+
+Direction:
+HTTP Method Enforcement for /api/login
+
+Student rationale:
+The documented login operation uses POST. The original AI suite tested only
+POST and never checked whether unsupported HTTP methods can accidentally invoke
+authentication behavior.
+
+Test objective:
+Verify that /api/login cannot successfully authenticate a user when invoked
+through an HTTP method that is not documented for the login operation.
+
+Oracle discipline:
+Do NOT automatically require HTTP 405 unless api_specification.md explicitly
+requires it.
+
+Minimum specification-safe oracle:
+
+- unsupported method invocation must NOT result in successful authentication
+- no usable authentication JWT/session should be created through an
+  unsupported method
+
+If the exact status is unspecified:
+mark it NOT SPECIFIED.
+
+--------------------------------------------------
+HUMAN EXTENSION 2
+--------------------------------------------------
+
+Source Gap:
+G-05
+
+Direction:
+Additional SQL Injection Vector Beyond Original AI Payloads
+
+Student rationale:
+The original AI suite tested only simple classic SQL injection strings.
+A single payload does not provide broad behavioral confidence against SQL
+injection attempts.
+
+Test objective:
+Use a meaningfully different SQL-injection-style input pattern and verify that
+it cannot bypass authentication or obtain an unauthorized authenticated
+session.
+
+IMPORTANT:
+Do NOT simply copy the exact payload already used by:
+FR02-AI-025
+FR02-AI-026
+
+Choose a distinct behavioral probe.
+
+Oracle discipline:
+
+- no authentication bypass
+- no unauthorized usable JWT
+- classify as SEC-05 PARTIAL BLACK-BOX EVIDENCE
+- do NOT claim this proves all queries are parameterized
+
+--------------------------------------------------
+HUMAN EXTENSION 3
+--------------------------------------------------
+
+Source Gap:
+CUSTOM-G-09
+
+Gap Name:
+Successful Login Reset at N=2 Boundary
+
+Student rationale:
+The AI suite tested counter reset after one failed login, but did not directly
+exercise the more critical threshold-adjacent state where the account already
+has two consecutive failed logins before a successful authentication occurs.
+
+Test objective:
+Verify that a successful authentication occurring after exactly two
+consecutive failures resets the failure sequence before the N=3 lockout
+threshold can be reached.
+
+Important coverage distinction:
+
+This must be meaningfully different from:
+FR02-AI-022
+FR02-AI-023
+
+Those sequences begin their reset verification after one initial failed login.
+
+This Human case must specifically exercise the N=2 pre-lockout boundary.
+
+Use externally observable behavior rather than undocumented internal
+login_attempts response fields.
+
+--------------------------------------------------
+HUMAN EXTENSION 4
+--------------------------------------------------
+
+Source Gap:
+CUSTOM-G-10
+
+Gap Name:
+Account Lockout Isolation Between Different Users
+
+Student rationale:
+The AI suite tested lockout behavior on one dedicated account but never
+verified that one user's lock state does not incorrectly affect another
+independent account.
+
+Test objective:
+Verify that placing Account A into the temporary locked state does not prevent
+a different valid Account B from authenticating normally.
+
+Oracle discipline:
+
+- lockout must remain associated with the affected account
+- Account B valid authentication must continue to follow normal FR-02 behavior
+- do not inspect internal counters as the primary oracle
+- use externally observable authentication results
+
+Use two dedicated test accounts so this case is isolated and reproducible.
+
+--------------------------------------------------
+HUMAN EXTENSION 5
+--------------------------------------------------
+
+Source Gap:
+G-08
+
+Direction:
+Non-JSON Content-Type Request Contract
+
+Student rationale:
+The original AI suite assumed application/json for normal authentication and
+tested malformed JSON, but did not test credentials supplied using an
+undocumented request encoding.
+
+Test objective:
+Verify that using a non-documented Content-Type cannot accidentally bypass the
+documented authentication contract or create an authenticated session.
+
+Oracle discipline:
+
+The specification may NOT define whether the server must return:
+400
+415
+401
+or another error.
+
+Therefore do NOT invent an exact status unless documented.
+
+Minimum safe assertion:
+
+- non-documented request encoding must not create an unintended authenticated
+  session
+- exact parser/Content-Type behavior may remain SPEC-UNDEFINED
+
+Treat this as:
+EXPLORATORY / API CONTRACT
+
+rather than claiming a formal MIME requirement if none exists.
+
+==================================================
+4. ASSIGN FORMAL HUMAN TEST IDS
+==================================================
+
+Create exactly:
+
+FR02-HUM-001
+FR02-HUM-002
+FR02-HUM-003
+FR02-HUM-004
+FR02-HUM-005
+
+Mapping:
+
+FR02-HUM-001 = G-02 HTTP Method Enforcement
+FR02-HUM-002 = G-05 Additional SQLi Vector
+FR02-HUM-003 = CUSTOM-G-09 Reset at N=2 Boundary
+FR02-HUM-004 = CUSTOM-G-10 Account Lockout Isolation
+FR02-HUM-005 = G-08 Non-JSON Content-Type Contract
+
+Do not generate a sixth case.
+
+==================================================
+5. CREATE FINAL HUMAN TEST CASE ARTIFACT
+==================================================
+
+Create:
+
+23127259/testcases/FR02_HUMAN_TEST_CASES.md
+
+Use:
+
+# FR-02 Student-Selected Human Extension Test Cases
+
+Include provenance statement:
+
+"These extension directions were selected and finalized by the student after
+reviewing the completed AI-generated suite, Human Audit results, and an
+AI-assisted coverage-gap analysis. They are intentionally separated from the
+raw AI-generated FR02-AI inventory."
+
+For EACH Human test case include:
+
+- Test Case ID
+- Title
+- Source Gap
+- Student Rationale
+- Why Existing AI Suite Missed This
+- Technique
+- Requirement / Spec Basis
+- Preconditions
+- Request Method / Sequence
+- Endpoint
+- Headers
+- Test Data
+- Steps
+- Expected HTTP Status
+- Expected Semantic Result
+- State Before
+- State After
+- Oracle Confidence
+- Spec Limitations
+- Postman Implementation Notes
+
+==================================================
+6. REQUIREMENT DISCIPLINE
+==================================================
+
+For each Human case distinguish:
+
+SPECIFICATION-BACKED
+PARTIALLY SPECIFICATION-BACKED
+EXPLORATORY
+
+Do not convert an exploratory behavior into a fake formal requirement.
+
+Expected classifications should be considered carefully:
+
+FR02-HUM-001:
+API contract / method enforcement.
+Exact error status may be unspecified.
+
+FR02-HUM-002:
+Security behavioral probe.
+SEC-05 PARTIAL black-box evidence.
+
+FR02-HUM-003:
+Strong specification-backed state-transition test.
+
+FR02-HUM-004:
+Strong account-isolation / state-security test if account-specific lockout is
+supported by FR-02 semantics.
+
+FR02-HUM-005:
+Exploratory/API-contract behavior if MIME rejection is undocumented.
+
+Do not fabricate requirement references.
+
+==================================================
+7. CHECK DISTINCTNESS AGAINST AI CASES
+==================================================
+
+Before finalizing compare each Human test against all usable AI-derived cases.
+
+Create:
+
+## Human-vs-AI Distinctness Matrix
+
+| Human ID | Closest AI Case(s) | What Is New | Duplicate? |
+|---|---|---|---|
+
+Expected result:
+all five must be meaningfully distinct.
+
+Special attention:
+
+FR02-HUM-002 must not merely repeat AI-025/026.
+
+FR02-HUM-003 must not duplicate AI-022/023:
+its distinguishing boundary is SUCCESS AFTER TWO CONSECUTIVE FAILURES.
+
+FR02-HUM-004 must test cross-account isolation, absent from AI suite.
+
+==================================================
+8. UPDATE HUMAN EXTENSION DESIGN WORKSPACE
+==================================================
+
+Update:
+
+23127259/testcases/FR02_HUMAN_EXTENSION_DESIGN.md
+
+Replace the five blank Human slots with the five student-approved selections.
+
+Preserve:
+
+- selected gap
+- rationale
+- test objective
+- formal assigned HUM ID
+
+Add:
+
+Design Status:
+STUDENT SELECTED / FINALIZED
+
+Do not delete the original gap analysis section.
+
+==================================================
+9. ACCOUNTING
+==================================================
+
+Create/update an FR-02 suite accounting section:
+
+Raw AI-generated:
+37
+
+Raw AI rejected during Human Audit:
+2
+
+Usable AI-derived after corrections:
+35
+
+Human extension:
+5
+
+Final executable candidate suite:
+40
+
+Use wording carefully:
+
+37 RAW AI-GENERATED
+not 35 raw AI-generated.
+
+The correct accounting is:
+
+37 raw AI outputs
+→ Human Audit
+→ 35 usable AI-derived
++ 5 Human extensions
+= 40 final executable candidate cases
+
+==================================================
+10. DO NOT IMPLEMENT POSTMAN YET
+==================================================
+
+This interaction finalizes TEST DESIGN only.
+
+DO NOT:
+
+- execute SUT
+- execute Postman
+- execute Newman
+- generate fake execution evidence
+- confirm bugs
+- create GitHub Issues
+- implement the collection yet
+- modify EShop source
+
+Postman implementation is the NEXT phase.
+
+==================================================
+11. QUALITY CHECK
+==================================================
+
+Before completing verify:
+
+- exactly 5 FR02-HUM cases
+- all IDs unique
+- all cases distinct from usable AI cases
+- HUM-003 uses N=2 before successful reset
+- HUM-004 uses two independent accounts
+- HUM-002 uses a different SQLi vector from AI cases
+- no invented exact HTTP statuses
+- exploratory cases clearly marked
+- raw AI file hash unchanged
+- Human Audit file unchanged
+- total executable candidate cases = 40
+
+==================================================
+12. GIT COMMIT
+==================================================
+
+If all five Human cases are finalized:
+
+stage only relevant Human-extension and audit-log artifacts.
+
+Commit:
+
+test(23127259): add human-designed FR-02 extension cases
+
+Include:
+
+23127259/testcases/FR02_HUMAN_EXTENSION_DESIGN.md
+23127259/testcases/FR02_HUMAN_TEST_CASES.md
+23127259/ai/AI_AUDIT_REPORT.md
+23127259/ai/prompts/AI_PROMPT_LOG.md
+23127259/ai/interactions/INT-017*
+23127259/ai/interactions/INT-018*
+
+Do NOT include unrelated artifacts.
+
+Push:
+
+origin/thang/hw06-implementation
+
+Do NOT merge to main.
+
+==================================================
+13. END REPORT
+==================================================
+
+Return:
+
+# Phase 1C.1 Completion Report
+
+## Audit Evidence
+- INT-017 output backfilled
+- INT-018 prompt stored
+- INT-018 output pending
+
+## Human Extensions
+
+| HUM ID | Gap | Technique | Oracle Classification | Distinct From AI? |
+|---|---|---|---|---|
+
+## Accounting
+- raw AI generated: 37
+- rejected raw AI: 2
+- usable AI-derived: 35
+- Human extensions: 5
+- final executable candidate suite: 40
+
+## Integrity
+- raw AI SHA-256
+- Human Audit unchanged
+
+## Git
+- commit SHA
+- push result
+- git status
+
+Then STOP.
+
+Next phase:
+
+PHASE 1D – FR-02 POSTMAN COLLECTION IMPLEMENTATION
 ```
 

@@ -35,7 +35,9 @@
 | **INT-013** | 2026-09-01 19:46 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.1: FR-02 Human Audit Batch 1 Decisions & Batch 2 Preparation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 575 / 588) | Logged |
 | **INT-014** | 2026-09-01 19:51 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 589 / 600) | Logged |
 | **INT-015** | 2026-09-01 19:54 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 601 / 615) | Logged |
-| **INT-016** | 2026-09-01 19:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion | YES (Verbatim) | PENDING TRANSCRIPT BACKFILL | `transcript_full.jsonl` (Step 616) | In Progress |
+| **INT-016** | 2026-09-01 19:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 616 / 631) | Logged |
+| **INT-017** | 2026-09-01 19:59 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.0: FR-02 Human Extension Gap Analysis & Student Design Workspace | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 632 / 643) | Logged |
+| **INT-018** | 2026-09-01 20:03 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.1: FR-02 Student-Selected Human Extension Finalization | YES (Verbatim) | PENDING TRANSCRIPT BACKFILL | `transcript_full.jsonl` (Step 644) | In Progress |
 
 ---
 
@@ -151,6 +153,20 @@
 - **Date & Time:** 2026-09-01 19:56:42+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 616, Output: Pending)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 616, Output: Step 631)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-016`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-016-fr02-human-audit-batch4-completion.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-016-fr02-human-audit-batch4-completion.md)
+### INT-017: Phase 1C.0: FR-02 Human Extension Gap Analysis & Student Design Workspace
+- **Date & Time:** 2026-09-01 19:59:15+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1C.0: FR-02 Human Extension Gap Analysis & Student Design Workspace
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 632, Output: Step 643)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-017`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-017-fr02-human-extension-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md)
+### INT-018: Phase 1C.1: FR-02 Student-Selected Human Extension Finalization
+- **Date & Time:** 2026-09-01 20:03:37+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1C.1: FR-02 Student-Selected Human Extension Finalization
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 644, Output: Pending)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-018`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md)

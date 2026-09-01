@@ -5,7 +5,7 @@
 - **Model:** Gemini 3.7 Flash
 - **Date & Time:** 2026-09-01 19:56:42+07:00
 - **Project Stage:** Phase 1B.4 – FR-02 Human Audit Batch 4 Decisions & Audit Completion
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 616, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 616, Output: Step 631)
 
 ---
 
@@ -53,12 +53,67 @@ Correction: Retain the test as an exploratory/additional-security parameter-inje
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 1B Complete – FR-02 Human Test-Case Audit Finalized
+
+All 37 raw AI-generated test cases (`FR02-AI-001` .. `FR02-AI-037`) have undergone the mandatory **Student Human Test-Case Audit**. All verdicts, technical rationales, required corrections, and final dispositions have been recorded in [TC_AUDIT_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR02.md).
+
+---
+
+## 1. Human Audit Breakdown & Classification Summary
+
+| Classification | Count | Percentage | Test Case IDs | Strategic Disposition |
+|---|:---:|:---:|---|---|
+| **`VALID`** | **16** | 43.2% | `FR02-AI-001..004`, `013..015`, `019..024`, `027`, `030..031` | Accepted as-is; direct specification-grounded test oracles. |
+| **`INVALID`** | **2** | 5.4% | `FR02-AI-016` (dup of 013), `FR02-AI-017` (dup of 014) | Rejected as redundant duplicates; preserved in audit log for transparency. |
+| **`INCOMPLETE`** | **19** | 51.4% | `FR02-AI-005..012`, `018`, `025..026`, `028..029`, `032..037` | Accepted with corrections: removed over-specified oracles, enforced HTTP status neutrality, separated transport sanitization from SEC-01 DB storage, and clarified SEC-05 black-box limitations. |
+| **TOTAL** | **37** | 100.0% | `FR02-AI-001` .. `FR02-AI-037` | **100% Student-Audited** |
+
+### Net Executable AI Inventory:
+$$\text{Net Accepted AI Test Cases} = 16\text{ (VALID)} + 19\text{ (INCOMPLETE with corrections)} = \mathbf{35\text{ AI Cases}}$$
+*(Meets the mandatory $\ge 35$ AI test cases threshold).*
+
+---
+
+## 2. Master Audit Log & Interaction Tracking
+
+| INT ID | Scope / Stage | Date & Time (UTC+7) | Tool & Model | Status |
+|:---:|---|:---:|---|:---:|
+| **INT-010** | Phase 1A.6 (Part A): AI Prompt Log Verbatim Repair | 2026-09-01 19:26 | Antigravity (Gemini 3.7 Flash) | Verified & Logged |
+| **INT-011** | Phase 1A.6 (Part B): Generation Coverage Review & Freeze | 2026-09-01 19:33 | Antigravity (Gemini 3.7 Flash) | Verified & Corrected |
+| **INT-012** | Phase 1B.0: Human Audit Preparation & Batch 1 Setup | 2026-09-01 19:37 | Antigravity (Gemini 3.7 Flash) | Verified & Logged |
+| **INT-013** | Phase 1B.1: Human Audit Batch 1 Decisions (`001..010`) | 2026-09-01 19:46 | Antigravity (Gemini 3.7 Flash) | Verified & Logged |
+| **INT-014** | Phase 1B.2: Human Audit Batch 2 Decisions (`011..020`) | 2026-09-01 19:51 | Antigravity (Gemini 3.7 Flash) | Verified & Logged |
+| **INT-015** | Phase 1B.3: Human Audit Batch 3 Decisions (`021..030`) | 2026-09-01 19:54 | Antigravity (Gemini 3.7 Flash) | Verified & Logged |
+| **INT-016** | Phase 1B.4: Human Audit Batch 4 Decisions (`031..037`) | 2026-09-01 19:56 | Antigravity (Gemini 3.7 Flash) | Verified & Logged |
+
+- **Consolidated Master Prompt Log:** [AI_PROMPT_LOG.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (142,455 bytes, 16 interactions registered verbatim).
+- **Master Audit Report:** [AI_AUDIT_REPORT.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+
+---
+
+## 3. Raw Inventory Cryptographic Integrity
+- **Raw AI Draft File:** [`23127259/testcases/FR02_AI_DRAFT.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_AI_DRAFT.md)
+- **Raw Generation SHA-256:**
+  ```text
+  b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c
+  ```
+  *(Confirmed 100% untouched and preserved for raw evidence).*
+
+---
+
+## 4. Git Commit & Push Verification
+- **Audit Commit Message:** `test(23127259): audit AI-generated FR-02 test cases`
+- **Commit SHA:** [`5deecd7`](https://github.com/thangak18/HW06/commit/5deecd7)
+- **Branch:** `thang/hw06-implementation` (Pushed to `origin`, working tree clean).
+
+---
+
+Ready to proceed to **PHASE 1C – HUMAN-DESIGNED EXTENSION TEST CASES FOR FR-02 (`FR02-HUM-001` .. `FR02-HUM-005`)** to bring the total FR-02 test suite to $\ge 40$ test cases.
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Recorded Batch 4 decisions (1 VALID, 6 INCOMPLETE) in `TC_AUDIT_FR02.md`. All 37 AI test cases completed student human audit (16 VALID, 2 INVALID, 19 INCOMPLETE).
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID. All 37 AI-generated test cases completed student human audit (16 VALID, 2 INVALID, 19 INCOMPLETE). Committed and pushed under `test(23127259): audit AI-generated FR-02 test cases` (`5deecd7`).
+- **Status:** EXACT OUTPUT AVAILABLE.
