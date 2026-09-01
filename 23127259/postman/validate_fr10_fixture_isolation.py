@@ -44,7 +44,7 @@ def main():
 
     all_reqs = extract_items(col_data.get("item", []))
     print(f"[INFO] Total Collection Request Definitions: {len(all_reqs)}")
-    assert len(all_reqs) == 140, f"Expected 140 collection request definitions, got {len(all_reqs)}"
+    assert len(all_reqs) == 139, f"Expected 139 collection request definitions, got {len(all_reqs)}"
     print("[PASS] 3. Exactly 138 collection request definitions present (3 auth helpers + co-located setups + formal steps).")
 
     # 4. Fail-Fast Collection Pre-Request Script Check

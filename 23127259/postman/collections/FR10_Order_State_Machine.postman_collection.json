@@ -29,47 +29,6 @@
       "name": "00 \u2013 Setup / Authentication Helpers",
       "item": [
         {
-          "name": "[SETUP] Register Admin User Account",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "X-Student-Id",
-                "value": "{{studentId}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"name\": \"Admin User\", \"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\", \"role\": \"admin\"}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "register"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Admin User Account Provisioned or Ready', function () { pm.expect([200, 201, 400, 409]).to.include(pm.response.code); });"
-                ]
-              }
-            }
-          ]
-        },
-        {
           "name": "[SETUP] Register User B (Non-Owner) Account",
           "request": {
             "method": "POST",

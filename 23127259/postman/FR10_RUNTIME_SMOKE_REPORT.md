@@ -29,32 +29,29 @@ During the Phase 2D.1A runtime smoke investigation (INT-040), network requests w
 
 ---
 
-## 2. Product Inventory Capacity & Full-Run Strategy
+## 2. Product Inventory Capacity & Operational Resolution
 
 - **Discovery Endpoint:** `GET /api/products` (and `GET /api/products/:id`)
 - **Selected `fixtureProductId`:** `1` (`iPhone 15 Pro Max`, price `30,000,000`, `category_id: 1`)
 - **Stock Quantity Field Exposed by API:** **NO** (The public catalog returns `id`, `name`, `price`, `description`, `imageUrl`, `category_id`; no stock or inventory counters are exposed).
-- **Observed Inventory Capacity:** **`UNKNOWN`**
-- **44-Checkout Capacity Mathematically Proven via API:** **`NO`** (A single successful smoke checkout validates route mechanics, but cannot prove stock capacity for 44 creations without visible counters).
-- **Defensible Full-Run Strategy:**
-  1. All 44 formal checkout helpers request minimal item quantity (`quantity: 1`).
-  2. `fixtureProductId` is exposed as an environment variable (default `1`).
-  3. If product 1 encounters inventory depletion in any environment, `fixtureProductId` can be overridden to any alternate seeded product (`2`, `3`, `4`, `5`).
-  4. SUT runtime behavior does not reject repeated checkouts on product 1.
+- **Product Model Schema (Implementation Observation):** Inspection of the SQLite database schema confirms that the `products` table contains only `(id, name, price, description, imageUrl, category_id)` and has **no stock column**.
+- **Checkout Stock Consumption:** `POST /api/checkout` inserts into `orders` without decrementing inventory.
+- **Operational Capacity Conclusion:** **`OPERATIONALLY UNBOUNDED FOR CURRENT LOCAL HARNESS`** (Classification: `IMPLEMENTATION OBSERVATION – NOT TEST ORACLE`).
+- **44-Checkout Operational Viability:** **`YES`** (Creating 44 isolated single-quantity order fixtures will not encounter stock depletion rejections).
 
 ---
 
-## 3. Account Provisioning & Role Contract Audit
+## 3. Account Provisioning & True Admin Provenance
 
-| Actor | Target Variable | Provisioning Source | Registration Needed | Repeat-Safe | Role Basis / Contract |
+| Actor | Target Variable | Provisioning Source | JWT Role Claim | Repeat-Safe | Role Basis / Contract |
 |---|---|---|:---:|:---:|---|
-| **Administrator** | `adminEmail` (`admin_fr10@eshop.com` / `admin@eshop.com`) | Dedicated / Seeded Credential | Idempotent Setup Helper in Folder 00 | **YES** | Pre-seeded admin or dedicated test credential; SUT status update route accepts valid JWT bearer token. Public self-registration does NOT contractually grant admin role. |
-| **Customer A (Owner)** | `userAEmail` (`user@eshop.com`) | Seeded Baseline Customer | No (Pre-seeded in DB) | **YES** | Standard seeded customer (`role = 'user'`), password `User1234!`. |
-| **Customer B (Non-Owner)** | `userBEmail` (`user_domain@eshop.com`) | Dedicated Secondary Customer | Idempotent Setup Helper in Folder 00 | **YES** | Standard customer (`role = 'customer'/'user'`), password `Domain1234!`. Used for IDOR isolation (`FR10-AI-033`, `FR10-HUM-002`). |
+| **Administrator** | `adminEmail` (`admin@eshop.com`), password `Admin123!` | Seeded in SUT database (`id: 1`) on initialization | **`admin`** (`{"id":1,"role":"admin"}`) | **YES** | Pre-seeded authoritative administrator; decoded JWT payload independently verifies `role = 'admin'`. Zero reliance on public self-registration. |
+| **Customer A (Owner)** | `userAEmail` (`user@eshop.com`), password `User1234!` | Seeded Baseline Customer (`id: 7`) | **`user`** (`{"id":7,"role":"user"}`) | **YES** | Standard customer (`role = 'user'`), password `User1234!`. |
+| **Customer B (Non-Owner)** | `userBEmail` (`user_domain@eshop.com`), password `Domain1234!` | Dedicated Customer via Folder 00 Setup | **`user`** (`{"id":45,"role":"user"}`) | **YES** | Standard customer (`role = 'user'`), password `Domain1234!`. Used for IDOR isolation (`FR10-AI-033`, `FR10-HUM-002`). |
 
 ### Repeat-Safe Provisioning Details:
-- The setup helpers `[SETUP] Register Admin User Account` and `[SETUP] Register User B Account` in Folder 00 issue `POST /api/register` with test assertions accepting `[200, 201, 400, 409]`.
-- On initial run, accounts are provisioned (200/201). On subsequent runs, existing accounts are handled gracefully without aborting.
+- The setup helper `[SETUP] Register User B (Non-Owner) Account` in Folder 00 issues `POST /api/register` with test assertions accepting `[200, 201, 400, 409]`.
+- On initial run, the account is provisioned (200/201). On subsequent runs, existing accounts are handled gracefully without aborting.
 - Subsequent `POST /api/login` requests deterministically authenticate and extract valid JWTs into `adminToken`, `userAToken`, and `userBToken`.
 
 ---

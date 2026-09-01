@@ -7,11 +7,11 @@
 
 ---
 
-## 1. Collection Folder Structure (138 Request Definitions)
+## 1. Collection Folder Structure (139 Request Definitions)
 
 ```
 FR10_Order_State_Machine
-├── 00 – Setup / Authentication Helpers (3 login requests)
+├── 00 – Setup / Authentication Helpers (4 setup requests: 1 User B reg helper + 3 login helpers)
 ├── 01 – Valid Forward & Lifecycle Transitions (4 formal cases: 001..004, 15 request items)
 ├── 02 – Order Cancellation Pathways (4 formal cases: 005..008, 10 request items)
 ├── 03 – Invalid Forward Skips & Backward Regressions (7 formal cases: 009..011, 013..016, 23 request items)
@@ -27,7 +27,9 @@ FR10_Order_State_Machine
 ---
 
 ## 2. Operation Reconciliation
-- **Formal Test Cases:** **`46`**
-- **Collection Request Definitions:** **`138`**
+- **Formal Test Cases:** **`46`** (41 AI + 5 HUM; AI-012 excluded)
+- **Collection Request Definitions:** **`139`** (4 setup helpers + 135 formal step items)
 - **Script-Triggered Persistence GETs:** **`36`**
-- **Expected Total Runtime Operations:** **`174`**
+- **Expected Total Runtime Operations:** **`175`**
+- **Admin Actor Provenance:** Seeded `admin@eshop.com` / `Admin123!` with verified JWT payload `role = 'admin'`.
+- **Inventory Capacity:** Schema inspection confirms product model contains no stock column; checkout capacity is operationally unbounded for current local harness.
