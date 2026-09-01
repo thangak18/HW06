@@ -755,12 +755,95 @@ PHASE 2A.3 – FR-10 BACKWARD, TERMINAL, AND USER-CANCELLATION STATE TEST GENERA
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2A.2 Completion Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-025 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1287) backfilled into [`23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md).
+- **INT-026 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md).
+- **INT-026 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-026 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Requirement Analysis Corrections Applied
+- **Exact Admin Status Mutation Endpoint:** Locked to `PUT /api/admin/orders/:id/status` with `{ "status": "<target_status>" }`.
+- **Exact Customer Cancellation Endpoint:** Locked to `PUT /api/orders/:id/cancel`. Clarified that `POST /api/orders` / `POST /api/checkout` acts purely as a fixture setup helper (FR-08 dependency).
+- **In-Transit Cancellation Semantics Split:**
+  - `shipping -> canceled by User`: `Allowed = NO` (`SPECIFICATION-BACKED` per SRS Section 4.10).
+  - `shipping -> canceled by Admin`: `Allowed = SPEC-UNDEFINED` (`SPEC-UNDEFINED`).
+- **HTTP Status Code Oracle Discipline:** Removed unsupported exact 401/403 assertions; enforced `Expected Semantic Result` with `Expected HTTP Status: NOT SPECIFIED – ERROR / NON-SUCCESS` (or `4xx Client Error`).
+- **Dedicated Ownership Model:** Distinctly analyzed customer self-cancellation (`SPECIFICATION-BACKED`) vs. cross-user cancellation (`PARTIAL / SPEC-UNDEFINED`) and own-order reading vs. cross-user order reading (`SPECIFICATION-BACKED / ADDITIONAL-SEC` per SRS FR-11).
+- **Two-Tier Persistence State Oracle:** Mandated follow-up `GET /api/orders/:id` persistence verification for all transitions.
+
+---
+
+## 3. Frozen Authoritative State Transition Model
+
+| Transition | Actor / Route | Allowed? | Classification | Normative Basis |
+|---|---|:---:|---|---|
+| `pending` $\rightarrow$ `confirmed` | Admin (`PUT /api/admin/orders/:id/status`) | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `confirmed` $\rightarrow$ `shipping` | Admin (`PUT /api/admin/orders/:id/status`) | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `shipping` $\rightarrow$ `delivered` | Admin (`PUT /api/admin/orders/:id/status`) | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `pending` $\rightarrow$ `canceled` | User Owner (`PUT /api/orders/:id/cancel`) / Admin | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `confirmed` $\rightarrow$ `canceled` | User Owner (`PUT /api/orders/:id/cancel`) / Admin | **YES** | `SPECIFICATION-BACKED` | SRS Section 4.10 / API-SPEC |
+| `shipping` $\rightarrow$ `canceled` | User Owner (`PUT /api/orders/:id/cancel`) | **NO** | `SPECIFICATION-BACKED` | SRS Section 4.10 |
+| `shipping` $\rightarrow$ `canceled` | Admin (`PUT /api/admin/orders/:id/status`) | **SPEC-UNDEFINED** | `SPEC-UNDEFINED` | Unspecified in SRS |
+| `delivered` $\rightarrow$ Any State | Any Actor | **NO** | `SPECIFICATION-BACKED` | Terminal State Rule |
+| `canceled` $\rightarrow$ Any State | Any Actor | **NO** | `SPECIFICATION-BACKED` | Terminal State Rule |
+
+---
+
+## 4. Generated Raw AI Test Cases (Batch 1: Core State Transitions)
+
+- **First Test Case ID:** `FR10-AI-001`
+- **Last Test Case ID:** `FR10-AI-012`
+- **Batch Count:** **12 cases**
+- **Cumulative Raw AI Count:** **12 / 40 cases**
+
+### Test Case Itemized Manifest:
+1. [`FR10-AI-001`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-001--valid-admin-forward-transition-pending-to-confirmed): Valid Admin Transition from `pending` to `confirmed` (`PUT /api/admin/orders/:id/status`)
+2. [`FR10-AI-002`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-002--valid-admin-forward-transition-confirmed-to-shipping): Valid Admin Transition from `confirmed` to `shipping` (`PUT /api/admin/orders/:id/status`)
+3. [`FR10-AI-003`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-003--valid-admin-forward-transition-shipping-to-delivered): Valid Admin Transition from `shipping` to `delivered` (`PUT /api/admin/orders/:id/status`)
+4. [`FR10-AI-004`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-004--complete-happy-path-order-lifecycle-continuity-sequence): End-to-End Sequential Progression (`pending` $\rightarrow$ `confirmed` $\rightarrow$ `shipping` $\rightarrow$ `delivered`)
+5. [`FR10-AI-005`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-005--valid-customer-self-cancellation-on-pending-order): Customer Cancels Own `pending` Order via `PUT /api/orders/:id/cancel`
+6. [`FR10-AI-006`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-006--valid-admin-cancellation-on-pending-order): Administrator Cancels `pending` Order via `PUT /api/admin/orders/:id/status`
+7. [`FR10-AI-007`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-007--valid-customer-self-cancellation-on-confirmed-order): Customer Cancels Own `confirmed` Order Prior to Shipment via `PUT /api/orders/:id/cancel`
+8. [`FR10-AI-008`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-008--valid-admin-cancellation-on-confirmed-order): Administrator Cancels `confirmed` Order Prior to Shipment via `PUT /api/admin/orders/:id/status`
+9. [`FR10-AI-009`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-009--invalid-forward-skip-transition-pending-directly-to-shipping): Illegal Forward State Skip: `pending` Directly to `shipping`
+10. [`FR10-AI-010`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-010--invalid-forward-skip-transition-pending-directly-to-delivered): Illegal Forward State Skip: `pending` Directly to `delivered`
+11. [`FR10-AI-011`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-011--invalid-forward-skip-transition-confirmed-directly-to-delivered): Illegal Forward State Skip: `confirmed` Directly to `delivered`
+12. [`FR10-AI-012`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-012--invalid-forward-skip-attempt-by-normal-customer-token): Unauthorized Customer Forward Skip Attempt (`pending` $\rightarrow$ `shipping`)
+
+---
+
+## 5. Deferred Coverage (Intentionally Reserved for Subsequent Batches)
+- **Batch 2 (INT-027):** Backward state regressions, terminal state immutability (`delivered`, `canceled`), customer in-transit cancellation rejection (`shipping -> canceled`).
+- **Batch 3 (INT-028):** Authentication enforcement (`SEC-02`), RBAC role check (`SEC-03`), and cross-tenant ownership boundaries.
+- **Batch 4 (INT-029):** Status input domain/boundaries, Order ID path partitions, JSON schema conformance, and partial `SEC-05` injection probes.
+
+---
+
+## 6. Integrity & Gate Verification
+- **Human-Designed Extension Cases Created:** **0** *(Strictly reserved for post-audit Phase 2C)*
+- **SUT Execution / Modification:** **NO** *(Pure static test case generation; zero runtime side effects)*
+
+---
+
+## 7. Git Status & Tracking
+- **Commit SHA:** `0d4d1ac`
+- **Commit Message:** `test(23127259): add core AI-generated FR-10 cases`
+- **Branch:** `thang/hw06-implementation`
+- **Remote Push:** Successfully pushed to `origin/thang/hw06-implementation`
+- **Working Tree:** Clean
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Updating `FR10_REQUIREMENT_ANALYSIS.md` with human review corrections and generating the first batch of core AI test cases in `FR10_AI_DRAFT.md`.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID (Core batch generated; FR10-AI-012 flagged for multiple failure dimensions in Human Audit).
+- **Notes:** Applied analysis corrections to FR10_REQUIREMENT_ANALYSIS.md and generated Batch 1 (FR10-AI-001..012) in FR10_AI_DRAFT.md. FR10-AI-012 noted to combine unauthorized user role with invalid skip transition, flagged for Human Audit.
+- **Status:** COMPLETE.

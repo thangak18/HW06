@@ -13,9 +13,9 @@
 | ID Range | Generation Stage | Batch Count | Cumulative Raw AI Count | Status |
 |---|---|---:|---:|:---:|
 | `FR10-AI-001` – `FR10-AI-012` | Batch 1: Core Valid Forward Transitions, Valid Cancellations & Skip Transitions | 12 | 12 | **GENERATED** |
-| `FR10-AI-013` – `FR10-AI-022` | Batch 2: Backward Regressions, Terminal Immutability & User Cancel | 10 | 22 | Pending Phase 2A.3 |
-| `FR10-AI-023` – `FR10-AI-030` | Batch 3: Authentication (`SEC-02`), RBAC (`SEC-03`) & Ownership | 8 | 30 | Pending Phase 2A.4 |
-| `FR10-AI-031` – `FR10-AI-040` | Batch 4: Status Domain, Order ID Boundaries & Schema/SEC-05 | 10 | 40 | Pending Phase 2A.5 |
+| `FR10-AI-013` – `FR10-AI-024` | Batch 2: Backward Regressions, Terminal Immutability & User In-Transit Cancel | 12 | 24 | **GENERATED (24 RAW CASES PENDING HUMAN AUDIT)** |
+| `FR10-AI-025` – `FR10-AI-032` | Batch 3: Authentication (`SEC-02`), RBAC (`SEC-03`) & Ownership | 8 | 32 | Pending Phase 2A.4 |
+| `FR10-AI-033` – `FR10-AI-040` | Batch 4: Status Domain, Order ID Boundaries & Schema/SEC-05 | 8 | 40 | Pending Phase 2A.5 |
 
 ---
 
@@ -414,4 +414,411 @@
 - **Expected State After:** `pending` (State remains UNCHANGED)
 - **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "pending"`.
 - **Oracle Confidence:** HIGH
-- **Notes:** Evaluates combined state-skipping and RBAC privilege boundary under SEC-03.
+- **Notes:** [PENDING HUMAN AUDIT – MULTIPLE FAILURE DIMENSIONS] Combines unauthorized role with illegal skip transition.
+
+---
+
+## 3. Raw AI Test Cases (Batch 2: Backward Regressions, Terminal States & User In-Transit Cancel)
+
+---
+
+### FR10-AI-013 – Invalid Backward State Regression: Confirmed to Pending
+
+- **Test Case ID:** `FR10-AI-013`
+- **Title:** Illegal Backward Regression: `confirmed` to `pending`
+- **Technique:** Negative State Transition Testing (Backward Regression)
+- **Requirement:** SRS FR-10, FSM Progression Rules
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order created and advanced to `confirmed` state via helper setup.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `confirmed`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "pending"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates order $\rightarrow$ transitions to `confirmed`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "pending"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT regressed.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Backward transition rejected; confirmed order cannot revert to pending review.
+- **Expected State After:** `confirmed` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "confirmed"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Pure backward state transition probe using valid admin authentication.
+
+---
+
+### FR10-AI-014 – Invalid Backward State Regression: Shipping to Confirmed
+
+- **Test Case ID:** `FR10-AI-014`
+- **Title:** Illegal Backward Regression: `shipping` to `confirmed`
+- **Technique:** Negative State Transition Testing (Backward Regression)
+- **Requirement:** SRS FR-10, FSM Progression Rules
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order advanced through `pending` $\rightarrow$ `confirmed` $\rightarrow$ `shipping`.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `shipping`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates and advances order to `shipping`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "confirmed"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT regressed.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Backward transition rejected; in-transit order cannot regress to pre-shipment stage.
+- **Expected State After:** `shipping` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "shipping"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Verifies in-transit dispatch cannot be undone via status update API.
+
+---
+
+### FR10-AI-015 – Invalid Backward State Regression: Shipping to Pending
+
+- **Test Case ID:** `FR10-AI-015`
+- **Title:** Illegal Backward Multi-Stage Regression: `shipping` to `pending`
+- **Technique:** Negative State Transition Testing (Multi-Stage Backward Regression)
+- **Requirement:** SRS FR-10, FSM Progression Rules
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order advanced through `pending` $\rightarrow$ `confirmed` $\rightarrow$ `shipping`.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `shipping`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "pending"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates and advances order to `shipping`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "pending"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT regressed.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Multi-stage regression rejected; dispatched order cannot revert to initial placement state.
+- **Expected State After:** `shipping` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "shipping"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Ensures strict forward-only lifecycle progression.
+
+---
+
+### FR10-AI-016 – Customer Prohibited In-Transit Cancellation Attempt
+
+- **Test Case ID:** `FR10-AI-016`
+- **Title:** Customer Prohibited Cancellation of In-Transit Order (`shipping` $\rightarrow$ `canceled`)
+- **Technique:** Negative Business Rule & State Testing
+- **Requirement:** SRS Section 4.10 (User cannot cancel when status is `shipping`)
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order placed by customer $U_1$ and advanced through `confirmed` to `shipping` by admin setup.
+- **Actor:** Order Owner Customer ($U_1$, `role = 'user'`)
+- **Authentication Context:** Valid customer JWT (`userToken`)
+- **State Before:** `shipping`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/orders/:id/cancel`
+- **Headers:** `Authorization: Bearer <userToken>`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:** Empty `{}`
+- **Action / Sequence:**
+  1. Helper creates order for $U_1$ $\rightarrow$ admin advances order to `shipping`.
+  2. Customer $U_1$ attempts to call `PUT /api/orders/:id/cancel`.
+  3. Query `GET /api/orders/:id` to verify order status remained `shipping`.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `409 Conflict`)
+- **Expected Semantic Result:** Cancellation rejected; customer is barred from cancelling orders that have already shipped.
+- **Expected State After:** `shipping` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` with $U_1$ token; assert `response.order.status === "shipping"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Directly tests the explicit SRS Section 4.10 rule: "When an order is shipping, User cannot cancel it".
+
+---
+
+### FR10-AI-017 – Invalid Terminal State Mutation: Delivered to Pending
+
+- **Test Case ID:** `FR10-AI-017`
+- **Title:** Illegal Terminal State Mutation: `delivered` to `pending`
+- **Technique:** Terminal State Immutability Testing
+- **Requirement:** SRS FR-10, FSM Terminal State Invariant
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order fulfilled through lifecycle to `delivered` state.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `delivered`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "pending"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper advances order to `delivered`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "pending"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Mutation rejected; completed order in terminal state is permanently immutable.
+- **Expected State After:** `delivered` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "delivered"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Tests immutability of terminal `delivered` state.
+
+---
+
+### FR10-AI-018 – Invalid Terminal State Mutation: Delivered to Confirmed
+
+- **Test Case ID:** `FR10-AI-018`
+- **Title:** Illegal Terminal State Mutation: `delivered` to `confirmed`
+- **Technique:** Terminal State Immutability Testing
+- **Requirement:** SRS FR-10, FSM Terminal State Invariant
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order fulfilled through lifecycle to `delivered` state.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `delivered`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper advances order to `delivered`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "confirmed"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Mutation rejected; fulfilled order cannot be reverted to pre-shipment confirmation.
+- **Expected State After:** `delivered` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "delivered"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Prevents resurrecting fulfilled orders into active processing pipelines.
+
+---
+
+### FR10-AI-019 – Invalid Terminal State Mutation: Delivered to Shipping
+
+- **Test Case ID:** `FR10-AI-019`
+- **Title:** Illegal Terminal State Mutation: `delivered` to `shipping`
+- **Technique:** Terminal State Immutability Testing
+- **Requirement:** SRS FR-10, FSM Terminal State Invariant
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order fulfilled through lifecycle to `delivered` state.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `delivered`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "shipping"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper advances order to `delivered`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "shipping"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Mutation rejected; delivered package cannot revert to in-transit status.
+- **Expected State After:** `delivered` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "delivered"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Tests terminal boundary between fulfillment and transit.
+
+---
+
+### FR10-AI-020 – Invalid Terminal State Mutation: Delivered to Canceled
+
+- **Test Case ID:** `FR10-AI-020`
+- **Title:** Illegal Terminal State Mutation: `delivered` to `canceled`
+- **Technique:** Terminal State Immutability Testing
+- **Requirement:** SRS FR-10, FSM Terminal State Invariant
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order fulfilled through lifecycle to `delivered` state.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `delivered`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "canceled"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper advances order to `delivered`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "canceled"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Mutation rejected; completed order cannot be canceled after delivery fulfillment.
+- **Expected State After:** `delivered` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "delivered"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Critical business invariant: delivered commercial transactions cannot be voided as cancellations.
+
+---
+
+### FR10-AI-021 – Invalid Terminal State Mutation: Canceled to Pending
+
+- **Test Case ID:** `FR10-AI-021`
+- **Title:** Illegal Terminal State Mutation: `canceled` to `pending`
+- **Technique:** Terminal State Immutability Testing (Resurrection Prevention)
+- **Requirement:** SRS FR-10, FSM Terminal State Invariant
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order placed and canceled $\rightarrow$ state is `canceled`.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `canceled`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "pending"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates and cancels order $\rightarrow$ state is `canceled`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "pending"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Mutation rejected; voided/canceled order cannot be resurrected into pending review.
+- **Expected State After:** `canceled` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "canceled"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Prevents resurrecting aborted transactions.
+
+---
+
+### FR10-AI-022 – Invalid Terminal State Mutation: Canceled to Confirmed
+
+- **Test Case ID:** `FR10-AI-022`
+- **Title:** Illegal Terminal State Mutation: `canceled` to `confirmed`
+- **Technique:** Terminal State Immutability Testing (Resurrection Prevention)
+- **Requirement:** SRS FR-10, FSM Terminal State Invariant
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order placed and canceled $\rightarrow$ state is `canceled`.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `canceled`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates and cancels order $\rightarrow$ state is `canceled`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "confirmed"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Mutation rejected; canceled order cannot be confirmed for fulfillment.
+- **Expected State After:** `canceled` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "canceled"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Prevents confirming previously voided orders.
+
+---
+
+### FR10-AI-023 – Invalid Terminal State Mutation: Canceled to Shipping
+
+- **Test Case ID:** `FR10-AI-023`
+- **Title:** Illegal Terminal State Mutation: `canceled` to `shipping`
+- **Technique:** Terminal State Immutability Testing (Resurrection Prevention)
+- **Requirement:** SRS FR-10, FSM Terminal State Invariant
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order placed and canceled $\rightarrow$ state is `canceled`.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `canceled`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "shipping"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates and cancels order $\rightarrow$ state is `canceled`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "shipping"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Mutation rejected; canceled order cannot be dispatched to carrier.
+- **Expected State After:** `canceled` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "canceled"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Prevents accidental dispatch of canceled items.
+
+---
+
+### FR10-AI-024 – Invalid Terminal State Mutation: Canceled to Delivered
+
+- **Test Case ID:** `FR10-AI-024`
+- **Title:** Illegal Terminal State Mutation: `canceled` to `delivered`
+- **Technique:** Terminal State Immutability Testing (Terminal-to-Terminal Mutation)
+- **Requirement:** SRS FR-10, FSM Terminal State Invariant
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Preconditions:** Order placed and canceled $\rightarrow$ state is `canceled`.
+- **Actor:** System Administrator (`role = 'admin'`)
+- **Authentication Context:** Valid admin JWT (`adminToken`)
+- **State Before:** `canceled`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <adminToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "delivered"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates and cancels order $\rightarrow$ state is `canceled`.
+  2. Admin attempts to send `PUT /api/admin/orders/:id/status` with `status: "delivered"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `NOT SPECIFIED – ERROR / NON-SUCCESS` (e.g. `400 Bad Request` or `422 Unprocessable Entity`)
+- **Expected Semantic Result:** Mutation rejected; canceled order cannot transition directly to delivered.
+- **Expected State After:** `canceled` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "canceled"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** High-risk probe verifying terminal-to-terminal cross-mutation prevention.
