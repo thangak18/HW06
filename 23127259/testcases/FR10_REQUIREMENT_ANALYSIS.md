@@ -4,52 +4,66 @@
 **Student Name:** Nguyễn Tấn Thắng  
 **Student ID:** `23127259`  
 **Authoritative Standards:** EShop SRS Section 4.10, api_specification.md, HW06 Assignment Requirements  
-**Analysis Date:** September 1, 2026
+**Analysis Date:** September 1, 2026 (Updated & Corrected in Phase 2A.2)
+
+---
+
+## 0. Human Review Corrections Before Generation
+
+> [!NOTE]
+> **Audit & Oracle Alignment Notice (Phase 2A.2 Gate):**  
+> Following human review of the initial Phase 2A.1 analysis, the following normative corrections were applied before initiating test case generation:
+> 1. **Exact Endpoint Disambiguation:** Removed ambiguous "OR" path alternatives. Locked primary admin status mutation to `PUT /api/admin/orders/:id/status` and customer self-cancellation to `PUT /api/orders/:id/cancel`. Clarified that `POST /api/orders` serves strictly as a test setup helper (FR-08 dependency), not the formal FR-10 API surface under test.
+> 2. **Actor-Specific In-Transit Cancellation Semantics:** Disentangled `shipping -> canceled` into two separate cases: (a) User cancellation is explicitly barred by SRS (`Allowed = NO`, `SPECIFICATION-BACKED`); (b) Admin emergency cancellation in-transit is unmentioned in SRS/API-SPEC (`Allowed = SPEC-UNDEFINED`, `SPEC-UNDEFINED`).
+> 3. **HTTP Status Code Discipline:** Removed assumptions of exact `401 Unauthorized` or `403 Forbidden` unless explicitly normative in `api_specification.md`. Used `Expected Semantic Result` with `Expected HTTP Status: NOT SPECIFIED – ERROR / NON-SUCCESS` (or `4xx Client Error`).
+> 4. **Dedicated Ownership & Cross-Tenant Boundary Model:** Distinctly analyzed customer self-cancellation vs. cross-user cancellation (`PARTIAL / SPEC-UNDEFINED`) and own-order reading vs. cross-user order reading (`SPECIFICATION-BACKED / ADDITIONAL-SEC` per SRS FR-11).
+> 5. **Two-Tier Persistence Oracle Enforcement:** Mandated that state transitions be verified not merely by the immediate PUT response body, but primarily through a follow-up query (`GET /api/orders/:id`).
+> 6. **Multi-Interaction Raw Generation Target:** Expanded the generation plan to 40–42 raw AI cases across multiple staged interactions to ensure $>35$ usable cases after Human Audit filtering.
 
 ---
 
 ## 1. Feature Scope
 
-FR-10 governs the lifecycle, progression, validation, and authorization boundaries of customer orders within the EShop system. The order subsystem functions as a discrete finite state machine (FSM) transitioning across documented commercial milestones—from order placement through confirmation, dispatch, fulfillment, or cancellation.
+FR-10 governs the lifecycle, state progression, authorization boundaries, and cancellation rules of customer orders in the EShop system. The order subsystem implements a discrete finite state machine (FSM) transitioning across documented commercial stages—from placement to merchant review, carrier transit, final fulfillment, or early cancellation.
 
 Testing FR-10 requires verifying:
-1. Strict sequential forward progression of order states.
-2. Rigid enforcement of terminal/immutable states (`delivered`, `canceled`).
-3. Role-Based Access Control (RBAC) separating customer self-service actions from administrative fulfillment actions.
+1. Strict sequential forward progression of order states without illegal state skipping.
+2. Permanent immutability of terminal states (`delivered`, `canceled`).
+3. Rigid Role-Based Access Control (RBAC) separating customer self-service actions from administrative fulfillment actions.
 4. Ownership boundaries preventing cross-tenant / IDOR status tampering.
 5. Robust input validation and schema conformance on all state-mutating endpoints.
 
 ---
 
-## 2. API Surface
+## 2. API Surface & Exact Endpoints
 
-The normative API surface participating in FR-10 state transitions and verification comprises:
+The exact normative API surface participating in FR-10 state transitions and verification comprises:
 
-| HTTP Method | Endpoint | Primary Role in FR-10 | Auth / Header Requirement | Documented Expected Roles |
+| HTTP Method | Exact Endpoint Path | Participating Role in FR-10 | Mandatory Headers & Auth | Request Body Schema |
 |---|---|---|---|---|
-| `PUT` | `/api/admin/orders/:id/status` (or `PUT /api/orders/:id/status`) | **Primary State Transition Endpoint:** Mutates the order status field to a new target state. | `Bearer <JWT>`, `X-Student-Id` | `admin` (for fulfillment transitions); `user` (for self-cancellation where routed) |
-| `POST` | `/api/orders/:id/cancel` (or `PUT /api/orders/:id/cancel`) | **User Self-Cancellation Endpoint:** Dedicated customer endpoint to cancel eligible orders. | `Bearer <JWT>`, `X-Student-Id` | `user` (order owner) / `admin` |
-| `GET` | `/api/orders/:id` | **Direct State Query & Verification Oracle:** Retrieves full order details including persisted status. | `Bearer <JWT>`, `X-Student-Id` | `user` (owner) / `admin` |
-| `GET` | `/api/orders/my-orders` (or `GET /api/orders`) | **List Orders State Query:** Downstream query of user order list. | `Bearer <JWT>`, `X-Student-Id` | `user` |
-| `POST` | `/api/orders` (or `/api/checkout`) | **Precondition Fixture Generator:** Places new orders in initial `pending` state. | `Bearer <JWT>`, `X-Student-Id` | `user` |
+| `PUT` | `/api/admin/orders/:id/status` | **Primary Admin State Mutation API:** Advances order status along the fulfillment lifecycle (`confirmed`, `shipping`, `delivered`, `canceled`). | `Authorization: Bearer <token>`, `X-Student-Id` (Role: `admin`) | `{ "status": "<target_status>" }` |
+| `PUT` | `/api/orders/:id/cancel` | **User Self-Cancellation API:** Allows customer to cancel their own un-shipped order. | `Authorization: Bearer <token>`, `X-Student-Id` (Role: `user`) | Empty body `{}` (or optional `{ "reason": "..." }`) |
+| `GET` | `/api/orders/:id` | **Direct State Query & Verification Oracle:** Primary Tier 2 external persistence oracle. | `Authorization: Bearer <token>`, `X-Student-Id` | None |
+| `GET` | `/api/orders/my-orders` | **List Orders State Query:** Supplemental verification of customer order list. | `Authorization: Bearer <token>`, `X-Student-Id` | None |
+| `POST` | `/api/orders` (or `/api/checkout`) | **[HELPER / FR-08 DEPENDENCY]:** Fixture generator creating fresh test orders in initial `pending` state. | `Authorization: Bearer <token>`, `X-Student-Id` | Cart / Checkout payload |
 
 ---
 
-## 3. Actors and Authorization
+## 3. Actors and Authorization Model
 
 FR-10 distinguishes five operational actor contexts:
 
-1. **Unauthenticated Client (`ANON`):** Request without `Authorization` header or with invalid/tampered token. Must be rejected on all mutating endpoints (`HTTP 401 Unauthorized`) per `SEC-02`.
-2. **Authenticated Order Owner (`USER-OWNER`):** Authenticated customer who placed the order. Permitted to view order and cancel orders in `pending` or `confirmed` status. Prohibited from executing fulfillment transitions (`confirmed`, `shipping`, `delivered`).
-3. **Authenticated Non-Owner Customer (`USER-NON-OWNER`):** Authenticated customer who did NOT place the targeted order. Prohibited from viewing or modifying the order (IDOR / Horizontal Privilege boundary).
-4. **Authenticated System Administrator (`ADMIN`):** Authenticated user possessing `role = 'admin'`. Authorized to advance fulfillment transitions (`pending -> confirmed -> shipping -> delivered`) and cancel un-shipped orders.
-5. **Tampered/Forged Role Client (`ATTACKER-ROLE-FORGED`):** Token containing forged client-side claims (e.g. `role: admin` with invalid signature or modified payload). Must be rejected under `SEC-03`.
+1. **Unauthenticated Client (`ANON`):** Request lacking `Authorization` header or presenting an invalid/tampered token. Expected Semantic Result: rejected; authentication required (`SEC-02`).
+2. **Authenticated Order Owner (`USER-OWNER`):** Authenticated customer who placed the targeted order. Authorized for self-cancellation on un-shipped orders (`pending`, `confirmed`) via `PUT /api/orders/:id/cancel`. Unauthorized for fulfillment mutations via `PUT /api/admin/orders/:id/status`.
+3. **Authenticated Non-Owner Customer (`USER-NON-OWNER`):** Authenticated customer who did NOT place the targeted order. Unauthorized to view or cancel the order (Horizontal Privilege / IDOR boundary).
+4. **Authenticated System Administrator (`ADMIN`):** Authenticated user possessing verified `role = 'admin'`. Authorized to advance fulfillment transitions and perform administrative cancellations.
+5. **Tampered / Client-Forged Role Client (`ATTACKER-FORGED`):** Token containing forged client claims without valid server signature. Expected Semantic Result: rejected under `SEC-03`.
 
 ---
 
-## 4. Authoritative State Set
+## 4. Authoritative Order State Set
 
-According to EShop SRS Section 4.10 and `api_specification.md`, the authoritative set of order states consists of exactly five (5) string enum values:
+According to EShop SRS Section 4.10 and `api_specification.md`, the authoritative order state set comprises exactly five (5) discrete string enum values:
 
 ```
 [ pending ] ──(Admin)──> [ confirmed ] ──(Admin)──> [ shipping ] ──(Admin)──> [ delivered ] (Terminal)
@@ -60,67 +74,64 @@ According to EShop SRS Section 4.10 and `api_specification.md`, the authoritativ
 [ canceled ] (Terminal) <──────┘
 ```
 
-1. **`pending` (Initial State):** Default state upon successful order creation / checkout. Awaiting merchant confirmation.
-2. **`confirmed` (Intermediate State):** Merchant has reviewed and accepted the order. Ready for packaging/dispatch.
-3. **`shipping` (Transit State):** Order has been dispatched to carrier and is currently in transit.
-4. **`delivered` (Terminal State):** Customer has received goods. Fulfillment complete. State is permanently immutable.
-5. **`canceled` (Terminal State):** Order voided/aborted by customer or merchant prior to dispatch. State is permanently immutable.
+1. **`pending` (Initial State):** Default state immediately following order placement / checkout. Awaiting merchant confirmation.
+2. **`confirmed` (Intermediate State):** Merchant has reviewed and accepted the order for processing.
+3. **`shipping` (In-Transit State):** Order has been dispatched to carrier and is currently in transit.
+4. **`delivered` (Terminal State):** Customer has received goods. Fulfillment is completed. State is permanently immutable.
+5. **`canceled` (Terminal State):** Order has been voided/aborted prior to dispatch. State is permanently immutable.
 
 ---
 
-## 5. State Transition Matrix
+## 5. Frozen State Transition Matrix
 
-The table below defines the formal specification-backed validity of every possible $(S_{current}, S_{target})$ combination:
+The table below defines the authoritative specification-backed validity of every possible $(S_{current}, S_{target})$ combination:
 
-| # | Current State ($S_{from}$) | Target State ($S_{to}$) | Permitted Actor | Allowed? | Oracle Classification | Normative Specification Rationale |
+| # | Current State ($S_{from}$) | Target State ($S_{to}$) | Actor / Route | Allowed? | Oracle Classification | Normative Basis & Rationale |
 |---|---|---|---|:---:|---|---|
-| **T01** | `pending` | `confirmed` | `admin` | **YES** | `SPECIFICATION-BACKED` | Merchant confirms new order for processing. |
-| **T02** | `pending` | `canceled` | `user` (owner), `admin` | **YES** | `SPECIFICATION-BACKED` | Customer or merchant cancels order before confirmation. |
-| **T03** | `pending` | `shipping` | None | **NO** | `SPECIFICATION-BACKED` | Illegal skip transition (`confirmed` skipped). |
-| **T04** | `pending` | `delivered` | None | **NO** | `SPECIFICATION-BACKED` | Illegal skip transition (`confirmed`, `shipping` skipped). |
-| **T05** | `pending` | `pending` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent transition. API may reject with 4xx or return 200 NOP. |
-| **T06** | `confirmed` | `shipping` | `admin` | **YES** | `SPECIFICATION-BACKED` | Merchant dispatches confirmed package to carrier. |
-| **T07** | `confirmed` | `canceled` | `user` (owner), `admin` | **YES** | `SPECIFICATION-BACKED` | Cancellation permitted while package has not yet shipped. |
-| **T08** | `confirmed` | `pending` | None | **NO** | `SPECIFICATION-BACKED` | Illegal backward transition. |
-| **T09** | `confirmed` | `delivered` | None | **NO** | `SPECIFICATION-BACKED` | Illegal skip transition (`shipping` skipped). |
-| **T10** | `confirmed` | `confirmed` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent transition. |
-| **T11** | `shipping` | `delivered` | `admin` | **YES** | `SPECIFICATION-BACKED` | Carrier/merchant confirms delivery completion. |
-| **T12** | `shipping` | `canceled` | None (User explicitly blocked) | **NO** | `SPECIFICATION-BACKED` | SRS explicitly states user cannot cancel while shipping; admin cancellation is non-normative. |
-| **T13** | `shipping` | `pending` | None | **NO** | `SPECIFICATION-BACKED` | Illegal backward transition. |
-| **T14** | `shipping` | `confirmed` | None | **NO** | `SPECIFICATION-BACKED` | Illegal backward transition. |
-| **T15** | `shipping` | `shipping` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent transition. |
-| **T16** | `delivered` | `pending` | None | **NO** | `SPECIFICATION-BACKED` | Terminal state violation. |
-| **T17** | `delivered` | `confirmed` | None | **NO** | `SPECIFICATION-BACKED` | Terminal state violation. |
-| **T18** | `delivered` | `shipping` | None | **NO** | `SPECIFICATION-BACKED` | Terminal state violation. |
-| **T19** | `delivered` | `canceled` | None | **NO** | `SPECIFICATION-BACKED` | Terminal state violation (cannot cancel delivered order). |
+| **T01** | `pending` | `confirmed` | `admin` via `PUT /api/admin/orders/:id/status` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10: Merchant confirms new order. |
+| **T02** | `pending` | `canceled` | `user` (owner) via `PUT /api/orders/:id/cancel` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10: Customer cancels pending order. |
+| **T03** | `pending` | `canceled` | `admin` via `PUT /api/admin/orders/:id/status` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10: Merchant cancels pending order. |
+| **T04** | `pending` | `shipping` | Any | **NO** | `SPECIFICATION-BACKED` | Illegal skip transition (`confirmed` skipped). |
+| **T05** | `pending` | `delivered` | Any | **NO** | `SPECIFICATION-BACKED` | Illegal skip transition (`confirmed`, `shipping` skipped). |
+| **T06** | `pending` | `pending` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent transition. |
+| **T07** | `confirmed` | `shipping` | `admin` via `PUT /api/admin/orders/:id/status` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10: Merchant dispatches package. |
+| **T08** | `confirmed` | `canceled` | `user` (owner) via `PUT /api/orders/:id/cancel` | **YES** | `SPECIFICATION-BACKED` | SRS Section 4.10: Customer cancels before shipping. |
+| **T09** | `confirmed` | `canceled` | `admin` via `PUT /api/admin/orders/:id/status` | **YES** | `SPECIFICATION-BACKED` | SRS Section 4.10: Merchant cancels before shipping. |
+| **T10** | `confirmed` | `pending` | Any | **NO** | `SPECIFICATION-BACKED` | Illegal backward regression. |
+| **T11** | `confirmed` | `delivered` | Any | **NO** | `SPECIFICATION-BACKED` | Illegal skip transition (`shipping` skipped). |
+| **T12** | `confirmed` | `confirmed` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent transition. |
+| **T13** | `shipping` | `delivered` | `admin` via `PUT /api/admin/orders/:id/status` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10: Carrier/merchant completes delivery. |
+| **T14** | `shipping` | `canceled` | `user` (owner) via `PUT /api/orders/:id/cancel` | **NO** | `SPECIFICATION-BACKED` | SRS Section 4.10 explicitly bars user cancel while shipping. |
+| **T15** | `shipping` | `canceled` | `admin` via `PUT /api/admin/orders/:id/status` | **SPEC-UNDEFINED** | `SPEC-UNDEFINED` | Emergency in-transit admin cancel is unmentioned in SRS. |
+| **T16** | `shipping` | `pending` | Any | **NO** | `SPECIFICATION-BACKED` | Illegal backward regression. |
+| **T17** | `shipping` | `confirmed` | Any | **NO** | `SPECIFICATION-BACKED` | Illegal backward regression. |
+| **T18** | `shipping` | `shipping` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent transition. |
+| **T19** | `delivered` | Any other state | Any | **NO** | `SPECIFICATION-BACKED` | Terminal state immutability violation. |
 | **T20** | `delivered` | `delivered` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent on terminal state. |
-| **T21** | `canceled` | `pending` | None | **NO** | `SPECIFICATION-BACKED` | Terminal state violation (cannot resurrect canceled order). |
-| **T22** | `canceled` | `confirmed` | None | **NO** | `SPECIFICATION-BACKED` | Terminal state violation. |
-| **T23** | `canceled` | `shipping` | None | **NO** | `SPECIFICATION-BACKED` | Terminal state violation. |
-| **T24** | `canceled` | `delivered` | None | **NO** | `SPECIFICATION-BACKED` | Terminal state violation. |
-| **T25** | `canceled` | `canceled` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent on terminal state. |
+| **T21** | `canceled` | Any other state | Any | **NO** | `SPECIFICATION-BACKED` | Terminal state immutability violation. |
+| **T22** | `canceled` | `canceled` | Any | **NO / NOP** | `SPEC-UNDEFINED` | Idempotent on terminal state. |
 
 ---
 
 ## 6. Invalid Transition Classes
 
-Invalid state mutations are grouped into five rigorous testable classes:
+Invalid state mutation attempts are categorized into five testable classes:
 
 1. **Class A: Forward Skip Transitions (`SKIP`):**
-   - Attempting to skip required intermediate states (e.g. `pending -> shipping`, `pending -> delivered`, `confirmed -> delivered`).
-   - Expected behavior: Rejection with `4xx Client Error` (`400 Bad Request` or `422 Unprocessable Entity`); persisted state must remain unchanged.
+   - Direct jumping across lifecycle stages (e.g. `pending -> shipping`, `pending -> delivered`, `confirmed -> delivered`).
+   - Expected Semantic Result: Transition rejected; order status remains strictly unchanged.
 2. **Class B: Backward Regression Transitions (`REGRESS`):**
    - Attempting to regress order progress (e.g. `shipping -> confirmed`, `confirmed -> pending`, `delivered -> shipping`).
-   - Expected behavior: Rejection with `4xx Client Error`; persisted state must remain unchanged.
+   - Expected Semantic Result: Transition rejected; order status remains strictly unchanged.
 3. **Class C: Post-Terminal Mutation Transitions (`TERMINAL_MUTATION`):**
-   - Attempting any status change on an order already in `delivered` or `canceled`.
-   - Expected behavior: Rejection with `4xx Client Error`; persisted state must remain permanently immutable.
+   - Any status mutation attempt on an order already in `delivered` or `canceled`.
+   - Expected Semantic Result: Transition rejected; terminal state remains permanently immutable.
 4. **Class D: Unauthorized Role Transitions (`RBAC_VIOLATION`):**
-   - Normal customer attempting admin-only fulfillment transitions (`pending -> confirmed`, `confirmed -> shipping`, `shipping -> delivered`).
-   - Expected behavior: Rejection with `403 Forbidden` under `SEC-03`.
+   - Normal customer token attempting admin-only fulfillment transitions via `PUT /api/admin/orders/:id/status`.
+   - Expected Semantic Result: Request rejected (`SEC-03`); order status unchanged.
 5. **Class E: Unauthorized In-Transit Cancellation (`SHIPPING_CANCEL_VIOLATION`):**
    - Customer attempting to cancel an order currently in `shipping` status.
-   - Expected behavior: Rejection with `4xx Client Error` (`400 Bad Request` or `403 Forbidden`).
+   - Expected Semantic Result: Request rejected (SRS Section 4.10); order status remains `shipping`.
 
 ---
 
@@ -134,171 +145,160 @@ Equivalence partitioning on the `status` payload field (`{ "status": <value> }`)
 | `EP-STAT-02` | `"shipping"` | Valid forward enum | Valid | `SPECIFICATION-BACKED` | State advanced if valid actor and current state. |
 | `EP-STAT-03` | `"delivered"` | Valid forward enum | Valid | `SPECIFICATION-BACKED` | State advanced if valid actor and current state. |
 | `EP-STAT-04` | `"canceled"` | Valid cancellation enum | Valid | `SPECIFICATION-BACKED` | Order canceled if in `pending` or `confirmed`. |
-| `EP-STAT-05` | `"unknown_status"`, `"refunded"`, `"processing"` | Undocumented enum | Invalid | `SPECIFICATION-BACKED` | Rejection with `400 Bad Request` / `422`. |
-| `EP-STAT-06` | `""` (Empty string) | Empty value | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with `400 Bad Request`. |
-| `EP-STAT-07` | Missing `status` key `{}` | Missing required key | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with `400 Bad Request`. |
-| `EP-STAT-08` | `null` | Null JSON value | Invalid | `EXPLORATORY / ENGINEERING` | Rejection without HTTP 500 server crash. |
-| `EP-STAT-09` | `"   "` (Whitespace string) | Whitespace-only string | Invalid | `EXPLORATORY / ENGINEERING` | Rejection with `400 Bad Request`. |
-| `EP-STAT-10` | `"CONFIRMED"`, `"Pending"`, `"SHIPPING"` | Case variation | Invalid / Spec-Undefined | `SPEC-UNDEFINED` | Rejection or exact case matching required. |
+| `EP-STAT-05` | `"unknown_status"`, `"refunded"`, `"processing"` | Undocumented enum | Invalid | `SPECIFICATION-BACKED` | Rejection with 4xx client error; status unchanged. |
+| `EP-STAT-06` | `""` (Empty string) | Empty value | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with 4xx client error. |
+| `EP-STAT-07` | Missing `status` key `{}` | Missing required key | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with 4xx client error. |
+| `EP-STAT-08` | `null` | Null JSON value | Invalid | `EXPLORATORY / ENGINEERING` | Rejection without 500 server crash. |
+| `EP-STAT-09` | `"   "` (Whitespace string) | Whitespace string | Invalid | `EXPLORATORY / ENGINEERING` | Rejection with 4xx client error. |
+| `EP-STAT-10` | `"CONFIRMED"`, `"Pending"`, `"SHIPPING"` | Case variation | Invalid / Spec-Undefined | `SPEC-UNDEFINED` | Rejection or exact lower-case match required. |
 | `EP-STAT-11` | `123`, `true` | Numeric / Boolean type | Invalid | `EXPLORATORY / ENGINEERING` | Rejection with 4xx type mismatch. |
 | `EP-STAT-12` | `{"nested": "confirmed"}` | Object type | Invalid | `EXPLORATORY / ENGINEERING` | Rejection with 4xx type mismatch. |
 | `EP-STAT-13` | `["confirmed"]` | Array type | Invalid | `EXPLORATORY / ENGINEERING` | Rejection with 4xx type mismatch. |
-| `EP-STAT-14` | String $> 1000\text{ chars}$ | Excessive length buffer | Invalid | `EXPLORATORY / ENGINEERING` | Rejection without buffer overflow / 500. |
+| `EP-STAT-14` | String $> 1000\text{ chars}$ | Excessive length buffer | Invalid | `EXPLORATORY / ENGINEERING` | Rejection without buffer overflow / 500 crash. |
 
 ---
 
 ## 8. Order ID Partitions
 
-Equivalence partitioning on the `:id` path parameter (`/api/orders/:id/status`):
+Equivalence partitioning on the `:id` path parameter (`/api/admin/orders/:id/status` and `/api/orders/:id/cancel`):
 
 | Partition ID | Input Value / Format | Partition Category | Validity | Oracle Classification | Expected Semantic Handling |
 |---|---|---|:---:|---|---|
-| `EP-ID-01` | Valid existing order ID (e.g. `1`, `42`) | Valid numeric ID | Valid | `SPECIFICATION-BACKED` | Process status transition on targeted order. |
-| `EP-ID-02` | Non-existent positive integer (e.g. `999999`) | Non-existent entity | Invalid | `SPECIFICATION-BACKED` | Rejection with `404 Not Found`. |
-| `EP-ID-03` | `0` (Zero) | Non-positive boundary | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with `400 Bad Request` or `404 Not Found`. |
-| `EP-ID-04` | `-1`, `-99` | Negative integer | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with `400 Bad Request` or `404 Not Found`. |
-| `EP-ID-05` | `"abc"`, `"xyz"` | Non-numeric string | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with `400 Bad Request` or `404 Not Found`. |
-| `EP-ID-06` | `1.5`, `3.14` | Decimal / Float string | Invalid | `EXPLORATORY / ENGINEERING` | Rejection with `400 Bad Request` or `404 Not Found`. |
-| `EP-ID-07` | `99999999999999999999` | BigInt / Integer overflow | Invalid | `EXPLORATORY / ENGINEERING` | Rejection without 500 server crash. |
-| `EP-ID-08` | Special characters / SQL injection probe (`1' OR '1'='1`) | Malicious path string | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with `400 Bad Request` or `404 Not Found` under `SEC-05`. |
+| `EP-ID-01` | Valid existing order ID (e.g. `1`, `42`) | Valid numeric ID | Valid | `SPECIFICATION-BACKED` | Process transition on targeted order. |
+| `EP-ID-02` | Non-existent positive integer (e.g. `999999`) | Non-existent entity | Invalid | `SPECIFICATION-BACKED` | Rejection with 4xx (e.g. 404 Not Found). |
+| `EP-ID-03` | `0` (Zero) | Non-positive boundary | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with 4xx client error. |
+| `EP-ID-04` | `-1`, `-99` | Negative integer | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with 4xx client error. |
+| `EP-ID-05` | `"abc"`, `"xyz"` | Non-numeric string | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with 4xx client error. |
+| `EP-ID-06` | `1.5`, `3.14` | Decimal / Float string | Invalid | `EXPLORATORY / ENGINEERING` | Rejection with 4xx client error. |
+| `EP-ID-07` | `99999999999999999999` | Integer overflow | Invalid | `EXPLORATORY / ENGINEERING` | Rejection without 500 server crash. |
+| `EP-ID-08` | SQL injection probe (`1' OR '1'='1`) | Malicious path string | Invalid | `PARTIALLY SPEC-BACKED` | Rejection with 4xx under `SEC-05`. |
 
 ---
 
-## 9. Authentication / Authorization Partitions
+## 9. Authentication & Authorization Partitions
 
-Evaluation of incoming request security context under `SEC-02` and `SEC-03`:
+Evaluation of request authentication context under `SEC-02` and `SEC-03`:
 
-| Auth Partition ID | Token / Header State | Target Action | Expected Status | Security Standard |
-|---|---|---|:---:|---|
-| `EP-AUTH-01` | Missing `Authorization` header | Any state transition | `401 Unauthorized` | `SEC-02` (Mandatory JWT) |
-| `EP-AUTH-02` | Malformed header (e.g. `Bearer`, `Basic xyz`) | Any state transition | `401 Unauthorized` | `SEC-02` (Malformed token) |
-| `EP-AUTH-03` | Invalid signature / corrupted JWT string | Any state transition | `401 Unauthorized` | `SEC-02` (Signature mismatch) |
-| `EP-AUTH-04` | Valid customer JWT (`role: 'user'`) | Admin transition (`confirmed`, `shipping`, `delivered`) | `403 Forbidden` | `SEC-03` (RBAC role check) |
-| `EP-AUTH-05` | Valid customer JWT (`role: 'user'`) | Self-cancellation on own `pending` order | `200 OK` | `FR-10` / `SEC-02` |
-| `EP-AUTH-06` | Valid admin JWT (`role: 'admin'`) | Admin fulfillment transitions | `200 OK` | `FR-10` / `SEC-03` |
-
----
-
-## 10. Ownership Analysis (Cross-Tenant / IDOR)
-
-The relationship between order ownership and customer access boundaries:
-
-- **Customer Self-Service Boundary:** A normal authenticated user ($U_1$) is authorized to interact only with orders placed by $U_1$.
-- **Horizontal Tampering (IDOR):** If user $U_1$ attempts to cancel or modify an order belonging to user $U_2$, the API must reject the operation.
-- **Oracle Classification:** `SPECIFICATION-BACKED` (per SRS FR-10 and FR-11: customer views and modifies only own orders).
-- **Expected Rejection Status:** `403 Forbidden` or `404 Not Found` (to avoid leaking order existence).
-- **Admin Privilege:** Administrators operate globally across all customer orders and are exempt from single-user ownership restrictions.
+| Auth Partition ID | Token / Header State | Target Endpoint & Action | Expected Semantic Result | Expected HTTP Status | Security Standard |
+|---|---|---|---|---|---|
+| `EP-AUTH-01` | Missing `Authorization` header | Status mutation / Cancel | Rejected: Authentication required | `NOT SPECIFIED – ERROR / 4xx` | `SEC-02` (Mandatory JWT) |
+| `EP-AUTH-02` | Malformed header (`Bearer`, `Basic xyz`) | Status mutation / Cancel | Rejected: Malformed token | `NOT SPECIFIED – ERROR / 4xx` | `SEC-02` (Malformed token) |
+| `EP-AUTH-03` | Tampered signature / corrupted JWT | Status mutation / Cancel | Rejected: Invalid token | `NOT SPECIFIED – ERROR / 4xx` | `SEC-02` (Invalid signature) |
+| `EP-AUTH-04` | Customer token (`role = 'user'`) | `PUT /api/admin/orders/:id/status` | Rejected: Insufficient privileges | `NOT SPECIFIED – ERROR / 4xx` | `SEC-03` (RBAC role check) |
+| `EP-AUTH-05` | Customer token (`role = 'user'`) | `PUT /api/orders/:id/cancel` (own order) | Processed: Order canceled | `200 OK` (if documented) | `FR-10` / `SEC-02` |
+| `EP-AUTH-06` | Admin token (`role = 'admin'`) | `PUT /api/admin/orders/:id/status` | Processed: Status updated | `200 OK` (if documented) | `FR-10` / `SEC-03` |
 
 ---
 
-## 11. Security Applicability Matrix
+## 10. Dedicated Ownership & Cross-Tenant Access Model
 
-| Security Requirement | Applicability to FR-10 | Testing Approach | Verification Limit & Boundary |
-|---|:---:|---|---|
-| **SEC-01** (Passwords at Rest) | **N/A** | Not applicable to order status operations. | No password payloads are processed in FR-10. |
-| **SEC-02** (Valid JWT on Sensitive APIs) | **DIRECTLY APPLICABLE (FULL)** | Submit requests with missing, malformed, invalid, and tampered JWTs to status endpoints. | Black-box API tests provide complete verification of 401 rejection behavior. |
-| **SEC-03** (Admin Role Verification) | **DIRECTLY APPLICABLE (FULL)** | Submit customer tokens (`role: 'user'`) and forged tokens to admin fulfillment transitions. | Validates behavioral RBAC rejection (HTTP 403); internal code review verifies claims processing. |
-| **SEC-04** (UI XSS Escaping) | **N/A** | UI-scoped rendering rule. | API reflects raw status strings in JSON; does not prove UI DOM safety. |
-| **SEC-05** (Parameterized Queries) | **PARTIALLY APPLICABLE** | Submit SQL injection strings in `:id` path parameter and `status` JSON body. | Behavioral resilience (no SQL syntax leakage/crash) provides partial evidence; DB inspection confirms query parameterization. |
-| **SEC-06** (Profile Role Tampering) | **N/A** | Scoped to profile management (FR-04). | Not applicable to order status transitions. |
-| **SEC-07** (OTP Entropy & Expiry) | **N/A** | Scoped to password reset (FR-03). | Not applicable to order state transitions. |
+The relationship between order ownership, privacy, and status mutations:
+
+1. **Customer Self-Service Boundary (Own Order Cancellation):**
+   - User $U_1$ cancelling $U_1$'s own `pending` or `confirmed` order via `PUT /api/orders/:id/cancel`.
+   - Classification: `SPECIFICATION-BACKED` (SRS Section 4.10).
+   - Expected Result: Order status successfully transitions to `canceled`.
+2. **Horizontal Privilege Escalation (Cross-User Cancellation):**
+   - User $U_1$ attempting to cancel an order belonging to user $U_2$ via `PUT /api/orders/:id/cancel`.
+   - Classification: `PARTIAL / SPEC-UNDEFINED` (Business authorization boundary; SRS FR-10 does not explicitly specify status code for cross-user mutation).
+   - Expected Semantic Result: Request rejected; $U_2$'s order remains unchanged.
+3. **Customer Order Viewing (Own Order Query):**
+   - User $U_1$ reading $U_1$'s own order via `GET /api/orders/:id`.
+   - Classification: `SPECIFICATION-BACKED` (SRS FR-11).
+   - Expected Result: Returns order details for $U_1$.
+4. **Cross-User Order Reading (IDOR Privacy Violation):**
+   - User $U_1$ attempting to read an order belonging to user $U_2$ via `GET /api/orders/:id`.
+   - Classification: `SPECIFICATION-BACKED / ADDITIONAL-SEC` (SRS FR-11 explicitly mandates: *"users can only see their own orders"*).
+   - Expected Semantic Result: Request rejected (e.g. 403 Forbidden or 404 Not Found); customer cannot inspect another customer's order.
+5. **Administrative Authority:**
+   - Admin users have global oversight and are exempt from single-user ownership boundaries.
 
 ---
 
-## 12. Response / Schema Oracle
+## 11. Security Requirements Applicability Matrix
 
-From `api_specification.md`, the documented contract for successful status mutations and error responses:
+| Security ID | Standard Definition | Applicability to FR-10 | Verification Approach & Limits |
+|:---:|---|:---:|---|
+| **SEC-01** | Passwords must not be stored in plaintext. | **N/A** | Order state operations do not process password credentials. |
+| **SEC-02** | Security-sensitive APIs must require a valid JWT. | **DIRECTLY APPLICABLE (FULL)** | Submit requests with missing, malformed, and tampered JWTs to status endpoints. Black-box API tests verify non-success rejection. |
+| **SEC-03** | Admin APIs must verify `role = 'admin'` in the token. | **DIRECTLY APPLICABLE (FULL)** | Submit customer tokens (`role = 'user'`) to `PUT /api/admin/orders/:id/status`. Validates behavioral RBAC rejection. |
+| **SEC-04** | User-controlled UI data must be escaped safely. | **N/A (UI-SCOPED)** | Returning raw status strings in JSON responses is standard API behavior. |
+| **SEC-05** | Database queries must use parameterized queries. | **PARTIALLY APPLICABLE** | Submit SQL injection strings into `:id` path and `status` body. Evaluates behavioral injection resistance only; does not definitively prove parameterization technique. |
+| **SEC-06** | Profile update must not allow client-side role change. | **N/A** | Scoped to profile management (`FR-04`). |
+| **SEC-07** | Password-reset OTP entropy and expiry. | **N/A** | Scoped to password reset (`FR-03`). |
 
-### 12.1 Successful Transition Response Contract
-- **Expected HTTP Status:** `200 OK`
-- **Content-Type:** `application/json`
-- **Documented Top-Level Fields:**
-  - `message`: String describing successful update (e.g. `"Order status updated successfully"`).
-  - `order` (or updated order object):
-    - `id`: Positive integer matching the requested `:id`.
-    - `status`: String matching the newly updated target state enum.
+---
 
-### 12.2 Error Response Contract
-- **Expected HTTP Status:** `400 Bad Request` (invalid input / illegal transition), `401 Unauthorized` (auth failure), `403 Forbidden` (RBAC violation), `404 Not Found` (non-existent order).
-- **Documented Top-Level Fields:**
-  - `message`: Descriptive error string without leaking internal stack traces, database schema details, or raw server internals.
+## 12. Response Body Oracle vs. Persistence State Oracle
+
+To satisfy rigorous verification standards, FR-10 testing employs a strict **Two-Tier Oracle Model**:
+
+### 12.1 Tier 1: Immediate Response Body Oracle
+- Assert that mutating requests (`PUT /api/admin/orders/:id/status` and `PUT /api/orders/:id/cancel`) return an appropriate HTTP status code (e.g. `200 OK` for valid transitions, `4xx` error for invalid/unauthorized attempts).
+- Validate top-level response attributes (e.g. `message`, `status`) where explicitly documented in `api_specification.md`.
+
+### 12.2 Tier 2: External Persistence State Oracle
+- Because an API could theoretically return HTTP 200 without writing to the database, or return an error after partially committing data, **every mutating request must be paired with an independent `GET /api/orders/:id` query**.
+- For valid transitions: Verify that `response.order.status` equals the newly requested target state.
+- For invalid/rejected transitions: Verify that `response.order.status` remains strictly unchanged at its prior valid state.
 
 ---
 
 ## 13. Sequence Testing Dimensions
 
-Because order lifecycle testing requires stateful multi-request sequences, test design must enforce structured chaining:
+Multi-request sequences required for deterministic lifecycle testing:
 
-1. **Happy-Path Fulfillment Lifecycle Sequence:**
+1. **Full Fulfillment Lifecycle Sequence:**
    $$\text{POST /api/orders (pending)} \xrightarrow{\text{Admin}} \text{confirmed} \xrightarrow{\text{Admin}} \text{shipping} \xrightarrow{\text{Admin}} \text{delivered (Terminal)}$$
 2. **Early Cancellation Sequence (from Pending):**
-   $$\text{POST /api/orders (pending)} \xrightarrow{\text{User/Admin}} \text{canceled (Terminal)} \xrightarrow{\text{Admin Attempt}} \text{Rejection (4xx)}$$
+   $$\text{POST /api/orders (pending)} \xrightarrow{\text{User/Admin}} \text{canceled (Terminal)} \xrightarrow{\text{Admin Attempt}} \text{Rejected} \rightarrow \text{State Remains canceled}$$
 3. **Mid-Stream Cancellation Sequence (from Confirmed):**
-   $$\text{POST /api/orders (pending)} \xrightarrow{\text{Admin}} \text{confirmed} \xrightarrow{\text{User/Admin}} \text{canceled (Terminal)} \xrightarrow{\text{Admin Attempt}} \text{Rejection (4xx)}$$
-4. **Disallowed In-Transit Cancellation Sequence:**
-   $$\text{POST /api/orders (pending)} \xrightarrow{\text{Admin}} \text{confirmed} \xrightarrow{\text{Admin}} \text{shipping} \xrightarrow{\text{User Cancel Attempt}} \text{Rejection (4xx)} \rightarrow \text{State Remains shipping}$$
+   $$\text{POST /api/orders (pending)} \xrightarrow{\text{Admin}} \text{confirmed} \xrightarrow{\text{User/Admin}} \text{canceled (Terminal)} \xrightarrow{\text{Admin Attempt}} \text{Rejected} \rightarrow \text{State Remains canceled}$$
+4. **Blocked In-Transit Cancellation Sequence:**
+   $$\text{POST /api/orders (pending)} \xrightarrow{\text{Admin}} \text{confirmed} \xrightarrow{\text{Admin}} \text{shipping} \xrightarrow{\text{User Cancel Attempt}} \text{Rejected} \rightarrow \text{State Remains shipping}$$
 5. **Post-Delivered Immutability Sequence:**
-   $$\text{Fulfill to delivered} \xrightarrow{\text{Attempt cancel / regress}} \text{Rejection (4xx)} \rightarrow \text{State Remains delivered}$$
+   $$\text{Fulfill to delivered} \xrightarrow{\text{Attempt cancel / regress}} \text{Rejected} \rightarrow \text{State Remains delivered}$$
 
 ---
 
-## 14. State Isolation / Fixture Requirements
+## 14. State Isolation & Dynamic Fixture Strategy
 
-To ensure 100% deterministic test execution and prevent state contamination across test cases:
-1. **Dynamic Setup Helpers:** Test runs must dynamically create fresh order fixtures (`POST /api/orders`) for each autonomous test case or sequence.
-2. **Independent Order IDs:** Every test case operates on its own dedicated `orderId` variable; no test case mutates an order used by another test case.
-3. **Distinct Test Accounts:** Separate dynamic customer credentials (`userOwner`, `userNonOwner`) and admin credentials (`adminUser`) provisioned per run.
-
----
-
-## 15. Persistence Verification Strategy
-
-To satisfy the HW06 requirement for authoritative state verification:
-- **Two-Tier Oracle Model:**
-  1. **Tier 1 (Response Body Oracle):** Assert that the mutating endpoint returns HTTP 200 and indicates the new status in the JSON response payload.
-  2. **Tier 2 (Persistence State Oracle):** Follow every mutating request with an independent `GET /api/orders/:id` query to verify that the status has been persisted in the underlying database and is externally observable.
-- For negative test cases (rejected transitions), the Tier 2 query must confirm that the order status remains strictly unchanged at its prior valid state.
+To ensure 100% deterministic suite execution:
+1. **No Shared Order IDs:** Every test case generates its own fresh order via setup helper requests (`POST /api/orders`).
+2. **Isolated Dynamic Accounts:** Dynamic customer credentials (`userOwner`, `userNonOwner`) and admin credentials (`adminUser`) provisioned per run via `pm.environment.set()`.
+3. **No SUT / DB Modification:** Test harness operates purely via public HTTP endpoints without touching database files or backend source code.
 
 ---
 
-## 16. Specification Gaps / Ambiguities (`SPEC-UNDEFINED`)
+## 15. Specification Ambiguities (`SPEC-UNDEFINED`)
 
-The following behavioral aspects are not explicitly defined in `api_specification.md` and are classified as `SPEC-UNDEFINED` (exploratory / robustness targets):
-
-1. **Idempotent Status Updates:** Whether sending `PUT /api/orders/:id/status` with `status: "confirmed"` when the order is already `confirmed` returns HTTP 200 (NOP) or HTTP 400 (Invalid transition).
-2. **Admin Cancellation While In-Transit:** Whether an administrator is permitted to cancel an order in `shipping` status (e.g. for lost parcel workflows) or if cancellation is globally barred once shipped.
-3. **Exact Error Response Schema:** Specific sub-error codes, localized strings, or error array wrappers are not standardized in `api_specification.md`.
-4. **Case Sensitivity Handling:** Whether status strings are strictly lower-case or case-insensitive.
+1. **Idempotent Updates:** Behavior of same-state transitions (e.g. `confirmed -> confirmed`) is not standardized in `api_specification.md` (HTTP 200 NOP vs. HTTP 400 rejection).
+2. **Admin In-Transit Cancellation:** Whether an administrator is allowed emergency cancellation during `shipping` is not documented; conservatively treated as `SPEC-UNDEFINED`.
+3. **Exact Error Response Schema:** Specific error codes and localized error message structures are unspecified.
+4. **Case Sensitivity:** Whether status strings are strictly lower-case or case-insensitive is not defined.
 
 ---
 
-## 17. Risk Hypotheses
+## 16. Risk Hypotheses
 
-High-priority risk failure modes to probe during test generation and execution:
-
-- **RISK-FR10-01 (State Skipping):** Backend allows direct transition from `pending` to `delivered` or `shipping` without required intermediate confirmation.
-- **RISK-FR10-02 (Backward State Regression):** Backend allows orders to move backward from `delivered` or `shipping` back to `pending`.
-- **RISK-FR10-03 (Terminal State Mutability):** Backend permits status mutations on orders already marked `canceled` or `delivered`.
-- **RISK-FR10-04 (RBAC Bypass / Privilege Escalation):** Normal customer tokens can successfully trigger admin fulfillment transitions (`confirmed`, `shipping`, `delivered`).
+- **RISK-FR10-01 (Illegal State Skipping):** Backend allows skipping intermediate states (e.g. `pending -> delivered`).
+- **RISK-FR10-02 (Backward State Regression):** Backend allows moving backward (e.g. `shipping -> confirmed`).
+- **RISK-FR10-03 (Terminal State Mutability):** Backend permits status mutations on orders in `canceled` or `delivered`.
+- **RISK-FR10-04 (RBAC Bypass / SEC-03):** Normal customer tokens can trigger admin fulfillment transitions.
 - **RISK-FR10-05 (Horizontal Privilege Escalation / IDOR):** Customer can cancel or view orders belonging to another user.
-- **RISK-FR10-06 (In-Transit Cancellation Bypass):** Customer can cancel an order that has already transitioned to `shipping`.
-- **RISK-FR10-07 (State / Response Desynchronization):** API returns HTTP 200 claiming status updated, but subsequent `GET /api/orders/:id` reveals persisted state did not change.
+- **RISK-FR10-06 (In-Transit Cancellation Bypass):** Customer can cancel an order that has already shipped.
+- **RISK-FR10-07 (Response / DB State Desynchronization):** API returns 200 claiming update, but subsequent GET reveals state was not persisted.
 
 ---
 
-## 18. Target Distribution for AI Test Generation (Phase 2A.2)
+## 17. Multi-Interaction Raw AI Generation Plan (Targeting 40–42 Cases)
 
-To ensure comprehensive coverage and allow for rigorous Human Audit filtering while comfortably exceeding the assignment target ($\ge 35$ usable AI-derived cases), Phase 2A.2 will target **38 raw AI-generated test cases** across the following categories:
+To provide comprehensive coverage across all testing dimensions and allow for rigorous Human Audit filtering, raw AI test cases will be generated across staged interactions:
 
-| Category # | Category Description | Target Case Count | Target Test Case ID Range |
-|:---:|---|:---:|---|
-| **Cat 1** | **Valid Forward State Transitions (Admin Lifecycle)** | 4 | `FR10-AI-001` – `FR10-AI-004` |
-| **Cat 2** | **Valid Cancellation Transitions (Customer & Admin)** | 4 | `FR10-AI-005` – `FR10-AI-008` |
-| **Cat 3** | **Invalid Forward Skip Transitions** | 4 | `FR10-AI-009` – `FR10-AI-012` |
-| **Cat 4** | **Invalid Backward State Regressions** | 5 | `FR10-AI-013` – `FR10-AI-017` |
-| **Cat 5** | **Terminal State Immutability Probes (`delivered`, `canceled`)** | 5 | `FR10-AI-018` – `FR10-AI-022` |
-| **Cat 6** | **Authentication & JWT Validation (`SEC-02`)** | 4 | `FR10-AI-023` – `FR10-AI-026` |
-| **Cat 7** | **RBAC & Privilege Escalation Probes (`SEC-03`)** | 4 | `FR10-AI-027` – `FR10-AI-030` |
-| **Cat 8** | **Status Payload Input Domain & Boundaries** | 4 | `FR10-AI-031` – `FR10-AI-034` |
-| **Cat 9** | **Order ID Path Parameter Partitions & Boundaries** | 4 | `FR10-AI-035` – `FR10-AI-038` |
-| **Total** | **Raw AI Generation Target** | **38** | `FR10-AI-001` – `FR10-AI-038` |
+| Batch / Interaction | Category Description | Target Count | Test Case ID Range | Status |
+|---|---|:---:|---|:---:|
+| **Batch 1 (INT-026)** | **Core Valid Forward Transitions & Skip Transitions** | 12 | `FR10-AI-001` – `FR10-AI-012` | **ACTIVE GENERATION** |
+| **Batch 2 (INT-027)** | **Backward Regressions, Terminal Immutability & User Cancel** | 10 | `FR10-AI-013` – `FR10-AI-022` | Pending |
+| **Batch 3 (INT-028)** | **Authentication (`SEC-02`), RBAC (`SEC-03`) & Ownership** | 8 | `FR10-AI-023` – `FR10-AI-030` | Pending |
+| **Batch 4 (INT-029)** | **Status Input Domain, Order ID Boundaries & Schema/SEC-05** | 10 | `FR10-AI-031` – `FR10-AI-040` | Pending |
+| **Total** | **Comprehensive Raw AI Suite** | **40** | `FR10-AI-001` – `FR10-AI-040` | — |

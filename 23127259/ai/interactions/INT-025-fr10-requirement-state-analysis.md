@@ -765,12 +765,107 @@ PHASE 2A.2 – FR-10 AI TEST GENERATION
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2A.1 Completion Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-024 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1235) backfilled into [`23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md).
+- **INT-025 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md).
+- **INT-025 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-025 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. FR-10 API Surface & Contracts
+
+| HTTP Method | Endpoint | Participating Role in State Machine | Mandatory Headers |
+|---|---|---|---|
+| `PUT` | `/api/admin/orders/:id/status` (or `PUT /api/orders/:id/status`) | **Primary State Transition:** Mutates order status to target enum state. | `Authorization: Bearer <token>`, `X-Student-Id: 23127259` |
+| `POST` | `/api/orders/:id/cancel` (or `PUT /api/orders/:id/cancel`) | **User Self-Service Cancellation:** Direct cancellation of customer's own un-shipped order. | `Authorization: Bearer <token>`, `X-Student-Id: 23127259` |
+| `GET` | `/api/orders/:id` | **Direct State Query & Verification Oracle:** Tier 2 persistence oracle. | `Authorization: Bearer <token>`, `X-Student-Id: 23127259` |
+| `POST` | `/api/orders` | **Precondition Fixture Provisioning:** Places fresh `pending` orders. | `Authorization: Bearer <token>`, `X-Student-Id: 23127259` |
+
+---
+
+## 3. Authoritative State Set
+
+According to EShop SRS Section 4.10 and `api_specification.md`, the authoritative order lifecycle comprises exactly five (5) states:
+1. `pending` *(Initial state upon creation)*
+2. `confirmed` *(Merchant reviewed & accepted)*
+3. `shipping` *(Dispatched to carrier / in-transit)*
+4. `delivered` *(Terminal / Permanently immutable)*
+5. `canceled` *(Terminal / Permanently immutable)*
+
+---
+
+## 4. State Transition Matrix & Allowed Roles
+
+| Current State ($S_{from}$) | Target State ($S_{to}$) | Permitted Actor | Allowed? | Oracle Classification | Normative Basis |
+|---|---|---|:---:|---|---|
+| `pending` | `confirmed` | `admin` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `pending` | `canceled` | `user` (owner), `admin` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `confirmed` | `shipping` | `admin` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `confirmed` | `canceled` | `user` (owner), `admin` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `shipping` | `delivered` | `admin` | **YES** | `SPECIFICATION-BACKED` | SRS FR-10 / API-SPEC |
+| `shipping` | `canceled` | None (User explicitly barred) | **NO** | `SPECIFICATION-BACKED` | SRS Section 4.10 |
+| `delivered` | Any other state | None | **NO** | `SPECIFICATION-BACKED` | Terminal State Rule |
+| `canceled` | Any other state | None | **NO** | `SPECIFICATION-BACKED` | Terminal State Rule |
+| Any state | Skipped / Regressed state | None | **NO** | `SPECIFICATION-BACKED` | Strict Sequential FSM Rule |
+
+---
+
+## 5. Security Requirements Applicability Matrix
+
+| Security ID | Standard Definition | Applicability to FR-10 | Verification Approach |
+|:---:|---|:---:|---|
+| **SEC-02** | Security-sensitive APIs must require a valid JWT token. | **DIRECTLY APPLICABLE (FULL)** | Submit requests with missing, malformed, invalid, and tampered JWTs to status mutation and query endpoints. Expect `401 Unauthorized`. |
+| **SEC-03** | Admin APIs must verify `role = 'admin'` in the token, not merely token existence. | **DIRECTLY APPLICABLE (FULL)** | Submit normal customer tokens (`role = 'user'`) to admin fulfillment transitions (`confirmed`, `shipping`, `delivered`). Expect `403 Forbidden`. |
+| **SEC-05** | Database queries must use parameterized queries rather than string concatenation. | **PARTIALLY APPLICABLE** | Submit SQL injection payloads into `:id` path parameter and JSON body fields to verify behavioral resilience (no unhandled 500 / SQL syntax leaks). |
+| **SEC-01, 04, 06, 07** | Passwords at rest, UI DOM XSS escaping, profile role tampering, OTP entropy. | **NOT APPLICABLE** | Scoped to UI frontend rendering or unrelated features (FR-02, FR-03, FR-04). Not forced into FR-10. |
+
+---
+
+## 6. Specification Ambiguities (`SPEC-UNDEFINED`)
+- **Idempotent Updates:** Behavioral handling of same-state transitions (e.g. `confirmed -> confirmed`) is not standardized in `api_specification.md` (HTTP 200 NOP vs. HTTP 400 rejection).
+- **Admin In-Transit Cancellation:** Whether an administrator is allowed emergency cancellation during `shipping` (e.g. carrier loss) is not documented; conservatively treated as non-normative.
+- **Error Response Payload Schema:** Exact nested sub-error codes and localized message formats are unspecified.
+
+---
+
+## 7. AI Test Generation Plan (Targeting 38 Raw Cases)
+
+To provide full coverage and allow rigorous Human Audit filtering, Phase 2A.2 will generate **38 raw AI test cases**:
+- **Category 1 (Valid Forward Transitions - Admin):** 4 cases (`FR10-AI-001` – `FR10-AI-004`)
+- **Category 2 (Valid Cancellation Transitions - User/Admin):** 4 cases (`FR10-AI-005` – `FR10-AI-008`)
+- **Category 3 (Invalid Forward Skip Transitions):** 4 cases (`FR10-AI-009` – `FR10-AI-012`)
+- **Category 4 (Invalid Backward State Regressions):** 5 cases (`FR10-AI-013` – `FR10-AI-017`)
+- **Category 5 (Terminal State Immutability Probes):** 5 cases (`FR10-AI-018` – `FR10-AI-022`)
+- **Category 6 (Authentication & JWT Validation / SEC-02):** 4 cases (`FR10-AI-023` – `FR10-AI-026`)
+- **Category 7 (RBAC & Privilege Escalation / SEC-03):** 4 cases (`FR10-AI-027` – `FR10-AI-030`)
+- **Category 8 (Status Payload Domain & Boundaries):** 4 cases (`FR10-AI-031` – `FR10-AI-034`)
+- **Category 9 (Order ID Partitions & Boundaries):** 4 cases (`FR10-AI-035` – `FR10-AI-038`)
+
+---
+
+## 8. Artifact Created
+- [`23127259/testcases/FR10_REQUIREMENT_ANALYSIS.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_REQUIREMENT_ANALYSIS.md) *(Complete 18-section formal specification and state analysis document)*
+
+---
+
+## 9. Git Status & Tracking
+- **Commit SHA:** `d2a1ebb`
+- **Commit Message:** `docs(23127259): analyze FR-10 order state machine`
+- **Branch:** `thang/hw06-implementation`
+- **Remote Status:** Up to date with `origin/thang/hw06-implementation`
+- **Working Tree:** Clean
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Performing comprehensive static requirement, state machine, authorization, and domain analysis for FR-10 without execution or premature bug confirmation.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** INCOMPLETE / PENDING ANALYSIS CORRECTIONS (Corrected in INT-026).
+- **Notes:** Static requirement, state machine, and authorization analysis completed. Human review identified endpoint ambiguity, shipping->cancel actor split, HTTP-status discipline, and ownership clarifications to be applied in INT-026.
+- **Status:** COMPLETE.
