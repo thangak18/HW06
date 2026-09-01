@@ -14,9 +14,13 @@
 Vì vậy thư mục này **cố ý không chứa sơ đồ do AI sinh** — kể cả dạng Mermaid, SVG hay ASCII.
 Nộp một sơ đồ do AI tạo ra là vi phạm trực tiếp §11 và TA có kiểm tra mục này khi chấm.
 
-**Việc bạn cần làm:** đọc [`../DESIGN.md`](../DESIGN.md), tự quyết định cách trình bày, rồi vẽ
-sơ đồ bằng công cụ bất kỳ (draw.io, Excalidraw, Figma, PowerPoint, hoặc vẽ tay rồi chụp ảnh)
-và lưu vào thư mục này với tên `ai_test_generator_diagram.png`.
+**Việc bạn cần làm:** làm theo **[HUONG_DAN_VE_SO_DO.md](./HUONG_DAN_VE_SO_DO.md)** — tài liệu
+hướng dẫn tự chứa, từ A đến Z: giải thích toàn bộ nội dung cần hiểu, 3 phương án bố cục để chọn,
+thao tác draw.io từng nút bấm, bảng màu, danh sách tự kiểm tra, 10 câu hỏi vấn đáp, và cách xuất
+file rồi nhúng vào báo cáo.
+
+Kết quả cuối cùng lưu vào thư mục này với tên `ai_test_generator_diagram.png`
+(kèm file nguồn `.drawio` nếu vẽ bằng draw.io).
 
 ---
 
