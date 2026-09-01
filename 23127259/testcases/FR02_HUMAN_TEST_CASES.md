@@ -8,7 +8,7 @@
 
 > [!NOTE]
 > **Provenance Statement:**
-> These extension directions were selected and finalized by the student after reviewing the completed AI-generated suite, Human Audit results, and an AI-assisted coverage-gap analysis. They are intentionally separated from the raw AI-generated `FR02-AI` inventory and assigned formal `FR02-HUM` identifiers.
+Student-selected and finalized Human Extension cases after AI-assisted coverage-gap analysis. These test cases are intentionally separated from the raw AI-generated `FR02-AI` inventory and assigned formal `FR02-HUM` identifiers.
 
 ---
 
@@ -106,10 +106,15 @@
 - **Oracle Classification:** `SPECIFICATION-BACKED`
 - **Preconditions:** Dedicated test account `human_reset@eshop.com` exists in `NORMAL` state.
 - **Request Method / Sequence:**
-  1. `POST /api/login` with wrong password (Attempt 1 $ightarrow$ Counter = 1, `NORMAL / FAILURE_SEQUENCE_ACTIVE`).
-  2. `POST /api/login` with wrong password (Attempt 2 $ightarrow$ Counter = 2, $N=2$ Boundary, `UNLOCKED`).
-  3. `POST /api/login` with correct password (Attempt 3 $ightarrow$ Authenticates successfully, returns 200 OK + JWT, **Resets Counter to 0**).
-  4. `POST /api/login` with wrong password (Attempt 4 $ightarrow$ 1st failure of new sequence $ightarrow$ **Account must remain UNLOCKED**).
+  1. `POST /api/login` with wrong password (Attempt 1 $
+ightarrow$ Counter = 1, `NORMAL / FAILURE_SEQUENCE_ACTIVE`).
+  2. `POST /api/login` with wrong password (Attempt 2 $
+ightarrow$ Counter = 2, $N=2$ Boundary, `UNLOCKED`).
+  3. `POST /api/login` with correct password (Attempt 3 $
+ightarrow$ Authenticates successfully, returns 200 OK + JWT, **Resets Counter to 0**).
+  4. `POST /api/login` with wrong password (Attempt 4 $
+ightarrow$ 1st failure of new sequence $
+ightarrow$ **Account must remain UNLOCKED**).
 - **Endpoint:** `/api/login`
 - **Headers:**
   - `Content-Type: application/json`
@@ -133,7 +138,7 @@
 - **Why Existing AI Suite Missed This:** AI generation focused on single-user lifecycle progression and omitted multi-principal isolation scenarios.
 - **Technique:** SECURITY / STATE ISOLATION TESTING
 - **Requirement / Spec Basis:** 📋 [SRS §2 FR-02] (Lockout applies to the specific account experiencing consecutive failed logins)
-- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Oracle Classification:** `PARTIALLY SPECIFICATION-BACKED / STATE ISOLATION`
 - **Preconditions:** Two distinct valid accounts exist: Account A (`lock_victim@eshop.com`) and Account B (`isolated_user@eshop.com`). Both start in `NORMAL` state.
 - **Request Method / Sequence:**
   1. Send 3 consecutive failing logins to Account A (`POST /api/login`, wrong password $	imes 3$).

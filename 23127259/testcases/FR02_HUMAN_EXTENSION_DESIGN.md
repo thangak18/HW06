@@ -14,7 +14,7 @@ The purpose of this workspace is to identify specification-relevant testing dime
 
 > [!NOTE]
 > **Provenance Statement:**
-> These extension directions were selected and finalized by the student after reviewing the completed AI-generated suite, Human Audit results, and an AI-assisted coverage-gap analysis. They are intentionally separated from the raw AI-generated `FR02-AI` inventory.
+Student-selected and finalized Human Extension cases after AI-assisted coverage-gap analysis. These test cases are intentionally separated from the raw AI-generated `FR02-AI` inventory.
 
 ---
 
@@ -69,7 +69,8 @@ The following matrix reflects the 35 usable AI-derived test cases following the 
 - **Current Coverage:** `NOT COVERED`
 - **Specification Basis:** 🗂️ [API-SPEC §1.2] explicitly specifies `POST /api/login`.
 - **Why Existing AI Cases Do Not Fully Cover It:** All 37 AI test cases exclusively invoked `POST`. The behavior of the login route when non-POST methods are dispatched was completely omitted.
-- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $ightarrow$ `FR02-HUM-001`**
+- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $
+ightarrow$ `FR02-HUM-001`**
 
 #### Gap G-03: Lockout Boundary Timing Edge Condition ($T=30.0	ext{s}$)
 - **Requirement / Dimension:** Lockout Duration Boundary Precision
@@ -90,21 +91,24 @@ The following matrix reflects the 35 usable AI-derived test cases following the 
 - **Current Coverage:** `PARTIALLY COVERED`
 - **Specification Basis:** 📋 [SRS §9 SEC-05] mandates parameterized queries for all database interactions.
 - **Why Existing AI Cases Do Not Fully Cover It:** AI generated single-quote tautology payloads (`' OR '1'='1`). More sophisticated SQL injection vectors (e.g. comment-truncation delimiters `admin'--`) were not explored.
-- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $ightarrow$ `FR02-HUM-002`**
+- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $
+ightarrow$ `FR02-HUM-002`**
 
 #### Custom Gap CUSTOM-G-09: Successful Login Reset at N=2 Pre-Lockout Boundary
 - **Requirement / Dimension:** Reset Rule at Critical $(N-1)$ Boundary
 - **Current Coverage:** `NOT COVERED`
 - **Specification Basis:** 📋 [SRS §2 FR-02] (Successful login resets consecutive failure counter to 0).
 - **Why Existing AI Cases Do Not Fully Cover It:** AI tested reset after $N=1$ (`FR02-AI-022`), but omitted the critical threshold-adjacent state where the account already has two consecutive failures before reset.
-- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $ightarrow$ `FR02-HUM-003`**
+- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $
+ightarrow$ `FR02-HUM-003`**
 
 #### Custom Gap CUSTOM-G-10: Account Lockout State Isolation Between Independent Users
 - **Requirement / Dimension:** Multi-User Lockout Isolation
 - **Current Coverage:** `NOT COVERED`
 - **Specification Basis:** 📋 [SRS §2 FR-02] (Lockout applies to the specific account experiencing consecutive failed logins).
 - **Why Existing AI Cases Do Not Fully Cover It:** AI suite tested lockout behavior exclusively on a single dedicated account without verifying cross-account lock isolation.
-- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $ightarrow$ `FR02-HUM-004`**
+- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $
+ightarrow$ `FR02-HUM-004`**
 
 ---
 
@@ -129,13 +133,15 @@ The following matrix reflects the 35 usable AI-derived test cases following the 
 - **Current Coverage:** `PARTIALLY COVERED`
 - **Specification Basis:** 🗂️ [API-SPEC §1.2] requires JSON communication.
 - **Why Existing AI Cases Do Not Fully Cover It:** AI tested malformed JSON syntax but did not test sending valid credentials formatted as form-urlencoded data to verify strict Content-Type enforcement.
-- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $ightarrow$ `FR02-HUM-005`**
+- **Student Design Status:** **`STUDENT SELECTED / FINALIZED` $
+ightarrow$ `FR02-HUM-005`**
 
 ---
 
 ## 4. Student-Selected Human Extensions (Finalized Selections)
 
-### HUMAN SLOT 1 $ightarrow$ `FR02-HUM-001`
+### HUMAN SLOT 1 $
+ightarrow$ `FR02-HUM-001`
 - **Assigned ID:** `FR02-HUM-001`
 - **Selected Gap ID:** `G-02` (HTTP Method Enforcement on `/api/login`)
 - **Why I selected this gap:** The documented login operation uses POST. The original AI suite tested only POST and never checked whether unsupported HTTP methods can accidentally invoke authentication behavior.
@@ -149,7 +155,8 @@ The following matrix reflects the 35 usable AI-derived test cases following the 
 
 ---
 
-### HUMAN SLOT 2 $ightarrow$ `FR02-HUM-002`
+### HUMAN SLOT 2 $
+ightarrow$ `FR02-HUM-002`
 - **Assigned ID:** `FR02-HUM-002`
 - **Selected Gap ID:** `G-05` (SEC-05 Multi-Vector Injection Probes)
 - **Why I selected this gap:** The original AI suite tested only simple classic SQL injection strings (`' OR '1'='1`). A single payload does not provide broad behavioral confidence against SQL injection attempts.
@@ -163,12 +170,15 @@ The following matrix reflects the 35 usable AI-derived test cases following the 
 
 ---
 
-### HUMAN SLOT 3 $ightarrow$ `FR02-HUM-003`
+### HUMAN SLOT 3 $
+ightarrow$ `FR02-HUM-003`
 - **Assigned ID:** `FR02-HUM-003`
 - **Selected Gap ID:** `CUSTOM-G-09` (Successful Login Reset at N=2 Boundary)
 - **Why I selected this gap:** The AI suite tested counter reset after one failed login, but did not directly exercise the more critical threshold-adjacent state where the account already has two consecutive failed logins before a successful authentication occurs.
 - **My Test Objective:** Verify that a successful authentication occurring after exactly two consecutive failures resets the failure sequence before the N=3 lockout threshold can be reached.
-- **My Test Data:** Sequence: 2 wrong logins $ightarrow$ 1 valid login $ightarrow$ 1 wrong login on dedicated test account `human_reset@eshop.com`.
+- **My Test Data:** Sequence: 2 wrong logins $
+ightarrow$ 1 valid login $
+ightarrow$ 1 wrong login on dedicated test account `human_reset@eshop.com`.
 - **My Preconditions:** Dedicated test account `human_reset@eshop.com` in `NORMAL` state.
 - **My Steps:** Execute 2 wrong logins, 1 valid login, and 1 wrong login.
 - **My Expected Result:** 3rd request succeeds (200 OK + JWT); 4th request fails but account remains UNLOCKED (does not trigger lockout).
@@ -177,7 +187,8 @@ The following matrix reflects the 35 usable AI-derived test cases following the 
 
 ---
 
-### HUMAN SLOT 4 $ightarrow$ `FR02-HUM-004`
+### HUMAN SLOT 4 $
+ightarrow$ `FR02-HUM-004`
 - **Assigned ID:** `FR02-HUM-004`
 - **Selected Gap ID:** `CUSTOM-G-10` (Account Lockout Isolation Between Different Users)
 - **Why I selected this gap:** The AI suite tested lockout behavior on one dedicated account but never verified that one user's lock state does not incorrectly affect another independent account.
@@ -191,7 +202,8 @@ The following matrix reflects the 35 usable AI-derived test cases following the 
 
 ---
 
-### HUMAN SLOT 5 $ightarrow$ `FR02-HUM-005`
+### HUMAN SLOT 5 $
+ightarrow$ `FR02-HUM-005`
 - **Assigned ID:** `FR02-HUM-005`
 - **Selected Gap ID:** `G-08` (Non-JSON Content-Type Request Contract)
 - **Why I selected this gap:** The original AI suite assumed application/json for normal authentication and tested malformed JSON, but did not test credentials supplied using an undocumented request encoding.

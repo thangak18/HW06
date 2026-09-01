@@ -5,7 +5,7 @@
 - **Model:** Gemini 3.7 Flash
 - **Date & Time:** 2026-09-01 20:03:37+07:00
 - **Project Stage:** Phase 1C.1 – FR-02 Student-Selected Human Extension Finalization
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 644, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 644, Output: Step 661)
 
 ---
 
@@ -571,12 +571,73 @@ PHASE 1D – FR-02 POSTMAN COLLECTION IMPLEMENTATION
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 1C.1 Completion Report
+
+---
+
+## 1. Audit Evidence
+- **INT-017 Output Backfilled:** **YES** — Exact output (Step 643, 5,913 bytes) backfilled into [`INT-017-fr02-human-extension-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md).
+- **INT-018 Prompt Stored:** **YES (Verbatim)** in [`INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md) and [`AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (167,042 bytes).
+- **INT-018 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Finalized Human Extension Test Suite (`FR02-HUM-001` .. `FR02-HUM-005`)
+
+The 5 student-selected Human extension test cases have been authored and recorded in [FR02_HUMAN_TEST_CASES.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_TEST_CASES.md):
+
+| Human ID | Source Gap | Test Title | Technique | Oracle Classification | Distinct From AI Cases? |
+|:---:|:---:|---|---|:---:|:---:|
+| `FR02-HUM-001` | `G-02` | HTTP Verb / Method Enforcement Rejection on Login Route (`GET`) | API Contract / Method Enforcement | `PARTIALLY SPEC-BACKED` / `API CONTRACT` | **YES** (All AI cases used `POST`; verb dispatching was omitted) |
+| `FR02-HUM-002` | `G-05` | Advanced SQL Injection Multi-Vector Resilience Probe (Comment Vector `admin'--`) | Security / Behavioral Injection Probe | `PARTIALLY SPEC-BACKED` / `SEC-05 PROBE` | **YES** (Tests comment truncation delimiter vs simple `' OR '1'='1`) |
+| `FR02-HUM-003` | `CUSTOM-G-09` | Consecutive Failure Counter Reset at $N=2$ Pre-Lockout Boundary via Successful Login | State Transition / Boundary Reset | `SPECIFICATION-BACKED` | **YES** (Tests reset specifically at critical $(N-1)$ boundary vs $N=1$) |
+| `FR02-HUM-004` | `CUSTOM-G-10` | Account Lockout State Isolation Between Independent User Accounts | Security / State Isolation Testing | `SPECIFICATION-BACKED` | **YES** (Multi-tenant principal isolation absent from AI suite) |
+| `FR02-HUM-005` | `G-08` | Non-JSON Content-Type Request Contract Handling (`x-www-form-urlencoded`) | Exploratory / API Contract | `EXPLORATORY` / `API CONTRACT` | **YES** (Tests valid credentials via non-JSON encoding) |
+
+---
+
+## 3. Suite Accounting & Inventory Consolidation
+
+$$\begin{aligned}
+\text{Raw AI-Generated Test Cases} &= \mathbf{37} \\
+\text{Raw AI Rejected during Human Audit} &= \mathbf{2} \quad (\text{Duplicates: } \text{FR02-AI-016}, \text{FR02-AI-017}) \\
+\text{Usable AI-Derived Cases post-Audit} &= \mathbf{35} \quad (16\text{ VALID} + 19\text{ INCOMPLETE with corrections}) \\
+\text{Student-Designed Human Extensions} &= \mathbf{5} \quad (\text{FR02-HUM-001} .. \text{FR02-HUM-005}) \\
+\hline
+\mathbf{\text{Total Final Executable Candidate Suite}} &= \mathbf{40\text{ Test Cases}}
+\end{aligned}$$
+
+*(Meets and satisfies the assignment requirement of $\ge 35\text{ AI} + \ge 5\text{ Human} = \ge 40\text{ total test cases per feature}$).*
+
+---
+
+## 4. Test Artifact Cryptographic & Audit Integrity
+- **Raw AI Draft Hash:** `b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c` *(Unchanged & preserved in [`testcases/FR02_AI_DRAFT.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_AI_DRAFT.md))*.
+- **Human Audit Worksheet:** [TC_AUDIT_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR02.md) *(Preserved with 100% student verdicts)*.
+- **Design Workspace:** [FR02_HUMAN_EXTENSION_DESIGN.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_EXTENSION_DESIGN.md) *(Updated with finalized selections)*.
+
+---
+
+## 5. Git Commit & Push Verification
+- **Commit Message:** `test(23127259): add human-designed FR-02 extension cases`
+- **Commit SHA:** [`1634d8f`](https://github.com/thangak18/HW06/commit/1634d8f)
+- **Branch:** `thang/hw06-implementation` (Pushed to `origin`, working tree clean).
+
+```text
+On branch thang/hw06-implementation
+Your branch is up to date with 'origin/thang/hw06-implementation'.
+
+nothing to commit, working tree clean
+```
+
+---
+
+Execution is stopped here. Ready to proceed to **PHASE 1D – FR-02 POSTMAN COLLECTION IMPLEMENTATION**.
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Recorded 5 student-selected Human extension test cases (`FR02-HUM-001` .. `FR02-HUM-005`) in `FR02_HUMAN_TEST_CASES.md`. Final candidate suite reached 40 executable cases.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID. Recorded 5 student-selected Human extension test cases (`FR02-HUM-001` .. `FR02-HUM-005`) in `FR02_HUMAN_TEST_CASES.md` and updated `FR02_HUMAN_EXTENSION_DESIGN.md`. Total candidate suite reached 40 executable cases. Committed as `1634d8f`.
+- **Status:** EXACT OUTPUT AVAILABLE.
