@@ -1,0 +1,980 @@
+{
+  "api_id": "API-3",
+  "tc_prefix": "C3",
+  "pool": "C",
+  "fr": "FR-15",
+  "name": "Quan ly san pham (CRUD + tim kiem)",
+  "base_url": "{{baseUrl}}",
+  "endpoints": [
+    {
+      "key": "create",
+      "method": "POST",
+      "path": "/api/products",
+      "auth_required": true,
+      "success_status": 201,
+      "preconditions": "Da login bang tai khoan admin, co {{token_admin}}",
+      "headers": "Authorization: Bearer {{token_admin}}",
+      "valid_body": {
+        "name": "SP Test 23127060",
+        "price": 150000,
+        "description": "San pham kiem thu",
+        "imageUrl": "https://example.com/a.png",
+        "category_id": 1
+      },
+      "params": [
+        {
+          "name": "name",
+          "in": "body",
+          "type": "string",
+          "required": true,
+          "partitions": [
+            {
+              "id": "valid",
+              "value": "SP Test 23127060",
+              "valid": true,
+              "desc": "ten hop le",
+              "expected_status": 201,
+              "assertions": "body co id; GET lai san pham thay dung ten",
+              "bug": "C-12",
+              "priority": "P0"
+            },
+            {
+              "id": "empty",
+              "value": "",
+              "valid": false,
+              "desc": "ten rong",
+              "expected_status": 400,
+              "bug": "C-06"
+            },
+            {
+              "id": "null",
+              "value": null,
+              "valid": false,
+              "desc": "ten null",
+              "expected_status": 400,
+              "bug": "C-06",
+              "priority": "P0"
+            },
+            {
+              "id": "omit",
+              "omit": true,
+              "valid": false,
+              "desc": "thieu key name",
+              "expected_status": 400,
+              "bug": "C-06"
+            },
+            {
+              "id": "wrong_type",
+              "value": 12345,
+              "valid": false,
+              "desc": "ten sai kieu (number)",
+              "expected_status": 400,
+              "bug": "C-06"
+            },
+            {
+              "id": "len1",
+              "value": "A",
+              "valid": false,
+              "boundary": true,
+              "desc": "BVA - 1 ky tu (duoi bien toi thieu)",
+              "expected_status": 400
+            },
+            {
+              "id": "len255",
+              "value": "A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A1234",
+              "valid": true,
+              "boundary": true,
+              "desc": "BVA - dung 255 ky tu",
+              "expected_status": 201
+            },
+            {
+              "id": "len256",
+              "value": "A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A12345",
+              "valid": false,
+              "boundary": true,
+              "desc": "BVA - 256 ky tu (vuot bien)",
+              "expected_status": 400
+            },
+            {
+              "id": "xss",
+              "value": "<script>alert('23127060')</script>",
+              "valid": false,
+              "desc": "stored XSS trong ten san pham",
+              "expected_status": 400,
+              "sec": "SEC-06",
+              "bug": "C-11",
+              "priority": "P0"
+            },
+            {
+              "id": "unicode",
+              "value": "San pham tieng Viet co dau 23127060",
+              "valid": true,
+              "desc": "ten co ky tu Unicode",
+              "expected_status": 201
+            }
+          ]
+        },
+        {
+          "name": "price",
+          "in": "body",
+          "type": "number",
+          "required": true,
+          "partitions": [
+            {
+              "id": "valid",
+              "value": 150000,
+              "valid": true,
+              "desc": "gia hop le",
+              "expected_status": 201
+            },
+            {
+              "id": "negative",
+              "value": -1000,
+              "valid": false,
+              "desc": "gia am",
+              "expected_status": 400,
+              "bug": "C-06",
+              "priority": "P0"
+            },
+            {
+              "id": "zero",
+              "value": 0,
+              "valid": false,
+              "boundary": true,
+              "desc": "BVA - gia bang 0",
+              "expected_status": 400,
+              "bug": "C-06"
+            },
+            {
+              "id": "one",
+              "value": 1,
+              "valid": true,
+              "boundary": true,
+              "desc": "BVA - gia 1 (bien duoi hop le)",
+              "expected_status": 201
+            },
+            {
+              "id": "string",
+              "value": "khong-phai-so",
+              "valid": false,
+              "desc": "gia sai kieu (string)",
+              "expected_status": 400,
+              "bug": "C-06",
+              "priority": "P0"
+            },
+            {
+              "id": "null",
+              "value": null,
+              "valid": false,
+              "desc": "gia null",
+              "expected_status": 400,
+              "bug": "C-06"
+            },
+            {
+              "id": "omit",
+              "omit": true,
+              "valid": false,
+              "desc": "thieu key price",
+              "expected_status": 400,
+              "bug": "C-06"
+            },
+            {
+              "id": "huge",
+              "value": 999999999999999,
+              "valid": false,
+              "boundary": true,
+              "desc": "BVA - gia vuot gioi han",
+              "expected_status": 400
+            },
+            {
+              "id": "float",
+              "value": 150000.55,
+              "valid": true,
+              "desc": "gia co phan thap phan",
+              "expected_status": 201
+            }
+          ]
+        },
+        {
+          "name": "category_id",
+          "in": "body",
+          "type": "number",
+          "required": false,
+          "partitions": [
+            {
+              "id": "valid",
+              "value": 1,
+              "valid": true,
+              "desc": "danh muc ton tai",
+              "expected_status": 201
+            },
+            {
+              "id": "not_exist",
+              "value": 999999,
+              "valid": false,
+              "desc": "danh muc khong ton tai - khoa ngoai khong duoc kiem tra",
+              "expected_status": 400,
+              "bug": "C-10",
+              "priority": "P0"
+            },
+            {
+              "id": "negative",
+              "value": -1,
+              "valid": false,
+              "desc": "category_id am",
+              "expected_status": 400,
+              "bug": "C-10"
+            },
+            {
+              "id": "string",
+              "value": "abc",
+              "valid": false,
+              "desc": "category_id sai kieu",
+              "expected_status": 400
+            },
+            {
+              "id": "null",
+              "value": null,
+              "valid": true,
+              "desc": "category_id null (khong bat buoc)",
+              "expected_status": 201
+            }
+          ]
+        },
+        {
+          "name": "imageUrl",
+          "in": "body",
+          "type": "string",
+          "required": false,
+          "partitions": [
+            {
+              "id": "valid",
+              "value": "https://example.com/a.png",
+              "valid": true,
+              "desc": "URL anh hop le",
+              "expected_status": 201
+            },
+            {
+              "id": "javascript",
+              "value": "javascript:alert('23127060')",
+              "valid": false,
+              "desc": "URL scheme nguy hiem",
+              "expected_status": 400,
+              "sec": "SEC-06",
+              "priority": "P0"
+            },
+            {
+              "id": "traversal",
+              "value": "../../etc/passwd",
+              "valid": false,
+              "desc": "path traversal trong imageUrl",
+              "expected_status": 400,
+              "sec": "SEC-06"
+            },
+            {
+              "id": "not_url",
+              "value": "khong-phai-url",
+              "valid": false,
+              "desc": "chuoi khong phai URL",
+              "expected_status": 400
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "update",
+      "method": "PUT",
+      "path": "/api/products/:id",
+      "auth_required": true,
+      "success_status": 200,
+      "preconditions": "San pham id=1 ton tai",
+      "headers": "Authorization: Bearer {{token_admin}}",
+      "valid_body": {
+        "name": "SP Da Sua 23127060",
+        "price": 180000,
+        "description": "Da cap nhat",
+        "imageUrl": "https://example.com/b.png",
+        "category_id": 1
+      },
+      "params": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "required": true,
+          "partitions": [
+            {
+              "id": "valid",
+              "value": 1,
+              "valid": true,
+              "desc": "id ton tai",
+              "expected_status": 200
+            },
+            {
+              "id": "not_exist",
+              "value": 999999,
+              "valid": false,
+              "desc": "id khong ton tai - phai tra 404",
+              "expected_status": 404,
+              "bug": "C-07",
+              "priority": "P0"
+            },
+            {
+              "id": "zero",
+              "value": 0,
+              "valid": false,
+              "boundary": true,
+              "desc": "BVA - id = 0",
+              "expected_status": 404
+            },
+            {
+              "id": "negative",
+              "value": -1,
+              "valid": false,
+              "desc": "id am",
+              "expected_status": 400
+            },
+            {
+              "id": "string",
+              "value": "abc",
+              "valid": false,
+              "desc": "id khong phai so",
+              "expected_status": 400
+            },
+            {
+              "id": "sqli",
+              "value": "1%20OR%201=1",
+              "valid": false,
+              "desc": "SQLi trong path param",
+              "expected_status": 400,
+              "sec": "SEC-01",
+              "priority": "P0"
+            }
+          ]
+        },
+        {
+          "name": "description",
+          "in": "body",
+          "type": "string",
+          "required": false,
+          "partitions": [
+            {
+              "id": "omit",
+              "omit": true,
+              "valid": true,
+              "desc": "PUT khong gui description - KHONG duoc ghi de thanh null",
+              "expected_status": 200,
+              "assertions": "GET lai san pham: description phai giu nguyen gia tri cu",
+              "bug": "C-09",
+              "priority": "P0"
+            },
+            {
+              "id": "valid",
+              "value": "Mo ta moi 23127060",
+              "valid": true,
+              "desc": "cap nhat mo ta",
+              "expected_status": 200
+            },
+            {
+              "id": "xss",
+              "value": "<img src=x onerror=alert('23127060')>",
+              "valid": false,
+              "desc": "stored XSS trong mo ta (FE dung dangerouslySetInnerHTML)",
+              "expected_status": 400,
+              "sec": "SEC-06",
+              "bug": "C-11",
+              "priority": "P0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "delete",
+      "method": "DELETE",
+      "path": "/api/products/:id",
+      "auth_required": true,
+      "success_status": 200,
+      "preconditions": "San pham id=3 ton tai",
+      "headers": "Authorization: Bearer {{token_admin}}",
+      "params": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "required": true,
+          "partitions": [
+            {
+              "id": "valid",
+              "value": 3,
+              "valid": true,
+              "desc": "xoa san pham ton tai",
+              "expected_status": 200,
+              "assertions": "GET lai id=3 phai tra 404"
+            },
+            {
+              "id": "not_exist",
+              "value": 999999,
+              "valid": false,
+              "desc": "xoa id khong ton tai - phai 404",
+              "expected_status": 404,
+              "bug": "C-08",
+              "priority": "P0"
+            },
+            {
+              "id": "twice",
+              "value": 3,
+              "valid": false,
+              "desc": "xoa lan thu 2 cung id",
+              "expected_status": 404,
+              "bug": "C-08"
+            },
+            {
+              "id": "in_order",
+              "value": 1,
+              "valid": false,
+              "desc": "xoa san pham dang nam trong don hang - phai chan hoac soft delete",
+              "expected_status": 409,
+              "priority": "P0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "search",
+      "method": "GET",
+      "path": "/api/products",
+      "auth_required": false,
+      "success_status": 200,
+      "preconditions": "DB da seed san pham",
+      "params": [
+        {
+          "name": "search",
+          "in": "query",
+          "type": "string",
+          "required": false,
+          "partitions": [
+            {
+              "id": "valid",
+              "value": "Laptop",
+              "valid": true,
+              "desc": "tu khoa binh thuong",
+              "expected_status": 200,
+              "assertions": "tra ve mang; moi phan tu co name chua 'Laptop'"
+            },
+            {
+              "id": "empty",
+              "value": "",
+              "valid": true,
+              "desc": "tu khoa rong - tra ve tat ca",
+              "expected_status": 200
+            },
+            {
+              "id": "no_result",
+              "value": "KhongTonTai23127060",
+              "valid": true,
+              "desc": "khong co ket qua - phai tra mang rong chu khong loi",
+              "expected_status": 200,
+              "assertions": "body la mang rong []"
+            },
+            {
+              "id": "quote",
+              "value": "%27",
+              "valid": false,
+              "desc": "1 dau nhay don lam vo cau SQL",
+              "expected_status": 400,
+              "sec": "SEC-01",
+              "assertions": "khong tra 500; khong tra HTML",
+              "bug": "C-02",
+              "priority": "P0"
+            },
+            {
+              "id": "sqli_or",
+              "value": "%25%27%20OR%20%271%27%3D%271",
+              "valid": false,
+              "desc": "SQLi OR 1=1 - lay toan bo san pham",
+              "expected_status": 400,
+              "sec": "SEC-01",
+              "bug": "C-02",
+              "priority": "P0"
+            },
+            {
+              "id": "sqli_union",
+              "value": "%25%27%20UNION%20SELECT%20id%2Cemail%2Cpassword%2C1%2C1%2C1%20FROM%20users--",
+              "valid": false,
+              "desc": "SQLi UNION doc bang users",
+              "expected_status": 400,
+              "sec": "SEC-01",
+              "assertions": "response KHONG chua email hoac password cua user",
+              "bug": "C-02",
+              "priority": "P0"
+            },
+            {
+              "id": "sqli_drop",
+              "value": "a%27%3B%20DROP%20TABLE%20products--",
+              "valid": false,
+              "desc": "SQLi stacked query DROP TABLE",
+              "expected_status": 400,
+              "sec": "SEC-01",
+              "assertions": "bang products van con; GET /api/products sau do van hoat dong",
+              "bug": "C-02",
+              "priority": "P0"
+            },
+            {
+              "id": "xss",
+              "value": "%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+              "valid": false,
+              "desc": "reflected XSS trong tu khoa",
+              "expected_status": 200,
+              "sec": "SEC-06",
+              "assertions": "response khong echo lai the script chua escape"
+            },
+            {
+              "id": "very_long",
+              "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "valid": true,
+              "boundary": true,
+              "desc": "BVA - tu khoa rat dai",
+              "expected_status": 200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "get_one",
+      "method": "GET",
+      "path": "/api/products/:id",
+      "auth_required": false,
+      "success_status": 200,
+      "params": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "required": true,
+          "partitions": [
+            {
+              "id": "odd",
+              "value": 1,
+              "valid": true,
+              "desc": "id le - price phai la number",
+              "expected_status": 200,
+              "assertions": "typeof price === 'number'"
+            },
+            {
+              "id": "even",
+              "value": 2,
+              "valid": true,
+              "desc": "id chan - price bi chuyen thanh string",
+              "expected_status": 200,
+              "assertions": "typeof price === 'number' (hien tai la string)",
+              "bug": "C-05",
+              "priority": "P0"
+            },
+            {
+              "id": "not_exist",
+              "value": 999999,
+              "valid": false,
+              "desc": "id khong ton tai - phai 404 chu khong phai 200 {}",
+              "expected_status": 404,
+              "assertions": "status 404; body co truong error",
+              "bug": "C-04",
+              "priority": "P0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "state_machine": {
+    "name": "Vong doi san pham",
+    "endpoint": "/api/products",
+    "method": "POST",
+    "states": [
+      "NOT_EXIST",
+      "CREATED",
+      "UPDATED",
+      "DELETED"
+    ],
+    "transitions": [
+      {
+        "from": "NOT_EXIST",
+        "to": "CREATED",
+        "allowed": true,
+        "method": "POST",
+        "endpoint": "/api/products",
+        "headers": "Authorization: Bearer {{token_admin}}",
+        "body": {
+          "name": "SP STA 23127060",
+          "price": 100000,
+          "category_id": 1
+        },
+        "expected_status": 201,
+        "assertions": "tra 201 kem Location hoac id; GET lai thay san pham",
+        "bug": "C-12"
+      },
+      {
+        "from": "CREATED",
+        "to": "UPDATED",
+        "allowed": true,
+        "method": "PUT",
+        "endpoint": "/api/products/{{newProductId}}",
+        "headers": "Authorization: Bearer {{token_admin}}",
+        "body": {
+          "name": "SP STA 23127060 v2",
+          "price": 120000
+        },
+        "expected_status": 200
+      },
+      {
+        "from": "UPDATED",
+        "to": "DELETED",
+        "allowed": true,
+        "method": "DELETE",
+        "endpoint": "/api/products/{{newProductId}}",
+        "headers": "Authorization: Bearer {{token_admin}}",
+        "body": {},
+        "expected_status": 200
+      },
+      {
+        "from": "DELETED",
+        "to": "READ",
+        "allowed": false,
+        "method": "GET",
+        "endpoint": "/api/products/{{newProductId}}",
+        "body": {},
+        "expected_status": 404,
+        "assertions": "phai 404, khong duoc tra 200 voi body rong",
+        "bug": "C-04",
+        "priority": "P0"
+      },
+      {
+        "from": "DELETED",
+        "to": "UPDATED",
+        "allowed": false,
+        "method": "PUT",
+        "endpoint": "/api/products/{{newProductId}}",
+        "headers": "Authorization: Bearer {{token_admin}}",
+        "body": {
+          "name": "Hoi sinh 23127060",
+          "price": 1
+        },
+        "expected_status": 404,
+        "assertions": "khong duoc sua san pham da xoa",
+        "bug": "C-07",
+        "priority": "P0"
+      },
+      {
+        "from": "DELETED",
+        "to": "DELETED",
+        "allowed": false,
+        "method": "DELETE",
+        "endpoint": "/api/products/{{newProductId}}",
+        "headers": "Authorization: Bearer {{token_admin}}",
+        "body": {},
+        "expected_status": 404,
+        "assertions": "xoa lan 2 phai 404",
+        "bug": "C-08",
+        "priority": "P0"
+      },
+      {
+        "from": "CREATED",
+        "to": "CREATED_DUPLICATE",
+        "allowed": false,
+        "method": "POST",
+        "endpoint": "/api/products",
+        "headers": "Authorization: Bearer {{token_admin}}",
+        "body": {
+          "name": "SP STA 23127060",
+          "price": 100000,
+          "category_id": 1
+        },
+        "expected_status": 409,
+        "preconditions": "Tao trung ten san pham"
+      },
+      {
+        "from": "CREATED",
+        "to": "IN_SEARCH",
+        "allowed": true,
+        "method": "GET",
+        "endpoint": "/api/products?search=SP%20STA%2023127060",
+        "body": {},
+        "expected_status": 200,
+        "assertions": "san pham vua tao xuat hien trong ket qua tim kiem"
+      },
+      {
+        "from": "DELETED",
+        "to": "IN_SEARCH",
+        "allowed": false,
+        "method": "GET",
+        "endpoint": "/api/products?search=SP%20STA%2023127060",
+        "body": {},
+        "expected_status": 200,
+        "assertions": "san pham da xoa KHONG con trong ket qua tim kiem"
+      }
+    ]
+  },
+  "security": [
+    {
+      "sec": "SEC-01",
+      "technique": "SQL Injection",
+      "title": "UNION SELECT doc bang users qua ?search",
+      "method": "GET",
+      "endpoint": "/api/products?search=%25%27%20UNION%20SELECT%20id%2Cemail%2Cpassword%2C1%2C1%2C1%20FROM%20users--",
+      "expected_status": 400,
+      "assertions": "response KHONG chua email/password cua user; khong tra 500",
+      "bug": "C-02",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-01",
+      "technique": "SQL Injection",
+      "title": "Stacked query DROP TABLE qua ?search",
+      "method": "GET",
+      "endpoint": "/api/products?search=a%27%3B%20DROP%20TABLE%20products--",
+      "expected_status": 400,
+      "assertions": "bang products van ton tai sau khi goi",
+      "bug": "C-02",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-02",
+      "technique": "Information Disclosure",
+      "title": "Loi SQL khong duoc tra ve HTML kem thong diep DB",
+      "method": "GET",
+      "endpoint": "/api/products?search=%27--",
+      "expected_status": 400,
+      "assertions": "Content-Type application/json; body khong chua <h1>Database Error",
+      "bug": "C-03",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-02",
+      "technique": "Information Disclosure",
+      "title": "Response san pham khong lo truong noi bo khi bat co debug",
+      "method": "GET",
+      "endpoint": "/api/products/1?debug=true",
+      "expected_status": 200,
+      "assertions": "khong co truong cost_price, internal_note, created_by hay tuong tu"
+    },
+    {
+      "sec": "SEC-03",
+      "technique": "Missing Authentication",
+      "title": "Tao san pham KHONG kem token",
+      "method": "POST",
+      "endpoint": "/api/products",
+      "headers": "-",
+      "body": {
+        "name": "Hacked 23127060",
+        "price": 1,
+        "category_id": 1
+      },
+      "expected_status": 401,
+      "assertions": "san pham KHONG duoc tao; kiem tra bang GET /api/products?search=Hacked",
+      "bug": "C-01",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-03",
+      "technique": "Missing Authentication",
+      "title": "Sua san pham KHONG kem token",
+      "method": "PUT",
+      "endpoint": "/api/products/1",
+      "headers": "-",
+      "body": {
+        "name": "Hacked 23127060",
+        "price": 1
+      },
+      "expected_status": 401,
+      "bug": "C-01",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-03",
+      "technique": "Missing Authentication",
+      "title": "Xoa san pham KHONG kem token",
+      "method": "DELETE",
+      "endpoint": "/api/products/2",
+      "headers": "-",
+      "body": {},
+      "expected_status": 401,
+      "assertions": "san pham id=2 van con sau khi goi",
+      "bug": "C-01",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-03",
+      "technique": "Broken JWT",
+      "title": "Token sai chu ky khi tao san pham",
+      "method": "POST",
+      "endpoint": "/api/products",
+      "headers": "Authorization: Bearer abc.def.ghi23127060",
+      "body": {
+        "name": "SP token sai",
+        "price": 1000,
+        "category_id": 1
+      },
+      "expected_status": 403,
+      "bug": "C-01",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-04",
+      "technique": "IDOR",
+      "title": "User thuong sua san pham cua he thong",
+      "method": "PUT",
+      "endpoint": "/api/products/1",
+      "headers": "Authorization: Bearer {{token_user}}",
+      "body": {
+        "name": "User sua 23127060",
+        "price": 1
+      },
+      "expected_status": 403,
+      "bug": "C-01",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-05",
+      "technique": "Privilege Escalation",
+      "title": "User thuong (role=user) tao san pham",
+      "method": "POST",
+      "endpoint": "/api/products",
+      "headers": "Authorization: Bearer {{token_user}}",
+      "body": {
+        "name": "User tao 23127060",
+        "price": 5000,
+        "category_id": 1
+      },
+      "expected_status": 403,
+      "assertions": "chi role=admin moi duoc tao san pham",
+      "bug": "C-01",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-05",
+      "technique": "Privilege Escalation",
+      "title": "User thuong xoa san pham",
+      "method": "DELETE",
+      "endpoint": "/api/products/2",
+      "headers": "Authorization: Bearer {{token_user}}",
+      "body": {},
+      "expected_status": 403,
+      "bug": "C-01",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-06",
+      "technique": "Stored XSS",
+      "title": "Luu the script vao ten san pham roi doc lai",
+      "method": "POST",
+      "endpoint": "/api/products",
+      "headers": "Authorization: Bearer {{token_admin}}",
+      "body": {
+        "name": "<script>alert('23127060')</script>",
+        "price": 1000,
+        "category_id": 1
+      },
+      "expected_status": 400,
+      "assertions": "bi tu choi HOAC khi GET lai phai duoc escape",
+      "bug": "C-11",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-06",
+      "technique": "Mass Assignment",
+      "title": "Gui kem truong id de ghi de khoa chinh",
+      "method": "POST",
+      "endpoint": "/api/products",
+      "headers": "Authorization: Bearer {{token_admin}}",
+      "body": {
+        "id": 1,
+        "name": "Ghi de id 23127060",
+        "price": 1000,
+        "category_id": 1
+      },
+      "expected_status": 400,
+      "assertions": "san pham id=1 cu KHONG bi ghi de",
+      "priority": "P0"
+    },
+    {
+      "sec": "SEC-07",
+      "technique": "Abuse / DoS",
+      "title": "Tao 50 san pham lien tiep phai bi rate-limit",
+      "method": "POST",
+      "endpoint": "/api/products",
+      "headers": "Authorization: Bearer {{token_admin}}",
+      "preconditions": "Chay Collection Runner 50 iteration",
+      "body": {
+        "name": "Spam 23127060 {{$randomInt}}",
+        "price": 1000,
+        "category_id": 1
+      },
+      "expected_status": 429
+    }
+  ],
+  "schema_cases": [
+    {
+      "title": "GET /api/products tra ve mang doi tuong dung schema",
+      "method": "GET",
+      "endpoint": "/api/products",
+      "expected_status": 200,
+      "schema_ref": "products_array",
+      "assertions": "body la array; moi phan tu co id (integer), name (string), price (number)"
+    },
+    {
+      "title": "GET /api/products/1 khop schema san pham don",
+      "method": "GET",
+      "endpoint": "/api/products/1",
+      "expected_status": 200,
+      "schema_ref": "product_schema",
+      "assertions": "body khop jsonSchema product_schema; additionalProperties=false"
+    },
+    {
+      "title": "price luon la number ke ca voi id chan",
+      "method": "GET",
+      "endpoint": "/api/products/2",
+      "expected_status": 200,
+      "schema_ref": "product_schema",
+      "assertions": "typeof price === 'number'",
+      "bug": "C-05",
+      "priority": "P0"
+    },
+    {
+      "title": "Response 404 khop schema { error: string }",
+      "method": "GET",
+      "endpoint": "/api/products/999999",
+      "expected_status": 404,
+      "schema_ref": "error_schema",
+      "assertions": "status 404; body khop { error: string }",
+      "bug": "C-04",
+      "priority": "P0"
+    },
+    {
+      "title": "Response loi luon la application/json chu khong phai HTML",
+      "method": "GET",
+      "endpoint": "/api/products?search=%27",
+      "expected_status": 400,
+      "assertions": "Content-Type application/json; body khong chua <h1>",
+      "bug": "C-03",
+      "priority": "P0"
+    },
+    {
+      "title": "POST thanh cong tra ve 201 va body chua id vua tao",
+      "method": "POST",
+      "endpoint": "/api/products",
+      "headers": "Authorization: Bearer {{token_admin}}",
+      "body": {
+        "name": "SP SCH 23127060",
+        "price": 99000,
+        "category_id": 1
+      },
+      "expected_status": 201,
+      "schema_ref": "create_success",
+      "assertions": "status 201; body co id kieu integer",
+      "bug": "C-12"
+    }
+  ]
+}

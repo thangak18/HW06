@@ -1,0 +1,178 @@
+# .github/workflows/api-tests-23127060.yml
+# HW06 - API Testing - SV 23127060 - Ninh Van Khai
+#
+# LUU Y: file nay PHAI nam o .github/workflows/ tai REPO ROOT thi GitHub Actions moi doc.
+# Ban sao trong members/23127060/ci/ chi de dinh kem vao bai nop.
+
+name: API Tests 23127060
+
+on:
+  push:
+    branches: [main, master, "feat/23127060-**"]
+    paths:
+      - "members/23127060/**"
+      - ".github/workflows/api-tests-23127060.yml"
+  pull_request:
+    paths:
+      - "members/23127060/**"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "contract = chi chay case @contract (ky vong PASS) | full = chay het (co case @bug se FAIL)"
+        required: true
+        default: "contract"
+        type: choice
+        options: [contract, full]
+
+env:
+  STUDENT_ID: "23127060"
+  MEMBER_DIR: members/23127060
+  SUT_REPO: https://github.com/ttbhanh/eshop-sut.git
+  BASE_URL: http://localhost:3000
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout bai lam
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Cai Newman va htmlextra
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Clone SUT (eshop-sut)
+        run: git clone --depth 1 "$SUT_REPO" /tmp/eshop-sut
+
+      - name: Cai dependency cua SUT
+        working-directory: /tmp/eshop-sut/backend
+        run: npm install
+
+      - name: Khoi dong backend SUT
+        working-directory: /tmp/eshop-sut/backend
+        run: |
+          nohup node server.js > /tmp/sut.log 2>&1 &
+          echo "SUT_PID=$!" >> $GITHUB_ENV
+
+      - name: Doi SUT san sang
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sf "$BASE_URL/api/products" > /dev/null; then
+              echo "SUT da san sang sau ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "SUT khong khoi dong duoc. Log:"
+          cat /tmp/sut.log
+          exit 1
+
+      - name: Seed du lieu test
+        working-directory: ${{ env.MEMBER_DIR }}
+        run: node agent-skill/eshop-api-23127060/scripts/seed_sut.js reset
+
+      - name: Chon collection theo che do
+        id: mode
+        run: |
+          MODE="${{ github.event.inputs.mode }}"
+          if [ -z "$MODE" ]; then MODE="contract"; fi
+          echo "mode=$MODE" >> $GITHUB_OUTPUT
+          echo "Che do: $MODE"
+
+      - name: Chay Newman - API-1 (FR-03 Quen mat khau)
+        working-directory: ${{ env.MEMBER_DIR }}
+        run: |
+          SUF=""
+          if [ "${{ steps.mode.outputs.mode }}" = "contract" ]; then SUF="_contract"; fi
+          newman run "postman/collections/23127060_HW06_API-1${SUF}.postman_collection.json" \
+            -e postman/environments/23127060_local.postman_environment.json \
+            --env-var "baseUrl=$BASE_URL" \
+            --env-var "studentId=$STUDENT_ID" \
+            --reporters cli,json,htmlextra \
+            --reporter-json-export "newman/ci_API-1.json" \
+            --reporter-htmlextra-export "newman/ci_API-1.html" \
+            --reporter-htmlextra-title "CI HW06 API-1 - 23127060" \
+            --reporter-htmlextra-logs
+
+      - name: Chay Newman - API-2 (FR-08 Thanh toan)
+        working-directory: ${{ env.MEMBER_DIR }}
+        run: |
+          SUF=""
+          if [ "${{ steps.mode.outputs.mode }}" = "contract" ]; then SUF="_contract"; fi
+          newman run "postman/collections/23127060_HW06_API-2${SUF}.postman_collection.json" \
+            -e postman/environments/23127060_local.postman_environment.json \
+            --env-var "baseUrl=$BASE_URL" \
+            --env-var "studentId=$STUDENT_ID" \
+            --reporters cli,json,htmlextra \
+            --reporter-json-export "newman/ci_API-2.json" \
+            --reporter-htmlextra-export "newman/ci_API-2.html" \
+            --reporter-htmlextra-title "CI HW06 API-2 - 23127060" \
+            --reporter-htmlextra-logs
+
+      - name: Chay Newman - API-3 (FR-15 Quan ly san pham)
+        working-directory: ${{ env.MEMBER_DIR }}
+        run: |
+          SUF=""
+          if [ "${{ steps.mode.outputs.mode }}" = "contract" ]; then SUF="_contract"; fi
+          newman run "postman/collections/23127060_HW06_API-3${SUF}.postman_collection.json" \
+            -e postman/environments/23127060_local.postman_environment.json \
+            --env-var "baseUrl=$BASE_URL" \
+            --env-var "studentId=$STUDENT_ID" \
+            --reporters cli,json,htmlextra \
+            --reporter-json-export "newman/ci_API-3.json" \
+            --reporter-htmlextra-export "newman/ci_API-3.html" \
+            --reporter-htmlextra-title "CI HW06 API-3 - 23127060" \
+            --reporter-htmlextra-logs
+
+      - name: Tong hop ket qua
+        if: always()
+        working-directory: ${{ env.MEMBER_DIR }}
+        run: |
+          python3 agent-skill/eshop-api-23127060/scripts/summarize_newman.py \
+            --dir newman --out report/06_execution_ci.md || true
+          cat report/06_execution_ci.md || true
+
+      - name: Upload bao cao Newman
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-reports-23127060-${{ github.run_number }}
+          path: |
+            ${{ env.MEMBER_DIR }}/newman/ci_*.html
+            ${{ env.MEMBER_DIR }}/newman/ci_*.json
+            ${{ env.MEMBER_DIR }}/report/06_execution_ci.md
+          retention-days: 30
+
+      - name: Log cua SUT khi that bai
+        if: failure()
+        run: |
+          echo "===== /tmp/sut.log ====="
+          cat /tmp/sut.log || true
+
+      - name: Dung backend SUT
+        if: always()
+        run: pkill -f "node server.js" || true
+
+# ---------------------------------------------------------------------------
+# CACH TAO 2 LAN CHAY BAT BUOC (de bai muc 6 - CI/CD)
+#
+# 1) LAN CHAY PASS:
+#    - Actions -> "API Tests 23127060" -> Run workflow -> mode = contract
+#    - Hoac commit: git commit -m "ci: run all api tests (expect pass)"
+#    - Chup screenshot check xanh -> members/23127060/ci/evidence/ci_run_pass.png
+#
+# 2) LAN CHAY FAIL:
+#    - Sua DUNG 1 assertion cho sai, vi du trong collection API-3 doi
+#      pm.response.to.have.status(200) thanh (201) o 1 request
+#    - git commit -m "ci: introduce one failing assertion to demo pipeline failure"
+#    - Chup screenshot check do + phan log Newman -> ci/evidence/ci_run_fail.png
+#    - Revert lai commit do sau khi chup xong
+#
+# Ghi ca 2 link run + 2 commit hash vao members/23127060/ci/CI_CD_REPORT.md
+# ---------------------------------------------------------------------------
