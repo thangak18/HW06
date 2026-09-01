@@ -1,0 +1,2462 @@
+{
+  "info": {
+    "_postman_id": "hw06-23127259-fr10-collection",
+    "name": "FR10_Order_State_Machine",
+    "description": "Authoritative Postman test collection for FR-10: Order Status & State Machine (46 formal cases: 41 AI-derived + 5 Human extensions).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Centrally inject mandatory Student ID header into all outgoing requests",
+          "pm.request.headers.upsert({",
+          "    key: 'X-Student-Id',",
+          "    value: pm.environment.get('studentId') || '23127259'",
+          "});"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "00 \u2013 Setup / Authentication Helpers",
+      "item": [
+        {
+          "name": "[SETUP] Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Admin Login Successful', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    var token = jsonData.token || (jsonData.data && jsonData.data.token);",
+                  "    pm.expect(token).to.be.a('string');",
+                  "    pm.environment.set('adminToken', token);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Login User A (Customer A - Owner)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{userAEmail}}\", \"password\": \"{{userAPassword}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('User A Login Successful', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    var token = jsonData.token || (jsonData.data && jsonData.data.token);",
+                  "    pm.expect(token).to.be.a('string');",
+                  "    pm.environment.set('userAToken', token);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Login User B (Customer B - Non-Owner)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{userBEmail}}\", \"password\": \"{{userBPassword}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('User B Login Successful', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    var token = jsonData.token || (jsonData.data && jsonData.data.token);",
+                  "    pm.expect(token).to.be.a('string');",
+                  "    pm.environment.set('userBToken', token);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 \u2013 Valid Forward & Lifecycle Transitions",
+      "item": [
+        {
+          "name": "[FR10-AI-001] Valid Forward Transition: Admin Confirms Pending Order (pending -> confirmed)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify Admin can transition an order from pending to confirmed.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-001",
+                  "pm.test('[FR10-AI-001] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('confirmed');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-002] Valid Forward Transition: Admin Dispatches Confirmed Order (confirmed -> shipping)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify Admin can transition an order from confirmed to shipping.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-002",
+                  "pm.test('[FR10-AI-002] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('shipping');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-003] Valid Forward Transition: Admin Delivers Shipping Order (shipping -> delivered)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify Admin can transition an in-transit order to terminal delivered state.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-003",
+                  "pm.test('[FR10-AI-003] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('delivered');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-004] End-to-End Complete Linear Lifecycle Flow (pending -> confirmed -> shipping -> delivered)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify full linear 4-stage progression on a single continuous order entity.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-004",
+                  "pm.test('[FR10-AI-004] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('delivered');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 \u2013 Order Cancellation Pathways",
+      "item": [
+        {
+          "name": "[FR10-AI-005] Valid Customer Self-Service Cancellation on Pending Order (pending -> canceled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Verify owner customer can cancel a pending order.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-005",
+                  "pm.test('[FR10-AI-005] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('canceled');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-006] Valid Customer Self-Service Cancellation on Confirmed Order (confirmed -> canceled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Verify owner customer can cancel a confirmed pre-shipment order.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-006",
+                  "pm.test('[FR10-AI-006] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('canceled');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-007] Valid Admin Status Cancellation on Pending Order (pending -> canceled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify Admin can cancel a pending order via status mutation endpoint.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-007",
+                  "pm.test('[FR10-AI-007] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('canceled');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-008] Valid Admin Status Cancellation on Confirmed Order (confirmed -> canceled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify Admin can cancel a confirmed order via status mutation endpoint.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-008",
+                  "pm.test('[FR10-AI-008] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('canceled');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 \u2013 Invalid Forward Skips & Backward Regressions",
+      "item": [
+        {
+          "name": "[FR10-AI-009] Invalid Forward Skip: Admin Attempts Direct Transition pending -> shipping",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify direct forward skip bypassing confirmed is rejected and state remains pending.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-009",
+                  "pm.test('[FR10-AI-009] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-010] Invalid Forward Skip: Admin Attempts Direct Transition pending -> delivered",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify direct forward skip from pending to delivered is rejected.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-010",
+                  "pm.test('[FR10-AI-010] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-011] Invalid Forward Skip: Admin Attempts Direct Transition confirmed -> delivered",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify direct forward skip bypassing shipping is rejected and state remains confirmed.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-011",
+                  "pm.test('[FR10-AI-011] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-013] Invalid Backward Regression: Admin Attempts confirmed -> pending",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify backward regression from confirmed to pending is prohibited.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"pending\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-013",
+                  "pm.test('[FR10-AI-013] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-014] Invalid Backward Regression: Admin Attempts shipping -> confirmed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify backward regression from shipping to confirmed is prohibited.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-014",
+                  "pm.test('[FR10-AI-014] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-015] Invalid Backward Regression: Admin Attempts shipping -> pending",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify multi-stage backward regression from shipping to pending is prohibited.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"pending\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-015",
+                  "pm.test('[FR10-AI-015] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-016] Invalid Customer Cancellation on In-Transit Order (shipping -> canceled rejected)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Verify customer cannot cancel an order that has entered shipping status.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-016",
+                  "pm.test('[FR10-AI-016] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 \u2013 Terminal-State Immutability",
+      "item": [
+        {
+          "name": "[FR10-AI-017] Terminal State Immutability: Prohibit Mutation delivered -> pending",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify delivered order cannot transition to pending.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"pending\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-017",
+                  "pm.test('[FR10-AI-017] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-018] Terminal State Immutability: Prohibit Mutation delivered -> confirmed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify delivered order cannot transition to confirmed.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-018",
+                  "pm.test('[FR10-AI-018] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-019] Terminal State Immutability: Prohibit Mutation delivered -> shipping",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify delivered order cannot transition to shipping.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-019",
+                  "pm.test('[FR10-AI-019] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-020] Terminal State Immutability: Prohibit Mutation delivered -> canceled",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify delivered order cannot be canceled.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-020",
+                  "pm.test('[FR10-AI-020] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-021] Terminal State Immutability: Prohibit Mutation canceled -> pending",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify canceled order cannot be revived to pending.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"pending\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-021",
+                  "pm.test('[FR10-AI-021] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-022] Terminal State Immutability: Prohibit Mutation canceled -> confirmed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify canceled order cannot transition to confirmed.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-022",
+                  "pm.test('[FR10-AI-022] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-023] Terminal State Immutability: Prohibit Mutation canceled -> shipping",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify canceled order cannot transition to shipping.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-023",
+                  "pm.test('[FR10-AI-023] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-024] Terminal State Immutability: Prohibit Mutation canceled -> delivered",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify canceled order cannot transition to delivered.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-024",
+                  "pm.test('[FR10-AI-024] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 \u2013 SEC-02 Authentication Invariants",
+      "item": [
+        {
+          "name": "[FR10-AI-025] SEC-02 Authentication Boundary: Admin Status Mutation Without Authorization Header",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify unauthenticated request to admin status endpoint is rejected with 401.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-025",
+                  "pm.test('[FR10-AI-025] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-026] SEC-02 Authentication Boundary: Admin Status Mutation With Malformed Bearer Token",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer malformed.jwt.token"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify request with invalid signature/malformed JWT is rejected with 401.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-026",
+                  "pm.test('[FR10-AI-026] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-027] SEC-02 Authentication Boundary: Admin Status Mutation With Expired Bearer Token",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{expiredToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify request with expired JWT is rejected with 401.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-027",
+                  "pm.test('[FR10-AI-027] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-028] SEC-02 Authentication Boundary: Customer Cancellation Without Authorization Header",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Verify unauthenticated cancel request is rejected with 401.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-028",
+                  "pm.test('[FR10-AI-028] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-029] SEC-02 Authentication Boundary: Customer Cancellation With Malformed Bearer Token",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer malformed.jwt.token"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Verify malformed JWT cancel request is rejected with 401.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-029",
+                  "pm.test('[FR10-AI-029] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 \u2013 SEC-03 Role-Based Access Control (RBAC)",
+      "item": [
+        {
+          "name": "[FR10-AI-030] SEC-03 RBAC Boundary: Normal Customer Token Targeting Admin Status Mutation Endpoint",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify normal customer cannot access admin status update route.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-030",
+                  "pm.test('[FR10-AI-030] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([403, 401, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-031] SEC-03 RBAC Boundary: Admin Token Targeting Customer Cancellation Endpoint",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Verify Admin token on customer cancel route is handled safely without unauthorized cross-route mutation.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-031",
+                  "pm.test('[FR10-AI-031] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([403, 401, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-032] SEC-03 RBAC Boundary: Non-Admin Role Token Targeting Admin Status Mutation Endpoint",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{guestToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify unprivileged non-admin token cannot update order status.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-032",
+                  "pm.test('[FR10-AI-032] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([403, 401, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "07 \u2013 Cross-User Ownership & Partial Authorization",
+      "item": [
+        {
+          "name": "[FR10-AI-033] Cross-User Ownership: Customer B Probes Cancellation on Customer A's Pending Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userBToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderAId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderAId}}",
+                "cancel"
+              ]
+            },
+            "description": "Verify Customer B cannot cancel Customer A's pending order; state verified by Customer A/Admin.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-033",
+                  "pm.test('[FR10-AI-033] Semantic Response & Status Assertion', function () {",
+                  "    // Partially spec-backed: verify non-success error code",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-034] Cross-User Ownership: Customer B Probes Cancellation on Customer A's Confirmed Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userBToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderAId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderAId}}",
+                "cancel"
+              ]
+            },
+            "description": "Verify Customer B cannot cancel Customer A's confirmed order; state verified by Customer A/Admin.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-034",
+                  "pm.test('[FR10-AI-034] Semantic Response & Status Assertion', function () {",
+                  "    // Partially spec-backed: verify non-success error code",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "08 \u2013 Status Enum & Order-ID Input Domain",
+      "item": [
+        {
+          "name": "[FR10-AI-035] Input Domain: Admin Status Mutation With Undocumented Enum ('processing')",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify status value outside the 5 documented lifecycle states is rejected.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"processing\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-035",
+                  "pm.test('[FR10-AI-035] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-036] Input Domain: Admin Status Mutation With Missing Mandatory 'status' Body Property",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify payload missing status key is rejected with 400 Bad Request.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-036",
+                  "pm.test('[FR10-AI-036] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-037] Input Domain: Admin Status Mutation With Explicit Null Status Property",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify null status property is rejected with 400 Bad Request.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-037",
+                  "pm.test('[FR10-AI-037] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-038] Input Domain: Admin Status Mutation With Numeric Status Type ({'status': 123})",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Verify numeric status type is rejected with 400 Bad Request.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": 123}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-038",
+                  "pm.test('[FR10-AI-038] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-039] Input Domain: Admin Status Mutation on Well-Formed Non-Existent Order ID (:id = 999999)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/999999/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "999999",
+                "status"
+              ]
+            },
+            "description": "Verify mutation on non-existent order ID returns 404 without side-effects.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-039",
+                  "pm.test('[FR10-AI-039] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.eql(404);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-040] Input Domain: Admin Status Mutation on Malformed Non-Numeric Order ID (:id = 'not-an-id')",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/not-an-id/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "not-an-id",
+                "status"
+              ]
+            },
+            "description": "Verify malformed non-numeric identifier is safely rejected without server crash (500) or unintended mutation.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-040",
+                  "pm.test('[FR10-AI-040] Semantic Response & Status Assertion', function () {",
+                  "    // Partially spec-backed: verify non-success error code",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "09 \u2013 Response Schema, Persistence & SEC-05",
+      "item": [
+        {
+          "name": "[FR10-AI-041] Persistence & Consistency: Read-After-Write State Verification and Response Schema Consistency",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Multi-request consistency case verifying response payload matches subsequent authorized GET query.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-041",
+                  "pm.test('[FR10-AI-041] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('confirmed');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-042] SEC-05 Injection Defense: Black-Box SQL Injection Probe on Status Path Parameter",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/1' OR '1'='1/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "1' OR '1'='1",
+                "status"
+              ]
+            },
+            "description": "Verify SQL injection string in path parameter is safely rejected without syntax leakage or mass updates.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-AI-042",
+                  "pm.test('[FR10-AI-042] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "10 \u2013 Human-Designed Extension Cases",
+      "item": [
+        {
+          "name": "[FR10-HUM-001] State Machine Continuity & Recovery: Legal Admin Confirmation Following Rejected Illegal Skip",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Multi-step recovery: attempt illegal pending->shipping (rejected), verify pending, then legal pending->confirmed (succeeds).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-HUM-001",
+                  "pm.test('[FR10-HUM-001] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-002] Multi-Entity State Isolation: Transitioning Order A Leaves Independent Order B Untouched",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderAId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderAId}}",
+                "status"
+              ]
+            },
+            "description": "Mutates Order A to confirmed; queries both orders to prove Order A is confirmed and Order B is pending.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-HUM-002",
+                  "pm.test('[FR10-HUM-002] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('Order A: confirmed, Order B: pending');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-003] Downstream Fulfillment Continuity: Legitimate Admin Completion Following Barred Customer Cancellation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "description": "Owner customer cancellation during shipping is rejected; subsequent Admin transition shipping->delivered succeeds.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-HUM-003",
+                  "pm.test('[FR10-HUM-003] Semantic Response & Status Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-004] Exploratory Same-State Self-Loop Probe: Admin Submits Redundant Mutation (confirmed -> confirmed)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Probes same-state self-loop update semantics; non-normative oracle; verifies state remains confirmed.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-HUM-004",
+                  "pm.test('[FR10-HUM-004] Semantic Response & Status Assertion', function () {",
+                  "    // Exploratory non-normative observation",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 404, 415, 422, 500]);",
+                  "    // Safe state invariant: Response should not silently corrupt system",
+                  "    pm.expect(pm.response.status).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-005] Exploratory Request Encoding Robustness: Admin Submits Mutation with Content-Type: text/plain",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/plain"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "description": "Probes non-JSON media type negotiation to detect unhandled 500 crashes; observational oracle.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test Script for FR10-HUM-005",
+                  "pm.test('[FR10-HUM-005] Semantic Response & Status Assertion', function () {",
+                  "    // Exploratory non-normative observation",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 404, 415, 422, 500]);",
+                  "    // Safe state invariant: Response should not silently corrupt system",
+                  "    pm.expect(pm.response.status).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "testContext": "FR-10 Order State Machine Data Fixtures",
+    "studentId": "23127259",
+    "invalidStatusEnum": "processing",
+    "nonExistentOrderId": "999999",
+    "malformedOrderId": "not-an-id",
+    "sqlInjectionOrderId": "1' OR '1'='1"
+  }
+]

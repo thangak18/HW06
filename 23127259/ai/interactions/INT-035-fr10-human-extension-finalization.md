@@ -725,12 +725,77 @@ PHASE 2D.0 – FR-10 FINAL EXECUTABLE SUITE + POSTMAN MATERIALIZATION
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2C FR-10 Human Extension Completion Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-034 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1558) backfilled into [`23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md).
+- **INT-035 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md).
+- **INT-035 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-035 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Raw Draft Integrity Gate
+- **Frozen Raw AI SHA-256:** `303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc` (Match verified)
+- **Raw File Modified:** **NO** (Immutable evidence strictly preserved).
+
+---
+
+## 3. Student Selection & Provenance
+- **Selected Gap Directions:** `G-04`, `G-05`, `G-07`, `G-01`, `G-08` (Excluding `G-02` and `G-03`).
+- **Authoritative Provenance:** *"Student-selected and finalized Human Extension cases after AI-assisted coverage-gap analysis."*
+
+---
+
+## 4. Formal Human Extension Test Cases Specification
+
+Documented in [`23127259/testcases/FR10_HUMAN_EXTENSION_DESIGN.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_EXTENSION_DESIGN.md) and [`23127259/testcases/FR10_HUMAN_TEST_CASES.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md):
+
+| Human ID | Gap | Classification | Distinct Added Value & Coverage Dimension |
+|:---:|:---:|---|---|
+| [`FR10-HUM-001`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-001) | `G-04` | `SPECIFICATION-BACKED / STATE-MACHINE CONTINUITY` | **State-Machine Recovery Sequence:** Verifies rejection of illegal skip (`pending -> shipping`) leaves state `pending`, and subsequent legal Admin confirmation (`pending -> confirmed`) succeeds cleanly without state corruption. |
+| [`FR10-HUM-002`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-002) | `G-05` | `SPECIFICATION-BACKED / ENTITY-STATE ISOLATION` | **Multi-Entity Isolation:** Creates Order A and Order B in `pending`; mutates Order A to `confirmed`; explicitly verifies Order A is `confirmed` and Order B remains strictly `pending` (guards against missing `WHERE` clause / bulk updates). |
+| [`FR10-HUM-003`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-003) | `G-07` | `SPECIFICATION-BACKED / LIFECYCLE CONTINUITY` | **Downstream Fulfillment Recovery:** Proves that after an owner customer's prohibited cancellation during `shipping` is rejected, the Admin can successfully fulfill the order to terminal `delivered`. |
+| [`FR10-HUM-004`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-004) | `G-01` | `EXPLORATORY / API CONTRACT` | **Same-State Self-Loop Probe:** Admin submits `confirmed -> confirmed`. Probes whether redundant status updates are handled idempotently or rejected without corrupting state. |
+| [`FR10-HUM-005`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-005) | `G-08` | `EXPLORATORY / API CONTRACT` | **Non-JSON Content-Type Robustness:** Admin sends JSON-formatted body under `Content-Type: text/plain` to probe media-type negotiation robustness and detect unhandled HTTP 500 crashes. |
+
+---
+
+## 5. Comprehensive Test Suite Accounting
+
+- **Raw AI-Generated Test Cases:** `42`
+- **Usable AI-Derived Cases (After Audit & Corrections):** `41`
+- **Rejected Raw AI Cases:** `1` (`FR10-AI-012`)
+- **Student-Selected Human Extension Cases:** `5` (`FR10-HUM-001` .. `FR10-HUM-005`)
+- **Total Planned Formal Executable Suite:** **`46`** (41 AI-Derived + 5 Human Extensions)
+- **Assignment Threshold Requirements:** $\ge 35$ AI cases and $\ge 5$ Human cases are **FULLY SATISFIED**.
+
+---
+
+## 6. Exploratory & Non-Normative Oracle Discipline
+- **`FR10-HUM-004` Normative Bug Oracle:** **`NO`** (Same-state behavior is SPEC-UNDEFINED; server response is observational).
+- **`FR10-HUM-005` Normative Bug Oracle:** **`NO`** (Non-JSON media type handling is observational; HTTP 500 is documented as a robustness observation, not an automatic specification defect).
+
+---
+
+## 7. Process Integrity & Runtime Status
+- **SUT Execution Performed:** **NO** (Static test design and formalization only).
+- **Git Commit SHA:** `2b0771d` (`test(23127259): add human-designed FR-10 extension cases`)
+- **Push Target:** `origin/thang/hw06-implementation` (Successfully pushed).
+- **Working Tree Status:** Clean.
+
+---
+
+**Phase 2C is COMPLETE. Ready for PHASE 2D.0 – FR-10 FINAL EXECUTABLE SUITE + POSTMAN MATERIALIZATION.**
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Finalized 5 Student-Selected Human Extension test cases (FR10-HUM-001..005) across G-04, G-05, G-07, G-01, and G-08 in FR10_HUMAN_EXTENSION_DESIGN.md and FR10_HUMAN_TEST_CASES.md. Verified full suite accounting (41 AI + 5 HUM = 46 executable cases). Created procedural extension commit.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID (Finalized 5 Student-Selected Human Extension test cases FR10-HUM-001..005 across G-04, G-05, G-07, G-01, G-08 in FR10_HUMAN_EXTENSION_DESIGN.md and FR10_HUMAN_TEST_CASES.md; verified full 46-case accounting; committed and pushed under 2b0771d).
+- **Notes:** Structured documentation completed with all 24 required fields per case. Exploratory controls established for HUM-004 and HUM-005. Traceability matrix generated. Automated quality gate passed.
+- **Status:** COMPLETE.
