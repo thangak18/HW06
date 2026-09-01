@@ -1,0 +1,2552 @@
+{
+  "api_id": "API-1",
+  "pool": "A",
+  "fr": "FR-04",
+  "name": "Quan ly ho so ca nhan (Personal Profile Management)",
+  "collection_file": "api1_fr04_user_profile.postman_collection.json",
+  "endpoints": [
+    "GET /api/users/me",
+    "PUT /api/users/me"
+  ],
+  "description": "HW06 - 23127195 - API-1 (Pool A, FR-04).\n\nPhu: domain partition tren 3 tham so (name, phone, shipping_address), state transition (vong doi phien + tinh nhat quan ghi/doc + partial update), security SEC-01/SEC-02/SEC-05/SEC-06 (leo quyen qua truong role), va schema validation.\n\nSinh tu testcases/api1_fr04_testcases.json bang postman/scripts/build_collections.py.",
+  "snippets": {},
+  "cases": [
+    {
+      "id": "TC-A1-S01",
+      "setup": true,
+      "group": "00 - Setup & Fixtures",
+      "title": "[SETUP] Dang ky tai khoan thu nghiem rieng cho API-1",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung tai khoan rieng de khong pha du lieu seed cua cac API khac."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "POST",
+        "path": "/api/register",
+        "body": {
+          "name": "Profile Tester 23127195",
+          "email": "{{profileEmail}}",
+          "password": "Profile123!"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-S02",
+      "setup": true,
+      "group": "00 - Setup & Fixtures",
+      "title": "[SETUP] Dang nhap de lay JWT cua user thuong",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture."
+      },
+      "expected_by_spec": "200 OK kem token.",
+      "request": {
+        "method": "POST",
+        "path": "/api/login",
+        "body": {
+          "email": "{{profileEmail}}",
+          "password": "Profile123!"
+        }
+      },
+      "capture": [
+        {
+          "var": "userToken",
+          "path": "token"
+        },
+        {
+          "var": "userId",
+          "path": "user.id"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "hasKey",
+            "path": "token"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-S03",
+      "setup": true,
+      "group": "00 - Setup & Fixtures",
+      "title": "[SETUP] Dang nhap admin de doi chieu quyen",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture cho nhom kiem thu SEC-03/SEC-06."
+      },
+      "expected_by_spec": "200 OK kem token co role=admin.",
+      "request": {
+        "method": "POST",
+        "path": "/api/login",
+        "body": {
+          "email": "{{adminEmail}}",
+          "password": "{{adminPassword}}"
+        }
+      },
+      "capture": [
+        {
+          "var": "adminToken",
+          "path": "token"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "user.role",
+            "v": "admin"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-001",
+      "group": "01 - Domain Partition: name",
+      "title": "name hop le -> 200 va doc lai dung gia tri",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Hop le: chuoi thuong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Happy path theo api_specification.md muc 2.2."
+      },
+      "expected_by_spec": "200 OK; GET /api/users/me sau do tra dung ten vua dat.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Nguyen Van A",
+          "shipping_address": "227 Nguyen Van Cu, Q5",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "hasKey",
+            "path": "message"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Doc lai ho so phai thay ten moi', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().name).to.eql('Nguyen Van A');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-002-BASE",
+      "setup": true,
+      "group": "01 - Domain Partition: name",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-002",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-002",
+      "group": "01 - Domain Partition: name",
+      "title": "name rong \"\" -> 400 (ho ten la truong bat buoc)",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Chuoi rong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-04 liet ke Ho Ten la mot trong cac truong nguoi dung cap nhat; mot ho so khong the co ten rong."
+      },
+      "known_defect": "BUG-A1-04",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-003-BASE",
+      "setup": true,
+      "group": "01 - Domain Partition: name",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-003",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-003",
+      "group": "01 - Domain Partition: name",
+      "title": "name = null -> 400 (khong duoc ghi NULL de mat ten)",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Gia tri null",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung null tach biet chuoi rong vi duong dan ghi DB khac nhau."
+      },
+      "known_defect": "BUG-A1-04",
+      "expected_by_spec": "400 Bad Request; ten cu phai duoc giu nguyen.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": null,
+          "shipping_address": "227 NVC",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-004-BASE",
+      "setup": true,
+      "group": "01 - Domain Partition: name",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-004",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-004",
+      "group": "01 - Domain Partition: name",
+      "title": "name chi gom khoang trang -> 400",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Chuoi trang (whitespace-only)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Bien tinh te giua 'co gia tri' va 'rong sau khi trim'."
+      },
+      "known_defect": "BUG-A1-04",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "     ",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-005-BASE",
+      "setup": true,
+      "group": "01 - Domain Partition: name",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-005",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-005",
+      "group": "01 - Domain Partition: name",
+      "title": "name dai 500 ky tu -> khong duoc 500",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Vuot bien tren do dai",
+      "source": "AI",
+      "audit": {
+        "label": "INCOMPLETE",
+        "reason": "AI ky vong cung 400. SV sua: SRS khong dat gioi han do dai cho ho ten (chi FR-15 dat 255 cho ten san pham), nen ky vong dung la 'phai xu ly on dinh': 200 hoac 400 deu chap nhan, nhung khong duoc 5xx."
+      },
+      "expected_by_spec": "Khong duoc 5xx. SRS khong quy dinh gioi han cu the.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400,
+              413
+            ]
+          },
+          {
+            "t": "responseTimeUnder",
+            "v": 3000
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-006-BASE",
+      "setup": true,
+      "group": "01 - Domain Partition: name",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-006",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-006",
+      "group": "01 - Domain Partition: name",
+      "title": "name sai kieu (so nguyen) -> 400",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Sai kieu: number",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Hop dong API quy dinh name la chuoi."
+      },
+      "known_defect": "BUG-A1-04",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": "{\"name\": 23127195, \"shipping_address\": \"227 NVC\", \"phone\": \"0912345678\"}"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-007",
+      "group": "01 - Domain Partition: name",
+      "title": "name tieng Viet co dau -> luu va doc lai dung (UTF-8)",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Hop le: Unicode tieng Viet",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "SUT phuc vu nguoi dung Viet Nam; sai encoding la loi thuong gap."
+      },
+      "expected_by_spec": "200 OK; doc lai phai dung nguyen van ke ca dau.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Nguyễn Thị Hồng Đào",
+          "shipping_address": "227 Nguyễn Văn Cừ",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Doc lai giu nguyen dau tieng Viet', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().name).to.eql('Nguyễn Thị Hồng Đào');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-008-BASE",
+      "setup": true,
+      "group": "01 - Domain Partition: name",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-008",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-008",
+      "group": "01 - Domain Partition: name",
+      "title": "name chua payload XSS -> luu nguyen van, khong 5xx",
+      "technique": "security",
+      "param": "name",
+      "partition": "Payload HTML/JS",
+      "sec": [
+        "SEC-04"
+      ],
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI xep XSS vao nhom 'tan cong' va ky vong API tu choi. Thuc te SEC-04 quy dinh trach nhiem escape thuoc TANG HIEN THI, con API phai luu va tra ve NGUYEN VAN. Neu API tu y loc bo the HTML thi ten hop le nhu 'Cong ty A<B' se bi bien dang. Ky vong dung: khong 5xx va doc lai nguyen van."
+      },
+      "expected_by_spec": "200 OK; du lieu doc lai giong het du lieu gui len (khong bi bien dang cung khong duoc thuc thi).",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "<script>alert('23127195')</script>",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Neu chap nhan thi phai luu nguyen van (khong bien dang)', function (done) {\n    if (pm.response.code !== 200) { return done(); }\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().name).to.eql(\"<script>alert('23127195')</script>\");\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-009-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-009",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-009",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone 10 chu so bat dau bang 0 (bien duoi hop le) -> 200",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Hop le tai bien duoi: 10 chu so",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-04: 'bat dau bang so 0, tu 10-11 chu so'. Day la bien duoi."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-010-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-010",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-010",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone 11 chu so bat dau bang 0 (bien tren hop le) -> 200",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Hop le tai bien tren: 11 chu so",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Bien tren cua khoang 10-11."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "09123456789"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-011-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-011",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-011",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone 9 chu so (duoi bien) -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Duoi bien: 9 chu so",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "BVA: min - 1."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "091234567"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-012-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-012",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-012",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone 12 chu so (tren bien) -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Tren bien: 12 chu so",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "BVA: max + 1."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "091234567890"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-013-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-013",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-013",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone du 10 so nhung KHONG bat dau bang 0 -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Sai tien to: khong bat dau bang 0",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Tach bach dieu kien 'do dai' va dieu kien 'tien to' - hai dieu kien doc lap trong FR-04."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "9912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-014-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-014",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-014",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone chua chu cai -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Sai tap ky tu: co chu cai",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-04 quy dinh so dien thoai gom CHU SO."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "0abcdefghi"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-015-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-015",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-015",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone co dau gach ngang \"0912-345-678\" -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Sai tap ky tu: co ky tu phan cach",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Dinh dang thuong gap nguoi dung go vao nhung khong thoa FR-04."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "0912-345-678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-016-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-016",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-016",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone dinh dang quoc te \"+84912345678\" -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Dinh dang quoc te E.164",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI chi sinh cac bien the 'ro rang sai' (chu cai, qua ngan). Dinh dang +84 la dinh dang HOP LE ve mat nghiep vu nhung KHONG thoa dac ta FR-04 ('bat dau bang so 0') - day la vung xam de lo, va la lua chon thiet ke can duoc ghi nhan tuong minh."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request theo dung chu cua FR-04 (chi chap nhan tien to 0).",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "+84912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-017-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-017",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-017",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone rong \"\" -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Chuoi rong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Chuoi rong khong thoa rang buoc 10-11 chu so."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": ""
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-018-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-018",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-018",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone sai kieu (number) -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Sai kieu: number",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Quan trong: neu nhan kieu so thi so 0 dau bi mat (0912345678 -> 912345678), lam hong du lieu am tham."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": "{\"name\": \"Phone Tester\", \"shipping_address\": \"227 NVC\", \"phone\": 912345678}"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-019-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-019",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-019",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone co khoang trang bao quanh -> 400 hoac trim, khong 5xx",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Hop le nhung co khoang trang bao quanh",
+      "source": "AI",
+      "audit": {
+        "label": "INCOMPLETE",
+        "reason": "AI ky vong cung 400. SV sua thanh statusIn [200,400] vi SRS khong quy dinh co trim hay khong; neu chap nhan (200) thi gia tri luu phai la chuoi da trim."
+      },
+      "expected_by_spec": "Khong 5xx. Neu 200 thi gia tri luu phai la '0912345678' (da trim).",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": "  0912345678  "
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Neu chap nhan thi phai luu gia tri da trim', function (done) {\n    if (pm.response.code !== 200) { return done(); }\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().phone).to.eql('0912345678');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      },
+      "known_defect": "BUG-A1-03"
+    },
+    {
+      "id": "TC-A1-020-BASE",
+      "setup": true,
+      "group": "02 - Domain Partition: phone",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-020",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-020",
+      "group": "02 - Domain Partition: phone",
+      "title": "phone = null -> 400",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Gia tri null",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung null."
+      },
+      "known_defect": "BUG-A1-03",
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Phone Tester",
+          "shipping_address": "227 NVC",
+          "phone": null
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-021",
+      "group": "03 - Domain Partition: shipping_address",
+      "title": "shipping_address hop le -> 200 va doc lai dung",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Hop le",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Happy path cua tham so thu 3."
+      },
+      "expected_by_spec": "200 OK; doc lai dung dia chi.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Addr Tester",
+          "shipping_address": "123 Le Loi, Q1, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Doc lai dung dia chi', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().shipping_address).to.eql('123 Le Loi, Q1, TP.HCM');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-022",
+      "group": "03 - Domain Partition: shipping_address",
+      "title": "shipping_address rong -> chap nhan (truong khong bat buoc)",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Chuoi rong (khong bat buoc)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-04 goi day la 'dia chi giao hang MAC DINH' - nguoi dung co quyen de trong. Khac han voi name va phone."
+      },
+      "expected_by_spec": "200 OK va doc lai la chuoi rong.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Addr Tester",
+          "shipping_address": "",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-023-BASE",
+      "setup": true,
+      "group": "03 - Domain Partition: shipping_address",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-023",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-023",
+      "group": "03 - Domain Partition: shipping_address",
+      "title": "shipping_address dai 2000 ky tu -> khong 5xx",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Vuot bien tren do dai",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Kiem tra do ben truoc payload lon."
+      },
+      "expected_by_spec": "Khong 5xx.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": "{\"name\": \"Addr Tester\", \"phone\": \"0912345678\", \"shipping_address\": \"{{$randomStreetAddress}} {{$randomStreetAddress}} {{$randomStreetAddress}} {{$randomStreetAddress}} {{$randomStreetAddress}} {{$randomStreetAddress}} {{$randomStreetAddress}} {{$randomStreetAddress}}\"}"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400,
+              413
+            ]
+          },
+          {
+            "t": "responseTimeUnder",
+            "v": 3000
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-024-BASE",
+      "setup": true,
+      "group": "03 - Domain Partition: shipping_address",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-024",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-024",
+      "group": "03 - Domain Partition: shipping_address",
+      "title": "shipping_address chua payload SQL injection -> khong ro ri loi SQL",
+      "technique": "security",
+      "param": "shipping_address",
+      "partition": "Payload SQL injection",
+      "sec": [
+        "SEC-05"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "SEC-05 yeu cau parameterized query. Neu SUT noi chuoi thi payload nay se gay loi cu phap SQL."
+      },
+      "expected_by_spec": "Khong 5xx, khong ro ri thong bao cua tang SQLite; du lieu luu nguyen van.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "SQLi Tester",
+          "shipping_address": "1 Le Loi', role='admin' WHERE id=1 --",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "bodyNotMatch",
+            "v": "SQLITE_|syntax error|near \"",
+            "name": "Khong ro ri loi SQL"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('SQLi khong duoc nang quyen tai khoan', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().role).to.eql('user');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-025",
+      "group": "03 - Domain Partition: shipping_address",
+      "title": "shipping_address = null -> chap nhan (xoa dia chi mac dinh)",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Gia tri null (xoa gia tri)",
+      "source": "AI",
+      "audit": {
+        "label": "INCOMPLETE",
+        "reason": "AI ky vong 400. SV sua: vi day la truong khong bat buoc, null la cach hop le de NGUOI DUNG XOA dia chi mac dinh. Ky vong dung: 200 va doc lai la null/rong."
+      },
+      "expected_by_spec": "200 OK; doc lai la null hoac chuoi rong.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Addr Tester",
+          "shipping_address": null,
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-026",
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "[S1] Ghi roi doc: PUT xong GET phai phan anh dung 3 truong",
+      "technique": "state-transition",
+      "param": "-",
+      "partition": "Nhat quan ghi/doc (write-then-read)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Chuyen doi trang thai co ban cua tai nguyen ho so; khong duoc chi tin vao message tra ve."
+      },
+      "expected_by_spec": "Ca 3 truong deu khop voi du lieu vua gui.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "State S1",
+          "shipping_address": "S1 Address",
+          "phone": "0900000001"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Ca 3 truong deu duoc luu dung', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var u = res.json();\n        pm.expect(u.name).to.eql('State S1');\n        pm.expect(u.shipping_address).to.eql('S1 Address');\n        pm.expect(u.phone).to.eql('0900000001');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-027",
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "[S1 -> S2] Cap nhat lan hai phai ghi de lan mot",
+      "technique": "state-transition",
+      "param": "-",
+      "partition": "Cap nhat lien tiep (idempotent overwrite)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Chuyen doi S1 -> S2; xac nhan khong bi cache hay ghi trung."
+      },
+      "expected_by_spec": "Gia tri moi thay the hoan toan gia tri cu.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "State S2",
+          "shipping_address": "S2 Address",
+          "phone": "0900000002"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Gia tri S1 da bi thay the hoan toan', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var u = res.json();\n        pm.expect(u.name).to.eql('State S2');\n        pm.expect(u.phone).to.eql('0900000002');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-028-BASE",
+      "setup": true,
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-028",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-028",
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "Cap nhat MOT PHAN (chi gui name) khong duoc xoa trang cac truong con lai",
+      "technique": "state-transition",
+      "param": "-",
+      "partition": "Partial update - bao toan truong khong gui",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them - AI bo sot hoan toan. AI luon sinh request day du ca 3 truong theo dung vi du trong api_specification.md, nen khong bao gio cham toi tinh huong client chi gui mot truong. Day la kich ban rat thuc te (form sua ten) va SUT co nguy co ghi undefined de len phone/dia chi -> mat du lieu am tham."
+      },
+      "known_defect": "BUG-A1-05",
+      "expected_by_spec": "200 OK; name doi, con shipping_address va phone giu nguyen gia tri baseline.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Chi doi moi ten"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Cac truong khong gui phai duoc bao toan', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var u = res.json();\n        pm.expect(u.name).to.eql('Chi doi moi ten');\n        pm.expect(u.phone, 'phone bi xoa trang khi cap nhat mot phan').to.eql('0912345678');\n        pm.expect(u.shipping_address, 'dia chi bi xoa trang khi cap nhat mot phan')\n            .to.eql('227 Nguyen Van Cu, Q5, TP.HCM');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-029-BASE",
+      "setup": true,
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-029",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-029",
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "Khong duoc doi email qua PUT /api/users/me",
+      "technique": "state-transition",
+      "param": "email (truong bat bien)",
+      "partition": "Truong chi doc",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. FR-04 ghi ro 'Email khong duoc phep thay doi qua giao dien'; AI khong sinh case nay vi email khong nam trong danh sach body cua api_specification.md muc 2.2 - AI chi test nhung gi CO trong spec, khong test nhung gi BI CAM."
+      },
+      "expected_by_spec": "Email giu nguyen sau khi cap nhat (400 hoac 200 nhung bo qua truong email).",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Email Immutable",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678",
+          "email": "hacker.23127195@evil.local"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Email KHONG duoc thay doi (FR-04)', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().email).to.eql(pm.environment.get('profileEmail'));\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-030-BASE",
+      "setup": true,
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-030",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-030",
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "Khong duoc doi id (khoa chinh) qua PUT",
+      "technique": "state-transition",
+      "param": "id (truong bat bien)",
+      "partition": "Truong chi doc",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them, cung ho voi TC-A1-029. Neu id doi duoc thi ho so se de len tai khoan khac."
+      },
+      "expected_by_spec": "id giu nguyen.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "id": 1,
+          "name": "Id Immutable",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('id KHONG duoc thay doi', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(String(res.json().id)).to.eql(String(pm.collectionVariables.get('userId')));\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-031",
+      "group": "04 - State Transition: vong doi ho so & phien",
+      "title": "Cap nhat ho so KHONG duoc lam mat hieu luc token dang dung",
+      "technique": "state-transition",
+      "param": "-",
+      "partition": "Vong doi phien sau khi doi ho so",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-04 khong yeu cau dang nhap lai sau khi sua ho so; token phai con dung."
+      },
+      "expected_by_spec": "GET /api/users/me ngay sau PUT van tra 200 voi cung token.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me",
+        "auth": "user",
+        "headers": []
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "hasKey",
+            "path": "id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-032",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-02: GET /api/users/me khong kem token -> 401",
+      "technique": "security",
+      "param": "-",
+      "partition": "Khong xac thuc",
+      "sec": [
+        "SEC-02"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "SEC-02 anh xa truc tiep; api_specification.md muc 2 ghi ro yeu cau Bearer token."
+      },
+      "expected_by_spec": "401 Unauthorized.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 401
+          },
+          {
+            "t": "notHasKey",
+            "path": "email",
+            "name": "Khong ro ri du lieu ho so"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-033",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-02: PUT /api/users/me khong kem token -> 401",
+      "technique": "security",
+      "param": "-",
+      "partition": "Khong xac thuc (thao tac ghi)",
+      "sec": [
+        "SEC-02"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Thao tac ghi phai duoc bao ve it nhat ngang thao tac doc."
+      },
+      "expected_by_spec": "401 Unauthorized va du lieu khong bi thay doi.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Anonymous Hacker",
+          "shipping_address": "x",
+          "phone": "0900000000"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 401
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-034",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-02: token sai dinh dang -> 403",
+      "technique": "security",
+      "param": "Authorization",
+      "partition": "Token khong parse duoc",
+      "sec": [
+        "SEC-02"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung 'token rac' tach biet voi 'khong co token'."
+      },
+      "expected_by_spec": "403 Forbidden.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me",
+        "auth": "raw",
+        "authValue": "Bearer khong-phai-jwt"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              401,
+              403
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-035",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-02: JWT ky bang khoa SAI (gia mao admin) -> 403",
+      "technique": "security",
+      "param": "Authorization",
+      "partition": "Token dung cau truc nhung chu ky sai",
+      "sec": [
+        "SEC-02"
+      ],
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI chi sinh 'khong token' va 'token rac'. Token dung cau truc JWT nhung ky bang khoa khac moi la phep thu THAT SU cho viec server co verify chu ky hay chi decode payload. Token duoi day chua payload {id:1, role:'admin'} - neu server chap nhan thi ke tan cong thanh admin ngay."
+      },
+      "expected_by_spec": "403 Forbidden.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me",
+        "auth": "raw",
+        "authValue": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MjY1MzE3fQ.Z7LjnTp0gy4sgW-VSZeS8M8S_u6llyhMLw15h__XSEk"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              401,
+              403
+            ]
+          },
+          {
+            "t": "notHasKey",
+            "path": "email",
+            "name": "Khong duoc tra ho so cho token gia mao"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-036",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-02: JWT dung thuat toan \"none\" -> 403",
+      "technique": "security",
+      "param": "Authorization",
+      "partition": "Tan cong alg=none",
+      "sec": [
+        "SEC-02"
+      ],
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. Day la lo hong kinh dien cua cac thu vien JWT cau hinh sai; AI khong sinh vi no doi hieu biet ve cach hien thuc JWT chu khong suy ra duoc tu spec."
+      },
+      "expected_by_spec": "403 Forbidden.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me",
+        "auth": "raw",
+        "authValue": "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0."
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              401,
+              403
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-037-BASE",
+      "setup": true,
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-037",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-037",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-06: gui kem role=admin KHONG duoc nang quyen tai khoan",
+      "technique": "security",
+      "param": "role (truong ngoai hop dong)",
+      "partition": "Mass assignment / leo quyen",
+      "sec": [
+        "SEC-06"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Anh xa truc tiep tu SEC-06: 'API cap nhat ho so khong duoc cho phep thay doi truong role tu client'. Day la case quan trong nhat cua API-1."
+      },
+      "known_defect": "BUG-A1-01",
+      "expected_by_spec": "Sau khi cap nhat, role van phai la 'user'.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Escalation Test",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678",
+          "role": "admin"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('SEC-06: role phai van la user sau khi cap nhat', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('userToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.collectionVariables.set('roleAfterEscalation', res.json().role);\n        pm.expect(res.json().role, 'TAI KHOAN DA BI NANG QUYEN LEN ADMIN').to.eql('user');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-038",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-06 (tac dong): sau khi tu dat role=admin, token MOI khong duoc mo khoa API admin",
+      "technique": "security",
+      "param": "role",
+      "partition": "Chuoi tac dong cua leo quyen",
+      "sec": [
+        "SEC-03",
+        "SEC-06"
+      ],
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI dung lai o cho 'role trong DB co doi khong'. Nhung muc do NGHIEM TRONG that su chi chung minh duoc khi di them mot buoc: dang nhap lai de lay JWT moi (nay mang role=admin) roi goi API admin. Case nay bien mot ghi nhan ky thuat thanh bang chung chiem quyen he thong."
+      },
+      "known_defect": "BUG-A1-01",
+      "expected_by_spec": "403 Forbidden - tai khoan nguoi dung thuong khong duoc truy cap /api/admin/*.",
+      "request": {
+        "method": "POST",
+        "path": "/api/login",
+        "body": {
+          "email": "{{profileEmail}}",
+          "password": "Profile123!"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Token moi khong duoc mang role=admin', function () {\n    pm.expect(J().user.role, 'JWT moi da mang quyen admin').to.eql('user');\n});"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Token nay khong duoc goi duoc GET /api/admin/users', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/admin/users',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + J().token\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.code, 'da doc duoc toan bo danh sach nguoi dung').to.be.oneOf([401, 403]);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-039",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-01: GET /api/users/me khong duoc tra mat khau",
+      "technique": "security",
+      "param": "-",
+      "partition": "Ro ri du lieu nhay cam",
+      "sec": [
+        "SEC-01"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "SEC-01 cam luu mat khau plaintext; neu API tra ve dung chuoi mat khau thi vua ro ri vua chung minh khong he bam."
+      },
+      "known_defect": "BUG-A1-02",
+      "expected_by_spec": "Response khong chua truong password.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me",
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "notHasKey",
+            "path": "password",
+            "name": "SEC-01: khong duoc tra truong password"
+          },
+          {
+            "t": "bodyNotMatch",
+            "v": "Profile123!",
+            "name": "SEC-01: khong duoc phan chieu mat khau plaintext"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-040",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "SEC-01: GET /api/users/me khong duoc tra reset_token",
+      "technique": "security",
+      "param": "-",
+      "partition": "Ro ri du lieu nhay cam (OTP)",
+      "sec": [
+        "SEC-01",
+        "SEC-07"
+      ],
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI chi kiem tra password. Nhung SUT dung 'SELECT *' nen tra ve CA reset_token va login_attempts - reset_token bi lo la duong dan chiem doat tai khoan doc lap voi mat khau."
+      },
+      "known_defect": "BUG-A1-02",
+      "expected_by_spec": "Response khong chua reset_token, login_attempts, locked_until.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me",
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "notHasKey",
+            "path": "reset_token",
+            "name": "Khong duoc lo ma OTP dat lai mat khau"
+          },
+          {
+            "t": "notHasKey",
+            "path": "login_attempts",
+            "name": "Khong duoc lo bo dem dang nhap sai"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-041",
+      "group": "05 - Security: SEC-01 / SEC-02 / SEC-06",
+      "title": "IDOR: gui user_id cua nguoi khac khong duoc sua ho so nguoi do",
+      "technique": "security",
+      "param": "user_id / id",
+      "partition": "Truy cap doi tuong truc tiep khong hop le",
+      "sec": [
+        "SEC-02"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Endpoint la '/me' nen dinh danh phai lay tu token, khong bao gio lay tu body."
+      },
+      "expected_by_spec": "Ho so cua admin (id=1) khong bi thay doi.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "user_id": 1,
+          "id": 1,
+          "name": "IDOR-23127195",
+          "shipping_address": "x",
+          "phone": "0900000009"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Ho so cua admin khong bi sua', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/users/me',\n        method: 'GET',\n        header: {\n            'X-Student-Id': pm.environment.get('studentId'),\n            'Authorization': 'Bearer ' + pm.collectionVariables.get('adminToken')\n        }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().name, 'ho so admin da bi ghi de').to.not.eql('IDOR-23127195');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-042",
+      "group": "06 - Schema Validation",
+      "title": "Schema: GET /api/users/me khop hop dong API va KHONG co truong thua",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Response thanh cong",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI viet schema chi liet ke cac truong MONG DOI CO. Kiem thu schema dung nghia phai kiem ca chieu nguoc lai: khong duoc co truong NGOAI hop dong (additionalProperties=false), vi day chinh la cach phat hien 'SELECT *' vo tinh lam ro ri cot nhay cam."
+      },
+      "known_defect": "BUG-A1-02",
+      "expected_by_spec": "Chi gom: id, name, email, role, shipping_address, phone.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me",
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "contentTypeJson"
+          },
+          {
+            "t": "type",
+            "path": "id",
+            "v": "number"
+          },
+          {
+            "t": "type",
+            "path": "email",
+            "v": "string"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('role phai thuoc tap {user, admin}', function () {\n    pm.expect(['user', 'admin']).to.include(J().role);\n});"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong co truong nao ngoai hop dong API', function () {\n    var allowed = ['id', 'name', 'email', 'role', 'shipping_address', 'phone'];\n    var extra = Object.keys(J()).filter(function (k) { return allowed.indexOf(k) === -1; });\n    pm.expect(extra, 'truong thua bi ro ri: ' + extra.join(', ')).to.be.an('array').that.is.empty;\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-043-BASE",
+      "setup": true,
+      "group": "06 - Schema Validation",
+      "title": "[SETUP] Dua ho so ve baseline truoc TC-A1-043",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dua ho so ve baseline bang mot REQUEST rieng thay vi pm.sendRequest trong pre-request script — pre-request bat dong bo khong dam bao hoan tat truoc khi request chinh duoc gui. Cung ly do voi cac request [SETUP] cua API-3 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Baseline 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-043",
+      "group": "06 - Schema Validation",
+      "title": "Schema: PUT /api/users/me tra ve dung { message: string }",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Response thanh cong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Anh xa tu api_specification.md muc 2.2."
+      },
+      "expected_by_spec": "{ \"message\": string }.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Schema Tester",
+          "shipping_address": "227 NVC",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "contentTypeJson"
+          },
+          {
+            "t": "schema",
+            "v": {
+              "type": "object",
+              "required": [
+                "message"
+              ],
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-044",
+      "group": "06 - Schema Validation",
+      "title": "Schema: response loi dung dinh dang { error: string }",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Response loi",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Tinh nhat quan cua dinh dang loi la mot phan hop dong API."
+      },
+      "expected_by_spec": "{ \"error\": string } kem Content-Type JSON.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 401
+          },
+          {
+            "t": "contentTypeJson"
+          },
+          {
+            "t": "schema",
+            "v": {
+              "type": "object",
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-045",
+      "group": "06 - Schema Validation",
+      "title": "Schema: GET /api/users/me phan hoi duoi 2000ms",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Phi chuc nang - hieu nang",
+      "source": "AI",
+      "audit": {
+        "label": "INCOMPLETE",
+        "reason": "AI xep nham vao nhom schema. SV giu lai nhung ghi ro day la kiem thu PHI CHUC NANG va nguong 2000ms la nguong tu dat cho moi truong local, khong co trong SRS."
+      },
+      "expected_by_spec": "Khong co trong SRS. Nguong tu dat: < 2000ms tren localhost.",
+      "request": {
+        "method": "GET",
+        "path": "/api/users/me",
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "responseTimeUnder",
+            "v": 2000
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A1-Z99",
+      "setup": true,
+      "group": "99 - Teardown",
+      "title": "[TEARDOWN] Tra ho so ve baseline",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Don dep de lan chay sau khong bi anh huong."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "user",
+        "body": {
+          "name": "Profile Tester 23127195",
+          "shipping_address": "227 Nguyen Van Cu, Q5, TP.HCM",
+          "phone": "0912345678"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    }
+  ]
+}
