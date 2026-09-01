@@ -19,3 +19,11 @@ File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py bui
 - Files touched: spec/api-2.json, spec/_SCHEMA.md, agent-skill/eshop-api-23127060/scripts/gen_testcases.py, report/01_api_selection.md
 - Human verified: pending
 
+### #3 · 2026-09-01T14:36:46+07:00 · STEP 2a · Vong 1/4 - sinh test case DOMAIN PARTITION
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step2a_dom.txt`
+  > [STEP 2 — VONG 2a / 4: DOMAIN PARTITION] De bai cam mot prompt tong ("generate all the API test cases from the spec and run them").
+- Output: `ai/interactions/20260901T143646+0700_vong-1-4-sinh-test-case-domain-partition_OUTPUT.md`
+- Files touched: testcases/API-1_generated.csv, testcases/API-2_generated.csv, testcases/API-3_generated.csv
+- Human verified: pending
+
