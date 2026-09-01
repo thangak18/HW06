@@ -319,6 +319,13 @@
 - **Date & Time:** 2026-09-01 22:29:34+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 2D.0.3: FR-10 Per-Case Fixture Isolation + Fail-Fast Fixture Extraction
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1753, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1753, Output: Step 1812)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-039`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md)
+### INT-040: Phase 2D.1A: FR-10 Minimal Auth + Product + Checkout + State-Fixture Smoke
+- **Date & Time:** 2026-09-01 22:34:37+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1A: FR-10 Minimal Auth / Product / Checkout / Fixture Runtime Smoke
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1813, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-040`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md)

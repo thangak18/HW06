@@ -778,12 +778,132 @@ PHASE 2D.1A – FR-10 MINIMAL AUTH + CHECKOUT + STATE-FIXTURE SMOKE
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2D.0.3 FR-10 Per-Case Fixture Isolation Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-038 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1752) backfilled into [`23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md).
+- **INT-039 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md).
+- **INT-039 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-039 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Defect Confirmation
+- **Previous Shared Mutable Fixture Defect Confirmed:** **YES**
+- **Affected Fixture Variables:** `orderPendingId`, `orderConfirmedId`, `orderShippingId`, `orderDeliveredId`, `orderCanceledId`, `orderId`, `orderAId`, `orderBId`.
+- **Affected Formal IDs:** All 46 formal cases. Valid mutations (`AI-001`, `AI-002`, `AI-003`, `AI-004`) permanently changed the lifecycle state of shared variables, and invalid mutation tests with potential SUT bugs would contaminate downstream tests.
+
+---
+
+## 3. Repairs & Hardening
+- **Per-Case Fixtures Implemented:** **YES** — Co-located `[SETUP-CREATE]` (and prerequisite transitions) co-located immediately before each formal action with unique case-scoped variables (`order_FR10_AI_001` .. `order_FR10_AI_041`, `order_FR10_HUM_001` .. `order_FR10_HUM_005`).
+- **Shared Mutable Formal Fixtures Remaining:** **`0`**
+- **Order-ID Fallback (`'1'`):** **100% REMOVED** across all collection and test scripts.
+- **Fail-Fast Extraction Implemented:**
+  ```javascript
+  const body = pm.response.json();
+  const id = body.id ?? body.order?.id ?? body.data?.id;
+  if (!id) {
+      throw new Error("Fixture checkout succeeded without a recognizable order ID; aborting");
+  }
+  pm.environment.set("order_FR10_xxx", String(id));
+  ```
+- **Pre-Creation Variable Clearing:** Variables cleared via `pm.environment.unset()` before checkout.
+
+---
+
+## 4. Special Cases Isolation
+- **`FR10-AI-033` Fixture:** Dedicated User-A-owned pending order `order_FR10_AI_033`. User B attempts cancellation $\rightarrow$ rejected $\rightarrow$ User A verifies `pending`.
+- **`FR10-AI-034` Fixture:** Dedicated User-A-owned confirmed order `order_FR10_AI_034` (User A checkout + Admin confirm). User B attempts cancellation $\rightarrow$ rejected $\rightarrow$ User A verifies `confirmed`.
+- **`FR10-HUM-002` Fixtures A/B:** Two distinct, isolated fresh pending orders `order_FR10_HUM_002_A` and `order_FR10_HUM_002_B`. Admin mutates A to `confirmed` $\rightarrow$ verifies A is `confirmed` and independent B remains `pending`.
+- **`FR10-AI-004` Fixture:** Dedicated linear lifecycle sequence order `order_FR10_AI_004`.
+- **`FR10-AI-041` Fixture:** Dedicated consistency order `order_FR10_AI_041`.
+- **`FR10-HUM-001` Fixture:** Dedicated invalid forward skip recovery order `order_FR10_HUM_001`.
+- **`FR10-HUM-003` Fixture:** Dedicated full fulfillment continuity order `order_FR10_HUM_003`.
+
+---
+
+## 5. Route Discipline & Authoritative Sourcing
+- **Login Route:** `POST /api/auth/login` (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L30-L32) FR-02 & [`docs/team-api-allocation.md`](file:///Volumes/Thang/HW06/HW06/docs/team-api-allocation.md#L12)).
+- **Checkout Route:** `POST /api/checkout` (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L45-L48) FR-08).
+- **Status Mutation Route:** `PUT /api/admin/orders/:id/status` (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L88-L92) FR-18).
+- **Cancellation Route:** **`PUT /api/orders/:id/cancel`** (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L50-L53) FR-10; all references to secondary POST removed).
+- **Order Read / Persistence Route:** `GET /api/orders/:id` (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L55-L58) FR-11).
+
+---
+
+## 6. Product Fixture Risk Assessment
+- **`productId: 1` Documentary Guarantee:** **NO** (Standard seed inventory item in EShop, but not explicitly contract-guaranteed in API specs).
+- **Checkout Inventory Consumption Risk:** Repeated isolated checkouts (44 checkouts per test run) could deplete seed stock if backend tracks inventory and starting quantity is low.
+- **Runtime Smoke Required:** **YES** (Controlled minimal auth + checkout fixture smoke required before full collection execution).
+
+---
+
+## 7. HTTP Operation Accounting Reconciliation
+
+Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md):
+
+| Category | HTTP Operation Count | Description |
+|---|:---:|---|
+| **Authentication Helpers** | **`3`** | `POST /api/auth/login` (Admin, User A, User B in Folder 00) |
+| **Order Creation Setup Calls** | **`44`** | Co-located `POST /api/checkout` fixture creation requests |
+| **Prerequisite State Setup Calls** | **`31`** | Admin / User transitions establishing `confirmed`, `shipping`, `delivered`, `canceled` |
+| **Formal Action / Verify Requests** | **`60`** | Standalone request items in collection folders 01..10 |
+| **Script-Triggered Persistence GETs** | **`36`** | Dynamic `pm.sendRequest` GET queries in test scripts |
+| **Expected Total Runtime HTTP Operations** | **`174`** | Total network requests across the wire during automated Newman execution |
+| **Formal Test Cases** | **`46`** | 41 AI-derived + 5 Human extension cases |
+
+---
+
+## 8. Automated Static Fixture Isolation Validator Gate
+
+Validator script: [`23127259/postman/validate_fr10_fixture_isolation.py`](file:///Volumes/Thang/HW06/HW06/23127259/postman/validate_fr10_fixture_isolation.py)
+
+```
+=== RUNNING FR-10 FIXTURE ISOLATION STATIC VALIDATOR ===
+[PASS] 1. Raw AI Draft frozen SHA-256 verified immutable.
+[PASS] 2. Postman Environment JSON parsed, studentId verified, zero prefilled static order IDs.
+[INFO] Total Collection Request Definitions: 138
+[PASS] 3. Exactly 138 collection request definitions present (3 auth helpers + co-located setups + formal steps).
+[PASS] 4. Fail-fast collection-level X-Student-Id pre-request header injection verified.
+[INFO] Extracted 46 unique formal test IDs from collection.
+[PASS] 5. Exactly 46 formal IDs represented (41 AI + 5 HUM; AI-012 strictly excluded).
+[PASS] 6. Zero fallback order IDs ('1') found. Fail-fast extraction enforced.
+[PASS] 7. Machine-verified: All 44 order fixture variables are strictly isolated to single formal cases.
+[PASS] 8. HUM-002 has two dedicated, non-shared order variables (A and B).
+[INFO] Total pm.sendRequest script calls: 36
+[PASS] 9. All 36 script-triggered HTTP calls explicitly include X-Student-Id and Authorization headers.
+[PASS] 10. Exact cancellation method verified as PUT across all requests.
+
+=== ALL 10 PER-CASE FIXTURE ISOLATION GATES PASSED (100% READY) ===
+```
+
+- **46 Fixture Mappings:** **YES** (Documented in [`23127259/postman/FR10_PER_CASE_FIXTURE_MATRIX.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_PER_CASE_FIXTURE_MATRIX.md))
+- **Shared Mutable Variables:** **`0`**
+- **Fallback IDs:** **`0`**
+- **Unsafe State Dependency:** **`0`**
+- **Overall Validator Verdict:** **PASS (10/10 GATES PASSED)**
+
+---
+
+## 9. Process Integrity & Runtime Status
+- **Postman Execution Performed:** **NO** (Strict static audit only).
+- **Newman Execution Performed:** **NO** (Strict static audit only).
+- **Git Commit SHA:** `cc644bc` (`fix(23127259): isolate FR-10 fixtures per formal case`)
+- **Push Target:** `origin/thang/hw06-implementation` (Successfully pushed).
+- **Working Tree Status:** Clean.
+
+---
+
+**Per-Case Fixture Isolation is 100% Complete & Machine-Verified. Ready for PHASE 2D.1A – FR-10 MINIMAL AUTH + CHECKOUT + STATE-FIXTURE SMOKE.**
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Conducting comprehensive per-case fixture isolation and fail-fast fixture extraction hardening. Designing dedicated co-located or case-scoped order fixtures for all 46 formal cases, eliminating fallback order ID '1', creating FR10_PER_CASE_FIXTURE_MATRIX.md and validate_fr10_fixture_isolation.py.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID (Completed strict per-case fixture isolation across all 46 formal cases; implemented co-located setup helpers with unique case-scoped variables; eliminated fallback order ID "1" in favor of fail-fast error throwing; created FR10_PER_CASE_FIXTURE_MATRIX.md and validate_fr10_fixture_isolation.py; committed under cc644bc).
+- **Status:** COMPLETE.
