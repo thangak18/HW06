@@ -71,9 +71,9 @@
       "path": "/api/apply-coupon",
       "auth_required": true,
       "success_status": 200,
-      "preconditions": "Coupon PERC10 (10%, min 100000), FIX50K, EXPIRED, INACTIVE da seed",
+      "preconditions": "Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js",
       "headers": "Authorization: Bearer {{token_user}}",
-      "valid_body": { "code": "PERC10", "total_amount": 200000, "user_id": "{{userId}}" },
+      "valid_body": { "code": "SAVE10", "total_amount": 500000, "user_id": "{{userId}}" },
       "params": [
         {
           "name": "code",
@@ -81,10 +81,10 @@
           "type": "string",
           "required": true,
           "partitions": [
-            { "id": "valid_percent", "value": "PERC10", "valid": true, "desc": "Decision table T1 - ma % hop le, du dieu kien", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 20000 (10% cua 200000)", "bug": "B-05", "priority": "P0" },
-            { "id": "valid_fixed", "value": "FIX50K", "valid": true, "desc": "Decision table T2 - ma so tien co dinh", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 50000" },
+            { "id": "valid_percent", "value": "SAVE10", "valid": true, "desc": "Decision table T1 - ma % hop le, du dieu kien", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 50000 (10% cua 500000) theo cong thuc SRS FR-09", "bug": "B-05", "priority": "P0" },
+            { "id": "valid_fixed", "value": "BIGBUY", "valid": true, "desc": "Decision table T2 - ma so tien co dinh", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 50000" },
             { "id": "expired", "value": "EXPIRED", "valid": false, "desc": "Decision table T3 - ma het han", "technique": "Decision Table", "expected_status": 400, "bug": "B-08", "priority": "P0" },
-            { "id": "inactive", "value": "INACTIVE", "valid": false, "desc": "Decision table T4 - ma bi vo hieu hoa", "technique": "Decision Table", "expected_status": 400 },
+            { "id": "multi_use", "value": "VIP100", "valid": true, "desc": "Decision table T4 - ma fixed con luot dung (max 2 luot/user). Khong co coupon is_active=0 nao duoc seed nen dong T4 goc (ma bi vo hieu hoa) khong kiem duoc qua API - xem report/01_api_selection.md", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 100000" },
             { "id": "not_exist", "value": "KHONGCOMA23127060", "valid": false, "desc": "Decision table T5 - ma khong ton tai", "technique": "Decision Table", "expected_status": 404 },
             { "id": "empty", "value": "", "valid": false, "desc": "ma rong", "expected_status": 400 },
             { "id": "omit", "omit": true, "valid": false, "desc": "thieu code", "expected_status": 400 },
@@ -98,11 +98,11 @@
           "type": "number",
           "required": true,
           "partitions": [
-            { "id": "below_min", "value": 99999, "valid": false, "boundary": true, "desc": "BVA - duoi min_order_amount 100000", "technique": "BVA", "expected_status": 400 },
-            { "id": "equal_min", "value": 100000, "valid": true, "boundary": true, "desc": "BVA - BANG dung min_order_amount (loi bien > thay vi >=)", "technique": "BVA", "expected_status": 200, "assertions": "phai duoc ap ma vi dieu kien la >= min_order_amount", "bug": "B-06", "priority": "P0" },
-            { "id": "above_min", "value": 100001, "valid": true, "boundary": true, "desc": "BVA - tren min_order_amount 1 dong", "technique": "BVA", "expected_status": 200 },
+            { "id": "below_min", "value": 299999, "valid": false, "boundary": true, "desc": "BVA - duoi min_order_amount 300000 cua SAVE10 dung 1 dong", "technique": "BVA", "expected_status": 400 },
+            { "id": "equal_min", "value": 300000, "valid": true, "boundary": true, "desc": "BVA - BANG dung min_order_amount 300000 (loi bien > thay vi >=)", "technique": "BVA", "expected_status": 200, "assertions": "phai duoc ap ma vi dieu kien la >= min_order_amount", "bug": "B-06", "priority": "P0" },
+            { "id": "above_min", "value": 300001, "valid": true, "boundary": true, "desc": "BVA - tren min_order_amount 300000 dung 1 dong", "technique": "BVA", "expected_status": 200 },
             { "id": "negative", "value": -200000, "valid": false, "desc": "tong tien am", "expected_status": 400 },
-            { "id": "discount_exceeds", "value": 10000, "valid": false, "desc": "ma giam 50k nhung don chi 10k - khong duoc am tien", "expected_status": 400, "priority": "P0" }
+            { "id": "discount_exceeds", "value": 10000, "valid": false, "desc": "don 10k nho hon so tien giam - final_amount khong duoc am", "expected_status": 400, "priority": "P0" }
           ]
         },
         {
@@ -152,7 +152,7 @@
     { "sec": "SEC-01", "technique": "SQL Injection", "title": "SQLi qua ma giam gia", "method": "POST", "endpoint": "/api/apply-coupon", "body": { "code": "' UNION SELECT 1,1,1,1,1,1--", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 400, "priority": "P0" },
     { "sec": "SEC-02", "technique": "Information Disclosure", "title": "Response checkout khong duoc lo thong tin noi bo", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 201, "assertions": "body khong chua stack trace, ten bang, duong dan file" },
     { "sec": "SEC-03", "technique": "Missing Authentication", "title": "Checkout khong kem token phai bi tu choi", "method": "POST", "endpoint": "/api/checkout", "headers": "-", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 401, "priority": "P0" },
-    { "sec": "SEC-03", "technique": "Missing Authentication", "title": "Apply-coupon khong kem token phai bi tu choi", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "-", "body": { "code": "PERC10", "total_amount": 200000, "user_id": 1 }, "expected_status": 401, "bug": "B-07", "priority": "P0" },
+    { "sec": "SEC-03", "technique": "Missing Authentication", "title": "Apply-coupon khong kem token phai bi tu choi", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "-", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": 1 }, "expected_status": 401, "bug": "B-07", "priority": "P0" },
     { "sec": "SEC-03", "technique": "Broken JWT", "title": "Token JWT bi sua chu ky phai bi tu choi", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0.invalid23127060", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 403, "priority": "P0" },
     { "sec": "SEC-04", "technique": "IDOR", "title": "Xem don hang cua nguoi khac qua GET /api/orders/:id", "method": "GET", "endpoint": "/api/orders/{{victimOrderId}}", "headers": "Authorization: Bearer {{token_attacker}}", "expected_status": 403, "assertions": "khong tra ve dia chi, tong tien cua don hang nguoi khac", "bug": "B-02", "priority": "P0" },
     { "sec": "SEC-04", "technique": "IDOR", "title": "Xem don hang khong kem token", "method": "GET", "endpoint": "/api/orders/{{victimOrderId}}", "headers": "-", "expected_status": 401, "bug": "B-02", "priority": "P0" },
@@ -161,13 +161,13 @@
     { "sec": "SEC-05", "technique": "Privilege Escalation", "title": "User thuong xem toan bo don hang qua GET /api/admin/orders", "method": "GET", "endpoint": "/api/admin/orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 403, "priority": "P0" },
     { "sec": "SEC-06", "technique": "Input Validation / XSS", "title": "XSS trong shipping_address phai bi chan hoac escape", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "<img src=x onerror=alert('23127060')>" }, "expected_status": 400 },
     { "sec": "SEC-06", "technique": "Mass Assignment", "title": "Gui kem status='delivered' khi checkout", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5", "status": "delivered" }, "expected_status": 201, "assertions": "don hang moi tao phai o trang thai 'pending', KHONG phai 'delivered'", "priority": "P0" },
-    { "sec": "SEC-07", "technique": "Abuse / Race Condition", "title": "Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage limit", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "Authorization: Bearer {{token_user}}", "preconditions": "Chay Collection Runner 10 iteration", "body": { "code": "PERC10", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 400, "assertions": "tu lan thu N+1 phai bi tu choi theo usage_limit", "bug": "B-11", "priority": "P0" },
+    { "sec": "SEC-07", "technique": "Abuse / Race Condition", "title": "Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage limit", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "Authorization: Bearer {{token_user}}", "preconditions": "Chay Collection Runner 10 iteration", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 400, "assertions": "tu lan thu N+1 phai bi tu choi theo usage_limit", "bug": "B-11", "priority": "P0" },
     { "sec": "SEC-07", "technique": "Abuse", "title": "Spam checkout 20 lan lien tiep phai bi rate-limit", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 429 }
   ],
   "schema_cases": [
     { "title": "Response 201 cua checkout khop schema { orderId: integer, message: string }", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 201, "schema_ref": "checkout_success" },
     { "title": "Response loi cua checkout khop schema { error: string }", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [], "total_amount": -1, "shipping_address": null }, "expected_status": 400, "schema_ref": "error_schema" },
-    { "title": "Response cua apply-coupon khop schema { discount_amount: number, final_amount: number }", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "Authorization: Bearer {{token_user}}", "body": { "code": "PERC10", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 200, "schema_ref": "coupon_success", "assertions": "discount_amount la number va > 0 va < total_amount", "bug": "B-05" },
+    { "title": "Response cua apply-coupon khop schema { discount_amount: number, final_amount: number }", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "Authorization: Bearer {{token_user}}", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 200, "schema_ref": "coupon_success", "assertions": "discount_amount la number va > 0 va < total_amount", "bug": "B-05" },
     { "title": "Response cua GET /api/orders/:id khop schema don hang day du", "method": "GET", "endpoint": "/api/orders/{{orderId}}", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "order_schema", "assertions": "co id, user_id, total_amount (number), status (enum 5 gia tri), shipping_address" },
     { "title": "Truong status luon thuoc enum 5 gia tri hop le", "method": "GET", "endpoint": "/api/orders/my-orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "orders_array", "assertions": "moi phan tu co status thuoc [pending,confirmed,shipping,delivered,canceled]" },
     { "title": "total_amount luon la number, khong bao gio la string", "method": "GET", "endpoint": "/api/orders/my-orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "orders_array", "assertions": "typeof total_amount === 'number' cho moi phan tu" }

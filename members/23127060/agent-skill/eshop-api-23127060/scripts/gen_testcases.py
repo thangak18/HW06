@@ -30,14 +30,16 @@ COLUMNS = [
 
 CATS = ["DOM", "STA", "SEC", "SCH"]
 
+# Bang nay bam theo eshop-sut/README.md muc 9 "Yeu cau Bao mat" (ban that),
+# KHONG phai bang SEC suy dien theo OWASP. Xem report/00_environment.md muc 4.
 SEC_DEFAULT_ASSERT = {
-    "SEC-01": "khong tra du lieu ngoai pham vi; khong tra HTML; khong lo loi SQL",
-    "SEC-02": "response KHONG chua password, reset_token, stack trace",
-    "SEC-03": "tra 401 hoac 403; du lieu KHONG bi thay doi",
-    "SEC-04": "tra 403 hoac 404; khong lo du lieu cua user khac",
-    "SEC-05": "tra 403; hanh dong admin KHONG duoc thuc hien",
-    "SEC-06": "payload bi tu choi (4xx) hoac duoc escape khi luu",
-    "SEC-07": "bi chan sau N lan (429 hoac 403 lockout)",
+    "SEC-01": "response KHONG chua truong password (du plaintext hay hash); mat khau khong duoc luu plaintext",
+    "SEC-02": "tra 401 khi thieu token / 403 khi token sai; du lieu KHONG bi doc hay thay doi",
+    "SEC-03": "tra 403 khi token hop le nhung role != 'admin'; hanh dong admin KHONG duoc thuc hien",
+    "SEC-04": "payload HTML/script khong duoc luu tho; server tra ve ban da escape hoac tu choi (4xx)",
+    "SEC-05": "truy van dung parameterized query: payload SQLi bi coi la chuoi tim kiem thuong, khong doi ngu nghia cau lenh; khong tra HTML loi DB",
+    "SEC-06": "truong role trong body bi bo qua; role cua tai khoan sau khi goi van la 'user'",
+    "SEC-07": "OTP dai >= 6 chu so, het han sau thoi gian quy dinh, va khong dung lai duoc lan thu hai",
 }
 
 
@@ -218,10 +220,21 @@ def gen_schema(spec):
 
 
 def dedup(rows):
+    """Bo case trung LAP THAT SU.
+
+    Truoc day khoa dedup chi gom (method, endpoint, body, status) nen mot case SCH va
+    mot case DOM cung goi 1 request nhung khang dinh hai thu khac han nhau bi gop lam
+    mot -> mat trang case SCH (api-1 tu 6 case SCH con 1). Hai case chi la trung lap khi
+    chung gui CUNG mot request VA khang dinh CUNG mot dieu, trong CUNG mot nhom ky thuat,
+    VA xuat phat tu CUNG mot precondition. Precondition la bat buoc trong khoa: hai case
+    "huy don dang pending" va "huy don dang confirmed" goi y het nhau (PUT /orders/:id/cancel,
+    body rong) va chi phan biet duoc bang trang thai ban dau.
+    """
     seen = set()
     out = []
     for r in rows:
-        key = (r["Method"], r["Endpoint"], r["Request_Body"], str(r["Expected_Status"]))
+        key = (r["Category"], r["Method"], r["Endpoint"], r["Request_Body"],
+               str(r["Expected_Status"]), r["Expected_Assertions"], r["Preconditions"])
         if key in seen:
             continue
         seen.add(key)
