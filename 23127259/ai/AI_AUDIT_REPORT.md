@@ -40,7 +40,9 @@
 | **INT-018** | 2026-09-01 20:03 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.1: FR-02 Student-Selected Human Extension Finalization | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 644 / 661) | Logged |
 | **INT-019** | 2026-09-01 20:06 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.0: FR-02 Final Executable Suite Materialization & Postman Collection Implementation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 662 / 713) | Logged |
 | **INT-020** | 2026-09-01 20:11 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.1: FR-02 Controlled Postman/Newman Execution and Result Triage | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 714 / 816) | Logged |
-| **INT-021** | 2026-09-01 20:23 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.2: FR-02 Execution Reconciliation and Bug Confirmation | YES (Verbatim) | PENDING TRANSCRIPT BACKFILL | `transcript_full.jsonl` (Step 817) | In Progress |
+| **INT-021** | 2026-09-01 20:23 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.2: FR-02 Execution Reconciliation and Bug Confirmation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 817 / 849) | Logged |
+| **INT-022** | 2026-09-01 20:27 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.3: FR-02 Real Postman MCP Evidence Capture & GitHub Issue Filing | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 850 / 944) | Logged |
+| **INT-023** | 2026-09-01 20:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.4: FR-02 Real Postman Execution Evidence & X-Student-Id Console Proof | YES (Verbatim) | PENDING TRANSCRIPT BACKFILL | `transcript_full.jsonl` (Step 945) | In Progress |
 
 ---
 
@@ -191,6 +193,20 @@
 - **Date & Time:** 2026-09-01 20:23:14+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 1D.2: FR-02 Execution Reconciliation and Bug Confirmation
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 817, Output: Pending)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 817, Output: Step 849)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-021`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-021-fr02-bug-confirmation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-021-fr02-bug-confirmation.md)
+### INT-022: Phase 1D.3: FR-02 Real Postman MCP Evidence Capture & GitHub Issue Filing
+- **Date & Time:** 2026-09-01 20:27:56+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1D.3: FR-02 Real Postman MCP Evidence Capture & GitHub Issue Filing
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 850, Output: Step 944)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-022`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md)
+### INT-023: Phase 1D.4: FR-02 Real Postman Execution Evidence & X-Student-Id Console Proof
+- **Date & Time:** 2026-09-01 20:37:56+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1D.4: FR-02 Real Postman Execution Evidence & X-Student-Id Console Proof
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 945, Output: Pending)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-023`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-023-fr02-real-postman-execution-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md)

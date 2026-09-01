@@ -36,6 +36,8 @@
 | **INT-019** | 2026-09-01 20:06 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.0: FR-02 Final Executable Suite Materialization & Postman Collection Implementation | YES (Verbatim) | [`INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md) |
 | **INT-020** | 2026-09-01 20:11 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.1: FR-02 Controlled Postman/Newman Execution and Result Triage | YES (Verbatim) | [`INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md) |
 | **INT-021** | 2026-09-01 20:23 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.2: FR-02 Execution Reconciliation and Bug Confirmation | YES (Verbatim) | [`INT-021-fr02-bug-confirmation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-021-fr02-bug-confirmation.md) |
+| **INT-022** | 2026-09-01 20:27 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.3: FR-02 Real Postman MCP Evidence Capture & GitHub Issue Filing | YES (Verbatim) | [`INT-022-fr02-postman-mcp-evidence-and-issues.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md) |
+| **INT-023** | 2026-09-01 20:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.4: FR-02 Real Postman Execution Evidence & X-Student-Id Console Proof | YES (Verbatim) | [`INT-023-fr02-real-postman-execution-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md) |
 
 ---
 
@@ -8590,5 +8592,1061 @@ Then STOP.
 Next phase:
 
 PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING
+```
+
+---
+
+## INT-022 – Phase 1D.3: FR-02 Real Postman MCP Evidence Capture & GitHub Issue Filing
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 20:27:56+07:00
+- **Interaction File:** [`../interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are starting:
+
+PHASE 1D.3 – FR-02 REAL POSTMAN MCP EVIDENCE CAPTURE AND GITHUB ISSUE FILING
+
+Current confirmed findings:
+
+BUG-FR02-001
+Sensitive Password Exposure in Successful Login Response
+
+BUG-FR02-002
+Account Remains Locked Beyond Documented 30-Second Lockout Duration
+
+BUG-FR02-003
+Correct Login Rejected After Two Consecutive Failed Attempts
+
+OBS-FR02-001
+Unhandled HTTP 500 for non-documented form-encoded login request
+→ Exploratory only
+→ Do NOT file as a formal FR-02 specification bug.
+
+Confirmation commit:
+78c81e5
+
+IMPORTANT:
+
+You MAY use the connected Postman MCP / real Postman application to reproduce
+the confirmed bugs and capture genuine screenshots.
+
+A screenshot captured by the agent is acceptable ONLY if it shows the REAL
+Postman UI / real HTTP execution result produced by the real local SUT.
+
+DO NOT:
+- generate an image using AI
+- recreate a Postman-looking UI
+- synthesize screenshots
+- modify response content in screenshots
+- fabricate HTTP responses
+- edit status codes
+- modify the EShop SUT
+- change test oracles
+- file OBS-FR02-001 as a formal bug
+
+==================================================
+1. AI AUDIT NUMBERING
+==================================================
+
+Previous interaction:
+INT-021 – FR-02 Bug Confirmation
+
+Current interaction:
+INT-022
+
+Backfill the completed exact INT-021 output from the real Antigravity
+transcript.
+
+Then create:
+
+23127259/ai/interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md
+
+Record:
+- actual tool
+- actual model
+- actual date/time
+- timezone UTC+07:00
+- THIS COMPLETE prompt verbatim
+- Postman MCP usage as part of the interaction evidence
+
+Append the exact prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+Keep INT-022 output PENDING until this interaction actually completes.
+
+==================================================
+2. POSTMAN MCP CAPABILITY GATE
+==================================================
+
+First determine whether the currently connected Postman MCP / Postman
+integration can actually:
+
+- open/import the FR-02 collection
+- select the FR02-local environment
+- send real HTTP requests
+- display the real response
+- capture/export a screenshot of the genuine UI/result
+
+If YES:
+continue using Postman MCP.
+
+If Postman MCP can execute requests but CANNOT capture screenshots:
+use a legitimate local screenshot mechanism against the REAL Postman UI.
+
+If neither is available:
+STOP and report the exact missing capability.
+
+DO NOT fall back to generated images.
+
+==================================================
+3. USE THE REAL EXISTING COLLECTION
+==================================================
+
+Use:
+
+23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json
+
+and:
+
+23127259/postman/environments/FR02-local.postman_environment.json
+
+Base URL:
+
+http://localhost:3000
+
+Mandatory request header:
+
+X-Student-Id: 23127259
+
+Use genuine requests against the currently running local EShop SUT.
+
+==================================================
+4. REAL SCREENSHOT DIRECTORY
+==================================================
+
+Create/use:
+
+23127259/bugs/screenshots/FR02/
+
+Required evidence files:
+
+BUG-FR02-001-login-password-exposure.png
+
+BUG-FR02-002-lock-after-30s.png
+
+BUG-FR02-003-correct-login-at-n2.png
+
+These files must contain REAL captured application/execution evidence.
+
+Do NOT create empty or synthetic PNG placeholders.
+
+==================================================
+5. BUG-FR02-001 – REAL POSTMAN REPRODUCTION
+==================================================
+
+Final title:
+
+Sensitive Password Exposure in Successful Login Response
+
+Use a fresh/valid normal user account.
+
+Execute in real Postman:
+
+POST {{baseUrl}}/api/login
+
+with valid credentials and:
+
+X-Student-Id: {{studentId}}
+
+Expected normal authentication:
+HTTP 200.
+
+Verify actual response.
+
+The confirmed defect is:
+
+response.user.password contains plaintext credential material.
+
+Capture a real Postman screenshot showing, in the same visible context where
+possible:
+
+- POST /api/login
+- HTTP 200
+- response body
+- `user.password`
+
+The endpoint and response evidence must be visible.
+
+A JWT value may be visually redacted if necessary.
+
+DO NOT obscure the password field that proves the defect.
+
+Save genuine screenshot as:
+
+23127259/bugs/screenshots/FR02/
+BUG-FR02-001-login-password-exposure.png
+
+Do not classify this as proof of SEC-01 password storage-at-rest failure.
+
+Classification:
+
+ADDITIONAL SECURITY – Sensitive Data Exposure
+
+==================================================
+6. BUG-FR02-002 – REAL POSTMAN REPRODUCTION
+==================================================
+
+Final title:
+
+Account Remains Locked Beyond Documented 30-Second Lockout Duration
+
+Use a FRESH dedicated account.
+
+Required sequence:
+
+1. verify correct login initially succeeds
+2. cause the documented consecutive failure lock condition
+3. record lock activation time
+4. wait safely beyond 30 seconds
+   use approximately 35–36 seconds
+5. send CORRECT credentials
+6. observe real response
+
+Expected:
+
+after the documented 30-second temporary lockout duration has elapsed,
+valid credentials should be processed normally.
+
+Capture genuine evidence showing:
+
+- elapsed time >30 seconds
+- correct credentials are being attempted
+- actual locked response still returned
+
+If Postman UI cannot show elapsed time clearly in one panel:
+
+use a real Postman test/console timestamp or real execution log together with
+the Postman response.
+
+The evidence must be derived from the actual run.
+
+Save:
+
+23127259/bugs/screenshots/FR02/
+BUG-FR02-002-lock-after-30s.png
+
+Do NOT call it:
+Permanent lockout
+or
+Never unlocks.
+
+Only claim:
+
+remains locked beyond documented 30-second duration.
+
+==================================================
+7. BUG-FR02-003 – REAL POSTMAN REPRODUCTION
+==================================================
+
+Final title:
+
+Correct Login Rejected After Two Consecutive Failed Attempts
+
+Use another FRESH dedicated account.
+
+Run exact sequence:
+
+Step 0:
+correct credentials
+→ confirm baseline HTTP 200
+
+Step 1:
+wrong password
+→ failed attempt #1
+
+Step 2:
+wrong password
+→ failed attempt #2
+
+Step 3:
+CORRECT password
+→ expected successful login/reset
+→ actual SUT returns locked response
+
+Evidence must establish the complete relevant sequence.
+
+Prefer using:
+- Postman Collection Runner
+- Postman Console
+or
+- a dedicated Postman folder/request sequence
+
+so the history of all three relevant requests is visible.
+
+If one screenshot cannot clearly prove the sequence, capture multiple REAL
+screenshots, e.g.:
+
+BUG-FR02-003-a-failure-sequence.png
+BUG-FR02-003-b-correct-login-rejected.png
+
+and reference both.
+
+At minimum ensure the main evidence path exists:
+
+23127259/bugs/screenshots/FR02/
+BUG-FR02-003-correct-login-at-n2.png
+
+Do not inspect internal `login_attempts` as the primary evidence.
+
+==================================================
+8. SCREENSHOT AUTHENTICITY MANIFEST
+==================================================
+
+Create:
+
+23127259/bugs/FR02_SCREENSHOT_MANIFEST.md
+
+Use:
+
+| Bug ID | File | Capture Source | Real HTTP Execution? | Postman MCP/UI? | Verified |
+|---|---|---|---|---|---|
+
+For each screenshot record:
+
+Capture Source:
+REAL POSTMAN EXECUTION
+
+Real HTTP Execution:
+YES
+
+Postman MCP/UI:
+YES
+
+Verified:
+YES only after file actually exists and contains the real execution evidence.
+
+Also record capture timestamp.
+
+==================================================
+9. VERIFY SCREENSHOT FILES
+==================================================
+
+After capture:
+
+confirm all required PNG files exist and have non-zero size.
+
+Do NOT alter screenshot contents after capture except legitimate secret
+redaction if absolutely necessary.
+
+If redaction is performed:
+record exactly what was redacted and why.
+
+Do not crop away essential evidence.
+
+==================================================
+10. UPDATE ISSUE DRAFTS WITH REAL SCREENSHOTS
+==================================================
+
+Update:
+
+23127259/bugs/issues/BUG-FR02-001.md
+23127259/bugs/issues/BUG-FR02-002.md
+23127259/bugs/issues/BUG-FR02-003.md
+
+Each must reference:
+
+- corresponding test case
+- formal requirement/security basis
+- independent reproduction evidence
+- Newman evidence
+- REAL screenshot evidence path
+
+Correct final wording:
+
+BUG-FR02-001:
+Sensitive Password Exposure in Successful Login Response
+
+BUG-FR02-002:
+Account Remains Locked Beyond Documented 30-Second Lockout Duration
+
+BUG-FR02-003:
+Correct Login Rejected After Two Consecutive Failed Attempts
+
+==================================================
+11. OBS-FR02-001
+==================================================
+
+Keep:
+
+OBS-FR02-001
+
+as:
+
+EXPLORATORY / ROBUSTNESS OBSERVATION
+
+Do NOT:
+- file a formal GitHub Issue for it
+- count it as a confirmed FR-02 specification defect
+
+==================================================
+12. GITHUB ISSUE FILING
+==================================================
+
+ONLY after all three real screenshot evidence sets exist and are verified:
+
+file exactly THREE GitHub Issues in the assignment repository.
+
+Repository:
+
+thangak18/HW06
+
+Create:
+
+BUG-FR02-001
+BUG-FR02-002
+BUG-FR02-003
+
+Use the reviewed Markdown drafts.
+
+Do NOT file OBS-FR02-001.
+
+If a connected/authenticated GitHub MCP or legitimate GitHub mechanism is
+available:
+use it.
+
+Do not expose GitHub credentials.
+
+Never fabricate issue numbers or URLs.
+
+If authenticated issue creation is unavailable:
+STOP with:
+READY FOR MANUAL GITHUB ISSUE FILING
+
+==================================================
+13. GITHUB ISSUE REGISTRY
+==================================================
+
+After successful filing create:
+
+23127259/bugs/FR02_GITHUB_ISSUES.md
+
+Use:
+
+| Bug | GitHub Issue # | URL | Filed At | Screenshot Evidence |
+|---|---:|---|---|---|
+
+Populate only with REAL returned issue numbers and URLs.
+
+Do not invent values.
+
+==================================================
+14. UPDATE MAIN BUG REPORT
+==================================================
+
+Update:
+
+23127259/bugs/BUG-REPORT.md
+
+Add FR-02 section containing:
+
+Confirmed formal bugs: 3
+
+For each:
+- ID
+- title
+- severity
+- test case
+- GitHub Issue URL
+- screenshot evidence
+- Newman evidence
+
+Also list separately:
+
+Exploratory observations: 1
+
+OBS-FR02-001
+
+Do not mix observations with confirmed spec bugs.
+
+==================================================
+15. EVIDENCE COMMIT
+==================================================
+
+After REAL screenshots exist and GitHub filing status is known:
+
+commit:
+
+test(23127259): add FR-02 bug evidence and issues
+
+Include:
+
+23127259/bugs/screenshots/FR02/
+23127259/bugs/FR02_SCREENSHOT_MANIFEST.md
+23127259/bugs/FR02_GITHUB_ISSUES.md
+23127259/bugs/issues/
+23127259/bugs/BUG-REPORT.md
+23127259/bugs/FR02_BUG_CONFIRMATION_MATRIX.md
+INT-021 backfill
+INT-022
+AI_AUDIT_REPORT.md
+AI_PROMPT_LOG.md
+
+Push:
+
+origin/thang/hw06-implementation
+
+Do NOT merge to main.
+
+==================================================
+16. FINAL QUALITY GATE
+==================================================
+
+Verify:
+
+- screenshots come from real Postman execution
+- 3 confirmed bug evidence sets exist
+- 3 formal issues maximum
+- OBS-FR02-001 not filed
+- issue URLs are real
+- no SUT source modified
+- no screenshot synthesized
+- no execution result fabricated
+- X-Student-Id used
+- no live JWT committed
+
+==================================================
+17. END REPORT
+==================================================
+
+Return:
+
+# Phase 1D.3 Completion Report
+
+## Postman MCP
+- connected?
+- real Postman execution performed?
+- screenshot capability used?
+
+## Screenshots
+
+| Bug | Screenshot(s) | Real Execution Verified? |
+|---|---|---|
+
+## BUG-FR02-001
+- reproduction result
+- screenshot path
+- issue number/URL
+
+## BUG-FR02-002
+- elapsed time
+- reproduction result
+- screenshot path
+- issue number/URL
+
+## BUG-FR02-003
+- sequence
+- reproduction result
+- screenshot path(s)
+- issue number/URL
+
+## OBS-FR02-001
+- retained as exploratory
+- issue filed: NO
+
+## GitHub
+- issues filed: N / 3
+- real issue URLs
+
+## Git
+- commit SHA
+- push result
+- git status
+
+Then STOP.
+
+Do not begin FR-10 until FR-02 evidence is fully finalized.
+```
+
+---
+
+## INT-023 – Phase 1D.4: FR-02 Real Postman Execution Evidence & X-Student-Id Console Proof
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 20:37:56+07:00
+- **Interaction File:** [`../interactions/INT-023-fr02-real-postman-execution-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are starting:
+
+PHASE 1D.4 – FR-02 REAL POSTMAN EXECUTION EVIDENCE AND X-STUDENT-ID CONSOLE PROOF
+
+IMPORTANT CORRECTION:
+
+HW06 explicitly requires execution using Postman + Newman when using the
+default toolchain.
+
+The FR-02 Newman execution is already complete.
+
+However, we must now ensure that genuine POSTMAN execution evidence also
+exists, especially the mandatory anti-cheat evidence for:
+
+X-Student-Id: 23127259
+
+shown in the REAL Postman Console from the collection-level pre-request script.
+
+This is NOT a replacement Newman run.
+
+This phase supplements the existing Newman evidence with genuine Postman UI /
+Console execution evidence.
+
+DO NOT:
+- generate fake Postman screenshots
+- synthesize Postman UI
+- use Newman HTML screenshots as a substitute for Postman Console evidence
+- modify the SUT
+- modify test oracles
+- change Human Audit results
+- create new FR-02 test cases
+- create new bugs
+- merge to main
+
+==================================================
+1. AI AUDIT
+==================================================
+
+Previous interaction:
+INT-022 – FR-02 Bug Evidence and GitHub Issues
+
+Current interaction:
+INT-023
+
+Backfill the COMPLETE exact output of INT-022 from the completed Antigravity
+transcript.
+
+Then create:
+
+23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md
+
+Record:
+- actual tool
+- actual model
+- actual date/time
+- timezone UTC+07:00
+- THIS COMPLETE prompt verbatim
+- actual Postman/MCP tooling used
+
+Append this prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+INT-023 output remains PENDING until this interaction completes.
+
+==================================================
+2. HW06 REQUIREMENT TO SATISFY
+==================================================
+
+The assignment requires:
+
+"Run the test cases with Postman + Newman"
+
+and requires:
+
+X-Student-Id: {StudentID}
+
+with anti-cheat evidence from the console / pre-request-script execution.
+
+Therefore we need genuine Postman evidence in addition to the already completed
+Newman reports.
+
+==================================================
+3. USE REAL POSTMAN APPLICATION / MCP
+==================================================
+
+Use the REAL Postman application if Postman MCP/UI automation is available.
+
+Application:
+
+/Applications/Postman.app
+
+Use the existing real artifacts:
+
+Collection:
+23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json
+
+Environment:
+23127259/postman/environments/FR02-local.postman_environment.json
+
+Base URL:
+http://localhost:3000
+
+Student ID:
+23127259
+
+If collection/environment are not already present in Postman:
+import them legitimately.
+
+Do NOT recreate a fake Postman interface.
+
+==================================================
+4. VERIFY COLLECTION-LEVEL PRE-REQUEST SCRIPT
+==================================================
+
+Confirm the actual Postman collection contains/enforces:
+
+X-Student-Id: 23127259
+
+preferably from:
+
+{{studentId}}
+
+through the collection-level pre-request script/header upsert.
+
+Verify that the script executes in REAL Postman.
+
+Do not merely inspect JSON source.
+
+We need runtime evidence.
+
+==================================================
+5. OPEN REAL POSTMAN CONSOLE
+==================================================
+
+Open the genuine Postman Console.
+
+Clear unrelated old entries if appropriate.
+
+Run a genuine FR-02 request through Postman, preferably:
+
+FR02-AI-001 – Valid User Login
+
+or another harmless deterministic request.
+
+The real HTTP request must go to:
+
+http://localhost:3000/api/login
+
+The Postman Console must visibly show the actual outgoing request headers,
+including:
+
+X-Student-Id: 23127259
+
+Capture a REAL screenshot from Postman showing:
+
+- localhost:3000 request
+- request method/path
+- X-Student-Id: 23127259
+
+Save:
+
+23127259/evidence/postman/
+FR02-postman-console-x-student-id.png
+
+This image MUST come from genuine Postman runtime execution.
+
+Do not generate or reconstruct it.
+
+==================================================
+6. COLLECTION RUNNER EVIDENCE
+==================================================
+
+Use REAL Postman Collection Runner if available.
+
+Run either:
+
+A. the full FR-02 collection
+
+OR, if the stateful 30-second tests make an immediate full UI run impractical,
+
+B. a deterministic representative FR-02 folder/subset using the SAME
+collection/environment.
+
+Preferred:
+run the full collection if technically reliable.
+
+Do not change expectations just to obtain green results.
+
+Capture REAL Postman Runner evidence showing:
+
+- collection name
+- environment
+- executed requests/tests
+- pass/fail results
+- localhost context where visible
+
+Save:
+
+23127259/evidence/postman/
+FR02-postman-runner-result.png
+
+If the full runner contains genuine failures:
+preserve them.
+
+Do NOT manufacture an all-green runner.
+
+==================================================
+7. IMPORTANT EXECUTION ACCOUNTING
+==================================================
+
+Clearly distinguish:
+
+POSTMAN UI EXECUTION EVIDENCE
+
+from:
+
+NEWMAN FORMAL AUTOMATED EXECUTION
+
+The formal full-suite evidence already remains:
+
+40 / 40 formal test IDs executed via Newman Run 03.
+
+Do NOT overwrite that result.
+
+Record the Postman UI run separately.
+
+If the Postman Runner executes fewer than 40 cases:
+state the exact number honestly.
+
+Do NOT claim the Postman UI run executed all 40 unless it actually did.
+
+==================================================
+8. CREATE POSTMAN EVIDENCE REPORT
+==================================================
+
+Create:
+
+23127259/evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md
+
+Include:
+
+# FR-02 Postman Execution Evidence
+
+## Tool
+Postman Desktop
+
+## SUT
+http://localhost:3000
+
+## Collection
+FR02_Login_Account_Lockout
+
+## Environment
+FR02-local
+
+## Student Header
+X-Student-Id: 23127259
+
+## Runtime Verification
+Describe the real request executed through Postman.
+
+## Postman Console Evidence
+
+Screenshot:
+FR02-postman-console-x-student-id.png
+
+State explicitly:
+
+"The screenshot was captured from the genuine Postman Console after a real
+HTTP request to the local EShop SUT. It demonstrates runtime insertion of
+X-Student-Id: 23127259 by the Postman test harness."
+
+## Collection Runner Evidence
+
+Screenshot:
+FR02-postman-runner-result.png
+
+Record:
+- scope executed
+- request count
+- test count
+- passes
+- failures
+
+## Newman Relationship
+
+State:
+
+"The Postman collection was additionally executed through Newman for formal
+automated execution and HTML reporting. Newman Run 03 remains the primary
+full-suite automated result."
+
+Reference:
+23127259/newman/fr02/FR02-run-03.html
+
+==================================================
+9. UPDATE POSTMAN FEATURES DOCUMENTATION
+==================================================
+
+Update:
+
+23127259/docs/POSTMAN_FEATURES_FR02.md
+
+Mark only features ACTUALLY demonstrated:
+
+- Postman Collection
+- Folders
+- Environment Variables
+- Collection/Environment Variables
+- Pre-request Script
+- pm.test Assertions
+- Postman Console
+- Collection Runner
+- Newman CLI
+- Newman HTML Reporter
+
+Data-driven:
+mark only if actually executed.
+
+Do not mark Monitor or Mock Server unless used.
+
+==================================================
+10. VERIFY SCREENSHOT AUTHENTICITY
+==================================================
+
+Required files:
+
+23127259/evidence/postman/FR02-postman-console-x-student-id.png
+
+23127259/evidence/postman/FR02-postman-runner-result.png
+
+Verify:
+- files exist
+- non-zero file size
+- capture source is genuine Postman
+- not Newman HTML UI
+- not generated image
+
+Calculate SHA-256 for each.
+
+Record hashes in:
+
+FR02_POSTMAN_EXECUTION_EVIDENCE.md
+
+==================================================
+11. DO NOT ALTER NEWMAN EVIDENCE
+==================================================
+
+Preserve all:
+
+FR02-run-01
+FR02-run-02
+FR02-run-03
+
+Do not rerender/edit their actual outputs.
+
+The evidence model should now be:
+
+POSTMAN:
+real UI + Console + Runner evidence
+
+NEWMAN:
+full automated execution + JSON + HTML + CLI
+
+==================================================
+12. FR-02 COMPLETION GATE
+==================================================
+
+FR-02 can only be considered execution-complete if:
+
+- real Postman runtime evidence exists
+- X-Student-Id Postman Console screenshot exists
+- Postman Runner evidence exists
+- Newman HTML exists
+- Newman hostname is localhost / accepted deployment
+- 40/40 formal cases have Newman execution evidence
+- bug evidence remains genuine
+
+==================================================
+13. GIT COMMIT
+==================================================
+
+After real Postman evidence has been captured:
+
+commit:
+
+test(23127259): add FR-02 Postman runtime evidence
+
+Include:
+
+23127259/evidence/postman/
+23127259/docs/POSTMAN_FEATURES_FR02.md
+INT-022 backfill
+INT-023
+AI_AUDIT_REPORT.md
+AI_PROMPT_LOG.md
+
+Do NOT modify existing Newman reports.
+
+Push:
+
+origin/thang/hw06-implementation
+
+Do NOT merge main.
+
+==================================================
+14. END REPORT
+==================================================
+
+Return:
+
+# FR-02 Real Postman Evidence Report
+
+## AI Audit
+- INT-022 backfilled
+- INT-023 prompt stored
+- INT-023 output pending
+
+## Postman
+- Postman Desktop used: YES/NO
+- collection imported/opened
+- environment selected
+- real request executed
+- Collection Runner executed
+
+## X-Student-Id Evidence
+- header runtime value
+- Postman Console screenshot path
+- screenshot SHA-256
+
+## Runner Evidence
+- scope
+- requests/tests
+- pass/fail
+- screenshot path
+- screenshot SHA-256
+
+## Newman
+- full formal cases executed: 40/40
+- primary run: Run 03
+- HTML report present: YES/NO
+
+## Toolchain Requirement
+
+Postman + Newman requirement satisfied:
+YES / NO
+
+## Git
+- commit SHA
+- push result
+- git status
+
+Then STOP.
+
+Do not start FR-10 in this interaction.
 ```
 

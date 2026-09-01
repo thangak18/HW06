@@ -5,7 +5,7 @@
 - **Model:** Gemini 3.7 Flash
 - **Date & Time:** 2026-09-01 20:23:14+07:00
 - **Project Stage:** Phase 1D.2 – FR-02 Execution Reconciliation and Bug Confirmation
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 817, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 817, Output: Step 849)
 
 ---
 
@@ -646,12 +646,108 @@ PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 1D.2 Completion Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-020 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 816, 8,388 bytes) backfilled into [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md).
+- **INT-021 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-021-fr02-bug-confirmation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-021-fr02-bug-confirmation.md) and appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (215,537 bytes).
+- **INT-021 Output:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+- **Master Report Updated:** [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+
+---
+
+## 2. Execution Coverage & Request Reconciliation
+- **Formal Test Case IDs Executed:** **40 / 40 (100.0%)** — Verified in [`23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md).
+- **Helper / Support Requests Executed:** **16 requests** (8 account setup helpers in Folder 00 + 8 pre-request setup helper invocations across multi-step test cases).
+- **Mathematical Explanation for 56 Total Requests:**
+  $$\text{Total Requests} = 8 \text{ (Setup Helpers)} + 36 \text{ (Single-Request Cases)} + 12 \text{ (4 Multi-Step Cases)} = 56 \text{ Requests}$$
+
+---
+
+## 3. BUG-FR02-001: Plaintext Password Exposure in Login Response
+- **Oracle Basis:** `api_specification.md` §2.1 (`POST /api/login` Success Contract) + [ADDITIONAL-SEC] (Response Data Sanitization / OWASP API3:2023). The specification documents public user profile attributes (`id`, `name`, `email`, `role`) and explicitly omits sensitive credentials.
+- **Independent Reproduction Result:** **CONFIRMED (100% Deterministic)** — `POST /api/login` returns HTTP `200 OK` with `"password": "UserSecure123!"` present inside `response.user`.
+- **Final Severity:** **HIGH** (Compromises user credential confidentiality and exposes credentials to client-side caching and logging).
+- **Final Classification:** `Sensitive Data Exposure / Login Response Contract Violation [ADDITIONAL-SEC]`.
+- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-001.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-001.md).
+
+---
+
+## 4. BUG-FR02-002: Account Remains Locked Beyond Documented 30-Second Lockout Duration
+- **Oracle Basis:** EShop SRS §2 [FR-02] (User Login & Account Lockout) — *"If consecutive failed attempts >= 3, temporarily lock account for 30 seconds. After 30 seconds, the account must automatically unlock and accept authentication with valid credentials."*
+- **Measured Elapsed Test Time:** **36.03 seconds** ($> 30\text{s}$ threshold).
+- **Independent Reproduction Result:** **CONFIRMED (100% Deterministic)** — At $T = 36.03\text{s}$, submitting valid credentials continues returning HTTP `403 Forbidden` (`{"error": "Tài khoản đã bị khóa. Vui lòng thử lại sau."}`). The account never unlocks automatically.
+- **Final Severity:** **HIGH** (Denial of Service / Core Business Logic Violation).
+- **Final Classification:** `Core Specification Defect (State Machine / Lock Expiration)`.
+- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-002.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-002.md).
+
+---
+
+## 5. BUG-FR02-003: Premature Account Lockout on Valid Login Attempt at N=2 Boundary
+- **Oracle Basis:** EShop SRS §2 [FR-02] — Lockout threshold is 3 CONSECUTIVE failed login attempts. An account with 2 failed attempts ($N=2$) must remain unlocked. Submitting valid credentials on the 3rd attempt is a successful authentication that must return HTTP 200 OK + JWT and reset the consecutive failure counter.
+- **Exact Reproduction Sequence:**
+  1. Baseline valid login $\rightarrow$ HTTP 200 OK
+  2. Attempt #1 (wrong password) $\rightarrow$ HTTP 401 Unauthorized
+  3. Attempt #2 (wrong password) $\rightarrow$ HTTP 401 Unauthorized ($N=2$ pre-lockout boundary)
+  4. Attempt #3 (**CORRECT password**) $\rightarrow$ SUT returns **HTTP 403 Forbidden** instead of authenticating!
+- **Independent Reproduction Result:** **CONFIRMED (100% Deterministic)**.
+- **Final Severity:** **HIGH** (Authentication Flaw / Premature Account Lockout on Valid Credentials).
+- **Final Classification:** `Core Specification Defect (State Machine / Attempt Counter Logic)`.
+- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-003.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-003.md).
+
+---
+
+## 6. OBS-FR02-001: Unhandled HTTP 500 on Non-Documented Form-Encoded Login Request
+- **Original Test ID:** `FR02-HUM-005` (formerly candidate `BUG-FR02-004`).
+- **Why Exploratory?:** `api_specification.md` defines JSON transport contracts (`application/json`) but does not explicitly define mandatory status codes (e.g. 400 vs 415) for non-JSON MIME types.
+- **Preserved Actual Behavior:** Submitting `application/x-www-form-urlencoded` causes an unhandled 500 Internal Server Error. Evidence preserved in [`23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt).
+- **GitHub Issue Eligible?:** **NO (Downgraded to Exploratory Robustness Observation by default)**.
+
+---
+
+## 7. Final Triage Summary
+
+| Classification | Count |
+|---|---:|
+| **Confirmed Spec / API Contract Bugs (Eligible to File)** | **3** |
+| **Exploratory Robustness Observations (Not Eligible)** | **1** |
+| **Test Harness Failures (in Final Run 03)** | **0** |
+| **Not Reproduced / Intermittent** | **0** |
+
+---
+
+## 8. Artifact Evidence References
+- **Master Bug Confirmation Matrix:** [`23127259/bugs/FR02_BUG_CONFIRMATION_MATRIX.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_BUG_CONFIRMATION_MATRIX.md)
+- **Issue Drafts Directory:** [`23127259/bugs/issues/`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/)
+  - [`BUG-FR02-001.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-001.md)
+  - [`BUG-FR02-002.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-002.md)
+  - [`BUG-FR02-003.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-003.md)
+- **Independent Reproduction Evidence Directory:** [`23127259/bugs/evidence/FR02/`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/)
+  - [`BUG-FR02-001-reproduction.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/BUG-FR02-001-reproduction.txt)
+  - [`BUG-FR02-002-reproduction.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/BUG-FR02-002-reproduction.txt)
+  - [`BUG-FR02-003-reproduction.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/BUG-FR02-003-reproduction.txt)
+  - [`OBS-FR02-001-observation.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt)
+- **Execution Coverage Reconciliation:** [`23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md)
+- **Screenshot Checklist:** [`23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md)
+
+---
+
+## 9. Git Commit & Push Confirmation
+- **Commit SHA:** `78c81e5`
+- **Commit Message:** `test(23127259): confirm FR-02 API defects`
+- **Branch:** `thang/hw06-implementation` $\rightarrow$ `origin/thang/hw06-implementation` (Pushed successfully)
+- **Git Status:** Working tree clean.
+
+---
+
+> **Ready for next phase:** `PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING`.
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Reconciling 40-case execution coverage across 56 requests, independently reproducing defects, downgrading exploratory findings (OBS-FR02-001), generating confirmation matrix and issue-ready drafts.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID. Reconciled 40-case execution across 56 requests (`FR02_RUN03_EXECUTION_COVERAGE.md`), independently reproduced 3 confirmed specification bugs (`BUG-FR02-001`, `BUG-FR02-002`, `BUG-FR02-003`), downgraded form-encoded crash to `OBS-FR02-001`, created bug confirmation matrix and issue drafts. Committed as `78c81e5`.
+- **Status:** EXACT OUTPUT AVAILABLE.
