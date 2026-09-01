@@ -1,75 +1,109 @@
 # HW06 – API Testing Main Report
 
-**Student:** Nguyễn Tấn Thắng  
-**Student ID:** 23127259  
-**GitHub Account:** thangak18  
-**Exercise ID:** HW06-AI  
-**System Under Test (SUT):** EShop ([https://github.com/ttbhanh/eshop-sut](https://github.com/ttbhanh/eshop-sut))
+- **Course:** Software Testing / Kiểm thử phần mềm
+- **Assignment:** HW06 – API Testing (EShop SUT)
+- **Student Name:** Nguyễn Tấn Thắng
+- **Student ID:** 23127259
+- **GitHub Account:** [thangak18](https://github.com/thangak18)
+- **Repository:** [thangak18/HW06](https://github.com/thangak18/HW06)
+- **Branch:** `thang/hw06-implementation`
 
 ---
 
 ## 1. Executive Summary
 
-- **Selected APIs:**
-  1. **API 1 (Pool A):** `TODO`
-  2. **API 2 (Pool B):** `TODO`
-  3. **API 3 (Pool C):** `TODO`
-- **Total Test Cases Executed:** TODO (≥ 35 AI + ≥ 5 Human per API)
-- **Bugs Discovered:** TODO
-- **CI/CD Integration:** GitHub Actions Newman Runner (Passing & Failing runs documented)
+- **Selected Features Scope:**
+  1. **Pool A:** FR-02 – Login and Account Lockout (`POST /api/login`)
+  2. **Pool B:** FR-10 – Order State Machine (`PUT /api/admin/orders/:id/status`, `PUT /api/orders/:id/cancel`, `GET /api/orders/:id`, `GET /api/orders/my-orders`)
+  3. **Pool C:** FR-14 – Category Management CRUD (`GET`, `POST`, `PUT`, `DELETE /api/categories`)
+- **Total Test Cases Target:** $\ge 120\text{ total}$ ($\ge 35\text{ AI-generated} + \ge 5\text{ Human-designed} = \ge 40\text{ per feature}$)
+- **Total Test Cases Executed:** `TODO – fill after Phase 1-3 execution`
+- **Bugs Discovered & Verified:** `TODO – fill after real execution reproduction`
+- **CI/CD Integration:** GitHub Actions Newman Runner (`.github/workflows/hw06-23127259-api-tests.yml`)
 
 ---
 
-## 2. API 1 Testing Pipeline (Pool A)
+## 2. FR-02 Testing Pipeline (Pool A – Login & Account Lockout)
 
 ### 2.1 Specification & Endpoint Details
-- **Feature:** TODO
-- **Endpoint:** `TODO`
-- **Method:** `POST / GET / PUT / DELETE`
+- **Feature Description:** Login authentication and brute-force account lockout mechanism per SRS FR-02.
+- **Endpoint:** `POST /api/login`
+- **Security Scope:** SEC-01 (partial), SEC-02 (full), SEC-05 (partial), `[ADDITIONAL-SEC]` sensitive data exclusion.
 
-### 2.2 AI Test Generation (≥ 35 Test Cases)
-- Summary of domain partitions, state transitions, security (SEC-01–SEC-07), and schema validation cases.
+### 2.2 AI Test Generation ($\ge 35$ Cases: `FR02-AI-001..035`)
+- `TODO – summarize AI-generated domain partitions, state transitions, security probes, and schema cases after Phase 1A`
 
-### 2.3 Human Audit & Corrections
-- Audit summary table (`VALID`, `INVALID`, `INCOMPLETE` with rationale).
+### 2.3 Human Audit & Quality Classification
+- `TODO – summarize audit matrix results (VALID / INVALID / INCOMPLETE counts and rationale from ai/TC_AUDIT_FR02.md)`
 
-### 2.4 Human Extension Cases (≥ 5 Cases)
-- Analysis of edge cases missed by AI and underlying causes.
+### 2.4 Human-Designed Extension Cases ($\ge 5$ Cases: `FR02-HUM-001..005`)
+- `TODO – explain the 5 human cases and why AI generated tests missed these specific boundaries`
 
-### 2.5 Execution & Bug Findings
-- Newman execution results, assertions passed/failed, and filed GitHub Issues.
-
----
-
-## 3. API 2 Testing Pipeline (Pool B)
-
-*(Detailed section following the same 5-step pipeline as API 1).*
+### 2.5 Real Execution Results & Defect Findings
+- `TODO – attach Newman summary table, pass/fail statistics, and confirmed bug reports with reproduction evidence`
 
 ---
 
-## 4. API 3 Testing Pipeline (Pool C)
+## 3. FR-10 Testing Pipeline (Pool B – Order State Machine)
 
-*(Detailed section following the same 5-step pipeline as API 1).*
+### 3.1 Specification & State Machine Model
+- **Feature Description:** Order lifecycle transitions (`pending → confirmed → shipping → delivered`, cancellations, final states) per SRS FR-10.
+- **Endpoints:** `PUT /api/admin/orders/:id/status`, `PUT /api/orders/:id/cancel`, `GET /api/orders/:id`, `GET /api/orders/my-orders`.
+- **Security Scope:** SEC-02 (full), SEC-03 (full role gate), `[ADDITIONAL-SEC]` cross-user order ownership.
 
----
+### 3.2 AI Test Generation ($\ge 35$ Cases: `FR10-AI-001..035`)
+- `TODO – summarize AI-generated valid/invalid transition cases after Phase 2A`
 
-## 5. Postman Features & CI/CD Integration
+### 3.3 Human Audit & Quality Classification
+- `TODO – summarize audit matrix results from ai/TC_AUDIT_FR10.md`
 
-- **Postman Features Exercised:** Environments, Pre-request scripts (`X-Student-Id: 23127259`), Data-driven testing, Schema assertion, Request chaining.
-- **CI/CD Pipeline Report:**
-  - Passing Run URL & Screenshot: `ci/evidence/passing_run.png`
-  - Failing Run URL & Screenshot: `ci/evidence/failing_run.png`
+### 3.4 Human-Designed Extension Cases ($\ge 5$ Cases: `FR10-HUM-001..005`)
+- `TODO – explain the 5 human cases and AI gap analysis`
 
----
-
-## 6. Agent Skill Design (Level G9.5)
-
-- **Architecture Overview:** Self-drawn design diagram (`agent-skill/diagram/`).
-- **Pseudocode & Implementation:** `agent-skill/pseudocode/`.
-- **Demonstration Video Link:** TODO
+### 3.5 Real Execution Results & Defect Findings
+- `TODO – attach Newman execution findings and confirmed bug reports`
 
 ---
 
-## 7. AI Critique & Conclusion
+## 4. FR-14 Testing Pipeline (Pool C – Category Management CRUD)
 
-- 200–300 words critical evaluation of LLM strengths, hallucinations, and boundary blind spots in API testing.
+### 4.1 Specification & CRUD Scope
+- **Feature Description:** Category lifecycle management (Create, Read, Update, Delete) per SRS FR-14, FR-12, and `api_specification.md`.
+- **Endpoints:** `GET /api/categories`, `POST /api/categories`, `PUT /api/categories/:id`, `DELETE /api/categories/:id`.
+- **Security Scope:** SEC-02 (full), SEC-03 (full role gate on mutations), SEC-05 (partial).
+
+### 4.2 AI Test Generation ($\ge 35$ Cases: `FR14-AI-001..035`)
+- `TODO – summarize AI-generated CRUD, validation, and security cases after Phase 3A`
+
+### 4.3 Human Audit & Quality Classification
+- `TODO – summarize audit matrix results from ai/TC_AUDIT_FR14.md`
+
+### 4.4 Human-Designed Extension Cases ($\ge 5$ Cases: `FR14-HUM-001..005`)
+- `TODO – explain the 5 human cases and AI gap analysis`
+
+### 4.5 Real Execution Results & Defect Findings
+- `TODO – attach Newman execution findings and confirmed bug reports`
+
+---
+
+## 5. Postman Advanced Features & CI/CD Pipeline
+
+- **Attribution Evidence:** Collection-level `X-Student-Id: 23127259` pre-request script (Postman Console screenshot attached).
+- **Postman Features:** Environments, collection variables, dynamic entity ID chaining, JSON schema validation (`tv4`/`ajv`), data-driven execution (`-d`).
+- **CI/CD Automation (GitHub Actions):**
+  - **Passing Workflow Run:** `TODO – add workflow URL and screenshot`
+  - **Failing Demo Workflow Run:** `TODO – add workflow URL and screenshot`
+
+---
+
+## 6. Agent Skill Design (AI Test Generator)
+
+- **Architecture Overview:** Self-drawn diagram (`agent-skill/diagram/agent-skill-design.png`).
+- **Pseudocode Implementation:** `agent-skill/pseudocode/test_generator.md`.
+- **Demonstration Video Link:** `TODO – record and upload video`
+
+---
+
+## 7. AI Critique & Evaluation
+
+- `TODO – 200–300 words critical analysis grounded in real audit evidence from ai/TC_AUDIT_FR*.md`

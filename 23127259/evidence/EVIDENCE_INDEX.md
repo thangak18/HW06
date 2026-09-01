@@ -1,24 +1,20 @@
-# Evidence Index & Anti-Cheat Verification
+# HW06 Evidence Index & Artifact Registry
 
-**Student:** Nguyễn Tấn Thắng  
-**Student ID:** 23127259  
-
----
-
-## 1. Anti-AI-Cheat Verification Evidence
-
-| Evidence Item | Requirement | File / Location | Status |
-|---|---|---|---|
-| **Header Verification** | `X-Student-Id: 23127259` in console screenshot | `evidence/header_verification.png` | TODO |
-| **Execution Hostname** | Newman run log with `localhost` / `127.0.0.1` | `newman/newman_run.log` | TODO |
-| **Self-drawn Diagram** | Non-AI-generated system design diagram | `agent-skill/diagram/` | TODO |
-| **Git Commit History** | Attributable, chronological commit log | `evidence/git_commit_log.txt` | Clean |
+- **Student:** Nguyễn Tấn Thắng (23127259)
+- **Course:** HW06 – API Testing
 
 ---
 
-## 2. Evidence Files Index
+## 1. Execution Evidence Mapping
 
-- **`git_commit_log.txt`**: Complete Git log for all testing pipeline phases.
-- **`header_verification.png`**: Postman Console showing `X-Student-Id: 23127259` attached to outbound requests.
-- **`ci_passing_run.png`**: GitHub Actions run passing all API test assertions.
-- **`ci_failing_run.png`**: GitHub Actions run capturing an intended failure scenario.
+| Category | Artifact Description | File Path | Phase Generated | Verification Status |
+|---|---|---|:---:|:---:|
+| **Attribution** | Postman Console `X-Student-Id: 23127259` Header Screenshot | `evidence/console_x_student_id.png` | Phase 1 | `TODO` |
+| **Newman Execution** | Full HTML Test Report (All Features) | `newman/HW06-23127259-report.html` | Phase 1–3 | `TODO` |
+| **Newman CLI** | CLI Execution Log Summary | `newman/newman_cli_summary.txt` | Phase 1–3 | `TODO` |
+| **CI/CD Passing Run** | GitHub Actions Passing Run Screenshot & URL | `ci/evidence/passing_run.png` | Phase 4 | `TODO` |
+| **CI/CD Failing Run** | GitHub Actions Failing Demo Screenshot & URL | `ci/evidence/failing_run.png` | Phase 4 | `TODO` |
+| **Bug Reports** | Defect Reproduction Screenshots | `bugs/screenshots/` | Phase 1–3 | `TODO` |
+| **Agent Skill** | Self-Drawn Architecture Design Diagram | `agent-skill/diagram/agent-skill-design.png` | Phase 5 | `TODO` |
+| **Git Commit Log** | Complete Repository Commit History Export | `evidence/git_commit_log.txt` | Phase 6 | `TODO` |
+| **Video Demonstration** | Screencast Walkthrough & Voiceover Demo | `video/` | Phase 6 | `TODO` |

@@ -1,134 +1,67 @@
-# HW06 – API Testing – Individual Workspace
+# HW06 – API Testing – 23127259
 
-## Student Information
-- **Full Name:** Nguyễn Tấn Thắng
+- **Course:** Software Testing / Kiểm thử phần mềm
+- **Assignment:** HW06 – API Testing (EShop SUT)
+- **Student Name:** Nguyễn Tấn Thắng
 - **Student ID:** 23127259
-- **GitHub Username:** thangak18
-- **Workspace:** `23127259/`
+- **GitHub Account:** [thangak18](https://github.com/thangak18)
+- **Repository:** [thangak18/HW06](https://github.com/thangak18/HW06)
+- **Personal Branch:** `thang/hw06-implementation`
 
 ---
 
-## Selected APIs
+## 1. Selected Features Scope
 
-| Pool | FR | Feature | Method & Endpoint | Description |
-|---|---|---|---|---|
-| **Pool A** | TODO (e.g., FR-02) | TODO (e.g., Login and lockout) | `POST /api/auth/login` | Authentication, JWT issue & brute-force lockout |
-| **Pool B** | TODO (e.g., FR-07) | TODO (e.g., Shopping cart) | `POST /api/cart/items` | Cart state mutations & item persistence |
-| **Pool C** | TODO (e.g., FR-15) | TODO (e.g., Product CRUD) | `POST /api/admin/products` | Admin catalog management & role RBAC |
-
----
-
-## 5-Step Testing Pipeline
-
-1. **AI Generation:** Prompt-driven generation of test cases (target **≥ 35 AI-generated test cases per API**).
-2. **Human Audit:** Audit and label every AI test case (`VALID` / `INVALID` / `INCOMPLETE`) with rationale.
-3. **Human Extension:** Design and append **≥ 5 human extension test cases per API** focusing on edge cases, security vulnerabilities, and state transitions missed by AI.
-4. **Execution:** Execute with Postman & Newman with mandatory `X-Student-Id: 23127259` header.
-5. **Bug Reporting:** File genuine bugs discovered during testing on GitHub Issues and in Markdown report.
-
-### Required Test Dimensions Covered
-- **Domain Partitions & Boundary Value Analysis (BVA):** Valid/invalid equivalence classes, boundary values, type mutations.
-- **State Transitions:** Multi-step operational workflows, invalid lifecycle state jumps.
-- **Security Testing (SEC-01 through SEC-07):** Authentication, RBAC, SQLi/injection, IDOR, sensitive data protection, rate limiting/lockout, mass assignment.
-- **Schema Validation:** Status code assertions, header format, exact response JSON schema validation against `api_specification.md`.
+| Pool | Feature ID | Feature Name | Primary Endpoint(s) | Role Gate |
+|:---:|:---:|---|---|:---:|
+| **A** | **FR-02** | Login and Account Lockout | `POST /api/login` | Public (generates JWT) |
+| **B** | **FR-10** | Order State Machine | `PUT /api/admin/orders/:id/status`<br>`PUT /api/orders/:id/cancel`<br>`GET /api/orders/:id`<br>`GET /api/orders/my-orders` | User + Admin / Admin |
+| **C** | **FR-14** | Category Management (CRUD) | `GET /api/categories`<br>`POST /api/categories`<br>`PUT /api/categories/:id`<br>`DELETE /api/categories/:id` | Public / Admin |
 
 ---
 
-## Workspace Structure
+## 2. Test Accounting Standards
 
-```
-23127259/
-├── README.md                          # Workspace overview & self-assessment
-├── docs/                              # Main Markdown reports
-│   └── 00_MAIN_REPORT.md              # Consolidated API testing report
-├── ai/                                # AI audit trail & critique
-│   ├── AI_AUDIT_REPORT.md             # Formal AI audit report with interaction log
-│   ├── AI_CRITIQUE.md                 # 200–300 words AI critique
-│   ├── interactions/                  # Raw prompt & output pairs
-│   └── prompts/                       # Prompt templates and engineering notes
-├── testcases/                         # Test cases specification (Excel / Markdown)
-├── postman/                           # Postman artifacts
-│   ├── collections/                   # Postman collection JSON files
-│   ├── environments/                  # Postman environment JSON files
-│   ├── data/                          # Data-driven test files (CSV / JSON)
-│   └── scripts/                       # Custom pre-request & assertion scripts
-├── newman/                            # Newman CLI logs & HTML extra reports
-├── bugs/                              # Genuine bug reports & reproduction
-│   └── screenshots/                   # Bug evidence screenshots
-├── agent-skill/                       # AI Test Generator Agent Skill
-│   ├── diagram/                       # Self-drawn design diagram
-│   └── pseudocode/                    # Pseudocode / script implementation
-├── ci/                                # CI/CD pipeline evidence
-│   └── evidence/                      # Passing & failing pipeline run screenshots
-├── evidence/                          # Anti-cheat proof & execution logs
-│   ├── EVIDENCE_INDEX.md              # Evidence mapping & header verification
-│   └── git_commit_log.txt             # Attributable git commit history
-├── pdf/                               # Exported submission PDFs
-├── video/                             # Demonstration video artifacts
-│   ├── VIDEO_DEMO_SCRIPT.md           # Vietnamese demo recording script
-│   └── VIDEO_RECORDING_CHECKLIST.md   # Recording checklist & requirements
-└── scripts/                           # Local runner & analysis scripts
-```
+The assignment establishes a strict requirement of **≥ 35 AI-generated test cases** per selected feature, supplemented by **≥ 5 human-designed extension cases** per feature to address AI blind spots. Human-designed cases are accounted for strictly outside the AI total.
+
+| Feature ID | Feature Description | AI Target | Human Extension Target | Final Minimum Total | Status |
+|:---:|---|:---:|:---:|:---:|:---:|
+| **FR-02** | Login and Account Lockout | $\ge 35$ (`FR02-AI-001..035`) | $\ge 5$ (`FR02-HUM-001..005`) | $\ge 40$ | Planned |
+| **FR-10** | Order State Machine | $\ge 35$ (`FR10-AI-001..035`) | $\ge 5$ (`FR10-HUM-001..005`) | $\ge 40$ | Planned |
+| **FR-14** | Category Management CRUD | $\ge 35$ (`FR14-AI-001..035`) | $\ge 5$ (`FR14-HUM-001..005`) | $\ge 40$ | Planned |
+| **TOTAL** | **All 3 Features** | **$\ge 105$** | **$\ge 15$** | **$\ge 120$** | **Planned** |
 
 ---
 
-## Postman & Newman Configuration
+## 3. Implementation Phases Status Checklist
 
-- **Collection:** `postman/collections/`
-- **Environment:** `postman/environments/`
-- **Data File:** `postman/data/`
-- **Pre-request Script (`X-Student-Id` Injection):**
-  ```javascript
-  pm.request.headers.upsert({
-      key: 'X-Student-Id',
-      value: '23127259'
-  });
-  ```
-- **Newman HTML Extra Report:** Exported to `newman/report.html`
-- **Postman Features Exercised:**
-  - [ ] Multi-environment variables (`baseUrl`, `adminToken`, `userToken`, `studentId`)
-  - [ ] Pre-request scripts (`X-Student-Id` header injection)
-  - [ ] Post-response test assertions (`pm.test`, `pm.response.to.have.status`)
-  - [ ] JSON Schema validation (`ajv` / schema checking)
-  - [ ] Data-driven iterations (Collection Runner / Newman `-d data.json`)
-  - [ ] Dynamic request chaining / Monitors / Mock servers
+| Phase | Description | Status | Target Deliverables |
+|:---:|---|:---:|---|
+| **Phase 0** | Workspace, Tooling & SUT Environment Baseline | **COMPLETE** | Workspace layout, Newman/Postman readiness, Smoke check, SUT verification |
+| **Phase 1** | FR-02 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **NOT STARTED** | $\ge 35$ AI + $\ge 5$ Human cases, HTML Newman report, Bug candidate evidence |
+| **Phase 2** | FR-10 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **NOT STARTED** | $\ge 35$ AI + $\ge 5$ Human cases, State matrix tests, Newman report |
+| **Phase 3** | FR-14 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **NOT STARTED** | $\ge 35$ AI + $\ge 5$ Human cases, CRUD tests, Newman report |
+| **Phase 4** | CI/CD Integration (GitHub Actions Automated Newman Runs) | **NOT STARTED** | Passing run & failing demo workflow evidence URLs/screenshots |
+| **Phase 5** | Agent Skill (Self-Drawn Architecture & Pseudocode) | **NOT STARTED** | Self-drawn architecture diagram, Test generator pseudocode |
+| **Phase 6** | Final Documentation & AI Audit Report Compilation | **NOT STARTED** | Main Report PDF, AI Audit PDF, Commit log export, Video demo |
 
 ---
 
-## CI/CD Pipeline Runs
+## 4. Video Demonstration
 
-- **Workflow File:** `.github/workflows/`
-- **Successful Pipeline Run:**
-  - Run URL / ID: TODO
-  - Evidence: `ci/evidence/passing_run.png`
-- **Failing Pipeline Run:**
-  - Run URL / ID: TODO
-  - Evidence: `ci/evidence/failing_run.png`
+- **Video Link:** `TODO – record and upload video during final phase`
+- **Video Script & Checklist:** Located in `23127259/video/`
 
 ---
 
-## Test Summary
+## 5. Self-Assessment & Evaluation Checklist
 
-| Metric | Count |
-|---|---:|
-| **APIs Tested** | 3 |
-| **AI-Generated Test Cases** | TODO |
-| **Human-Added Extension Cases** | TODO |
-| **Total Test Cases** | TODO |
-| **Executed** | TODO |
-| **Passed** | TODO |
-| **Failed** | TODO |
-| **Bugs Discovered** | TODO |
-| **Demo Video Link (Unlisted YouTube)** | TODO |
-
----
-
-## Self-Assessment
-
-| No. | Assessment Criteria | Max Grade | Self-Assessed Grade |
-|:---:|---|:---:|:---:|
-| 1 | **API 1** — Full pipeline (generate + audit + extend + execute + bugs) | 30 | 30 |
-| 2 | **API 2** — Full pipeline (same criteria) | 30 | 30 |
-| 3 | **API 3** — Full pipeline (same criteria) | 30 | 30 |
-| 4 | **Agent Skills** (AI-driven test generator design & pseudocode) | 10 | 10 |
-| **Total** | | **100** | **100** |
+- [x] Workspace properly isolated under `23127259/` with no cross-member pollution
+- [x] SUT execution baseline confirmed and smoke-tested on `http://localhost:3000`
+- [x] Global `X-Student-Id: 23127259` attribution mechanism configured
+- [x] AI Audit tracking established from initial planning interactions
+- [ ] Test cases generated ($\ge 120$ total: $\ge 105$ AI + $\ge 15$ Human) across all 3 pools *(Phase 1–3)*
+- [ ] Newman HTML execution reports generated *(Phase 1–3)*
+- [ ] CI/CD automated execution pipelines passing & failing demonstrated *(Phase 4)*
+- [ ] Agent Skill self-drawn design & pseudocode committed *(Phase 5)*
+- [ ] Main report & AI Audit report completed and exported to PDF *(Phase 6)*
