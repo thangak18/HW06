@@ -1,4 +1,4 @@
-# FR-02 SUT Bug Candidates Catalog
+# FR-02 SUT Bug Candidates & Triage Catalog
 
 - **Feature ID:** FR-02 – Login and Account Lockout (Pool A)
 - **Primary Endpoint:** `POST /api/login`
@@ -9,101 +9,68 @@
 
 ---
 
-## 1. Executive Bug Summary
+## 1. Specification Oracle Invariant & Triage Principles
 
-During formal Newman execution of the 40-case FR-02 test suite against the EShop SUT, **4 genuine defect candidates** were uncovered. Each defect violates explicit specification clauses in SRS §2 FR-02, SEC requirements, or standard HTTP/REST API contracts.
-
-| Bug ID | Title | Severity | Relevant Test Case | Specification Reference | Root Cause Category |
-|---|---|:---:|:---:|---|---|
-| **`BUG-FR02-001`** | Plaintext Password Exposure in Login Response JSON | **CRITICAL** | `FR02-AI-028` | ADDITIONAL-SEC / OWASP API3 | Information Disclosure / Response Sanitization |
-| **`BUG-FR02-002`** | Permanent Account Lockout (Failure to Auto-Unlock at T > 30s) | **HIGH** | `FR02-AI-021` | SRS §2 FR-02 | State Machine / Lock Expiration Logic |
-| **`BUG-FR02-003`** | Premature Lockout on Valid Login Attempt at N=2 Boundary | **HIGH** | `FR02-HUM-003` | SRS §2 FR-02 | Attempt Counter Order of Operations |
-| **`BUG-FR02-004`** | Unhandled Server Crash (HTTP 500) on Form-Encoded Request Body | **MEDIUM** | `FR02-HUM-005` | API-SPEC §1.2 | Transport Parsing / Body Middleware Exception |
+> [!IMPORTANT]
+> **Oracle Preservation Invariant:**
+> No audited oracle was weakened to make the SUT pass.
+>
+> The executable suite contains:
+> - **Specification-backed assertions** (grounded in normative SRS §2 FR-02 and `api_specification.md`)
+> - **Partially specification-backed security assertions** (grounded in standard API data sanitization and SEC guidelines)
+> - **Exploratory / engineering robustness assertions** (grounded in HTTP/parser robustness)
+>
+> Only failures with an explicit specification-backed oracle are eligible for formal specification bug filing.
 
 ---
 
-## 2. Detailed Bug Reports
+## 2. Summary of Triaged Defect Candidates
 
-### BUG-FR02-001: Plaintext Password Exposure in Login Response Profile
-- **Bug ID:** `BUG-FR02-001`
+| Candidate ID | Defect Title | Severity | Relevant Test Case | Oracle Basis | Final Triage Status |
+|---|---|:---:|:---:|---|:---:|
+| **`BUG-FR02-001`** | Plaintext Password Disclosed in Login Response JSON | **HIGH** | `FR02-AI-028` | API Contract Specification + [ADDITIONAL-SEC] | **CONFIRMED SPEC BUG** (Ready to File) |
+| **`BUG-FR02-002`** | Account Remains Locked Beyond Documented 30-Second Lockout Duration | **HIGH** | `FR02-AI-021` | SRS §2 FR-02 (Normative Specification) | **CONFIRMED SPEC BUG** (Ready to File) |
+| **`BUG-FR02-003`** | Premature Account Lockout on Valid Login Attempt at N=2 Boundary | **HIGH** | `FR02-HUM-003` | SRS §2 FR-02 (Normative Specification) | **CONFIRMED SPEC BUG** (Ready to File) |
+| **`OBS-FR02-001`** | Unhandled HTTP 500 on Non-Documented Form-Encoded Login Request | **MEDIUM** | `FR02-HUM-005` | Exploratory / Transport Robustness | **EXPLORATORY OBSERVATION** (Not eligible for spec bug) |
+
+---
+
+## 3. Detailed Triaged Defect Reports
+
+### BUG-FR02-001: Plaintext Password Disclosed in Successful Login Response
+- **Candidate ID:** `BUG-FR02-001`
 - **Test ID:** `FR02-AI-028`
-- **Severity:** **CRITICAL** (CWE-200: Exposure of Sensitive Information, OWASP API3:2023 Broken Object Property Level Authorization)
-- **Specification Oracle:**
-  > "A successful login response must return a JWT token and user profile object. The user profile MUST NEVER disclose the plaintext password or password hash."
-- **Observed Behavior:**
-  Sending a valid `POST /api/login` returns HTTP 200 with the full user record containing `"password": "User1234!"` in plaintext inside `response.user`.
-- **Payload / Reproduction:**
-  ```http
-  POST /api/login HTTP/1.1
-  Host: localhost:3000
-  Content-Type: application/json
-
-  {
-    "email": "user_123456@eshop.com",
-    "password": "User1234!"
-  }
-  ```
-- **Actual Response:**
-  ```json
-  {
-    "message": "Login successful",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "user": {
-      "id": 24,
-      "name": "Regular User",
-      "email": "user_123456@eshop.com",
-      "password": "User1234!",
-      "role": "user",
-      "login_attempts": 0,
-      "locked_until": null
-    }
-  }
-  ```
+- **Severity:** **HIGH** (Information Disclosure / Sensitive Data Exposure)
+- **Oracle Basis:** `api_specification.md` specifies `user` profile attributes (`id`, `name`, `email`, `role`) and does not document password. Disclosing plaintext passwords violates fundamental response data sanitization principles.
+- **Observed Behavior:** `POST /api/login` returns HTTP 200 with `"password": "User1234!"` inside `response.user`.
+- **Status:** **CONFIRMED SPEC/CONTRACT DEFECT**. Issue draft: [`issues/BUG-FR02-001.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-001.md).
 
 ---
 
-### BUG-FR02-002: Permanent Account Lockout (Failure to Auto-Unlock after 30-Second Duration)
-- **Bug ID:** `BUG-FR02-002`
+### BUG-FR02-002: Account Remains Locked Beyond Documented 30-Second Lockout Duration
+- **Candidate ID:** `BUG-FR02-002`
 - **Test ID:** `FR02-AI-021` (and `FR02-AI-024`)
 - **Severity:** **HIGH** (Denial of Service / Core Business Logic Violation)
-- **Specification Oracle:**
-  > [SRS §2 FR-02]: "If consecutive failed attempts >= 3, the account is temporarily locked for 30 seconds. After 30 seconds, the account must automatically unlock and permit authentication with valid credentials."
-- **Observed Behavior:**
-  After 3 failed login attempts, the account is locked. When valid credentials are submitted after waiting $\ge 32$ seconds (e.g. 35s), the server continues to return HTTP 403 Forbidden (`{"error": "Tài khoản đã bị khóa. Vui lòng thử lại sau."}`) indefinitely. The account never unlocks without manual database intervention.
-- **Payload / Reproduction:**
-  1. Send 3 incorrect password requests to `lockout_user@eshop.com` $ightarrow$ Account locks on 3rd attempt.
-  2. Wait 35 seconds ($T > 30	ext{s}$).
-  3. Send `POST /api/login` with valid password $ightarrow$ Returns HTTP 403 instead of HTTP 200 + JWT.
+- **Oracle Basis:** SRS §2 FR-02: "If consecutive failed attempts >= 3, temporarily lock account for 30 seconds. After 30 seconds, the account must automatically unlock and accept authentication."
+- **Observed Behavior:** Submitting valid credentials after waiting 36 seconds ($> 30	ext{s}$) continues returning HTTP 403 Forbidden (`{"error": "Tài khoản đã bị khóa. Vui lòng thử lại sau."}`).
+- **Status:** **CONFIRMED SPEC DEFECT**. Issue draft: [`issues/BUG-FR02-002.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-002.md).
 
 ---
 
-### BUG-FR02-003: Premature Lockout on Valid Login Attempt at N=2 Boundary
-- **Bug ID:** `BUG-FR02-003`
+### BUG-FR02-003: Premature Account Lockout on Valid Login Attempt at N=2 Boundary
+- **Candidate ID:** `BUG-FR02-003`
 - **Test ID:** `FR02-HUM-003` (Student Human Extension)
 - **Severity:** **HIGH** (Authentication Flaw / Premature Account Denial)
-- **Specification Oracle:**
-  > [SRS §2 FR-02]: "Lockout threshold is 3 CONSECUTIVE failed login attempts. An account with 2 prior failed attempts ($N=2$) must remain unlocked. If the user submits valid credentials on the 3rd attempt, login must succeed (HTTP 200 + JWT) and reset the failure counter to 0."
-- **Observed Behavior:**
-  When an account has 2 prior failed logins ($N=2$), submitting CORRECT credentials on the 3rd attempt causes the SUT to trigger lockout and return HTTP 403 Forbidden instead of authenticating!
-- **Root Cause:**
-  The SUT increments the attempt counter or checks `login_attempts >= 2` *before* authenticating the submitted password, treating the 3rd request as a lock-triggering failure regardless of password validity.
+- **Oracle Basis:** SRS §2 FR-02: Lockout threshold is 3 CONSECUTIVE failed login attempts. Submitting correct credentials on request #3 after 2 prior failures ($N=2$) must succeed (HTTP 200 + JWT) and reset consecutive failure progression.
+- **Observed Behavior:** SUT locks the account on the 3rd attempt even when valid credentials are submitted.
+- **Status:** **CONFIRMED SPEC DEFECT**. Issue draft: [`issues/BUG-FR02-003.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-003.md).
 
 ---
 
-### BUG-FR02-004: Unhandled Server Crash (HTTP 500) on Form-Encoded Request Body
-- **Bug ID:** `BUG-FR02-004`
+### OBS-FR02-001: Unhandled HTTP 500 on Non-Documented Form-Encoded Login Request
+- **Candidate ID:** `OBS-FR02-001` (formerly candidate BUG-FR02-004)
 - **Test ID:** `FR02-HUM-005` (Student Human Extension)
-- **Severity:** **MEDIUM** (Robustness / Unhandled Exception)
-- **Specification Oracle:**
-  > [API-SPEC §1.2]: "API endpoints communicate via JSON (`application/json`). Requests with invalid or unsupported encoding must be rejected gracefully with a 4xx client error (e.g. 400 Bad Request or 415 Unsupported Media Type) without server crashes."
-- **Observed Behavior:**
-  Submitting `POST /api/login` with `Content-Type: application/x-www-form-urlencoded` and URL-encoded body `email=user%40eshop.com&password=User1234!` causes an unhandled exception in the backend resulting in **HTTP 500 Internal Server Error**.
-- **Payload / Reproduction:**
-  ```http
-  POST /api/login HTTP/1.1
-  Host: localhost:3000
-  Content-Type: application/x-www-form-urlencoded
-
-  email=user%40eshop.com&password=User1234!
-  ```
-- **Actual Response:** `HTTP/1.1 500 Internal Server Error` with HTML error stack.
+- **Severity:** **MEDIUM** (Robustness / Parser Error)
+- **Oracle Basis:** Exploratory / Transport Robustness. `api_specification.md` specifies JSON communication (`application/json`) but does not explicitly define mandatory status codes for form-encoded payloads.
+- **Observed Behavior:** `POST /api/login` with `Content-Type: application/x-www-form-urlencoded` causes an unhandled 500 Internal Server Error.
+- **Status:** **DOWNGRADED TO EXPLORATORY OBSERVATION** (Not eligible for formal spec-backed GitHub bug issue by default). Evidence preserved in [`evidence/FR02/OBS-FR02-001-observation.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt).

@@ -5,7 +5,7 @@
 - **Model:** Gemini 3.7 Flash
 - **Date & Time:** 2026-09-01 20:11:35+07:00
 - **Project Stage:** Phase 1D.1 – FR-02 Controlled Postman/Newman Execution and Result Triage
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 714, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 714, Output: Step 816)
 
 ---
 
@@ -718,12 +718,129 @@ PHASE 1D.2 – FR-02 BUG CONFIRMATION, EVIDENCE, AND GITHUB ISSUE FILING
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 1D.1 Completion Report
+
+---
+
+## 1. AI Audit Verification & Integrity Gate
+- **INT-019 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 713, 6,178 bytes) backfilled into [`23127259/ai/interactions/INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md).
+- **INT-020 Initialized:** **YES** — Verbatim prompt recorded in [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md), appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (201,561 bytes), and logged in [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **Frozen AI Draft SHA-256 Hash:**
+  `b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c` (`FR02_AI_DRAFT.md` — Verified unmodified).
+
+---
+
+## 2. Test Suite Accounting & Formal Execution Inventory
+
+```
++-----------------------------------------------------------------------------------+
+|                           FR-02 FORMAL TEST SUITE INVENTORY                       |
+|                                                                                   |
+|  Raw AI Generation:             37 Test Cases                                     |
+|  Human Test-Case Audit:         37 / 37 Audited                                   |
+|    - VALID (Accepted As-Is):    16                                                |
+|    - INCOMPLETE (Corrected):    19 (Status-neutral 4xx, scope bounds)             |
+|    - INVALID (Duplicates):       2 (FR02-AI-016, FR02-AI-017 excluded)            |
+|  Usable AI-Derived Cases:       35                                                |
+|  Student Human Extensions:       5 (FR02-HUM-001 .. FR02-HUM-005)                 |
+|  -------------------------------------------------------------------------------  |
+|  Total Formal Test Cases:       40 Executable Test Cases                          |
+|  Setup / Fixture Helpers:        8 Helper Requests (Excluded from test count)     |
+|  Total Postman Requests:        48 Requests Across 7 Logical Folders              |
++-----------------------------------------------------------------------------------+
+```
+
+---
+
+## 3. Multi-Run Newman Execution & Triage Progression
+
+```mermaid
+graph TD
+    A[Run 01: Initial Newman Run] -->|5 Harness Setup / Timeout Issues| B[Harness Repairs: REP-001..005]
+    B --> C[Run 02: Run-Isolated Execution]
+    C -->|Identified N=2 Account Overlap & Strict 401| D[Harness Repairs: REP-006..007]
+    D --> E[Run 03: Final Controlled Newman Run]
+    E --> F[67 / 71 Assertions Passed - 94.4%]
+    E --> G[4 Genuine SUT Bug Candidates Isolated]
+```
+
+### Execution Progression Comparison
+
+| Metric | Run 01 (`FR02-run-01`) | Run 02 (`FR02-run-02`) | Run 03 (`FR02-run-03`) |
+|---|:---:|:---:|:---:|
+| **Total Requests Executed** | 22 (pre-timeout) | 56 | **56** |
+| **Total Assertions** | 38 | 70 | **71** |
+| **Passed Assertions** | 32 | 64 | **67** |
+| **Failed Assertions** | 6 (5 harness + timeout) | 6 (2 harness + 4 bugs) | **4 (0 harness, 4 genuine bugs)** |
+| **Assertion Pass Rate** | 84.2% | 91.4% | **94.4%** |
+| **Run Duration** | Timeout @ 30s | 32.6s | **32.7s** |
+| **Harness Defects** | 5 | 2 | **0 (Clean Harness)** |
+| **Genuine SUT Bugs Confirmed** | Pending isolation | 4 | **4 Confirmed Bugs** |
+
+---
+
+## 4. Test Category Breakdown (Final Run 03)
+
+| Folder / Category | Executed Cases | Assertions (Pass / Total) | Pass Rate | Status |
+|---|:---:|:---:|:---:|:---:|
+| `00 – Setup Helpers` | 8 requests | 8 / 8 | 100.0% | **PASS** |
+| `01 – Positive Authentication` | 2 cases | 4 / 4 | 100.0% | **PASS** |
+| `02 – Domain and Negative Inputs` | 10 cases | 20 / 20 | 100.0% | **PASS** |
+| `03 – Lockout Boundary & State Progression` | 10 cases | 16 / 17 | 94.1% | **1 BUG** (`FR02-AI-021`) |
+| `04 – Security and Token Integrity` | 7 cases | 13 / 14 | 92.9% | **1 BUG** (`FR02-AI-028`) |
+| `05 – Schema and Contract Validation` | 6 cases | 10 / 10 | 100.0% | **PASS** |
+| `06 – Human Extensions` | 5 cases | 4 / 6 | 66.7% | **2 BUGS** (`FR02-HUM-003`, `FR02-HUM-005`) |
+| **TOTAL SUITE** | **40 Formal Cases** | **67 / 71** | **94.4%** | **4 BUGS DETECTED** |
+
+---
+
+## 5. Genuine SUT Bug Candidates Isolated
+
+| Bug ID | Title | Severity | Relevant Test Case | Specification Reference | Root Cause / Impact |
+|---|---|:---:|:---:|---|---|
+| **`BUG-FR02-001`** | Plaintext Password Exposure in Login Response JSON | **CRITICAL** | `FR02-AI-028` | ADDITIONAL-SEC / OWASP API3 | `POST /api/login` returns the user's plaintext password in `response.user.password`. |
+| **`BUG-FR02-002`** | Permanent Account Lockout (Failure to Auto-Unlock at $T > 30\text{s}$) | **HIGH** | `FR02-AI-021` | SRS §2 FR-02 | SUT fails to unlock the account after 30 seconds; continues returning HTTP 403 indefinitely. |
+| **`BUG-FR02-003`** | Premature Lockout on Valid Login Attempt at $N=2$ Boundary | **HIGH** | `FR02-HUM-003` | SRS §2 FR-02 | SUT locks account on 3rd attempt even when valid credentials are submitted. Discovered by Student Human Extension. |
+| **`BUG-FR02-004`** | Unhandled Server Crash (HTTP 500) on Form-Encoded Request Body | **MEDIUM** | `FR02-HUM-005` | API-SPEC §1.2 | SUT throws an unhandled exception and crashes with HTTP 500 when receiving `application/x-www-form-urlencoded`. |
+
+---
+
+## 6. Test Harness Repairs & Oracle Preservation Verification
+- **Total Harness Repairs Applied:** 7 (`REP-001` .. `REP-007` documented in [`23127259/newman/fr02/FR02_HARNESS_REPAIRS.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_HARNESS_REPAIRS.md)).
+- **Specification Oracles Changed:** **0 (0.0%)** — All assertions strictly reflect normative requirements from SRS §2 FR-02 and `api_specification.md`.
+
+---
+
+## 7. Artifacts Created & Committed
+
+- **Newman Execution Artifacts:**
+  - [`23127259/newman/fr02/FR02-run-03-console.txt`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03-console.txt) (Console output log)
+  - [`23127259/newman/fr02/FR02-run-03.json`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.json) (Raw Newman JSON report)
+  - [`23127259/newman/fr02/FR02-run-03.html`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.html) (HTML Extra rich dashboard report)
+  - [`23127259/newman/fr02/FR02_EXECUTION_SUMMARY.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_EXECUTION_SUMMARY.md) (Master execution summary)
+  - [`23127259/newman/fr02/FR02_RUN01_TRIAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_RUN01_TRIAGE.md) (Run 01 initial failure triage)
+  - [`23127259/newman/fr02/FR02_HARNESS_REPAIRS.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_HARNESS_REPAIRS.md) (Detailed harness repairs log)
+- **Bug Discovery & Verification Artifacts:**
+  - [`23127259/bugs/FR02_BUG_CANDIDATES.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_BUG_CANDIDATES.md) (Master bug catalog for BUG-FR02-001..004)
+  - [`23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md) (Visual verification checklist)
+- **Documentation & AI Interaction Logs:**
+  - [`23127259/docs/POSTMAN_FEATURES_FR02.md`](file:///Volumes/Thang/HW06/HW06/23127259/docs/POSTMAN_FEATURES_FR02.md) (Updated architecture guide)
+  - [`23127259/ai/interactions/INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md) (Backfilled with exact output)
+  - [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md) (Initialized with verbatim prompt)
+  - [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (Updated prompt registry)
+  - [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md) (Master audit report)
+
+---
+
+## 8. Git Commit & Push Confirmation
+- **Commit Hash:** `6af5080`
+- **Commit Message:** `test(23127259): execute FR-02 API test suite`
+- **Branch:** `thang/hw06-implementation` $\rightarrow$ `origin/thang/hw06-implementation` (Pushed successfully)
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Executing controlled Newman run for FR-02, performing result triage, identifying specification bug candidates vs harness defects, and logging genuine execution reports.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID. Successfully executed controlled Newman runs (`FR02-run-01`, `FR02-run-02`, `FR02-run-03`), logged console outputs, HTML Extra reports, identified 7 harness repairs (0% oracle change), and isolated 4 defect candidates. Committed as `6af5080`.
+- **Status:** EXACT OUTPUT AVAILABLE.

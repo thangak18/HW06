@@ -1,0 +1,40 @@
+================================================================================
+OBS-FR02-001 INDEPENDENT REPRODUCTION EVIDENCE (EXPLORATORY OBSERVATION)
+================================================================================
+Timestamp: 2026-09-01T20:24:30.628294+07:00
+Endpoint: POST /api/login
+Target SUT: http://localhost:3000
+
+--------------------------------------------------------------------------------
+1. HTTP REQUEST
+--------------------------------------------------------------------------------
+POST /api/login HTTP/1.1
+Host: localhost:3000
+Content-Type: application/x-www-form-urlencoded
+X-Student-Id: 23127259
+
+email=user%40eshop.com&password=User1234!
+
+--------------------------------------------------------------------------------
+2. HTTP RESPONSE
+--------------------------------------------------------------------------------
+HTTP/1.1 500 Internal Server Error
+Content-Type: text/html; charset=utf-8
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>TypeError: Cannot destructure property &#39;email&#39; of &#39;req.body&#39; as it is undefined.<br> &nbsp; &nbsp;at /Volumes/Thang/eshop-sut/backend/server.js:33:11<br> &nbsp; &nbsp;at Layer.handleRequest (/Volumes/Thang/eshop-sut/backend/node_modules/router/lib/layer.js:152:17)<br> &nbsp; &nbsp;at next (/Volumes/Thang/eshop-sut/backend/node_modules/router/lib/route.js:157:13)<br> &nbsp; &nbsp;at Route.dispatch (/Volumes/Thang/eshop-sut/backend/node_modules/router/lib/route.js:117:3)<br> &n...
+
+--------------------------------------------------------------------------------
+3. CLASSIFICATION & RECONCILIATION
+--------------------------------------------------------------------------------
+- Oracle Status: Exploratory / Transport Robustness.
+- Analysis: api_specification.md defines JSON transport contracts (`application/json`). The specification does not explicitly define mandatory status codes for non-JSON MIME types (e.g. 400 Bad Request vs 415 Unsupported Media Type).
+- Classification: EXPLORATORY / ROBUSTNESS OBSERVATION (Not a formal spec-backed bug).
+- GitHub Issue Eligibility: NOT ELIGIBLE BY DEFAULT (unless explicit normative clause mandates specific status code).
+================================================================================
