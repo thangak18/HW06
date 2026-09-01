@@ -1,0 +1,1569 @@
+{
+  "api_id": "DEMO",
+  "fr": "FR-04",
+  "name": "Quan ly ho so ca nhan",
+  "collection_file": "generated_demo.postman_collection.json",
+  "description": "Sinh tu dong boi agent-skill/pseudocode/generator.py — CHUA audit.",
+  "cases": [
+    {
+      "id": "TC-GEN-001",
+      "group": "Domain Partition: name",
+      "title": "thieu truong name",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Thieu truong bat buoc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request neu name la truong bat buoc.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-002",
+      "group": "Domain Partition: name",
+      "title": "name = null",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Gia tri null",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request; khong duoc ghi NULL vao co so du lieu.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": null,
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-003",
+      "group": "Domain Partition: name",
+      "title": "name sai kieu du lieu",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Sai kieu: int",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request — hop dong API quy dinh name la string.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": 12345,
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-004",
+      "group": "Domain Partition: name",
+      "title": "name: chuoi rong",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Chuoi rong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-005",
+      "group": "Domain Partition: name",
+      "title": "name: chi khoang trang",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Chi khoang trang",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "     ",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-006",
+      "group": "Domain Partition: name",
+      "title": "name: unicode tieng viet",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Unicode tieng Viet",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyễn Thị Hồng Đào",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-007",
+      "group": "Domain Partition: name",
+      "title": "name: khoang trang bao quanh",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Khoang trang bao quanh",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "  Nguyen Van A  ",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-008",
+      "group": "Domain Partition: name",
+      "title": "name do dai 255 ky tu",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Do dai 255 (hop le)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Trich dan dac ta: \"Ho Ten la truong bat buoc (FR-04)\"",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-009",
+      "group": "Domain Partition: name",
+      "title": "name do dai 256 ky tu",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Do dai 256 (vuot bien)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Trich dan dac ta: \"Ho Ten la truong bat buoc (FR-04)\"",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-010",
+      "group": "Domain Partition: phone",
+      "title": "thieu truong phone",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Thieu truong bat buoc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request neu phone la truong bat buoc.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-011",
+      "group": "Domain Partition: phone",
+      "title": "phone = null",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Gia tri null",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request; khong duoc ghi NULL vao co so du lieu.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": null,
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-012",
+      "group": "Domain Partition: phone",
+      "title": "phone sai kieu du lieu",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Sai kieu: int",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request — hop dong API quy dinh phone la string.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": 12345,
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-013",
+      "group": "Domain Partition: phone",
+      "title": "phone: chuoi rong",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Chuoi rong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-014",
+      "group": "Domain Partition: phone",
+      "title": "phone: chi khoang trang",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Chi khoang trang",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "     ",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-015",
+      "group": "Domain Partition: phone",
+      "title": "phone: unicode tieng viet",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Unicode tieng Viet",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "Nguyễn Thị Hồng Đào",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-016",
+      "group": "Domain Partition: phone",
+      "title": "phone: khoang trang bao quanh",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Khoang trang bao quanh",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "  0912345678  ",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-017",
+      "group": "Domain Partition: phone",
+      "title": "phone: khop mau (0912345678)",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Khop mau",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Trich dan dac ta: \"So dien thoai hop le: bat dau bang so 0, tu 10-11 chu so\" (mau: ^0\\d{9,10}$)",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-018",
+      "group": "Domain Partition: phone",
+      "title": "phone: khong khop mau (9912345678)",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Khong khop mau",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Trich dan dac ta: \"So dien thoai hop le: bat dau bang so 0, tu 10-11 chu so\" (mau: ^0\\d{9,10}$)",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "9912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-019",
+      "group": "Domain Partition: phone",
+      "title": "phone: khop mot phan (091234567)",
+      "technique": "domain-partition",
+      "param": "phone",
+      "partition": "Khop mot phan",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Trich dan dac ta: \"So dien thoai hop le: bat dau bang so 0, tu 10-11 chu so\" (mau: ^0\\d{9,10}$)",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "091234567",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-020",
+      "group": "Domain Partition: shipping_address",
+      "title": "thieu truong shipping_address",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Thieu truong bat buoc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request neu shipping_address la truong bat buoc.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-021",
+      "group": "Domain Partition: shipping_address",
+      "title": "shipping_address = null",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Gia tri null",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request; khong duoc ghi NULL vao co so du lieu.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": null
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-022",
+      "group": "Domain Partition: shipping_address",
+      "title": "shipping_address sai kieu du lieu",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Sai kieu: int",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "400 Bad Request — hop dong API quy dinh shipping_address la string.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": 12345
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-023",
+      "group": "Domain Partition: shipping_address",
+      "title": "shipping_address: chuoi rong",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Chuoi rong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": ""
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-024",
+      "group": "Domain Partition: shipping_address",
+      "title": "shipping_address: chi khoang trang",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Chi khoang trang",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "     "
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-025",
+      "group": "Domain Partition: shipping_address",
+      "title": "shipping_address: unicode tieng viet",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Unicode tieng Viet",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "Nguyễn Thị Hồng Đào"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-026",
+      "group": "Domain Partition: shipping_address",
+      "title": "shipping_address: khoang trang bao quanh",
+      "technique": "domain-partition",
+      "param": "shipping_address",
+      "partition": "Khoang trang bao quanh",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Xem danh muc quy tac phan vung chuoi trong DESIGN.md muc N2.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "  227 Nguyen Van Cu, Q5  "
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              200,
+              400
+            ]
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-027",
+      "group": "Security",
+      "title": "khong kem token -> 401",
+      "technique": "security",
+      "param": "-",
+      "partition": "Khong xac thuc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-02: API co tinh bao mat phai yeu cau JWT hop le.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 401
+          }
+        ]
+      },
+      "sec": [
+        "SEC-02"
+      ]
+    },
+    {
+      "id": "TC-GEN-028",
+      "group": "Security",
+      "title": "token rac -> 403",
+      "technique": "security",
+      "param": "-",
+      "partition": "Token khong parse duoc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-02: Token khong parse duoc.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "raw",
+        "authValue": "Bearer khong-phai-jwt",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              401,
+              403
+            ]
+          }
+        ]
+      },
+      "sec": [
+        "SEC-02"
+      ]
+    },
+    {
+      "id": "TC-GEN-029",
+      "group": "Security",
+      "title": "JWT ky bang khoa SAI -> 403",
+      "technique": "security",
+      "param": "-",
+      "partition": "Token dung cau truc nhung chu ky sai — phep thu THAT SU cho viec server co verify chu ky hay chi decode payload",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-02: Token dung cau truc nhung chu ky sai — phep thu THAT SU cho viec server co verify chu ky hay chi decode payload.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "raw",
+        "authValue": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MjY1MzE3fQ.Z7LjnTp0gy4sgW-VSZeS8M8S_u6llyhMLw15h__XSEk",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              401,
+              403
+            ]
+          }
+        ]
+      },
+      "sec": [
+        "SEC-02"
+      ]
+    },
+    {
+      "id": "TC-GEN-030",
+      "group": "Security",
+      "title": "JWT thuat toan alg=none -> 403",
+      "technique": "security",
+      "param": "-",
+      "partition": "Lo hong kinh dien cua thu vien JWT cau hinh sai",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-02: Lo hong kinh dien cua thu vien JWT cau hinh sai.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "auth": "raw",
+        "authValue": "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0.",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              401,
+              403
+            ]
+          }
+        ]
+      },
+      "sec": [
+        "SEC-02"
+      ]
+    },
+    {
+      "id": "TC-GEN-031",
+      "group": "Security",
+      "title": "mass assignment: gui kem truong 'role'",
+      "technique": "security",
+      "param": "role",
+      "partition": "Truong ngoai hop dong API",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-06: khong duoc cho phep thay doi truong dac quyen tu client. Luu y: day la truong KHONG co trong dac ta — chinh vi vay ma test sinh theo danh sach tham so cua tai lieu khong bao gio cham toi.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5",
+          "role": "admin"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-06"
+      ]
+    },
+    {
+      "id": "TC-GEN-032",
+      "group": "Security",
+      "title": "mass assignment: gui kem truong 'id'",
+      "technique": "security",
+      "param": "id",
+      "partition": "Truong ngoai hop dong API",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-06: khong duoc cho phep thay doi truong dac quyen tu client. Luu y: day la truong KHONG co trong dac ta — chinh vi vay ma test sinh theo danh sach tham so cua tai lieu khong bao gio cham toi.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5",
+          "id": 1
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-06"
+      ]
+    },
+    {
+      "id": "TC-GEN-033",
+      "group": "Security",
+      "title": "mass assignment: gui kem truong 'is_admin'",
+      "technique": "security",
+      "param": "is_admin",
+      "partition": "Truong ngoai hop dong API",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-06: khong duoc cho phep thay doi truong dac quyen tu client. Luu y: day la truong KHONG co trong dac ta — chinh vi vay ma test sinh theo danh sach tham so cua tai lieu khong bao gio cham toi.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5",
+          "is_admin": 1
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-06"
+      ]
+    },
+    {
+      "id": "TC-GEN-034",
+      "group": "Security",
+      "title": "mass assignment: gui kem truong 'email'",
+      "technique": "security",
+      "param": "email",
+      "partition": "Truong ngoai hop dong API",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-06: khong duoc cho phep thay doi truong dac quyen tu client. Luu y: day la truong KHONG co trong dac ta — chinh vi vay ma test sinh theo danh sach tham so cua tai lieu khong bao gio cham toi.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5",
+          "email": 1
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-06"
+      ]
+    },
+    {
+      "id": "TC-GEN-035",
+      "group": "Security",
+      "title": "SQL injection qua 'name'",
+      "technique": "security",
+      "param": "name",
+      "partition": "Payload SQL injection",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-05: truy van CSDL phai dung Parameterized Query.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "' OR '1'='1' --",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          },
+          {
+            "t": "bodyNotMatch",
+            "v": "SQLITE_|syntax error|near \"",
+            "name": "Khong ro ri loi SQL"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-05"
+      ]
+    },
+    {
+      "id": "TC-GEN-036",
+      "group": "Security",
+      "title": "SQL injection qua 'phone'",
+      "technique": "security",
+      "param": "phone",
+      "partition": "Payload SQL injection",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-05: truy van CSDL phai dung Parameterized Query.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "' OR '1'='1' --",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          },
+          {
+            "t": "bodyNotMatch",
+            "v": "SQLITE_|syntax error|near \"",
+            "name": "Khong ro ri loi SQL"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-05"
+      ]
+    },
+    {
+      "id": "TC-GEN-037",
+      "group": "Security",
+      "title": "SQL injection qua 'shipping_address'",
+      "technique": "security",
+      "param": "shipping_address",
+      "partition": "Payload SQL injection",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-05: truy van CSDL phai dung Parameterized Query.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "' OR '1'='1' --"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong tra loi may chu (5xx)', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          },
+          {
+            "t": "bodyNotMatch",
+            "v": "SQLITE_|syntax error|near \"",
+            "name": "Khong ro ri loi SQL"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-05"
+      ]
+    },
+    {
+      "id": "TC-GEN-038",
+      "group": "Security",
+      "title": "response khong duoc chua 'password'",
+      "technique": "security",
+      "param": "-",
+      "partition": "Ro ri du lieu nhay cam",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-01: khong duoc ro ri du lieu nhay cam trong response.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "notHasKey",
+            "path": "password"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-01"
+      ]
+    },
+    {
+      "id": "TC-GEN-039",
+      "group": "Security",
+      "title": "response khong duoc chua 'reset_token'",
+      "technique": "security",
+      "param": "-",
+      "partition": "Ro ri du lieu nhay cam",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-01: khong duoc ro ri du lieu nhay cam trong response.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "notHasKey",
+            "path": "reset_token"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-01"
+      ]
+    },
+    {
+      "id": "TC-GEN-040",
+      "group": "Security",
+      "title": "response khong duoc chua 'login_attempts'",
+      "technique": "security",
+      "param": "-",
+      "partition": "Ro ri du lieu nhay cam",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "SEC-01: khong duoc ro ri du lieu nhay cam trong response.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "notHasKey",
+            "path": "login_attempts"
+          }
+        ]
+      },
+      "sec": [
+        "SEC-01"
+      ]
+    },
+    {
+      "id": "TC-GEN-041",
+      "group": "Schema Validation",
+      "title": "response thanh cong khop hop dong API",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Response thanh cong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Response phai khop dung luoc do mo ta trong dac ta API.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "contentTypeJson"
+          },
+          {
+            "t": "schema",
+            "v": {
+              "type": "object",
+              "required": [
+                "message"
+              ],
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-042",
+      "group": "Schema Validation",
+      "title": "kieu du lieu cua 'message' la string",
+      "technique": "schema",
+      "param": "message",
+      "partition": "Kieu du lieu cua truong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Truong tien tra ve dang chuoi thay vi so la loi kinh dien lam client noi chuoi thay vi cong so.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "type",
+            "path": "message",
+            "v": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-043",
+      "group": "Schema Validation",
+      "title": "KHONG co truong nao ngoai hop dong API",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Truong ngoai hop dong (additionalProperties)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Kiem tra luoc do phai theo CA HAI chieu. Chieu 'khong co truong thua' chinh la cach phat hien SELECT * vo tinh lam ro ri cot nhay cam.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0912345678",
+          "shipping_address": "227 Nguyen Van Cu, Q5"
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong co truong nao ngoai hop dong API', function () {\n    var allowed = [\"message\"];\n    var extra = Object.keys(pm.response.json()).filter(function (k) {\n        return allowed.indexOf(k) === -1;\n    });\n    pm.expect(extra, 'truong thua: ' + extra.join(', ')).to.be.an('array').that.is.empty;\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-GEN-044",
+      "group": "Schema Validation",
+      "title": "response loi khop dinh dang chuan",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Response loi",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Sinh tu danh muc quy tac — CHUA duoc nguoi audit."
+      },
+      "expected_by_spec": "Tinh nhat quan cua dinh dang loi la mot phan hop dong API.",
+      "request": {
+        "method": "PUT",
+        "path": "/api/users/me",
+        "body": {
+          "__khong_hop_le": true
+        },
+        "auth": "user"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "contentTypeJson"
+          },
+          {
+            "t": "schema",
+            "v": {
+              "type": "object",
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

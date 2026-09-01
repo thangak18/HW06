@@ -1,0 +1,145 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-01 20:11:32 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+----------------------------------------------------------------------
+### BUG-A1-01 [Critical] SEC-06 — leo quyen len admin qua PUT /api/users/me
+$ curl -X PUT /api/users/me -d {"name":...,"role":"admin"}
+{"message":"Profile updated"}
+$ curl /api/users/me   -> role hien tai:
+admin
+$ dang nhap lai -> JWT moi mang role gi?
+role trong JWT: admin
+$ dung JWT do goi GET /api/admin/users (chi admin moi duoc phep):
+   HTTP 200
+[{"id":1,"name":"Admin User","email":"admin@eshop.com","role":"admin","login_attempts":0,"locked_until":null,"shipping_address":null},{"id":2,"name":"Test User","email":"test@eshop.com","role":"admin"
+
+----------------------------------------------------------------------
+### BUG-A1-02 [High] SEC-01 — GET /api/users/me tra ve mat khau plaintext + reset_token
+{"id":2,"name":"Test User","email":"test@eshop.com","password":"Test1234!","role":"admin","login_attempts":0,"locked_until":null,"reset_token":null,"shipping_address":"1 Le Loi","phone":"0912345678"}
+
+----------------------------------------------------------------------
+### BUG-A1-03 [Medium] FR-04 — khong validate so dien thoai
+   phone="abc"          -> {"message":"Profile updated"}
+   phone="12345"        -> {"message":"Profile updated"}
+   phone="9912345678"   -> {"message":"Profile updated"}
+   phone=""             -> {"message":"Profile updated"}
+   phone="0912-345-678" -> {"message":"Profile updated"}
+   phone="+84912345678" -> {"message":"Profile updated"}
+
+----------------------------------------------------------------------
+### BUG-A1-04 [Medium] FR-04 — khong validate ho ten
+   name=""           -> {"message":"Profile updated"}
+   name="   "        -> {"message":"Profile updated"}
+   name="23127195"   -> {"message":"Profile updated"}
+
+----------------------------------------------------------------------
+### BUG-A1-05 [Medium] Cap nhat mot phan xoa trang cac truong khong gui
+   truoc:  
+           name='Baseline' phone='0912345678' addr='227 Nguyen Van Cu'
+   sau khi PUT chi gui {"name":"Chi doi ten"}:
+           name='Chi doi ten' phone=None addr=None
+
+----------------------------------------------------------------------
+### BUG-A2-01 [Critical] C4/SEC-02 — apply-coupon khong yeu cau dang nhap
+$ curl -X POST /api/apply-coupon  (KHONG kem Authorization)
+   HTTP 200
+{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}
+
+----------------------------------------------------------------------
+### BUG-A2-02 [Critical] Cong thuc percent sai -> giam gia AM
+   FR-09: discount = total x discount_value / 100 = 500000 x 10 / 100 = 50000
+   Ky vong: discount_amount=50000, final_amount=450000
+   Thuc te:
+{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}
+   -> khach hang phai tra 5.000.000 thay vi 450.000 (gap 11 lan gia goc)
+
+----------------------------------------------------------------------
+### BUG-A2-03 [High] C3 dung dau > thay vi >= (FR-09 ghi ro >=)
+   SAVE10 total=299999   (min=300000) -> {"error":"Đơn hàng chưa đủ giá trị tối thiểu 300,000 ₫ để áp dụng mã này"}
+   SAVE10 total=300000   (min=300000) -> {"error":"Đơn hàng chưa đủ giá trị tối thiểu 300,000 ₫ để áp dụng mã này"}
+   SAVE10 total=300001   (min=300000) -> {"success":true,"coupon_id":1,"discount_amount":-2700009,"final_amount":3000010,"message":"Áp dụng thành công! Gi�
+
+----------------------------------------------------------------------
+### BUG-A2-04/05 [High] C5 bi vo hieu khi bo user_id / muon luot nguoi khac
+   (da ghi 1 luot dung SAVE10 cho user id=2, max_uses_per_user=1)
+   co user_id=2      -> {"error":"Bạn đã sử dụng mã này 1 lần (đã đạt giới hạn)"}
+   BO user_id        -> {"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành c
+   user_id=1 (nguoi khac) -> {"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành c
+
+----------------------------------------------------------------------
+### BUG-A2-06 [Low] Thu tu kiem tra dieu kien: ma het han bao nham 'chua du nguong'
+   EXPIRED total=500000 (>= min 100000) -> {"error":"Mã giảm giá đã hết hạn"}
+   EXPIRED total=50000  (<  min 100000) -> {"error":"Đơn hàng chưa đủ giá trị tối thiểu 100,000 ₫ để áp dụng mã này"}
+
+----------------------------------------------------------------------
+### BUG-A2-07 [Low] Ma giam gia phan biet chu hoa/thuong
+   code=SAVE10 -> HTTP 200
+   code=save10 -> HTTP 404
+
+----------------------------------------------------------------------
+### BUG-A2-08 [Medium] Tran so voi total_amount lon
+{"success":true,"coupon_id":1,"discount_amount":-9000000000000000,"final_amount":10000000000000000,"message":"Áp dụng thành công! Giảm 10%"}
+
+----------------------------------------------------------------------
+### BUG-A3-01 [Critical] SEC-03 — nguoi dung THUONG import duoc san pham
+$ POST /api/admin/import-products voi JWT cua tai khoan role=user
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   -> san pham co hien tren cua hang cong khai khong?
+[{"id":6,"name":"HANG-GIA-DO-USER-CHEN-23127195","price":1,"description":"khong phai admin","imageUrl":"","category_id":1}]
+
+----------------------------------------------------------------------
+### BUG-A3-02 [High] FR-16 — import KHONG nguyen tu (khong rollback)
+   so san pham truoc : 6
+   gui 1 dong hop le + 1 dong THIEU name:
+{"message":"Import hoàn tất: 1/2 sản phẩm được thêm","inserted":1,"errors":["Hàng 3: Thiếu tên sản phẩm"]}
+   so san pham sau   : 7   (FR-16 yeu cau all-or-nothing -> phai bang 6)
+   dong hop le co con nam lai trong CSDL khong?
+[{"id":7,"name":"ATOMIC-OK-23127195","price":5000,"description":"","imageUrl":"","category_id":1}]
+
+----------------------------------------------------------------------
+### BUG-A3-03/04 [High] Khong validate price (0 / am / chuoi / thieu / null)
+   price=0                -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   price=-50000           -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   price="khong-phai-so"  -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   price=null             -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+
+----------------------------------------------------------------------
+### BUG-A3-05/08 [Medium] Khong kiem khoa ngoai category_id / am tham gan mac dinh
+   category_id=999   -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   category_id=0     -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   category_id=-1    -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   THIEU category_id  -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   -> danh muc thuc te duoc gan:
+     category_id = 1
+
+----------------------------------------------------------------------
+### BUG-A3-06/07 [Low] name toan khoang trang lot qua / khong gioi han 255 ky tu
+   name="     " -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+   name dai 300 ky tu -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+
+----------------------------------------------------------------------
+### BUG-A3-09 [High] Phan tu null trong mang gay CRASH 500 + lo stack trace HTML
+   HTTP 500
+   30 dong dau cua response body:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>TypeError: Cannot read properties of null (reading &#39;name&#39;)<br> &nbsp; &nbsp;at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:214:14<br> &nbsp; &nbsp;at Array.forEach (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:213:8<br> &nbsp; &nbsp;at Layer.handleRequest (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\layer.js:152:17)<br> &nbsp; &nbsp;at next (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\route.js:157:1
+
+----------------------------------------------------------------------
+### BUG-A3-10 [Low] Tran so voi price cuc lon
+   gia gui len : 1000000000000000000
+   gia luu lai : 1000000000000000000
+
+----------------------------------------------------------------------
+### BUG-A3-11 [Medium] imageUrl chap nhan giao thuc javascript: (vector stored XSS)
+   imageUrl luu lai: 'javascript:alert(document.cookie)'
+
+----------------------------------------------------------------------
+Hoan tat. Luu y: cac loi tren deu duoc phu boi test case tuong ung —
+doi chieu cot 'Ma loi' trong testcases/TESTCASES_23127195.xlsx.

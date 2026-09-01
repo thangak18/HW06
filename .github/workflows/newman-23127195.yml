@@ -1,0 +1,220 @@
+name: API Tests · 23127195 (HW06)
+
+# =============================================================================
+# Pipeline kiem thu API cho workspace 23127195 — HW06
+#
+# Mo hinh HAI TANG:
+#
+#   Tang 1 — baseline (BAT BUOC XANH, chan build)
+#       Chay cac collection "baseline_*", chi gom cac test case hien dang dat
+#       (liet ke trong 23127195/ci/baseline_allowlist.json). Neu mot trong so
+#       chung chuyen sang do nghia la vua co HOI QUY -> pipeline do.
+#
+#   Tang 2 — full-suite (THONG TIN, khong chan build)
+#       Chay ca 144 test case. SUT hien co 24 khiem khuyet nen tang nay luon do;
+#       muc dich la theo doi tien do sua loi, khong phai de chan merge.
+#       Neu bat tang nay chan build thi pipeline se luon do va mat het gia tri
+#       canh bao — do la ly do tach lam hai tang.
+#
+# SUT duoc clone va chay ngay trong runner tai http://localhost:3000.
+# =============================================================================
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '23127195/**'
+      - '.github/workflows/newman-23127195.yml'
+  pull_request:
+    paths:
+      - '23127195/**'
+  workflow_dispatch:
+
+env:
+  STUDENT_DIR: 23127195
+  SUT_REPO: https://github.com/ttbhanh/eshop-sut.git
+  BASE_URL: http://localhost:3000
+
+jobs:
+  api-tests:
+    name: Newman · EShop API
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout bai lam
+        uses: actions/checkout@v4
+
+      - name: Cai dat Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Clone SUT (EShop)
+        run: git clone --depth 1 "$SUT_REPO" "$RUNNER_TEMP/eshop-sut"
+
+      - name: Cai dat phu thuoc cua SUT
+        working-directory: ${{ runner.temp }}/eshop-sut/backend
+        run: npm install --no-audit --no-fund
+
+      - name: Khoi dong SUT
+        working-directory: ${{ runner.temp }}/eshop-sut/backend
+        run: |
+          node server.js > "$RUNNER_TEMP/sut-server.log" 2>&1 &
+          echo "Cho SUT san sang tai $BASE_URL ..."
+          for i in $(seq 1 60); do
+            if curl -sf -o /dev/null "$BASE_URL/api/products"; then
+              echo "SUT san sang sau ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::SUT khong khoi dong duoc trong 60s"
+          cat "$RUNNER_TEMP/sut-server.log"
+          exit 1
+
+      - name: Cai dat Newman
+        working-directory: ${{ env.STUDENT_DIR }}
+        run: npm install --no-audit --no-fund
+
+      - name: Kiem tra collection dong bo voi test case (chong lech nguon)
+        working-directory: ${{ env.STUDENT_DIR }}
+        run: |
+          python3 postman/scripts/build_collections.py
+          python3 postman/scripts/build_datadriven.py
+          python3 postman/scripts/build_baseline.py
+          if ! git diff --quiet -- postman/collections/; then
+            echo "::error::Collection trong repo khong khop voi testcases/*.json."
+            echo "Hay chay lai build_collections.py va commit ket qua."
+            git diff --stat -- postman/collections/
+            exit 1
+          fi
+          echo "Collection dong bo voi nguon test case."
+
+      # ------------------------------------------------------------------
+      # TANG 1 — cong chan hoi quy. Buoc nay DUOC PHEP lam do pipeline.
+      # ------------------------------------------------------------------
+      - name: 'Tang 1 · Baseline (bat buoc xanh)'
+        working-directory: ${{ env.STUDENT_DIR }}
+        run: |
+          mkdir -p newman/ci
+          FAILED=0
+          for c in baseline_api1_fr04_user_profile \
+                   baseline_api2_fr09_apply_coupon \
+                   baseline_api3_fr16_import_products; do
+            echo "::group::Baseline — $c"
+            npx newman run "postman/collections/$c.postman_collection.json" \
+              --environment postman/environments/eshop-local.postman_environment.json \
+              --env-var "baseUrl=$BASE_URL" \
+              --reporters cli,htmlextra,json,junit \
+              --reporter-cli-no-banner \
+              --reporter-htmlextra-export "newman/ci/$c.html" \
+              --reporter-htmlextra-title "CI Baseline · 23127195 · $c" \
+              --reporter-htmlextra-logs \
+              --reporter-json-export "newman/ci/$c.json" \
+              --reporter-junit-export "newman/ci/$c.xml" || FAILED=1
+            echo "::endgroup::"
+          done
+          exit $FAILED
+
+      # ------------------------------------------------------------------
+      # TANG 2 — bo test day du. Chi de tham khao, khong chan build.
+      # ------------------------------------------------------------------
+      - name: 'Tang 2 · Full suite (tham khao, khong chan build)'
+        if: always()
+        continue-on-error: true
+        working-directory: ${{ env.STUDENT_DIR }}
+        run: |
+          mkdir -p newman/ci
+          for pair in "api1:api1_fr04_user_profile" \
+                      "api2:api2_fr09_apply_coupon" \
+                      "api3:api3_fr16_import_products"; do
+            key="${pair%%:*}"; col="${pair#*:}"
+            echo "::group::Full suite — $key"
+            npx newman run "postman/collections/$col.postman_collection.json" \
+              --environment postman/environments/eshop-local.postman_environment.json \
+              --env-var "baseUrl=$BASE_URL" \
+              --reporters cli,htmlextra,json \
+              --reporter-cli-no-banner \
+              --reporter-htmlextra-export "newman/ci/full_$key.html" \
+              --reporter-htmlextra-title "CI Full Suite · 23127195 · $key" \
+              --reporter-htmlextra-logs \
+              --reporter-json-export "newman/ci/full_$key.json" || true
+            echo "::endgroup::"
+          done
+
+      # ------------------------------------------------------------------
+      # TANG 2b — cac lan chay data-driven (Collection Runner + data file)
+      # ------------------------------------------------------------------
+      - name: 'Tang 2b · Data-driven runs'
+        if: always()
+        continue-on-error: true
+        working-directory: ${{ env.STUDENT_DIR }}
+        run: |
+          mkdir -p newman/ci
+          for pair in "dd1_phone_partitions:api1_phone_partitions" \
+                      "dd2_coupon_decision_table:api2_coupon_decision_table" \
+                      "dd3_import_rows:api3_import_rows"; do
+            col="${pair%%:*}"; data="${pair#*:}"
+            echo "::group::Data-driven — $col"
+            npx newman run "postman/collections/$col.postman_collection.json" \
+              --environment postman/environments/eshop-local.postman_environment.json \
+              --env-var "baseUrl=$BASE_URL" \
+              --iteration-data "postman/data/$data.csv" \
+              --reporters cli,htmlextra,json \
+              --reporter-cli-no-banner \
+              --reporter-htmlextra-export "newman/ci/$col.html" \
+              --reporter-htmlextra-logs \
+              --reporter-json-export "newman/ci/$col.json" || true
+            echo "::endgroup::"
+          done
+
+      - name: Tong hop ket qua vao Job Summary
+        if: always()
+        working-directory: ${{ env.STUDENT_DIR }}
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import glob, json, os
+          print("## Ket qua kiem thu API — 23127195\n")
+          def block(title, pattern, note=""):
+              files = sorted(glob.glob(pattern))
+              if not files:
+                  print("_Khong co bao cao cho %s._\n" % title); return
+              print("### %s\n" % title)
+              if note: print("%s\n" % note)
+              print("| Collection | Request | Assertion | FAIL |")
+              print("|---|---|---|---|")
+              for f in files:
+                  try:
+                      st = json.load(open(f, encoding="utf-8"))["run"]["stats"]
+                  except Exception:
+                      continue
+                  print("| `%s` | %d | %d | %s |" % (
+                      os.path.basename(f).replace(".json", ""),
+                      st["requests"]["total"], st["assertions"]["total"],
+                      ("**%d**" % st["assertions"]["failed"]) if st["assertions"]["failed"] else "0"))
+              print()
+          block("Tang 1 — Baseline (cong chan hoi quy)", "newman/ci/baseline_*.json",
+                "Phai bang 0. Khac 0 nghia la co hoi quy.")
+          block("Tang 2 — Full suite (tham khao)", "newman/ci/full_*.json",
+                "SUT hien co 24 khiem khuyet da bao cao — xem `bugs/BUG_REPORTS.md`. "
+                "Cac FAIL o day la ket qua MONG DOI.")
+          block("Tang 2b — Data-driven runs", "newman/ci/dd*.json")
+          PY
+
+      - name: Tai len bao cao Newman
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-reports-23127195-${{ github.run_number }}
+          path: ${{ env.STUDENT_DIR }}/newman/ci/
+          retention-days: 30
+
+      - name: Tai len log cua SUT
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sut-server-log-${{ github.run_number }}
+          path: ${{ runner.temp }}/sut-server.log
+          retention-days: 7
+          if-no-files-found: ignore

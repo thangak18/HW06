@@ -37,3 +37,4 @@ pnpm-debug.log*
 # Office / Excel temporary lock files
 ~$*.xlsx
 ~$*.docx
+__pycache__/
