@@ -354,6 +354,13 @@
 - **Date & Time:** 2026-09-01 22:59:21+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 2D.1C: FR-10 Run 01 Reconciliation Correction + Auth Harness Repair
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2078, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2078, Output: Step 2129)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-044`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-044-fr10-run01-reconciliation-auth-harness-repair.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-044-fr10-run01-reconciliation-auth-harness-repair.md)
+### INT-045: Phase 2D.1D: FR-10 Controlled Newman Run 02
+- **Date & Time:** 2026-09-01 23:06:00+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Claude Sonnet 4.6 (Thinking)
+- **Purpose:** Phase 2D.1D: FR-10 Controlled Newman Run 02 (first execution with valid authentication)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2130, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-045`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-045-fr10-controlled-newman-run02.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-045-fr10-controlled-newman-run02.md)

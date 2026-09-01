@@ -1,0 +1,719 @@
+newman
+
+FR10_Order_State_Machine
+
+❏ 00 – Setup / Authentication Helpers
+↳ [SETUP] Register User B (Non-Owner) Account
+  POST http://localhost:3000/api/register [200 OK, 317B, 24ms]
+  ✓  User B Account Provisioned or Ready
+
+↳ [SETUP] Login Admin
+  POST http://localhost:3000/api/login [200 OK, 640B, 8ms]
+  ✓  Admin Login Successful
+
+↳ [SETUP] Login User A (Customer A - Owner)
+  POST http://localhost:3000/api/login [200 OK, 638B, 5ms]
+  ✓  User A Login Successful
+
+↳ [SETUP] Login User B (Customer B - Non-Owner)
+  POST http://localhost:3000/api/login [200 OK, 644B, 3ms]
+  ✓  User B Login Successful
+
+❏ 01 – Valid Forward & Lifecycle Transitions
+↳ [FR10-AI-001][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 312B, 7ms]
+  ✓  [FR10-AI-001][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-001][ACTION] Admin Confirms Pending Order (pending -> confirmed)
+  PUT http://localhost:3000/api/admin/orders/3/status [200 OK, 301B, 4ms]
+  ✓  [FR10-AI-001] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/3 [200 OK, 388B, 2ms]
+  ✓  [FR10-AI-001] - Persistence Verification State
+
+↳ [FR10-AI-002][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 312B, 3ms]
+  ✓  [FR10-AI-002][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-002][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/4/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-002][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-002][ACTION] Admin Dispatches Confirmed Order (confirmed -> shipping)
+  PUT http://localhost:3000/api/admin/orders/4/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-002] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/4 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-002] - Persistence Verification State
+
+↳ [FR10-AI-003][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 312B, 3ms]
+  ✓  [FR10-AI-003][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-003][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/5/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-003][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-003][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/5/status [200 OK, 301B, 5ms]
+  ✓  [FR10-AI-003][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-003][ACTION] Admin Delivers Shipping Order (shipping -> delivered)
+  PUT http://localhost:3000/api/admin/orders/5/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-003] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/5 [200 OK, 388B, 1ms]
+  ✓  [FR10-AI-003] - Persistence Verification State
+
+↳ [FR10-AI-004][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 312B, 3ms]
+  ✓  [FR10-AI-004][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-004][STEP-1] Linear Progression: pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/6/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-004] - Status & Semantic Assertion
+
+↳ [FR10-AI-004][STEP-2] Linear Progression: confirmed -> shipping
+  PUT http://localhost:3000/api/admin/orders/6/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-004] - Status & Semantic Assertion
+
+↳ [FR10-AI-004][STEP-3] Linear Progression: shipping -> delivered
+  PUT http://localhost:3000/api/admin/orders/6/status [200 OK, 301B, 4ms]
+  ✓  [FR10-AI-004] - Status & Semantic Assertion
+
+↳ [FR10-AI-004][VERIFY] Read Terminal State: GET delivered
+  GET http://localhost:3000/api/orders/6 [200 OK, 388B, 1ms]
+  ✓  [FR10-AI-004] - Status & Semantic Assertion
+
+❏ 02 – Order Cancellation Pathways
+↳ [FR10-AI-005][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 312B, 3ms]
+  ✓  [FR10-AI-005][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-005][ACTION] Customer Cancellation on Pending Order
+  PUT http://localhost:3000/api/orders/7/cancel [200 OK, 308B, 2ms]
+  ✓  [FR10-AI-005] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/7 [200 OK, 387B, 2ms]
+  ✓  [FR10-AI-005] - Persistence Verification State
+
+↳ [FR10-AI-006][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 312B, 2ms]
+  ✓  [FR10-AI-006][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-006][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/8/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-006][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-006][ACTION] Customer Cancellation on Confirmed Order
+  PUT http://localhost:3000/api/orders/8/cancel [200 OK, 308B, 2ms]
+  ✓  [FR10-AI-006] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/8 [200 OK, 387B, 0µs]
+  ✓  [FR10-AI-006] - Persistence Verification State
+
+↳ [FR10-AI-007][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 312B, 3ms]
+  ✓  [FR10-AI-007][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-007][ACTION] Admin Status Cancellation on Pending Order
+  PUT http://localhost:3000/api/admin/orders/9/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-007] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/9 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-007] - Persistence Verification State
+
+↳ [FR10-AI-008][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-008][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-008][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/10/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-008][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-008][ACTION] Admin Status Cancellation on Confirmed Order
+  PUT http://localhost:3000/api/admin/orders/10/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-008] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/10 [200 OK, 388B, 0µs]
+  ✓  [FR10-AI-008] - Persistence Verification State
+
+❏ 03 – Invalid Forward Skips & Backward Regressions
+↳ [FR10-AI-009][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-009][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-009][ACTION] Invalid Skip: Admin Attempts pending -> shipping
+  PUT http://localhost:3000/api/admin/orders/11/status [400 Bad Request, 337B, 2ms]
+  ✓  [FR10-AI-009] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/11 [200 OK, 387B, 0µs]
+  ✓  [FR10-AI-009] - Persistence Verification State
+
+↳ [FR10-AI-010][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-010][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-010][ACTION] Invalid Skip: Admin Attempts pending -> delivered
+  PUT http://localhost:3000/api/admin/orders/12/status [400 Bad Request, 338B, 1ms]
+  ✓  [FR10-AI-010] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/12 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-010] - Persistence Verification State
+
+↳ [FR10-AI-011][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-011][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-011][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/13/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-011][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-011][ACTION] Invalid Skip: Admin Attempts confirmed -> delivered
+  PUT http://localhost:3000/api/admin/orders/13/status [400 Bad Request, 340B, 1ms]
+  ✓  [FR10-AI-011] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/13 [200 OK, 389B, 0µs]
+  ✓  [FR10-AI-011] - Persistence Verification State
+
+↳ [FR10-AI-013][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-013][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-013][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/14/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-013][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-013][ACTION] Invalid Regression: Admin Attempts confirmed -> pending
+  PUT http://localhost:3000/api/admin/orders/14/status [400 Bad Request, 338B, 2ms]
+  ✓  [FR10-AI-013] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/14 [200 OK, 389B, 1ms]
+  ✓  [FR10-AI-013] - Persistence Verification State
+
+↳ [FR10-AI-014][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-014][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-014][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/15/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-014][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-014][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/15/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-014][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-014][ACTION] Invalid Regression: Admin Attempts shipping -> confirmed
+  PUT http://localhost:3000/api/admin/orders/15/status [400 Bad Request, 339B, 1ms]
+  ✓  [FR10-AI-014] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/15 [200 OK, 388B, 1ms]
+  ✓  [FR10-AI-014] - Persistence Verification State
+
+↳ [FR10-AI-015][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-015][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-015][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/16/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-015][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-015][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/16/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-015][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-015][ACTION] Invalid Regression: Admin Attempts shipping -> pending
+  PUT http://localhost:3000/api/admin/orders/16/status [400 Bad Request, 337B, 1ms]
+  ✓  [FR10-AI-015] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/16 [200 OK, 388B, 2ms]
+  ✓  [FR10-AI-015] - Persistence Verification State
+
+↳ [FR10-AI-016][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-016][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-016][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/17/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-016][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-016][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/17/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-016][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-016][ACTION] Customer Cancel on In-Transit Order (rejected)
+  PUT http://localhost:3000/api/orders/17/cancel [200 OK, 308B, 2ms]
+  1. [FR10-AI-016] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/17 [200 OK, 388B, 1ms]
+  2. [FR10-AI-016] - Persistence Verification State
+
+❏ 04 – Terminal-State Immutability
+↳ [FR10-AI-017][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-017][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-017][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/18/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-017][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-017][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/18/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-017][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-017][SETUP-DELIVER] Transition to delivered
+  PUT http://localhost:3000/api/admin/orders/18/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-017][SETUP-DELIVER] Prerequisite Transition to delivered
+
+↳ [FR10-AI-017][ACTION] Terminal Immutability: delivered -> pending
+  PUT http://localhost:3000/api/admin/orders/18/status [400 Bad Request, 338B, 1ms]
+  ✓  [FR10-AI-017] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/18 [200 OK, 389B, 0µs]
+  ✓  [FR10-AI-017] - Persistence Verification State
+
+↳ [FR10-AI-018][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-018][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-018][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/19/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-018][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-018][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/19/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-018][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-018][SETUP-DELIVER] Transition to delivered
+  PUT http://localhost:3000/api/admin/orders/19/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-018][SETUP-DELIVER] Prerequisite Transition to delivered
+
+↳ [FR10-AI-018][ACTION] Terminal Immutability: delivered -> confirmed
+  PUT http://localhost:3000/api/admin/orders/19/status [400 Bad Request, 340B, 1ms]
+  ✓  [FR10-AI-018] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/19 [200 OK, 389B, 1ms]
+  ✓  [FR10-AI-018] - Persistence Verification State
+
+↳ [FR10-AI-019][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-019][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-019][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/20/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-019][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-019][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/20/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-019][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-019][SETUP-DELIVER] Transition to delivered
+  PUT http://localhost:3000/api/admin/orders/20/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-019][SETUP-DELIVER] Prerequisite Transition to delivered
+
+↳ [FR10-AI-019][ACTION] Terminal Immutability: delivered -> shipping
+  PUT http://localhost:3000/api/admin/orders/20/status [400 Bad Request, 339B, 1ms]
+  ✓  [FR10-AI-019] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/20 [200 OK, 389B, 0µs]
+  ✓  [FR10-AI-019] - Persistence Verification State
+
+↳ [FR10-AI-020][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-020][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-020][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/21/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-020][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-020][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/21/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-020][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-020][SETUP-DELIVER] Transition to delivered
+  PUT http://localhost:3000/api/admin/orders/21/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-020][SETUP-DELIVER] Prerequisite Transition to delivered
+
+↳ [FR10-AI-020][ACTION] Terminal Immutability: delivered -> canceled
+  PUT http://localhost:3000/api/admin/orders/21/status [400 Bad Request, 339B, 1ms]
+  ✓  [FR10-AI-020] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/21 [200 OK, 389B, 1ms]
+  ✓  [FR10-AI-020] - Persistence Verification State
+
+↳ [FR10-AI-021][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-021][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-021][SETUP-CANCEL] Cancel Order to canceled
+  PUT http://localhost:3000/api/orders/22/cancel [200 OK, 308B, 2ms]
+  ✓  [FR10-AI-021][SETUP-CANCEL] Prerequisite User Cancel to canceled
+
+↳ [FR10-AI-021][ACTION] Terminal Immutability: canceled -> pending
+  PUT http://localhost:3000/api/admin/orders/22/status [400 Bad Request, 337B, 1ms]
+  ✓  [FR10-AI-021] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/22 [200 OK, 388B, 0µs]
+  ✓  [FR10-AI-021] - Persistence Verification State
+
+↳ [FR10-AI-022][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-022][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-022][SETUP-CANCEL] Cancel Order to canceled
+  PUT http://localhost:3000/api/orders/23/cancel [200 OK, 308B, 3ms]
+  ✓  [FR10-AI-022][SETUP-CANCEL] Prerequisite User Cancel to canceled
+
+↳ [FR10-AI-022][ACTION] Terminal Immutability: canceled -> confirmed
+  PUT http://localhost:3000/api/admin/orders/23/status [400 Bad Request, 339B, 1ms]
+  ✓  [FR10-AI-022] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/23 [200 OK, 388B, 1ms]
+  ✓  [FR10-AI-022] - Persistence Verification State
+
+↳ [FR10-AI-023][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-023][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-023][SETUP-CANCEL] Cancel Order to canceled
+  PUT http://localhost:3000/api/orders/24/cancel [200 OK, 308B, 2ms]
+  ✓  [FR10-AI-023][SETUP-CANCEL] Prerequisite User Cancel to canceled
+
+↳ [FR10-AI-023][ACTION] Terminal Immutability: canceled -> shipping
+  PUT http://localhost:3000/api/admin/orders/24/status [400 Bad Request, 338B, 1ms]
+  ✓  [FR10-AI-023] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/24 [200 OK, 388B, 0µs]
+  ✓  [FR10-AI-023] - Persistence Verification State
+
+↳ [FR10-AI-024][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-024][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-024][SETUP-CANCEL] Cancel Order to canceled
+  PUT http://localhost:3000/api/orders/25/cancel [200 OK, 308B, 3ms]
+  ✓  [FR10-AI-024][SETUP-CANCEL] Prerequisite User Cancel to canceled
+
+↳ [FR10-AI-024][ACTION] Terminal Immutability: canceled -> delivered
+  PUT http://localhost:3000/api/admin/orders/25/status [200 OK, 301B, 2ms]
+  3. [FR10-AI-024] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/25 [200 OK, 389B, 1ms]
+  4. [FR10-AI-024] - Persistence Verification State
+
+❏ 05 – SEC-02 Authentication Invariants
+↳ [FR10-AI-025][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-025][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-025][ACTION] SEC-02: Missing Authorization on Admin Status
+  PUT http://localhost:3000/api/admin/orders/26/status [401 Unauthorized, 301B, 1ms]
+  ✓  [FR10-AI-025] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/26 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-025] - Persistence Verification State
+
+↳ [FR10-AI-026][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-026][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-026][ACTION] SEC-02: Malformed Bearer on Admin Status
+  PUT http://localhost:3000/api/admin/orders/27/status [403 Forbidden, 295B, 1ms]
+  5. [FR10-AI-026] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/27 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-026] - Persistence Verification State
+
+↳ [FR10-AI-027][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-027][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-027][ACTION] SEC-02: Untrusted Signature on Admin Status
+  PUT http://localhost:3000/api/admin/orders/28/status [403 Forbidden, 295B, 1ms]
+  6. [FR10-AI-027] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/28 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-027] - Persistence Verification State
+
+↳ [FR10-AI-028][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-028][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-028][ACTION] SEC-02: Missing Authorization on Customer Cancel
+  PUT http://localhost:3000/api/orders/29/cancel [401 Unauthorized, 301B, 1ms]
+  ✓  [FR10-AI-028] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/29 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-028] - Persistence Verification State
+
+↳ [FR10-AI-029][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-029][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-029][ACTION] SEC-02: Malformed Bearer on Customer Cancel
+  PUT http://localhost:3000/api/orders/30/cancel [403 Forbidden, 295B, 1ms]
+  7. [FR10-AI-029] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/30 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-029] - Persistence Verification State
+
+❏ 06 – SEC-03 Role-Based Access Control (RBAC)
+↳ [FR10-AI-030][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-030][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-030][ACTION] SEC-03: Customer Token on Admin Status
+  PUT http://localhost:3000/api/admin/orders/31/status [200 OK, 301B, 2ms]
+  8. [FR10-AI-030] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/31 [200 OK, 389B, 1ms]
+  9. [FR10-AI-030] - Persistence Verification State
+
+↳ [FR10-AI-031][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-031][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-031][ACTION] SEC-03: Admin Token on Customer Cancel
+  PUT http://localhost:3000/api/orders/32/cancel [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-031] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/32 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-031] - Persistence Verification State
+
+↳ [FR10-AI-032][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-032][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-032][ACTION] SEC-03: Guest Token on Admin Status
+  PUT http://localhost:3000/api/admin/orders/33/status [403 Forbidden, 295B, 1ms]
+  ✓  [FR10-AI-032] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/33 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-032] - Persistence Verification State
+
+❏ 07 – Cross-User Ownership & Partial Authorization
+↳ [FR10-AI-033][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-033][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-033][ACTION] Customer B Probes Cancellation on Customer A Pending Order
+  PUT http://localhost:3000/api/orders/34/cancel [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-033] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/34 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-033] - Persistence Verification State
+
+↳ [FR10-AI-034][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-034][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-034][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/35/status [200 OK, 301B, 3ms]
+  ✓  [FR10-AI-034][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-034][ACTION] Customer B Probes Cancellation on Customer A Confirmed Order
+  PUT http://localhost:3000/api/orders/35/cancel [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-034] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/35 [200 OK, 389B, 1ms]
+  ✓  [FR10-AI-034] - Persistence Verification State
+
+❏ 08 – Status Enum & Order-ID Input Domain
+↳ [FR10-AI-035][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-035][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-035][ACTION] Input Domain: Undocumented Enum ('processing')
+  PUT http://localhost:3000/api/admin/orders/36/status [400 Bad Request, 339B, 1ms]
+  ✓  [FR10-AI-035] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/36 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-035] - Persistence Verification State
+
+↳ [FR10-AI-036][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-036][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-036][ACTION] Input Domain: Missing Mandatory 'status' Key
+  PUT http://localhost:3000/api/admin/orders/37/status [400 Bad Request, 338B, 1ms]
+  ✓  [FR10-AI-036] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/37 [200 OK, 387B, 0µs]
+  ✓  [FR10-AI-036] - Persistence Verification State
+
+↳ [FR10-AI-037][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-037][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-037][ACTION] Input Domain: Explicit Null Status
+  PUT http://localhost:3000/api/admin/orders/38/status [400 Bad Request, 333B, 1ms]
+  ✓  [FR10-AI-037] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/38 [200 OK, 387B, 1ms]
+  ✓  [FR10-AI-037] - Persistence Verification State
+
+↳ [FR10-AI-038][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-AI-038][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-038][ACTION] Input Domain: Numeric Status Type
+  PUT http://localhost:3000/api/admin/orders/39/status [400 Bad Request, 332B, 1ms]
+  ✓  [FR10-AI-038] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/39 [200 OK, 387B, 0µs]
+  ✓  [FR10-AI-038] - Persistence Verification State
+
+↳ [FR10-AI-039][ACTION] Admin Mutation on Non-Existent ID (:id = 999999)
+  PUT http://localhost:3000/api/admin/orders/999999/status [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-039] - Status & Semantic Assertion
+
+↳ [FR10-AI-040][ACTION] Admin Mutation on Malformed Non-Numeric ID (:id = 'not-an-id')
+  PUT http://localhost:3000/api/admin/orders/not-an-id/status [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-040] - Status & Semantic Assertion
+
+❏ 09 – Response Schema, Persistence & SEC-05
+↳ [FR10-AI-041][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-AI-041][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-041][ACTION] Mutate Order pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/40/status [200 OK, 301B, 2ms]
+  ✓  [FR10-AI-041] - Status & Semantic Assertion
+
+↳ [FR10-AI-041][VERIFY] Query Mutated Order: GET confirmed
+  GET http://localhost:3000/api/orders/40 [200 OK, 389B, 1ms]
+  ✓  [FR10-AI-041] - Status & Semantic Assertion
+
+↳ [FR10-AI-042][ACTION] SEC-05: Black-Box SQLi Probe on Status Route
+  PUT http://localhost:3000/api/admin/orders/1' OR '1'='1/status [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-042] - Status & Semantic Assertion
+
+❏ 10 – Human-Designed Extension Cases
+↳ [FR10-HUM-001][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-HUM-001][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-001][ACTION-1] Illegal Skip: pending -> shipping (rejected)
+  PUT http://localhost:3000/api/admin/orders/41/status [400 Bad Request, 337B, 2ms]
+  ✓  [FR10-HUM-001] - Status & Semantic Assertion
+
+↳ [FR10-HUM-001][VERIFY-1] Verify Order Remains pending
+  GET http://localhost:3000/api/orders/41 [200 OK, 387B, 1ms]
+  ✓  [FR10-HUM-001] - Status & Semantic Assertion
+
+↳ [FR10-HUM-001][ACTION-2] Legal Admin Transition: pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/41/status [200 OK, 301B, 3ms]
+  ✓  [FR10-HUM-001] - Status & Semantic Assertion
+
+↳ [FR10-HUM-001][VERIFY-2] Verify Order Successfully Reached confirmed
+  GET http://localhost:3000/api/orders/41 [200 OK, 389B, 0µs]
+  ✓  [FR10-HUM-001] - Status & Semantic Assertion
+
+↳ [FR10-HUM-002][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-HUM-002][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-002][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-HUM-002][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-002][ACTION] Mutate Order A: pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/42/status [200 OK, 301B, 4ms]
+  ✓  [FR10-HUM-002] - Status & Semantic Assertion
+
+↳ [FR10-HUM-002][VERIFY-A] Verify Order A Is confirmed
+  GET http://localhost:3000/api/orders/42 [200 OK, 389B, 0µs]
+  ✓  [FR10-HUM-002] - Status & Semantic Assertion
+
+↳ [FR10-HUM-002][VERIFY-B] Verify Independent Order B Remains pending
+  GET http://localhost:3000/api/orders/43 [200 OK, 387B, 1ms]
+  ✓  [FR10-HUM-002] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [FR10-HUM-003][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-003][ACTION-1] Admin Transitions: pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/44/status [200 OK, 301B, 3ms]
+  ✓  [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][ACTION-2] Admin Transitions: confirmed -> shipping
+  PUT http://localhost:3000/api/admin/orders/44/status [200 OK, 301B, 2ms]
+  ✓  [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][ACTION-3] Owner User Attempts Cancel During Shipping (rejected)
+  PUT http://localhost:3000/api/orders/44/cancel [200 OK, 308B, 2ms]
+ 10. [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][VERIFY-1] Verify State Remains shipping
+  GET http://localhost:3000/api/orders/44 [200 OK, 388B, 1ms]
+ 11. [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][ACTION-4] Admin Transitions: shipping -> delivered (succeeds)
+  PUT http://localhost:3000/api/admin/orders/44/status [200 OK, 301B, 3ms]
+  ✓  [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][VERIFY-2] Verify Final Fulfilled State: delivered
+  GET http://localhost:3000/api/orders/44 [200 OK, 389B, 0µs]
+  ✓  [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-004][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-HUM-004][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-004][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/45/status [200 OK, 301B, 3ms]
+  ✓  [FR10-HUM-004][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-HUM-004][ACTION] Same-State Self-Loop Probe: confirmed -> confirmed
+  PUT http://localhost:3000/api/admin/orders/45/status [400 Bad Request, 340B, 1ms]
+  ✓  [FR10-HUM-004] - Status & Semantic Assertion
+
+↳ [FR10-HUM-005][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [FR10-HUM-005][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-005][ACTION] Non-JSON Media Type Robustness Probe
+  PUT http://localhost:3000/api/admin/orders/46/status [500 Internal Server Error, 1.53kB, 1ms]
+  ✓  [FR10-HUM-005] - Status & Semantic Assertion
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │             175 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │             139 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │             183 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │             175 │              11 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 1957ms                                  │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 12.92kB (approx)                       │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 2ms [min: 1ms, max: 24ms, s.d.: 2ms] │
+└─────────────────────────────────────────────────────────────┘
+
+   #  failure         detail                                                                                                                            
+                                                                                                                                                        
+ 01.  AssertionError  [FR10-AI-016] - Status & Semantic Assertion                                                                                       
+                      expected 200 to be one of [ 400, 422, 403, 404 ]                                                                                  
+                      at assertion:0 in test-script                                                                                                     
+                      inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-016][ACTION] Customer Cancel on In-Transit Order (rejected)" 
+                                                                                                                                                        
+ 02.  AssertionError  [FR10-AI-016] - Persistence Verification State                                                                                    
+                      expected 'canceled' to deeply equal 'shipping'                                                                                    
+                      at assertion:1 in test-script                                                                                                     
+                      inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-016][ACTION] Customer Cancel on In-Transit Order (rejected)" 
+                                                                                                                                                        
+ 03.  AssertionError  [FR10-AI-024] - Status & Semantic Assertion                                                                                       
+                      expected 200 to be one of [ 400, 422, 403, 404 ]                                                                                  
+                      at assertion:0 in test-script                                                                                                     
+                      inside "04 – Terminal-State Immutability / [FR10-AI-024][ACTION] Terminal Immutability: canceled -> delivered"                    
+                                                                                                                                                        
+ 04.  AssertionError  [FR10-AI-024] - Persistence Verification State                                                                                    
+                      expected 'delivered' to deeply equal 'canceled'                                                                                   
+                      at assertion:1 in test-script                                                                                                     
+                      inside "04 – Terminal-State Immutability / [FR10-AI-024][ACTION] Terminal Immutability: canceled -> delivered"                    
+                                                                                                                                                        
+ 05.  AssertionError  [FR10-AI-026] - Status & Semantic Assertion                                                                                       
+                      expected 403 to deeply equal 401                                                                                                  
+                      at assertion:0 in test-script                                                                                                     
+                      inside "05 – SEC-02 Authentication Invariants / [FR10-AI-026][ACTION] SEC-02: Malformed Bearer on Admin Status"                   
+                                                                                                                                                        
+ 06.  AssertionError  [FR10-AI-027] - Status & Semantic Assertion                                                                                       
+                      expected 403 to deeply equal 401                                                                                                  
+                      at assertion:0 in test-script                                                                                                     
+                      inside "05 – SEC-02 Authentication Invariants / [FR10-AI-027][ACTION] SEC-02: Untrusted Signature on Admin Status"                
+                                                                                                                                                        
+ 07.  AssertionError  [FR10-AI-029] - Status & Semantic Assertion                                                                                       
+                      expected 403 to deeply equal 401                                                                                                  
+                      at assertion:0 in test-script                                                                                                     
+                      inside "05 – SEC-02 Authentication Invariants / [FR10-AI-029][ACTION] SEC-02: Malformed Bearer on Customer Cancel"                
+                                                                                                                                                        
+ 08.  AssertionError  [FR10-AI-030] - Status & Semantic Assertion                                                                                       
+                      expected 200 to be one of [ 403, 401, 404 ]                                                                                       
+                      at assertion:0 in test-script                                                                                                     
+                      inside "06 – SEC-03 Role-Based Access Control (RBAC) / [FR10-AI-030][ACTION] SEC-03: Customer Token on Admin Status"              
+                                                                                                                                                        
+ 09.  AssertionError  [FR10-AI-030] - Persistence Verification State                                                                                    
+                      expected 'confirmed' to deeply equal 'pending'                                                                                    
+                      at assertion:1 in test-script                                                                                                     
+                      inside "06 – SEC-03 Role-Based Access Control (RBAC) / [FR10-AI-030][ACTION] SEC-03: Customer Token on Admin Status"              
+                                                                                                                                                        
+ 10.  AssertionError  [FR10-HUM-003] - Status & Semantic Assertion                                                                                      
+                      expected 200 to be one of [ 400, 422, 403, 404 ]                                                                                  
+                      at assertion:0 in test-script                                                                                                     
+                      inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][ACTION-3] Owner User Attempts Cancel During Shipping (rejected)"     
+                                                                                                                                                        
+ 11.  AssertionError  [FR10-HUM-003] - Status & Semantic Assertion                                                                                      
+                      expected 'canceled' to deeply equal 'shipping'                                                                                    
+                      at assertion:0 in test-script                                                                                                     
+                      inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][VERIFY-1] Verify State Remains shipping"                             

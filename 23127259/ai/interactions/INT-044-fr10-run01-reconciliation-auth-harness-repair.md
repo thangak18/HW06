@@ -600,12 +600,74 @@ PHASE 2D.1D – FR-10 CONTROLLED NEWMAN RUN 02
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2D.1C FR-10 Run 01 Reconciliation + Auth Repair Report
+
+## AI Audit
+- **INT-043 Output Backfilled:** `INT-043-fr10-controlled-newman-run01.md`
+- **INT-044 Prompt Stored:** `INT-044-fr10-run01-reconciliation-auth-harness-repair.md` & `AI_PROMPT_LOG.md`
+- **INT-044 Output Pending:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`
+
+## Run 01 Raw Evidence
+| Artifact | SHA-256 |
+|---|---|
+| **CLI** | `368d24e3ff788f4e0b07d9b1df542554be786098154f9abe0b8ab222cad8a25f` – UNCHANGED |
+| **JSON** | `d893515103fffbcc5cd4e8ad31981464893f42c43ceb07a0c6daff1760969d67` – UNCHANGED |
+| **HTML** | `569c8c2e0111075fb82dc10e1fb553be9e45bee0a04d78d586544b08c40ec6a4` – UNCHANGED |
+
+## Run 01 Root Cause
+- **Admin login actual runtime URL:** `POST http://localhost:3000/api/auth/login` → HTTP 404
+- **User A login actual runtime URL:** `POST http://localhost:3000/api/auth/login` → HTTP 404
+- **User B login actual runtime URL:** `POST http://localhost:3000/api/auth/login` → HTTP 404
+- **Artifact/Report Synchronization Defect Confirmed:** YES (path array `["api","auth","login"]` persisted in collection JSON despite smoke-level claim of repair)
+
+## Corrected Formal Reconciliation
+- **Formal Cases:** `46`
+- **PASS:** `0`
+- **BLOCKED – HARNESS/SETUP:** `46`
+- **FAIL – EXPECTED ORACLE VIOLATION:** `0`
+- **EXPLORATORY OBSERVATION:** `0`
+
+## AI-025 / AI-028
+- **Fixture Precondition Established:** NO
+- **Previous PASS Reclassified:** BLOCKED – HARNESS/SETUP
+- **Reason:** 401 before resource creation is middleware short-circuit, not valid oracle evaluation
+
+## Auth Harness Repair
+- **Executable `/api/auth/login` occurrences before:** 3
+- **Executable `/api/auth/login` occurrences after:** 0
+- **`/api/login` helpers:** 3 (Admin, User A, User B)
+- **Parser output:** Fixed 3 items; zero stale path occurrences remain
+
+## Auth Preflight
+
+| Actor | Route | HTTP | Token Present | JWT Role |
+|---|---|---|---|---|
+| **Admin** | `/api/login` | `200 OK` | **YES** | **admin** |
+| **User A** | `/api/login` | `200 OK` | **YES** | **user** |
+| **User B** | `/api/login` | `200 OK` | **YES** | **user** |
+
+## Validators
+| Validator | Result |
+|---|---|
+| `validate_fr10_fixture_isolation.py` | PASS (10/10) |
+| `validate_fr10_actor_readiness.py` | PASS (10/10) |
+| `validate_fr10_auth_harness.py` | PASS (10/10) |
+
+## Run02 Artifact
+- **`RUN02_COLLECTION_SHA256`:** `2ab6debf99a33b4a3886ca6307a3dd6e5ad583ab45090581c4768e8a710cd1f1`
+
+## Execution
+- **Run 02 Executed:** NO
+
+## Git
+- **Commit SHA:** `a7e2f8d` (`fix(23127259): repair FR-10 Newman auth harness`)
+- **Push Result:** Pushed to `origin/thang/hw06-implementation`
+- **Working Tree:** Clean
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Conducting Phase 2D.1C: (1) Preserving Run 01 raw evidence and verifying SHA-256 hashes, (2) Root-cause analysis of Folder 00 `/api/auth/login` mismatch and artifact sync defect, (3) Correcting formal reconciliation for Run 01 to 46 BLOCKED, (4) Repairing collection login routes to `/api/login`, (5) Creating `validate_fr10_auth_harness.py`, (6) Running minimal 3-request auth preflight.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** COMPLETED. Phase 2D.1C: (1) Run 01 raw evidence hashes verified immutable; (2) Root cause proven from JSON: login helpers executed `/api/auth/login` (404), artifact sync defect confirmed and documented in `FR10_RUN01_HARNESS_ROOT_CAUSE.md`; (3) All 46 formal cases correctly reclassified to `BLOCKED – HARNESS/SETUP` (incl. AI-025, AI-028 reclassified from erroneous PASS, HUM-004/005 reclassified from exploratory); (4) Collection login path arrays repaired (`["api","auth","login"]` → `["api","login"]`); (5) `validate_fr10_auth_harness.py` created and passes 10/10 gates; (6) Auth preflight confirmed all 3 actors receive valid tokens with correct JWT roles. Ready for Phase 2D.1D Newman Run 02.
+- **Status:** COMPLETED & COMMITTED (`a7e2f8d`).

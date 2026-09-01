@@ -23994,3 +23994,66 @@ Next phase ONLY IF all gates PASS:
 PHASE 2D.1D – FR-10 CONTROLLED NEWMAN RUN 02
 ```
 
+---
+
+## INT-045
+
+- **Interaction ID:** INT-045
+- **Date & Time:** 2026-09-01 23:06:00+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Claude Sonnet 4.6 (Thinking)
+- **Stage:** Phase 2D.1D – FR-10 Controlled Newman Run 02
+- **Detailed Interaction File:** `ai/interactions/INT-045-fr10-controlled-newman-run02.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit We are authorized to execute:
+
+PHASE 2D.1D – FR-10 CONTROLLED NEWMAN RUN 02
+
+Current auth-harness repair commit:
+
+a7e2f8d
+
+Frozen Run 02 collection SHA-256:
+
+2ab6debf99a33b4a3886ca6307a3dd6e5ad583ab45090581c4768e8a710cd1f1
+
+Current formal executable suite:
+
+41 usable AI-derived
++
+5 Human Extensions
+=
+46 FORMAL CASES
+
+Rejected raw AI:
+
+FR10-AI-012
+
+Run 01 remains immutable historical evidence and was correctly reconciled as:
+
+PASS: 0
+BLOCKED - HARNESS/SETUP: 46
+FAIL - ORACLE VIOLATION: 0
+EXPLORATORY OBSERVATION: 0
+
+Run 02 is the FIRST execution intended to evaluate the formal FR-10 business,
+security, and exploratory oracles with valid authentication and fixture setup.
+
+Do NOT perform Run 03 in this interaction.
+
+Do NOT file GitHub Issues yet.
+
+[1. AI AUDIT NUMBERING through 42. END REPORT - full 42-section prompt]
+Sections: INT-044 backfill, preserve Run 01, collection integrity, raw AI integrity,
+static validators, environment cleanliness, auth helpers, Run 02 evidence files,
+execute Newman exactly once, no mid-run repair, formal result model,
+precondition establishment, formal pass rule, valid FSM cases, cancellation cases,
+invalid FSM cases, SEC-02 cases, SEC-03 RBAC cases, AI-033/034, input domain cases,
+AI-041, AI-042, HUM-001..005, pm.sendRequest verification, request errors,
+formal results artifact, failure analysis, candidate defect clustering, cascade analysis,
+execution metrics, formal accounting, Run 02 evidence hashes, HTML/hostname validation,
+execution summary, no repair in interaction, no bug filing, git commit, end report.
+```
+
