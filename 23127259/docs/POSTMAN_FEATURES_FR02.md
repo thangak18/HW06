@@ -1,55 +1,56 @@
-# Postman Features & Architecture Document – FR-02
+# Postman Collection Architecture & Advanced Features: FR-02
 
 - **Feature ID:** FR-02 – Login and Account Lockout (Pool A)
 - **Primary Endpoint:** `POST /api/login`
 - **Student Name:** Nguyễn Tấn Thắng (23127259)
-- **Repository:** `thangak18/HW06`
-- **Branch:** `thang/hw06-implementation`
+- **Collection File:** [`23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json)
+- **Environment File:** [`23127259/postman/environments/FR02-local.postman_environment.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/environments/FR02-local.postman_environment.json)
 
 ---
 
-## 1. Postman Features Utilized in Phase 1D
+## 1. Advanced Postman Capabilities Implemented
 
-This collection leverages standard, advanced Postman capabilities to achieve modularity, security, and traceability:
+### 1.1 Collection-Level Pre-Request Script
+Enforces mandatory student identification header on 100% of outgoing requests:
+```javascript
+var studentId = pm.environment.get('studentId') || '23127259';
+pm.request.headers.upsert({
+    key: 'X-Student-Id',
+    value: studentId
+});
+```
 
-### 1.1 Hierarchical Collection Organization
-- **Structured Folders:** The collection is structured into 7 logical folders:
-  - `00 – Setup Helpers` (Deterministic account provisioning)
-  - `01 – Positive Authentication` (Baseline login contracts)
-  - `02 – Domain and Negative Inputs` (Equivalence partitions & missing/null inputs)
-  - `03 – Lockout Boundary and State Progression` (N=1, N=2, N=3, active lock, timing)
-  - `04 – Security and Token Integrity` (SQLi probes, response sanitization, JWT usability)
-  - `05 – Schema and Contract Validation` (JSON structure, transport contracts)
-  - `06 – Human Extensions` (Method enforcement, multi-vector SQLi, N=2 reset, account isolation, non-JSON MIME)
+### 1.2 Dynamic Run-to-Run State Isolation
+In `00 – Setup Helpers`, each run dynamically generates a unique `runId` timestamp ensuring completely fresh test accounts and zero state interference between executions:
+```javascript
+if (!pm.environment.get("runId")) {
+    var runId = Date.now().toString().slice(-6);
+    pm.environment.set("runId", runId);
+    pm.environment.set("userEmail", "user_" + runId + "@eshop.com");
+    pm.environment.set("adminEmail", "admin_" + runId + "@eshop.com");
+    pm.environment.set("lockoutEmail", "lockout_" + runId + "@eshop.com");
+    // ...
+}
+```
 
-### 1.2 Multi-Tier Variable Scoping
-- **Environment Variables (`FR02-local`):** Stores `baseUrl`, `studentId`, dedicated email fixtures, passwords, and dynamic tokens.
-- **Dynamic Variables:** Employs `{{$timestamp}}` and `{{$randomInt}}` for generating unique collision-free test data.
-- **Runtime Variables:** Captures generated tokens dynamically (`pm.environment.set("userToken", data.token)`) for downstream usability checks without hardcoding secret keys.
+### 1.3 Asynchronous Chaining with `pm.sendRequest`
+Complex multi-step state progression tests (such as consecutive failure sequences in `FR02-AI-023` and `FR02-HUM-003` and isolation tests in `FR02-HUM-004`) utilize nested `pm.sendRequest` workflows inside Pre-request scripts to make each test case completely autonomous and self-contained.
 
-### 1.3 Automated Pre-request Scripts
-- **Mandatory Header Enforcement:** A collection-level pre-request script automatically injects the student ID tracking header onto every request:
-  ```javascript
-  pm.request.headers.upsert({
-      key: 'X-Student-Id',
-      value: pm.environment.get('studentId') || '23127259'
-  });
-  ```
-- **Safety Pre-condition Checks:** Validates that mandatory environment variables exist before executing requests.
-
-### 1.4 Comprehensive Test Scripts & Oracles
-- **Chai.js Assertions:** Implements `pm.test` assertions adhering strictly to the Human Audit verdicts:
-  - Positive success assertions: status 200, JWT token structure, user object schema.
-  - Neutral 4xx assertions: asserts authentication failure and token non-usability without overspecifying undocumented 400 vs 401 codes.
-  - Security assertions: checks that response bodies omit sensitive password data and SQL exception traces.
-  - Downstream integration checks: tests token authorization on `GET /api/orders/my-orders`.
-
-### 1.5 Data-Driven Testing Capability
-- External dataset [`postman/data/fr02-domain-data.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/data/fr02-domain-data.json) prepared for parameterized execution of domain equivalence partitions.
+### 1.4 Precise Timing Synchronization
+`FR02-AI-021` records the start timestamp `lockStartTime` at failure #3 and synchronizes execution until exactly 32 seconds have elapsed before issuing the post-expiration verification probe.
 
 ---
 
-## 2. Postman Features Roadmap (Future Phases)
-- **Newman CLI Runner:** Scheduled for Phase 1D.1.
-- **Newman HTML/CLI Reporting:** Scheduled for Phase 1D.1.
-- **CI/CD Integration (GitHub Actions):** Scheduled for Phase 3.
+## 2. Automated Newman Execution & Reporting
+
+The collection is fully compatible with Newman CLI and HTML Extra reporting:
+
+```bash
+# Run full automated test suite with HTML Extra report
+newman run 23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json \
+  -e 23127259/postman/environments/FR02-local.postman_environment.json \
+  --timeout-script 60000 \
+  -r cli,json,htmlextra \
+  --reporter-json-export 23127259/newman/fr02/FR02-run-03.json \
+  --reporter-htmlextra-export 23127259/newman/fr02/FR02-run-03.html
+```

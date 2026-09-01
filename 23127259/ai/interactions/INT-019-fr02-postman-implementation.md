@@ -5,7 +5,7 @@
 - **Model:** Gemini 3.7 Flash
 - **Date & Time:** 2026-09-01 20:06:50+07:00
 - **Project Stage:** Phase 1D.0 – FR-02 Final Executable Suite Materialization & Postman Collection Implementation
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 662, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 662, Output: Step 713)
 
 ---
 
@@ -786,12 +786,102 @@ PHASE 1D.1 – FR-02 CONTROLLED POSTMAN/NEWMAN EXECUTION
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 1D.0 Completion Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-018 Output Backfilled:** **YES** — Exact output (Step 661, 4,239 bytes) backfilled into [`INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md).
+- **INT-019 Prompt Stored:** **YES (Verbatim)** in [`INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md) and [`AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (184,752 bytes).
+- **INT-019 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Final Executable Suite Accounting
+
+$$\begin{aligned}
+\text{Raw AI-Generated Test Cases Considered} &= \mathbf{37} \\
+\text{Raw AI Rejected During Human Audit} &= \mathbf{2} \quad (\text{Duplicates: } \text{FR02-AI-016}, \text{FR02-AI-017}) \\
+\text{Usable AI-Derived Cases Post-Audit} &= \mathbf{35} \quad (16\text{ VALID} + 19\text{ INCOMPLETE with corrections applied}) \\
+\text{Student-Selected Human Extensions} &= \mathbf{5} \quad (\text{FR02-HUM-001} .. \text{FR02-HUM-005}) \\
+\hline
+\mathbf{\text{Total Final Executable Candidate Suite}} &= \mathbf{40\text{ Test Cases}}
+\end{aligned}$$
+
+- **Authoritative Executable Suite Specification:** [FR02_FINAL_EXECUTABLE_SUITE.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_FINAL_EXECUTABLE_SUITE.md).
+- **Full Traceability Matrix:** [FR02_EXECUTION_TRACEABILITY.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_EXECUTION_TRACEABILITY.md).
+
+---
+
+## 3. Postman Collection Architecture
+
+- **Collection File:** [`23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json)
+- **Environment File:** [`23127259/postman/environments/FR02-local.postman_environment.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/environments/FR02-local.postman_environment.json)
+- **Domain Data File:** [`23127259/postman/data/fr02-domain-data.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/data/fr02-domain-data.json)
+- **Features Documentation:** [POSTMAN_FEATURES_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/docs/POSTMAN_FEATURES_FR02.md)
+
+### Folder Structure & Mapping:
+| Folder | Helper Requests | Formal Test Requests | Mapped Test IDs |
+|---|:---:|:---:|---|
+| `00 – Setup Helpers` | 4 | 0 | `HELPER-001` .. `HELPER-004` (Excluded from test suite count) |
+| `01 – Positive Authentication` | 0 | 2 | `FR02-AI-001`, `FR02-AI-002` |
+| `02 – Domain and Negative Inputs` | 0 | 10 | `FR02-AI-003` .. `FR02-AI-012` |
+| `03 – Lockout Boundary and State Progression` | 0 | 10 | `FR02-AI-013` .. `FR02-AI-015`, `FR02-AI-018` .. `FR02-AI-024` |
+| `04 – Security and Token Integrity` | 0 | 7 | `FR02-AI-025` .. `FR02-AI-031` |
+| `05 – Schema and Contract Validation` | 0 | 6 | `FR02-AI-032` .. `FR02-AI-037` |
+| `06 – Human Extensions` | 0 | 5 | `FR02-HUM-001` .. `FR02-HUM-005` |
+| **TOTAL** | **4** | **40** | **40 Unique Executable Test Cases** |
+
+---
+
+## 4. Stateful Isolation & Repeatability Strategy
+Detailed in [FR02_POSTMAN_STATE_STRATEGY.md](file:///Volumes/Thang/HW06/HW06/23127259/docs/FR02_POSTMAN_STATE_STRATEGY.md):
+1. **Account Segregation:** Distinct accounts allocated per test domain (`user@eshop.com`, `admin@eshop.com`, `user_domain@eshop.com`, `lockout_fr02@eshop.com`, `reset_fr02@eshop.com`, `victim_fr02@eshop.com`, `isolated_fr02@eshop.com`).
+2. **Setup Mechanism:** Documented `POST /api/register` helper endpoints ensure dedicated test accounts exist prior to state progression tests.
+3. **Timing Bracketing:** Deterministic timing delays safely bracket the 30-second lockout window ($T \approx 25\text{s}$ pre-expiry and $T \approx 32\text{s}$ post-expiry).
+4. **Observable Oracles:** Assertions rely strictly on observable HTTP status codes, payloads, and subsequent request acceptance/rejection, without depending on internal DB columns.
+
+---
+
+## 5. Non-Execution Static Validation Summary
+Detailed in [FR02_POSTMAN_STATIC_VALIDATION.md](file:///Volumes/Thang/HW06/HW06/23127259/docs/FR02_POSTMAN_STATIC_VALIDATION.md):
+- **Collection & Environment JSON Syntax:** **PASS** (Valid JSON, verified by parser).
+- **Total Mapped Test Cases:** **40** (Exactly 35 AI-derived + 5 Human extensions).
+- **Duplicate Exclusion:** Confirmed `FR02-AI-016` (**Absent**) and `FR02-AI-017` (**Absent**).
+- **`X-Student-Id` Header Enforcement:** **PASS** (Enforced on 100% of requests via collection-level pre-request script + header definitions).
+- **Zero Hardcoded Secrets/JWTs:** **PASS** (Dynamic variables `{{userToken}}` and `{{adminToken}}` used exclusively).
+- **SUT Execution Gate:** **NO SUT EXECUTION PERFORMED IN THIS PHASE.**
+
+---
+
+## 6. Provenance & Classification Refinements
+- **Human Extension Provenance:** Verified in [FR02_HUMAN_TEST_CASES.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_TEST_CASES.md) and [FR02_HUMAN_EXTENSION_DESIGN.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_EXTENSION_DESIGN.md):
+  > *"Student-selected and finalized Human Extension cases after AI-assisted coverage-gap analysis."*
+- **`FR02-HUM-004` Oracle Classification:** Refined to `PARTIALLY SPECIFICATION-BACKED / STATE ISOLATION` (grounded in per-user authentication architecture without overstating explicit cross-account SRS wording).
+
+---
+
+## 7. Cryptographic & Git Commit Verification
+- **Raw AI Draft SHA-256:** `b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c` *(Unchanged)*.
+- **Commit Message:** `test(23127259): implement FR-02 Postman collection`
+- **Commit SHA:** [`bfa9b92`](https://github.com/thangak18/HW06/commit/bfa9b92)
+- **Branch:** `thang/hw06-implementation` (Pushed to `origin`, working tree clean).
+
+```text
+On branch thang/hw06-implementation
+Your branch is up to date with 'origin/thang/hw06-implementation'.
+
+nothing to commit, working tree clean
+```
+
+---
+
+Execution is stopped here. Ready to proceed to **PHASE 1D.1 – FR-02 CONTROLLED POSTMAN/NEWMAN EXECUTION**.
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Materializing authoritative 40-case executable test specification, Postman collection, environment, state strategy, features doc, traceability matrix, and static validation. Zero SUT execution performed.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID. Materialized authoritative 40-case executable test specification (`FR02_FINAL_EXECUTABLE_SUITE.md`), traceability matrix (`FR02_EXECUTION_TRACEABILITY.md`), state strategy (`FR02_POSTMAN_STATE_STRATEGY.md`), Postman collection (`FR02_Login_Account_Lockout.postman_collection.json`), environment (`FR02-local.postman_environment.json`), and static validation report (`FR02_POSTMAN_STATIC_VALIDATION.md`). Zero SUT execution performed. Committed as `bfa9b92`.
+- **Status:** EXACT OUTPUT AVAILABLE.

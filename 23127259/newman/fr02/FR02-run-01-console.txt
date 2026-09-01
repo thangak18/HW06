@@ -1,0 +1,165 @@
+newman
+
+FR02_Login_Account_Lockout
+
+❏ 00 – Setup Helpers
+↳ HELPER-001 – Setup Fresh Account for Lockout Lifecycle
+  POST http://localhost:3000/api/register [200 OK, 316B, 21ms]
+  ✓  HELPER-001: Lockout user ready (201 Created or 400 Already Exists)
+
+↳ HELPER-002 – Setup Fresh Account for Reset Boundary
+  POST http://localhost:3000/api/register [200 OK, 316B, 4ms]
+  ✓  HELPER-002: Reset boundary user ready (201 Created or 400 Already Exists)
+
+↳ HELPER-003 – Setup Account A for Isolation Test
+  POST http://localhost:3000/api/register [200 OK, 316B, 4ms]
+  ✓  HELPER-003: Victim account A ready
+
+↳ HELPER-004 – Setup Account B for Isolation Test
+  POST http://localhost:3000/api/register [200 OK, 316B, 2ms]
+  ✓  HELPER-004: Isolated account B ready
+
+❏ 01 – Positive Authentication
+↳ FR02-AI-001 – Valid User Login
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 11ms]
+  1. [FR02-AI-001] Status code is 200 OK
+  2. [FR02-AI-001] Response returns JWT token string and user profile
+
+↳ FR02-AI-002 – Valid Admin Login
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 4ms]
+  3. [FR02-AI-002] Status code is 200 OK
+  4. [FR02-AI-002] Admin login issues valid JWT with admin role
+
+❏ 02 – Domain and Negative Inputs
+↳ FR02-AI-003 – Invalid Password on Registered User
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-003] Status code is 4xx client error (401 Unauthorized)
+  ✓  [FR02-AI-003] Generic authentication failure returned; no token issued
+
+↳ FR02-AI-004 – Unregistered Email Generic Failure
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 3ms]
+  ✓  [FR02-AI-004] Status code is 4xx (401 Unauthorized)
+  5. [FR02-AI-004] Anti-enumeration: returns generic failure message
+
+↳ FR02-AI-005 – Malformed Email Syntax Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-005] Authentication fails with 4xx status
+  ✓  [FR02-AI-005] No JWT token issued for malformed email
+
+↳ FR02-AI-006 – Empty String Email Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-006] Status code is 4xx error
+  ✓  [FR02-AI-006] Empty email does not authenticate; no token issued
+
+↳ FR02-AI-007 – Missing Email Property Payload Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-007] Status code is 4xx
+  ✓  [FR02-AI-007] Missing email property rejected without token issuance
+
+↳ FR02-AI-008 – Null Value Email Property Robustness Probe
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-008] Null email does not succeed (4xx)
+  ✓  [FR02-AI-008] No token returned for null email
+
+↳ FR02-AI-009 – Whitespace-Only Email Input Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-009] Status code is 4xx
+  ✓  [FR02-AI-009] Whitespace email does not authenticate
+
+↳ FR02-AI-010 – Empty String Password Input Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-010] Status code is 4xx error
+  ✓  [FR02-AI-010] Empty password fails authentication without token
+
+↳ FR02-AI-011 – Missing Password Property Payload Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-011] Status code is 4xx
+  ✓  [FR02-AI-011] Missing password property fails authentication
+
+↳ FR02-AI-012 – Null Value Password Property Robustness Probe
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 0µs]
+  ✓  [FR02-AI-012] Null password rejected with 4xx status without 500 error
+  ✓  [FR02-AI-012] No token returned for null password
+
+❏ 03 – Lockout Boundary and State Progression
+↳ FR02-AI-015 – Consecutive Failure Sequence Initiation N=1
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-015] 1st failed attempt returns 4xx error
+  ✓  [FR02-AI-015] Account remains unlocked at N=1 failure
+
+↳ FR02-AI-013 – Consecutive Failed Login Boundary N=2
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 0µs]
+  ✓  [FR02-AI-013] 2nd consecutive failure returns 4xx error
+  ✓  [FR02-AI-013] Boundary N-1: Account remains unlocked after 2nd failure
+
+↳ FR02-AI-014 – Lockout Threshold Boundary N=3
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-014] 3rd consecutive failure transitions state to LOCKED
+
+↳ FR02-AI-018 – Active Lockout Window Rejection Wrong Credentials
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 0µs]
+  ✓  [FR02-AI-018] Request during active lockout is rejected (4xx)
+  6. [FR02-AI-018] Response informs account is temporarily locked without internal data disclosure
+
+↳ FR02-AI-019 – Active Lockout Window Rejection Correct Credentials
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-019] Valid credentials during active lockout MUST NOT authenticate
+  ✓  [FR02-AI-019] No JWT issued while account is locked
+
+↳ FR02-AI-020 – Pre-Expiration Lockout Timing Boundary T=25s
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 0µs]
+  ✓  [FR02-AI-020] Account remains locked prior to 30s window expiration
+
+↳ FR02-AI-021 – Post-Expiration Lockout Timing Boundary T=32s
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               0 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              22 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              22 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              23 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              38 │               6 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 0ms                                     │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 986B (approx)                          │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 3ms [min: 1ms, max: 21ms, s.d.: 4ms] │
+└─────────────────────────────────────────────────────────────┘
+
+  #  failure         detail                                                                                                                 
+                                                                                                                                            
+ 1.  AssertionError  [FR02-AI-001] Status code is 200 OK                                                                                    
+                     expected response to have status code 200 but got 401                                                                  
+                     at assertion:0 in test-script                                                                                          
+                     inside "01 – Positive Authentication / FR02-AI-001 – Valid User Login"                                                 
+                                                                                                                                            
+ 2.  AssertionError  [FR02-AI-001] Response returns JWT token string and user profile                                                       
+                     expected { error: 'Invalid email or password' } to have property 'token'                                               
+                     at assertion:1 in test-script                                                                                          
+                     inside "01 – Positive Authentication / FR02-AI-001 – Valid User Login"                                                 
+                                                                                                                                            
+ 3.  AssertionError  [FR02-AI-002] Status code is 200 OK                                                                                    
+                     expected response to have status code 200 but got 401                                                                  
+                     at assertion:0 in test-script                                                                                          
+                     inside "01 – Positive Authentication / FR02-AI-002 – Valid Admin Login"                                                
+                                                                                                                                            
+ 4.  AssertionError  [FR02-AI-002] Admin login issues valid JWT with admin role                                                             
+                     expected { error: 'Invalid email or password' } to have property 'token'                                               
+                     at assertion:1 in test-script                                                                                          
+                     inside "01 – Positive Authentication / FR02-AI-002 – Valid Admin Login"                                                
+                                                                                                                                            
+ 5.  AssertionError  [FR02-AI-004] Anti-enumeration: returns generic failure message                                                        
+                     expected { error: 'Invalid email or password' } to have property 'message'                                             
+                     at assertion:1 in test-script                                                                                          
+                     inside "02 – Domain and Negative Inputs / FR02-AI-004 – Unregistered Email Generic Failure"                            
+                                                                                                                                            
+ 6.  AssertionError  [FR02-AI-018] Response informs account is temporarily locked without internal data disclosure                          
+                     expected { Object (error) } to have property 'message'                                                                 
+                     at assertion:1 in test-script                                                                                          
+                     inside "03 – Lockout Boundary and State Progression / FR02-AI-018 – Active Lockout Window Rejection Wrong Credentials" 

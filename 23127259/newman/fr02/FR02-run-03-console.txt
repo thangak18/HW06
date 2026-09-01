@@ -1,0 +1,275 @@
+newman
+
+FR02_Login_Account_Lockout
+
+❏ 00 – Setup Helpers
+↳ HELPER-000A – Setup Baseline Regular User Account
+  POST http://localhost:3000/api/register [200 OK, 317B, 18ms]
+  ✓  HELPER-000A: Baseline user ready
+
+↳ HELPER-000B – Setup Baseline Admin User Account
+  POST http://localhost:3000/api/register [200 OK, 317B, 3ms]
+  ✓  HELPER-000B: Baseline admin user ready
+
+↳ HELPER-000C – Setup Negative Domain User Account
+  POST http://localhost:3000/api/register [200 OK, 317B, 17ms]
+  ✓  HELPER-000C: Negative domain user ready
+
+↳ HELPER-001 – Setup Fresh Account for Lockout Lifecycle
+  POST http://localhost:3000/api/register [200 OK, 317B, 13ms]
+  ✓  HELPER-001: Lockout user ready
+
+↳ HELPER-002 – Setup Fresh Account for Reset Boundary
+  POST http://localhost:3000/api/register [200 OK, 317B, 2ms]
+  ✓  HELPER-002: Reset boundary user ready
+
+↳ HELPER-003 – Setup Dedicated Account for Human N=2 Reset Test
+  POST http://localhost:3000/api/register [200 OK, 317B, 4ms]
+  ✓  HELPER-003: Human reset user ready
+
+↳ HELPER-004 – Setup Account A for Isolation Test
+  POST http://localhost:3000/api/register [200 OK, 317B, 2ms]
+  ✓  HELPER-004: Victim account A ready
+
+↳ HELPER-005 – Setup Account B for Isolation Test
+  POST http://localhost:3000/api/register [200 OK, 317B, 3ms]
+  ✓  HELPER-005: Isolated account B ready
+
+❏ 01 – Positive Authentication
+↳ FR02-AI-001 – Valid User Login
+  POST http://localhost:3000/api/login [200 OK, 648B, 3ms]
+  ✓  [FR02-AI-001] Status code is 200 OK
+  ✓  [FR02-AI-001] Response returns JWT token string and user profile
+
+↳ FR02-AI-002 – Valid Admin Login
+  POST http://localhost:3000/api/login [200 OK, 648B, 2ms]
+  ✓  [FR02-AI-002] Status code is 200 OK
+  ✓  [FR02-AI-002] Admin login issues valid JWT with user profile
+
+❏ 02 – Domain and Negative Inputs
+↳ FR02-AI-003 – Invalid Password on Registered User
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 3ms]
+  ✓  [FR02-AI-003] Status code is 4xx client error (401 Unauthorized)
+  ✓  [FR02-AI-003] Generic authentication failure returned; no token issued
+
+↳ FR02-AI-004 – Unregistered Email Generic Failure
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-004] Status code is 4xx (401 Unauthorized)
+  ✓  [FR02-AI-004] Anti-enumeration: returns generic failure message
+
+↳ FR02-AI-005 – Malformed Email Syntax Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 2ms]
+  ✓  [FR02-AI-005] Authentication fails with 4xx status
+  ✓  [FR02-AI-005] No JWT token issued for malformed email
+
+↳ FR02-AI-006 – Empty String Email Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-006] Status code is 4xx error
+  ✓  [FR02-AI-006] Empty email does not authenticate; no token issued
+
+↳ FR02-AI-007 – Missing Email Property Payload Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-007] Status code is 4xx
+  ✓  [FR02-AI-007] Missing email property rejected without token issuance
+
+↳ FR02-AI-008 – Null Value Email Property Robustness Probe
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-008] Null email does not succeed (4xx)
+  ✓  [FR02-AI-008] No token returned for null email
+
+↳ FR02-AI-009 – Whitespace-Only Email Input Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-009] Status code is 4xx
+  ✓  [FR02-AI-009] Whitespace email does not authenticate
+
+↳ FR02-AI-010 – Empty String Password Input Rejection
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-010] Status code is 4xx error
+  ✓  [FR02-AI-010] Empty password fails authentication without token
+
+↳ FR02-AI-011 – Missing Password Property Payload Rejection
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-011] Status code is 4xx
+  ✓  [FR02-AI-011] Missing password property fails authentication
+
+↳ FR02-AI-012 – Null Value Password Property Robustness Probe
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-012] Null password rejected with 4xx status without 500 error
+  ✓  [FR02-AI-012] No token returned for null password
+
+❏ 03 – Lockout Boundary and State Progression
+↳ FR02-AI-015 – Consecutive Failure Sequence Initiation N=1
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-015] 1st failed attempt returns 4xx error
+  ✓  [FR02-AI-015] Account remains unlocked at N=1 failure
+
+↳ FR02-AI-013 – Consecutive Failed Login Boundary N=2
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-013] 2nd consecutive failure returns 4xx error
+  ✓  [FR02-AI-013] Boundary N-1: Account remains unlocked after 2nd failure
+
+↳ FR02-AI-014 – Lockout Threshold Boundary N=3
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-014] 3rd consecutive failure transitions state to LOCKED
+
+↳ FR02-AI-018 – Active Lockout Window Rejection Wrong Credentials
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-018] Request during active lockout is rejected (4xx)
+  ✓  [FR02-AI-018] Response informs account is temporarily locked without internal data disclosure
+
+↳ FR02-AI-019 – Active Lockout Window Rejection Correct Credentials
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-019] Valid credentials during active lockout MUST NOT authenticate
+  ✓  [FR02-AI-019] No JWT issued while account is locked
+
+↳ FR02-AI-020 – Pre-Expiration Lockout Timing Boundary T=25s
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-020] Account remains locked prior to 30s window expiration
+
+↳ FR02-AI-021 – Post-Expiration Lockout Timing Boundary T=32s
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 3ms]
+  1. [FR02-AI-021] Account automatically unlocks and authenticates after 30s window
+
+↳ FR02-AI-022 – Successful Login Resets Failure Progression
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  POST http://localhost:3000/api/login [200 OK, 657B, 1ms]
+  ✓  [FR02-AI-022] Successful login resets failure counter to 0 (200 OK)
+
+↳ FR02-AI-023 – Consecutive Failure Semantics Verification
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  POST http://localhost:3000/api/login [200 OK, 657B, 1ms]
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-023] Non-consecutive failures do not trigger lockout (remains unlocked)
+
+↳ FR02-AI-024 – Post-Lockout Expiration Account Usability and Failure Reset
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-024] Failure after post-lockout successful login starts fresh sequence
+
+❏ 04 – Security and Token Integrity
+↳ FR02-AI-025 – SQL Injection Probe in Email Field
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-AI-025] SQLi payload in email does not bypass authentication
+  ✓  [FR02-AI-025] SQLi behavioral bypass not observed; no JWT issued
+
+↳ FR02-AI-026 – SQL Injection Probe in Password Field
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-026] SQLi payload in password does not bypass authentication
+  ✓  [FR02-AI-026] SQLi behavioral bypass not observed; no JWT issued
+
+↳ FR02-AI-027 – Cross-Response Equality Anti-Enumeration
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 0µs]
+  ✓  [FR02-AI-027] Unregistered email returns generic failure (401)
+
+↳ FR02-AI-028 – Sensitive Data Exclusion (Password Omission)
+  POST http://localhost:3000/api/login [200 OK, 648B, 1ms]
+  2. [FR02-AI-028] Successful login response does not disclose plaintext password
+
+↳ FR02-AI-029 – Token Absence on Failed Authentication
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-029] Failed login does not issue usable authentication token
+
+↳ FR02-AI-030 – Downstream JWT Usability on Protected Route
+  GET http://localhost:3000/api/orders/my-orders [200 OK, 267B, 3ms]
+  ✓  [FR02-AI-030] Issued JWT authenticates successfully on protected route (200 OK)
+
+↳ FR02-AI-031 – Downstream Tampered JWT Signature Rejection
+  GET http://localhost:3000/api/orders/my-orders [403 Forbidden, 295B, 1ms]
+  ✓  [FR02-AI-031] Tampered JWT signature is rejected with 4xx (401 or 403)
+
+❏ 05 – Schema and Contract Validation
+↳ FR02-AI-032 – Successful Login Response JSON Schema Contract
+  POST http://localhost:3000/api/login [200 OK, 648B, 1ms]
+  ✓  [FR02-AI-032] Status code is 200 OK
+  ✓  [FR02-AI-032] Response conforms to documented login schema
+
+↳ FR02-AI-033 – Invalid Credentials Error Response Schema Contract
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-033] Error response returned with 4xx status
+  ✓  [FR02-AI-033] Error response contains message string and no token
+
+↳ FR02-AI-034 – Locked-Account Error Response Contract
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  ✓  [FR02-AI-034] Lockout error response returns 4xx status
+  ✓  [FR02-AI-034] Lockout error does not expose internal stack or SQL traces
+
+↳ FR02-AI-035 – Syntactically Malformed JSON Transport Contract
+  POST http://localhost:3000/api/login [400 Bad Request, 1.36kB, 1ms]
+  ✓  [FR02-AI-035] Malformed JSON syntax rejected with 4xx without 500 server crash
+
+↳ FR02-AI-036 – Response Content-Type Header Contract
+  POST http://localhost:3000/api/login [200 OK, 648B, 1ms]
+  ✓  [FR02-AI-036] Successful login returns JSON Content-Type
+
+↳ FR02-AI-037 – Extraneous Request Body Properties Ingestion Contract
+  POST http://localhost:3000/api/login [200 OK, 648B, 2ms]
+  ✓  [FR02-AI-037] Injected role property does NOT escalate normal user privileges
+
+❏ 06 – Human Extensions
+↳ FR02-HUM-001 – HTTP Verb Method Enforcement on Login Route
+  GET http://localhost:3000/api/login [404 Not Found, 452B, 1ms]
+  ✓  [FR02-HUM-001] GET method on /api/login rejected (4xx; not 200)
+  ✓  [FR02-HUM-001] No JWT token issued through GET method
+
+↳ FR02-HUM-002 – Advanced SQLi Comment Truncation Vector Probe
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  ✓  [FR02-HUM-002] Comment truncation SQLi vector does not bypass auth
+  ✓  [FR02-HUM-002] SQLi behavioral bypass not observed; no admin JWT issued
+
+↳ FR02-HUM-003 – Consecutive Failure Reset at N=2 Pre-Lockout Boundary
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 0µs]
+  3. [FR02-HUM-003] Valid login after N=2 failures succeeds (200 OK) and resets counter
+
+↳ FR02-HUM-004 – Account Lockout Isolation Between Independent Users
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  POST http://localhost:3000/api/login [401 Unauthorized, 314B, 1ms]
+  POST http://localhost:3000/api/login [403 Forbidden, 342B, 1ms]
+  POST http://localhost:3000/api/login [200 OK, 662B, 1ms]
+  ✓  [FR02-HUM-004] Account B authenticates successfully (200 OK) despite Account A lockout
+
+↳ FR02-HUM-005 – Non-JSON Content-Type Request Contract Handling
+  POST http://localhost:3000/api/login [500 Internal Server Error, 1.54kB, 15ms]
+  4. [FR02-HUM-005] Non-JSON request rejected gracefully (4xx) without 500 crash
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              56 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              48 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              54 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              71 │               4 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 32.7s                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 7.98kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 2ms [min: 1ms, max: 18ms, s.d.: 3ms] │
+└─────────────────────────────────────────────────────────────┘
+
+  #  failure         detail                                                                                                             
+                                                                                                                                        
+ 1.  AssertionError  [FR02-AI-021] Account automatically unlocks and authenticates after 30s window                                     
+                     expected 403 to equal 200                                                                                          
+                     at assertion:0 in test-script                                                                                      
+                     inside "03 – Lockout Boundary and State Progression / FR02-AI-021 – Post-Expiration Lockout Timing Boundary T=32s" 
+                                                                                                                                        
+ 2.  AssertionError  [FR02-AI-028] Successful login response does not disclose plaintext password                                       
+                     expected { id: 24, name: 'Regular User', …(8) } to not have property 'password'                                    
+                     at assertion:0 in test-script                                                                                      
+                     inside "04 – Security and Token Integrity / FR02-AI-028 – Sensitive Data Exclusion (Password Omission)"            
+                                                                                                                                        
+ 3.  AssertionError  [FR02-HUM-003] Valid login after N=2 failures succeeds (200 OK) and resets counter                                 
+                     expected 403 to equal 200                                                                                          
+                     at assertion:0 in test-script                                                                                      
+                     inside "06 – Human Extensions / FR02-HUM-003 – Consecutive Failure Reset at N=2 Pre-Lockout Boundary"              
+                                                                                                                                        
+ 4.  AssertionError  [FR02-HUM-005] Non-JSON request rejected gracefully (4xx) without 500 crash                                        
+                     expected 500 to be within 400..499                                                                                 
+                     at assertion:0 in test-script                                                                                      
+                     inside "06 – Human Extensions / FR02-HUM-005 – Non-JSON Content-Type Request Contract Handling"                    
