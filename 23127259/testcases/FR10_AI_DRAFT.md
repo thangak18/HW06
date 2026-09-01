@@ -13,9 +13,9 @@
 | ID Range | Generation Stage | Batch Count | Cumulative Raw AI Count | Status |
 |---|---|---:|---:|:---:|
 | `FR10-AI-001` – `FR10-AI-012` | Batch 1: Core Valid Forward Transitions, Valid Cancellations & Skip Transitions | 12 | 12 | **GENERATED** |
-| `FR10-AI-013` – `FR10-AI-024` | Batch 2: Backward Regressions, Terminal Immutability & User In-Transit Cancel | 12 | 24 | **GENERATED (24 RAW CASES PENDING HUMAN AUDIT)** |
-| `FR10-AI-025` – `FR10-AI-032` | Batch 3: Authentication (`SEC-02`), RBAC (`SEC-03`) & Ownership | 8 | 32 | Pending Phase 2A.4 |
-| `FR10-AI-033` – `FR10-AI-040` | Batch 4: Status Domain, Order ID Boundaries & Schema/SEC-05 | 8 | 40 | Pending Phase 2A.5 |
+| `FR10-AI-013` – `FR10-AI-024` | Batch 2: Backward Regressions, Terminal Immutability & User In-Transit Cancel | 12 | 24 | **GENERATED** |
+| `FR10-AI-025` – `FR10-AI-034` | Batch 3: Authentication (`SEC-02`), RBAC (`SEC-03`) & Ownership Boundaries | 10 | 34 | **GENERATED (34 RAW CASES PENDING HUMAN AUDIT)** |
+| `FR10-AI-035` – `FR10-AI-042` | Batch 4: Status Domain, Order ID Boundaries & Schema/SEC-05 | 8 | 42 | Pending Phase 2A.5 |
 
 ---
 
@@ -822,3 +822,332 @@
 - **Persistence Verification Plan:** Send `GET /api/orders/:id`; assert `response.order.status === "canceled"`.
 - **Oracle Confidence:** HIGH
 - **Notes:** High-risk probe verifying terminal-to-terminal cross-mutation prevention.
+
+---
+
+## 4. Raw AI Test Cases (Batch 3: Authentication, RBAC & Ownership Boundaries)
+
+---
+
+### FR10-AI-025 – SEC-02: Missing Authorization Header on Valid Admin Status Transition
+
+- **Test Case ID:** `FR10-AI-025`
+- **Title:** Missing Authorization Header on Valid Admin Status Transition (`pending` $\rightarrow$ `confirmed`)
+- **Technique:** Security / Authentication Testing (SEC-02 Missing Credential)
+- **Requirement:** SEC-02 Authentication Standard, SRS FR-10, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SEC-02 AUTHENTICATION`
+- **Preconditions:** Fresh order created via helper setup in `pending` state.
+- **Actor:** Unauthenticated Client (`Anonymous`)
+- **Authentication Context:** None (Missing `Authorization` header)
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates order $\rightarrow$ state is `pending`.
+  2. Unauthenticated client sends `PUT /api/admin/orders/:id/status` with `status: "confirmed"` without `Authorization` header.
+  3. Query `GET /api/orders/:id` using admin token to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `401 Unauthorized`)
+- **Expected Semantic Result:** Request rejected due to missing authentication; order status remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` using admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Evaluates SEC-02 authentication enforcement on the admin status route while keeping the transition otherwise valid.
+
+---
+
+### FR10-AI-026 – SEC-02: Malformed Authorization Header on Valid Admin Status Transition
+
+- **Test Case ID:** `FR10-AI-026`
+- **Title:** Malformed Authorization Header on Valid Admin Transition (`pending` $\rightarrow$ `confirmed`)
+- **Technique:** Security / Authentication Testing (SEC-02 Header Syntax)
+- **Requirement:** SEC-02 Authentication Standard, SRS FR-10, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SEC-02 AUTHENTICATION`
+- **Preconditions:** Fresh order created in `pending` state.
+- **Actor:** Unauthenticated Client / Malformed Token Client
+- **Authentication Context:** Malformed Bearer header: `Authorization: InvalidBearerFormat`
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: InvalidBearerFormat`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Setup creates order in `pending` state.
+  2. Client sends `PUT /api/admin/orders/:id/status` with malformed `Authorization` header.
+  3. Query `GET /api/orders/:id` via admin token to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `401 Unauthorized` or `400 Bad Request`)
+- **Expected Semantic Result:** Request rejected due to malformed authentication header scheme; order status remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` using admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Tests header parsing resilience under SEC-02.
+
+---
+
+### FR10-AI-027 – SEC-02: Syntactically Invalid / Random JWT on Valid Admin Transition
+
+- **Test Case ID:** `FR10-AI-027`
+- **Title:** Syntactically Invalid / Random JWT on Valid Admin Transition (`pending` $\rightarrow$ `confirmed`)
+- **Technique:** Security / Authentication Testing (SEC-02 Token Verification)
+- **Requirement:** SEC-02 Authentication Standard, SRS FR-10, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SEC-02 AUTHENTICATION`
+- **Preconditions:** Fresh order created in `pending` state.
+- **Actor:** Unauthenticated Attacker
+- **Authentication Context:** Random pseudo-token `Authorization: Bearer invalid.token.garbage12345`
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer invalid.token.garbage12345`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Setup creates order in `pending` state.
+  2. Attacker sends `PUT /api/admin/orders/:id/status` with garbage token.
+  3. Query `GET /api/orders/:id` via admin token to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `401 Unauthorized`)
+- **Expected Semantic Result:** Request rejected due to invalid token signature/format; order status remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` using admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Verifies rejection of unverified arbitrary JWT strings.
+
+---
+
+### FR10-AI-028 – SEC-02: Cryptographically Tampered JWT on Valid Admin Transition
+
+- **Test Case ID:** `FR10-AI-028`
+- **Title:** Cryptographically Tampered JWT on Valid Admin Transition (`pending` $\rightarrow$ `confirmed`)
+- **Technique:** Security / Integrity Testing (SEC-02 Cryptographic Signature Verification)
+- **Requirement:** SEC-02 Authentication Standard, SRS FR-10, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SEC-02 AUTHENTICATION`
+- **Preconditions:** Fresh order created in `pending` state; genuine JWT captured and signature/payload bits altered.
+- **Actor:** Attacker attempting signature forgery / payload tampering
+- **Authentication Context:** Tampered JWT `Authorization: Bearer {{tamperedAdminToken}}`
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer {{tamperedAdminToken}}`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Setup creates order in `pending` state.
+  2. Attacker sends `PUT /api/admin/orders/:id/status` with tampered token.
+  3. Query `GET /api/orders/:id` via admin token to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `401 Unauthorized`)
+- **Expected Semantic Result:** Request rejected due to cryptographic signature mismatch; order status remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` using legitimate admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Provides behavioral SEC-02 evidence that tampered tokens fail authentication.
+
+---
+
+### FR10-AI-029 – SEC-02: Missing Authorization Header on Customer Cancellation Endpoint
+
+- **Test Case ID:** `FR10-AI-029`
+- **Title:** Missing Authorization Header on Customer Cancellation Endpoint (`PUT /api/orders/:id/cancel`)
+- **Technique:** Security / Authentication Testing (SEC-02 Endpoint Gate)
+- **Requirement:** SEC-02 Authentication Standard, SRS Section 4.10, API-SPEC `PUT /api/orders/:id/cancel`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SEC-02 AUTHENTICATION`
+- **Preconditions:** Order created in `pending` state for customer $U_1$.
+- **Actor:** Unauthenticated Client (`Anonymous`)
+- **Authentication Context:** None (Missing `Authorization` header)
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/orders/:id/cancel`
+- **Headers:** `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:** Empty `{}`
+- **Action / Sequence:**
+  1. Setup creates order for customer $U_1$ in `pending` state.
+  2. Unauthenticated client sends `PUT /api/orders/:id/cancel` without `Authorization` header.
+  3. Query `GET /api/orders/:id` via customer $U_1$ token to verify state remained `pending`.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `401 Unauthorized`)
+- **Expected Semantic Result:** Request rejected because cancellation requires authenticated user context; order status remains unchanged.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` with $U_1$ token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Verifies authentication gate on customer-facing cancellation route.
+
+---
+
+### FR10-AI-030 – SEC-03: Normal Customer Role Attempting Valid Admin Transition
+
+- **Test Case ID:** `FR10-AI-030`
+- **Title:** Normal Customer Role Attempting Valid Admin Transition (`pending` $\rightarrow$ `confirmed`)
+- **Technique:** Role-Based Access Control / RBAC Boundary Testing (SEC-03)
+- **Requirement:** SEC-03 Authorization Standard, SRS FR-10, SRS FR-12, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SEC-03 BEHAVIORAL AUTHORIZATION`
+- **Preconditions:** Order created in `pending` state; customer token active for normal user.
+- **Actor:** Normal Customer (`role = 'user'`)
+- **Authentication Context:** Valid customer JWT (`userToken`)
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <userToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "confirmed"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates order in `pending` state.
+  2. Normal customer attempts `PUT /api/admin/orders/:id/status` with `status: "confirmed"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `403 Forbidden`)
+- **Expected Semantic Result:** Request rejected due to insufficient privileges (`role = 'user'`); transition from `pending` to `confirmed` is reserved for admins.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` with admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Evaluates SEC-03 RBAC boundary on otherwise-valid state transition.
+
+---
+
+### FR10-AI-031 – SEC-03: Normal Customer Role Attempting Admin Cancellation Route
+
+- **Test Case ID:** `FR10-AI-031`
+- **Title:** Normal Customer Role Attempting Admin Cancellation Route (`pending` $\rightarrow$ `canceled`)
+- **Technique:** Role-Based Access Control / RBAC Boundary Testing (SEC-03)
+- **Requirement:** SEC-03 Authorization Standard, SRS Section 4.10, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SEC-03 BEHAVIORAL AUTHORIZATION`
+- **Preconditions:** Order created in `pending` state; normal customer token active.
+- **Actor:** Normal Customer (`role = 'user'`)
+- **Authentication Context:** Valid customer JWT (`userToken`)
+- **State Before:** `pending`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <userToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "canceled"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper creates order in `pending` state.
+  2. Normal customer attempts to cancel via admin route `PUT /api/admin/orders/:id/status` with `status: "canceled"`.
+  3. Query `GET /api/orders/:id` to verify state was NOT altered.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `403 Forbidden`)
+- **Expected Semantic Result:** Request rejected because the admin status endpoint requires administrator role regardless of whether the target state is cancellation.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` with admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Verifies normal user cannot bypass route-level RBAC by invoking valid state values on admin endpoints.
+
+---
+
+### FR10-AI-032 – SEC-03: Normal Customer Role Attempting Admin Transit Dispatch
+
+- **Test Case ID:** `FR10-AI-032`
+- **Title:** Normal Customer Role Attempting Admin Transit Dispatch (`confirmed` $\rightarrow$ `shipping`)
+- **Technique:** Role-Based Access Control / RBAC Boundary Testing (SEC-03 Post-Confirmation)
+- **Requirement:** SEC-03 Authorization Standard, SRS FR-10, API-SPEC `PUT /api/admin/orders/:id/status`
+- **Oracle Classification:** `SPECIFICATION-BACKED / SEC-03 BEHAVIORAL AUTHORIZATION`
+- **Preconditions:** Order created and transitioned to `confirmed` by admin setup.
+- **Actor:** Normal Customer (`role = 'user'`)
+- **Authentication Context:** Valid customer JWT (`userToken`)
+- **State Before:** `confirmed`
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/admin/orders/:id/status`
+- **Headers:** `Authorization: Bearer <userToken>`, `Content-Type: application/json`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderId}}`
+- **Request Body:**
+  ```json
+  {
+    "status": "shipping"
+  }
+  ```
+- **Action / Sequence:**
+  1. Helper advances order to `confirmed`.
+  2. Normal customer attempts `PUT /api/admin/orders/:id/status` with `status: "shipping"`.
+  3. Query `GET /api/orders/:id` to verify state remained `confirmed`.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `403 Forbidden`)
+- **Expected Semantic Result:** Request rejected due to non-admin role; order state remains confirmed.
+- **Expected State After:** `confirmed` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/:id` with admin token; assert `response.order.status === "confirmed"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Validates that SEC-03 RBAC restrictions continue to hold across all downstream order states.
+
+---
+
+### FR10-AI-033 – Cross-User Ownership Boundary: Customer B Cancelling Customer A's Pending Order
+
+- **Test Case ID:** `FR10-AI-033`
+- **Title:** Cross-User Ownership Boundary: Customer B Cancelling Customer A's `pending` Order
+- **Technique:** Authorization & Data Isolation Testing (Cross-Tenant Ownership Boundary)
+- **Requirement:** SRS Section 4.10, Business Authorization Discipline
+- **Oracle Classification:** `PARTIALLY SPECIFICATION-BACKED / OWNERSHIP BOUNDARY`
+- **Preconditions:** Customer $U_A$ creates order in `pending` state; Customer $U_B$ is a distinct registered customer with valid token.
+- **Actor:** Unrelated Authenticated Customer ($U_B$, `role = 'user'`)
+- **Authentication Context:** Valid customer JWT of User B (`userBToken`)
+- **State Before:** `pending` (owned by $U_A$)
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/orders/:id/cancel`
+- **Headers:** `Authorization: Bearer <userBToken>`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderAId}}`
+- **Request Body:** Empty `{}`
+- **Action / Sequence:**
+  1. Setup creates order for User A $\rightarrow$ state is `pending`.
+  2. User B sends `PUT /api/orders/{{orderAId}}/cancel` using User B's auth token.
+  3. Query `GET /api/orders/{{orderAId}}` using User A / Admin token to verify state remained `pending`.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `403 Forbidden` or `404 Not Found`)
+- **Expected Semantic Result:** Cancellation rejected; authenticated customer cannot cancel an order belonging to a different customer.
+- **Expected State After:** `pending` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/{{orderAId}}` with $U_A$ / Admin token; assert `response.order.status === "pending"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Clean ownership isolation test with valid token, valid user role, and cancellable order state.
+
+---
+
+### FR10-AI-034 – Cross-User Ownership Boundary: Customer B Cancelling Customer A's Confirmed Order
+
+- **Test Case ID:** `FR10-AI-034`
+- **Title:** Cross-User Ownership Boundary: Customer B Cancelling Customer A's `confirmed` Order
+- **Technique:** Authorization & Data Isolation Testing (Cross-Tenant Ownership Boundary)
+- **Requirement:** SRS Section 4.10, Business Authorization Discipline
+- **Oracle Classification:** `PARTIALLY SPECIFICATION-BACKED / OWNERSHIP BOUNDARY`
+- **Preconditions:** Customer $U_A$'s order is advanced to `confirmed` state; Customer $U_B$ has valid token.
+- **Actor:** Unrelated Authenticated Customer ($U_B$, `role = 'user'`)
+- **Authentication Context:** Valid customer JWT of User B (`userBToken`)
+- **State Before:** `confirmed` (owned by $U_A$)
+- **Request Method:** `PUT`
+- **Endpoint:** `/api/orders/:id/cancel`
+- **Headers:** `Authorization: Bearer <userBToken>`, `X-Student-Id: 23127259`
+- **Path Parameters:** `:id = {{orderAId}}`
+- **Request Body:** Empty `{}`
+- **Action / Sequence:**
+  1. Setup creates order for User A and transitions to `confirmed`.
+  2. User B sends `PUT /api/orders/{{orderAId}}/cancel` using User B's auth token.
+  3. Query `GET /api/orders/{{orderAId}}` using User A / Admin token to verify state remained `confirmed`.
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED` (e.g. `403 Forbidden` or `404 Not Found`)
+- **Expected Semantic Result:** Cancellation rejected; User B cannot cancel User A's confirmed order prior to shipping.
+- **Expected State After:** `confirmed` (State remains UNCHANGED)
+- **Persistence Verification Plan:** Send `GET /api/orders/{{orderAId}}` with $U_A$ / Admin token; assert `response.order.status === "confirmed"`.
+- **Oracle Confidence:** HIGH
+- **Notes:** Evaluates ownership boundary in the second cancellable lifecycle state.
