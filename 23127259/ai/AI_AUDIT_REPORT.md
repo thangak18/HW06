@@ -207,6 +207,13 @@
 - **Date & Time:** 2026-09-01 20:37:56+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 1D.4: FR-02 Real Postman Execution Evidence & X-Student-Id Console Proof
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 945, Output: Pending)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 945, Output: Step 1003)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-023`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-023-fr02-real-postman-execution-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md)
+### INT-024: Phase 1D.4 Correction: FR-02 Real Postman Execution Evidence Correction & Verification
+- **Date & Time:** 2026-09-01 20:45:00+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1D.4 Correction: Recapture genuine Postman runtime Console and Runner execution screenshots
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1004, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-024`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-024-fr02-postman-evidence-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md)

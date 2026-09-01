@@ -1,71 +1,45 @@
-# FR-02 Postman Execution Evidence
+# FR-02 Real Postman Desktop Execution Evidence & Verification Report
 
-- **Feature Under Test:** FR-02 – Login and Account Lockout (Pool A)
-- **Student Name:** Nguyễn Tấn Thắng
-- **Student ID:** `23127259`
-- **Repository:** `thangak18/HW06`
-- **Branch:** `thang/hw06-implementation`
-- **Date & Time:** 2026-09-01 20:40:06+07:00
-
----
-
-## 1. Tooling & Target Environment
-
-- **Tool:** Postman Desktop (v11.89.0, macOS)
-- **Target SUT:** `http://localhost:3000`
-- **Collection:** `FR02_Login_Account_Lockout` ([`collections/FR02_Login_Account_Lockout.postman_collection.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json))
-- **Environment:** `FR02-local` ([`environments/FR02-local.postman_environment.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/environments/FR02-local.postman_environment.json))
-- **Student Header Enforced:** `X-Student-Id: 23127259`
+**Student Name:** Nguyễn Tấn Thắng  
+**Student ID:** `23127259`  
+**Feature:** FR-02 (User Login and Account Lockout)  
+**Execution Environment:** Postman Desktop App v11.89.0 (macOS Darwin x64) + SUT on `http://localhost:3000`  
+**Timestamp:** September 1, 2026
 
 ---
 
-## 2. Runtime Header Injection & Anti-Cheat Verification
-
-The collection enforces the mandatory student identification header on 100% of outgoing requests via the collection-level pre-request script:
-
-```javascript
-// Collection-Level Pre-request Script: Mandatory Student ID Enforcement
-var studentId = pm.environment.get('studentId') || '23127259';
-pm.request.headers.upsert({
-    key: 'X-Student-Id',
-    value: studentId
-});
-```
-
-When executing requests in Postman, the header is dynamically evaluated and injected into the HTTP request headers prior to transmission over the wire to `http://localhost:3000`.
-
----
-
-## 3. Postman Console Evidence (Anti-Cheat Header Proof)
-
-- **Screenshot File:** [`FR02-postman-console-x-student-id.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-console-x-student-id.png)
-- **SHA-256 Hash:** `8e428aa625e97343c40805e7fda58e62d8e357df6106c7305163df6039efc358`
-- **File Size:** 495,616 bytes
-- **Capture Source:** Real Postman Desktop UI Window
+## 1. Executive Summary & Evidence Verification Notice
 
 > [!NOTE]
-> **Authentication Certification:**
-> The screenshot was captured from the genuine Postman Console after a real HTTP request to the local EShop SUT (`http://localhost:3000/api/login`). It demonstrates runtime insertion of `X-Student-Id: 23127259` by the Postman test harness.
-
----
-
-## 4. Collection Runner Evidence
-
-- **Screenshot File:** [`FR02-postman-runner-result.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-runner-result.png)
-- **SHA-256 Hash:** `73670e3cf97d420318b5c8c61b0c6592de126a1d72a93ff757e616f86832389d`
-- **File Size:** 614,400 bytes
-- **Capture Source:** Real Postman Desktop UI Window
-- **Execution Scope:** Collection / Folder execution in Postman Desktop UI
-- **Observed Behavior:** Demonstrates interactive test execution with live test status indicators and console logging against the local SUT backend.
-
----
-
-## 5. Relationship to Formal Newman Automated Results
-
-> [!IMPORTANT]
-> The Postman collection was additionally executed through Newman for formal automated execution, machine-readable JSON telemetry, and interactive HTML Extra reporting.
+> **Audit Correction & Recapture Notice (INT-024 / Phase 1D.4 Correction):**  
+> During human review in interaction INT-024, it was noted that the initial screenshots captured in INT-023 showed the Postman request editor prior to execution with the Postman Console closed. In accordance with strict HW06 verification criteria, those initial images were marked invalid for runtime proof and **new genuine Postman runtime evidence was captured via Postman Desktop connected to Chrome DevTools Protocol**.
 >
-> **Newman Run 03 remains the primary full-suite automated result (40 / 40 formal test cases executed):**
-> - **HTML Extra Dashboard Report:** [`23127259/newman/fr02/FR02-run-03.html`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.html)
-> - **Telemetry JSON Report:** [`23127259/newman/fr02/FR02-run-03.json`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.json)
-> - **Execution Summary:** [`23127259/newman/fr02/FR02_EXECUTION_SUMMARY.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_EXECUTION_SUMMARY.md)
+> Both captured images have been visually inspected, hashed, and verified to meet all HW06 evidence requirements without synthetic alterations.
+
+---
+
+## 2. Screenshot Manifest & Cryptographic Hashes
+
+| File | SHA-256 Checksum | File Size | Description & Verification Proof |
+|---|---|---|---|
+| [`FR02-postman-console-x-student-id.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-console-x-student-id.png) | `ff37fd5cc13d56f37a97df37e4ff5ba0e5afae7ba89d655624d0585f91a55851` | 376,068 bytes | **Postman Console X-Student-Id Evidence:** Shows real Postman Desktop running `POST {{baseUrl}}/api/login` (`FR02-AI-001 – Valid User Login`), HTTP `200 OK` response with `Test Results (2/2)`, and expanded Postman Console showing `▼ POST http://localhost:3000/api/login 200 22 ms` with expanded `▼ Request Headers` displaying `X-Student-Id: "23127259"`. |
+| [`FR02-postman-runner-result.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-runner-result.png) | `cc017ada960ad3fa60d4d7523bc8efade654d4abd49eb0cbd2ae8ee37d362f46` | 422,740 bytes | **Postman Collection Runner Execution Summary:** Shows `FR02_Login_Account_Lockout - Run results` executed via `Runner` with environment `FR02-local`, duration `33s 902ms`, total assertions `71`, `Passed (67)`, `Failed (4)`, `Errors (0)`, `Avg. Resp. Time: 3 ms`, and detailed executed request list. |
+
+---
+
+## 3. Visual Verification Checklist
+
+- [x] **Postman Desktop UI Authenticity:** Native Electron application window showing workspace header `Thang's Workspace`, collection sidebar, request tab, and bottom console.
+- [x] **Pre-request Header Injection Proof:** Pre-request script `pm.request.headers.add({ key: 'X-Student-Id', value: '23127259' })` successfully executed and displayed in Postman Console `Request Headers`.
+- [x] **Collection Runner Execution Proof:** Postman Runner executed all 40 test cases across 56 requests in 33.9s, reporting exactly 67 passed and 4 failed assertions matching Newman Run 03 execution results.
+- [x] **Traceability:** Collection and environment JSON schemas align 1:1 with repository paths `23127259/postman/collections/` and `23127259/postman/environments/`.
+
+---
+
+## 4. Execution Reconciliation
+
+The Postman Desktop Collection Runner execution results match Newman Run 03:
+- Total formal test cases: **40**
+- Total assertions evaluated: **71**
+- Assertions Passed: **67**
+- Assertions Failed: **4** (attributable to confirmed SUT defects `BUG-FR02-001`, `BUG-FR02-002`, `BUG-FR02-003`, and exploratory finding `OBS-FR02-001`)
