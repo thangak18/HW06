@@ -66,23 +66,44 @@ Dung ky thuat **State Transition Testing (0-switch coverage day du)**.
 
 ---
 
-## Vong 3 — SECURITY (`SEC`), muc tieu >= 9 case/API (>= 1 case/SEC-code)
+## Vong 3 — SECURITY (`SEC`), muc tieu >= 9 case/API
 
-Bat buoc phu **du 7 ma SEC-01..SEC-07** cho moi API. Mau payload:
+> **DA SUA sau STEP 3.** Ban truoc cua muc nay ghi: *"Bat buoc phu du 7 ma SEC-01..SEC-07 cho
+> **moi** API"*, va dung mot bang SEC **suy dien theo OWASP**. Ca hai deu sai, va chung gay hai
+> that: yeu cau "du 7 ma cho moi API" la bat kha thi (SEC-07 noi ve OTP thi khong the ap vao
+> API quan ly san pham), nen cach duy nhat de "dat chi tieu" la gan bua. Ket qua o STEP 3:
+> **39/41 case SEC bi gan sai ma**. Xem `report/03_audit.md` muc 4.
 
-| SEC | Ky thuat | Payload mau |
+### Bang SEC-01..SEC-07 (nguon duy nhat: `eshop-sut/README.md` muc 9)
+
+| Ma | Yeu cau | Kiem the nao o tang API |
 |---|---|---|
-| SEC-01 SQLi | injection vao query param, body, path | `%' OR '1'='1`, `' UNION SELECT id,email,password,1,1 FROM users--`, `1; DROP TABLE products--` |
-| SEC-02 Lo du lieu | doc response tim `password`, `reset_token`, stack trace, HTML error | assert `!body.hasOwnProperty('password')` |
-| SEC-03 Thieu auth | goi khong `Authorization`, token rong, `Bearer `, token sai chu ky, token het han | ky vong 401/403 |
-| SEC-04 IDOR | user B truy cap tai nguyen cua user A bang id | `GET /api/orders/<id cua A>` |
-| SEC-05 Role escalation | user thuong goi endpoint admin; `PUT /api/users/me` voi `{role:"admin"}` roi thu lai | ky vong 403 |
-| SEC-06 Validate/XSS | `<script>alert(1)</script>`, `<img src=x onerror=alert(1)>`, `../../etc/passwd`, `${7*7}`, ky tu NULL | ky vong bi tu choi hoac duoc escape |
-| SEC-07 Brute force | goi lien tiep N lan sai (login/reset token) | ky vong bi chan/lockout |
+| SEC-01 | Mat khau **khong** duoc luu plaintext | Doc response cua `login` / `users/me`: neu thay `password` dung nguyen van mat khau da gui thi da chung minh vi pham |
+| SEC-02 | API co tinh bao mat phai yeu cau JWT hop le | Goi khong `Authorization`; `Bearer ` rong; token sai chu ky; token cua user khac. Ky vong 401/403 |
+| SEC-03 | API Admin phai kiem `role='admin'`, **khong chi** kiem token ton tai | Dung token cua user thuong (hop le) goi endpoint admin. Ky vong 403 |
+| SEC-04 | Du lieu user nhap phai duoc escape khi hien thi | Gui `<script>`, `<img src=x onerror=>`, `javascript:` roi doc lai xem server co luu tho khong |
+| SEC-05 | Truy van CSDL phai dung Parameterized Query | `%' OR '1'='1`, `' UNION SELECT ...`, `'; DROP TABLE ...--`, va mot dau nhay don don le |
+| SEC-06 | API cap nhat ho so **khong duoc** cho doi truong `role` tu client | `PUT /api/users/me` kem `{"role":"admin"}` roi doc lai role |
+| SEC-07 | OTP reset phai >= 6 chu so, co thoi han, vo hieu hoa sau khi dung | Do dai token; dung lai token da dung; dung token cua email khac; token cu sau khi xin token moi |
 
-Moi case SEC phai ghi `SEC_Ref` va `Bug_Ref` neu no phoi bay bug da biet.
+### Chi tieu do phu — dat lai cho dung
 
----
+- **Toan bo suite phai phu du 7 ma SEC-01..SEC-07.** Day moi la yeu cau cua de bai.
+- **Tung API chi phu nhung ma thuc su ap dung duoc**, va phan khong ap dung **phai co giai
+  trinh mot dong** trong bao cao. Vi du: API-3 (quan ly san pham) khong dung toi luu tru mat
+  khau lan OTP, nen khong co case SEC-01 va SEC-07 — do la dung, khong phai thieu sot.
+- Nguong so luong van la **>= 9 case SEC/API**, nhung dem theo **so phep thu bao mat**, khong
+  phai theo so ma SEC khac nhau.
+
+**Quy tac chong tai pham:** truoc khi gan mot ma SEC, phai tra loi duoc cau
+*"dieu nay vi pham cau nao trong `README.md` muc 9?"*. Neu khong tra loi duoc thi **de
+`SEC_Ref = '-'`**, khong duoc gan ma gan dung nhat. Mot so vector tan cong that su **khong**
+duoc SEC-01..07 phu (user enumeration, path traversal, mass assignment truong khac `role`,
+thieu rate limiting) — chung van la test hop le, chi la khong co ma SEC de gan.
+
+**Quy tac ve ky vong:** `Expected_Status` phai truy nguoc duoc ve mot cau trong SRS. Ky vong
+`429` (rate limiting) va `409` (conflict) **khong co can cu trong SRS nay** — dung dat chung
+tru khi trich duoc dong cu the.
 
 ## Vong 4 — SCHEMA VALIDATION (`SCH`), muc tieu >= 5 case/API
 

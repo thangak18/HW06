@@ -51,3 +51,11 @@ File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py bui
 - Files touched: testcases/API-1_generated.csv, testcases/API-2_generated.csv, testcases/API-3_generated.csv
 - Human verified: pending
 
+### #7 · 2026-09-01T14:49:56+07:00 · STEP 3 · Audit 225 test case bang bo luat tai lap duoc
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step3_audit.txt`
+  > [STEP 3 — AUDIT: gan nhan VALID / INVALID / INCOMPLETE] De bai muc 6.2: "Label each AI-generated test case VALID / INVALID / INCOMPLETE with reasoning,
+- Output: `ai/interactions/20260901T144956+0700_audit-225-test-case-bang-bo-luat-tai-lap_OUTPUT.md`
+- Files touched: agent-skill/eshop-api-23127060/scripts/audit_testcases.py, testcases/API-1_audited.csv, testcases/API-2_audited.csv, testcases/API-3_audited.csv, report/03_audit.md, agent-skill/eshop-api-23127060/references/TESTCASE_TAXONOMY.md
+- Human verified: pending
+
