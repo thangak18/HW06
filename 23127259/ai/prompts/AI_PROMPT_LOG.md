@@ -13506,10 +13506,3387 @@ SUT execution performed: NO
 - push result
 - git status
 
+---
+
+## INT-030 – Phase 2B.0: FR-10 Human Audit Workspace Preparation + Batch 1 Evidence
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 21:27:22+07:00
+- **Interaction File:** [`../interactions/INT-030-fr10-human-audit-preparation-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are starting:
+
+PHASE 2B.0 – FR-10 HUMAN AUDIT WORKSPACE PREPARATION + BATCH 1 EVIDENCE
+
+FR-10 raw AI generation is COMPLETE and FROZEN.
+
+Raw AI inventory:
+
+FR10-AI-001 .. FR10-AI-042
+
+Total raw AI-generated cases:
+42
+
+Frozen raw SHA-256:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Generation commit:
+
+f2057c8
+
+IMPORTANT:
+
+The raw AI draft is now immutable evidence.
+
+DO NOT modify:
+
+23127259/testcases/FR10_AI_DRAFT.md
+
+Human Audit corrections must be stored separately.
+
+This interaction prepares the Human Audit workspace and presents Batch 1
+evidence.
+
+DO NOT assign Human Audit verdicts on behalf of the student.
+
+==================================================
+1. AI AUDIT NUMBERING
+==================================================
+
+Previous interaction:
+
+INT-029
+FR-10 Input / ID / Schema / Persistence / SEC-05 Final AI Generation
+
+Current interaction:
+
+INT-030
+
+First backfill the COMPLETE exact output of INT-029 from the completed
+Antigravity transcript.
+
+Locate the actual:
+- USER_INPUT
+- corresponding PLANNER_RESPONSE
+
+Do not guess transcript indices.
+
+Then create:
+
+23127259/ai/interactions/
+INT-030-fr10-human-audit-preparation-batch1.md
+
+Record:
+- actual Tool
+- actual Model
+- actual Date/Time
+- timezone UTC+07:00
+- Stage:
+  FR-10 Human Audit Preparation + Batch 1
+- THIS COMPLETE PROMPT verbatim
+
+Append this complete prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+For INT-030 Exact AI Output use:
+
+PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+until this interaction actually completes.
+
+==================================================
+2. VERIFY FROZEN RAW INTEGRITY
+==================================================
+
+Run:
+
+shasum -a 256 23127259/testcases/FR10_AI_DRAFT.md
+
+Expected:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Verify programmatically:
+
+- exactly 42 FR10-AI IDs
+- continuous 001..042
+- duplicate IDs = 0
+- FR10-HUM IDs = 0
+
+If the hash does not match:
+STOP.
+
+==================================================
+3. CREATE HUMAN AUDIT WORKSHEET
+==================================================
+
+Create:
+
+23127259/ai/TC_AUDIT_FR10.md
+
+At the top include:
+
+# FR-10 Human Audit of Raw AI-Generated Test Cases
+
+Raw AI-generated:
+42
+
+Frozen raw hash:
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Human Audit Status:
+IN PROGRESS
+
+Required Human verdict values:
+
+VALID
+INVALID
+INCOMPLETE
+
+Definitions:
+
+VALID
+= test is relevant, non-duplicate, and its formal oracle is sufficiently
+supported by the authoritative requirement/API specification.
+
+INVALID
+= duplicate, irrelevant, logically invalid, uses a false oracle, or cannot be
+made valid without changing the test's essential objective.
+
+INCOMPLETE
+= useful test objective but one or more details/oracles are over-specified,
+under-specified, confounded, or require correction before executable use.
+
+==================================================
+4. AUDIT TABLE FORMAT
+==================================================
+
+Create a row for all 42 cases:
+
+| Test ID | AI Objective | Spec Basis | Oracle Strength | Human Verdict | Human Reasoning | Required Correction | Executable After Correction? |
+|---|---|---|---|---|---|---|---|
+
+For ALL 42 rows:
+
+Human Verdict:
+PENDING HUMAN DECISION
+
+Human Reasoning:
+PENDING HUMAN DECISION
+
+Required Correction:
+PENDING HUMAN DECISION
+
+Executable After Correction?:
+PENDING HUMAN DECISION
+
+Do NOT pre-fill Human verdicts.
+
+==================================================
+5. ORACLE HIERARCHY
+==================================================
+
+Human Audit must use:
+
+1. HW06 assignment requirements
+2. EShop SRS
+3. api_specification.md
+
+Implementation behavior is NOT the oracle.
+
+Do not inspect runtime behavior to decide whether a generated test is valid.
+
+Do not use server.js as expected behavior.
+
+If implementation/source is later inspected:
+label separately as implementation observation.
+
+==================================================
+6. HUMAN AUDIT QUESTIONS
+==================================================
+
+For every case, later Human Audit should answer:
+
+A. Is this objective actually relevant to FR-10?
+
+B. Is the transition/security/input rule supported by the specification?
+
+C. Is the case unique, or substantially duplicated by another AI case?
+
+D. Does it isolate one primary failure dimension?
+
+E. Does it invent an exact status code or response schema?
+
+F. Does it rely on a SPEC-UNDEFINED behavior?
+
+G. Is the persistence/state oracle legitimate?
+
+H. Can the test be made executable without changing its core objective?
+
+==================================================
+7. IMPORTANT KNOWN REVIEW FLAGS
+==================================================
+
+Record these as REVIEW FLAGS ONLY, not verdicts.
+
+FR10-AI-012
+
+Potential problem:
+combines:
+- normal user actor
+- illegal pending -> shipping transition
+
+Therefore rejection could arise from either:
+RBAC
+or
+FSM
+
+Potential classification:
+requires Human review for confounded failure dimensions.
+
+DO NOT assign verdict yet.
+
+--------------------------------------------------
+
+FR10-AI-033
+FR10-AI-034
+
+Potential problem:
+cross-user cancellation ownership restriction may be only partially explicit.
+
+Human Audit must verify exact SRS/API wording.
+
+Do not automatically strengthen implied ownership language into a normative
+rule.
+
+--------------------------------------------------
+
+FR10-AI-038
+
+Potential problem:
+numeric `status` tests documented enum/string contract but exact type rejection
+may not be normative.
+
+May require a partial/spec-limited oracle.
+
+--------------------------------------------------
+
+FR10-AI-039
+FR10-AI-040
+
+Potential problem:
+confirm exact normative handling of:
+- nonexistent ID
+- malformed/non-numeric ID
+
+Do not automatically require conventional 404/400.
+
+--------------------------------------------------
+
+FR10-AI-041
+
+Potential problem:
+verify that the documented read endpoint and authorization model actually
+support the proposed persistence verification.
+
+Do not over-assert response schema fields.
+
+--------------------------------------------------
+
+FR10-AI-042
+
+Potential problem:
+SEC-05 SQLi test provides only partial black-box behavioral evidence.
+
+It cannot prove:
+parameterized queries are implemented.
+
+==================================================
+8. AUDIT BATCH PLAN
+==================================================
+
+Human Audit will be performed in four controlled batches:
+
+Batch 1:
+FR10-AI-001 .. FR10-AI-012
+
+Batch 2:
+FR10-AI-013 .. FR10-AI-024
+
+Batch 3:
+FR10-AI-025 .. FR10-AI-034
+
+Batch 4:
+FR10-AI-035 .. FR10-AI-042
+
+Do NOT process later batches in this interaction.
+
+==================================================
+9. PREPARE BATCH 1 EVIDENCE
+==================================================
+
+For:
+
+FR10-AI-001 .. FR10-AI-012
+
+create a detailed audit evidence section.
+
+For each case show:
+
+### FR10-AI-XXX
+
+AI Objective:
+<concise restatement>
+
+Primary Requirement:
+<exact requirement / rule>
+
+State Before:
+...
+
+Actor:
+...
+
+Requested Transition:
+...
+
+Expected Semantic Result:
+...
+
+Expected State After:
+...
+
+Oracle Classification From Raw AI:
+...
+
+Closest Other AI Cases:
+...
+
+Potential Duplicate:
+YES / NO / POSSIBLE
+
+Potential Confound:
+YES / NO
+
+Potential Over-Specification:
+...
+
+Human Audit Question:
+<the key question the student must decide>
+
+IMPORTANT:
+
+This is evidence preparation.
+
+Do NOT conclude:
+VALID
+INVALID
+INCOMPLETE
+
+==================================================
+10. SPECIAL REVIEW OF FR10-AI-001..004
+==================================================
+
+Pay particular attention to distinction between:
+
+001
+single edge pending -> confirmed
+
+002
+single edge confirmed -> shipping
+
+003
+single edge shipping -> delivered
+
+004
+complete lifecycle sequence
+
+Do not call 004 duplicate merely because it contains the same edges.
+
+Its objective may legitimately be multi-step lifecycle continuity.
+
+Human must decide.
+
+==================================================
+11. SPECIAL REVIEW OF FR10-AI-005..008
+==================================================
+
+Verify distinct actor/state combinations:
+
+pending -> canceled by owner User
+
+pending -> canceled by Admin
+
+confirmed -> canceled by owner User
+
+confirmed -> canceled by Admin
+
+Check exact API route for each.
+
+If Admin cancellation is supported through status mutation:
+document that.
+
+Do not merge user cancellation endpoint with admin endpoint.
+
+==================================================
+12. SPECIAL REVIEW OF FR10-AI-009..011
+==================================================
+
+These should isolate illegal skip transitions using valid Admin authorization.
+
+Verify:
+
+009
+pending -> shipping
+
+010
+pending -> delivered
+
+011
+confirmed -> delivered
+
+For each:
+the primary oracle should be:
+
+transition rejected
++
+persisted state unchanged
+
+Do not require arbitrary exact error code.
+
+==================================================
+13. SPECIAL REVIEW OF FR10-AI-012
+==================================================
+
+Analyse carefully but DO NOT assign the Human verdict.
+
+Document:
+
+State:
+pending
+
+Actor:
+normal customer
+
+Requested admin mutation:
+pending -> shipping
+
+Two independent invalid dimensions:
+
+1. normal user lacks Admin authorization
+2. pending -> shipping is itself an illegal FSM skip
+
+Explain why this may make failure causality ambiguous.
+
+Do not repair the case in the raw file.
+
+==================================================
+14. NO EXECUTION
+==================================================
+
+Do NOT:
+
+- start Postman
+- run Newman
+- send HTTP requests
+- create orders
+- inspect DB
+- modify SUT
+- confirm bugs
+
+Human Audit is static review.
+
+==================================================
+15. DO NOT GENERATE HUMAN EXTENSIONS
+==================================================
+
+Do NOT create:
+
+FR10-HUM-001
+
+or any Human Extension case.
+
+Human extensions only happen after all 42 AI cases are audited.
+
+==================================================
+16. DO NOT COMMIT HUMAN VERDICTS
+==================================================
+
+This interaction contains no Human verdicts yet.
+
+The worksheet may be created/updated with PENDING entries.
+
+Do NOT manufacture the student's decision.
+
+==================================================
+17. GIT POLICY
+==================================================
+
+Because the audit worksheet contains only preparation/PENDING verdicts:
+
+do NOT create the procedural Human Audit completion commit yet.
+
+You may leave the new worksheet uncommitted.
+
+Audit evidence/log artifacts may also remain working-tree changes until the
+student supplies Batch 1 decisions.
+
+Do not commit:
+
+test(...): audit FR-10
+
+until actual Human decisions have been recorded.
+
+==================================================
+18. END REPORT
+==================================================
+
+Return:
+
+# Phase 2B.0 FR-10 Human Audit Preparation Report
+
+## AI Audit
+- INT-029 output backfilled
+- INT-030 prompt stored
+- INT-030 output pending
+
+## Raw Integrity
+- frozen hash
+- 42 / 42 IDs verified
+- raw modified: NO
+
+## Audit Workspace
+- TC_AUDIT_FR10.md created
+- total rows: 42
+- Human verdicts entered: 0
+
+## Batch 1 Evidence
+
+Provide a compact table:
+
+| ID | Objective | Closest Case | Duplicate Risk | Confound Risk | Key Audit Question |
+|---|---|---|---|---|---|
+
+for FR10-AI-001 .. 012.
+
+## Known High-Risk Case
+FR10-AI-012:
+describe the two invalid dimensions.
+
+## Git
+- working tree status
+- Human Audit completion commit created: NO
+
+---
+
+## INT-031 – Phase 2B.1: FR-10 Human Audit Batch 1 Decisions + Batch 2 Evidence Preparation
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 21:30:05+07:00
+- **Interaction File:** [`../interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are continuing:
+
+PHASE 2B.1 – FR-10 HUMAN AUDIT BATCH 1 DECISIONS + BATCH 2 EVIDENCE PREPARATION
+
+Current frozen raw FR-10 suite:
+
+FR10-AI-001 .. FR10-AI-042
+42 raw AI-generated cases
+
+Frozen SHA-256:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Previous interaction:
+
+INT-030
+FR-10 Human Audit Preparation + Batch 1 Evidence
+
+The student has now completed Human Audit decisions for:
+
+FR10-AI-001 .. FR10-AI-012
+
+Record the decisions EXACTLY as provided below.
+
+Do NOT modify:
+
+23127259/testcases/FR10_AI_DRAFT.md
+
+==================================================
+1. AI AUDIT NUMBERING
+==================================================
+
+Current interaction:
+
+INT-031
+
+First backfill the COMPLETE exact AI output of INT-030 from the completed
+Antigravity transcript.
+
+Locate the actual:
+- USER_INPUT
+- corresponding PLANNER_RESPONSE
+
+Do not guess transcript indices.
+
+Then create:
+
+23127259/ai/interactions/
+INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md
+
+Record:
+- actual Tool
+- actual Model
+- actual Date/Time
+- timezone UTC+07:00
+- Stage:
+  FR-10 Human Audit Batch 1 Decisions + Batch 2 Evidence
+- THIS COMPLETE PROMPT verbatim
+
+Append this exact prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+For INT-031 Exact AI Output use:
+
+PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+until this interaction actually completes.
+
+==================================================
+2. RAW INTEGRITY GATE
+==================================================
+
+Verify:
+
+shasum -a 256 23127259/testcases/FR10_AI_DRAFT.md
+
+Expected:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+If mismatch:
+STOP.
+
+Do not modify the raw draft.
+
+==================================================
+3. RECORD HUMAN AUDIT DECISIONS – BATCH 1
+==================================================
+
+Update:
+
+23127259/ai/TC_AUDIT_FR10.md
+
+Use the following STUDENT HUMAN AUDIT decisions exactly.
+
+--------------------------------------------------
+FR10-AI-001
+VERDICT: VALID
+
+Human Reasoning:
+This is the atomic baseline transition pending -> confirmed using a valid Admin
+actor. The transition is explicitly part of the FR-10 state model and is
+distinct from the full lifecycle sequence.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-002
+VERDICT: VALID
+
+Human Reasoning:
+This cleanly isolates the confirmed -> shipping transition with valid Admin
+authorization and the correct starting state.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-003
+VERDICT: VALID
+
+Human Reasoning:
+This cleanly isolates the shipping -> delivered fulfillment edge. Delivered is
+the documented terminal completion state and the test uses the correct Admin
+actor.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-004
+VERDICT: VALID
+
+Human Reasoning:
+Although it contains the same individual edges exercised by AI-001..003, its
+objective is different. It validates lifecycle continuity on one order across
+the complete pending -> confirmed -> shipping -> delivered sequence rather
+than testing a single transition in isolation.
+
+Therefore it is NOT considered a duplicate.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-005
+VERDICT: VALID
+
+Human Reasoning:
+This tests the specification-backed customer self-service cancellation of the
+owner's pending order through the customer cancellation endpoint.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-006
+VERDICT: VALID
+
+Human Reasoning:
+This tests the distinct Admin cancellation path for a pending order through the
+Admin status mutation endpoint. The actor and route differ meaningfully from
+AI-005.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-007
+VERDICT: VALID
+
+Human Reasoning:
+This verifies that an owner customer may cancel a confirmed order before it
+enters shipping. This is a distinct state boundary from pending cancellation.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-008
+VERDICT: VALID
+
+Human Reasoning:
+This verifies the Admin cancellation path from confirmed state and is distinct
+from the customer cancellation endpoint used by AI-007.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-009
+VERDICT: VALID
+
+Human Reasoning:
+The case cleanly isolates an illegal FSM skip from pending directly to
+shipping while using valid Admin authorization. Rejection and unchanged
+persisted state are appropriate semantic oracles.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-010
+VERDICT: VALID
+
+Human Reasoning:
+The case cleanly tests the larger illegal skip pending -> delivered. It is
+distinct from AI-009 because it bypasses both confirmed and shipping states.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-011
+VERDICT: VALID
+
+Human Reasoning:
+The case isolates confirmed -> delivered and verifies that the shipping stage
+cannot be skipped after confirmation.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-012
+VERDICT: INVALID
+
+Human Reasoning:
+The case contains two independent invalid dimensions in the same request:
+
+1. a normal customer token is used against an Admin-only mutation endpoint;
+2. pending -> shipping is independently an illegal FSM skip.
+
+A rejected response therefore cannot establish whether RBAC or FSM validation
+caused the failure.
+
+The case is not worth correcting into the executable suite because:
+
+- changing the actor to Admin reduces it to the same core FSM scenario already
+  covered by FR10-AI-009;
+- changing the transition to an otherwise valid Admin transition to isolate
+  RBAC overlaps the dedicated SEC-03 coverage generated later, especially
+  FR10-AI-030.
+
+Therefore the raw AI case is retained as audit evidence but rejected from the
+future executable suite.
+
+Required Correction:
+NONE – REJECT RAW CASE FROM EXECUTABLE SUITE.
+
+Executable After Correction:
+NO.
+
+==================================================
+4. BATCH 1 ACCOUNTING
+==================================================
+
+After recording these decisions, report:
+
+Batch 1 audited:
+12 / 12
+
+VALID:
+11
+
+INVALID:
+1
+
+INCOMPLETE:
+0
+
+Rejected raw IDs:
+FR10-AI-012
+
+Remaining pending Human Audit:
+30 cases
+
+Do NOT describe the raw AI suite as only 41 generated cases.
+
+Correct accounting remains:
+
+42 RAW AI-GENERATED
+1 rejected so far during Human Audit
+41 remaining potentially usable pending completion of audit
+
+==================================================
+5. PRESERVE INVALID RAW EVIDENCE
+==================================================
+
+Do NOT delete:
+
+FR10-AI-012
+
+from:
+
+FR10_AI_DRAFT.md
+
+The raw file remains immutable.
+
+The later final executable suite will exclude it.
+
+==================================================
+6. PREPARE BATCH 2 EVIDENCE ONLY
+==================================================
+
+Now prepare Human Audit evidence for:
+
+FR10-AI-013 .. FR10-AI-024
+
+Do NOT assign verdicts for these cases.
+
+For each show:
+
+- AI Objective
+- Primary Requirement
+- State Before
+- Actor
+- Requested Transition / Operation
+- Expected Semantic Result
+- Expected State After
+- Oracle Classification from Raw AI
+- Closest AI Cases
+- Potential Duplicate
+- Potential Confound
+- Potential Over-Specification
+- Key Human Audit Question
+
+==================================================
+7. BATCH 2 REVIEW AREAS
+==================================================
+
+Batch 2 contains:
+
+FR10-AI-013
+confirmed -> pending
+
+FR10-AI-014
+shipping -> confirmed
+
+FR10-AI-015
+shipping -> pending
+
+FR10-AI-016
+owner-user shipping cancellation rejection
+
+FR10-AI-017 .. 020
+delivered terminal-state mutation attempts
+
+FR10-AI-021 .. 024
+canceled terminal-state mutation attempts
+
+For 013..015 verify:
+
+- valid Admin token
+- only invalid dimension is backward FSM regression
+- persisted state expected unchanged
+- no invented exact status
+
+For 016 verify:
+
+- valid owner-user token
+- shipping state correctly established
+- customer cancellation endpoint is correct
+- explicit SRS rule really prohibits customer cancellation after shipping
+
+For 017..024 verify:
+
+- terminal-state rule is actually normative
+- valid Admin authentication is used
+- each target is meaningfully distinct
+- no same-state test was included
+- persisted state remains terminal state
+
+==================================================
+8. TERMINAL CASE DUPLICATE DISCIPLINE
+==================================================
+
+Do NOT automatically call:
+
+delivered -> pending
+delivered -> confirmed
+delivered -> shipping
+delivered -> canceled
+
+duplicates simply because they all exercise terminal immutability.
+
+Likewise for canceled terminal transitions.
+
+Each targets a different forbidden target state.
+
+Human must decide whether the assignment benefits from keeping individual
+state-pair coverage.
+
+Do NOT assign verdicts now.
+
+==================================================
+9. HTTP STATUS DISCIPLINE
+==================================================
+
+Check whether any Batch 2 raw case invents:
+
+400
+401
+403
+409
+422
+
+without normative support.
+
+If the raw case correctly uses:
+
+ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED
+
+record that positively in evidence.
+
+Do not modify the raw case.
+
+==================================================
+10. NO HUMAN EXTENSIONS
+==================================================
+
+Do NOT create any:
+
+FR10-HUM-xxx
+
+Human extensions occur only after all 42 raw AI cases are audited.
+
+==================================================
+11. NO EXECUTION
+==================================================
+
+Do NOT:
+
+- run Postman
+- run Newman
+- send HTTP requests
+- create orders
+- mutate order state
+- inspect DB
+- modify SUT
+- confirm bugs
+
+Static Human Audit only.
+
+==================================================
+12. GIT POLICY
+==================================================
+
+Do NOT create the final procedural Human Audit commit yet.
+
+Human Audit is still incomplete.
+
+Leave TC_AUDIT_FR10.md and interaction/audit-log changes in the working tree.
+
+The final commit:
+
+test(23127259): audit AI-generated FR-10 test cases
+
+must only be created after all 42 Human verdicts are completed.
+
+==================================================
+13. END REPORT
+==================================================
+
+Return:
+
+# Phase 2B.1 FR-10 Human Audit Batch 1 Report
+
+## AI Audit
+- INT-030 output backfilled
+- INT-031 prompt stored
+- INT-031 output pending
+
+## Raw Integrity
+- frozen hash matched
+- raw modified: NO
+
+## Batch 1 Decisions
+
+| ID | Verdict | Correction | Executable? |
+|---|---|---|---|
+
+## Batch 1 Accounting
+- audited: 12
+- VALID: 11
+- INVALID: 1
+- INCOMPLETE: 0
+- remaining pending: 30
+
+## Batch 2 Evidence
+
+| ID | Objective | Duplicate Risk | Confound Risk | Over-Spec Risk | Key Audit Question |
+|---|---|---|---|---|---|
+
+for FR10-AI-013 .. 024.
+
+## Git
+- Human Audit completion commit created: NO
+- working tree status
+
+---
+
+## INT-032 – Phase 2B.2: FR-10 Human Audit Batch 2 Decisions + Batch 3 Evidence Preparation
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 21:32:46+07:00
+- **Interaction File:** [`../interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are continuing:
+
+PHASE 2B.2 – FR-10 HUMAN AUDIT BATCH 2 DECISIONS + BATCH 3 EVIDENCE PREPARATION
+
+Current frozen raw FR-10 suite:
+
+FR10-AI-001 .. FR10-AI-042
+42 RAW AI-generated cases
+
+Frozen SHA-256:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Previous Human Audit state:
+
+Batch 1:
+FR10-AI-001 .. FR10-AI-012
+
+VALID:
+11
+
+INVALID:
+1
+FR10-AI-012
+
+INCOMPLETE:
+0
+
+Current interaction now records the student's Human Audit decisions for:
+
+FR10-AI-013 .. FR10-AI-024
+
+Then prepare evidence ONLY for:
+
+FR10-AI-025 .. FR10-AI-034
+
+Do NOT modify:
+
+23127259/testcases/FR10_AI_DRAFT.md
+
+==================================================
+1. AI AUDIT NUMBERING
+==================================================
+
+Previous interaction:
+
+INT-031
+FR-10 Human Audit Batch 1 Decisions + Batch 2 Evidence
+
+Current interaction:
+
+INT-032
+
+First backfill the COMPLETE exact AI output of INT-031 from the completed
+Antigravity transcript.
+
+Locate the actual:
+- USER_INPUT
+- corresponding PLANNER_RESPONSE
+
+Do not guess transcript step indices.
+
+Then create:
+
+23127259/ai/interactions/
+INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md
+
+Record:
+- actual Tool
+- actual Model
+- actual Date/Time
+- timezone UTC+07:00
+- Stage:
+  FR-10 Human Audit Batch 2 Decisions + Batch 3 Evidence
+- THIS COMPLETE PROMPT verbatim
+
+Append this exact prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+For INT-032 Exact AI Output use:
+
+PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+until this interaction actually completes.
+
+==================================================
+2. RAW INTEGRITY GATE
+==================================================
+
+Verify:
+
+shasum -a 256 23127259/testcases/FR10_AI_DRAFT.md
+
+Expected:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+If mismatch:
+STOP.
+
+Do NOT modify the raw draft.
+
+==================================================
+3. RECORD STUDENT HUMAN AUDIT DECISIONS – BATCH 2
+==================================================
+
+Update:
+
+23127259/ai/TC_AUDIT_FR10.md
+
+Record the following STUDENT Human Audit verdicts exactly.
+
+--------------------------------------------------
+FR10-AI-013
+VERDICT: VALID
+
+Human Reasoning:
+This cleanly isolates the backward FSM regression confirmed -> pending using
+valid Admin authorization. The state transition itself is the only invalid
+dimension.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-014
+VERDICT: VALID
+
+Human Reasoning:
+This tests the distinct backward transition shipping -> confirmed with a valid
+Admin actor. It verifies that an in-transit order cannot regress to the prior
+confirmed state.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-015
+VERDICT: VALID
+
+Human Reasoning:
+This tests shipping -> pending, which is a larger backward regression than
+AI-014. It bypasses multiple lifecycle stages in reverse and therefore provides
+a distinct state-pair test rather than duplicating AI-014.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-016
+VERDICT: VALID
+
+Human Reasoning:
+The case directly tests the explicit business rule that an owner customer
+cannot cancel the order after it has entered shipping. Authentication,
+ownership, and starting state are otherwise valid, so the prohibited
+shipping-cancellation rule is isolated.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-017
+VERDICT: VALID
+
+Human Reasoning:
+This tests delivered -> pending. Delivered is a terminal state and this case
+specifically verifies that a completed order cannot be resurrected to its
+initial state.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-018
+VERDICT: VALID
+
+Human Reasoning:
+This tests delivered -> confirmed. Although it shares the terminal-state
+invariant with other delivered cases, the requested target state is distinct
+and contributes explicit transition-pair coverage.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-019
+VERDICT: VALID
+
+Human Reasoning:
+This tests delivered -> shipping and verifies that a completed order cannot
+regress into active transit. It is a distinct prohibited state pair.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-020
+VERDICT: VALID
+
+Human Reasoning:
+This tests delivered -> canceled. It is an important cross-terminal business
+boundary because a fulfilled transaction must not subsequently be voided.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-021
+VERDICT: VALID
+
+Human Reasoning:
+This tests canceled -> pending and verifies that a canceled terminal order
+cannot be resurrected into the initial processing state.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-022
+VERDICT: VALID
+
+Human Reasoning:
+This tests canceled -> confirmed. It is a distinct forbidden target state and
+provides explicit state-pair coverage for terminal immutability.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-023
+VERDICT: VALID
+
+Human Reasoning:
+This tests canceled -> shipping and verifies that a voided order cannot re-enter
+the fulfillment/distribution lifecycle.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-024
+VERDICT: VALID
+
+Human Reasoning:
+This tests canceled -> delivered. It is a critical cross-terminal isolation
+case ensuring a canceled transaction cannot later be marked successfully
+delivered.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+==================================================
+4. TERMINAL FAMILY DUPLICATE DECISION
+==================================================
+
+Record explicitly:
+
+FR10-AI-017 .. FR10-AI-024 are NOT considered duplicates.
+
+Reason:
+
+They share a common terminal-state invariant but each exercises a different
+ordered state-transition pair.
+
+The Human Audit intentionally retains them for transition-matrix coverage.
+
+Do not merge or delete them.
+
+==================================================
+5. CUMULATIVE HUMAN AUDIT ACCOUNTING
+==================================================
+
+After Batch 2:
+
+Total raw AI-generated:
+42
+
+Audited:
+24 / 42
+
+VALID:
+23
+
+INVALID:
+1
+
+INVALID ID:
+FR10-AI-012
+
+INCOMPLETE:
+0
+
+Remaining pending:
+18
+
+Correct wording:
+
+42 RAW AI-GENERATED CASES
+24 HUMAN-AUDITED SO FAR
+23 CURRENTLY USABLE AS-IS
+1 REJECTED
+18 PENDING AUDIT
+
+Do not say only 41 AI cases were generated.
+
+==================================================
+6. PREPARE BATCH 3 EVIDENCE ONLY
+==================================================
+
+Prepare audit evidence for:
+
+FR10-AI-025 .. FR10-AI-034
+
+Do NOT assign Human verdicts yet.
+
+For each include:
+
+- AI Objective
+- Requirement / security basis
+- Actor / authentication context
+- State Before
+- Requested operation
+- Expected semantic result
+- Expected State After
+- Raw Oracle Classification
+- Closest AI cases
+- Duplicate Risk
+- Confound Risk
+- Over-Specification Risk
+- Key Human Audit Question
+
+==================================================
+7. BATCH 3 GROUPING
+==================================================
+
+Batch 3 contains:
+
+SEC-02:
+FR10-AI-025
+FR10-AI-026
+FR10-AI-027
+FR10-AI-028
+FR10-AI-029
+
+SEC-03:
+FR10-AI-030
+FR10-AI-031
+FR10-AI-032
+
+OWNERSHIP:
+FR10-AI-033
+FR10-AI-034
+
+==================================================
+8. SEC-02 REVIEW DISCIPLINE
+==================================================
+
+For AI-025..029 verify:
+
+- requested business transition would otherwise be valid
+- only authentication is invalid
+- state must remain unchanged
+- no unsupported exact 401 is asserted
+- black-box test proves behavioral authentication enforcement only
+
+Review distinctions:
+
+025:
+missing Authorization
+
+026:
+malformed Authorization format
+
+027:
+invalid/random JWT
+
+028:
+tampered JWT
+
+029:
+missing auth on customer cancellation endpoint
+
+Do NOT automatically call these duplicates.
+
+They represent different authentication partitions.
+
+Do NOT assign verdicts yet.
+
+==================================================
+9. SEC-03 REVIEW DISCIPLINE
+==================================================
+
+For AI-030..032 verify:
+
+- token is VALID
+- role is normal user
+- requested transition would otherwise be legal for Admin
+- only authorization/RBAC is invalid
+- state remains unchanged
+- exact 403 is not invented unless normative
+
+Review:
+
+030:
+user attempts pending -> confirmed
+
+031:
+user attempts Admin pending -> canceled
+
+032:
+user attempts confirmed -> shipping
+
+Consider whether these are meaningfully distinct authorization probes or
+excessively repetitive.
+
+Do NOT assign verdicts now.
+
+==================================================
+10. OWNERSHIP REVIEW – HIGH ATTENTION
+==================================================
+
+For:
+
+FR10-AI-033
+FR10-AI-034
+
+review exact authoritative wording carefully.
+
+The raw cases assume:
+
+User B must not be allowed to cancel User A's order.
+
+Check whether the specification explicitly states:
+
+a user may cancel ONLY their own order
+
+or merely phrases the feature as:
+
+customer can cancel their order.
+
+Do NOT silently strengthen implied semantics.
+
+Prepare evidence using one of:
+
+SPECIFICATION-BACKED
+
+PARTIALLY SPECIFICATION-BACKED
+
+SPEC-UNDEFINED
+
+depending on exact wording.
+
+But do NOT assign the final Human verdict yet.
+
+Also verify these cases isolate ownership:
+
+- User B token valid
+- role valid for customer cancellation API
+- target state cancellable
+- only ownership differs
+
+==================================================
+11. SECURITY ORACLE LIMITS
+==================================================
+
+SEC-02 black-box cases do NOT prove JWT implementation correctness internally.
+
+SEC-03 cases do NOT prove the code literally performs:
+
+role === "admin"
+
+They provide behavioral authorization evidence.
+
+Record these scope limits.
+
+==================================================
+12. HTTP STATUS DISCIPLINE
+==================================================
+
+Check all 025..034 for accidental exact:
+
+401
+403
+400
+404
+
+If not explicitly normative.
+
+If raw case uses semantic:
+
+ERROR / NON-SUCCESS – EXACT CODE NOT SPECIFIED
+
+record that positively.
+
+Do not edit raw draft.
+
+==================================================
+13. PERSISTENCE ORACLE
+==================================================
+
+For each rejected mutation, verify that the planned external persistence oracle
+is legitimate:
+
+request rejected
+-> authorized GET/state query
+-> original state unchanged
+
+For ownership cases:
+
+do not use unauthorized User B's read access as persistence proof unless read
+authorization itself is being tested.
+
+Use:
+owner User A
+or
+Admin
+
+where documented.
+
+==================================================
+14. NO HUMAN EXTENSIONS
+==================================================
+
+Do NOT create:
+
+FR10-HUM-xxx
+
+Human extensions begin only after all 42 raw AI cases receive Human verdicts.
+
+==================================================
+15. NO EXECUTION
+==================================================
+
+Do NOT:
+
+- start Postman
+- run Newman
+- send HTTP requests
+- create live orders
+- modify order state
+- inspect DB
+- modify SUT
+- confirm bugs
+
+This is static Human Audit.
+
+==================================================
+16. GIT POLICY
+==================================================
+
+Do NOT create the final Human Audit procedural commit yet.
+
+Human Audit remains incomplete.
+
+Leave:
+
+TC_AUDIT_FR10.md
+interaction logs
+AI_AUDIT_REPORT.md
+AI_PROMPT_LOG.md
+
+as working-tree changes.
+
+The final commit:
+
+test(23127259): audit AI-generated FR-10 test cases
+
+will be created only after all 42 verdicts are complete.
+
+==================================================
+17. END REPORT
+==================================================
+
+Return:
+
+# Phase 2B.2 FR-10 Human Audit Batch 2 Report
+
+## AI Audit
+- INT-031 output backfilled
+- INT-032 prompt stored
+- INT-032 output pending
+
+## Raw Integrity
+- frozen hash matched
+- raw modified: NO
+
+## Batch 2 Decisions
+
+| ID | Verdict | Correction | Executable? |
+|---|---|---|---|
+
+## Cumulative Accounting
+- raw AI generated: 42
+- audited: 24
+- VALID: 23
+- INVALID: 1
+- INCOMPLETE: 0
+- pending: 18
+
+## Batch 3 Evidence
+
+| ID | Dimension | Duplicate Risk | Confound Risk | Oracle Risk | Key Audit Question |
+|---|---|---|---|---|---|
+
+for FR10-AI-025 .. 034.
+
+## Ownership Review
+Summarize exact specification strength for AI-033/034 without assigning Human
+verdicts.
+
+## Git
+- Human Audit completion commit created: NO
+- working tree status
+
+---
+
+## INT-033 – Phase 2B.3: FR-10 Human Audit Batch 3 Decisions + Final Batch 4 Evidence Preparation
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 21:35:36+07:00
+- **Interaction File:** [`../interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are continuing:
+
+PHASE 2B.3 – FR-10 HUMAN AUDIT BATCH 3 DECISIONS + FINAL BATCH 4 EVIDENCE PREPARATION
+
+Current frozen raw FR-10 suite:
+
+FR10-AI-001 .. FR10-AI-042
+42 RAW AI-generated cases
+
+Frozen SHA-256:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Previous Human Audit accounting:
+
+Audited:
+24 / 42
+
+VALID:
+23
+
+INVALID:
+1
+FR10-AI-012
+
+INCOMPLETE:
+0
+
+Current interaction records STUDENT Human Audit decisions for:
+
+FR10-AI-025 .. FR10-AI-034
+
+Then prepare evidence ONLY for the final audit batch:
+
+FR10-AI-035 .. FR10-AI-042
+
+Do NOT modify:
+
+23127259/testcases/FR10_AI_DRAFT.md
+
+==================================================
+1. AI AUDIT NUMBERING
+==================================================
+
+Previous interaction:
+
+INT-032
+FR-10 Human Audit Batch 2 Decisions + Batch 3 Evidence
+
+Current interaction:
+
+INT-033
+
+First backfill the COMPLETE exact AI output of INT-032 from the completed
+Antigravity transcript.
+
+Locate the actual:
+- USER_INPUT
+- corresponding PLANNER_RESPONSE
+
+Do not guess transcript indices.
+
+Then create:
+
+23127259/ai/interactions/
+INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md
+
+Record:
+- actual Tool
+- actual Model
+- actual Date/Time
+- timezone UTC+07:00
+- Stage:
+  FR-10 Human Audit Batch 3 Decisions + Final Batch 4 Evidence
+- THIS COMPLETE PROMPT verbatim
+
+Append this exact prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+For INT-033 Exact AI Output use:
+
+PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+until the interaction actually completes.
+
+==================================================
+2. RAW INTEGRITY GATE
+==================================================
+
+Verify:
+
+shasum -a 256 23127259/testcases/FR10_AI_DRAFT.md
+
+Expected:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+If mismatch:
+STOP.
+
+Do NOT edit the raw AI draft.
+
+==================================================
+3. RECORD HUMAN AUDIT DECISIONS – BATCH 3
+==================================================
+
+Update:
+
+23127259/ai/TC_AUDIT_FR10.md
+
+Record the following STUDENT Human Audit verdicts exactly.
+
+--------------------------------------------------
+FR10-AI-025
+VERDICT: VALID
+
+Human Reasoning:
+This provides the unauthenticated baseline for the security-sensitive Admin
+status mutation endpoint. The requested pending -> confirmed transition would
+otherwise be valid, so missing authentication is the isolated failure
+dimension.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-026
+VERDICT: VALID
+
+Human Reasoning:
+A malformed Authorization/Bearer header is a distinct authentication input
+partition from a completely missing header. It tests whether malformed
+credential transport is rejected while the underlying business transition is
+otherwise valid.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-027
+VERDICT: VALID
+
+Human Reasoning:
+An invalid/random token string is distinct from a missing or malformed
+Authorization scheme and provides a valid SEC-02 behavioral authentication
+partition.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-028
+VERDICT: VALID
+
+Human Reasoning:
+A tampered previously-valid JWT is a meaningful distinct authentication
+partition. The black-box oracle is limited to behavioral rejection of the
+tampered token.
+
+It does NOT prove the internal cryptographic implementation or JWT library
+correctness.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-029
+VERDICT: VALID
+
+Human Reasoning:
+This checks SEC-02 authentication enforcement on the customer-facing
+cancellation endpoint rather than the Admin mutation route. The pending
+self-cancellation operation would otherwise be valid.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-030
+VERDICT: VALID
+
+Human Reasoning:
+This cleanly isolates SEC-03 by using a valid normal-user token against an
+otherwise-valid Admin transition pending -> confirmed. The state must remain
+unchanged if authorization is rejected.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-031
+VERDICT: VALID
+
+Human Reasoning:
+This tests the Admin-only route with a valid normal-user token while targeting
+a state change that would otherwise be valid for an Admin. It is a distinct
+RBAC probe because the target operation is cancellation rather than forward
+fulfillment.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-032
+VERDICT: VALID
+
+Human Reasoning:
+This checks the same Admin-role boundary at the confirmed -> shipping stage.
+It is retained as distinct state-context coverage demonstrating that RBAC
+enforcement is not limited to the initial pending state.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-033
+VERDICT: INCOMPLETE
+
+Human Reasoning:
+The objective is useful and cleanly isolates cross-user ownership, but the
+authoritative FR-10 wording does not provide an explicit access-control matrix
+stating that User B must never cancel User A's order.
+
+The ownership restriction is strongly implied by customer self-service
+semantics but is not sufficiently explicit to treat this raw case as a fully
+normative specification-backed oracle.
+
+Required Correction:
+For the corrected executable derivative:
+
+- classify as:
+  PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION
+
+- preserve:
+  valid User B authentication
+  pending cancellable state
+  only ownership mismatch
+
+- do not claim an exact HTTP status
+
+- do not use failure of this case alone as proof of violation of an explicit
+  named FR-10 ownership requirement unless a stronger authoritative citation
+  is found
+
+- report any unexpected cross-user mutation conservatively as an ownership /
+  authorization security finding requiring requirement confirmation
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-034
+VERDICT: INCOMPLETE
+
+Human Reasoning:
+This has the same specification-strength limitation as AI-033 but exercises a
+different business state. Confirmed orders remain normally cancellable before
+shipping, so testing cross-user ownership at confirmed state is meaningful.
+
+However, the prohibition against another customer performing the cancellation
+is implied rather than expressed as a fully explicit FR-10 authorization rule.
+
+Required Correction:
+For the corrected executable derivative:
+
+- classify as:
+  PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION
+
+- preserve:
+  valid User B authentication
+  legitimately confirmed order belonging to User A
+  otherwise-valid cancellation state
+  ownership mismatch as the only tested dimension
+
+- do not invent exact HTTP status
+
+- do not overstate the result as proof of violation of an explicit FR-10
+  ownership requirement without stronger normative wording
+
+Executable After Correction:
+YES.
+
+==================================================
+4. BATCH 3 ACCOUNTING
+==================================================
+
+Batch 3 audited:
+10 / 10
+
+VALID:
+8
+
+INVALID:
+0
+
+INCOMPLETE:
+2
+
+INCOMPLETE IDs:
+FR10-AI-033
+FR10-AI-034
+
+Both INCOMPLETE cases remain usable after Human correction.
+
+==================================================
+5. CUMULATIVE HUMAN AUDIT ACCOUNTING
+==================================================
+
+After Batch 3:
+
+Total raw AI-generated:
+42
+
+Audited:
+34 / 42
+
+VALID:
+31
+
+INVALID:
+1
+
+INVALID:
+FR10-AI-012
+
+INCOMPLETE:
+2
+
+INCOMPLETE:
+FR10-AI-033
+FR10-AI-034
+
+Remaining pending:
+8
+
+Usable as-is:
+31
+
+Usable after recorded Human corrections:
+33
+
+Use precise wording.
+
+Do not report:
+34 valid
+or
+41 generated.
+
+==================================================
+6. DO NOT MODIFY RAW CASES
+==================================================
+
+FR10-AI-033 and FR10-AI-034 remain unchanged in:
+
+FR10_AI_DRAFT.md
+
+Their corrected executable interpretation belongs later in:
+
+Human Audit
+and
+FR10 final executable suite.
+
+==================================================
+7. PREPARE FINAL BATCH 4 EVIDENCE ONLY
+==================================================
+
+Prepare Human Audit evidence for:
+
+FR10-AI-035 .. FR10-AI-042
+
+Do NOT assign Human verdicts yet.
+
+For each show:
+
+- AI Objective
+- Requirement / API contract basis
+- Input partition
+- Actor/Auth context
+- State Before
+- Requested operation
+- Expected Semantic Result
+- Expected State After
+- Raw Oracle Classification
+- Closest AI cases
+- Duplicate Risk
+- Confound Risk
+- Over-Specification Risk
+- Persistence Oracle Risk
+- Key Human Audit Question
+
+==================================================
+8. FR10-AI-035 REVIEW
+==================================================
+
+Undocumented status enum:
+
+processing
+
+Check exact documented allowed state set.
+
+Question:
+
+Is rejecting an out-of-enum value a direct specification-backed invariant?
+
+Check that exact HTTP status is not invented.
+
+==================================================
+9. FR10-AI-036 REVIEW
+==================================================
+
+Missing status property:
+
+{}
+
+Verify whether status is explicitly required by the API contract.
+
+If required:
+likely strong normative basis.
+
+If merely shown in an example:
+oracle strength may need correction.
+
+Do not assign verdict yet.
+
+==================================================
+10. FR10-AI-037 REVIEW
+==================================================
+
+status = null
+
+Check whether the contract explicitly establishes:
+
+status is a required string/enum
+
+or only provides examples.
+
+The semantic invariant may be:
+
+null must not create a valid state transition
+
+without requiring a specific validation payload.
+
+==================================================
+11. FR10-AI-038 REVIEW
+==================================================
+
+status = numeric value
+
+High attention.
+
+Determine whether API-SPEC explicitly defines:
+
+status: string / enum
+
+If yes:
+stronger contract basis.
+
+If not:
+PARTIALLY SPECIFICATION-BACKED input robustness.
+
+Check for language that accidentally assumes JavaScript/Express coercion
+behavior.
+
+Implementation behavior is not oracle.
+
+==================================================
+12. FR10-AI-039 REVIEW
+==================================================
+
+Well-formed non-existing order ID.
+
+Check whether API-SPEC explicitly defines:
+
+order not found
+
+and/or exact status such as 404.
+
+If exact code is not normative:
+do not require it.
+
+Core semantic invariant:
+
+request must not mutate an unrelated order.
+
+Also determine whether this is truly FR-10 relevant rather than generic route
+validation.
+
+==================================================
+13. FR10-AI-040 REVIEW
+==================================================
+
+Malformed/non-numeric order ID:
+
+not-an-id
+
+Check whether ID type constraints are explicit.
+
+Possible risk:
+
+API path shape uses :id but may not normatively require numeric syntax.
+
+If numeric type is not explicit:
+this may need INCOMPLETE classification with a robustness-oriented correction.
+
+Do NOT derive numeric ID requirement from implementation/database schema alone.
+
+==================================================
+14. FR10-AI-041 REVIEW – HIGH ATTENTION
+==================================================
+
+Response / persistence consistency:
+
+valid pending -> confirmed mutation
+followed by GET state verification.
+
+Check:
+
+A. Is the Admin mutation response contract explicitly documented?
+
+B. Is the proposed GET endpoint documented?
+
+C. Is its authorization context legitimate?
+
+D. Are only documented fields asserted?
+
+E. Is this sufficiently distinct from AI-001?
+
+Potential justification:
+
+AI-001 tests transition permission.
+
+AI-041 tests response-to-persisted-state consistency.
+
+Do not automatically mark duplicate.
+
+Do not assign verdict yet.
+
+==================================================
+15. FR10-AI-042 REVIEW – HIGH ATTENTION
+==================================================
+
+SEC-05 SQL injection-style order ID probe.
+
+Audit limitations must be explicit:
+
+Black-box rejection cannot prove parameterized query implementation.
+
+Check whether the case:
+
+- tests only one injection dimension
+- uses valid Admin auth
+- uses otherwise-valid status
+- does not require a particular HTTP status
+- does not treat HTTP 500 alone as proof of SQL injection vulnerability
+- asserts no unintended state mutation
+
+Possible classification:
+
+PARTIAL BLACK-BOX SECURITY EVIDENCE
+
+Do not assign verdict yet.
+
+==================================================
+16. SPEC-UNDEFINED DISCIPLINE
+==================================================
+
+For any Batch 4 detail unsupported by formal source:
+
+do not silently promote it to normative.
+
+Potential Human outcomes include:
+
+VALID
+
+INCOMPLETE with corrected weaker oracle
+
+INVALID if the objective depends fundamentally on a false or unsupported
+requirement.
+
+==================================================
+17. FINAL AUDIT COMPLETION NOT YET
+==================================================
+
+Do NOT yet:
+
+- finalize 42-case audit totals
+- create Human Extension cases
+- create final executable suite
+- create the procedural audit commit
+
+Wait until Student supplies Batch 4 verdicts.
+
+==================================================
+18. NO EXECUTION
+==================================================
+
+Do NOT:
+
+- run Postman
+- run Newman
+- send HTTP requests
+- create orders
+- modify order state
+- inspect DB
+- inspect implementation as oracle
+- confirm bugs
+
+Static Human Audit only.
+
+==================================================
+19. GIT POLICY
+==================================================
+
+Do NOT commit Human Audit completion yet.
+
+Continue leaving:
+
+TC_AUDIT_FR10.md
+INT logs
+AI_AUDIT_REPORT.md
+AI_PROMPT_LOG.md
+
+in working tree.
+
+The final procedural commit occurs after all 42 Human decisions.
+
+==================================================
+20. END REPORT
+==================================================
+
+Return:
+
+# Phase 2B.3 FR-10 Human Audit Batch 3 Report
+
+## AI Audit
+- INT-032 output backfilled
+- INT-033 prompt stored
+- INT-033 output pending
+
+## Raw Integrity
+- frozen hash matched
+- raw modified: NO
+
+## Batch 3 Decisions
+
+| ID | Verdict | Required Correction | Executable? |
+|---|---|---|---|
+
+## Cumulative Accounting
+- raw generated: 42
+- audited: 34
+- VALID: 31
+- INVALID: 1
+- INCOMPLETE: 2
+- pending: 8
+- usable after correction: 33
+
+## Final Batch 4 Evidence
+
+| ID | Dimension | Oracle Strength | Duplicate Risk | Over-Spec Risk | Key Audit Question |
+|---|---|---|---|---|---|
+
+for FR10-AI-035 .. 042.
+
+## High-Risk Final Cases
+Summarize:
+038
+040
+041
+042
+
+without verdicts.
+
+## Git
+- Human Audit completion commit created: NO
+- working tree status
+
+---
+
+## INT-034 – Phase 2B.4: FR-10 Final Human Audit Decisions, Audit Freeze, and Human-Extension Gap Analysis
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 21:39:21+07:00
+- **Interaction File:** [`../interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md)
+
+### Exact Prompt
+
+```text
+/Speckit /Speckit We are continuing:
+
+PHASE 2B.4 – FR-10 FINAL HUMAN AUDIT DECISIONS, AUDIT FREEZE, AND HUMAN-EXTENSION GAP ANALYSIS
+
+Current frozen raw FR-10 suite:
+
+FR10-AI-001 .. FR10-AI-042
+
+Total raw AI-generated:
+42
+
+Frozen raw SHA-256:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Previous Human Audit accounting:
+
+Audited:
+34 / 42
+
+VALID:
+31
+
+INVALID:
+1
+FR10-AI-012
+
+INCOMPLETE:
+2
+FR10-AI-033
+FR10-AI-034
+
+Current interaction records the FINAL Student Human Audit decisions for:
+
+FR10-AI-035 .. FR10-AI-042
+
+After that:
+- finalize Human Audit accounting
+- create the procedural Human Audit commit
+- perform GAP ANALYSIS ONLY for future Human Extension selection
+
+DO NOT create FR10-HUM IDs yet.
+
+DO NOT modify:
+
+23127259/testcases/FR10_AI_DRAFT.md
+
+==================================================
+1. AI AUDIT NUMBERING
+==================================================
+
+Previous interaction:
+
+INT-033
+FR-10 Human Audit Batch 3 Decisions + Final Batch 4 Evidence
+
+Current interaction:
+
+INT-034
+
+First backfill the COMPLETE exact AI output of INT-033 from the completed
+Antigravity transcript.
+
+Locate the actual:
+- USER_INPUT
+- corresponding PLANNER_RESPONSE
+
+Do not guess transcript indices.
+
+Then create:
+
+23127259/ai/interactions/
+INT-034-fr10-final-human-audit-and-gap-analysis.md
+
+Record:
+- actual Tool
+- actual Model
+- actual Date/Time
+- timezone UTC+07:00
+- Stage:
+  FR-10 Final Human Audit + Human Extension Gap Analysis
+- THIS COMPLETE PROMPT verbatim
+
+Append this exact prompt to:
+
+23127259/ai/prompts/AI_PROMPT_LOG.md
+
+Update:
+
+23127259/ai/AI_AUDIT_REPORT.md
+
+For INT-034 Exact AI Output use:
+
+PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+
+until this interaction actually completes.
+
+==================================================
+2. RAW INTEGRITY GATE
+==================================================
+
+Verify:
+
+shasum -a 256 23127259/testcases/FR10_AI_DRAFT.md
+
+Expected:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Also verify:
+
+- 42 continuous IDs
+- no duplicates
+- no FR10-HUM IDs
+
+If mismatch:
+STOP.
+
+The raw file must remain unchanged.
+
+==================================================
+3. FINAL STUDENT HUMAN AUDIT DECISIONS
+==================================================
+
+Update:
+
+23127259/ai/TC_AUDIT_FR10.md
+
+Record these FINAL Student Human Audit decisions exactly.
+
+--------------------------------------------------
+FR10-AI-035
+VERDICT: VALID
+
+Human Reasoning:
+The authoritative FR-10 state model defines the allowed order status domain as
+the documented lifecycle states. "processing" is outside that domain.
+
+The test appropriately verifies that an undocumented target state must not
+cause a valid transition and that the persisted order remains unchanged.
+
+The case does not require a specific conventional HTTP error code.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-036
+VERDICT: VALID
+
+Human Reasoning:
+The Admin status mutation API requires a status target in its request body.
+An empty JSON object provides no requested lifecycle target and therefore
+cannot represent a valid FR-10 transition.
+
+The semantic oracle is limited to:
+- no valid transition occurs
+- state remains unchanged
+
+No exact validation payload or HTTP status is invented.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-037
+VERDICT: VALID
+
+Human Reasoning:
+Explicit null is distinct from an omitted property and is not one of the
+documented lifecycle states.
+
+The valid oracle is that null must not cause a successful lifecycle
+transition.
+
+No implementation-specific null-handling mechanism is assumed.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-038
+VERDICT: VALID
+
+Human Reasoning:
+The raw case is already conservatively classified as PARTIALLY
+SPECIFICATION-BACKED.
+
+Although the API documentation may not define a strict JSON type schema for
+status, numeric 123 is not one of the documented lifecycle states.
+
+The test remains valid as an input-domain robustness test because its oracle
+is limited to:
+
+- numeric input must not produce a legitimate documented state transition
+- persisted state must remain unchanged
+
+It must NOT assert a JavaScript-specific type error, coercion behavior, or
+specific validation response.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-039
+VERDICT: VALID
+
+Human Reasoning:
+A well-formed but non-existing resource identifier is a meaningful API resource
+boundary for the FR-10 mutation endpoint.
+
+The case does not require a conventional 404 unless explicitly documented.
+
+The important invariant is:
+
+- a nonexistent target cannot be successfully transitioned
+- no unrelated existing order is modified
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-040
+VERDICT: INCOMPLETE
+
+Human Reasoning:
+The test objective is useful as malformed path-parameter robustness coverage,
+but the authoritative API contract does not sufficiently establish that the
+:id path parameter has a normative numeric-only syntax.
+
+Inferring numeric format merely because the implementation/database uses
+numeric IDs would incorrectly turn an implementation detail into the oracle.
+
+Required Correction:
+
+For the corrected executable derivative:
+
+- classify as:
+  PARTIALLY SPECIFICATION-BACKED / INPUT ROBUSTNESS
+
+- describe "not-an-id" as a malformed/unsupported identifier probe rather than
+  asserting violation of an explicitly documented numeric-ID constraint
+
+- require only that the request must not cause unintended mutation of an
+  existing order
+
+- do not require exact HTTP 400 or 404 unless supported by authoritative API
+  documentation
+
+- if the SUT handles the value differently but safely, record actual behavior
+  without automatically filing a normative FR-10 bug
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-041
+VERDICT: VALID
+
+Human Reasoning:
+This case is distinct from FR10-AI-001.
+
+FR10-AI-001 primarily verifies that the transition:
+
+pending -> confirmed
+
+is permitted.
+
+FR10-AI-041 primarily verifies consistency between:
+
+1. the mutation response
+2. the externally observable persisted order state after the mutation
+
+The documented GET order endpoint provides a valid API-level persistence
+oracle.
+
+Only response fields explicitly guaranteed by the API contract may be asserted.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+--------------------------------------------------
+FR10-AI-042
+VERDICT: VALID
+
+Human Reasoning:
+The case is explicitly scoped as:
+
+SEC-05 / PARTIAL BLACK-BOX BEHAVIORAL EVIDENCE
+
+and therefore does not overclaim that black-box testing proves SQL
+parameterization.
+
+The valid behavioral invariants are limited to:
+
+- the injection-style path value must not cause unauthorized/unintended order
+  selection or mutation
+- the test records observable handling of the payload
+- no conclusion is drawn that parameterized SQL has been proven internally
+
+A particular HTTP status code is not required.
+
+An HTTP 500 alone must not be treated as proof of SQL injection success or
+proof that SEC-05 is violated.
+
+Required Correction:
+NONE.
+
+Executable After Correction:
+YES.
+
+==================================================
+4. FINAL BATCH 4 ACCOUNTING
+==================================================
+
+Batch 4:
+
+Audited:
+8 / 8
+
+VALID:
+7
+
+INVALID:
+0
+
+INCOMPLETE:
+1
+
+INCOMPLETE ID:
+FR10-AI-040
+
+Executable after correction:
+8 / 8
+
+==================================================
+5. FINAL HUMAN AUDIT ACCOUNTING
+==================================================
+
+Final FR-10 Human Audit:
+
+Raw AI-generated:
+42
+
+Human-audited:
+42 / 42
+
+VALID:
+38
+
+INVALID:
+1
+
+INVALID ID:
+FR10-AI-012
+
+INCOMPLETE:
+3
+
+INCOMPLETE IDs:
+FR10-AI-033
+FR10-AI-034
+FR10-AI-040
+
+Usable AI cases as-is:
+38
+
+Usable AI-derived cases after Human corrections:
+41
+
+Rejected from executable suite:
+FR10-AI-012
+
+State explicitly:
+
+The assignment threshold of >=35 usable AI-derived FR-10 cases is satisfied.
+
+Do NOT state that only 41 AI cases were generated.
+
+Correct:
+
+42 RAW AI-generated
+41 usable after Human Audit/correction
+1 rejected
+
+==================================================
+6. HUMAN AUDIT CORRECTION MANIFEST
+==================================================
+
+Create:
+
+23127259/testcases/
+FR10_HUMAN_AUDIT_CORRECTIONS.md
+
+This must NOT rewrite the raw AI file.
+
+Document only corrected executable interpretations for:
+
+FR10-AI-033
+FR10-AI-034
+FR10-AI-040
+
+For each include:
+
+- Raw AI ID
+- Human Verdict
+- Original Risk
+- Corrected Oracle Classification
+- Corrected Expected Semantic Result
+- Corrected HTTP-Status Discipline
+- Corrected Persistence Oracle
+- Bug-Reporting Limitation
+- Executable: YES
+
+Also include:
+
+FR10-AI-012
+
+as:
+
+REJECTED – DO NOT MATERIALIZE INTO FINAL EXECUTABLE SUITE
+
+with reason:
+confounded RBAC + FSM dimensions and redundant after isolation.
+
+==================================================
+7. FINAL AUDIT SUMMARY
+==================================================
+
+At the top or bottom of:
+
+TC_AUDIT_FR10.md
+
+add:
+
+## Final Human Audit Summary
+
+Raw AI:
+42
+
+VALID:
+38
+
+INVALID:
+1
+
+INCOMPLETE:
+3
+
+Usable after corrections:
+41
+
+Rejected:
+FR10-AI-012
+
+Corrected executable derivatives:
+FR10-AI-033
+FR10-AI-034
+FR10-AI-040
+
+Human Audit:
+COMPLETE
+
+Do not alter the frozen raw test file.
+
+==================================================
+8. VERIFY FROZEN HASH AFTER AUDIT
+==================================================
+
+After all Human Audit documentation changes:
+
+recalculate:
+
+shasum -a 256 23127259/testcases/FR10_AI_DRAFT.md
+
+It MUST still equal:
+
+303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Record this post-audit integrity verification.
+
+==================================================
+9. PROCEDURAL HUMAN AUDIT COMMIT
+==================================================
+
+Human Audit is now complete.
+
+Create the required procedural commit:
+
+test(23127259): audit AI-generated FR-10 test cases
+
+Include:
+
+23127259/ai/TC_AUDIT_FR10.md
+23127259/testcases/FR10_HUMAN_AUDIT_CORRECTIONS.md
+
+plus:
+- INT-030
+- INT-031
+- INT-032
+- INT-033
+- INT-034
+  as applicable/currently uncommitted
+- AI_AUDIT_REPORT.md
+- AI_PROMPT_LOG.md
+
+Do NOT include FR10_AI_DRAFT.md as modified because its content must be
+unchanged.
+
+Push:
+
+origin/thang/hw06-implementation
+
+Do NOT merge main.
+
+==================================================
+10. HUMAN EXTENSION GAP ANALYSIS – ANALYSIS ONLY
+==================================================
+
+After the Human Audit commit, perform a coverage-gap analysis to prepare for
+the required >=5 Human-designed FR-10 extension cases.
+
+IMPORTANT:
+
+Do NOT create:
+FR10-HUM-001
+FR10-HUM-002
+etc.
+
+Do NOT write final Human test cases.
+
+Do NOT describe proposed cases as independently student-invented if AI assisted
+this gap analysis.
+
+This interaction may identify GAPS / DIRECTIONS only.
+
+The student will select and finalize the Human cases in the next interaction.
+
+==================================================
+11. GAP ANALYSIS AGAINST 41 USABLE AI-DERIVED CASES
+==================================================
+
+Review the Human-audited coverage and identify meaningful FR-10 dimensions not
+already adequately covered.
+
+Consider candidates such as, but do NOT automatically select:
+
+A. SAME-STATE / IDEMPOTENT BEHAVIOR
+
+Examples:
+pending -> pending
+confirmed -> confirmed
+
+BUT:
+the requirement analysis classified same-state behavior as SPEC-UNDEFINED.
+
+Therefore this may only be an:
+
+EXPLORATORY / API-CONTRACT probe
+
+unless stronger normative support exists.
+
+--------------------------------------------------
+
+B. AUTHENTICATION ON ORDER READ API
+
+Evaluate whether:
+
+GET /api/orders/:id
+
+is a security-sensitive endpoint under:
+SEC-02
+FR-11 ownership rules
+
+Could a no-token order-read probe provide useful additional security coverage?
+
+Do not assume this belongs formally to FR-10 if it is primarily FR-11.
+
+Classify feature overlap honestly.
+
+--------------------------------------------------
+
+C. CROSS-USER ORDER READ / IDOR
+
+Evaluate:
+
+User B reads User A's order
+
+This may have stronger normative basis under FR-11 than cross-user
+cancellation.
+
+Could be a useful adjacent security extension, but clearly label:
+
+FR-11 dependency / ADDITIONAL-SEC
+
+rather than pretending it is pure FR-10 state mutation.
+
+--------------------------------------------------
+
+D. ATOMICITY / STATE NON-MUTATION AFTER REJECTION
+
+Determine whether a dedicated Human case should verify:
+
+invalid mutation rejected
+-> subsequent valid mutation still begins from the original state
+
+This is stronger than simply reading state after rejection because it verifies
+state-machine continuity after a failed attempt.
+
+--------------------------------------------------
+
+E. INDEPENDENT-ORDER STATE ISOLATION
+
+Determine whether changing Order A must leave Order B unchanged.
+
+Potential sequence:
+
+create two pending orders
+transition only A
+read both
+A changes
+B remains pending
+
+This tests state isolation / unintended bulk mutation and may complement the
+SEC-05 probe.
+
+--------------------------------------------------
+
+F. REPEATED / CONCURRENT-LIKE TRANSITION ATTEMPTS
+
+Consider sequential duplicate mutation requests or rapid repeated transitions.
+
+Do NOT claim concurrency guarantees unless specified.
+
+May be exploratory robustness only.
+
+--------------------------------------------------
+
+G. CUSTOMER CANCEL BOUNDARY SEQUENCE
+
+Potential:
+
+pending
+-> confirmed
+-> shipping
+-> owner attempts cancel
+-> verify shipping unchanged
+-> Admin legitimately delivers
+
+AI-016 tests rejection, but a Human sequence could test lifecycle recovery/
+continuation after rejected customer action.
+
+Assess whether this is meaningfully distinct.
+
+--------------------------------------------------
+
+H. MALFORMED REQUEST CONTENT-TYPE
+
+Consider:
+form-urlencoded
+text/plain
+missing Content-Type
+
+Only if API contract defines JSON consumption.
+
+Could be exploratory/API-contract rather than normative.
+
+==================================================
+12. GAP ANALYSIS OUTPUT ARTIFACT
+==================================================
+
+Create:
+
+23127259/testcases/
+FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md
+
+For each proposed direction provide:
+
+| Gap ID | Direction | Why AI Coverage Is Insufficient | Spec Strength | Distinctness | Recommended? |
+|---|---|---|---|---|---|
+
+Use temporary gap IDs only:
+
+G-01
+G-02
+...
+
+Do NOT create FR10-HUM IDs.
+
+Provide approximately 7–10 candidate gap directions.
+
+For each mark:
+
+SPECIFICATION-BACKED
+
+PARTIALLY SPECIFICATION-BACKED
+
+EXPLORATORY / API CONTRACT
+
+FR-11 DEPENDENCY / ADDITIONAL-SEC
+
+as appropriate.
+
+==================================================
+13. RECOMMEND A SHORTLIST
+==================================================
+
+At the end recommend the strongest:
+
+5 to 7 candidate directions
+
+for Student selection.
+
+Selection criteria:
+
+- genuinely missing from 41 usable AI-derived cases
+- little duplication
+- executable deterministically in Postman/Newman
+- meaningful FR-10/state/security value
+- defensible oracle
+- useful for bug discovery
+
+Do NOT convert them into formal Human cases.
+
+Use wording:
+
+AI-assisted gap-analysis recommendation
+
+not:
+
+Human-designed case
+
+yet.
+
+==================================================
+14. NO EXECUTION
+==================================================
+
+Do NOT:
+
+- run Postman
+- run Newman
+- send requests
+- create live orders
+- inspect DB
+- modify SUT
+- confirm bugs
+
+Static audit/gap analysis only.
+
+==================================================
+15. GIT FOR GAP ANALYSIS
+==================================================
+
+The procedural Human Audit commit MUST be created first.
+
+The gap-analysis artifact may either:
+
+A. be included in a separate docs commit:
+
+docs(23127259): analyze FR-10 human extension gaps
+
+OR
+
+B. remain uncommitted until the Student selects extension directions.
+
+Prefer option B:
+leave the gap-analysis artifact uncommitted for student review.
+
+Do not combine Human extension designs into the completed audit commit.
+
+==================================================
+16. END REPORT
+==================================================
+
+Return:
+
+# Phase 2B.4 FR-10 Final Human Audit Report
+
+## AI Audit
+- INT-033 output backfilled
+- INT-034 prompt stored
+- INT-034 output pending
+
+## Raw Integrity
+- frozen hash before audit
+- frozen hash after audit
+- raw modified: NO
+
+## Final Batch 4 Decisions
+
+| ID | Verdict | Correction | Executable? |
+|---|---|---|---|
+
+## Final Human Audit Accounting
+- raw AI generated: 42
+- audited: 42
+- VALID: 38
+- INVALID: 1
+- INCOMPLETE: 3
+- usable after corrections: 41
+- rejected ID: FR10-AI-012
+
+## Correction Manifest
+- AI-033
+- AI-034
+- AI-040
+- AI-012 rejection
+
+## Human Audit Commit
+- commit SHA
+- push result
+
+## Human Extension Gap Analysis
+
+| Gap ID | Direction | Spec Strength | Distinctness | Recommended? |
+|---|---|---|---|---|
+
+## Recommended Shortlist
+Provide 5–7 directions only.
+
+## Human Cases Created
+0
+
+## Runtime
+SUT execution performed: NO
+
+## Git Status
+- audit commit status
+- gap-analysis working tree status
+
 Then STOP.
 
-Next phase:
-
-PHASE 2B – FR-10 HUMAN AUDIT OF ALL 42 RAW AI CASES
+Wait for the Student to select >=5 Human Extension directions.
 ```
 

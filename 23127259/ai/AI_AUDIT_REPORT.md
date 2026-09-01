@@ -249,6 +249,41 @@
 - **Date & Time:** 2026-09-01 21:23:04+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 2A.5: FR-10 Input Domain, ID, Schema, Persistence, and SEC-05 Final AI Generation
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1389, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1389, Output: Step 1422)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-029`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md)
+### INT-030: Phase 2B.0: FR-10 Human Audit Workspace Preparation + Batch 1 Evidence
+- **Date & Time:** 2026-09-01 21:27:22+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2B.0: FR-10 Human Audit Workspace Preparation + Batch 1 Evidence
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1423, Output: Step 1446)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-030`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md)
+### INT-031: Phase 2B.1: FR-10 Human Audit Batch 1 Decisions + Batch 2 Evidence Preparation
+- **Date & Time:** 2026-09-01 21:30:05+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2B.1: FR-10 Human Audit Batch 1 Decisions + Batch 2 Evidence Preparation
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1447, Output: Step 1473)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-031`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md)
+### INT-032: Phase 2B.2: FR-10 Human Audit Batch 2 Decisions + Batch 3 Evidence Preparation
+- **Date & Time:** 2026-09-01 21:32:46+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2B.2: FR-10 Human Audit Batch 2 Decisions + Batch 3 Evidence Preparation
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1474, Output: Step 1495)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-032`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md)
+### INT-033: Phase 2B.3: FR-10 Human Audit Batch 3 Decisions + Final Batch 4 Evidence Preparation
+- **Date & Time:** 2026-09-01 21:35:36+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2B.3: FR-10 Human Audit Batch 3 Decisions + Final Batch 4 Evidence Preparation
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1496, Output: Step 1517)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-033`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md)
+### INT-034: Phase 2B.4: FR-10 Final Human Audit Decisions, Audit Freeze, and Human-Extension Gap Analysis
+- **Date & Time:** 2026-09-01 21:39:21+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2B.4: FR-10 Final Human Audit Decisions, Audit Freeze, and Human-Extension Gap Analysis
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1518, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-034`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md)

@@ -771,12 +771,105 @@ PHASE 2B – FR-10 HUMAN AUDIT OF ALL 42 RAW AI CASES
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2A.5 Completion Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-028 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1388) backfilled into [`23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md).
+- **INT-029 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md).
+- **INT-029 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-029 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Raw Draft Integrity & Freeze
+- **Pre-Append SHA-256:** `d0764d314606f7f915c10d9ccbb66918f3950f788edffed6617a91253d71f3ef`
+- **Frozen Final Raw AI SHA-256:** `303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc`
+- **Existing Cases Preserved (`FR10-AI-001` .. `FR10-AI-034`):** **YES** (Zero modifications or renumbering of existing cases).
+
+---
+
+## 3. Final Batch Generated (`FR10-AI-035` .. `FR10-AI-042`)
+
+| Test Case ID | Test Dimension / Scenario | Primary Oracle Basis | Target Endpoint & Input | Expected State After |
+|---|---|---|---|:---:|
+| [`FR10-AI-035`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-035--status-domain-undocumented-status-enum-value) | Undocumented Status Enum | `SPECIFICATION-BACKED` (SRS 4.10) | `PUT /api/admin/orders/:id/status` (`{"status": "processing"}`) | `pending` (Unchanged) |
+| [`FR10-AI-036`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-036--status-domain-missing-required-status-property-in-request-body) | Missing `status` Property | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/:id/status` (`{}`) | `pending` (Unchanged) |
+| [`FR10-AI-037`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-037--status-domain-null-status-value-in-mutation-body) | Null `status` Value | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/:id/status` (`{"status": null}`) | `pending` (Unchanged) |
+| [`FR10-AI-038`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-038--status-domain-wrong-json-type-for-status-field) | Wrong JSON Type (Numeric) | `PARTIALLY SPECIFICATION-BACKED` | `PUT /api/admin/orders/:id/status` (`{"status": 123}`) | `pending` (Unchanged) |
+| [`FR10-AI-039`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-039--order-id-partitions-well-formed-non-existing-order-id) | Non-Existent Order ID | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/999999/status` | Non-existent |
+| [`FR10-AI-040`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-040--order-id-partitions-malformed--non-numeric-order-id-path-parameter) | Malformed / Non-Numeric ID | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/not-an-id/status` | Unaltered |
+| [`FR10-AI-041`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-041--response--persistence-consistency-on-valid-transition) | Response Schema & Persistence | `SPECIFICATION-BACKED` (SRS 4.10) | `PUT /api/admin/orders/:id/status` $\rightarrow$ `GET /api/orders/:id` | `confirmed` |
+| [`FR10-AI-042`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-042--sec-05-partial-black-box-behavioral-sql-injection-probe-in-order-id-path-parameter) | SEC-05 Black-Box SQLi Probe | `SEC-05 / PARTIAL BEHAVIORAL` | `PUT /api/admin/orders/1%27%20OR%20%271%27=%271/status` | Unaltered |
+
+---
+
+## 4. Final Raw AI Suite Accounting
+- **Batch 1 (INT-026):** `12` cases (`FR10-AI-001` .. `FR10-AI-012`)
+- **Batch 2 (INT-027):** `12` cases (`FR10-AI-013` .. `FR10-AI-024`)
+- **Batch 3 (INT-028):** `10` cases (`FR10-AI-025` .. `FR10-AI-034`)
+- **Batch 4 (INT-029):** `8` cases (`FR10-AI-035` .. `FR10-AI-042`)
+- **TOTAL RAW AI-GENERATED FR-10 CASES:** **42 CASES PENDING HUMAN AUDIT**
+
+---
+
+## 5. Coverage Matrix Summary ([`FR10_AI_GENERATION_COVERAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_GENERATION_COVERAGE.md))
+
+| Coverage Dimension | Included Test Case IDs | Count | Specification Strength |
+|---|---|:---:|---|
+| **Valid Forward Transitions** | `FR10-AI-001` .. `004` | 4 | `SPECIFICATION-BACKED` |
+| **Valid Cancellation Transitions** | `FR10-AI-005` .. `008` | 4 | `SPECIFICATION-BACKED` |
+| **Illegal Forward Skip Transitions** | `FR10-AI-009` .. `012` | 4 | `SPECIFICATION-BACKED` |
+| **Backward State Regressions** | `FR10-AI-013` .. `015` | 3 | `SPECIFICATION-BACKED` |
+| **User In-Transit Cancellation Rule** | `FR10-AI-016` | 1 | `SPECIFICATION-BACKED` |
+| **Terminal State Immutability** | `FR10-AI-017` .. `024` | 8 | `SPECIFICATION-BACKED` |
+| **Authentication Enforcement (`SEC-02`)** | `FR10-AI-025` .. `029` | 5 | `SPECIFICATION-BACKED` |
+| **Authorization / RBAC (`SEC-03`)** | `FR10-AI-030` .. `032` | 3 | `SPECIFICATION-BACKED` |
+| **Cross-Tenant Ownership Boundaries** | `FR10-AI-033` .. `034` | 2 | `PARTIALLY SPECIFICATION-BACKED` |
+| **Status Input Domain Validation** | `FR10-AI-035` .. `038` | 4 | `SPECIFICATION-BACKED` / `PARTIAL` |
+| **Order ID Partition Validation** | `FR10-AI-039` .. `040` | 2 | `SPECIFICATION-BACKED` |
+| **Response Schema & Persistence Consistency** | `FR10-AI-041` | 1 | `SPECIFICATION-BACKED` |
+| **Security / SQL Injection Probe (`SEC-05`)** | `FR10-AI-042` | 1 | `SEC-05 / PARTIAL BEHAVIORAL` |
+
+---
+
+## 6. Potential Human-Audit Review Flags (Identified for Phase 2B)
+- **`FR10-AI-012`:** Confounded oracle combining customer role unauthorized attempt with forward skip transition (`pending -> shipping`).
+- **`FR10-AI-033` & `FR10-AI-034`:** Ownership boundary strength must be verified against exact SRS wording ("customer can cancel their order").
+- **`FR10-AI-038`:** Numeric type input domain robustness test; evaluate against Express/JavaScript type coercion expectations.
+- **`FR10-AI-042`:** Black-box SQL injection probe; audit must ensure it is judged as behavioral runtime resilience rather than white-box code verification.
+
+---
+
+## 7. Raw Suite Freeze & Verification
+- **42 IDs Continuous (`001` .. `042`):** **YES**
+- **Duplicate IDs:** **0**
+- **Missing IDs:** **0**
+- **Human Extension Cases Created (`FR10-HUM`):** **0** *(Strictly reserved for post-audit Phase 2C)*
+- **`FR10_AI_DRAFT.md` Frozen:** **YES**
+- **Frozen SHA-256 Checksum:** `303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc`
+
+---
+
+## 8. Runtime & Gate Check
+- **SUT Execution Performed:** **NO** *(Static generation only; zero HTTP execution or DB side effects)*
+
+---
+
+## 9. Git Status & Tracking
+- **Commit SHA:** `f2057c8`
+- **Commit Message:** `test(23127259): complete AI-generated FR-10 test suite`
+- **Branch:** `thang/hw06-implementation`
+- **Remote Push:** Successfully pushed to `origin/thang/hw06-implementation`
+- **Working Tree:** Clean
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Appending Batch 4 (FR10-AI-035..042) to complete 42 raw AI cases, freezing raw draft, and generating FR10_AI_GENERATION_COVERAGE.md.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID (Batch 4 generated: 8 cases covering status domain, order ID partitions, schema/persistence consistency, and SEC-05 black-box probe; 42 total raw AI cases frozen).
+- **Notes:** Appended FR10-AI-035..042 to FR10_AI_DRAFT.md. Created FR10_AI_GENERATION_COVERAGE.md with full coverage mapping and audit risk flags. Frozen SHA-256: 303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc.
+- **Status:** COMPLETE.
