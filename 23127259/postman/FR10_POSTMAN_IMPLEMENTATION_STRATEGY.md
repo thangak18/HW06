@@ -1,4 +1,4 @@
-# FR-10 Postman Implementation Strategy & Technical Architecture
+# FR-10 Postman Implementation Strategy & Technical Architecture (Hardened)
 
 - **Student Name:** Nguyễn Tấn Thắng
 - **Student ID:** `23127259`
@@ -13,40 +13,55 @@ The collection is organized into 11 logical folders:
 
 ```
 FR10_Order_State_Machine
-├── 00 – Setup / Authentication Helpers (Auth & token extraction)
-├── 01 – Valid Forward & Lifecycle Transitions (4 formal cases: 001..004)
-├── 02 – Order Cancellation Pathways (4 formal cases: 005..008)
-├── 03 – Invalid Forward Skips & Backward Regressions (7 formal cases: 009..011, 013..016)
-├── 04 – Terminal-State Immutability (8 formal cases: 017..024)
-├── 05 – SEC-02 Authentication Invariants (5 formal cases: 025..029)
-├── 06 – SEC-03 Role-Based Access Control (RBAC) (3 formal cases: 030..032)
-├── 07 – Cross-User Ownership & Partial Authorization (2 formal cases: 033, 034)
-├── 08 – Status Enum & Order-ID Input Domain (6 formal cases: 035..040)
-├── 09 – Response Schema, Persistence & SEC-05 (2 formal cases: 041, 042)
-└── 10 – Human-Designed Extension Cases (5 formal cases: HUM-001..HUM-005)
+├── 00 – Setup / Authentication Helpers (3 login requests)
+├── 01 – Valid Forward & Lifecycle Transitions (4 formal cases: 001..004, 7 request items)
+├── 02 – Order Cancellation Pathways (4 formal cases: 005..008, 4 request items)
+├── 03 – Invalid Forward Skips & Backward Regressions (7 formal cases: 009..011, 013..016, 7 request items)
+├── 04 – Terminal-State Immutability (8 formal cases: 017..024, 8 request items)
+├── 05 – SEC-02 Authentication Invariants (5 formal cases: 025..029, 5 request items)
+├── 06 – SEC-03 Role-Based Access Control (RBAC) (3 formal cases: 030..032, 3 request items)
+├── 07 – Cross-User Ownership & Partial Authorization (2 formal cases: 033, 034, 2 request items)
+├── 08 – Status Enum & Order-ID Input Domain (6 formal cases: 035..040, 6 request items)
+├── 09 – Response Schema, Persistence & SEC-05 (2 formal cases: 041, 042, 3 request items)
+└── 10 – Human-Designed Extension Cases (5 formal cases: HUM-001..HUM-005, 15 request items)
 ```
 
 ---
 
 ## 2. Anti-Cheat & Header Injection Architecture
 
-Collection-Level Pre-Request Script:
+Collection-Level Pre-Request Script (Fail-Fast):
 ```javascript
-// Centrally inject mandatory Student ID header into all outgoing requests
+const studentId = pm.environment.get("studentId");
+if (!studentId) {
+    throw new Error("studentId environment variable is required");
+}
 pm.request.headers.upsert({
     key: "X-Student-Id",
-    value: pm.environment.get("studentId") || "23127259"
+    value: studentId
 });
+```
+
+Script-Triggered Request Pre-Configuration (`pm.sendRequest`):
+```javascript
+pm.sendRequest({
+    url: pm.environment.get('baseUrl') + '/api/orders/' + orderId,
+    method: 'GET',
+    header: {
+        'X-Student-Id': pm.environment.get('studentId'),
+        'Authorization': 'Bearer ' + pm.environment.get('adminToken')
+    }
+}, function (err, res) { ... });
 ```
 
 ---
 
 ## 3. Formal Case vs Helper Request Accounting
 
-To maintain rigorous integrity between formal test counting and HTTP execution counting:
-- **Formal Test Case Count:** Exactly **46** formal test cases.
-- **Total HTTP Requests in Collection:** Includes setup authentication helpers, fixture creation calls, and multi-step continuity requests.
-- **Newman Traceability:** Every request name is prefixed with its formal test ID (e.g. `[FR10-AI-001]`, `[FR10-HUM-001][ACTION]`, `[FR10-HUM-001][VERIFY]`) so that automated tools accurately roll up requests into the 46 formal cases.
+- **Formal Test Cases:** Exactly **46** formal test cases.
+- **Collection Request Definitions:** Exactly **63** request items.
+- **Script-Triggered HTTP Verification Calls:** **36** `pm.sendRequest` GET queries.
+- **Expected Total Runtime Operations:** **99** HTTP executions.
 
 ---
 

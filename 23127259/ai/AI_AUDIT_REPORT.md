@@ -298,6 +298,13 @@
 - **Date & Time:** 2026-09-01 22:08:23+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 2D.0: FR-10 Final Executable Suite + Postman Materialization
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1591, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1591, Output: Step 1640)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-036`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-036-fr10-postman-materialization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-036-fr10-postman-materialization.md)
+### INT-037: Phase 2D.0.1: FR-10 Postman Deep Static Workflow / Header Audit
+- **Date & Time:** 2026-09-01 22:13:15+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.0.1: FR-10 Postman Deep Static Workflow / Header Audit
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 1641, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-037`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-037-fr10-postman-deep-static-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md)

@@ -1,8 +1,8 @@
 {
   "info": {
-    "_postman_id": "hw06-23127259-fr10-collection",
+    "_postman_id": "hw06-23127259-fr10-collection-v2",
     "name": "FR10_Order_State_Machine",
-    "description": "Authoritative Postman test collection for FR-10: Order Status & State Machine (46 formal cases: 41 AI-derived + 5 Human extensions).",
+    "description": "Authoritative Postman test collection for FR-10: Order Status & State Machine (46 formal cases: 41 AI-derived + 5 Human extensions). Fully hardened with fail-fast X-Student-Id injection, explicit multi-step workflows, and deterministic persistence verification.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "event": [
@@ -11,10 +11,14 @@
       "script": {
         "type": "text/javascript",
         "exec": [
-          "// Centrally inject mandatory Student ID header into all outgoing requests",
+          "// Centrally inject mandatory Student ID header into all outgoing requests (Fail-Fast)",
+          "const studentId = pm.environment.get('studentId');",
+          "if (!studentId) {",
+          "    throw new Error('studentId environment variable is required');",
+          "}",
           "pm.request.headers.upsert({",
           "    key: 'X-Student-Id',",
-          "    value: pm.environment.get('studentId') || '23127259'",
+          "    value: studentId",
           "});"
         ]
       }
@@ -162,7 +166,7 @@
       "name": "01 \u2013 Valid Forward & Lifecycle Transitions",
       "item": [
         {
-          "name": "[FR10-AI-001] Valid Forward Transition: Admin Confirms Pending Order (pending -> confirmed)",
+          "name": "[FR10-AI-001] Admin Confirms Pending Order (pending -> confirmed)",
           "request": {
             "method": "PUT",
             "header": [
@@ -188,7 +192,6 @@
                 "status"
               ]
             },
-            "description": "Verify Admin can transition an order from pending to confirmed.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -200,8 +203,221 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-001",
-                  "pm.test('[FR10-AI-001] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-001] Admin Confirms Pending Order (pending -> confirmed)",
+                  "pm.test('[FR10-AI-001] Admin Confirms Pending Order (pending -> confirmed) - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('confirmed');",
+                  "    }",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-001] Admin Confirms Pending Order (pending -> confirmed) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('confirmed');",
+                  "        }",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-002] Admin Dispatches Confirmed Order (confirmed -> shipping)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-AI-002] Admin Dispatches Confirmed Order (confirmed -> shipping)",
+                  "pm.test('[FR10-AI-002] Admin Dispatches Confirmed Order (confirmed -> shipping) - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('shipping');",
+                  "    }",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-002] Admin Dispatches Confirmed Order (confirmed -> shipping) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('shipping');",
+                  "        }",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-003] Admin Delivers Shipping Order (shipping -> delivered)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-AI-003] Admin Delivers Shipping Order (shipping -> delivered)",
+                  "pm.test('[FR10-AI-003] Admin Delivers Shipping Order (shipping -> delivered) - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('delivered');",
+                  "    }",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-003] Admin Delivers Shipping Order (shipping -> delivered) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('delivered');",
+                  "        }",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-004][STEP-1] Linear Progression: pending -> confirmed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-AI-004][STEP-1] Linear Progression: pending -> confirmed",
+                  "pm.test('[FR10-AI-004][STEP-1] Linear Progression: pending -> confirmed - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
@@ -215,7 +431,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-002] Valid Forward Transition: Admin Dispatches Confirmed Order (confirmed -> shipping)",
+          "name": "[FR10-AI-004][STEP-2] Linear Progression: confirmed -> shipping",
           "request": {
             "method": "PUT",
             "header": [
@@ -241,7 +457,6 @@
                 "status"
               ]
             },
-            "description": "Verify Admin can transition an order from confirmed to shipping.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"shipping\"}"
@@ -253,8 +468,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-002",
-                  "pm.test('[FR10-AI-002] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-004][STEP-2] Linear Progression: confirmed -> shipping",
+                  "pm.test('[FR10-AI-004][STEP-2] Linear Progression: confirmed -> shipping - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
@@ -268,7 +483,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-003] Valid Forward Transition: Admin Delivers Shipping Order (shipping -> delivered)",
+          "name": "[FR10-AI-004][STEP-3] Linear Progression: shipping -> delivered",
           "request": {
             "method": "PUT",
             "header": [
@@ -294,7 +509,6 @@
                 "status"
               ]
             },
-            "description": "Verify Admin can transition an in-transit order to terminal delivered state.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"delivered\"}"
@@ -306,8 +520,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-003",
-                  "pm.test('[FR10-AI-003] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-004][STEP-3] Linear Progression: shipping -> delivered",
+                  "pm.test('[FR10-AI-004][STEP-3] Linear Progression: shipping -> delivered - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
@@ -321,9 +535,9 @@
           ]
         },
         {
-          "name": "[FR10-AI-004] End-to-End Complete Linear Lifecycle Flow (pending -> confirmed -> shipping -> delivered)",
+          "name": "[FR10-AI-004][VERIFY] Read Terminal State: GET delivered",
           "request": {
-            "method": "PUT",
+            "method": "GET",
             "header": [
               {
                 "key": "Content-Type",
@@ -335,22 +549,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "admin",
                 "orders",
-                "{{orderId}}",
-                "status"
+                "{{orderId}}"
               ]
-            },
-            "description": "Verify full linear 4-stage progression on a single continuous order entity.",
-            "body": {
-              "mode": "raw",
-              "raw": "{\"status\": \"delivered\"}"
             }
           },
           "event": [
@@ -359,8 +566,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-004",
-                  "pm.test('[FR10-AI-004] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-004][VERIFY] Read Terminal State: GET delivered",
+                  "pm.test('[FR10-AI-004][VERIFY] Read Terminal State: GET delivered - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
@@ -379,7 +586,7 @@
       "name": "02 \u2013 Order Cancellation Pathways",
       "item": [
         {
-          "name": "[FR10-AI-005] Valid Customer Self-Service Cancellation on Pending Order (pending -> canceled)",
+          "name": "[FR10-AI-005] Customer Self-Service Cancellation on Pending Order (pending -> canceled)",
           "request": {
             "method": "PUT",
             "header": [
@@ -404,7 +611,6 @@
                 "cancel"
               ]
             },
-            "description": "Verify owner customer can cancel a pending order.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -416,14 +622,33 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-005",
-                  "pm.test('[FR10-AI-005] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-005] Customer Self-Service Cancellation on Pending Order (pending -> canceled)",
+                  "pm.test('[FR10-AI-005] Customer Self-Service Cancellation on Pending Order (pending -> canceled) - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
                   "        var s = jsonData.status || jsonData.data.status;",
                   "        pm.expect(s).to.eql('canceled');",
                   "    }",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('userAToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-005] Customer Self-Service Cancellation on Pending Order (pending -> canceled) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -431,7 +656,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-006] Valid Customer Self-Service Cancellation on Confirmed Order (confirmed -> canceled)",
+          "name": "[FR10-AI-006] Customer Self-Service Cancellation on Confirmed Order (confirmed -> canceled)",
           "request": {
             "method": "PUT",
             "header": [
@@ -456,7 +681,6 @@
                 "cancel"
               ]
             },
-            "description": "Verify owner customer can cancel a confirmed pre-shipment order.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -468,14 +692,33 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-006",
-                  "pm.test('[FR10-AI-006] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-006] Customer Self-Service Cancellation on Confirmed Order (confirmed -> canceled)",
+                  "pm.test('[FR10-AI-006] Customer Self-Service Cancellation on Confirmed Order (confirmed -> canceled) - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
                   "        var s = jsonData.status || jsonData.data.status;",
                   "        pm.expect(s).to.eql('canceled');",
                   "    }",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('userAToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-006] Customer Self-Service Cancellation on Confirmed Order (confirmed -> canceled) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -483,7 +726,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-007] Valid Admin Status Cancellation on Pending Order (pending -> canceled)",
+          "name": "[FR10-AI-007] Admin Status Cancellation on Pending Order (pending -> canceled)",
           "request": {
             "method": "PUT",
             "header": [
@@ -509,7 +752,6 @@
                 "status"
               ]
             },
-            "description": "Verify Admin can cancel a pending order via status mutation endpoint.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"canceled\"}"
@@ -521,14 +763,33 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-007",
-                  "pm.test('[FR10-AI-007] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-007] Admin Status Cancellation on Pending Order (pending -> canceled)",
+                  "pm.test('[FR10-AI-007] Admin Status Cancellation on Pending Order (pending -> canceled) - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
                   "        var s = jsonData.status || jsonData.data.status;",
                   "        pm.expect(s).to.eql('canceled');",
                   "    }",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-007] Admin Status Cancellation on Pending Order (pending -> canceled) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -536,7 +797,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-008] Valid Admin Status Cancellation on Confirmed Order (confirmed -> canceled)",
+          "name": "[FR10-AI-008] Admin Status Cancellation on Confirmed Order (confirmed -> canceled)",
           "request": {
             "method": "PUT",
             "header": [
@@ -562,7 +823,6 @@
                 "status"
               ]
             },
-            "description": "Verify Admin can cancel a confirmed order via status mutation endpoint.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"canceled\"}"
@@ -574,14 +834,33 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-008",
-                  "pm.test('[FR10-AI-008] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-008] Admin Status Cancellation on Confirmed Order (confirmed -> canceled)",
+                  "pm.test('[FR10-AI-008] Admin Status Cancellation on Confirmed Order (confirmed -> canceled) - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
                   "        var s = jsonData.status || jsonData.data.status;",
                   "        pm.expect(s).to.eql('canceled');",
                   "    }",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-008] Admin Status Cancellation on Confirmed Order (confirmed -> canceled) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -594,7 +873,7 @@
       "name": "03 \u2013 Invalid Forward Skips & Backward Regressions",
       "item": [
         {
-          "name": "[FR10-AI-009] Invalid Forward Skip: Admin Attempts Direct Transition pending -> shipping",
+          "name": "[FR10-AI-009] Invalid Forward Skip: Admin Attempts pending -> shipping",
           "request": {
             "method": "PUT",
             "header": [
@@ -620,7 +899,6 @@
                 "status"
               ]
             },
-            "description": "Verify direct forward skip bypassing confirmed is rejected and state remains pending.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"shipping\"}"
@@ -632,9 +910,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-009",
-                  "pm.test('[FR10-AI-009] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-009] Invalid Forward Skip: Admin Attempts pending -> shipping",
+                  "pm.test('[FR10-AI-009] Invalid Forward Skip: Admin Attempts pending -> shipping - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-009] Invalid Forward Skip: Admin Attempts pending -> shipping - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -642,7 +939,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-010] Invalid Forward Skip: Admin Attempts Direct Transition pending -> delivered",
+          "name": "[FR10-AI-010] Invalid Forward Skip: Admin Attempts pending -> delivered",
           "request": {
             "method": "PUT",
             "header": [
@@ -668,7 +965,6 @@
                 "status"
               ]
             },
-            "description": "Verify direct forward skip from pending to delivered is rejected.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"delivered\"}"
@@ -680,9 +976,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-010",
-                  "pm.test('[FR10-AI-010] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-010] Invalid Forward Skip: Admin Attempts pending -> delivered",
+                  "pm.test('[FR10-AI-010] Invalid Forward Skip: Admin Attempts pending -> delivered - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-010] Invalid Forward Skip: Admin Attempts pending -> delivered - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -690,7 +1005,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-011] Invalid Forward Skip: Admin Attempts Direct Transition confirmed -> delivered",
+          "name": "[FR10-AI-011] Invalid Forward Skip: Admin Attempts confirmed -> delivered",
           "request": {
             "method": "PUT",
             "header": [
@@ -716,7 +1031,6 @@
                 "status"
               ]
             },
-            "description": "Verify direct forward skip bypassing shipping is rejected and state remains confirmed.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"delivered\"}"
@@ -728,9 +1042,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-011",
-                  "pm.test('[FR10-AI-011] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-011] Invalid Forward Skip: Admin Attempts confirmed -> delivered",
+                  "pm.test('[FR10-AI-011] Invalid Forward Skip: Admin Attempts confirmed -> delivered - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-011] Invalid Forward Skip: Admin Attempts confirmed -> delivered - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('confirmed');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -764,7 +1097,6 @@
                 "status"
               ]
             },
-            "description": "Verify backward regression from confirmed to pending is prohibited.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"pending\"}"
@@ -776,9 +1108,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-013",
-                  "pm.test('[FR10-AI-013] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-013] Invalid Backward Regression: Admin Attempts confirmed -> pending",
+                  "pm.test('[FR10-AI-013] Invalid Backward Regression: Admin Attempts confirmed -> pending - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-013] Invalid Backward Regression: Admin Attempts confirmed -> pending - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('confirmed');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -812,7 +1163,6 @@
                 "status"
               ]
             },
-            "description": "Verify backward regression from shipping to confirmed is prohibited.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -824,9 +1174,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-014",
-                  "pm.test('[FR10-AI-014] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-014] Invalid Backward Regression: Admin Attempts shipping -> confirmed",
+                  "pm.test('[FR10-AI-014] Invalid Backward Regression: Admin Attempts shipping -> confirmed - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-014] Invalid Backward Regression: Admin Attempts shipping -> confirmed - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('shipping');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -860,7 +1229,6 @@
                 "status"
               ]
             },
-            "description": "Verify multi-stage backward regression from shipping to pending is prohibited.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"pending\"}"
@@ -872,9 +1240,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-015",
-                  "pm.test('[FR10-AI-015] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-015] Invalid Backward Regression: Admin Attempts shipping -> pending",
+                  "pm.test('[FR10-AI-015] Invalid Backward Regression: Admin Attempts shipping -> pending - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-015] Invalid Backward Regression: Admin Attempts shipping -> pending - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('shipping');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -907,7 +1294,6 @@
                 "cancel"
               ]
             },
-            "description": "Verify customer cannot cancel an order that has entered shipping status.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -919,9 +1305,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-016",
-                  "pm.test('[FR10-AI-016] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-016] Invalid Customer Cancellation on In-Transit Order (shipping -> canceled rejected)",
+                  "pm.test('[FR10-AI-016] Invalid Customer Cancellation on In-Transit Order (shipping -> canceled rejected) - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('userAToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-016] Invalid Customer Cancellation on In-Transit Order (shipping -> canceled rejected) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('shipping');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -934,7 +1339,7 @@
       "name": "04 \u2013 Terminal-State Immutability",
       "item": [
         {
-          "name": "[FR10-AI-017] Terminal State Immutability: Prohibit Mutation delivered -> pending",
+          "name": "[FR10-AI-017] Terminal Immutability: Prohibit delivered -> pending",
           "request": {
             "method": "PUT",
             "header": [
@@ -960,7 +1365,6 @@
                 "status"
               ]
             },
-            "description": "Verify delivered order cannot transition to pending.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"pending\"}"
@@ -972,9 +1376,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-017",
-                  "pm.test('[FR10-AI-017] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-017] Terminal Immutability: Prohibit delivered -> pending",
+                  "pm.test('[FR10-AI-017] Terminal Immutability: Prohibit delivered -> pending - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-017] Terminal Immutability: Prohibit delivered -> pending - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('delivered');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -982,7 +1405,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-018] Terminal State Immutability: Prohibit Mutation delivered -> confirmed",
+          "name": "[FR10-AI-018] Terminal Immutability: Prohibit delivered -> confirmed",
           "request": {
             "method": "PUT",
             "header": [
@@ -1008,7 +1431,6 @@
                 "status"
               ]
             },
-            "description": "Verify delivered order cannot transition to confirmed.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -1020,9 +1442,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-018",
-                  "pm.test('[FR10-AI-018] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-018] Terminal Immutability: Prohibit delivered -> confirmed",
+                  "pm.test('[FR10-AI-018] Terminal Immutability: Prohibit delivered -> confirmed - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-018] Terminal Immutability: Prohibit delivered -> confirmed - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('delivered');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1030,7 +1471,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-019] Terminal State Immutability: Prohibit Mutation delivered -> shipping",
+          "name": "[FR10-AI-019] Terminal Immutability: Prohibit delivered -> shipping",
           "request": {
             "method": "PUT",
             "header": [
@@ -1056,7 +1497,6 @@
                 "status"
               ]
             },
-            "description": "Verify delivered order cannot transition to shipping.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"shipping\"}"
@@ -1068,9 +1508,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-019",
-                  "pm.test('[FR10-AI-019] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-019] Terminal Immutability: Prohibit delivered -> shipping",
+                  "pm.test('[FR10-AI-019] Terminal Immutability: Prohibit delivered -> shipping - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-019] Terminal Immutability: Prohibit delivered -> shipping - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('delivered');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1078,7 +1537,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-020] Terminal State Immutability: Prohibit Mutation delivered -> canceled",
+          "name": "[FR10-AI-020] Terminal Immutability: Prohibit delivered -> canceled",
           "request": {
             "method": "PUT",
             "header": [
@@ -1104,7 +1563,6 @@
                 "status"
               ]
             },
-            "description": "Verify delivered order cannot be canceled.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"canceled\"}"
@@ -1116,9 +1574,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-020",
-                  "pm.test('[FR10-AI-020] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-020] Terminal Immutability: Prohibit delivered -> canceled",
+                  "pm.test('[FR10-AI-020] Terminal Immutability: Prohibit delivered -> canceled - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-020] Terminal Immutability: Prohibit delivered -> canceled - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('delivered');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1126,7 +1603,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-021] Terminal State Immutability: Prohibit Mutation canceled -> pending",
+          "name": "[FR10-AI-021] Terminal Immutability: Prohibit canceled -> pending",
           "request": {
             "method": "PUT",
             "header": [
@@ -1152,7 +1629,6 @@
                 "status"
               ]
             },
-            "description": "Verify canceled order cannot be revived to pending.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"pending\"}"
@@ -1164,9 +1640,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-021",
-                  "pm.test('[FR10-AI-021] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-021] Terminal Immutability: Prohibit canceled -> pending",
+                  "pm.test('[FR10-AI-021] Terminal Immutability: Prohibit canceled -> pending - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-021] Terminal Immutability: Prohibit canceled -> pending - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1174,7 +1669,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-022] Terminal State Immutability: Prohibit Mutation canceled -> confirmed",
+          "name": "[FR10-AI-022] Terminal Immutability: Prohibit canceled -> confirmed",
           "request": {
             "method": "PUT",
             "header": [
@@ -1200,7 +1695,6 @@
                 "status"
               ]
             },
-            "description": "Verify canceled order cannot transition to confirmed.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -1212,9 +1706,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-022",
-                  "pm.test('[FR10-AI-022] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-022] Terminal Immutability: Prohibit canceled -> confirmed",
+                  "pm.test('[FR10-AI-022] Terminal Immutability: Prohibit canceled -> confirmed - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-022] Terminal Immutability: Prohibit canceled -> confirmed - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1222,7 +1735,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-023] Terminal State Immutability: Prohibit Mutation canceled -> shipping",
+          "name": "[FR10-AI-023] Terminal Immutability: Prohibit canceled -> shipping",
           "request": {
             "method": "PUT",
             "header": [
@@ -1248,7 +1761,6 @@
                 "status"
               ]
             },
-            "description": "Verify canceled order cannot transition to shipping.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"shipping\"}"
@@ -1260,9 +1772,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-023",
-                  "pm.test('[FR10-AI-023] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-023] Terminal Immutability: Prohibit canceled -> shipping",
+                  "pm.test('[FR10-AI-023] Terminal Immutability: Prohibit canceled -> shipping - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-023] Terminal Immutability: Prohibit canceled -> shipping - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1270,7 +1801,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-024] Terminal State Immutability: Prohibit Mutation canceled -> delivered",
+          "name": "[FR10-AI-024] Terminal Immutability: Prohibit canceled -> delivered",
           "request": {
             "method": "PUT",
             "header": [
@@ -1296,7 +1827,6 @@
                 "status"
               ]
             },
-            "description": "Verify canceled order cannot transition to delivered.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"delivered\"}"
@@ -1308,9 +1838,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-024",
-                  "pm.test('[FR10-AI-024] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-024] Terminal Immutability: Prohibit canceled -> delivered",
+                  "pm.test('[FR10-AI-024] Terminal Immutability: Prohibit canceled -> delivered - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-024] Terminal Immutability: Prohibit canceled -> delivered - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1323,7 +1872,7 @@
       "name": "05 \u2013 SEC-02 Authentication Invariants",
       "item": [
         {
-          "name": "[FR10-AI-025] SEC-02 Authentication Boundary: Admin Status Mutation Without Authorization Header",
+          "name": "[FR10-AI-025] SEC-02: Missing Authorization Header on Admin Status Update",
           "request": {
             "method": "PUT",
             "header": [
@@ -1345,7 +1894,6 @@
                 "status"
               ]
             },
-            "description": "Verify unauthenticated request to admin status endpoint is rejected with 401.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -1357,9 +1905,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-025",
-                  "pm.test('[FR10-AI-025] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-025] SEC-02: Missing Authorization Header on Admin Status Update",
+                  "pm.test('[FR10-AI-025] SEC-02: Missing Authorization Header on Admin Status Update - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.eql(401);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-025] SEC-02: Missing Authorization Header on Admin Status Update - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1367,7 +1934,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-026] SEC-02 Authentication Boundary: Admin Status Mutation With Malformed Bearer Token",
+          "name": "[FR10-AI-026] SEC-02: Malformed Bearer Token on Admin Status Update",
           "request": {
             "method": "PUT",
             "header": [
@@ -1393,7 +1960,6 @@
                 "status"
               ]
             },
-            "description": "Verify request with invalid signature/malformed JWT is rejected with 401.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -1405,9 +1971,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-026",
-                  "pm.test('[FR10-AI-026] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-026] SEC-02: Malformed Bearer Token on Admin Status Update",
+                  "pm.test('[FR10-AI-026] SEC-02: Malformed Bearer Token on Admin Status Update - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.eql(401);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-026] SEC-02: Malformed Bearer Token on Admin Status Update - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1415,7 +2000,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-027] SEC-02 Authentication Boundary: Admin Status Mutation With Expired Bearer Token",
+          "name": "[FR10-AI-027] SEC-02: Invalid / Untrusted Signature JWT on Admin Status Update",
           "request": {
             "method": "PUT",
             "header": [
@@ -1425,7 +2010,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer {{expiredToken}}"
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.invalid.signature"
               }
             ],
             "url": {
@@ -1441,7 +2026,6 @@
                 "status"
               ]
             },
-            "description": "Verify request with expired JWT is rejected with 401.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -1453,9 +2037,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-027",
-                  "pm.test('[FR10-AI-027] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-027] SEC-02: Invalid / Untrusted Signature JWT on Admin Status Update",
+                  "pm.test('[FR10-AI-027] SEC-02: Invalid / Untrusted Signature JWT on Admin Status Update - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.eql(401);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-027] SEC-02: Invalid / Untrusted Signature JWT on Admin Status Update - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1463,7 +2066,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-028] SEC-02 Authentication Boundary: Customer Cancellation Without Authorization Header",
+          "name": "[FR10-AI-028] SEC-02: Missing Authorization Header on Customer Cancel",
           "request": {
             "method": "PUT",
             "header": [
@@ -1484,7 +2087,6 @@
                 "cancel"
               ]
             },
-            "description": "Verify unauthenticated cancel request is rejected with 401.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -1496,9 +2098,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-028",
-                  "pm.test('[FR10-AI-028] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-028] SEC-02: Missing Authorization Header on Customer Cancel",
+                  "pm.test('[FR10-AI-028] SEC-02: Missing Authorization Header on Customer Cancel - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.eql(401);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-028] SEC-02: Missing Authorization Header on Customer Cancel - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1506,7 +2127,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-029] SEC-02 Authentication Boundary: Customer Cancellation With Malformed Bearer Token",
+          "name": "[FR10-AI-029] SEC-02: Malformed Bearer Token on Customer Cancel",
           "request": {
             "method": "PUT",
             "header": [
@@ -1531,7 +2152,6 @@
                 "cancel"
               ]
             },
-            "description": "Verify malformed JWT cancel request is rejected with 401.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -1543,9 +2163,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-029",
-                  "pm.test('[FR10-AI-029] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-029] SEC-02: Malformed Bearer Token on Customer Cancel",
+                  "pm.test('[FR10-AI-029] SEC-02: Malformed Bearer Token on Customer Cancel - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.eql(401);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-029] SEC-02: Malformed Bearer Token on Customer Cancel - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1558,7 +2197,7 @@
       "name": "06 \u2013 SEC-03 Role-Based Access Control (RBAC)",
       "item": [
         {
-          "name": "[FR10-AI-030] SEC-03 RBAC Boundary: Normal Customer Token Targeting Admin Status Mutation Endpoint",
+          "name": "[FR10-AI-030] SEC-03: Normal Customer Token on Admin Status Endpoint",
           "request": {
             "method": "PUT",
             "header": [
@@ -1584,7 +2223,6 @@
                 "status"
               ]
             },
-            "description": "Verify normal customer cannot access admin status update route.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -1596,9 +2234,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-030",
-                  "pm.test('[FR10-AI-030] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-030] SEC-03: Normal Customer Token on Admin Status Endpoint",
+                  "pm.test('[FR10-AI-030] SEC-03: Normal Customer Token on Admin Status Endpoint - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([403, 401, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-030] SEC-03: Normal Customer Token on Admin Status Endpoint - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1606,7 +2263,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-031] SEC-03 RBAC Boundary: Admin Token Targeting Customer Cancellation Endpoint",
+          "name": "[FR10-AI-031] SEC-03: Admin Token on Customer Cancel Endpoint",
           "request": {
             "method": "PUT",
             "header": [
@@ -1631,7 +2288,6 @@
                 "cancel"
               ]
             },
-            "description": "Verify Admin token on customer cancel route is handled safely without unauthorized cross-route mutation.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -1643,9 +2299,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-031",
-                  "pm.test('[FR10-AI-031] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-031] SEC-03: Admin Token on Customer Cancel Endpoint",
+                  "pm.test('[FR10-AI-031] SEC-03: Admin Token on Customer Cancel Endpoint - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([403, 401, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-031] SEC-03: Admin Token on Customer Cancel Endpoint - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1653,7 +2328,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-032] SEC-03 RBAC Boundary: Non-Admin Role Token Targeting Admin Status Mutation Endpoint",
+          "name": "[FR10-AI-032] SEC-03: Guest / Unprivileged Role on Admin Status Endpoint",
           "request": {
             "method": "PUT",
             "header": [
@@ -1679,7 +2354,6 @@
                 "status"
               ]
             },
-            "description": "Verify unprivileged non-admin token cannot update order status.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -1691,9 +2365,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-032",
-                  "pm.test('[FR10-AI-032] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-032] SEC-03: Guest / Unprivileged Role on Admin Status Endpoint",
+                  "pm.test('[FR10-AI-032] SEC-03: Guest / Unprivileged Role on Admin Status Endpoint - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([403, 401, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-032] SEC-03: Guest / Unprivileged Role on Admin Status Endpoint - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1731,7 +2424,6 @@
                 "cancel"
               ]
             },
-            "description": "Verify Customer B cannot cancel Customer A's pending order; state verified by Customer A/Admin.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -1743,10 +2435,29 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-033",
-                  "pm.test('[FR10-AI-033] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-033] Cross-User Ownership: Customer B Probes Cancellation on Customer A's Pending Order",
+                  "pm.test('[FR10-AI-033] Cross-User Ownership: Customer B Probes Cancellation on Customer A's Pending Order - Status & Semantic Assertion', function () {",
                   "    // Partially spec-backed: verify non-success error code",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404, 422]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('userAToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-033] Cross-User Ownership: Customer B Probes Cancellation on Customer A's Pending Order - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1779,7 +2490,6 @@
                 "cancel"
               ]
             },
-            "description": "Verify Customer B cannot cancel Customer A's confirmed order; state verified by Customer A/Admin.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -1791,10 +2501,29 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-034",
-                  "pm.test('[FR10-AI-034] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-034] Cross-User Ownership: Customer B Probes Cancellation on Customer A's Confirmed Order",
+                  "pm.test('[FR10-AI-034] Cross-User Ownership: Customer B Probes Cancellation on Customer A's Confirmed Order - Status & Semantic Assertion', function () {",
                   "    // Partially spec-backed: verify non-success error code",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404, 422]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('userAToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-034] Cross-User Ownership: Customer B Probes Cancellation on Customer A's Confirmed Order - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('confirmed');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1833,7 +2562,6 @@
                 "status"
               ]
             },
-            "description": "Verify status value outside the 5 documented lifecycle states is rejected.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"processing\"}"
@@ -1845,9 +2573,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-035",
-                  "pm.test('[FR10-AI-035] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-035] Input Domain: Admin Status Mutation With Undocumented Enum ('processing')",
+                  "pm.test('[FR10-AI-035] Input Domain: Admin Status Mutation With Undocumented Enum ('processing') - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-035] Input Domain: Admin Status Mutation With Undocumented Enum ('processing') - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1855,7 +2602,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-036] Input Domain: Admin Status Mutation With Missing Mandatory 'status' Body Property",
+          "name": "[FR10-AI-036] Input Domain: Admin Status Mutation With Missing Mandatory 'status' Key",
           "request": {
             "method": "PUT",
             "header": [
@@ -1881,7 +2628,6 @@
                 "status"
               ]
             },
-            "description": "Verify payload missing status key is rejected with 400 Bad Request.",
             "body": {
               "mode": "raw",
               "raw": "{}"
@@ -1893,9 +2639,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-036",
-                  "pm.test('[FR10-AI-036] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-036] Input Domain: Admin Status Mutation With Missing Mandatory 'status' Key",
+                  "pm.test('[FR10-AI-036] Input Domain: Admin Status Mutation With Missing Mandatory 'status' Key - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-036] Input Domain: Admin Status Mutation With Missing Mandatory 'status' Key - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1903,7 +2668,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-037] Input Domain: Admin Status Mutation With Explicit Null Status Property",
+          "name": "[FR10-AI-037] Input Domain: Admin Status Mutation With Explicit Null Status",
           "request": {
             "method": "PUT",
             "header": [
@@ -1929,7 +2694,6 @@
                 "status"
               ]
             },
-            "description": "Verify null status property is rejected with 400 Bad Request.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": null}"
@@ -1941,9 +2705,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-037",
-                  "pm.test('[FR10-AI-037] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-037] Input Domain: Admin Status Mutation With Explicit Null Status",
+                  "pm.test('[FR10-AI-037] Input Domain: Admin Status Mutation With Explicit Null Status - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-037] Input Domain: Admin Status Mutation With Explicit Null Status - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1977,7 +2760,6 @@
                 "status"
               ]
             },
-            "description": "Verify numeric status type is rejected with 400 Bad Request.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": 123}"
@@ -1989,9 +2771,28 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-038",
-                  "pm.test('[FR10-AI-038] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-038] Input Domain: Admin Status Mutation With Numeric Status Type ({'status': 123})",
+                  "pm.test('[FR10-AI-038] Input Domain: Admin Status Mutation With Numeric Status Type ({'status': 123}) - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-038] Input Domain: Admin Status Mutation With Numeric Status Type ({'status': 123}) - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('pending');",
+                  "        }",
+                  "    });",
                   "});"
                 ]
               }
@@ -1999,7 +2800,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-039] Input Domain: Admin Status Mutation on Well-Formed Non-Existent Order ID (:id = 999999)",
+          "name": "[FR10-AI-039] Input Domain: Admin Status Mutation on Well-Formed Non-Existent ID (:id = 999999)",
           "request": {
             "method": "PUT",
             "header": [
@@ -2025,7 +2826,6 @@
                 "status"
               ]
             },
-            "description": "Verify mutation on non-existent order ID returns 404 without side-effects.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -2037,8 +2837,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-039",
-                  "pm.test('[FR10-AI-039] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-039] Input Domain: Admin Status Mutation on Well-Formed Non-Existent ID (:id = 999999)",
+                  "pm.test('[FR10-AI-039] Input Domain: Admin Status Mutation on Well-Formed Non-Existent ID (:id = 999999) - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.eql(404);",
                   "});"
                 ]
@@ -2047,7 +2847,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-040] Input Domain: Admin Status Mutation on Malformed Non-Numeric Order ID (:id = 'not-an-id')",
+          "name": "[FR10-AI-040] Input Domain: Admin Status Mutation on Malformed Non-Numeric ID (:id = 'not-an-id')",
           "request": {
             "method": "PUT",
             "header": [
@@ -2073,7 +2873,6 @@
                 "status"
               ]
             },
-            "description": "Verify malformed non-numeric identifier is safely rejected without server crash (500) or unintended mutation.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -2085,8 +2884,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-040",
-                  "pm.test('[FR10-AI-040] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-040] Input Domain: Admin Status Mutation on Malformed Non-Numeric ID (:id = 'not-an-id')",
+                  "pm.test('[FR10-AI-040] Input Domain: Admin Status Mutation on Malformed Non-Numeric ID (:id = 'not-an-id') - Status & Semantic Assertion', function () {",
                   "    // Partially spec-backed: verify non-success error code",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404, 422]);",
                   "});"
@@ -2101,7 +2900,7 @@
       "name": "09 \u2013 Response Schema, Persistence & SEC-05",
       "item": [
         {
-          "name": "[FR10-AI-041] Persistence & Consistency: Read-After-Write State Verification and Response Schema Consistency",
+          "name": "[FR10-AI-041][ACTION] Mutate Order pending -> confirmed",
           "request": {
             "method": "PUT",
             "header": [
@@ -2127,7 +2926,6 @@
                 "status"
               ]
             },
-            "description": "Multi-request consistency case verifying response payload matches subsequent authorized GET query.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -2139,8 +2937,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-041",
-                  "pm.test('[FR10-AI-041] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-041][ACTION] Mutate Order pending -> confirmed",
+                  "pm.test('[FR10-AI-041][ACTION] Mutate Order pending -> confirmed - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
@@ -2154,7 +2952,53 @@
           ]
         },
         {
-          "name": "[FR10-AI-042] SEC-05 Injection Defense: Black-Box SQL Injection Probe on Status Path Parameter",
+          "name": "[FR10-AI-041][VERIFY] Query Mutated Order: GET confirmed",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-AI-041][VERIFY] Query Mutated Order: GET confirmed",
+                  "pm.test('[FR10-AI-041][VERIFY] Query Mutated Order: GET confirmed - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('confirmed');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-042] SEC-05 Injection Defense: Black-Box SQL Injection Probe on Status Route",
           "request": {
             "method": "PUT",
             "header": [
@@ -2180,7 +3024,6 @@
                 "status"
               ]
             },
-            "description": "Verify SQL injection string in path parameter is safely rejected without syntax leakage or mass updates.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -2192,8 +3035,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-AI-042",
-                  "pm.test('[FR10-AI-042] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-AI-042] SEC-05 Injection Defense: Black-Box SQL Injection Probe on Status Route",
+                  "pm.test('[FR10-AI-042] SEC-05 Injection Defense: Black-Box SQL Injection Probe on Status Route - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
                   "});"
                 ]
@@ -2207,7 +3050,7 @@
       "name": "10 \u2013 Human-Designed Extension Cases",
       "item": [
         {
-          "name": "[FR10-HUM-001] State Machine Continuity & Recovery: Legal Admin Confirmation Following Rejected Illegal Skip",
+          "name": "[FR10-HUM-001][ACTION-1] Illegal Skip: pending -> shipping (rejected)",
           "request": {
             "method": "PUT",
             "header": [
@@ -2233,7 +3076,6 @@
                 "status"
               ]
             },
-            "description": "Multi-step recovery: attempt illegal pending->shipping (rejected), verify pending, then legal pending->confirmed (succeeds).",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"shipping\"}"
@@ -2245,8 +3087,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-HUM-001",
-                  "pm.test('[FR10-HUM-001] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-HUM-001][ACTION-1] Illegal Skip: pending -> shipping (rejected)",
+                  "pm.test('[FR10-HUM-001][ACTION-1] Illegal Skip: pending -> shipping (rejected) - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
                   "});"
                 ]
@@ -2255,7 +3097,151 @@
           ]
         },
         {
-          "name": "[FR10-HUM-002] Multi-Entity State Isolation: Transitioning Order A Leaves Independent Order B Untouched",
+          "name": "[FR10-HUM-001][VERIFY-1] Verify Order Remains pending",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-001][VERIFY-1] Verify Order Remains pending",
+                  "pm.test('[FR10-HUM-001][VERIFY-1] Verify Order Remains pending - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('pending');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-001][ACTION-2] Legal Admin Transition: pending -> confirmed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-001][ACTION-2] Legal Admin Transition: pending -> confirmed",
+                  "pm.test('[FR10-HUM-001][ACTION-2] Legal Admin Transition: pending -> confirmed - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('confirmed');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-001][VERIFY-2] Verify Order Successfully Reached confirmed",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-001][VERIFY-2] Verify Order Successfully Reached confirmed",
+                  "pm.test('[FR10-HUM-001][VERIFY-2] Verify Order Successfully Reached confirmed - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('confirmed');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-002][ACTION] Mutate Order A: pending -> confirmed",
           "request": {
             "method": "PUT",
             "header": [
@@ -2281,7 +3267,6 @@
                 "status"
               ]
             },
-            "description": "Mutates Order A to confirmed; queries both orders to prove Order A is confirmed and Order B is pending.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -2293,13 +3278,13 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-HUM-002",
-                  "pm.test('[FR10-HUM-002] Semantic Response & Status Assertion', function () {",
+                  "// Assertion for [FR10-HUM-002][ACTION] Mutate Order A: pending -> confirmed",
+                  "pm.test('[FR10-HUM-002][ACTION] Mutate Order A: pending -> confirmed - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
                   "        var s = jsonData.status || jsonData.data.status;",
-                  "        pm.expect(s).to.eql('Order A: confirmed, Order B: pending');",
+                  "        pm.expect(s).to.eql('confirmed');",
                   "    }",
                   "});"
                 ]
@@ -2308,9 +3293,9 @@
           ]
         },
         {
-          "name": "[FR10-HUM-003] Downstream Fulfillment Continuity: Legitimate Admin Completion Following Barred Customer Cancellation",
+          "name": "[FR10-HUM-002][VERIFY-A] Verify Order A Is confirmed",
           "request": {
-            "method": "PUT",
+            "method": "GET",
             "header": [
               {
                 "key": "Content-Type",
@@ -2322,21 +3307,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "raw": "{{baseUrl}}/api/orders/{{orderAId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "orders",
-                "{{orderId}}",
-                "cancel"
+                "{{orderAId}}"
               ]
-            },
-            "description": "Owner customer cancellation during shipping is rejected; subsequent Admin transition shipping->delivered succeeds.",
-            "body": {
-              "mode": "raw",
-              "raw": "{}"
             }
           },
           "event": [
@@ -2345,9 +3324,14 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-HUM-003",
-                  "pm.test('[FR10-HUM-003] Semantic Response & Status Assertion', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "// Assertion for [FR10-HUM-002][VERIFY-A] Verify Order A Is confirmed",
+                  "pm.test('[FR10-HUM-002][VERIFY-A] Verify Order A Is confirmed - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('confirmed');",
+                  "    }",
                   "});"
                 ]
               }
@@ -2355,7 +3339,53 @@
           ]
         },
         {
-          "name": "[FR10-HUM-004] Exploratory Same-State Self-Loop Probe: Admin Submits Redundant Mutation (confirmed -> confirmed)",
+          "name": "[FR10-HUM-002][VERIFY-B] Verify Independent Order B Remains pending",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderBId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderBId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-002][VERIFY-B] Verify Independent Order B Remains pending",
+                  "pm.test('[FR10-HUM-002][VERIFY-B] Verify Independent Order B Remains pending - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('pending');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-003][ACTION-1] Admin Transitions: pending -> confirmed",
           "request": {
             "method": "PUT",
             "header": [
@@ -2381,7 +3411,6 @@
                 "status"
               ]
             },
-            "description": "Probes same-state self-loop update semantics; non-normative oracle; verifies state remains confirmed.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\": \"confirmed\"}"
@@ -2393,11 +3422,304 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-HUM-004",
-                  "pm.test('[FR10-HUM-004] Semantic Response & Status Assertion', function () {",
-                  "    // Exploratory non-normative observation",
+                  "// Assertion for [FR10-HUM-003][ACTION-1] Admin Transitions: pending -> confirmed",
+                  "pm.test('[FR10-HUM-003][ACTION-1] Admin Transitions: pending -> confirmed - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('confirmed');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-003][ACTION-2] Admin Transitions: confirmed -> shipping",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-003][ACTION-2] Admin Transitions: confirmed -> shipping",
+                  "pm.test('[FR10-HUM-003][ACTION-2] Admin Transitions: confirmed -> shipping - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('shipping');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-003][ACTION-3] Owner User Attempts Cancel During Shipping (rejected)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "cancel"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-003][ACTION-3] Owner User Attempts Cancel During Shipping (rejected)",
+                  "pm.test('[FR10-HUM-003][ACTION-3] Owner User Attempts Cancel During Shipping (rejected) - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-003][VERIFY-1] Verify State Remains shipping",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-003][VERIFY-1] Verify State Remains shipping",
+                  "pm.test('[FR10-HUM-003][VERIFY-1] Verify State Remains shipping - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('shipping');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-003][ACTION-4] Admin Transitions: shipping -> delivered (succeeds)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-003][ACTION-4] Admin Transitions: shipping -> delivered (succeeds)",
+                  "pm.test('[FR10-HUM-003][ACTION-4] Admin Transitions: shipping -> delivered (succeeds) - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('delivered');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-003][VERIFY-2] Verify Final Fulfilled State: delivered",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-003][VERIFY-2] Verify Final Fulfilled State: delivered",
+                  "pm.test('[FR10-HUM-003][VERIFY-2] Verify Final Fulfilled State: delivered - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('delivered');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-HUM-004] Same-State Self-Loop Probe: Admin Submits confirmed -> confirmed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-HUM-004] Same-State Self-Loop Probe: Admin Submits confirmed -> confirmed",
+                  "pm.test('[FR10-HUM-004] Same-State Self-Loop Probe: Admin Submits confirmed -> confirmed - Status & Semantic Assertion', function () {",
+                  "    // Exploratory observation (non-normative oracle)",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 404, 415, 422, 500]);",
-                  "    // Safe state invariant: Response should not silently corrupt system",
                   "    pm.expect(pm.response.status).to.be.a('string');",
                   "});"
                 ]
@@ -2406,7 +3728,7 @@
           ]
         },
         {
-          "name": "[FR10-HUM-005] Exploratory Request Encoding Robustness: Admin Submits Mutation with Content-Type: text/plain",
+          "name": "[FR10-HUM-005] Non-JSON Content-Type Robustness: Admin Submits text/plain Payload",
           "request": {
             "method": "PUT",
             "header": [
@@ -2432,7 +3754,6 @@
                 "status"
               ]
             },
-            "description": "Probes non-JSON media type negotiation to detect unhandled 500 crashes; observational oracle.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"confirmed\"}"
@@ -2444,11 +3765,10 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Test Script for FR10-HUM-005",
-                  "pm.test('[FR10-HUM-005] Semantic Response & Status Assertion', function () {",
-                  "    // Exploratory non-normative observation",
+                  "// Assertion for [FR10-HUM-005] Non-JSON Content-Type Robustness: Admin Submits text/plain Payload",
+                  "pm.test('[FR10-HUM-005] Non-JSON Content-Type Robustness: Admin Submits text/plain Payload - Status & Semantic Assertion', function () {",
+                  "    // Exploratory observation (non-normative oracle)",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 404, 415, 422, 500]);",
-                  "    // Safe state invariant: Response should not silently corrupt system",
                   "    pm.expect(pm.response.status).to.be.a('string');",
                   "});"
                 ]

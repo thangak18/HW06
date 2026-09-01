@@ -1,4 +1,4 @@
-# FR-10 State Fixture Allocation & Isolation Strategy
+# FR-10 State Fixture Allocation & Isolation Strategy (Hardened)
 
 - **Student Name:** Nguyễn Tấn Thắng
 - **Student ID:** `23127259`
@@ -39,8 +39,11 @@ Feature FR-10 is inherently **stateful**. State transitions permanently mutate o
 
 ---
 
-## 4. Execution-Order Determinism & Isolation Rules
+## 4. Cross-Test State Isolation Matrix
 
-1. **Folder Execution Order:** Collection folders are ordered logically (00 Setup $ightarrow$ 01 Valid Forward $ightarrow$ 02 Cancellation $ightarrow$ ... $ightarrow$ 10 Human Extensions).
-2. **Read-After-Write Verification:** Every state transition test performs persistence verification using `GET /api/orders/:id` with an authorized token (`adminToken` or `userAToken`).
-3. **No Cross-Test Contamination:** Each folder or test block initializes its required target order ID before executing the mutation under test.
+| Fixture Variable | Initial Setup Actor | Consuming Formal Cases | Mutated In-Place? | Isolation Safety Guarantee |
+|---|---|---|:---:|---|
+| `orderId` | User A / Seed | Folders 01..06, 08, 09, HUM-001, HUM-003..005 | Yes (Scoped sequences) | Each multi-step sequence initializes and verifies its own lifecycle transitions independently. |
+| `orderAId` | User A (Owner) | `FR10-AI-033`, `FR10-AI-034`, `FR10-HUM-002` | Probed by Customer B | Customer B's mutation requests are rejected, leaving Order A state unmutated. |
+| `orderBId` | User A / Seed | `FR10-HUM-002` | No (Verification Only) | Target of non-mutation verification in multi-entity isolation test. |
+| Synthetic IDs | Static string literals | `FR10-AI-039`, `FR10-AI-040`, `FR10-AI-042` | No | Target non-existent database rows; zero impact on active fixtures. |

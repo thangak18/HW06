@@ -913,12 +913,122 @@ PHASE 2D.1 – FR-10 CONTROLLED POSTMAN + NEWMAN EXECUTION
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2D.0 FR-10 Postman Materialization Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-035 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1590) backfilled into [`23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md).
+- **INT-036 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-036-fr10-postman-materialization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-036-fr10-postman-materialization.md).
+- **INT-036 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-036 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Raw Draft Integrity Gate
+- **Frozen Raw AI SHA-256:** `303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc` (Match verified)
+- **Raw File Modified:** **NO** (Immutable evidence strictly preserved).
+
+---
+
+## 3. Formal Executable Suite Composition
+- **Usable AI-Derived Cases (Post-Audit):** `41` (`FR10-AI-001`..`011`, `013`..`042`)
+- **Rejected Raw AI Case:** `1` (`FR10-AI-012` excluded from execution suite)
+- **Human-Designed Extension Cases:** `5` (`FR10-HUM-001` .. `FR10-HUM-005`)
+- **Total Formal Executable Suite:** **`46` Formal Test Cases**
+- **Authoritative Specification:** Documented in [`23127259/testcases/FR10_FINAL_EXECUTABLE_SUITE.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_FINAL_EXECUTABLE_SUITE.md).
+
+---
+
+## 4. Postman Artifacts Inventory
+- **Postman Collection:** [`23127259/postman/collections/FR10_Order_State_Machine.postman_collection.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/collections/FR10_Order_State_Machine.postman_collection.json)
+- **Postman Environment:** [`23127259/postman/environments/FR10-local.postman_environment.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/environments/FR10-local.postman_environment.json)
+- **Domain Data File:** [`23127259/postman/data/fr10-domain-data.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/data/fr10-domain-data.json)
+- **Execution Traceability:** [`23127259/testcases/FR10_EXECUTION_TRACEABILITY.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_EXECUTION_TRACEABILITY.md)
+- **Fixture Allocation Strategy:** [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_FIXTURE_STRATEGY.md)
+- **Postman Features Manifest:** [`23127259/postman/POSTMAN_FEATURES_FR10.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/POSTMAN_FEATURES_FR10.md)
+- **Implementation Strategy:** [`23127259/postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md)
+
+---
+
+## 5. Collection Structure & Case Distribution
+
+| Folder Name | Description | Formal Case Count |
+|---|---|:---:|
+| **`00 – Setup / Authentication Helpers`** | Dynamic login & JWT extraction (Admin, User A, User B) | Helper Setup |
+| **`01 – Valid Forward & Lifecycle Transitions`** | Atomic steps & linear lifecycle (`001`..`004`) | `4` |
+| **`02 – Order Cancellation Pathways`** | Customer & Admin cancellations (`005`..`008`) | `4` |
+| **`03 – Invalid Forward Skips & Backward Regressions`** | Illegal forward skips & backward regressions (`009`..`011`, `013`..`016`) | `7` |
+| **`04 – Terminal-State Immutability`** | Pairwise rejection of mutations from `delivered` & `canceled` (`017`..`024`) | `8` |
+| **`05 – SEC-02 Authentication Invariants`** | Unauthenticated, malformed & expired token boundaries (`025`..`029`) | `5` |
+| **`06 – SEC-03 Role-Based Access Control (RBAC)`** | Role privilege boundaries (`030`..`032`) | `3` |
+| **`07 – Cross-User Ownership & Partial Authorization`** | Multi-tenant customer cancellation probes (`033`, `034`) | `2` |
+| **`08 – Status Enum & Order-ID Input Domain`** | Invalid enums, schema keys, non-existent & malformed IDs (`035`..`040`) | `6` |
+| **`09 – Response Schema, Persistence & SEC-05`** | Read-after-write consistency (`041`) & SQL injection probe (`042`) | `2` |
+| **`10 – Human-Designed Extension Cases`** | Recovery, multi-entity isolation, fulfillment & exploratory probes (`HUM-001`..`005`) | `5` |
+| **TOTAL FORMAL CASES** | | **`46`** |
+
+---
+
+## 6. Runtime & Fixture Strategy
+- **Authentication Setup:** Three setup helpers obtain authentic JWTs for Admin, Customer A (Owner), and Customer B (Non-Owner), storing them dynamically in `adminToken`, `userAToken`, and `userBToken`.
+- **State Fixture Allocation:** Seven fixture families isolate test orders to guarantee deterministic execution without inter-test dependencies.
+- **Persistence Verification:** Post-mutation reads (`GET /api/orders/:id`) verify persisted database state using authorized tokens without direct database access.
+- **Formal vs Helper Reconciliation:** Exactly 46 formal cases mapped to 49 total collection HTTP requests (including 3 authentication setup helpers).
+
+---
+
+## 7. Anti-Cheat Header Architecture (`X-Student-Id`)
+- **Collection-Level Pre-Request Injection:** Implemented centrally in collection `prerequest` script:
+  ```javascript
+  pm.request.headers.upsert({
+      key: "X-Student-Id",
+      value: pm.environment.get("studentId") || "23127259"
+  });
+  ```
+- **Environment Value:** `studentId = "23127259"`
+- **Runtime Evidence Captured:** **`NO`** (Scheduled for Phase 2D.1).
+
+---
+
+## 8. Static Validation Gate Results
+
+```
+=== RUNNING FR-10 STATIC VALIDATION GATE ===
+[PASS] Raw AI Draft frozen hash is verified immutable.
+[PASS] Postman Environment JSON parsed and validated.
+[PASS] Postman Collection JSON parsed.
+[PASS] Central collection-level X-Student-Id pre-request header injection verified.
+[INFO] Total HTTP Request definitions in Collection: 49
+[INFO] Extracted 46 unique formal test IDs from collection.
+[PASS] Rejected raw AI case FR10-AI-012 is strictly excluded.
+[PASS] Exactly 5 continuous Human Extension IDs (FR10-HUM-001..005) present.
+[PASS] Exactly 41 usable AI-derived IDs present.
+[PASS] No hardcoded live JWT credentials detected.
+[PASS] Documented Admin status and Customer cancel route shapes verified.
+
+=== ALL 7 STATIC VALIDATION GATES PASSED (100% COMPLIANT) ===
+```
+
+---
+
+## 9. Process Integrity & Runtime Status
+- **Postman Execution Performed:** **NO** (Static materialization only).
+- **Newman Execution Performed:** **NO** (Static materialization only).
+- **Git Commit SHA:** `dd07a78` (`test(23127259): implement FR-10 Postman collection`)
+- **Push Target:** `origin/thang/hw06-implementation` (Successfully pushed).
+- **Working Tree Status:** Clean.
+
+---
+
+**Phase 2D.0 is COMPLETE. Ready for PHASE 2D.1 – FR-10 CONTROLLED POSTMAN + NEWMAN EXECUTION.**
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Materializing 46 formal FR-10 executable test cases in FR10_FINAL_EXECUTABLE_SUITE.md and FR10_EXECUTION_TRACEABILITY.md. Creating Postman collection with central X-Student-Id injection, environment, and fixture strategy. Verifying static validation. Creating procedural commit.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID (Materialized 46 formal FR-10 executable test cases in FR10_FINAL_EXECUTABLE_SUITE.md and FR10_EXECUTION_TRACEABILITY.md; created initial Postman collection, environment, domain data, fixture strategy, features manifest, and implementation strategy; static validation passed; committed and pushed under dd07a78).
+- **Notes:** Full suite accounting established (41 AI + 5 HUM = 46 formal cases). FR10-AI-012 excluded. Proceeding to deep workflow, helper, and header audit in INT-037.
+- **Status:** COMPLETE.
