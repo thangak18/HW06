@@ -657,12 +657,89 @@ Then STOP.
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2D.1A.2 FR-10 Pre-Newman Readiness Report
+
+## AI Audit
+- **INT-041 Output Backfilled:** [`23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md)
+- **INT-042 Prompt Stored:** [`23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **INT-042 Output Pending:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`
+
+---
+
+## Admin Provenance
+
+| Identity | JWT Role Claim | Provisioning Source | Valid Admin Fixture |
+|---|:---:|---|:---:|
+| `adminEmail` (`admin@eshop.com`), password `Admin123!` | **`admin`** (`{"id":1,"role":"admin"}`) | Authoritatively seeded in SUT database (`id: 1`) on initialization | **YES (True Admin Fixture)** |
+
+---
+
+## Normal Users
+- **User A JWT Role:** `user` (`{"id":7,"role":"user"}`) – Seeded customer (`user@eshop.com` / `User1234!`)
+- **User B JWT Role:** `user` (`{"id":45,"role":"user"}`) – Customer account (`user_domain@eshop.com` / `Domain1234!`)
+
+---
+
+## Admin Registration Dependency
+- **Public Admin Registration Supported by Contract:** **`NO`** (Public registration `POST /api/register` contractually accepts only standard customers; client-supplied role values are sanitized/defaulted to `role = 'user'`).
+- **Final Harness Depends on It:** **`NO`**
+- **Unsupported Helper Removed:** **`YES`** (Deleted `[SETUP] Register Admin User Account` from Folder 00 of collection).
+
+---
+
+## Candidate RBAC Observation
+- **Normal-User Admin Endpoint Acceptance Observed:** **`YES`** (Observed during initial diagnostic exploration that `PUT /api/admin/orders/:id/status` accepted an authenticated customer token without 403 Forbidden).
+- **Formal Bug Confirmed:** **`NO`** (Categorized as `CANDIDATE SEC-03 IMPLEMENTATION OBSERVATION`; test harness strictly uses true Admin token `{{adminToken}}` for Admin test execution).
+
+---
+
+## Inventory Capacity
+- **Stock Exposed by API:** **`NO`** (`GET /api/products` returns `{id, name, price, description, imageUrl, category_id}`).
+- **Checkout Decrements Stock:** **`NO`** (Inspection of SQLite database schema confirms `products` table has **no stock column**; `POST /api/checkout` inserts directly into `orders`).
+- **Stock Validation Exists:** **`NO`**
+- **Evidence Classification:** **`IMPLEMENTATION OBSERVATION – NOT TEST ORACLE`**
+- **~44 Fixture Checkouts Operationally Viable:** **`YES`** (Operational capacity is `OPERATIONALLY UNBOUNDED FOR CURRENT LOCAL HARNESS`).
+
+---
+
+## Validators
+- **Fixture Isolation Validator (`validate_fr10_fixture_isolation.py`):** **PASS** (10/10 checks)
+- **Actor Readiness Validator (`validate_fr10_actor_readiness.py`):** **PASS** (10/10 checks)
+
+---
+
+## Full-Run Gate
+### **`READY_FOR_FULL_NEWMAN`**
+
+### Rationale:
+1. True Admin credentials (`admin@eshop.com` / `Admin123!`) independently proven with decoded JWT claim `role = 'admin'`.
+2. Public Admin registration dependency strictly removed.
+3. User A and User B proven as standard customer roles (`role = 'user'`).
+4. Operational inventory capacity proven unbounded via product model schema inspection.
+5. All 10 fixture-isolation and 10 actor-readiness static checks pass.
+
+---
+
+## Remaining Blockers
+- **NONE.**
+
+---
+
+## Execution
+- **Full Formal Suite Executed:** **`NO`** (0 formal test cases executed; formal test isolation strictly preserved).
+
+---
+
+## Git
+- **Commit SHA:** [`aef0ef7`](https://github.com/thangak18/HW06/commit/aef0ef7) (`fix(23127259): finalize FR-10 pre-Newman readiness`)
+- **Push Result:** Pushed to `origin/thang/hw06-implementation`
+- **Working Tree:** Clean
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Conducting Phase 2D.1A.2 pre-Newman readiness gate: (1) True Admin actor JWT role verification and seed provenance, (2) Removal of unsupported public Admin registration helper, (3) Implementation-level inspection of checkout inventory mechanics and unbounded capacity justification, (4) Creation of `FR10_PRE_NEWMAN_READINESS.md` and `validate_fr10_actor_readiness.py`.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** COMPLETED. Phase 2D.1A.2 resolved true Admin actor provenance (`admin@eshop.com` / `Admin123!` with verified JWT role `admin`), removed public Admin self-registration helper, confirmed unbounded checkout capacity from schema inspection, and passed all 10 fixture-isolation and 10 actor-readiness checks. Ready for Phase 2D.1B Newman Run 01 execution.
+- **Status:** COMPLETED & COMMITTED (`aef0ef7`).
+
