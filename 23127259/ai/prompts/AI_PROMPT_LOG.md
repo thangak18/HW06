@@ -27,6 +27,10 @@
 | **INT-010** | 2026-09-01 19:26 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part A): AI Prompt Log Verbatim Repair | YES (Verbatim) | [`INT-010-ai-prompt-log-verbatim-repair.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-010-ai-prompt-log-verbatim-repair.md) |
 | **INT-011** | 2026-09-01 19:33 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part B): FR-02 AI Generation Coverage Review and Freeze | YES (Verbatim) | [`INT-011-fr02-generation-coverage-freeze.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-011-fr02-generation-coverage-freeze.md) |
 | **INT-012** | 2026-09-01 19:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.0: INT-011 Audit Repair + FR-02 Human Audit Workspace Preparation | YES (Verbatim) | [`INT-012-fr02-human-audit-preparation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-012-fr02-human-audit-preparation.md) |
+| **INT-013** | 2026-09-01 19:46 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.1: FR-02 Human Audit Batch 1 Decisions & Batch 2 Preparation | YES (Verbatim) | [`INT-013-fr02-human-audit-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-013-fr02-human-audit-batch1.md) |
+| **INT-014** | 2026-09-01 19:51 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation | YES (Verbatim) | [`INT-014-fr02-human-audit-batch2.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-014-fr02-human-audit-batch2.md) |
+| **INT-015** | 2026-09-01 19:54 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation | YES (Verbatim) | [`INT-015-fr02-human-audit-batch3.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-015-fr02-human-audit-batch3.md) |
+| **INT-016** | 2026-09-01 19:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion | YES (Verbatim) | [`INT-016-fr02-human-audit-batch4-completion.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-016-fr02-human-audit-batch4-completion.md) |
 
 ---
 
@@ -5152,5 +5156,250 @@ Then present the Batch 1 Student Decision Table and STOP.
 DO NOT BEGIN BATCH 2.
 
 DO NOT ASSIGN HUMAN VERDICTS.
+```
+
+---
+
+## INT-013 – Phase 1B.1: FR-02 Human Audit Batch 1 Decisions & Batch 2 Preparation
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 19:46:24+07:00
+- **Interaction File:** [`../interactions/INT-013-fr02-human-audit-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-013-fr02-human-audit-batch1.md)
+
+### Exact Prompt
+
+```text
+Created At: 2026-09-01T19:46:34+07:00
+Completed At: 2026-09-01T19:46:35+07:00
+
+				The command exited with code 0.
+				Output:
+				PLANNER_RESPONSE at step 544: len 0
+...
+
+PLANNER_RESPONSE at step 546: len 0
+...
+
+PLANNER_RESPONSE at step 548: len 0
+...
+
+PLANNER_RESPONSE at step 550: len 0
+...
+
+PLANNER_RESPONSE at step 552: len 0
+...
+
+PLANNER_RESPONSE at step 554: len 0
+...
+
+PLANNER_RESPONSE at step 556: len 0
+...
+
+PLANNER_RESPONSE at step 558: len 0
+...
+
+PLANNER_RESPONSE at step 560: len 0
+...
+
+PLANNER_RESPONSE at step 562: len 0
+...
+
+PLANNER_RESPONSE at step 564: len 0
+...
+
+PLANNER_RESPONSE at step 566: len 0
+...
+
+PLANNER_RESPONSE at step 568: len 0
+...
+
+PLANNER_RESPONSE at step 570: len 5528
+# Phase 1B.0 Completion Report
+
+---
+
+## 1. INT-011 Evidence Repair
+- **Verified Prompt Transcript Step:** `transcript_fu...
+
+PLANNER_RESPONSE at step 572: len 0
+...
+
+PLANNER_RESPONSE at step 574: len 0
+...
+```
+
+---
+
+## INT-014 – Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 19:51:24+07:00
+- **Interaction File:** [`../interactions/INT-014-fr02-human-audit-batch2.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-014-fr02-human-audit-batch2.md)
+
+### Exact Prompt
+
+```text
+/Speckit FR02-AI-011
+Verdict: INCOMPLETE
+Reasoning: Omitting the password field is a useful negative request-domain case, but the specification does not define the exact HTTP status, validation message, or whether the request is rejected before authentication processing. The current state-after alternatives are therefore not deterministic.
+Correction: Keep the missing-password input. Assert only that authentication must not succeed and no JWT must be issued. Mark exact HTTP status, error schema, and failure-counter/state effect as NOT SPECIFIED.
+
+FR02-AI-012
+Verdict: INCOMPLETE
+Reasoning: A null password is a useful robustness/type-domain test, but the SRS/API specification does not explicitly define null handling. The no-500 expectation is an engineering robustness expectation rather than a formal FR-02 business oracle, and the state-after behavior is unspecified.
+Correction: Keep password=null as an exploratory negative input. Assert authentication non-success and no JWT. Mark exact status, null-validation behavior, error schema, and counter/state effect as NOT SPECIFIED.
+
+FR02-AI-013
+Verdict: VALID
+Reasoning: FR-02 explicitly locks the account after 3 or more consecutive failed logins. Therefore after the second consecutive failure the account must still remain unlocked. This is a valid N-1 boundary-value test.
+Correction: NONE
+
+FR02-AI-014
+Verdict: VALID
+Reasoning: FR-02 explicitly defines the lockout threshold at 3 consecutive failed logins. This case correctly verifies the N=3 boundary and transition into the temporary LOCKED state while correctly leaving the exact HTTP status of request #3 unspecified.
+Correction: NONE
+
+FR02-AI-015
+Verdict: VALID
+Reasoning: This case verifies the first observable transition in the failure sequence. Since the lockout threshold is 3 consecutive failures, the account must remain unlocked after failure #1 and accept subsequent authentication attempts.
+Correction: NONE
+
+FR02-AI-016
+Verdict: INVALID
+Reasoning: This case is semantically duplicate of FR02-AI-013. Both use the same precondition of exactly one prior failure, submit the second wrong password, and assert that the account remains unlocked with two consecutive failures. A different technique label does not create a distinct executable scenario.
+Correction: Remove from the final deduplicated executable suite or retain only as raw AI-audit evidence. Use FR02-AI-013 as the canonical N=2 case.
+
+FR02-AI-017
+Verdict: INVALID
+Reasoning: This case is semantically duplicate of FR02-AI-014. Both start after two consecutive failures, submit the third wrong password, and assert transition to LOCKED while leaving the exact response status unspecified.
+Correction: Remove from the final deduplicated executable suite or retain only as raw AI-audit evidence. Use FR02-AI-014 as the canonical N=3 lockout-threshold case.
+
+FR02-AI-018
+Verdict: INCOMPLETE
+Reasoning: FR-02 supports the core assertion that a request made during the active 30-second lockout window must be rejected and the account remains locked. However, the case additionally requires no stack traces/internal-variable disclosure, which is broader than the primary lockout oracle and is not clearly defined as part of this specific FR-02 behavior.
+Correction: Keep the active-lock wrong-credentials scenario. Assert temporary-lock rejection, no successful authentication, and LOCKED state. Leave exact status unspecified. Treat stack-trace/debug-data non-disclosure separately as an additional security/robustness assertion unless explicitly supported by the specification.
+
+FR02-AI-019
+Verdict: VALID
+Reasoning: An account in an active temporary lockout state must not authenticate before the 30-second window expires. Therefore even correct credentials cannot bypass the lock, and a successful JWT must not be issued. The case correctly leaves the exact 4xx status unspecified.
+Correction: NONE
+
+FR02-AI-020
+Verdict: VALID
+Reasoning: FR-02 explicitly defines a 30-second lockout duration. Testing at T+25s gives a safely pre-expiration boundary point, so the account must still be locked and valid credentials must not authenticate. The case correctly avoids asserting an undocumented exact 4xx status.
+Correction: NONE
+```
+
+---
+
+## INT-015 – Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 19:54:34+07:00
+- **Interaction File:** [`../interactions/INT-015-fr02-human-audit-batch3.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-015-fr02-human-audit-batch3.md)
+
+### Exact Prompt
+
+```text
+/Speckit FR02-AI-021
+Verdict: VALID
+Reasoning: FR-02 explicitly defines a temporary lockout duration of 30 seconds. At T+32s the lockout interval has expired, so submitting valid credentials must be processed normally and successful authentication should return the documented 200 response and JWT.
+Correction: NONE
+
+FR02-AI-022
+Verdict: VALID
+Reasoning: FR-02 explicitly states that a successful login resets the consecutive failed-login counter to 0. The wrong -> success -> wrong sequence correctly verifies that the failure after success belongs to a new consecutive-failure sequence and must not prematurely lock the account.
+Correction: NONE
+
+FR02-AI-023
+Verdict: VALID
+Reasoning: The lockout rule is based on consecutive failed logins. Because a successful authentication resets the failure sequence, the sequence wrong -> success -> wrong -> wrong contains only two consecutive failures after the reset and therefore must not trigger lockout.
+Correction: NONE
+
+FR02-AI-024
+Verdict: VALID
+Reasoning: Although lock expiry by itself does not necessarily specify the internal counter state, this test's precondition explicitly includes a successful login after the 30-second lockout has expired. FR-02 explicitly states that successful authentication resets the failure counter to 0. Therefore the following wrong password is correctly treated as the first failure of a fresh sequence.
+Correction: NONE
+
+FR02-AI-025
+Verdict: INCOMPLETE
+Reasoning: The SQL injection payload is a relevant SEC-05 behavioral probe and unauthorized authentication must not occur. However, black-box rejection of one payload cannot prove that the implementation uses parameterized queries as required by SEC-05. The assertions that the response must never be 500 and must never expose SQL errors are also broader engineering/security expectations rather than the complete SEC-05 oracle.
+Correction: Keep the SQLi email probe and assert that the payload must not bypass authentication or create an unauthorized session. Classify the result as PARTIAL BLACK-BOX EVIDENCE for SEC-05. Do not claim that a passing result proves parameterized queries; supplement with source/DB verification where permitted.
+
+FR02-AI-026
+Verdict: INCOMPLETE
+Reasoning: The password-field SQL injection probe is relevant to SEC-05, but its black-box result only demonstrates behavioral resistance to the selected payload. It cannot establish that all database queries are parameterized, and the no-500/no-database-error assertions are not sufficient proof of SEC-05 compliance.
+Correction: Retain the password SQLi probe and assert no authentication bypass or unauthorized token issuance. Keep SEC-05 classification as PARTIAL BLACK-BOX EVIDENCE and document that parameterization requires supplemental implementation verification.
+
+FR02-AI-027
+Verdict: VALID
+Reasoning: FR-02 explicitly requires authentication errors not to disclose whether the email or password was incorrect. Comparing the registered-email/wrong-password response against the unregistered-email response is a direct observable test of this non-disclosure requirement.
+Correction: NONE
+
+FR02-AI-028
+Verdict: INCOMPLETE
+Reasoning: Checking that the successful login response does not expose a plaintext password is a valuable additional security test, but it is not equivalent to SEC-01. SEC-01 specifically requires passwords not to be stored in plaintext, which cannot be proven merely by inspecting the login response.
+Correction: Retain the response-sanitization assertion as [ADDITIONAL-SEC] Sensitive Data Exposure. Remove SEC-01 compliance as the primary oracle. State separately that SEC-01 storage-at-rest compliance requires supplemental database/source verification.
+
+FR02-AI-029
+Verdict: INCOMPLETE
+Reasoning: Failed authentication must not provide a usable authenticated session or JWT, so the security objective is valid. However, the specification does not necessarily require the literal token property to be completely absent rather than null or otherwise non-usable. The raw case therefore overspecifies the exact error-response schema.
+Correction: Change the oracle to: failed authentication must not issue any usable authentication token or authorization capability. Do not require a specific token-field omission/null representation unless api_specification.md explicitly defines it.
+
+FR02-AI-030
+Verdict: VALID
+Reasoning: FR-02 issues the JWT and the specification states that the returned token is used as Authorization: Bearer <token> on subsequent authenticated APIs. Using one documented protected endpoint to verify that the issued token is usable is a legitimate supporting/indirect FR-02 integration test. The case correctly identifies that SEC-02 enforcement primarily belongs to the downstream protected endpoint.
+Correction: NONE
+```
+
+---
+
+## INT-016 – Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion
+
+- **Tool:** Antigravity IDE Assistant
+- **Model:** Gemini 3.7 Flash
+- **Date/Time:** 2026-09-01 19:56:42+07:00
+- **Interaction File:** [`../interactions/INT-016-fr02-human-audit-batch4-completion.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-016-fr02-human-audit-batch4-completion.md)
+
+### Exact Prompt
+
+```text
+/Speckit FR02-AI-031
+Verdict: VALID
+Reasoning: SEC-02 requires security-sensitive APIs to accept only a valid JWT. A token whose payload/signature has been tampered with is no longer valid, so a documented protected endpoint must reject it. This is acceptable as supporting/indirect FR-02 integration coverage because FR-02 is the token issuer and the protected endpoint is the token consumer.
+Correction: NONE
+
+FR02-AI-032
+Verdict: INCOMPLETE
+Reasoning: Validating the successful login response structure is appropriate and the documented contract supports the presence of a token and user information. However, the raw AI case over-specifies several details such as a strictly limited top-level structure, a positive integer ID, exact role enumeration, and a three-part encoded JWT unless all of those are explicitly normative in api_specification.md.
+Correction: Retain schema validation for fields and types explicitly documented by API-SPEC. Remove or mark as PARTIAL any constraints that are inferred from examples or JWT conventions rather than explicitly specified.
+
+FR02-AI-033
+Verdict: INCOMPLETE
+Reasoning: Validating the generic error response for invalid credentials is appropriate, but the specification does not necessarily mandate the exact error property name or require literal absence of both token and user fields. The important behavior is generic authentication failure with no usable authenticated session/token.
+Correction: Keep the generic error-contract check. Do not require a particular error key or exact omission representation unless explicitly documented. Assert that authentication fails and no usable authentication token is issued.
+
+FR02-AI-034
+Verdict: INCOMPLETE
+Reasoning: FR-02 supports a temporary-lockout notification and non-disclosure of sensitive authentication details. However, the raw case expands this into specific prohibitions on stack, SQL, lockout_until, attempts, and other internal fields that are not individually defined by the FR-02 contract.
+Correction: Retain the temporary-lockout error response and generic non-disclosure assertion. Leave exact status and field name unspecified, and treat stack trace/database/internal-variable leakage checks as additional security/robustness assertions rather than the formal FR-02 oracle.
+
+FR02-AI-035
+Verdict: INCOMPLETE
+Reasoning: Malformed JSON is a useful transport/parser robustness case, but malformed JSON handling is not explicitly defined by the FR-02 business specification. Therefore requiring a particular 4xx class response, forbidding 500, or requiring a structured JSON parser error is broader than the documented FR-02 oracle.
+Correction: Retain this as an exploratory transport robustness test. Assert only that malformed input must not result in successful authentication or issuance of a usable JWT. Treat exact status, parser error schema, and no-500 behavior as engineering expectations unless separately documented.
+
+FR02-AI-036
+Verdict: INCOMPLETE
+Reasoning: Checking Content-Type is useful API-contract validation, but the raw test marks application/json as an EXPLICIT requirement based largely on REST convention. Unless api_specification.md explicitly requires this response header, the assertion is inferred rather than a specification-backed FR-02 oracle.
+Correction: Keep Content-Type validation only as a PARTIAL or exploratory API-contract check unless the exact JSON response Content-Type is explicitly documented. Do not classify it as EXPLICIT solely because the API uses JSON.
+
+FR02-AI-037
+Verdict: INCOMPLETE
+Reasoning: Supplying unexpected fields such as role="admin" is a valuable parameter-injection and privilege-escalation probe. However, the login specification does not define whether unknown fields must be rejected or ignored. Therefore the HTTP 200-versus-400 behavior is SPEC-UNDEFINED. The useful security assertion is only that client-supplied login fields must not elevate the authenticated user's actual role.
+Correction: Retain the test as an exploratory/additional-security parameter-injection case. Do not require either silent ignoring or HTTP 400. Assert only that the supplied role field cannot alter the authenticated account's real authorization role.
 ```
 

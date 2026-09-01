@@ -31,7 +31,11 @@
 | **INT-009** | 2026-09-01 19:02 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.5: FR-02 Response Schema and Error-Contract Test Generation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 438 / 451) | Logged |
 | **INT-010** | 2026-09-01 19:26 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part A): AI Prompt Log Verbatim Repair | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 452 / 480) | Logged |
 | **INT-011** | 2026-09-01 19:33 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part B): FR-02 AI Generation Coverage Review and Freeze | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 501 / 542) | Logged |
-| **INT-012** | 2026-09-01 19:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.0: INT-011 Audit Repair + FR-02 Human Audit Workspace Preparation | YES (Verbatim) | PENDING TRANSCRIPT BACKFILL | `transcript_full.jsonl` (Step 543) | In Progress |
+| **INT-012** | 2026-09-01 19:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.0: INT-011 Audit Repair + FR-02 Human Audit Workspace Preparation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 543 / 570) | Logged |
+| **INT-013** | 2026-09-01 19:46 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.1: FR-02 Human Audit Batch 1 Decisions & Batch 2 Preparation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 575 / 588) | Logged |
+| **INT-014** | 2026-09-01 19:51 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 589 / 600) | Logged |
+| **INT-015** | 2026-09-01 19:54 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation | YES (Verbatim) | EXACT OUTPUT AVAILABLE | `transcript_full.jsonl` (Step 601 / 615) | Logged |
+| **INT-016** | 2026-09-01 19:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion | YES (Verbatim) | PENDING TRANSCRIPT BACKFILL | `transcript_full.jsonl` (Step 616) | In Progress |
 
 ---
 
@@ -119,6 +123,34 @@
 - **Date & Time:** 2026-09-01 19:37:53+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 1B.0: INT-011 Audit Repair + FR-02 Human Audit Workspace Preparation
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 543, Output: Pending)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 543, Output: Step 570)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-012`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-012-fr02-human-audit-preparation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-012-fr02-human-audit-preparation.md)
+### INT-013: Phase 1B.1: FR-02 Human Audit Batch 1 Decisions & Batch 2 Preparation
+- **Date & Time:** 2026-09-01 19:46:24+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1B.1: FR-02 Human Audit Batch 1 Decisions & Batch 2 Preparation
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 575, Output: Step 588)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-013`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-013-fr02-human-audit-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-013-fr02-human-audit-batch1.md)
+### INT-014: Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation
+- **Date & Time:** 2026-09-01 19:51:24+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 589, Output: Step 600)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-014`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-014-fr02-human-audit-batch2.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-014-fr02-human-audit-batch2.md)
+### INT-015: Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation
+- **Date & Time:** 2026-09-01 19:54:34+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 601, Output: Step 615)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-015`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-015-fr02-human-audit-batch3.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-015-fr02-human-audit-batch3.md)
+### INT-016: Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion
+- **Date & Time:** 2026-09-01 19:56:42+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 616, Output: Pending)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-016`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-016-fr02-human-audit-batch4-completion.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-016-fr02-human-audit-batch4-completion.md)
