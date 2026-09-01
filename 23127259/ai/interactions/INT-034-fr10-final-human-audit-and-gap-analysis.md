@@ -872,12 +872,113 @@ Wait for the Student to select >=5 Human Extension directions.
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2B.4 FR-10 Final Human Audit Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-033 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1517) backfilled into [`23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md).
+- **INT-034 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md).
+- **INT-034 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-034 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Raw Draft Integrity Gate
+- **Frozen Raw AI SHA-256 Before Audit:** `303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc`
+- **Frozen Raw AI SHA-256 After Audit:** `303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc`
+- **Raw File Modified:** **NO** (Immutable evidence strictly preserved; all 42 continuous IDs intact).
+
+---
+
+## 3. Final Batch 4 Human Audit Decisions
+
+| Test ID | AI Objective Summary | Student Verdict | Required Correction | Executable After Correction? |
+|---|---|:---:|---|:---:|
+| [`FR10-AI-035`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-035--verdict-valid) | Undocumented Status Enum (`"processing"`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-036`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-036--verdict-valid) | Missing Mandatory `status` Body Property (`{}`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-037`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-037--verdict-valid) | Explicit Null Status Value (`{"status": null}`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-038`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-038--verdict-valid) | Numeric Status Value (`{"status": 123}`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-039`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-039--verdict-valid) | Well-Formed Non-Existent Order ID (`:id = 999999`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-040`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-040--verdict-incomplete) | Malformed Non-Numeric ID (`:id = "not-an-id"`) | **INCOMPLETE** | Classify as `PARTIALLY SPECIFICATION-BACKED / INPUT ROBUSTNESS`; describe as malformed identifier probe; require no unintended mutation; do not require exact 400/404; if handled safely, record actual behavior without filing bug. | **YES** |
+| [`FR10-AI-041`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-041--verdict-valid) | Response Schema & Read-After-Write Consistency | **VALID** | NONE | **YES** |
+| [`FR10-AI-042`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-042--verdict-valid) | `SEC-05` Black-Box SQL Injection Behavioral Probe | **VALID** | NONE | **YES** |
+
+---
+
+## 4. Final Human Audit Accounting
+- **Total Raw AI-Generated Test Cases:** `42`
+- **Total Human-Audited:** `42 / 42` (100% Audited)
+- **VALID:** `38`
+- **INVALID:** `1` (`FR10-AI-012`)
+- **INCOMPLETE:** `3` (`FR10-AI-033`, `FR10-AI-034`, `FR10-AI-040`)
+- **Usable AI Cases As-Is:** `38`
+- **Usable AI-Derived Cases After Human Corrections:** **`41`**
+- **Rejected from Executable Suite:** `FR10-AI-012`
+- **Assignment Threshold Check:** $\ge 35$ usable AI-derived cases requirement is **SATISFIED** (41 usable test cases).
+
+---
+
+## 5. Human Audit Correction Manifest Summary
+The detailed correction document [`23127259/testcases/FR10_HUMAN_AUDIT_CORRECTIONS.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_AUDIT_CORRECTIONS.md) records:
+- **`FR10-AI-033` (Pending Ownership):** Classified as `PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION`; preserves User B token, pending order of User A, ownership mismatch; non-success status code; persistence verified via User A / Admin GET.
+- **`FR10-AI-034` (Confirmed Ownership):** Classified as `PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION`; preserves User B token, confirmed order of User A, ownership mismatch; non-success status code; persistence verified via User A / Admin GET.
+- **`FR10-AI-040` (Non-Numeric ID):** Classified as `PARTIALLY SPECIFICATION-BACKED / INPUT ROBUSTNESS`; treated as malformed identifier probe without asserting strict numeric regex; accepts safe 400/404 rejection.
+- **`FR10-AI-012` (Rejected):** Excluded from execution suite due to confounded normal user role + illegal forward skip `pending -> shipping`.
+
+---
+
+## 6. Procedural Human Audit Commit
+- **Commit SHA:** `e7ae93e`
+- **Commit Message:** `test(23127259): audit AI-generated FR-10 test cases`
+- **Push Target:** `origin/thang/hw06-implementation` (Successfully pushed).
+
+---
+
+## 7. Human Extension Gap Analysis
+
+Documented in [`23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md):
+
+| Gap ID | Proposed Testing Direction | Specification Strength | Distinctness & Value | Recommended? |
+|:---:|---|---|---|:---:|
+| **`G-01`** | **Same-State / Idempotent Mutation Probe** (`pending` $\rightarrow$ `pending`, `confirmed` $\rightarrow$ `confirmed`) | `EXPLORATORY / API CONTRACT` | High (Tests FSM self-loops & idempotency) | **YES** |
+| **`G-02`** | **Authentication Absence on Order Read Endpoint** (`GET /api/orders/:id` without token) | `SPECIFICATION-BACKED` | High (Validates persistence oracle security) | **YES** |
+| **`G-03`** | **Cross-User Order Query / IDOR Vulnerability Probe** (User B reads User A's order) | `FR-11 DEPENDENCY / ADDITIONAL-SEC` | High (Adjacent security boundary) | **YES** |
+| **`G-04`** | **State-Machine Continuity & Recovery After Rejected Mutation** | `SPECIFICATION-BACKED` | Very High (Proves transactional recovery) | **YES** |
+| **`G-05`** | **Multi-Entity State Isolation (Zero Cross-Order Side-Effects)** | `SPECIFICATION-BACKED` | Very High (Prevents bulk mutation bugs) | **YES** |
+| **`G-06`** | **Rapid Sequential Mutation / Idempotency Stress Probe** | `EXPLORATORY / API CONTRACT` | Medium (Timing non-determinism risk) | **NO** |
+| **`G-07`** | **Post-Rejected Customer Cancellation Fulfillment Continuity** (`shipping` $\rightarrow$ cancel rejected $\rightarrow$ `delivered`) | `SPECIFICATION-BACKED` | High (Validates end-to-end lifecycle resolution) | **YES** |
+| **`G-08`** | **Malformed Request `Content-Type` Header Handling** (Form-urlencoded / text-plain) | `EXPLORATORY / API CONTRACT` | Medium-High (Discovers unhandled 500 crashes) | **YES** |
+
+---
+
+## 8. Recommended Shortlist for Student Selection (6 Directions)
+1. **`G-01` (Same-State Self-Loop Probe):** Admin attempts `confirmed` $\rightarrow$ `confirmed`. Probes whether redundant status updates are safely idempotent or rejected without state corruption.
+2. **`G-04` (State-Machine Recovery Sequence):** Attempt illegal skip `pending` $\rightarrow$ `shipping` (rejected), verify `pending`, then immediately perform legal Admin transition `pending` $\rightarrow$ `confirmed` (succeeds).
+3. **`G-05` (Multi-Order Entity Isolation):** Create Order 1 and Order 2 in `pending`. Transition Order 1 to `confirmed`. Verify Order 1 is `confirmed` and Order 2 remains strictly `pending`.
+4. **`G-07` (Lifecycle Fulfillment Following Barred User Cancellation):** Progress order to `shipping`. Owner Customer attempts `PUT /api/orders/:id/cancel` (rejected). Admin subsequently transitions `shipping` $\rightarrow$ `delivered` (succeeds).
+5. **`G-03` (Adjacent Security: Cross-User Read / IDOR Probe):** Customer B attempts `GET /api/orders/{{orderAId}}` targeting Customer A's order to verify multi-tenant read privacy.
+6. **`G-08` (API Contract Robustness: Non-JSON Content-Type Handling):** Admin submits status mutation with non-JSON encoding to test graceful content negotiation vs server crash.
+
+---
+
+## 9. Process Integrity & Runtime Status
+- **Human Extension Cases Created (`FR10-HUM-xxx`):** **`0`** (Awaiting explicit student selection in Phase 2C).
+- **SUT Execution Performed:** **NO** (Strict static audit and gap analysis only).
+- **Git Status:**
+  - Audit procedural commit: `e7ae93e` (Pushed to remote).
+  - Gap-analysis artifact: [`23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md) uncommitted in working tree for Student review.
+
+---
+
+**Awaiting Student Selection of $\ge 5$ Human Extension Directions (`FR10-HUM-xxx`) for Phase 2C.**
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Finalized 42-case Human Audit (38 VALID, 1 INVALID, 3 INCOMPLETE; 41 usable after correction). Generated Human Audit Correction Manifest, executed procedural commit, and created Human Extension Gap Analysis.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID (Human Audit finalized: 38 VALID, 1 INVALID [FR10-AI-012], 3 INCOMPLETE [FR10-AI-033, FR10-AI-034, FR10-AI-040]; 41 usable AI-derived cases; procedural commit e7ae93e created and pushed; Human Extension gap analysis completed with 8 candidates; student selected G-04, G-05, G-07, G-01, G-08 for Phase 2C).
+- **Notes:** Recorded Final Batch 4 decisions in TC_AUDIT_FR10.md. Generated FR10_HUMAN_AUDIT_CORRECTIONS.md. Created procedural commit e7ae93e. Created FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md. Student selected 5 directions for formal design.
+- **Status:** COMPLETE.
