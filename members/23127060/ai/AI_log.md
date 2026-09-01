@@ -99,3 +99,11 @@ File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py bui
 - Files touched: .github/workflows/api-tests-23127060.yml, ci/api-tests-23127060.yml, ci/CI_CD_REPORT.md, ci/inject_failing_test.py, ci/evidence/local_ci_run_pass.log, ci/evidence/local_ci_run_fail.log, ci/evidence/header_evidence.md
 - Human verified: pending
 
+### #13 · 2026-09-01T15:50:21+07:00 · STEP 9 · Thiet ke bo sinh test: pseudocode, mo ta so do, bao cao thiet ke
+- Tool: Claude Code (claude-opus-5)
+- Prompt: `ai/prompts/step9_generator.txt`
+  > [STEP 9 — Agent Skill: bo sinh test case tu dong] De bai muc 7 (10 diem, muc Create G9.5): "design an AI-driven API test generator for the SUT:
+- Output: `ai/interactions/20260901T155021+0700_thiet-ke-bo-sinh-test-pseudocode-mo-ta-s_OUTPUT.md`
+- Files touched: agent-skill/pseudocode/generator.pseudo.md, agent-skill/diagram/DIAGRAM_BRIEF.md, agent-skill/VIDEO_SCRIPT.md, report/07_test_generator_design.md
+- Human verified: pending
+

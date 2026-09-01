@@ -2,7 +2,8 @@
 
 SV: Ninh Van Khai — 23127060 — HW06
 Ban hien thuc that: `agent-skill/eshop-api-23127060/scripts/gen_testcases.py`
-So do tuong ung: `agent-skill/diagram/test_generator_flow.png`
+So do tuong ung: `agent-skill/diagram/23127060_generator_diagram.png` — **do sinh vien tu ve**
+(de bai muc 11 cam so do nay duoc sinh bang AI). Mo ta khoi va luong de ve: `agent-skill/diagram/DIAGRAM_BRIEF.md`.
 
 ---
 
@@ -178,14 +179,22 @@ HAM SINH_STATE(spec):
 ## 5. Bo sinh Security — anh xa SEC-01..SEC-07
 
 ```
+# CANH BAO DA HOC DUOC: bang nay tung duoc viet theo TRI NHO ve cac lo hong OWASP quen
+# thuoc (SEC-01 = SQL Injection, SEC-04 = IDOR, SEC-05 = leo thang quyen, SEC-07 = brute
+# force). Doi chieu voi `eshop-sut/README.md` muc 9 thi bang do SAI HOAN TOAN, va hau qua la
+# 39/41 test case bao mat bi gan sai ma. Bang duoi day la bang THAT.
+#
+# Ma SEC la mot NHAN KHONG TU GIAI THICH: doc "SEC-01" khong ai doan duoc no noi gi. Bo sinh
+# nao dung nhan kieu nay deu phai lay dinh nghia tu chinh tai lieu dac ta, khong duoc dien
+# tu tri nho. Xem `report/03_audit.md` muc 4.
 BANG_KHANG_DINH_MAC_DINH := {
-    "SEC-01": "khong tra 500; khong lo thong diep SQL; du lieu khong bi ro ri",
-    "SEC-02": "response khong chua stack trace, ten bang, hay bi mat",
-    "SEC-03": "khong co token / token sai -> 401 hoac 403",
-    "SEC-04": "khong truy cap duoc tai nguyen cua nguoi khac -> 403/404",
-    "SEC-05": "user thuong khong thuc hien duoc thao tac admin -> 403",
-    "SEC-06": "dau vao doc hai bi tu choi hoac duoc lam sach",
-    "SEC-07": "vuot nguong tan suat -> 429 hoac bi khoa tam thoi"
+    "SEC-01": "response KHONG chua truong password; mat khau khong duoc luu plaintext",
+    "SEC-02": "thieu token -> 401; token sai -> 403; du lieu KHONG bi doc hay thay doi",
+    "SEC-03": "token hop le nhung role != 'admin' -> 403; thao tac admin KHONG duoc thuc hien",
+    "SEC-04": "payload HTML/script khong duoc luu tho; server escape hoac tu choi (4xx)",
+    "SEC-05": "payload SQLi bi coi la chuoi tim kiem thuong, khong doi ngu nghia cau lenh",
+    "SEC-06": "truong role trong body bi bo qua; role cua tai khoan van la 'user'",
+    "SEC-07": "OTP dai >= 6 chu so, co han su dung, va khong dung lai duoc lan hai"
 }
 
 HAM SINH_SECURITY(spec):
@@ -207,10 +216,19 @@ HAM SINH_SECURITY(spec):
         )
         ket_qua.THEM(tc)
 
-    # Chot chan: bat buoc phu du 7 ma
+    # Chot chan ve do phu.
+    #
+    # Phien ban dau doi "moi API phai phu du 7 ma SEC". Yeu cau do BAT KHA THI: SEC-07 noi ve
+    # vong doi OTP thi khong the ap vao API quan ly san pham, SEC-01 noi ve luu tru mat khau
+    # thi khong lien quan gi den luong thanh toan. Va chinh yeu cau do gay hai: cach duy nhat
+    # de "dat chi tieu" la gan bua mot ma SEC cho mot case khong thuoc no.
+    #
+    # Chi tieu dung: du 7 ma tren TOAN BO bo test, con tung API chi phu nhung ma thuc su ap
+    # dung duoc, va phan khong ap dung phai co giai trinh.
     thieu <- { SEC-01..SEC-07 } \ { s.sec : s trong spec.security }
     NEU thieu khong rong:
-        CANH_BAO("Spec chua phu cac ma: " + thieu)
+        BAO_CAO("API nay khong ap dung cac ma: " + thieu
+                + " -> can mot dong giai trinh trong bao cao, khong phai mot case gan bua")
 
     TRA VE ket_qua
 ```
@@ -246,12 +264,32 @@ HAM KHU_TRUNG(cases):
     da_thay <- tap rong
     giu_lai <- rong
     VOI MOI c TRONG cases:
-        khoa <- (c.Method, c.Endpoint, c.Request_Body, c.Expected_Status)
+        # Hai test case chi trung nhau khi chung gui CUNG mot request VA khang dinh CUNG mot
+        # dieu, trong CUNG mot nhom ky thuat, VA xuat phat tu CUNG mot precondition.
+        khoa <- (c.Category, c.Method, c.Endpoint, c.Request_Body,
+                 c.Expected_Status, c.Expected_Assertions, c.Preconditions)
         NEU khoa KHONG thuoc da_thay:
             da_thay.THEM(khoa)
             giu_lai.THEM(c)
     TRA VE giu_lai
 ```
+
+> **Loi da mac va da sua o buoc nay.** Khoa khu trung ban dau chi gom
+> `(Method, Endpoint, Request_Body, Expected_Status)` — tuc la coi hai case la trung nhau khi
+> chung gui cung mot request, **bat ke chung khang dinh dieu gi**. Hau qua:
+>
+> - Mot case `SCH` ("response 200 khop schema `{message: string}`") va mot case `DOM`
+>   ("email hop le tra 200") gui y het nhau nhung kiem hai thu khac han. Case `SCH` bi nuot:
+>   API-1 khai bao 6 case schema nhung chi sinh ra **1**.
+> - Hai case `STA` "huy don dang `pending`" va "huy don dang `confirmed`" cung goi
+>   `PUT /api/orders/:id/cancel` voi body rong; chung chi khac nhau o **trang thai ban dau**.
+>   Case thu hai bi nuot: 9 chuyen trang thai chi sinh ra **5**.
+>
+> Sau khi bo sung `Category`, `Expected_Assertions` va `Preconditions` vao khoa: tong so case
+> tu 191 len **225**, va do phu bang chuyen trang thai cua API-2 tu 11/25 len **20/25**.
+>
+> Bai hoc: **cong cu tu dong cung phai duoc kiem thu.** Neu tin ngay con so dau tien thi da
+> bao cao thieu 34 test case va mot do phu state machine sai.
 
 ---
 
@@ -289,11 +327,21 @@ Bo sinh **khong** thay the nguoi kiem thu. Sau buoc 8, con nguoi phai:
 
 1. **Audit**: doc tung case AI sinh, gan `VALID` / `INVALID` / `INCOMPLETE`, ghi ly do va sua lai.
 2. **Extend**: them >= 5 case ma bo sinh khong the nghi ra, danh so tu `900`, kem cot
-   `Why_AI_Missed` — thuong roi vao 4 nhom:
-   - prompt/spec cua toi mo ta chua du (spec gap)
-   - han che cua mo hinh (khong suy luan duoc quan he nghiep vu lien endpoint)
-   - dac thu API (race condition, idempotency, thu tu goi)
-   - kien thuc mien (quy tac kinh doanh khong viet trong tai lieu)
+   `Why_AI_Missed` — roi vao 4 nhom:
+   - `PROMPT`  — prompt khoanh vung qua chat (vd chi neu 2 endpoint chinh cua FR-03)
+   - `MODEL`   — AI suy dien tu hinh dang API thay vi doc ma nguon
+   - `API`     — bug chi lo ra khi **ket hop nhieu request**
+   - `SPECGAP` — dac ta khong mo ta hanh vi nay nen AI khong co gi de bam vao
+
+   > **So lieu thuc te cua bai nay: 9/18 case bo sung thuoc nhom `API`.** Do la gioi han
+   > **cau truc** cua chinh thiet ke o tren: vong lap `VOI MOI part TRONG p.partitions` sinh
+   > ra cac test case **doc lap**, moi case mot request. Nhung mot nua so bug nghiem trong cua
+   > he thong nay chi lo ra khi noi nhieu request lai: kieu cua `price` chi sai khi so sanh
+   > hai response; don hang chi vao duoc trang thai `shipping` sau mot chuoi 4 request; mot
+   > lenh `PUT` thieu truong chi lam sap may chu o lan `GET` ke tiep.
+   >
+   > Huong mo rong: bo sung mot truc thu nam `scenarios[]` khai bao **chuoi** request kem
+   > khang dinh bac cao lien ket cac buoc — xem `report/07_test_generator_design.md` muc 6.
 3. **Xac nhan oracle**: quyet dinh case nao la `@contract` (hop dong dung, dung cho CI)
    va case nao la `@bug` (phoi bay loi that cua SUT, FAIL la dung).
 
