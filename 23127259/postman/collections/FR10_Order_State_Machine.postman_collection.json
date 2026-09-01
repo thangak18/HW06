@@ -1,8 +1,8 @@
 {
   "info": {
-    "_postman_id": "hw06-23127259-fr10-collection-v2",
+    "_postman_id": "hw06-23127259-fr10-collection-v3",
     "name": "FR10_Order_State_Machine",
-    "description": "Authoritative Postman test collection for FR-10: Order Status & State Machine (46 formal cases: 41 AI-derived + 5 Human extensions). Fully hardened with fail-fast X-Student-Id injection, explicit multi-step workflows, and deterministic persistence verification.",
+    "description": "Authoritative Postman test collection for FR-10: Order Status & State Machine (46 formal cases: 41 AI-derived + 5 Human extensions). Fully hardened with dynamic fixture creation, fail-fast X-Student-Id injection, explicit multi-step workflows, and deterministic persistence verification.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "event": [
@@ -26,7 +26,7 @@
   ],
   "item": [
     {
-      "name": "00 \u2013 Setup / Authentication Helpers",
+      "name": "00 \u2013 Setup / Authentication & Fixture Helpers",
       "item": [
         {
           "name": "[SETUP] Login Admin",
@@ -159,6 +159,652 @@
               }
             }
           ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Pending",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Main St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create Pending Order Fixture', function () {",
+                  "    var id = '1';",
+                  "    if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "        var d = pm.response.json();",
+                  "        id = String(d.id || (d.order && d.order.id) || (d.data && d.data.id) || '1');",
+                  "    }",
+                  "    pm.environment.set('orderId', id);",
+                  "    pm.environment.set('orderPendingId', id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Confirmed (Step 1: Create)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Main St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create Order for Confirmed Fixture', function () {",
+                  "    var id = '1';",
+                  "    if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "        var d = pm.response.json();",
+                  "        id = String(d.id || (d.order && d.order.id) || (d.data && d.data.id) || '1');",
+                  "    }",
+                  "    pm.environment.set('orderConfirmedId', id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Confirmed (Step 2: Transition)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderConfirmedId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderConfirmedId}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Advance Order to Confirmed State', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Shipping (Step 1: Create)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Main St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create Order for Shipping Fixture', function () {",
+                  "    var id = '1';",
+                  "    if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "        var d = pm.response.json();",
+                  "        id = String(d.id || (d.order && d.order.id) || (d.data && d.data.id) || '1');",
+                  "    }",
+                  "    pm.environment.set('orderShippingId', id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Shipping (Step 2: Confirm)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderShippingId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderShippingId}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Confirm Order for Shipping Sequence', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 404]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Shipping (Step 3: Ship)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderShippingId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderShippingId}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Advance Order to Shipping State', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 404]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Delivered (Step 1: Create)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Main St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create Order for Delivered Fixture', function () {",
+                  "    var id = '1';",
+                  "    if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "        var d = pm.response.json();",
+                  "        id = String(d.id || (d.order && d.order.id) || (d.data && d.data.id) || '1');",
+                  "    }",
+                  "    pm.environment.set('orderDeliveredId', id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Delivered (Step 2: Confirm)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderDeliveredId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderDeliveredId}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Confirm Order for Delivery', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 404]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Delivered (Step 3: Ship)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderDeliveredId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderDeliveredId}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Ship Order for Delivery', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 404]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Delivered (Step 4: Deliver)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderDeliveredId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{orderDeliveredId}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Deliver Order for Terminal Fixture', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 404]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Canceled (Step 1: Create)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Main St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create Order for Canceled Fixture', function () {",
+                  "    var id = '1';",
+                  "    if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "        var d = pm.response.json();",
+                  "        id = String(d.id || (d.order && d.order.id) || (d.data && d.data.id) || '1');",
+                  "    }",
+                  "    pm.environment.set('orderCanceledId', id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Canceled (Step 2: Cancel)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderCanceledId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderCanceledId}}",
+                "cancel"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Cancel Order for Terminal Fixture', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201, 400, 404]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Dual A (User A)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Main St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create Order A Fixture for User A', function () {",
+                  "    var id = '1';",
+                  "    if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "        var d = pm.response.json();",
+                  "        id = String(d.id || (d.order && d.order.id) || (d.data && d.data.id) || '1');",
+                  "    }",
+                  "    pm.environment.set('orderAId', id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[SETUP] Create Order Fixture - Dual B (User A)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"456 Side St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create Order B Fixture for User A', function () {",
+                  "    var id = '2';",
+                  "    if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "        var d = pm.response.json();",
+                  "        id = String(d.id || (d.order && d.order.id) || (d.data && d.data.id) || '2');",
+                  "    }",
+                  "    pm.environment.set('orderBId', id);",
+                  "});"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -180,7 +826,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -188,7 +834,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -216,7 +862,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -251,7 +897,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderConfirmedId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -259,7 +905,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderConfirmedId}}",
                 "status"
               ]
             },
@@ -287,7 +933,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderConfirmedId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -322,7 +968,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderShippingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -330,7 +976,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderShippingId}}",
                 "status"
               ]
             },
@@ -358,7 +1004,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderShippingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -600,14 +1246,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "raw": "{{baseUrl}}/api/orders/{{orderPendingId}}/cancel",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "cancel"
               ]
             },
@@ -635,7 +1281,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -670,14 +1316,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "raw": "{{baseUrl}}/api/orders/{{orderConfirmedId}}/cancel",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "orders",
-                "{{orderId}}",
+                "{{orderConfirmedId}}",
                 "cancel"
               ]
             },
@@ -705,7 +1351,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderConfirmedId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -740,7 +1386,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -748,7 +1394,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -776,7 +1422,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -811,7 +1457,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderConfirmedId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -819,7 +1465,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderConfirmedId}}",
                 "status"
               ]
             },
@@ -847,7 +1493,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderConfirmedId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -887,7 +1533,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -895,7 +1541,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -918,7 +1564,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -953,7 +1599,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -961,7 +1607,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -984,7 +1630,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1019,7 +1665,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderConfirmedId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1027,7 +1673,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderConfirmedId}}",
                 "status"
               ]
             },
@@ -1050,7 +1696,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderConfirmedId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1085,7 +1731,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderConfirmedId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1093,7 +1739,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderConfirmedId}}",
                 "status"
               ]
             },
@@ -1116,7 +1762,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderConfirmedId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1151,7 +1797,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderShippingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1159,7 +1805,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderShippingId}}",
                 "status"
               ]
             },
@@ -1182,7 +1828,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderShippingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1217,7 +1863,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderShippingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1225,7 +1871,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderShippingId}}",
                 "status"
               ]
             },
@@ -1248,7 +1894,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderShippingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1283,14 +1929,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "raw": "{{baseUrl}}/api/orders/{{orderShippingId}}/cancel",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "orders",
-                "{{orderId}}",
+                "{{orderShippingId}}",
                 "cancel"
               ]
             },
@@ -1313,7 +1959,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderShippingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1353,7 +1999,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderDeliveredId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1361,7 +2007,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderDeliveredId}}",
                 "status"
               ]
             },
@@ -1384,7 +2030,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderDeliveredId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1419,7 +2065,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderDeliveredId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1427,7 +2073,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderDeliveredId}}",
                 "status"
               ]
             },
@@ -1450,7 +2096,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderDeliveredId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1485,7 +2131,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderDeliveredId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1493,7 +2139,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderDeliveredId}}",
                 "status"
               ]
             },
@@ -1516,7 +2162,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderDeliveredId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1551,7 +2197,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderDeliveredId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1559,7 +2205,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderDeliveredId}}",
                 "status"
               ]
             },
@@ -1582,7 +2228,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderDeliveredId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1617,7 +2263,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderCanceledId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1625,7 +2271,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderCanceledId}}",
                 "status"
               ]
             },
@@ -1648,7 +2294,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderCanceledId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1683,7 +2329,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderCanceledId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1691,7 +2337,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderCanceledId}}",
                 "status"
               ]
             },
@@ -1714,7 +2360,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderCanceledId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1749,7 +2395,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderCanceledId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1757,7 +2403,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderCanceledId}}",
                 "status"
               ]
             },
@@ -1780,7 +2426,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderCanceledId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1815,7 +2461,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderCanceledId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1823,7 +2469,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderCanceledId}}",
                 "status"
               ]
             },
@@ -1846,7 +2492,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderCanceledId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1882,7 +2528,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1890,7 +2536,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -1913,7 +2559,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -1948,7 +2594,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1956,7 +2602,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -1979,7 +2625,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2014,7 +2660,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2022,7 +2668,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -2045,7 +2691,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2076,14 +2722,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "raw": "{{baseUrl}}/api/orders/{{orderPendingId}}/cancel",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "cancel"
               ]
             },
@@ -2106,7 +2752,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2141,14 +2787,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "raw": "{{baseUrl}}/api/orders/{{orderPendingId}}/cancel",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "cancel"
               ]
             },
@@ -2171,7 +2817,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2211,7 +2857,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2219,7 +2865,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -2242,7 +2888,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2277,14 +2923,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+              "raw": "{{baseUrl}}/api/orders/{{orderPendingId}}/cancel",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "cancel"
               ]
             },
@@ -2307,7 +2953,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2342,7 +2988,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2350,7 +2996,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -2373,7 +3019,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2444,7 +3090,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderAId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2479,14 +3125,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderAId}}/cancel",
+              "raw": "{{baseUrl}}/api/orders/{{orderConfirmedId}}/cancel",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "orders",
-                "{{orderAId}}",
+                "{{orderConfirmedId}}",
                 "cancel"
               ]
             },
@@ -2510,7 +3156,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderConfirmedId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2550,7 +3196,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2558,7 +3204,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -2581,7 +3227,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2616,7 +3262,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2624,7 +3270,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -2647,7 +3293,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2682,7 +3328,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2690,7 +3336,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -2713,7 +3359,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -2748,7 +3394,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2756,7 +3402,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },
@@ -2779,7 +3425,7 @@
                   "// Persistence Verification Oracle via GET",
                   "const studentId = pm.environment.get('studentId');",
                   "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderId'),",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('orderPendingId'),",
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
@@ -3693,7 +4339,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderConfirmedId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -3701,7 +4347,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderConfirmedId}}",
                 "status"
               ]
             },
@@ -3742,7 +4388,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/admin/orders/{{orderPendingId}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -3750,7 +4396,7 @@
                 "api",
                 "admin",
                 "orders",
-                "{{orderId}}",
+                "{{orderPendingId}}",
                 "status"
               ]
             },

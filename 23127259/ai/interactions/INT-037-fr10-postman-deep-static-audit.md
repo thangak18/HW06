@@ -667,12 +667,131 @@ PHASE 2D.1 – FR-10 CONTROLLED POSTMAN + NEWMAN EXECUTION
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+# Phase 2D.0.1 FR-10 Deep Materialization Audit Report
+
+---
+
+## 1. AI Audit Verification
+- **INT-036 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1640) backfilled into [`23127259/ai/interactions/INT-036-fr10-postman-materialization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-036-fr10-postman-materialization.md).
+- **INT-037 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md).
+- **INT-037 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-037 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
+
+---
+
+## 2. Formal Test Suite Integrity
+- **Total Formal Executable Cases:** **`46`** (41 AI-derived + 5 Human extensions)
+- **Rejected Raw AI Case:** **`FR10-AI-012`** strictly excluded from all collection items and scripts.
+- **Frozen Raw AI SHA-256:** `303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc` (Verified immutable).
+
+---
+
+## 3. HTTP Architecture & Operation Reconciliation
+
+Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md):
+
+| Dimension | Count | Architectural Description |
+|---|:---:|---|
+| **Formal Test Cases** | **`46`** | Audited business/security test cases |
+| **Authentication Setup Helpers** | **`3`** | `POST /api/auth/login` for Admin, Customer A, and Customer B |
+| **Collection Request Definitions** | **`63`** | 3 auth helpers + 41 atomic items + 19 multi-step sub-request items |
+| **Script-Triggered HTTP Calls (`pm.sendRequest`)** | **`36`** | Dynamic persistence verification GET queries embedded in test scripts |
+| **Expected Total Runtime HTTP Operations** | **`99`** | Total network calls executed across the wire during a full Newman run |
+
+---
+
+## 4. Multi-Step Formal Cases Breakdown
+
+| Formal ID | Step Breakdown | Request Definitions in Collection | Expected Runtime Network Calls |
+|:---:|---|:---:|:---:|
+| **`FR10-AI-004`** | Step 1 (`pending -> confirmed`) + Step 2 (`confirmed -> shipping`) + Step 3 (`shipping -> delivered`) + Verify (`GET delivered`) | `4` | **`4`** |
+| **`FR10-AI-041`** | Action (`PUT pending -> confirmed`) + Verify (`GET confirmed`) | `2` | **`2`** |
+| **`FR10-HUM-001`**| Action 1 (Illegal `pending -> shipping`) + Verify 1 (`GET pending`) + Action 2 (Legal `pending -> confirmed`) + Verify 2 (`GET confirmed`) | `4` | **`4`** |
+| **`FR10-HUM-002`**| Action (Mutate Order A `pending -> confirmed`) + Verify A (`GET Order A confirmed`) + Verify B (`GET Order B pending`) | `3` | **`3`** |
+| **`FR10-HUM-003`**| Action 1 (Admin confirm) + Action 2 (Admin ship) + Action 3 (User cancel rejected) + Verify 1 (`GET shipping`) + Action 4 (Admin deliver) + Verify 2 (`GET delivered`) | `6` | **`6`** |
+
+---
+
+## 5. Anti-Cheat `X-Student-Id` Header Audit
+- **Collection-Level Pre-Request Script:** Hardened with **fail-fast check**:
+  ```javascript
+  const studentId = pm.environment.get("studentId");
+  if (!studentId) {
+      throw new Error("studentId environment variable is required");
+  }
+  pm.request.headers.upsert({
+      key: "X-Student-Id",
+      value: studentId
+  });
+  ```
+- **Script-Triggered Requests (`pm.sendRequest`):** **100% of all 36 script calls** explicitly include `'X-Student-Id': studentId` and authorized `'Authorization': 'Bearer ' + token`.
+- **Missing Headers Found:** **`0`** (All 63 collection definitions and 36 script calls are fully protected).
+
+---
+
+## 6. Fixture Allocation & Isolation Audit
+- **Fixture Families:** 7 documented lifecycle families in [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_FIXTURE_STRATEGY.md).
+- **Fresh-Order Creation Mechanics:** API-visible setup via documented authentication tokens and scoped order variables (`orderId`, `orderAId`, `orderBId`).
+- **Cross-Test Isolation:** Verified that no test mutates state across unrelated formal test boundaries.
+
+---
+
+## 7. Persistence Oracle Audit
+- **Cases with State Mutation / Verification Requirements:** 41 cases.
+- **Verification Representation:** **100% covered** (36 cases via script-level `pm.sendRequest` GET queries + 5 multi-step cases via standalone collection `[VERIFY]` items).
+- **Zero Database Hacking:** All verifications perform legitimate HTTP `GET /api/orders/:id` calls using authorized identities.
+
+---
+
+## 8. Documentation & Non-Normative Oracle Corrections
+- **SEC-02 False Expired-Token Claims Removed:** **`YES`** — Corrected all descriptions across [`POSTMAN_FEATURES_FR10.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/POSTMAN_FEATURES_FR10.md) and [`FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md) to accurately state that `SEC-02` tests missing, malformed, and untrusted-signature tokens (no expired token case).
+- **`FR10-HUM-004` (Same-State Self-Loop):** Verified non-brittle observational oracle (accepts 200 or 4xx; verifies state remains `confirmed`).
+- **`FR10-HUM-005` (Non-JSON Encoding):** Verified non-brittle observational oracle (accepts safe error, 400/415, or graceful parse without assuming HTTP 500 is an automatic specification bug).
+- **`FR10-AI-033` / `034` / `040`:** Verified non-normative error-code oracles.
+
+---
+
+## 9. Automated Deep Static Validator Gate
+
+Validator script: [`23127259/postman/validate_fr10_postman_deep.py`](file:///Volumes/Thang/HW06/HW06/23127259/postman/validate_fr10_postman_deep.py)
+
+```
+=== RUNNING FR-10 DEEP STATIC VALIDATOR GATE ===
+[PASS] 1. Raw AI Draft frozen SHA-256 verified immutable.
+[PASS] 2. Postman Environment JSON parsed and studentId verified.
+[PASS] 3. Postman Collection JSON parsed.
+[PASS] 4. Fail-fast collection-level X-Student-Id pre-request header injection verified.
+[INFO] Total Collection Request Definitions: 63
+[PASS] 5. Exactly 63 collection request definitions present (3 helpers + 60 formal step items).
+[INFO] Extracted 46 unique formal test IDs from collection.
+[PASS] 6. Exactly 46 formal IDs represented (41 AI + 5 HUM; AI-012 strictly excluded).
+[INFO] Total pm.sendRequest script calls: 36
+[PASS] 7. All 36 script-triggered HTTP calls explicitly include X-Student-Id and Authorization headers.
+[PASS] 8. Zero hardcoded live JWT tokens detected.
+[PASS] 9. Exploratory (HUM-004/005) and Partially Spec-Backed (AI-033/034/040) oracles verified non-brittle.
+
+=== ALL 9 DEEP STATIC AUDIT GATES PASSED (100% COMPLIANT) ===
+```
+
+---
+
+## 10. Process Integrity & Runtime Status
+- **Postman Execution Performed:** **NO** (Strict static audit only).
+- **Newman Execution Performed:** **NO** (Strict static audit only).
+- **Git Commit SHA:** `7cca011` (`fix(23127259): harden FR-10 Postman execution harness`)
+- **Push Target:** `origin/thang/hw06-implementation` (Successfully pushed).
+- **Working Tree Status:** Clean.
+
+---
+
+**Static Materialization Integrity Gate is 100% PASSED. Ready for PHASE 2D.1 – FR-10 CONTROLLED POSTMAN + NEWMAN EXECUTION.**
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Conducting deep static audit and hardening of FR-10 Postman execution harness, multi-step sub-requests, script-level X-Student-Id injection, fixture allocation, and persistence verification oracles.
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** VALID (Completed deep static audit; hardened collection with fail-fast X-Student-Id injection and explicit multi-step sub-requests; reconciled HTTP architecture with 63 collection definitions, 36 script calls, 99 total expected runtime operations for 46 formal cases; verified all 9 gates in validate_fr10_postman_deep.py; committed under 7cca011).
+- **Notes:** Verified X-Student-Id propagation in 100% of collection definitions and script-level pm.sendRequest calls. Removed false expired-token claims. Proceeding to INT-038 for fixture provenance and route readiness audit.
+- **Status:** COMPLETE.
