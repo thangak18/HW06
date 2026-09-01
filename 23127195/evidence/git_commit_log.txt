@@ -1,36 +1,31 @@
 GIT COMMIT LOG - HW06 API Testing
 Sinh vien : 23127195
 Repository: https://github.com/thangak18/HW06
-Xuat luc  : 2026-09-01 20:45:06 
+Xuat luc  : 2026-09-01 20:49:01
 
-Theo muc 12 cua de bai: 'Create a new Git commit for each step of the procedure'
-Bang duoi day doi chieu tung commit voi buoc tuong ung cua quy trinh 5 buoc.
-
+Theo muc 12 cua de bai: 'Create a new Git commit for each step of the procedure'.
 
 GHI CHU VE DO MIN CUA COMMIT
 ----------------------------
 De bai (muc 12) neu vi du: "generation, audit, extension, and execution for each API".
 Trong bai nay, ba buoc Generate / Audit / Extend cua MOI API duoc gom vao MOT commit, vi ca ba
-deu ghi vao cung mot file nguon test case (testcases/<api>_testcases.json) — nhan audit va co
+deu ghi vao cung mot file nguon test case (testcases/<api>_testcases.json) - nhan audit va co
 nguon AI/HUMAN la CAC TRUONG NAM NGAY TRONG tung test case, khong phai ba file rieng biet:
 
     {
       "id": "TC-A1-028",
-      "source": "HUMAN",                      <- buoc 3 Extend
+      "source": "HUMAN",                              <- buoc 3 Extend
       "audit": { "label": "VALID", "reason": ... },   <- buoc 2 Audit
-      "expected_by_spec": ...,                <- buoc 1 Generate
+      "expected_by_spec": ...,                        <- buoc 1 Generate
       ...
     }
 
 Tach lam ba commit se phai tao ra ba trang thai trung gian khong ung voi cach lam that, tuc la
 nguy tao lich su. Thay vao do, thong diep commit cua tung API ghi ro ca ba buoc, va co the truy
-nguoc bang cach loc theo truong `source` va `audit.label`:
-
-    # dem test case do AI sinh va do nguoi them, cho tung API
-    python -c "import json,glob;from collections import Counter;[print(f, Counter(c['source'] for c in json.load(open(f,encoding='utf-8'))['cases'] if not c.get('setup'))) for f in sorted(glob.glob('testcases/*_testcases.json'))]"
+nguoc bang cach loc theo truong `source` va `audit.label`.
 
 Buoc 4 Execute duoc gom mot commit cho ca ba API vi ca ba chay trong cung mot lan
-`bash scripts/run_newman.sh api1 api2 api3` (dau thoi gian bao cao deu la 20260901-200655).
+`bash scripts/run_newman.sh api1 api2 api3`.
 
 ====================================================================================================
 BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
@@ -38,35 +33,35 @@ BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
 
  1. ab3bff41  2026-09-01 19:02:54
     Commit : chore(23127195): setup workspace, chon 3 API va dung ha tang sinh test
-    Buoc   : Chuan bi — dung workspace, chon API lan 1
+    Buoc   : Chuan bi - dung workspace, chon API lan 1
 
  2. 70350346  2026-09-01 20:09:47
     Commit : chore(23127195): doi bo API sang FR-04/FR-09/FR-16 va hoan thien ha tang sinh test
-    Buoc   : Chuan bi — chot lai bo 3 API + ha tang sinh test
+    Buoc   : Chuan bi - chot lai bo 3 API + ha tang sinh test
 
  3. 6a073480  2026-09-01 20:09:48
     Commit : feat(api1-fr04): sinh + audit + mo rong test case cho FR-04 (45 case)
-    Buoc   : API-1 — Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
+    Buoc   : API-1 - Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
 
  4. adbf76c8  2026-09-01 20:09:48
     Commit : feat(api2-fr09): sinh + audit + mo rong test case cho FR-09 (50 case)
-    Buoc   : API-2 — Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
+    Buoc   : API-2 - Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
 
  5. cc3a908a  2026-09-01 20:09:48
     Commit : feat(api3-fr16): sinh + audit + mo rong test case cho FR-16 (49 case)
-    Buoc   : API-3 — Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
+    Buoc   : API-3 - Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
 
  6. 75747093  2026-09-01 20:09:48
     Commit : build(postman): sinh 3 Postman Collection v2.1 tu IR test case
-    Buoc   : Ca 3 API — bien dich test case sang Postman Collection
+    Buoc   : Ca 3 API - bien dich test case sang Postman Collection
 
  7. 78f99200  2026-09-01 20:10:08
     Commit : test(all): thi hanh 144 test case bang Newman + xuat bang test case
-    Buoc   : Ca 3 API — Buoc 4 Execute (Newman) + xuat bang test case
+    Buoc   : Ca 3 API - Buoc 4 Execute (Newman) + xuat bang test case
 
  8. e984add5  2026-09-01 20:18:08
     Commit : docs(bugs): bao cao 24 loi kem bang chung tai hien duoc
-    Buoc   : Ca 3 API — Buoc 5 Report bugs
+    Buoc   : Ca 3 API - Buoc 5 Report bugs
 
  9. eff0bfce  2026-09-01 20:31:45
     Commit : feat(postman,ci): data-driven runs + cong chan hoi quy + GitHub Actions
@@ -74,7 +69,7 @@ BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
 
 10. 003e6f1c  2026-09-01 20:31:45
     Commit : feat(agent-skill): thiet ke bo sinh test case API bang AI (muc G9.5 Create)
-    Buoc   : Agent Skill — thiet ke bo sinh test case (muc G9.5)
+    Buoc   : Agent Skill - thiet ke bo sinh test case (muc G9.5)
 
 11. 65ec82ca  2026-09-01 20:38:24
     Commit : docs(ai): AI Audit Report, AI Critique va nhat ky 12 luot tuong tac
@@ -83,6 +78,10 @@ BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
 12. d108989d  2026-09-01 20:45:06
     Commit : docs: bao cao chinh, CI/CD report, danh sach Postman features, README va chi muc bang chung
     Buoc   : Bao cao chinh, CI/CD report, README, chi muc bang chung
+
+13. 1dcfdb42  2026-09-01 20:47:52
+    Commit : docs: kich ban video demo, git commit log va cap nhat bang phan cong nhom
+    Buoc   : Kich ban video, git commit log, bang phan cong nhom
 
 ====================================================================================================
 NHAT KY DAY DU (git log --stat)
@@ -647,4 +646,34 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
  23127195/docs/02_POSTMAN_FEATURES.md |  61 +++++++
  23127195/evidence/EVIDENCE_INDEX.md  | 143 ++++++++++++++--
  5 files changed, 760 insertions(+), 116 deletions(-)
+
+
+----------------------------------------------------------------------
+commit  1dcfdb426652e459f18d67ef6ff638c7d0230c45
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Tue Sep 1 20:47:52 2026 +0700
+
+docs: kich ban video demo, git commit log va cap nhat bang phan cong nhom
+
+- video/VIDEO_DEMO_SCRIPT.md: kich ban 7 phut, trong tam la Agent Skill sinh
+  test case cho API-2 (dung yeu cau §7 'showing it generate tests for one API')
+- evidence/git_commit_log.txt: bang doi chieu commit <-> buoc quy trinh, kem
+  ghi chu trung thuc ve do min cua commit (3 buoc Generate/Audit/Extend cua
+  moi API nam trong cung mot file nguon nen gom mot commit)
+- README.md goc: dien FR-04/FR-09/FR-16 vao bang phan cong nhom
+- Sinh lai collection sau khi bo sung anh xa known_defect
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+
+ 23127195/evidence/git_commit_log.txt               |   650 +
+ 23127195/newman/api1_20260901-204738.html          | 24705 +++++++
+ 23127195/newman/api1_20260901-204738.json          | 66901 +++++++++++++++++++
+ 23127195/newman/api1_20260901-204738.xml           |   660 +
+ .../api1_fr04_user_profile.postman_collection.json |     1 +
+ .../api2_fr09_apply_coupon.postman_collection.json |     1 +
+ ...i3_fr16_import_products.postman_collection.json |     3 +
+ 23127195/testcases/TESTCASES_23127195.xlsx         |   Bin 37503 -> 37502 bytes
+ 23127195/video/VIDEO_DEMO_SCRIPT.md                |   214 +-
+ README.md                                          |     5 +-
+ 10 files changed, 93097 insertions(+), 43 deletions(-)
 

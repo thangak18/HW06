@@ -19,12 +19,12 @@ chiếu nhanh. Cột *Kiểm chứng bằng cách nào* nêu rõ cách xác minh
 
 | Hạng mục | Vị trí | Số liệu |
 |---|---|---|
-| Báo cáo HTML (htmlextra) — API-1 | `newman/api1_20260901-200655.html` | 88 request · 256 assertion · 23 FAIL |
-| Báo cáo HTML — API-2 | `newman/api2_20260901-200655.html` | 57 request · 210 assertion · 20 FAIL |
-| Báo cáo HTML — API-3 | `newman/api3_20260901-200655.html` | 96 request · 280 assertion · 30 FAIL |
-| Báo cáo JSON (máy đọc được) | `newman/*_20260901-200655.json` | Nguồn số liệu cho mọi bảng trong báo cáo |
-| Báo cáo JUnit XML | `newman/*_20260901-200655.xml` | Định dạng chuẩn cho CI |
-| Log console đầy đủ | `newman/*_20260901-200655.console.log` | Chứa dòng `[X-Student-Id]` cho từng request |
+| Báo cáo HTML (htmlextra) — API-1 | `newman/api1_20260901-204738.html` | 88 request · 256 assertion · 23 FAIL |
+| Báo cáo HTML — API-2 | `newman/api2_20260901-204738.html` | 57 request · 210 assertion · 20 FAIL |
+| Báo cáo HTML — API-3 | `newman/api3_20260901-204738.html` | 96 request · 280 assertion · 30 FAIL |
+| Báo cáo JSON (máy đọc được) | `newman/*_20260901-204738.json` | Nguồn số liệu cho mọi bảng trong báo cáo |
+| Báo cáo JUnit XML | `newman/*_20260901-204738.xml` | Định dạng chuẩn cho CI |
+| Log console đầy đủ | `newman/*_20260901-204738.console.log` | Chứa dòng `[X-Student-Id]` cho từng request |
 | Log của SUT khi chạy | `newman/sut-server.log` | Xác nhận SUT khởi động và seed lại dữ liệu |
 | Data-driven — phân vùng phone | `newman/dd1_phone_partitions.html` | 15 iteration · 105 assertion · 12 FAIL |
 | Data-driven — bảng quyết định coupon | `newman/dd2_coupon_decision_table.html` | 14 iteration · 83 assertion · 25 FAIL |
@@ -34,7 +34,7 @@ chiếu nhanh. Cột *Kiểm chứng bằng cách nào* nêu rõ cách xác minh
 ```bash
 python - <<'PY'
 import json, glob
-for f in sorted(glob.glob('newman/api*_20260901-200655.json')):
+for f in sorted(glob.glob('newman/api*_20260901-204738.json')):
     st = json.load(open(f, encoding='utf-8'))['run']['stats']
     print(f, st['requests']['total'], st['assertions']['total'], st['assertions']['failed'])
 PY
@@ -105,7 +105,7 @@ PY
 - JWT `iat = 1788263362` → `2026-09-01 18:49:22 +07` — lần đăng nhập admin đầu tiên
 - npm debug log `2026-09-01T11_47_21Z` → `18:47:21 +07` — lúc cài Newman
 - `bugs/evidence/reproduce_output.txt` dòng 2 → `2026-09-01 20:11:32 +0700`
-- Dấu thời gian tên file báo cáo Newman → `20260901-200655`
+- Dấu thời gian tên file báo cáo Newman → `20260901-204738`
 
 ## 7. Git commit log
 

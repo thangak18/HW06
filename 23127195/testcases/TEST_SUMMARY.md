@@ -2,9 +2,9 @@
 
 > Sinh tu dong boi `scripts/export_testcases.py`. Cot *Ket qua chay* lay tu bao cao Newman moi nhat trong `newman/`.
 
-- Nguon ket qua **API1**: `newman/api1_20260901-200655.json`
-- Nguon ket qua **API2**: `newman/api2_20260901-200655.json`
-- Nguon ket qua **API3**: `newman/api3_20260901-200655.json`
+- Nguon ket qua **API1**: `newman/api1_20260901-204738.json`
+- Nguon ket qua **API2**: `newman/api2_20260901-204738.json`
+- Nguon ket qua **API3**: `newman/api3_20260901-204738.json`
 
 ## Tong hop theo API
 
