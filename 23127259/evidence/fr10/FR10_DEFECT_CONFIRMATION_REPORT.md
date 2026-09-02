@@ -54,6 +54,6 @@
 | **Run 02 JSON** | `evidence/fr10/confirmation/FR10-confirmation-run02.json` | `6ba61f83ea29713cc3538d75e218c8007fe7f5d4baeedf1bed316dc3fe25d092` |
 | **Run 02 HTML** | `evidence/fr10/confirmation/FR10-confirmation-run02.html` | `428f32b7348a4be3ec590a20a10366768d577bfa7c5ff33e6ee8906193df9814` |
 | **Run 02 Exit Code** | `evidence/fr10/confirmation/FR10-confirmation-run02-exitcode.txt` | `4b265ba288f0c64ffc10c6d51fbfaa6e1ffc1fcb1eca198237cf5bd8339b86b4` |
-| **Screenshot BUG-FR10-001** | `evidence/fr10/bugs/BUG-FR10-001-postman-evidence.png` | `d1183ba747b0d8d5ef838a4dd78e4096504b14e40786bd7fcf896f8900ae209d` |
-| **Screenshot BUG-FR10-002** | `evidence/fr10/bugs/BUG-FR10-002-postman-evidence.png` | `375dffd8a176def360b5606f10ee14c54db000d9bd5323e47221a1856618c590` |
-| **Screenshot BUG-FR10-003** | `evidence/fr10/bugs/BUG-FR10-003-postman-evidence.png` | `8bfc6f291aaf5b3ff32e2a71af20403798dd577792c967f9508ac258deea2629` |
+| **Screenshot BUG-FR10-001** | `evidence/fr10/bugs/BUG-FR10-001-postman-evidence.png` | `4cd82ab6d749163813d2aa2b6c431cf0da0a7c68edc29c43abd05465484789d5` |
+| **Screenshot BUG-FR10-002** | `evidence/fr10/bugs/BUG-FR10-002-postman-evidence.png` | `155edc66cc5d2eede105a177e0dfb66eb573b83045fbe343d7f4cb4644f5aecb` |
+| **Screenshot BUG-FR10-003** | `evidence/fr10/bugs/BUG-FR10-003-postman-evidence.png` | `445055ebb2a76cc0d0b84c9324f4e85af8e5f93d11b2aade5b9e85583427badc` |
