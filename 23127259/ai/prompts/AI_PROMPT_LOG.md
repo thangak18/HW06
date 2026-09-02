@@ -24300,3 +24300,50 @@ issue registry, GitHub Issues via gh CLI, issue title quality, confirmation repo
 no source fixes, no database modification, evidence first issue second, re-verify Run03 evidence, git commit, end report]
 ```
 
+---
+
+## INT-052
+
+- **Interaction ID:** INT-052
+- **Date & Time:** 2026-09-02 09:15:05+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Stage:** Phase 2D.1F – FR-10 Confirmation Evidence Integrity + Genuine Postman Bug Screenshots
+- **Detailed Interaction File:** `ai/interactions/INT-052-fr10-confirmation-evidence-integrity-repair.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit Perform an EVIDENCE-INTEGRITY REPAIR for the already-confirmed FR-10 bugs.
+
+PHASE 2D.1F – FR-10 CONFIRMATION EVIDENCE INTEGRITY + GENUINE POSTMAN BUG SCREENSHOTS
+
+Current defect-confirmation commit: 2aea80a
+
+The three confirmed root causes remain:
+BUG-FR10-001
+BUG-FR10-002
+BUG-FR10-003
+
+GitHub Issues already exist:
+#29
+#30
+#31
+
+DO NOT delete or duplicate those issues.
+DO NOT run the full FR-10 formal suite.
+DO NOT create Run04.
+DO NOT modify Run03 raw evidence.
+DO NOT change FR-10 canonical oracles.
+DO NOT fix the SUT.
+
+[Sections 1-30: AI Audit, Run03 immutable, acknowledge INT-051 confirmation history / defect,
+correct HTTP traffic accounting, preserve successful confirmation evidence as run02,
+confirmation assertion design defect, create strict evidence collection, failures are expected evidence,
+genuine Postman Desktop screenshot problem, CDP fetch is not sufficient visual evidence,
+use actual Postman request/runner UI, three distinct screenshots, what each screenshot must visibly show,
+persistence evidence, screenshot authenticity report, strict evidence execution, strict evidence reconciliation,
+BUG-FR10-003 scope correction, BUG-FR10-003 severity, reproducibility wording, database wording,
+confirmation JSON hash, GitHub issues #29 #30 #31 update, issue evidence links, update bug Markdown,
+update registry, update confirmation report, final evidence gate, git commit, end report]
+```
+

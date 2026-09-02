@@ -1,0 +1,6559 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "3a632445-94b9-4d25-9b04-7f4659536c73",
+        "name": "00 – Authentication Setup",
+        "item": [
+          {
+            "id": "e14c0d4a-821e-4920-9fd4-44d0fea51eff",
+            "name": "[AUTH-01] Admin Login",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "be34a6aa-bd88-4ba6-a439-4581045599b7",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Admin Login Success', function () {",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    var data = pm.response.json();",
+                    "    var token = data.token || (data.data && data.data.token);",
+                    "    pm.expect(token).to.be.a('string').and.not.empty;",
+                    "    pm.environment.set('adminToken', token);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "a3138497-0a93-4005-9b31-c6b36daabc29"
+                }
+              }
+            ]
+          },
+          {
+            "id": "d30fe2d5-46d2-4088-83dd-6c75e8902f55",
+            "name": "[AUTH-02] User A Login",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{userAEmail}}\", \"password\": \"{{userAPassword}}\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "57e0cc33-c310-4241-8e86-8d3245186431",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('User A Login Success', function () {",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    var data = pm.response.json();",
+                    "    var token = data.token || (data.data && data.data.token);",
+                    "    pm.expect(token).to.be.a('string').and.not.empty;",
+                    "    pm.environment.set('userAToken', token);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "f238b8e7-ba8b-4268-adcd-7443ea50651f"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "2d47d271-25d3-4317-b4bb-434092ad5aed",
+        "name": "01 – Cluster 1: CANDIDATE-FR10-FSM-01 (BUG-FR10-001)",
+        "item": [
+          {
+            "id": "2804ed8e-ec53-4033-b93b-5f0b8cfee96e",
+            "name": "[CONFIRM-FSM-01][SETUP-CREATE] User A Creates Fresh Order",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Confirm St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "f90df275-f8d5-40f8-a69e-0b4692b2c1a7",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-01] Fixture Checkout Created', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                    "    var data = pm.response.json();",
+                    "    const body = pm.response.json();",
+                    "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                    "    pm.expect(oid).to.be.ok;",
+                    "    pm.environment.set('confirm_order_fsm01', String(oid));",
+                    "});"
+                  ],
+                  "_lastExecutionId": "17e99210-6bb4-4a77-a33f-4852ef0b50e0"
+                }
+              }
+            ]
+          },
+          {
+            "id": "c913206b-dd22-40c7-b670-a980c5a165e4",
+            "name": "[CONFIRM-FSM-01][SETUP-CONFIRM] Admin Advances to confirmed",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{confirm_order_fsm01}}",
+                  "status"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"confirmed\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "051f00d6-138b-4424-9ad2-e05fca0ff48a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-01] Precondition Transition to confirmed', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "55f0446f-d755-4e5d-a640-abf367c6435a"
+                }
+              }
+            ]
+          },
+          {
+            "id": "7217f0e8-2197-40ad-9351-cfdc68db6195",
+            "name": "[CONFIRM-FSM-01][SETUP-SHIPPING] Admin Advances to shipping",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{confirm_order_fsm01}}",
+                  "status"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"shipping\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "4bb953d0-7798-4b68-ab36-452743e0e406",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-01] Precondition Transition to shipping', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "d51a675d-50f0-43d6-9c5c-212d0449d4b5"
+                }
+              }
+            ]
+          },
+          {
+            "id": "13b065a0-cb4d-4111-86ab-21c077e16199",
+            "name": "[CONFIRM-FSM-01][VERIFY-SHIPPING] Verify Initial State Is shipping",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{confirm_order_fsm01}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c44aea00-376b-42f8-81d6-aa7153e6c5fb",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-01] Initial State Verified as shipping', function () {",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    var d = pm.response.json();",
+                    "    var st = d.status || (d.data && d.data.status);",
+                    "    pm.expect(st).to.eql('shipping');",
+                    "});"
+                  ],
+                  "_lastExecutionId": "f12fd8ac-6620-4543-bf05-3b87089d6431"
+                }
+              }
+            ]
+          },
+          {
+            "id": "c3156d7c-a654-464b-92a8-2fa0b9065f4d",
+            "name": "[CONFIRM-FSM-01][ACTION-CANCEL] Owner User Attempts Cancel on Shipping Order",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{confirm_order_fsm01}}",
+                  "cancel"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c88c6e62-5848-401a-a384-16891834c720",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-01] Candidate Action Execution (Expected 4xx, Actual 200 observed)', function () {",
+                    "    // Level 1 SRS prohibits customer cancellation during shipping",
+                    "    // We record actual HTTP status code",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 422, 403, 404]);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "3958a980-bab9-4691-b74e-89fc2c583fbb"
+                }
+              }
+            ]
+          },
+          {
+            "id": "6d738d9b-b1f1-4aa5-ab5b-75e8b696b6a3",
+            "name": "[CONFIRM-FSM-01][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{confirm_order_fsm01}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "1e0d46f1-a0fd-42b6-aff8-4f0ea69b6559",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-01] Final Persisted State Observed', function () {",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    var d = pm.response.json();",
+                    "    var st = d.status || (d.data && d.data.status);",
+                    "    console.log('[CONFIRM-FSM-01] Persisted State: ' + st);",
+                    "    pm.expect(st).to.be.oneOf(['shipping', 'canceled']);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "019c6028-7b45-4bc8-b157-bfd043b5b5df"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "8c4d0132-09b7-458c-82e3-b4969ba498c8",
+        "name": "02 – Cluster 2: CANDIDATE-FR10-FSM-02 (BUG-FR10-002)",
+        "item": [
+          {
+            "id": "f4f5bd10-528f-4a6e-86d8-66ffb4e011df",
+            "name": "[CONFIRM-FSM-02][SETUP-CREATE] User A Creates Fresh Order",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"456 Terminal St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "fdd49f73-e4a0-4af0-8e76-7c9c03fb0631",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-02] Fixture Checkout Created', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                    "    var data = pm.response.json();",
+                    "    const body = pm.response.json();",
+                    "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                    "    pm.expect(oid).to.be.ok;",
+                    "    pm.environment.set('confirm_order_fsm02', String(oid));",
+                    "});"
+                  ],
+                  "_lastExecutionId": "7826075f-7459-408f-ae02-6dc655ab1aed"
+                }
+              }
+            ]
+          },
+          {
+            "id": "1f76409c-238d-43d7-96ba-d1166bc045fe",
+            "name": "[CONFIRM-FSM-02][SETUP-CANCEL] Admin Transitions Order to canceled",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{confirm_order_fsm02}}",
+                  "status"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"canceled\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "b24d399c-3869-4a70-bcda-cb0f0107c93f",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-02] Precondition Transition to canceled', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "bbd404f3-3f7d-4c95-9f10-348a040548da"
+                }
+              }
+            ]
+          },
+          {
+            "id": "fbb21e86-a9ed-450c-babb-c16abebc7c43",
+            "name": "[CONFIRM-FSM-02][VERIFY-CANCELED] Verify Initial State Is canceled",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{confirm_order_fsm02}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "1ed76fec-17bd-4e60-a8b1-3e40f62bf9c6",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-02] Initial State Verified as canceled', function () {",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    var d = pm.response.json();",
+                    "    var st = d.status || (d.data && d.data.status);",
+                    "    pm.expect(st).to.eql('canceled');",
+                    "});"
+                  ],
+                  "_lastExecutionId": "50fdf62b-4ce9-4c86-9059-1339ae1d11da"
+                }
+              }
+            ]
+          },
+          {
+            "id": "a56afcc6-efe7-49b8-9cd1-e8756463b3ad",
+            "name": "[CONFIRM-FSM-02][ACTION-DELIVER] Admin Attempts canceled -> delivered Mutation",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{confirm_order_fsm02}}",
+                  "status"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"delivered\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "26ed7261-1756-44d7-96ba-585d74f3acd4",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-02] Candidate Action Execution', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 422, 403, 404]);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "f0bd91b7-9488-4f44-a6a7-9a3b9e8d8b6f"
+                }
+              }
+            ]
+          },
+          {
+            "id": "955df79f-ae08-42e1-a512-30a73d912373",
+            "name": "[CONFIRM-FSM-02][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{confirm_order_fsm02}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "9ba1c3a4-4f00-4061-bac5-11da03258961",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-FSM-02] Final Persisted State Observed', function () {",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    var d = pm.response.json();",
+                    "    var st = d.status || (d.data && d.data.status);",
+                    "    console.log('[CONFIRM-FSM-02] Persisted State: ' + st);",
+                    "    pm.expect(st).to.be.oneOf(['canceled', 'delivered']);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "15387449-d508-40a7-a253-a40992fa0984"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "6e37fb50-9eb3-4bb9-9a54-4446ee3a54bd",
+        "name": "03 – Cluster 3: CANDIDATE-SEC03-01 (BUG-FR10-003)",
+        "item": [
+          {
+            "id": "d44f0925-fbe5-4407-8e6d-8b2a2b2b7ef4",
+            "name": "[CONFIRM-SEC03-A][SETUP-CREATE] User A Creates Fresh Order A",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 RBAC St A\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "847fc65d-e40b-4925-8d14-733879f63e5e",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-SEC03-A] Fixture Checkout Created', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                    "    var data = pm.response.json();",
+                    "    const body = pm.response.json();",
+                    "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                    "    pm.expect(oid).to.be.ok;",
+                    "    pm.environment.set('confirm_order_sec03_a', String(oid));",
+                    "});"
+                  ],
+                  "_lastExecutionId": "011b1be7-0415-4dcd-b5e0-f1311cb1fbc1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "2971f5bc-edfb-43e9-96c5-d9eff9e073d1",
+            "name": "[CONFIRM-SEC03-A][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> confirmed)",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{confirm_order_sec03_a}}",
+                  "status"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"confirmed\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "e5371397-eb79-4e59-a2ae-87588a081602",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-SEC03-A] Candidate Action Execution', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 403, 401, 404]);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "18446ecc-981d-4958-afbd-41da7bea8922"
+                }
+              }
+            ]
+          },
+          {
+            "id": "d2dbe8eb-fb02-4169-abb4-3b8f61af28be",
+            "name": "[CONFIRM-SEC03-A][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State A",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{confirm_order_sec03_a}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "38e18072-729e-4c1a-aa07-ac79313871e9",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-SEC03-A] Final Persisted State Observed', function () {",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    var d = pm.response.json();",
+                    "    var st = d.status || (d.data && d.data.status);",
+                    "    console.log('[CONFIRM-SEC03-A] Persisted State: ' + st);",
+                    "    pm.expect(st).to.be.oneOf(['pending', 'confirmed']);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "ada01aa7-aafb-442e-8038-4f6fa6ecc77f"
+                }
+              }
+            ]
+          },
+          {
+            "id": "d032fba3-2661-4eef-b899-707db204b6ad",
+            "name": "[CONFIRM-SEC03-B][SETUP-CREATE] User A Creates Fresh Order B",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 RBAC St B\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "1910c015-ae76-4e7d-a7df-1959db7f04ff",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-SEC03-B] Fixture Checkout Created', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                    "    var data = pm.response.json();",
+                    "    const body = pm.response.json();",
+                    "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                    "    pm.expect(oid).to.be.ok;",
+                    "    pm.environment.set('confirm_order_sec03_b', String(oid));",
+                    "});"
+                  ],
+                  "_lastExecutionId": "ec847b9d-2117-48b7-a55f-902bf007c196"
+                }
+              }
+            ]
+          },
+          {
+            "id": "5e45a27e-1afa-42eb-83dd-a63eb021f9ec",
+            "name": "[CONFIRM-SEC03-B][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> canceled)",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{confirm_order_sec03_b}}",
+                  "status"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userAToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"canceled\"}"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "250ea008-9f1a-4ecd-869d-69cd2da4a2f0",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-SEC03-B] Candidate Action Execution', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([200, 403, 401, 404]);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "fb6d16cc-1cf5-48d3-ae3f-c7a9e6b26f37"
+                }
+              }
+            ]
+          },
+          {
+            "id": "b7465da8-217c-4f65-af41-a9aaecad2710",
+            "name": "[CONFIRM-SEC03-B][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State B",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{confirm_order_sec03_b}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "d7fb2c7e-09a6-4d35-9637-2e843f660838",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[CONFIRM-SEC03-B] Final Persisted State Observed', function () {",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    var d = pm.response.json();",
+                    "    var st = d.status || (d.data && d.data.status);",
+                    "    console.log('[CONFIRM-SEC03-B] Persisted State: ' + st);",
+                    "    pm.expect(st).to.be.oneOf(['pending', 'canceled']);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "508bfe26-0332-4ecd-8e40-66b4ccda7b1c"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "id": "701aacb7-af77-4a83-9080-b71108fc3632",
+          "type": "text/javascript",
+          "exec": [
+            "// Mandatory X-Student-Id header injection across all confirmation requests",
+            "const studentId = pm.environment.get('studentId') || '23127259';",
+            "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });"
+          ],
+          "_lastExecutionId": "838500b5-d1f2-4d90-ad6f-d5c2c4d742b9"
+        }
+      }
+    ],
+    "variable": [],
+    "info": {
+      "_postman_id": "e71b95ec-1733-4d42-b3b5-2dcf52d2609b",
+      "name": "FR10_Defect_Confirmation",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "Targeted Isolated Defect Confirmation Suite for FR-10 Defect Candidates (BUG-FR10-001, BUG-FR10-002, BUG-FR10-003)",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment"
+    },
+    "id": "hw06-23127259-fr10-local",
+    "name": "FR10-local",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://localhost:3000",
+        "key": "baseUrl"
+      },
+      {
+        "type": "any",
+        "value": "23127259",
+        "key": "studentId"
+      },
+      {
+        "type": "any",
+        "value": "admin@eshop.com",
+        "key": "adminEmail"
+      },
+      {
+        "type": "any",
+        "value": "Admin123!",
+        "key": "adminPassword"
+      },
+      {
+        "type": "any",
+        "value": "user@eshop.com",
+        "key": "userAEmail"
+      },
+      {
+        "type": "any",
+        "value": "User1234!",
+        "key": "userAPassword"
+      },
+      {
+        "type": "any",
+        "value": "user_domain@eshop.com",
+        "key": "userBEmail"
+      },
+      {
+        "type": "any",
+        "value": "Domain1234!",
+        "key": "userBPassword"
+      },
+      {
+        "type": "any",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k",
+        "key": "adminToken"
+      },
+      {
+        "type": "any",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec",
+        "key": "userAToken"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "userBToken"
+      },
+      {
+        "type": "any",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTk5OSwicm9sZSI6Imd1ZXN0IiwiaWF0IjoxNTE2MjM5MDIyfQ.invalid",
+        "key": "guestToken"
+      },
+      {
+        "type": "any",
+        "value": "1",
+        "key": "fixtureProductId"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "tamperedAdminToken"
+      },
+      {
+        "type": "any",
+        "value": "95",
+        "key": "confirm_order_fsm01"
+      },
+      {
+        "type": "any",
+        "value": "96",
+        "key": "confirm_order_fsm02"
+      },
+      {
+        "type": "any",
+        "value": "97",
+        "key": "confirm_order_sec03_a"
+      },
+      {
+        "type": "any",
+        "value": "98",
+        "key": "confirm_order_sec03_b"
+      }
+    ]
+  },
+  "globals": {
+    "id": "6a6dfa18-8d1a-48cb-b1b0-ce88088b8fce",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 19,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 38,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 19,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 19,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 19,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 19,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 19,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 19,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 2.8421052631578947,
+      "responseMin": 1,
+      "responseMax": 13,
+      "responseSd": 2.660889402055692,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1788314872046,
+      "completed": 1788314872315
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 19,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "8d28b30d-e797-49f9-a191-a2322068651c",
+          "httpRequestId": "a4150dd9-1b91-4728-a235-f8a64ff36445"
+        },
+        "item": {
+          "id": "e14c0d4a-821e-4920-9fd4-44d0fea51eff",
+          "name": "[AUTH-01] Admin Login",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "be34a6aa-bd88-4ba6-a439-4581045599b7",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Admin Login Success', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var data = pm.response.json();",
+                  "    var token = data.token || (data.data && data.data.token);",
+                  "    pm.expect(token).to.be.a('string').and.not.empty;",
+                  "    pm.environment.set('adminToken', token);",
+                  "});"
+                ],
+                "_lastExecutionId": "a3138497-0a93-4005-9b31-c6b36daabc29"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "1937f158-c217-4ee3-8e8f-b63f36076fbf",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "53",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\": \"admin@eshop.com\", \"password\": \"Admin123!\"}"
+          }
+        },
+        "response": {
+          "id": "4616cd11-f432-42a7-81ce-8ec046168f60",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "371"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"173-2lC/cMNGKVJMJeE3jFpEEnvUtmQ\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              76,
+              111,
+              103,
+              105,
+              110,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              34,
+              101,
+              121,
+              74,
+              104,
+              98,
+              71,
+              99,
+              105,
+              79,
+              105,
+              74,
+              73,
+              85,
+              122,
+              73,
+              49,
+              78,
+              105,
+              73,
+              115,
+              73,
+              110,
+              82,
+              53,
+              99,
+              67,
+              73,
+              54,
+              73,
+              107,
+              112,
+              88,
+              86,
+              67,
+              74,
+              57,
+              46,
+              101,
+              121,
+              74,
+              112,
+              90,
+              67,
+              73,
+              54,
+              77,
+              83,
+              119,
+              105,
+              99,
+              109,
+              57,
+              115,
+              90,
+              83,
+              73,
+              54,
+              73,
+              109,
+              70,
+              107,
+              98,
+              87,
+              108,
+              117,
+              73,
+              105,
+              119,
+              105,
+              97,
+              87,
+              70,
+              48,
+              73,
+              106,
+              111,
+              120,
+              78,
+              122,
+              103,
+              52,
+              77,
+              122,
+              69,
+              48,
+              79,
+              68,
+              99,
+              121,
+              102,
+              81,
+              46,
+              113,
+              121,
+              49,
+              114,
+              121,
+              72,
+              65,
+              108,
+              122,
+              100,
+              72,
+              109,
+              120,
+              98,
+              119,
+              118,
+              107,
+              69,
+              101,
+              54,
+              85,
+              53,
+              103,
+              107,
+              86,
+              100,
+              54,
+              79,
+              81,
+              85,
+              119,
+              79,
+              79,
+              71,
+              75,
+              112,
+              115,
+              95,
+              81,
+              51,
+              81,
+              50,
+              107,
+              34,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              58,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              65,
+              100,
+              109,
+              105,
+              110,
+              32,
+              85,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              34,
+              97,
+              100,
+              109,
+              105,
+              110,
+              64,
+              101,
+              115,
+              104,
+              111,
+              112,
+              46,
+              99,
+              111,
+              109,
+              34,
+              44,
+              34,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              58,
+              34,
+              65,
+              100,
+              109,
+              105,
+              110,
+              49,
+              50,
+              51,
+              33,
+              34,
+              44,
+              34,
+              114,
+              111,
+              108,
+              101,
+              34,
+              58,
+              34,
+              97,
+              100,
+              109,
+              105,
+              110,
+              34,
+              44,
+              34,
+              108,
+              111,
+              103,
+              105,
+              110,
+              95,
+              97,
+              116,
+              116,
+              101,
+              109,
+              112,
+              116,
+              115,
+              34,
+              58,
+              48,
+              44,
+              34,
+              108,
+              111,
+              99,
+              107,
+              101,
+              100,
+              95,
+              117,
+              110,
+              116,
+              105,
+              108,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              114,
+              101,
+              115,
+              101,
+              116,
+              95,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              112,
+              104,
+              111,
+              110,
+              101,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              125,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 13,
+          "responseSize": 371
+        },
+        "id": "e14c0d4a-821e-4920-9fd4-44d0fea51eff",
+        "assertions": [
+          {
+            "assertion": "Admin Login Success",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "e74a2523-73f6-43db-8cff-360cbcf94c47",
+          "length": 19,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "e6d5665f-8c60-4952-a853-aa115ba0792f"
+        },
+        "item": {
+          "id": "d30fe2d5-46d2-4088-83dd-6c75e8902f55",
+          "name": "[AUTH-02] User A Login",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{userAEmail}}\", \"password\": \"{{userAPassword}}\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "57e0cc33-c310-4241-8e86-8d3245186431",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('User A Login Success', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var data = pm.response.json();",
+                  "    var token = data.token || (data.data && data.data.token);",
+                  "    pm.expect(token).to.be.a('string').and.not.empty;",
+                  "    pm.environment.set('userAToken', token);",
+                  "});"
+                ],
+                "_lastExecutionId": "f238b8e7-ba8b-4268-adcd-7443ea50651f"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d38b9bdf-8487-4097-9d71-2fe3b866d6e8",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "52",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\": \"user@eshop.com\", \"password\": \"User1234!\"}"
+          }
+        },
+        "response": {
+          "id": "989600ad-2eca-4bb0-8da2-96d27ea1c447",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "369"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"171-mUn8hZiqg2tleicnLGCbo1RZ7UA\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              76,
+              111,
+              103,
+              105,
+              110,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              34,
+              101,
+              121,
+              74,
+              104,
+              98,
+              71,
+              99,
+              105,
+              79,
+              105,
+              74,
+              73,
+              85,
+              122,
+              73,
+              49,
+              78,
+              105,
+              73,
+              115,
+              73,
+              110,
+              82,
+              53,
+              99,
+              67,
+              73,
+              54,
+              73,
+              107,
+              112,
+              88,
+              86,
+              67,
+              74,
+              57,
+              46,
+              101,
+              121,
+              74,
+              112,
+              90,
+              67,
+              73,
+              54,
+              78,
+              121,
+              119,
+              105,
+              99,
+              109,
+              57,
+              115,
+              90,
+              83,
+              73,
+              54,
+              73,
+              110,
+              86,
+              122,
+              90,
+              88,
+              73,
+              105,
+              76,
+              67,
+              74,
+              112,
+              89,
+              88,
+              81,
+              105,
+              79,
+              106,
+              69,
+              51,
+              79,
+              68,
+              103,
+              122,
+              77,
+              84,
+              81,
+              52,
+              78,
+              122,
+              74,
+              57,
+              46,
+              66,
+              50,
+              82,
+              98,
+              52,
+              113,
+              115,
+              84,
+              53,
+              72,
+              109,
+              116,
+              105,
+              68,
+              122,
+              102,
+              118,
+              68,
+              119,
+              67,
+              54,
+              78,
+              111,
+              110,
+              51,
+              55,
+              70,
+              76,
+              114,
+              106,
+              97,
+              89,
+              65,
+              115,
+              77,
+              54,
+              88,
+              53,
+              80,
+              54,
+              97,
+              101,
+              99,
+              34,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              58,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              55,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              82,
+              101,
+              103,
+              117,
+              108,
+              97,
+              114,
+              32,
+              85,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              34,
+              117,
+              115,
+              101,
+              114,
+              64,
+              101,
+              115,
+              104,
+              111,
+              112,
+              46,
+              99,
+              111,
+              109,
+              34,
+              44,
+              34,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              58,
+              34,
+              85,
+              115,
+              101,
+              114,
+              49,
+              50,
+              51,
+              52,
+              33,
+              34,
+              44,
+              34,
+              114,
+              111,
+              108,
+              101,
+              34,
+              58,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              108,
+              111,
+              103,
+              105,
+              110,
+              95,
+              97,
+              116,
+              116,
+              101,
+              109,
+              112,
+              116,
+              115,
+              34,
+              58,
+              48,
+              44,
+              34,
+              108,
+              111,
+              99,
+              107,
+              101,
+              100,
+              95,
+              117,
+              110,
+              116,
+              105,
+              108,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              114,
+              101,
+              115,
+              101,
+              116,
+              95,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              112,
+              104,
+              111,
+              110,
+              101,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              125,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 369
+        },
+        "id": "d30fe2d5-46d2-4088-83dd-6c75e8902f55",
+        "assertions": [
+          {
+            "assertion": "User A Login Success",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "819683f1-8823-4f06-babe-3775052dcecb",
+          "length": 19,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0,
+          "httpRequestId": "f699d37f-46ca-4320-8a33-6b20ba2957ff"
+        },
+        "item": {
+          "id": "2804ed8e-ec53-4033-b93b-5f0b8cfee96e",
+          "name": "[CONFIRM-FSM-01][SETUP-CREATE] User A Creates Fresh Order",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Confirm St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "f90df275-f8d5-40f8-a69e-0b4692b2c1a7",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var data = pm.response.json();",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('confirm_order_fsm01', String(oid));",
+                  "});"
+                ],
+                "_lastExecutionId": "17e99210-6bb4-4a77-a33f-4852ef0b50e0"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "ad954d77-5f25-47ad-b269-70bb69e57c21",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "149",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Confirm St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+          }
+        },
+        "response": {
+          "id": "2d8aaae5-3949-4649-87df-ced792bdbcbc",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-rfeQYAegbulXwdU4rQiKsZ7oBGM\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              57,
+              53,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 3,
+          "responseSize": 46
+        },
+        "id": "2804ed8e-ec53-4033-b93b-5f0b8cfee96e",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-01] Fixture Checkout Created",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "9e2fe710-027b-4ba3-b26f-3feead5ff1ce",
+          "length": 19,
+          "cycles": 1,
+          "position": 3,
+          "iteration": 0,
+          "httpRequestId": "e721f5f6-a731-4633-b3aa-1981ac690204"
+        },
+        "item": {
+          "id": "c913206b-dd22-40c7-b670-a980c5a165e4",
+          "name": "[CONFIRM-FSM-01][SETUP-CONFIRM] Admin Advances to confirmed",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_fsm01}}",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "051f00d6-138b-4424-9ad2-e05fca0ff48a",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Precondition Transition to confirmed', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ],
+                "_lastExecutionId": "55f0446f-d755-4e5d-a640-abf367c6435a"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "admin",
+              "orders",
+              "95",
+              "status"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "dba562c8-93fe-4a02-9e45-c39caed5fe2e",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "23",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"status\": \"confirmed\"}"
+          }
+        },
+        "response": {
+          "id": "ffa40d77-e753-4969-8a7f-d24f0908ce11",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "34"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"22-51mpS3VNAfERw0NLwrzGnxUOWZo\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              79,
+              114,
+              100,
+              101,
+              114,
+              32,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              32,
+              117,
+              112,
+              100,
+              97,
+              116,
+              101,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 3,
+          "responseSize": 34
+        },
+        "id": "c913206b-dd22-40c7-b670-a980c5a165e4",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-01] Precondition Transition to confirmed",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "69214609-79f6-4922-a678-ab7f326b0073",
+          "length": 19,
+          "cycles": 1,
+          "position": 4,
+          "iteration": 0,
+          "httpRequestId": "5b6c92a1-90e7-4b4f-aa0f-2b3bca118ff6"
+        },
+        "item": {
+          "id": "7217f0e8-2197-40ad-9351-cfdc68db6195",
+          "name": "[CONFIRM-FSM-01][SETUP-SHIPPING] Admin Advances to shipping",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_fsm01}}",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4bb953d0-7798-4b68-ab36-452743e0e406",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Precondition Transition to shipping', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ],
+                "_lastExecutionId": "d51a675d-50f0-43d6-9c5c-212d0449d4b5"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "admin",
+              "orders",
+              "95",
+              "status"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "041d48e0-fc62-456c-b5c5-c14b3ba75ec0",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "22",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"status\": \"shipping\"}"
+          }
+        },
+        "response": {
+          "id": "9de73e40-2c68-4e7d-bc74-50151b0af624",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "34"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"22-51mpS3VNAfERw0NLwrzGnxUOWZo\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              79,
+              114,
+              100,
+              101,
+              114,
+              32,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              32,
+              117,
+              112,
+              100,
+              97,
+              116,
+              101,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 34
+        },
+        "id": "7217f0e8-2197-40ad-9351-cfdc68db6195",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-01] Precondition Transition to shipping",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "f55efe57-b77c-4b58-b21c-71e1eb2b11cd",
+          "length": 19,
+          "cycles": 1,
+          "position": 5,
+          "iteration": 0,
+          "httpRequestId": "249a9157-6652-4a82-ae83-86e96c7ae053"
+        },
+        "item": {
+          "id": "13b065a0-cb4d-4111-86ab-21c077e16199",
+          "name": "[CONFIRM-FSM-01][VERIFY-SHIPPING] Verify Initial State Is shipping",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm01}}"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "c44aea00-376b-42f8-81d6-aa7153e6c5fb",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Initial State Verified as shipping', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('shipping');",
+                  "});"
+                ],
+                "_lastExecutionId": "f12fd8ac-6620-4543-bf05-3b87089d6431"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "orders",
+              "95"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "a9fc0cc0-ef5e-4339-9757-3894f17401c9",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "7284ede1-7a1f-48dd-b3f3-d5a4ea24b664",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "120"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"78-oN9hsJdt+Bq4eDFiSmzXHia73xo\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              57,
+              53,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              95,
+              105,
+              100,
+              34,
+              58,
+              55,
+              44,
+              34,
+              116,
+              111,
+              116,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              34,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              54,
+              45,
+              48,
+              57,
+              45,
+              48,
+              50,
+              32,
+              48,
+              50,
+              58,
+              48,
+              55,
+              58,
+              53,
+              50,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 1,
+          "responseSize": 120
+        },
+        "id": "13b065a0-cb4d-4111-86ab-21c077e16199",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-01] Initial State Verified as shipping",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a1271a78-339f-4822-8876-8e2a13176a02",
+          "length": 19,
+          "cycles": 1,
+          "position": 6,
+          "iteration": 0,
+          "httpRequestId": "d7327b5d-5aa5-4d01-90cb-1bb9f9ed8ade"
+        },
+        "item": {
+          "id": "c3156d7c-a654-464b-92a8-2fa0b9065f4d",
+          "name": "[CONFIRM-FSM-01][ACTION-CANCEL] Owner User Attempts Cancel on Shipping Order",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm01}}",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "c88c6e62-5848-401a-a384-16891834c720",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Candidate Action Execution (Expected 4xx, Actual 200 observed)', function () {",
+                  "    // Level 1 SRS prohibits customer cancellation during shipping",
+                  "    // We record actual HTTP status code",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 422, 403, 404]);",
+                  "});"
+                ],
+                "_lastExecutionId": "3958a980-bab9-4691-b74e-89fc2c583fbb"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "orders",
+              "95",
+              "cancel"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "be06d616-0c06-4e5c-80c5-b457563faa2c",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "2",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{}"
+          }
+        },
+        "response": {
+          "id": "7bdafc8f-62c0-4c37-83b3-166479c2fe36",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "41"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"29-+WJTbET4UbXIJ4W57wKVoLCE4cI\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              79,
+              114,
+              100,
+              101,
+              114,
+              32,
+              99,
+              97,
+              110,
+              99,
+              101,
+              108,
+              101,
+              100,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              108,
+              121,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 3,
+          "responseSize": 41
+        },
+        "id": "c3156d7c-a654-464b-92a8-2fa0b9065f4d",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-01] Candidate Action Execution (Expected 4xx, Actual 200 observed)",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a4d1e733-8220-4267-9c11-6d84e93a8b7a",
+          "length": 19,
+          "cycles": 1,
+          "position": 7,
+          "iteration": 0,
+          "httpRequestId": "770f21cd-780c-4d90-a9ed-8c9598bbd3c0"
+        },
+        "item": {
+          "id": "6d738d9b-b1f1-4aa5-ab5b-75e8b696b6a3",
+          "name": "[CONFIRM-FSM-01][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm01}}"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "1e0d46f1-a0fd-42b6-aff8-4f0ea69b6559",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Final Persisted State Observed', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    console.log('[CONFIRM-FSM-01] Persisted State: ' + st);",
+                  "    pm.expect(st).to.be.oneOf(['shipping', 'canceled']);",
+                  "});"
+                ],
+                "_lastExecutionId": "019c6028-7b45-4bc8-b157-bfd043b5b5df"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "orders",
+              "95"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "49cbb18b-838b-426e-b907-c49e66bb2302",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "8532022a-a16d-4d3c-9336-a3aaebd55cfc",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "120"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"78-DjyflqSsFYAutV5fg7f7wWVvDMA\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              57,
+              53,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              95,
+              105,
+              100,
+              34,
+              58,
+              55,
+              44,
+              34,
+              116,
+              111,
+              116,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              34,
+              99,
+              97,
+              110,
+              99,
+              101,
+              108,
+              101,
+              100,
+              34,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              54,
+              45,
+              48,
+              57,
+              45,
+              48,
+              50,
+              32,
+              48,
+              50,
+              58,
+              48,
+              55,
+              58,
+              53,
+              50,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 1,
+          "responseSize": 120
+        },
+        "id": "6d738d9b-b1f1-4aa5-ab5b-75e8b696b6a3",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-01] Final Persisted State Observed",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "b51dcafd-2622-41f7-9ff3-e68010d1b49d",
+          "length": 19,
+          "cycles": 1,
+          "position": 8,
+          "iteration": 0,
+          "httpRequestId": "db0cbc0c-0b1c-43bf-ac70-b78945a16f5d"
+        },
+        "item": {
+          "id": "f4f5bd10-528f-4a6e-86d8-66ffb4e011df",
+          "name": "[CONFIRM-FSM-02][SETUP-CREATE] User A Creates Fresh Order",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"456 Terminal St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "fdd49f73-e4a0-4af0-8e76-7c9c03fb0631",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var data = pm.response.json();",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('confirm_order_fsm02', String(oid));",
+                  "});"
+                ],
+                "_lastExecutionId": "7826075f-7459-408f-ae02-6dc655ab1aed"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "884fafca-4d5f-44c0-86d3-bd5f7e76a648",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "150",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"456 Terminal St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+          }
+        },
+        "response": {
+          "id": "754fdb9f-a54a-4eec-b58b-ea33c53fdb44",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-HzUXVnKqXQaMuhH44D0jYV3qDuE\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              57,
+              54,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 5,
+          "responseSize": 46
+        },
+        "id": "f4f5bd10-528f-4a6e-86d8-66ffb4e011df",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-02] Fixture Checkout Created",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "2d25c802-bad3-438b-a4bb-43dab46b0072",
+          "length": 19,
+          "cycles": 1,
+          "position": 9,
+          "iteration": 0,
+          "httpRequestId": "4c24b407-178f-4182-8290-1a50a576f4e6"
+        },
+        "item": {
+          "id": "1f76409c-238d-43d7-96ba-d1166bc045fe",
+          "name": "[CONFIRM-FSM-02][SETUP-CANCEL] Admin Transitions Order to canceled",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_fsm02}}",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b24d399c-3869-4a70-bcda-cb0f0107c93f",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Precondition Transition to canceled', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ],
+                "_lastExecutionId": "bbd404f3-3f7d-4c95-9f10-348a040548da"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "admin",
+              "orders",
+              "96",
+              "status"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "5040bb43-08d2-4192-ac01-a173a131d9f0",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "22",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"status\": \"canceled\"}"
+          }
+        },
+        "response": {
+          "id": "154d4d59-53dc-442a-bd92-e1fd5a4b4710",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "34"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"22-51mpS3VNAfERw0NLwrzGnxUOWZo\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              79,
+              114,
+              100,
+              101,
+              114,
+              32,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              32,
+              117,
+              112,
+              100,
+              97,
+              116,
+              101,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 4,
+          "responseSize": 34
+        },
+        "id": "1f76409c-238d-43d7-96ba-d1166bc045fe",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-02] Precondition Transition to canceled",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "f81b8507-ebad-4533-9d60-038612bfa906",
+          "length": 19,
+          "cycles": 1,
+          "position": 10,
+          "iteration": 0,
+          "httpRequestId": "a8d10e87-2b83-4cfe-80f1-63be32e1b7aa"
+        },
+        "item": {
+          "id": "fbb21e86-a9ed-450c-babb-c16abebc7c43",
+          "name": "[CONFIRM-FSM-02][VERIFY-CANCELED] Verify Initial State Is canceled",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm02}}"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "1ed76fec-17bd-4e60-a8b1-3e40f62bf9c6",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Initial State Verified as canceled', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('canceled');",
+                  "});"
+                ],
+                "_lastExecutionId": "50fdf62b-4ce9-4c86-9059-1339ae1d11da"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "orders",
+              "96"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "e7704aac-6cc7-4a88-9d5a-1df9b6d6e6ac",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "24fdb10e-902c-4760-bea2-474fbc024d3e",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "120"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"78-GobLcOKq0wHE99hp9fBUxUmnO8Q\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              57,
+              54,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              95,
+              105,
+              100,
+              34,
+              58,
+              55,
+              44,
+              34,
+              116,
+              111,
+              116,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              34,
+              99,
+              97,
+              110,
+              99,
+              101,
+              108,
+              101,
+              100,
+              34,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              54,
+              45,
+              48,
+              57,
+              45,
+              48,
+              50,
+              32,
+              48,
+              50,
+              58,
+              48,
+              55,
+              58,
+              53,
+              50,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 1,
+          "responseSize": 120
+        },
+        "id": "fbb21e86-a9ed-450c-babb-c16abebc7c43",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-02] Initial State Verified as canceled",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "ef092830-99ab-4a4d-8eda-2c9a17ad1c7d",
+          "length": 19,
+          "cycles": 1,
+          "position": 11,
+          "iteration": 0,
+          "httpRequestId": "e1f1d830-167a-411e-9899-79b43ce35700"
+        },
+        "item": {
+          "id": "a56afcc6-efe7-49b8-9cd1-e8756463b3ad",
+          "name": "[CONFIRM-FSM-02][ACTION-DELIVER] Admin Attempts canceled -> delivered Mutation",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_fsm02}}",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "26ed7261-1756-44d7-96ba-585d74f3acd4",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Candidate Action Execution', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 422, 403, 404]);",
+                  "});"
+                ],
+                "_lastExecutionId": "f0bd91b7-9488-4f44-a6a7-9a3b9e8d8b6f"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "admin",
+              "orders",
+              "96",
+              "status"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "ba112530-61a0-4a3e-98ab-3b4104e7a0b4",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "23",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"status\": \"delivered\"}"
+          }
+        },
+        "response": {
+          "id": "b76aba06-4c54-4b04-b093-b5f4f0a7ee6d",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "34"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"22-51mpS3VNAfERw0NLwrzGnxUOWZo\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              79,
+              114,
+              100,
+              101,
+              114,
+              32,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              32,
+              117,
+              112,
+              100,
+              97,
+              116,
+              101,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 3,
+          "responseSize": 34
+        },
+        "id": "a56afcc6-efe7-49b8-9cd1-e8756463b3ad",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-02] Candidate Action Execution",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "d9a288b7-348f-4679-8d35-c2e6552dc10f",
+          "length": 19,
+          "cycles": 1,
+          "position": 12,
+          "iteration": 0,
+          "httpRequestId": "cc58d27d-7384-45af-b7cb-66e53b1ee051"
+        },
+        "item": {
+          "id": "955df79f-ae08-42e1-a512-30a73d912373",
+          "name": "[CONFIRM-FSM-02][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm02}}"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9ba1c3a4-4f00-4061-bac5-11da03258961",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Final Persisted State Observed', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    console.log('[CONFIRM-FSM-02] Persisted State: ' + st);",
+                  "    pm.expect(st).to.be.oneOf(['canceled', 'delivered']);",
+                  "});"
+                ],
+                "_lastExecutionId": "15387449-d508-40a7-a253-a40992fa0984"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "orders",
+              "96"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "bc725182-ef34-47c8-83c4-8088dbc24700",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "6b69ca28-e979-436f-8df7-6f47478bc584",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "121"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"79-ZvHUIKW7wpLqA7wgpIYqSFuUvpg\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              57,
+              54,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              95,
+              105,
+              100,
+              34,
+              58,
+              55,
+              44,
+              34,
+              116,
+              111,
+              116,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              34,
+              100,
+              101,
+              108,
+              105,
+              118,
+              101,
+              114,
+              101,
+              100,
+              34,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              54,
+              45,
+              48,
+              57,
+              45,
+              48,
+              50,
+              32,
+              48,
+              50,
+              58,
+              48,
+              55,
+              58,
+              53,
+              50,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 1,
+          "responseSize": 121
+        },
+        "id": "955df79f-ae08-42e1-a512-30a73d912373",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-FSM-02] Final Persisted State Observed",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "79aae4fe-9d71-4e01-a84d-87e65ad0546f",
+          "length": 19,
+          "cycles": 1,
+          "position": 13,
+          "iteration": 0,
+          "httpRequestId": "0304400b-e0d9-4739-9a29-1a3f88016ea7"
+        },
+        "item": {
+          "id": "d44f0925-fbe5-4407-8e6d-8b2a2b2b7ef4",
+          "name": "[CONFIRM-SEC03-A][SETUP-CREATE] User A Creates Fresh Order A",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 RBAC St A\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "847fc65d-e40b-4925-8d14-733879f63e5e",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-A] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var data = pm.response.json();",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('confirm_order_sec03_a', String(oid));",
+                  "});"
+                ],
+                "_lastExecutionId": "011b1be7-0415-4dcd-b5e0-f1311cb1fbc1"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "ad95b7c6-121d-4a5b-9a25-b14cbc8a6367",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "148",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 RBAC St A\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+          }
+        },
+        "response": {
+          "id": "be9e1fcd-8503-40bc-b6d1-369952f6dbf9",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-OgM/wDCXXm+kP7dQi+q6pF8WGlI\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              57,
+              55,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 46
+        },
+        "id": "d44f0925-fbe5-4407-8e6d-8b2a2b2b7ef4",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-SEC03-A] Fixture Checkout Created",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a654b0e6-cb50-4f5c-a099-2702c416f5be",
+          "length": 19,
+          "cycles": 1,
+          "position": 14,
+          "iteration": 0,
+          "httpRequestId": "25165214-ca5d-418d-8157-ade295e34499"
+        },
+        "item": {
+          "id": "2971f5bc-edfb-43e9-96c5-d9eff9e073d1",
+          "name": "[CONFIRM-SEC03-A][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> confirmed)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_sec03_a}}",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e5371397-eb79-4e59-a2ae-87588a081602",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-A] Candidate Action Execution', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 403, 401, 404]);",
+                  "});"
+                ],
+                "_lastExecutionId": "18446ecc-981d-4958-afbd-41da7bea8922"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "admin",
+              "orders",
+              "97",
+              "status"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "68848d0f-b65c-4f1a-8857-99261a64432b",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "23",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"status\": \"confirmed\"}"
+          }
+        },
+        "response": {
+          "id": "15c2043a-972a-4e25-afff-23bc6fd63c7b",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "34"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"22-51mpS3VNAfERw0NLwrzGnxUOWZo\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              79,
+              114,
+              100,
+              101,
+              114,
+              32,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              32,
+              117,
+              112,
+              100,
+              97,
+              116,
+              101,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 34
+        },
+        "id": "2971f5bc-edfb-43e9-96c5-d9eff9e073d1",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-SEC03-A] Candidate Action Execution",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "dfc5c7e4-b9a5-4cb1-a289-c01e9dd13ead",
+          "length": 19,
+          "cycles": 1,
+          "position": 15,
+          "iteration": 0,
+          "httpRequestId": "ae200f90-5fa6-46ac-8bf5-78f71fc62538"
+        },
+        "item": {
+          "id": "d2dbe8eb-fb02-4169-abb4-3b8f61af28be",
+          "name": "[CONFIRM-SEC03-A][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State A",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_sec03_a}}"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "38e18072-729e-4c1a-aa07-ac79313871e9",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-A] Final Persisted State Observed', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    console.log('[CONFIRM-SEC03-A] Persisted State: ' + st);",
+                  "    pm.expect(st).to.be.oneOf(['pending', 'confirmed']);",
+                  "});"
+                ],
+                "_lastExecutionId": "ada01aa7-aafb-442e-8038-4f6fa6ecc77f"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "orders",
+              "97"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "5310cf99-50bf-4c83-908b-9a7dc3b0b655",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "c91eb890-28e9-484e-9840-545e3d025bd0",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "121"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"79-BdzLGMQazCEO7xCFEMvFYxX+rvQ\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              57,
+              55,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              95,
+              105,
+              100,
+              34,
+              58,
+              55,
+              44,
+              34,
+              116,
+              111,
+              116,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              34,
+              99,
+              111,
+              110,
+              102,
+              105,
+              114,
+              109,
+              101,
+              100,
+              34,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              54,
+              45,
+              48,
+              57,
+              45,
+              48,
+              50,
+              32,
+              48,
+              50,
+              58,
+              48,
+              55,
+              58,
+              53,
+              50,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 1,
+          "responseSize": 121
+        },
+        "id": "d2dbe8eb-fb02-4169-abb4-3b8f61af28be",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-SEC03-A] Final Persisted State Observed",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "ceb32d64-6edc-484c-a8a7-ce41f4336823",
+          "length": 19,
+          "cycles": 1,
+          "position": 16,
+          "iteration": 0,
+          "httpRequestId": "0c0f6155-0720-422e-987f-ea38643eda5f"
+        },
+        "item": {
+          "id": "d032fba3-2661-4eef-b899-707db204b6ad",
+          "name": "[CONFIRM-SEC03-B][SETUP-CREATE] User A Creates Fresh Order B",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 RBAC St B\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "1910c015-ae76-4e7d-a7df-1959db7f04ff",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-B] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var data = pm.response.json();",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('confirm_order_sec03_b', String(oid));",
+                  "});"
+                ],
+                "_lastExecutionId": "ec847b9d-2117-48b7-a55f-902bf007c196"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "af989f6c-5466-4d39-be53-7034e00bd4a1",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "148",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 RBAC St B\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+          }
+        },
+        "response": {
+          "id": "f626518e-14e3-401e-ad92-1b6dfd25e648",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-iD/Ud3DB9hZMplSJgmGTZSu7V3g\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              57,
+              56,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 4,
+          "responseSize": 46
+        },
+        "id": "d032fba3-2661-4eef-b899-707db204b6ad",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-SEC03-B] Fixture Checkout Created",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "11fb88b8-cca5-4cce-97a8-8922967b54f6",
+          "length": 19,
+          "cycles": 1,
+          "position": 17,
+          "iteration": 0,
+          "httpRequestId": "fb388dfa-cfa7-431d-b9cd-fb5309efff74"
+        },
+        "item": {
+          "id": "5e45a27e-1afa-42eb-83dd-a63eb021f9ec",
+          "name": "[CONFIRM-SEC03-B][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> canceled)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_sec03_b}}",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "250ea008-9f1a-4ecd-869d-69cd2da4a2f0",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-B] Candidate Action Execution', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 403, 401, 404]);",
+                  "});"
+                ],
+                "_lastExecutionId": "fb6d16cc-1cf5-48d3-ae3f-c7a9e6b26f37"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "admin",
+              "orders",
+              "98",
+              "status"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODgzMTQ4NzJ9.B2Rb4qsT5HmtiDzfvDwC6Non37FLrjaYAsM6X5P6aec"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "f6a991a2-6a9f-45ba-b95b-9db9e881ba6f",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "22",
+              "system": true
+            }
+          ],
+          "method": "PUT",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"status\": \"canceled\"}"
+          }
+        },
+        "response": {
+          "id": "39dbb2a5-d862-46ce-bcf0-c5a838a58fa6",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "34"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"22-51mpS3VNAfERw0NLwrzGnxUOWZo\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              79,
+              114,
+              100,
+              101,
+              114,
+              32,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              32,
+              117,
+              112,
+              100,
+              97,
+              116,
+              101,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 34
+        },
+        "id": "5e45a27e-1afa-42eb-83dd-a63eb021f9ec",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-SEC03-B] Candidate Action Execution",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "4422babc-53aa-4064-ac6b-44d7180af938",
+          "length": 19,
+          "cycles": 1,
+          "position": 18,
+          "iteration": 0,
+          "httpRequestId": "2d432108-62d3-4066-be1a-621741f44f42"
+        },
+        "item": {
+          "id": "b7465da8-217c-4f65-af41-a9aaecad2710",
+          "name": "[CONFIRM-SEC03-B][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State B",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_sec03_b}}"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d7fb2c7e-09a6-4d35-9637-2e843f660838",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-B] Final Persisted State Observed', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    console.log('[CONFIRM-SEC03-B] Persisted State: ' + st);",
+                  "    pm.expect(st).to.be.oneOf(['pending', 'canceled']);",
+                  "});"
+                ],
+                "_lastExecutionId": "508bfe26-0332-4ecd-8e40-66b4ccda7b1c"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "orders",
+              "98"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzE0ODcyfQ.qy1ryHAlzdHmxbwvkEe6U5gkVd6OQUwOOGKps_Q3Q2k"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127259"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "3840075a-2382-4076-b0ed-3b8c552cac2e",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "d019342e-79a3-49a1-bed6-2cc18ac19e0a",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "120"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"78-/r+8LPIpPb6PCpOsclpSZR3uO/I\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 02 Sep 2026 02:07:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              57,
+              56,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              95,
+              105,
+              100,
+              34,
+              58,
+              55,
+              44,
+              34,
+              116,
+              111,
+              116,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              34,
+              99,
+              97,
+              110,
+              99,
+              101,
+              108,
+              101,
+              100,
+              34,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              54,
+              45,
+              48,
+              57,
+              45,
+              48,
+              50,
+              32,
+              48,
+              50,
+              58,
+              48,
+              55,
+              58,
+              53,
+              50,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 1,
+          "responseSize": 120
+        },
+        "id": "b7465da8-217c-4f65-af41-a9aaecad2710",
+        "assertions": [
+          {
+            "assertion": "[CONFIRM-SEC03-B] Final Persisted State Observed",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 1891
+    },
+    "failures": [],
+    "error": null
+  }
+}

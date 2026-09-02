@@ -412,3 +412,11 @@
 - **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2166, Output: Pending backfill)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-051`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-051-fr10-targeted-defect-confirmation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-051-fr10-targeted-defect-confirmation.md)
+
+### INT-052: Phase 2D.1F: FR-10 Confirmation Evidence Integrity + Genuine Postman Bug Screenshots
+- **Date & Time:** 2026-09-02 09:15:05+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1F: Evidence integrity repair: acknowledge historical confirmation attempts; preserve successful run as run02; create strict bug-evidence collection; execute strict Newman run; capture 3 visually distinct Postman Desktop screenshots via CDP; correct scope/database wording in bug reports; update GitHub Issues #29, #30, #31 without duplication
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2176, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-052`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-052-fr10-confirmation-evidence-integrity-repair.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-052-fr10-confirmation-evidence-integrity-repair.md)
