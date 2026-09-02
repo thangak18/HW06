@@ -2,14 +2,6 @@
   "name": "hw06-23127259-root",
   "version": "1.0.0",
   "private": true,
-  "description": "Root package.json to satisfy actions/setup-node npm cache key. Generated to provide a lockfile at repository root for the CI workflow that runs Newman + HTMLExtra on Newman temporary install (no runtime dependency is declared here).",
-  "scripts": {
-    "test": "echo 'Root has no runtime tests; CI installs Newman with --no-save'"
-  },
-  "keywords": [
-    "hw06",
-    "newman",
-    "ci"
-  ],
+  "description": "Minimal root package.json for the CI workflow cache key",
   "license": "ISC"
 }
