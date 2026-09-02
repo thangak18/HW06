@@ -32,8 +32,11 @@ claude
 ls .claude/skills/api-test-generator/SKILL.md
 ```
 
-Trong Claude Code, gõ `/` sẽ thấy `api-test-generator` trong danh sách. Nếu không thấy thì Claude
-Code đang mở ở thư mục khác — phải mở đúng tại `23127195/`.
+Trong Claude Code, gõ `/` sẽ thấy `api-test-generator` trong danh sách.
+
+> **Nếu không thấy:** Claude Code chỉ nạp skill **lúc mở phiên**. Phiên đang mở từ trước khi file
+> skill được tạo sẽ báo `Unknown command`. Thoát rồi chạy lại `claude` tại đúng thư mục
+> `23127195/` là có. Đây là lỗi hay gặp nhất khi quay — kiểm tra trước khi bấm ghi hình.
 
 ---
 
@@ -144,7 +147,7 @@ Khi bộ sinh chạy xong, bảng tổng kết hiện ra trên terminal:
 - [ ] Kiểm tra mã số **23127195** hiển thị rõ ít nhất một lần
 - [ ] Tải lên YouTube, đặt **Unlisted**
 - [ ] Dán link vào `README.md` và `docs/00_MAIN_REPORT.md` §4
-- [ ] Ghi link vào đây: `<điền link YouTube>`
+- [x] Link: **https://youtu.be/KsxYU52l4WE** — *"Demo api testing agent skill"*
 
 ---
 

@@ -6,11 +6,24 @@ This document tracks the API feature assignments for each member of the team to 
 
 ## 1. Team Allocation Table
 
-| Member | Student Name | Student ID | GitHub Handle | Pool A Feature (Auth / Prod) | Pool B Feature (Cart / Order) | Pool C Feature (Admin) | Personal Workspace |
-|---|---|---|---|---|---|---|---|
-| **Member 1** | Nguyễn Tấn Thắng | 23127259 | @thangak18 | TODO | TODO | TODO | [`23127259/`](../23127259/) |
-| **Member 2** | TODO | 23127060 | TODO | TODO | TODO | TODO | [`23127060/`](../23127060/) |
-| **Member 3** | TODO | 23127195 | TODO | TODO | TODO | TODO | [`23127195/`](../23127195/) |
+| Member | Student ID | GitHub Handle | Pool A Feature (Auth / Prod) | Pool B Feature (Cart / Order) | Pool C Feature (Admin) | Personal Workspace |
+|---|---|---|---|---|---|---|
+| **Member 1** | 23127259 | @thangak18 | `FR-02` Login & lockout | `FR-07` Shopping cart | `FR-15` Product management | [`23127259/`](../23127259/) |
+| **Member 2** | 23127060 | — | `FR-01` Account registration | `FR-08` Checkout | `FR-14` Category management | [`23127060/`](../23127060/) |
+| **Member 3** | 23127195 | @hungtmh | `FR-04` Personal profile | `FR-09` Discount coupons | `FR-16` Product CSV import | [`23127195/`](../23127195/) |
+
+**Nine distinct FRs, no overlap** — each member takes exactly one feature per pool, satisfying §5
+of the assignment brief.
+
+Verify straight from the repo rather than trusting this table:
+
+```bash
+for d in 23127060 23127259 23127195; do
+  echo -n "$d: "
+  grep -rhoE "FR-[0-9]{2}" "$d"/README.md "$d"/docs/00_MAIN_REPORT.md | sort -u | tr '\n' ' '
+  echo
+done
+```
 
 ---
 

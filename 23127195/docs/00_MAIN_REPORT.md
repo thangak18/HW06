@@ -294,12 +294,12 @@ mức khuôn mã dùng chung, và không tự phát hiện được lỗi của 
 
 Theo §11 của đề bài, các hạng mục sau **không được** do AI tạo và TA sẽ kiểm tra khi chấm:
 
-| # | Việc | Vị trí lưu | Hướng dẫn |
+| # | Việc | Trạng thái | Bằng chứng |
 |---|---|---|---|
-| 1 | ✅ **Vẽ sơ đồ bộ sinh test case** | [`agent-skill/diagram/ai_test_generator_diagram.png`](../agent-skill/diagram/ai_test_generator_diagram.png) | **Xong** — tự vẽ bằng draw.io, kèm file nguồn `.drawio`; đã nhúng ở §4 |
-| 2 | **Chụp Postman Console** hiển thị `[X-Student-Id] 23127195 -> ...` | `evidence/` | Mở Postman → View → Show Postman Console → chạy collection |
-| 3 | ⚠️ **Tạo 24 GitHub Issue** — *issue đã tạo xong*, còn **đính ảnh chụp** | `bugs/screenshots/` | 24 issue [#5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195) đã đăng. Việc còn lại: mở từng issue, kéo thả ảnh chụp vào bình luận |
-| 4 | **Push để chạy CI**, chụp 2 lần chạy (xanh / đỏ 1 test) | `ci/evidence/` | [`ci/CI_CD_REPORT.md`](../ci/CI_CD_REPORT.md) §4–5 |
-| 5 | **Quay video demo** Agent Skill (YouTube) | `video/` | [`video/VIDEO_DEMO_SCRIPT.md`](../video/VIDEO_DEMO_SCRIPT.md) |
-| 6 | **Xác nhận không trùng API** với 23127060 và 23127259 | `docs/team-api-allocation.md` | |
-| 7 | **Xuất PDF** báo cáo chính và AI audit | `pdf/` | |
+| 1 | **Vẽ sơ đồ bộ sinh test case** | ✅ Xong | Tự vẽ bằng draw.io, kèm file nguồn [`.drawio`](../agent-skill/diagram/ai_test_generator_diagram.drawio) mở lại được; nhúng ở §4 |
+| 2 | **Chụp Postman Console** (`[X-Student-Id] 23127195 -> ...`) | ✅ Xong | 3 ảnh trong [`evidence/`](../evidence/); ảnh `_timestamps` bung sẵn *Request Headers* nên thấy cả header thật trên đường truyền lẫn `Host: localhost:3000` |
+| 3 | **24 GitHub Issue kèm ảnh chụp** | ✅ Xong | [#5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195); 32 ảnh nhúng trong thân từng issue, mỗi ảnh hiện lệnh `curl` đầy đủ |
+| 4 | **CI chạy thật, 2 lần chạy mẫu** | ✅ Xong | [run #3 xanh](https://github.com/thangak18/HW06/actions/runs/33609193249) · [run #4 đỏ đúng 1 test case](https://github.com/thangak18/HW06/actions/runs/33609400346), cùng trong [PR #35](https://github.com/thangak18/HW06/pull/35) |
+| 5 | **Video demo Agent Skill** | ✅ Xong | **https://youtu.be/KsxYU52l4WE** — *"Demo api testing agent skill"* |
+| 6 | **Xác nhận không trùng API** với 23127060 và 23127259 | ✅ Xong | 9 FR đôi một khác nhau — bảng đối chiếu ở [`01_API_SELECTION.md`](./01_API_SELECTION.md) §5 |
+| 7 | **Xuất PDF** toàn bộ báo cáo | ✅ Xong | 10 file trong [`pdf/`](../pdf/) |
