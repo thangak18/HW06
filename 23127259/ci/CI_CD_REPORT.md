@@ -52,9 +52,10 @@ collection's pre-request script for every HTTP operation (setup, helper,
 | Attribute       | Value |
 |-----------------|-------|
 | Workflow        | `HW06 API Tests (23127259)` |
-| Run URL         | PENDING_AUTHENTIC_GH_RUN |
-| Run ID          | PENDING_AUTHENTIC_GH_RUN |
-| Commit SHA      | PENDING_AUTHENTIC_GH_RUN |
+| Run URL         | `GH_AUTH_REQUIRED` |
+| Run ID          | `GH_AUTH_REQUIRED` |
+| Commit SHA      | `GH_AUTH_REQUIRED` |
+| Conclusion      | `GH_AUTH_REQUIRED` (workflow YAML committed and ready to trigger; first authentic run pending `gh auth login` or `GITHUB_TOKEN` from CI operator) |
 | Artifact        | `hw06-23127259-newman-<run-id>` |
 | Newman exit (FR10) | `0` |
 | Newman exit (FR14) | `non-zero` (4 confirmed normative FR14 bugs — expected for a FAIL run; on a PASS run the failing FR14 cases are masked by `FR14_DELIBERATE_RED=1` env var via the dedicated `deliberate-red.yml` workflow) |
@@ -69,22 +70,23 @@ collection's pre-request script for every HTTP operation (setup, helper,
 
 ### PASS Run – Authenticated Links
 
-PENDING_AUTHENTIC_GH_RUN
+`GH_AUTH_REQUIRED`
 
-The PASS run references above will be populated by the CI operator after the
-first authentic Actions run completes. Until then, the canonical local
-Newman runs in `23127259/evidence/fr10/newman/` (Run04) and
-`23127259/evidence/fr14/newman/` (Run05) are the trusted machine-readable
-evidence for this report.
+The PASS run references above will be populated by the CI operator
+after the first authentic Actions run completes. Until then, the canonical
+local Newman runs in `23127259/evidence/fr10/newman/FR10-run04.*` and
+`23127259/evidence/fr14/newman/FR14-run01.*` are the trusted
+machine-readable evidence for this report.
 
 ## FAIL Run
 
 | Attribute       | Value |
 |-----------------|-------|
 | Workflow        | `HW06 Deliberate Red Sample` |
-| Run URL         | PENDING_AUTHENTIC_GH_RUN |
-| Run ID          | PENDING_AUTHENTIC_GH_RUN |
-| Commit SHA      | PENDING_AUTHENTIC_GH_RUN |
+| Run URL         | `GH_AUTH_REQUIRED` |
+| Run ID          | `GH_AUTH_REQUIRED` |
+| Commit SHA      | `GH_AUTH_REQUIRED` |
+| Conclusion      | `GH_AUTH_REQUIRED` (workflow YAML committed and ready to trigger; first authentic run pending `gh auth login` or `GITHUB_TOKEN` from CI operator) |
 | Intent          | Demonstrate one failing assertion in a green pipeline |
 
 ### FAIL Workflow File
@@ -115,15 +117,15 @@ Path: `23127259/evidence/fr10/newman/FR10-run04*`
 - Exit: `FR10-run04-exitcode.txt` (value = 1, accepted because the run surfaces
   three confirmed FR10 normative bugs)
 
-### Local Canonical FR14 Run05
+### Local Canonical FR14 Run01
 
-Path: `23127259/evidence/fr14/newman/FR14-run05*`
+Path: `23127259/evidence/fr14/newman/FR14-run01*`
 
-- CLI: `FR14-run05-cli.txt`
-- JSON: `FR14-run05.json`
-- HTML: `FR14-run05.html`
-- Exit: `FR14-run05-exitcode.txt` (value = 1, accepted because the run surfaces
-  four confirmed FR14 normative bugs)
+- CLI: `FR14-run01-cli.txt`
+- JSON: `FR14-run01.json`
+- HTML: `FR14-run01.html`
+- Exit: `FR14-run01-exitcode.txt` (value = 1, accepted because the run surfaces
+  five confirmed FR14 normative bugs)
 
 ### Secret-Safe Public Derivatives
 

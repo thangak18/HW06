@@ -88,17 +88,39 @@ Source: `23127259/evidence/fr14/FR14_FORMAL_HTTP_RECONCILIATION.md`
 
 ## Confirmed Normative Bugs
 
-| Bug ID | Affected Formal IDs | Root Cause |
-|---|---|---|
-| BUG-FR14-001 | TC-012, TC-013, TC-014 | `role=user` mutates categories (FR-12, SEC-03 violation) |
-| BUG-FR14-002 | TC-016, TC-017, TC-018, TC-019 | Empty/null/missing/whitespace name accepted (FR-14 violation) |
-| BUG-FR14-003 | TC-024, TC-025, TC-037, TC-038 | Nonexistent / already-deleted mutations report false-success |
-| BUG-FR14-004 | TC-H05 | Empty PUT body corrupts existing name to `null` |
+| Bug ID | Affected Formal IDs | Root Cause | Level-1 Basis |
+|---|---|---|---|
+| BUG-FR14-001 | TC-012, TC-013, TC-014 | `role=user` mutates categories | SRS FR-12 + SEC-03 |
+| BUG-FR14-002 | TC-016, TC-017, TC-018, TC-019 | Empty/null/missing/whitespace name accepted | SRS FR-14 mandatory-name rule |
+| BUG-FR14-003 | TC-024, TC-025 | Nonexistent ID PUT/DELETE returns false-success | FR-14 CRUD-integrity rule |
+| BUG-FR14-004 | TC-H05 | Empty PUT body corrupts existing name to `null` | SRS FR-14 (mandatory-name integrity on update) |
+| BUG-FR14-005 | TC-037, TC-038 | Already-deleted entity PUT/DELETE returns false-success | FR-14 CRUD-integrity rule |
 
-## Dropped Candidates (Anti)
+**Total confirmed normative bugs: 5.**
 
-- Content-Type HTTP 500: DROPPED_NOT_NORMATIVE (no exact 500 expected).
-- Exploratory observations: not promoted to bugs.
+## Exploratory Observations (NOT promoted to bugs)
+
+| ID | Reason |
+|---|---|
+| TC-FR14-H01 | Missing Content-Type → HTTP 500; FR-14 does not define the required behaviour |
+| TC-FR14-020 | Long name accepted; exact length limit not specified |
+| TC-FR14-021 | Unicode name accepted; no restriction specified |
+| TC-FR14-022 | Duplicate name accepted; uniqueness not specified |
+| TC-FR14-023 | Integer name accepted; type coercion not specified |
+| TC-FR14-026 | ID=0 handled gracefully |
+| TC-FR14-027 | ID=-1 handled gracefully |
+| TC-FR14-028 | Non-numeric ID handled gracefully |
+| TC-FR14-030 | XSS payload accepted as text (SEC-04 is UI-scoped) |
+| TC-FR14-031 | Mass-assignment fields ignored (partial oracle) |
+| TC-FR14-032 | PUT body-id override ignored (partial oracle) |
+| TC-FR14-033 | Object-type name handled |
+
+## Dropped Candidates
+
+- Content-Type HTTP 500 (TC-FR14-H01): **EXPLORATORY_ROBUSTNESS_OBSERVATION** (FR-14 does not define the required behaviour; HTTP 500 not specified as normative).
+- TC-FR14-034: INVALID (semantic duplicate / mislabelled IDOR).
+- TC-FR14-036: INVALID (unspecified destructive referential test).
+- TC-FR14-H07: Rejected Human candidate (out-of-scope referential dependency).
 
 ## Security Mapping (Re-confirmed)
 
@@ -114,10 +136,11 @@ Source: `23127259/evidence/fr14/FR14_FORMAL_HTTP_RECONCILIATION.md`
 
 | Bug | Issue |
 |---|---|
-| BUG-FR14-001 | [#XX](https://github.com/thangak18/HW06/issues/XX) — created/updated post-execution |
-| BUG-FR14-002 | [#XX](https://github.com/thangak18/HW06/issues/XX) — created/updated post-execution |
-| BUG-FR14-003 | [#XX](https://github.com/thangak18/HW06/issues/XX) — created/updated post-execution |
-| BUG-FR14-004 | [#XX](https://github.com/thangak18/HW06/issues/XX) — created/updated post-execution |
+| BUG-FR14-001 | [#32](https://github.com/thangak18/HW06/issues/32) |
+| BUG-FR14-002 | [#33](https://github.com/thangak18/HW06/issues/33) |
+| BUG-FR14-003 | [#34](https://github.com/thangak18/HW06/issues/34) |
+| BUG-FR14-004 | PENDING_GH_ISSUE (`GH_AUTH_REQUIRED`); body prepared at `23127259/bugs/BUG-FR14-004-issue-body.md` |
+| BUG-FR14-005 | PENDING_GH_ISSUE (`GH_AUTH_REQUIRED`); body prepared at `23127259/bugs/BUG-FR14-005-issue-body.md` |
 
 ## Secret Hygiene
 

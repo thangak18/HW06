@@ -43,7 +43,7 @@ FR10_HUMAN_COUNT = 5
 FR10_FORMAL_COUNT = 46
 
 FR14_RAW_AI_COUNT = 42
-FR14_HUMAN_COUNT = 4
+FR14_HUMAN_COUNT = 6
 FR14_FORMAL_COUNT = 46
 
 
@@ -175,15 +175,15 @@ def _write_bugs(wb: Workbook) -> None:
     bugs = [
         ("BUG-FR02-001", "FR02", "P1", "Sensitive plaintext password leak in /api/users response",
          "PENDING_CODEX_VISUAL_AUDIT",
-         "23127259/bugs/BUG-FR02-001.md; FR02 newman Run02",
+         "23127259/bugs/issues/BUG-FR02-001.md; FR02 newman Run03",
          "CONFIRMED"),
         ("BUG-FR02-002", "FR02", "P2", "No rate limit on /api/login allows brute-force attempts",
          "PENDING_CODEX_VISUAL_AUDIT",
-         "23127259/bugs/BUG-FR02-002.md",
+         "23127259/bugs/issues/BUG-FR02-002.md",
          "EXPLORATORY"),
         ("BUG-FR02-003", "FR02", "P2", "Account lockout counter not persisted across service restart",
          "PENDING_CODEX_VISUAL_AUDIT",
-         "23127259/bugs/BUG-FR02-003.md",
+         "23127259/bugs/issues/BUG-FR02-003.md",
          "EXPLORATORY"),
         ("BUG-FR10-001", "FR10", "P1", "Server allows confirmed -> cancelled transition (RBAC bypass for owner)",
          "https://github.com/thangak18/HW06/issues/29",
@@ -199,20 +199,24 @@ def _write_bugs(wb: Workbook) -> None:
          "CONFIRMED"),
         ("BUG-FR14-001", "FR14", "P1", "Non-admin (customer) role can mutate Categories",
          "https://github.com/thangak18/HW06/issues/32",
-         "23127259/bugs/BUG-FR14-001.md; FR14 Run05",
+         "23127259/bugs/BUG-FR14-001.md; FR14 Run01",
          "CONFIRMED"),
         ("BUG-FR14-002", "FR14", "P2", "Category name validation accepts empty/null/whitespace",
          "https://github.com/thangak18/HW06/issues/33",
-         "23127259/bugs/BUG-FR14-002.md; FR14 Run05",
+         "23127259/bugs/BUG-FR14-002.md; FR14 Run01",
          "CONFIRMED"),
         ("BUG-FR14-003", "FR14", "P2", "Non-existent category update/delete returns 200 with stale payload",
          "https://github.com/thangak18/HW06/issues/34",
-         "23127259/bugs/BUG-FR14-003.md; FR14 Run05",
+         "23127259/bugs/BUG-FR14-003.md; FR14 Run01",
          "CONFIRMED"),
-        ("BUG-FR14-004", "FR14", "P3", "Empty PUT body returns HTTP 500 (robustness)",
+        ("BUG-FR14-004", "FR14", "P3", "Empty PUT body corrupts existing category name to null",
          "PENDING_GH_ISSUE",
-         "23127259/bugs/BUG-FR14-004.md; FR14 Run05",
-         "CONFIRMED (non-normative robustness defect)"),
+         "23127259/bugs/BUG-FR14-004.md; FR14 Run01",
+         "CONFIRMED (FR-14 corruption is normative)"),
+        ("BUG-FR14-005", "FR14", "P2", "PUT/DELETE on already-deleted category returns false-success",
+         "PENDING_GH_ISSUE",
+         "23127259/bugs/BUG-FR14-005.md; FR14 Run01",
+         "CONFIRMED (FR-14 CRUD integrity)"),
     ]
     for bug in bugs:
         ws.append(list(bug))

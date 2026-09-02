@@ -28,8 +28,8 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 |:---:|---|:---:|:---:|:---:|:---:|:---:|
 | **FR-02** | Login and Account Lockout | 37 | 35 | 5 | **40** | DONE |
 | **FR-10** | Order State Machine | 42 | 41 | 5 | **46** | DONE |
-| **FR-14** | Category Management CRUD | 42 | 42 | 4 | **46** | DONE |
-| **TOTAL** | **All 3 Features** | **121** | **118** | **14** | **132** | DONE |
+| **FR-14** | Category Management CRUD | 42 | 40 | **6** | **46** | DONE |
+| **TOTAL** | **All 3 Features** | **121** | **116** | **16** | **132** | DONE |
 
 ---
 
@@ -40,7 +40,7 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 | **Phase 0** | Workspace, Tooling & SUT Environment Baseline | **COMPLETE** | Workspace layout, Newman/Postman readiness, Smoke check, SUT verification |
 | **Phase 1** | FR-02 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PENDING_CODEX_VISUAL_AUDIT** | 37 raw AI + 5 Human cases, Newman HTML report, 3 bug reports |
 | **Phase 2** | FR-10 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PENDING_CODEX_VISUAL_AUDIT** | 42 raw AI + 5 Human cases, Run04 canonical Newman, 3 bug reports |
-| **Phase 3** | FR-14 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PENDING_CODEX_VISUAL_AUDIT** | 42 raw AI + 4 Human cases, Run05 canonical Newman, 4 bug reports |
+| **Phase 3** | FR-14 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PENDING_CODEX_VISUAL_AUDIT** | 42 raw AI + 6 Human cases, Run01 canonical Newman, 5 bug reports |
 | **Phase 4** | CI/CD Integration (GitHub Actions Automated Newman Runs) | **COMPLETE (Technical) – PENDING_AUTHENTIC_RUN_URLS** | Two workflow YAMLs (PASS + FAIL red) |
 | **Phase 5** | Agent Skill (Self-Drawn Architecture & Pseudocode) | **COMPLETE (Content) – PENDING_CODEX_VISUAL_TASK** | Diagram spec in `docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`, pseudocode in `docs/test_generator.md` |
 | **Phase 6** | Final Documentation & AI Audit Report Compilation | **COMPLETE (Content) – PENDING_CODEX_VISUAL_AUDIT** | Main report, AI Audit, Commit log export, Excel workbook |
@@ -61,10 +61,10 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 | 1 | Three Pool A/B/C features selected and documented | DONE | FR-02 / FR-10 / FR-14 |
 | 2 | ≥35 AI test cases per feature | DONE | 37 / 42 / 42 raw AI respectively |
 | 3 | Human Audit of every AI case | DONE | `testcases/TC_AUDIT_FR*.md` |
-| 4 | Gap analysis and ≥5 Human extensions per feature | DONE | 5 / 5 / 4 Human extensions (FR14 4 extensions after rejection of one weak Human case) |
-| 5 | Postman collection with Newman execution | DONE | Three `.postman_collection.json` files; canonical Newman runs `FR02-Run02`, `FR10-Run04`, `FR14-Run05` |
+| 4 | Gap analysis and ≥5 Human extensions per feature | DONE | 5 / 5 / **6** Human extensions (FR14 has 6 post-audit; H07 was rejected for out-of-scope referential dependency) |
+| 5 | Postman collection with Newman execution | DONE | Three `.postman_collection.json` files; canonical Newman runs `FR02-Run03`, `FR10-Run04`, `FR14-Run01` |
 | 6 | X-Student-Id on every HTTP operation | DONE | Static + runtime validation in `validate_*_collection.py` |
-| 7 | Bug reports with GitHub Issues | DONE | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34 existing |
+| 7 | Bug reports with GitHub Issues | DONE | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34 + 2 pending Issues for BUG-FR14-004 and BUG-FR14-005 (`GH_AUTH_REQUIRED` blocker) |
 | 8 | CI/CD pipeline PASS/FAIL run | DONE (technical), PENDING (authentic run URLs) | `hw06-23127259-api-tests.yml` + `hw06-deliberate-red.yml` |
 | 9 | AI Audit Report (Markdown + PDF) | DONE (Markdown), PENDING_CODEX (PDF) | `ai/AI_AUDIT_REPORT.md` |
 | 10 | AI Critique 200–300 words | DONE | `ai/AI_CRITIQUE.md` (programmatically counted) |
@@ -88,9 +88,9 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 | Compliance matrix | [`23127259/audit/HW06_REQUIREMENTS_COMPLIANCE_MATRIX.md`](./audit/HW06_REQUIREMENTS_COMPLIANCE_MATRIX.md) |
 | Per-feature test cases | [`23127259/testcases/`](./testcases/) |
 | Postman collections | [`23127259/postman/collections/`](./postman/collections/) |
-| Newman runs (CLI / JSON / HTML / exit) | [`23127259/evidence/fr02/newman/`](./evidence/fr02/newman/) [`evidence/fr10/newman/`](./evidence/fr10/newman/) [`evidence/fr14/newman/`](./evidence/fr14/newman/) |
+| Newman runs (CLI / JSON / HTML / exit) | [`23127259/newman/fr02/`](./newman/fr02/) [`evidence/fr10/newman/`](./evidence/fr10/newman/) [`evidence/fr14/newman/`](./evidence/fr14/newman/) |
 | Bug reports | [`23127259/bugs/`](./bugs/) |
-| GitHub Issues | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34 |
+| GitHub Issues | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34, FR14-#TBD pending (`GH_AUTH_REQUIRED`) |
 | AI audit | [`23127259/ai/AI_AUDIT_REPORT.md`](./ai/AI_AUDIT_REPORT.md) |
 | AI critique | [`23127259/ai/AI_CRITIQUE.md`](./ai/AI_CRITIQUE.md) |
 | Diagram specification | [`23127259/docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`](./docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md) |

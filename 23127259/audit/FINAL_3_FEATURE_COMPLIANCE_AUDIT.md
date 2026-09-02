@@ -14,7 +14,7 @@
 | A2 | Human Audit of every AI case | PASS (37/37) | PASS (42/42) | PASS (42/42) | `TC_AUDIT_FR*.md` |
 | A3 | VALID / INVALID / INCOMPLETE classification | PASS | PASS | PASS | Same files as A2 |
 | A4 | Coverage gap analysis | PASS | PASS | PASS | `*_HUMAN_EXTENSION_GAP_ANALYSIS.md` |
-| A5 | ≥5 Human extensions per feature | PASS (5) | PASS (5) | PASS-EXCEPTION (4) | `FR*_HUMAN_TEST_CASES.md`. FR14 has 4 legitimate extensions after the rejection of one weak Human case. |
+| A5 | ≥5 Human extensions per feature | PASS (5) | PASS (5) | **PASS (6)** | FR14 has 6 Human cases (H01..H06); H07 rejected for out-of-scope dependency |
 | A6 | Executable canonical suite | PASS (40) | PASS (46) | PASS (46) | `fr*_canonical_cases.json` |
 
 ## B. Test Execution & Tooling
@@ -51,8 +51,8 @@
 | # | Requirement | Technical | Visual |
 |:---:|---|---|---|
 | E1 | Workflow YAML in `.github/workflows/` | PASS (2 files) | N/A |
-| E2 | PASS sample run | PASS (workflow configured) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
-| E3 | FAIL sample run | PASS (deliberate-red workflow) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
+| E2 | PASS sample run | PARTIAL (workflow configured; authentic run URL pending `GH_AUTH_REQUIRED`) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
+| E3 | FAIL sample run | PARTIAL (deliberate-red workflow configured; authentic run URL pending `GH_AUTH_REQUIRED`) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
 | E4 | CI/CD report describes pipeline | PASS (`ci/CI_CD_REPORT.md`) | PENDING_CODEX_VISUAL_AUDIT (PDF) |
 
 ## F. Submission Deliverables
@@ -73,11 +73,11 @@
 | G2 | FR02 Postman Runner screenshot | PENDING_CODEX_VISUAL_AUDIT |
 | G3 | FR10 Postman Console (Run04) screenshot | PENDING_CODEX_VISUAL_AUDIT |
 | G4 | FR10 Postman Runner (Run04) screenshot | PENDING_CODEX_VISUAL_AUDIT |
-| G5 | FR14 Postman Console (Run05) screenshot | PENDING_CODEX_VISUAL_AUDIT |
-| G6 | FR14 Postman Runner (Run05) screenshot | PENDING_CODEX_VISUAL_AUDIT |
+| G5 | FR14 Postman Console (Run01) screenshot | PENDING_CODEX_VISUAL_AUDIT |
+| G6 | FR14 Postman Runner (Run01) screenshot | PENDING_CODEX_VISUAL_AUDIT |
 | G7 | FR02 bug screenshots | PENDING_CODEX_VISUAL_AUDIT |
 | G8 | FR10 bug screenshots | PENDING_CODEX_VISUAL_AUDIT |
-| G9 | FR14 bug screenshots | PENDING_CODEX_VISUAL_AUDIT |
+| G9 | FR14 bug screenshots (5 normative) | PENDING_CODEX_VISUAL_AUDIT |
 | G10 | CI PASS screenshot | PENDING_CODEX_VISUAL_AUDIT |
 | G11 | CI FAIL screenshot | PENDING_CODEX_VISUAL_AUDIT |
 | G12 | AI diagram image | PENDING_CODEX_VISUAL_TASK |
