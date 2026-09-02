@@ -166,9 +166,9 @@ API này đang làm đúng thì không được phá'. Đây là lần chạy em
 
 | API | Case | Assertion | Assertion FAIL | Báo cáo HTML |
 |---|---|---|---|---|
-| API-1 | 33 | 163 | **0** | `newman/23127060_API-1_contract_20260902-235329.html` |
-| API-2 | 34 | 164 | **0** | `newman/23127060_API-2_contract_20260902-235337.html` |
-| API-3 | 17 | 79 | **0** | `newman/23127060_API-3_contract_20260902-235346.html` |
+| API-1 | 33 | 163 | **0** | `newman/23127060_API-1_contract_20260903-000103.html` |
+| API-2 | 34 | 164 | **0** | `newman/23127060_API-2_contract_20260903-000111.html` |
+| API-3 | 17 | 79 | **0** | `newman/23127060_API-3_contract_20260903-000121.html` |
 | **Tổng** | **84** | **406** | **0** | |
 
 ## 6. Lần chạy data-driven (Postman Collection Runner / `newman -d`)
