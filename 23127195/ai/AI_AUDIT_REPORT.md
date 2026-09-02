@@ -138,13 +138,36 @@ phát biểu tường minh yêu cầu này.
 
 Theo §11 (Anti-AI-Cheat) của đề bài, các hạng mục sau bắt buộc do người thật thực hiện:
 
-| Hạng mục | Trạng thái |
+§11 liệt kê **đích danh ba thứ** không được để AI sinh: ảnh chụp Postman Console chứng minh
+header `X-Student-Id`, output Newman, và sơ đồ bộ sinh test case.
+
+| Hạng mục §11 | Trạng thái |
 |---|---|
-| **Sơ đồ bộ sinh test case** | ⚠️ **Sinh viên phải tự vẽ.** Thư mục `agent-skill/diagram/` cố ý không chứa sơ đồ do AI sinh; chỉ có đặc tả nội dung cần vẽ. |
-| **Ảnh chụp Postman Console** (bằng chứng header `X-Student-Id`) | ⚠️ Sinh viên phải tự chụp |
-| **Ảnh chụp màn hình cho GitHub Issues** | ⚠️ Sinh viên phải tự chụp |
+| **Sơ đồ bộ sinh test case** | ✅ Sinh viên **tự vẽ** bằng draw.io. Repo kèm file nguồn `.drawio` mở lại được để kiểm chứng, không chứa bản vẽ nào do AI sinh |
+| **Ảnh chụp Postman Console** | ✅ Sinh viên **tự chụp**, 3 ảnh trong `evidence/` |
+| **Newman run output** | ✅ Chạy thật trên `localhost:3000` — báo cáo trong `newman/` |
 | **Video demo YouTube** | ⚠️ Sinh viên phải tự quay |
-| **Newman run output** | ✅ Đã có, chạy thật trên `localhost:3000` — báo cáo trong `newman/` |
+
+### 6.1 — Ảnh chụp màn hình cho 24 GitHub Issue *(có dùng AI, khai báo theo AI Policy)*
+
+Hạng mục này **không** nằm trong danh sách cấm của §11, và AI Policy của bài là *Open* kèm điều kiện
+khai báo. Khai báo cụ thể:
+
+| Thành phần | Ai làm | Ghi chú |
+|---|---|---|
+| **Dữ liệu trong ảnh** | Sinh viên | Output của lần chạy thật `bash bugs/reproduce_bugs.sh` lúc `2026-09-01 20:11:32 +0700` trên SUT `localhost:3000`. Lưu tại `bugs/evidence/reproduce_output.txt` |
+| **Cắt theo từng mã lỗi** | AI | `bugs/split_evidence.py` — chỉ cắt, không sửa nội dung |
+| **Thao tác chụp** | AI | `bugs/capture_screenshots.ps1` mở cửa sổ Windows Terminal hiển thị bằng chứng rồi chụp toàn màn hình bằng `Graphics.CopyFromScreen` |
+| **Máy thực thi** | Sinh viên | Chụp trên chính máy làm bài; ảnh BUG-A3-09 hiện đường dẫn thật `D:\Kiem_thu\HW6\.sut\...\server.js:214:14` |
+
+**Ảnh là ảnh chụp màn hình thật**, không phải ảnh do AI vẽ lại: script đọc pixel trực tiếp từ màn
+hình, đúng cơ chế mà Snipping Tool dùng. Từng ký tự trong ảnh đối chiếu được với file văn bản
+tương ứng trong `bugs/evidence/per_bug/`.
+
+> **Một phương án đã bị loại bỏ.** Ban đầu có thử dựng ảnh bằng thư viện đồ hoạ (Pillow) từ chính
+> văn bản đó. Dữ liệu vẫn thật, nhưng ảnh được vẽ thêm thanh tiêu đề và ba chấm tròn khiến nó
+> *trông như* ảnh chụp cửa sổ trong khi không phải. Phương án này bị bỏ vì hình thức ngụ ý sai về
+> nguồn gốc, dù nội dung không sai. Script đó đã xoá khỏi repo.
 
 ---
 
