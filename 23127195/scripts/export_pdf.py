@@ -35,6 +35,7 @@ DOCS = [
     ("bugs/BUG_REPORTS.md",      "BUG_REPORTS.pdf"),
     ("ci/CI_CD_REPORT.md",       "CI_CD_REPORT.pdf"),
     ("agent-skill/DESIGN.md",    "AGENT_SKILL_DESIGN.pdf"),
+    ("video/VIDEO_DEMO_SCRIPT.md", "VIDEO_DEMO_SCRIPT.pdf"),
     ("README.md",                "README.pdf"),
 ]
 

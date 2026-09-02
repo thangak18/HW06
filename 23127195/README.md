@@ -155,5 +155,5 @@ TA sẽ kiểm tra khi chấm:
 - [x] ~~**Push để chạy CI** rồi lấy 2 lần chạy (một xanh, một đỏ đúng 1 test)~~ → ✅ **xong**: [run #3 xanh](https://github.com/thangak18/HW06/actions/runs/33609193249) · [run #4 đỏ](https://github.com/thangak18/HW06/actions/runs/33609400346), cùng nằm trong [PR #35](https://github.com/thangak18/HW06/pull/35). Chi tiết ở [`ci/CI_CD_REPORT.md`](./ci/CI_CD_REPORT.md) §4–5
 - [ ] **Quay video demo** Agent Skill và lấy link YouTube → [`video/VIDEO_DEMO_SCRIPT.md`](./video/VIDEO_DEMO_SCRIPT.md)
 - [ ] **Xác nhận không trùng API** với 23127060 và 23127259
-- [x] ~~**Xuất PDF** báo cáo chính + AI audit~~ → ✅ **xong**: 9 file trong [`pdf/`](./pdf/), sinh bằng `python scripts/export_pdf.py`
+- [x] ~~**Xuất PDF** báo cáo chính + AI audit~~ → ✅ **xong**: 10 file trong [`pdf/`](./pdf/), sinh bằng `python scripts/export_pdf.py`
 - [ ] **Chốt lại điểm tự đánh giá** và đổi tên file zip cho khớp
