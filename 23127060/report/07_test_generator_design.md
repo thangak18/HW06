@@ -1,48 +1,48 @@
-# STEP 9 — Thiet ke bo sinh test case bang AI (Agent Skill)
+# STEP 9 — Thiết kế bộ sinh test case bằng AI (Agent Skill)
 
-> HW06 — API Testing | SV **Ninh Van Khai — 23127060** | De bai muc 7 (10 diem, muc Create G9.5)
+> HW06 — API Testing | SV **Ninh Văn Khải — 23127060** | Đề bài mục 7 (10 điểm, mức Create G9.5)
 
-De bai: *"design an AI-driven API test generator for the SUT: given the API specification, it
+Đề bài: *"design an AI-driven API test generator for the SUT: given the API specification, it
 produces test cases automatically. Provide a self-drawn diagram and pseudocode of the design."*
 
 ---
 
-## 1. Y tuong: tach lam hai lop
+## 1. Ý tưởng: tách làm hai lớp
 
-Cach lam hien nhien la bao AI *"doc dac ta nay va viet 35 test case"*. Cach do co ba van de:
+Cách làm hiển nhiên là bảo AI *"đọc đặc tả này và viết 35 test case"*. Cách đó có ba vấn đề:
 
-- **Khong lap lai duoc.** Chay lai cung mot prompt cho ra bo test khac.
-- **Khong do duoc do phu.** Khong tra loi duoc cau "tham so `price` da co bao nhieu phan hoach?"
-- **Khong mo rong duoc.** Them mot API la lam lai tu dau.
+- **Không lặp lại được.** Chạy lại cùng một prompt cho ra bộ test khác.
+- **Không đo được độ phủ.** Không trả lời được câu "tham số `price` đã có bao nhiêu phân hoạch?"
+- **Không mở rộng được.** Thêm một API là làm lại từ đầu.
 
-Thiet ke o day tach quy trinh lam hai lop co ranh gioi ro:
+Thiết kế của em tách quy trình làm hai lớp có ranh giới rõ:
 
-| Lop | Ai lam | San pham | Tinh chat |
+| Lớp | Ai làm | Sản phẩm | Tính chất |
 |---|---|---|---|
-| **Lop tri thuc** | Con nguoi + AI cung lam | `spec/api-N.json` | Doi hoi doc hieu; day la noi quyet dinh chat luong |
-| **Lop sinh** | May lam mot minh | `testcases/API-N_generated.csv` | **Tat dinh**: cung dau vao luon cho cung dau ra |
+| **Lớp tri thức** | Em và AI cùng làm | `spec/api-N.json` | Đòi hỏi đọc hiểu; đây là nơi quyết định chất lượng |
+| **Lớp sinh** | Máy làm một mình | `testcases/API-N_generated.csv` | **Tất định**: cùng đầu vào luôn cho cùng đầu ra |
 
-Ranh gioi nay la quyet dinh thiet ke quan trong nhat. AI khong duoc phep "sang tac" test case;
-no chi duoc giup **dich dac ta van xuoi sang mot cau truc co truc phan hoach ro rang**. Tu do
-tro di la mot chuong trinh tat dinh.
+Ranh giới này là quyết định thiết kế quan trọng nhất. Em không cho phép AI "sáng tác" test case;
+nó chỉ được giúp **dịch đặc tả văn xuôi sang một cấu trúc có trục phân hoạch rõ ràng**. Từ đó
+trở đi là một chương trình tất định.
 
-Loi ich cu the: khi mot test case sai, truy nguoc duoc ngay ve **dong nao trong file spec** gay
-ra no. Voi bo sinh dang hop den thi khong truy duoc.
+Lợi ích cụ thể: khi một test case sai, em truy ngược được ngay về **dòng nào trong file spec**
+gây ra nó. Với bộ sinh dạng hộp đen thì không truy được.
 
-## 2. Vi sao dac ta van xuoi khong dua thang cho may duoc
+## 2. Vì sao đặc tả văn xuôi không đưa thẳng cho máy được
 
-Cau nay trong SRS FR-15:
+Câu này trong SRS FR-15:
 
-> *"Gia: bat buoc, phai la so **duong** (> 0)."*
+> *"Giá: bắt buộc, phải là số **dương** (> 0)."*
 
-chua **ba** thong tin an ma con nguoi doc ra ngay con chuong trinh thi khong:
+chứa **ba** thông tin ẩn mà con người đọc ra ngay còn chương trình thì không:
 
-1. Co mot tham so ten `price`.
-2. Kieu cua no la so.
-3. Co mot **bien tai 0**, va bien do thuoc phia khong hop le.
+1. Có một tham số tên `price`.
+2. Kiểu của nó là số.
+3. Có một **biên tại 0**, và biên đó thuộc phía không hợp lệ.
 
-Khoi "dich sang dang may doc duoc" chinh la noi bien doi nay xay ra. Sau khi dich, cung thong
-tin do tro thanh:
+Khối "dịch sang dạng máy đọc được" chính là nơi biến đổi này xảy ra. Sau khi dịch, cùng thông
+tin đó trở thành:
 
 ```json
 { "name": "price", "in": "body", "type": "number", "required": true,
@@ -55,10 +55,10 @@ tin do tro thanh:
 }
 ```
 
-Bay gio thi mot vong lap sinh duoc test case, va cau hoi *"tham so `price` da co bao nhieu
-phan hoach?"* tra loi duoc bang mot lenh dem.
+Bây giờ thì một vòng lặp sinh được test case, và câu hỏi *"tham số `price` đã có bao nhiêu
+phân hoạch?"* trả lời được bằng một lệnh đếm.
 
-## 3. Kien truc
+## 3. Kiến trúc
 
 ```
 PARSE -> NORMALISE -> 4 BO SINH SONG SONG -> KHU_TRUNG -> DANH_SO -> KIEM_TRA_DO_PHU -> EMIT
@@ -67,36 +67,36 @@ PARSE -> NORMALISE -> 4 BO SINH SONG SONG -> KHU_TRUNG -> DANH_SO -> KIEM_TRA_DO
                                                           quay lai bo sung vao spec
 ```
 
-Bon truc trong file spec anh xa **mot doi mot** sang bon nhom ky thuat ma de bai muc 6.1 doi:
+Bốn trục trong file spec ánh xạ **một đối một** sang bốn nhóm kỹ thuật mà đề bài mục 6.1 đòi:
 
-| Truc trong spec | Bo sinh | Ky thuat | So case sinh ra |
+| Trục trong spec | Bộ sinh | Kỹ thuật | Số case sinh ra |
 |---|---|---|---|
 | `endpoints[].params[].partitions[]` | `gen_domain` | Equivalence Partitioning, BVA, Decision Table | 128 |
 | `state_machine.transitions[]` | `gen_state` | State Transition Testing (0-switch) | 38 |
-| `security[]` | `gen_security` | Anh xa SEC-01..SEC-07 | 41 |
+| `security[]` | `gen_security` | Ánh xạ SEC-01..SEC-07 | 41 |
 | `schema_cases[]` | `gen_schema` | JSON Schema Validation | 18 |
-| | | **Tong** | **225** |
+| | | **Tổng** | **225** |
 
-Bon bo sinh **doc lap** nhau, nen chay duoc rieng tung cai:
+Bốn bộ sinh **độc lập** nhau, nên chạy được riêng từng cái:
 
 ```bash
 python3 gen_testcases.py --spec spec/api-2.json --only DOM --out out.csv
 python3 gen_testcases.py --spec spec/api-2.json --only STA --out out.csv --append
 ```
 
-Day khong phai tien ich phu ma la **co so ky thuat** de thoa yeu cau *"drive it step by step,
-not with a single generic prompt"* cua de bai: STEP 2 chay dung bon vong doc lap, moi vong mot
-ky thuat kiem thu, moi vong mot entry AI_log rieng.
+Đây không phải tiện ích phụ mà là **cơ sở kỹ thuật** để thỏa yêu cầu *"drive it step by step,
+not with a single generic prompt"* của đề bài: STEP 2 chạy đúng bốn vòng độc lập, mỗi vòng một
+kỹ thuật kiểm thử, mỗi vòng một entry AI_log riêng.
 
-**So do:** `agent-skill/diagram/23127060_generator_diagram.png` — **do sinh vien tu ve**, theo
-de bai muc 11. Mo ta khoi va luong: `agent-skill/diagram/DIAGRAM_BRIEF.md`.
-**Pseudocode day du:** `agent-skill/pseudocode/generator.pseudo.md`.
-**Ban hien thuc chay duoc:** `agent-skill/eshop-api-23127060/scripts/gen_testcases.py` (chi dung
-thu vien chuan cua Python).
+**Sơ đồ:** `agent-skill/diagram/23127060_generator_diagram.png` — **do em tự vẽ**, theo đề bài
+mục 11. Mô tả khối và luồng: `agent-skill/diagram/DIAGRAM_BRIEF.md`.
+**Pseudocode đầy đủ:** `agent-skill/pseudocode/generator.pseudo.md`.
+**Bản hiện thực chạy được:** `agent-skill/eshop-api-23127060/scripts/gen_testcases.py` (chỉ dùng
+thư viện chuẩn của Python).
 
-## 4. `KIEM_TRA_DO_PHU` — cong tac chan
+## 4. `KIEM_TRA_DO_PHU` — cổng tự chặn
 
-Bo sinh khong chi in ra test case, no con **tu cham do phu cua chinh minh**:
+Bộ sinh không chỉ in ra test case, nó còn **tự chấm độ phủ của chính mình**:
 
 ```
 $ python3 gen_testcases.py --spec spec/api-2.json --stats
@@ -107,104 +107,104 @@ Ma SEC CHUA phu: (du 7)
 O bang chuyen trang thai da test: 20 / 25
 ```
 
-Bon phep do:
+Bốn phép đo:
 
-1. **Moi tham so** cua moi endpoint phai co it nhat mot case.
-2. **Bay ma SEC-01..07** phai duoc phu (tren toan bo suite — xem muc 5.2).
-3. **Bang chuyen trang thai**: bao nhieu o trong `states x states` da co case.
-4. **Nguong 35 case/API** cua de bai.
+1. **Mọi tham số** của mọi endpoint phải có ít nhất một case.
+2. **Bảy mã SEC-01..07** phải được phủ (trên toàn bộ suite — xem mục 5.2).
+3. **Bảng chuyển trạng thái**: bao nhiêu ô trong `states x states` đã có case.
+4. **Ngưỡng 35 case/API** của đề bài.
 
-Dong `20 / 25` la vi du cho thay phep do nay co ich: no chi thang ra 5 o con thieu, va do dung
-la nam o **duong cheo** (`pending -> pending`, ...). Nhung o do bi bo qua vi truc quan chung
-"khong phai mot buoc chuyen" — nhung trong thuc te chung hay gay loi nhat (mot request bi gui
-lai hai lan do mang cham hoac nguoi dung bam hai lan). Chung da duoc bo sung o STEP 4.
+Dòng `20 / 25` là ví dụ cho thấy phép đo này có ích: nó chỉ thẳng ra 5 ô còn thiếu, và đó đúng
+là nằm ở **đường chéo** (`pending → pending`, ...). Những ô đó bị bỏ qua vì trực quan chúng
+"không phải một bước chuyển" — nhưng trong thực tế chúng hay gây lỗi nhất (một request bị gửi
+lại hai lần do mạng chậm hoặc người dùng bấm hai lần). Em đã bổ sung chúng ở STEP 4.
 
-## 5. Hai loi that trong bo sinh, va cach tim ra
+## 5. Hai lỗi thật trong bộ sinh, và cách em tìm ra
 
-Phan nay quan trong hon phan mo ta kien truc: **cong cu tu dong cung phai duoc kiem thu.**
+Phần này quan trọng hơn phần mô tả kiến trúc: **công cụ tự động cũng phải được kiểm thử.**
 
-### 5.1 Khoa khu trung nuot mat 34 test case
+### 5.1 Khóa khử trùng nuốt mất 34 test case
 
-Chay lan dau, API-1 khai bao 6 truong hop schema nhung chi sinh ra **1**, va khai bao 9 chuyen
-trang thai nhung chi sinh ra **5**. Con so khong khop voi khai bao — do la dau hieu duy nhat.
+Chạy lần đầu, API-1 khai báo 6 trường hợp schema nhưng chỉ sinh ra **1**, và khai báo 9 chuyển
+trạng thái nhưng chỉ sinh ra **5**. Con số không khớp với khai báo — đó là dấu hiệu duy nhất.
 
-Truy nguyen ve ham `dedup()`:
+Em truy nguyên về hàm `dedup()`:
 
 ```python
 key = (r["Method"], r["Endpoint"], r["Request_Body"], str(r["Expected_Status"]))
 ```
 
-Khoa nay coi hai test case la trung nhau khi chung **gui cung mot request**, bat ke chung
-**khang dinh dieu gi**. Hai hau qua:
+Khóa này coi hai test case là trùng nhau khi chúng **gửi cùng một request**, bất kể chúng
+**khẳng định điều gì**. Hai hậu quả:
 
-- Mot case `SCH` (*"response 200 khop schema `{message: string}`"*) va mot case `DOM`
-  (*"email hop le tra 200"*) gui y het nhau nhung kiem hai thu khac han. Case `SCH` bi nuot.
-- Hai case `STA` *"huy don dang `pending`"* va *"huy don dang `confirmed`"* cung goi
-  `PUT /api/orders/:id/cancel` voi body rong; chung chi khac nhau o **trang thai ban dau**.
-  Case thu hai bi nuot.
+- Một case `SCH` (*"response 200 khớp schema `{message: string}`"*) và một case `DOM`
+  (*"email hợp lệ trả 200"*) gửi y hệt nhau nhưng kiểm hai thứ khác hẳn. Case `SCH` bị nuốt.
+- Hai case `STA` *"hủy đơn đang `pending`"* và *"hủy đơn đang `confirmed`"* cùng gọi
+  `PUT /api/orders/:id/cancel` với body rỗng; chúng chỉ khác nhau ở **trạng thái ban đầu**.
+  Case thứ hai bị nuốt.
 
-Khoa sau khi sua:
+Khóa sau khi em sửa:
 
 ```python
 key = (r["Category"], r["Method"], r["Endpoint"], r["Request_Body"],
        str(r["Expected_Status"]), r["Expected_Assertions"], r["Preconditions"])
 ```
 
-Ket qua: **191 -> 225 case**, do phu state machine cua API-2 **11/25 -> 20/25**.
+Kết quả: **191 → 225 case**, độ phủ state machine của API-2 **11/25 → 20/25**.
 
-Neu tin ngay con so dau tien thi bao cao da ghi thieu 34 test case va mot do phu sai.
+Nếu em tin ngay con số đầu tiên thì báo cáo đã ghi thiếu 34 test case và một độ phủ sai.
 
-### 5.2 Bang SEC-01..07 duoc dien tu tri nho
+### 5.2 Bảng SEC-01..07 được điền từ trí nhớ
 
-Bang `SEC_DEFAULT_ASSERT` trong bo sinh duoc viet theo **tri nho ve cac lo hong OWASP quen
-thuoc**: SEC-01 = SQL Injection, SEC-04 = IDOR, SEC-05 = leo thang quyen, SEC-07 = brute force.
+Bảng `SEC_DEFAULT_ASSERT` trong bộ sinh được viết theo **trí nhớ về các lỗ hổng OWASP quen
+thuộc**: SEC-01 = SQL Injection, SEC-04 = IDOR, SEC-05 = leo thang quyền, SEC-07 = brute force.
 
-Bang **that** nam trong `eshop-sut/README.md` muc 9 va noi nhung dieu hoan toan khac: SEC-01 la
-*"mat khau khong duoc luu plaintext"*, SEC-05 la *"truy van CSDL phai dung Parameterized
-Query"*. **39/41 test case bao mat bi gan sai ma.**
+Bảng **thật** nằm trong `eshop-sut/README.md` mục 9 và nói những điều hoàn toàn khác: SEC-01 là
+*"mật khẩu không được lưu plaintext"*, SEC-05 là *"truy vấn CSDL phải dùng Parameterized
+Query"*. **39/41 test case bảo mật bị gắn sai mã.**
 
-Dieu dang noi: cac test case **van chay dung** — mot phep thu SQL Injection van la mot phep thu
-SQL Injection du no bi dan nhan SEC-01 hay SEC-05. Cai hong la **bang do phu bao mat trong bao
-cao**: no se ghi *"API-3 da phu SEC-01 voi 8 test case"* trong khi SEC-01 khong he duoc kiem o
-API-3 dong nao.
+Điều đáng nói: các test case **vẫn chạy đúng** — một phép thử SQL Injection vẫn là một phép thử
+SQL Injection dù nó bị dán nhãn SEC-01 hay SEC-05. Cái hỏng là **bảng độ phủ bảo mật trong báo
+cáo**: nó sẽ ghi *"API-3 đã phủ SEC-01 với 8 test case"* trong khi SEC-01 không hề được kiểm ở
+API-3 dòng nào.
 
-Nguyen nhan sau xa: **`SEC-01` la mot nhan khong tu giai thich.** Doc "SEC-01" khong ai doan
-duoc no noi gi, nen rat de dien vao bang mo hinh manh nhat co san. Chi mot lenh
-`grep -n "SEC-0" README.md` la ra su that.
+Nguyên nhân sâu xa: **`SEC-01` là một nhãn không tự giải thích.** Đọc "SEC-01" không ai đoán
+được nó nói gì, nên rất dễ điền vào bằng mô hình mạnh nhất có sẵn. Chỉ một lệnh
+`grep -n "SEC-0" README.md` là ra sự thật.
 
-Bai hoc cho thiet ke: **moi nhan ma bo sinh gan len test case ma khong tu giai thich duoc thi
-phai co mot buoc doi chieu voi tai lieu goc**, khong duoc coi la kien thuc nen.
+Bài học cho thiết kế: **mọi nhãn mà bộ sinh gắn lên test case mà không tự giải thích được thì
+phải có một bước đối chiếu với tài liệu gốc**, không được coi là kiến thức nền.
 
-### 5.3 Mot chi tieu do luong dat sai gay ra chinh cai loi no dinh ngan chan
+### 5.3 Một chỉ tiêu đo lường đặt sai gây ra chính cái lỗi nó định ngăn chặn
 
-`references/TESTCASE_TAXONOMY.md` do chinh toi viet co dong: *"Bat buoc phu du 7 ma
-SEC-01..SEC-07 cho **moi** API"*. Sau khi biet bang SEC that, yeu cau do la **bat kha thi**:
-SEC-07 noi ve vong doi OTP thi khong the ap vao API quan ly san pham; SEC-01 noi ve luu tru
-mat khau thi khong lien quan gi den luong thanh toan.
+`references/TESTCASE_TAXONOMY.md` do chính em viết có dòng: *"Bắt buộc phủ đủ 7 mã
+SEC-01..SEC-07 cho **mọi** API"*. Sau khi biết bảng SEC thật, yêu cầu đó là **bất khả thi**:
+SEC-07 nói về vòng đời OTP thì không thể áp vào API quản lý sản phẩm; SEC-01 nói về lưu trữ
+mật khẩu thì không liên quan gì đến luồng thanh toán.
 
-Va chinh yeu cau do gay hai: cach duy nhat de "dat chi tieu" la **gan bua** mot ma SEC cho mot
-case khong thuoc no. Chi tieu dung phai la: *du 7 ma tren toan bo suite; tung API phu nhung ma
-thuc su ap dung duoc, phan khong ap dung co giai trinh mot dong.* Da sua lai taxonomy.
+Và chính yêu cầu đó gây hại: cách duy nhất để "đạt chỉ tiêu" là **gán bừa** một mã SEC cho một
+case không thuộc nó. Chỉ tiêu đúng phải là: *đủ 7 mã trên toàn bộ suite; từng API phủ những mã
+thực sự áp dụng được, phần không áp dụng có giải trình một dòng.* Em đã sửa lại taxonomy.
 
-## 6. Han che va huong mo rong
+## 6. Hạn chế và hướng mở rộng
 
-### 6.1 Han che lon nhat: bo sinh sinh ra test case DOC LAP
+### 6.1 Hạn chế lớn nhất: bộ sinh sinh ra test case ĐỘC LẬP
 
-Ca bon bo sinh deu theo cung mot khuon: mot vong lap tren mot danh sach khai bao, moi phan tu
-cho ra **mot** test case, moi test case **mot** request. Do la gioi han **cau truc**, khong phai
-gioi han ve prompt hay ve mo hinh.
+Cả bốn bộ sinh đều theo cùng một khuôn: một vòng lặp trên một danh sách khai báo, mỗi phần tử
+cho ra **một** test case, mỗi test case **một** request. Đó là giới hạn **cấu trúc**, không phải
+giới hạn về prompt hay về mô hình.
 
-So lieu do duoc: trong 18 test case ma con nguoi phai tu bo sung o STEP 4, **9 case (mot nua)**
-thuoc nhom `API` — tuc la *"bug chi lo ra khi ket hop nhieu request"*:
+Số liệu đo được: trong 18 test case mà em phải tự bổ sung ở STEP 4, **9 case (một nửa)**
+thuộc nhóm `API` — tức là *"bug chỉ lộ ra khi kết hợp nhiều request"*:
 
-| Bug | Vi sao can nhieu request |
+| Bug | Vì sao cần nhiều request |
 |---|---|
-| C-05 | `{"price": 30000000}` va `{"price": "28000000"}` deu la JSON hop le. Vi pham chi hien ra khi **so sanh hai response** |
-| B-09 | Dua don ve trang thai `shipping` doi hoi di qua dung hai buoc admin — mot chuoi 4 request |
-| C-09 | Phai `POST` roi `PUT` thieu truong roi `GET` moi thay 4 truong bi xoa trang |
-| C-13 | Sap may chu chi xay ra o request **thu ba** cua chuoi, va no la he qua cua hai bug khac cong lai |
+| C-05 | `{"price": 30000000}` và `{"price": "28000000"}` đều là JSON hợp lệ. Vi phạm chỉ hiện ra khi **so sánh hai response** |
+| B-09 | Đưa đơn về trạng thái `shipping` đòi hỏi đi qua đúng hai bước admin — một chuỗi 4 request |
+| C-09 | Phải `POST` rồi `PUT` thiếu trường rồi `GET` mới thấy 4 trường bị xóa trắng |
+| C-13 | Sập máy chủ chỉ xảy ra ở request **thứ ba** của chuỗi, và nó là hệ quả của hai bug khác cộng lại |
 
-**Huong mo rong:** bo sung mot truc thu nam vao file spec:
+**Hướng mở rộng:** bổ sung một trục thứ năm vào file spec:
 
 ```jsonc
 "scenarios": [
@@ -224,21 +224,21 @@ thuoc nhom `API` — tuc la *"bug chi lo ra khi ket hop nhieu request"*:
 ]
 ```
 
-Bo sinh se sinh ra mot chuoi request kem cac **khang dinh bac cao** lien ket cac buoc
-(`cross_step`). Day la buoc chuyen tu **0-switch coverage** sang **n-switch coverage**, va no
-xu ly dung nhom bug ma phien ban hien tai bo sot.
+Bộ sinh sẽ sinh ra một chuỗi request kèm các **khẳng định bậc cao** liên kết các bước
+(`cross_step`). Đây là bước chuyển từ **0-switch coverage** sang **n-switch coverage**, và nó
+xử lý đúng nhóm bug mà phiên bản hiện tại bỏ sót.
 
-### 6.2 Cac han che khac
+### 6.2 Các hạn chế khác
 
-| Han che | Anh huong | Huong xu ly |
+| Hạn chế | Ảnh hưởng | Hướng xử lý |
 |---|---|---|
-| Chat luong dau ra **hoan toan** phu thuoc chat luong file spec. Spec sai thi test sai theo — nhu vu bang SEC | Cao | Them buoc doi chieu tu dong: kiem moi ma SEC dung trong spec co ton tai trong tai lieu goc khong |
-| Chi sinh duoc **assertion o dang van xuoi**; 17-23% khong dich duoc sang phep kiem Postman | Trung binh | Cho phep spec khai bao assertion co cau truc (`{"type":"json_path","path":"$.price","op":"is_number"}`) thay vi chuoi tu do |
-| Khong sinh duoc du lieu test ngau nhien (property-based testing) | Trung binh | Ket noi voi `hypothesis` hoac `fast-check` de sinh gia tri bien tu dinh nghia kieu |
-| Khong tu do duoc thoi gian phan hoi hay tai trong | Thap | Ngoai pham vi HW06 (thuoc HW05 Performance Testing) |
-| Bang quyet dinh phai liet ke tay tung to hop | Trung binh | Sinh to hop tu dong tu danh sach dieu kien, kem thuat toan pairwise de giam so case |
+| Chất lượng đầu ra **hoàn toàn** phụ thuộc chất lượng file spec. Spec sai thì test sai theo — như vụ bảng SEC | Cao | Thêm bước đối chiếu tự động: kiểm mọi mã SEC dùng trong spec có tồn tại trong tài liệu gốc không |
+| Chỉ sinh được **assertion ở dạng văn xuôi**; 17-23% không dịch được sang phép kiểm Postman | Trung bình | Cho phép spec khai báo assertion có cấu trúc (`{"type":"json_path","path":"$.price","op":"is_number"}`) thay vì chuỗi tự do |
+| Không sinh được dữ liệu test ngẫu nhiên (property-based testing) | Trung bình | Kết nối với `hypothesis` hoặc `fast-check` để sinh giá trị biên từ định nghĩa kiểu |
+| Không tự đo được thời gian phản hồi hay tải trọng | Thấp | Ngoài phạm vi HW06 (thuộc HW05 Performance Testing) |
+| Bảng quyết định phải liệt kê tay từng tổ hợp | Trung bình | Sinh tổ hợp tự động từ danh sách điều kiện, kèm thuật toán pairwise để giảm số case |
 
-## 7. Bang chung bo sinh chay duoc that
+## 7. Bằng chứng bộ sinh chạy được thật
 
 ```bash
 $ python3 agent-skill/eshop-api-23127060/scripts/gen_testcases.py \
@@ -249,32 +249,32 @@ Tong: 51
 Tham so CHUA phu DOM: (khong)
 ```
 
-Toan bo chuoi cong cu, chay duoc doc lap:
+Toàn bộ chuỗi công cụ, chạy được độc lập:
 
-| Script | Vai tro |
+| Script | Vai trò |
 |---|---|
-| `gen_testcases.py` | **Bo sinh test case** — trong tam cua muc 7 de bai |
-| `audit_testcases.py` | Gan nhan VALID / INVALID / INCOMPLETE bang 10 luat tai lap duoc |
-| `extend_testcases.py` | 18 case do con nguoi viet, kem ly do AI bo sot |
-| `build_collection.py` | CSV -> Postman Collection v2.1 chay duoc |
-| `run_newman.sh` / `run_datadriven.sh` | Chay Newman tren CSDL sach |
-| `derive_contract.py` | Chot moc hoi quy tu ket qua chay that |
-| `summarize_newman.py` | Newman JSON -> bang tong hop bao cao |
-| `verify_header.py` | Kiem chung header `X-Student-Id` chong gian lan |
-| `capture_bug_evidence.py` | Chay lai kich ban tai hien tung bug, ghi request/response that |
-| `make_bug_report.py` | Sinh bug report + file dan len GitHub Issues |
-| `tc_to_excel.py` | CSV -> Excel co sheet Summary |
-| `ai_log.py` | Ghi AI_log va sinh AI Audit Report |
-| `validate_submission.py` | Kiem du deliverable truoc khi nen nop |
+| `gen_testcases.py` | **Bộ sinh test case** — trọng tâm của mục 7 đề bài |
+| `audit_testcases.py` | Gắn nhãn VALID / INVALID / INCOMPLETE bằng 10 luật tái lập được |
+| `extend_testcases.py` | 18 case do em tự viết, kèm lý do AI bỏ sót |
+| `build_collection.py` | CSV → Postman Collection v2.1 chạy được |
+| `run_newman.sh` / `run_datadriven.sh` | Chạy Newman trên CSDL sạch |
+| `derive_contract.py` | Chốt mốc hồi quy từ kết quả chạy thật |
+| `summarize_newman.py` | Newman JSON → bảng tổng hợp báo cáo |
+| `verify_header.py` | Kiểm chứng header `X-Student-Id` chống gian lận |
+| `capture_bug_evidence.py` | Chạy lại kịch bản tái hiện từng bug, ghi request/response thật |
+| `make_bug_report.py` | Sinh bug report + file dán lên GitHub Issues |
+| `tc_to_excel.py` | CSV → Excel có sheet Summary |
+| `ai_log.py` | Ghi AI_log và sinh AI Audit Report |
+| `validate_submission.py` | Kiểm đủ deliverable trước khi nén nộp |
 
-## 8. Bo cong cu nay tai su dung duoc cho bai khac khong
+## 8. Bộ công cụ này tái sử dụng được cho bài khác không
 
-Duoc, va do la muc tieu cua de bai (*"You are encouraged to build Agent Skills that can
-automatically perform these activities on similar exercises"*). De ap cho mot SUT khac:
+Được, và đó là mục tiêu của đề bài (*"You are encouraged to build Agent Skills that can
+automatically perform these activities on similar exercises"*). Để áp cho một SUT khác:
 
-1. Viet file `spec/api-N.json` moi theo `spec/_SCHEMA.md` — **day la viec duy nhat ton cong**.
-2. Sua bang `SEC_DEFAULT_ASSERT` theo bang yeu cau bao mat cua he thong do (**va nho bai hoc o
-   muc 5.2: doc tu tai lieu, khong dien tu tri nho**).
-3. Sua `build_env()` cho khop tai khoan va bien moi truong cua he thong moi.
-4. Toan bo phan con lai — sinh, audit, dung collection, chay, tong hop, thu bang chung bug —
-   chay duoc ngay khong sua.
+1. Viết file `spec/api-N.json` mới theo `spec/_SCHEMA.md` — **đây là việc duy nhất tốn công**.
+2. Sửa bảng `SEC_DEFAULT_ASSERT` theo bảng yêu cầu bảo mật của hệ thống đó (**và nhớ bài học ở
+   mục 5.2: đọc từ tài liệu, không điền từ trí nhớ**).
+3. Sửa `build_env()` cho khớp tài khoản và biến môi trường của hệ thống mới.
+4. Toàn bộ phần còn lại — sinh, audit, dựng collection, chạy, tổng hợp, thu bằng chứng bug —
+   chạy được ngay không sửa.
