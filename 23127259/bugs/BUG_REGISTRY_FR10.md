@@ -11,9 +11,9 @@
 
 | Bug ID | Title | Root Cause Cluster | Formal Test Cases | Severity | Confirmed | GitHub Issue | Screenshot |
 |---|---|---|---|:---:|:---:|---|---|
-| **`BUG-FR10-001`** | Owner can cancel an order after it enters shipping state | `CANDIDATE-FR10-FSM-01` | `FR10-AI-016`, `FR10-HUM-003` | **HIGH** | **YES** | [#29](https://github.com/thangak18/HW06/issues/29) | [`BUG-FR10-001-postman-evidence.png`](../evidence/fr10/bugs/BUG-FR10-001-postman-evidence.png) |
-| **`BUG-FR10-002`** | Canceled terminal order can be transitioned to delivered | `CANDIDATE-FR10-FSM-02` | `FR10-AI-024` | **HIGH** | **YES** | [#30](https://github.com/thangak18/HW06/issues/30) | [`BUG-FR10-002-postman-evidence.png`](../evidence/fr10/bugs/BUG-FR10-002-postman-evidence.png) |
-| **`BUG-FR10-003`** | Regular customer can mutate order status through Admin API | `CANDIDATE-SEC03-01` | `FR10-AI-030`, `FR10-AI-031`, `FR10-AI-032` | **CRITICAL** | **YES** | [#31](https://github.com/thangak18/HW06/issues/31) | [`BUG-FR10-003-postman-evidence.png`](../evidence/fr10/bugs/BUG-FR10-003-postman-evidence.png) |
+| **`BUG-FR10-001`** | Owner can cancel an order after it enters shipping state | `CANDIDATE-FR10-FSM-01` | `FR10-AI-016`, `FR10-HUM-003` | **HIGH** | **YES** | [#29](https://github.com/thangak18/HW06/issues/29) | [`BUG-FR10-001-postman-runner.png`](../evidence/fr10/bugs/BUG-FR10-001-postman-runner.png) |
+| **`BUG-FR10-002`** | Canceled terminal order can be transitioned to delivered | `CANDIDATE-FR10-FSM-02` | `FR10-AI-024` | **HIGH** | **YES** | [#30](https://github.com/thangak18/HW06/issues/30) | [`BUG-FR10-002-postman-runner.png`](../evidence/fr10/bugs/BUG-FR10-002-postman-runner.png) |
+| **`BUG-FR10-003`** | Regular customer can mutate order status through Admin API | `CANDIDATE-SEC03-01` | `FR10-AI-030`, `FR10-AI-031`, `FR10-AI-032` | **CRITICAL** | **YES** | [#31](https://github.com/thangak18/HW06/issues/31) | [`BUG-FR10-003-postman-runner.png`](../evidence/fr10/bugs/BUG-FR10-003-postman-runner.png) |
 
 ---
 

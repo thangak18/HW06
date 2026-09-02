@@ -21,13 +21,19 @@
 
 ## 2. HTTP Traffic Accounting
 
-| Traffic Component | Target Host | Request Count | Notes |
+```
+HISTORICAL GLOBAL SUT TRAFFIC: NOT RELIABLY RECONSTRUCTABLE
+```
+
+### Verified Breakdown of Known Individual Execution Components:
+| Execution Stage | Target Host | Request Count | Notes |
 |---|---|:---:|---|
-| **Run 01 Attempt (INT-051)** | `http://localhost:3000` | ~19 | Lower-bound transcript reconstruction |
-| **Run 02 Confirmation (INT-051)** | `http://localhost:3000` | 19 | 2 Auth + 17 Fixture & Verification requests |
-| **CDP / Postman UI Automation** | `http://localhost:3000` | 9 | 3 Setup + 3 Actions + 3 Verifications |
-| **Strict Evidence Run (INT-052)** | `http://localhost:3000` | 19 | 2 Auth + 17 Fixture & Strict Verification requests |
-| **Total SUT HTTP Traffic (Phase 2D.1E–F)** | `http://localhost:3000` | **~66 requests** | Full formal suite was NOT rerun |
+| **Run 03 Formal Suite (Newman)** | `http://localhost:3000` | 46 | 46 formal test cases (36 PASS, 4 FAIL, 2 OBS, 4 DRIFT) |
+| **Strict Evidence Run (Newman)** | `http://localhost:3000` | 19 | 2 Auth + 17 Fixture & Strict Verification requests |
+| **Run 02 Confirmation (Newman)** | `http://localhost:3000` | 19 | Historical exploratory confirmation |
+| **INT-051 CDP Postman Console** | `http://localhost:3000` | 18 | Live Postman console test execution |
+| **INT-053 Python Setup Helper** | `http://localhost:3000` | 8 | Fixture setup |
+| **INT-054 Postman Collection Runner** | `http://localhost:3000` | 19 | Dedicated GUI evidence run in Postman Runner |
 
 ---
 
@@ -54,6 +60,6 @@
 | **Run 02 JSON** | `evidence/fr10/confirmation/FR10-confirmation-run02.json` | `6ba61f83ea29713cc3538d75e218c8007fe7f5d4baeedf1bed316dc3fe25d092` |
 | **Run 02 HTML** | `evidence/fr10/confirmation/FR10-confirmation-run02.html` | `428f32b7348a4be3ec590a20a10366768d577bfa7c5ff33e6ee8906193df9814` |
 | **Run 02 Exit Code** | `evidence/fr10/confirmation/FR10-confirmation-run02-exitcode.txt` | `4b265ba288f0c64ffc10c6d51fbfaa6e1ffc1fcb1eca198237cf5bd8339b86b4` |
-| **Screenshot BUG-FR10-001** | `evidence/fr10/bugs/BUG-FR10-001-postman-evidence.png` | `4cd82ab6d749163813d2aa2b6c431cf0da0a7c68edc29c43abd05465484789d5` |
-| **Screenshot BUG-FR10-002** | `evidence/fr10/bugs/BUG-FR10-002-postman-evidence.png` | `155edc66cc5d2eede105a177e0dfb66eb573b83045fbe343d7f4cb4644f5aecb` |
-| **Screenshot BUG-FR10-003** | `evidence/fr10/bugs/BUG-FR10-003-postman-evidence.png` | `445055ebb2a76cc0d0b84c9324f4e85af8e5f93d11b2aade5b9e85583427badc` |
+| **Runner Screenshot BUG-FR10-001** | [`evidence/fr10/bugs/BUG-FR10-001-postman-runner.png`](bugs/BUG-FR10-001-postman-runner.png) | `00ef5ee0beda3012d10c38b3ec9cfa05adf085803929f190d09515738755c2ab` |
+| **Runner Screenshot BUG-FR10-002** | [`evidence/fr10/bugs/BUG-FR10-002-postman-runner.png`](bugs/BUG-FR10-002-postman-runner.png) | `dbd3cccb4fb918d33689ae41e10c04a58f5ed507e2567c011cdc070d7fc0a234` |
+| **Runner Screenshot BUG-FR10-003** | [`evidence/fr10/bugs/BUG-FR10-003-postman-runner.png`](bugs/BUG-FR10-003-postman-runner.png) | `2abd7aa0ed86eb4fc31f23c2b878122ee7dff8d5c8b6b5043e5d044a1e51f9ff` |
