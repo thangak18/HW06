@@ -24219,3 +24219,38 @@ re-run all static validators, verify AI-028 collection item, other canonical cas
 freeze Run03 artifacts again, environment cleanliness, do not run Run03, git commit, end report]
 ```
 
+---
+
+## INT-050
+
+- **Interaction ID:** INT-050
+- **Date & Time:** 2026-09-02 08:59:17+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Stage:** Phase 2D.1D.4 – FR-10 Controlled Canonical Newman Run 03
+- **Detailed Interaction File:** `ai/interactions/INT-050-fr10-controlled-canonical-newman-run03.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit We are now authorized to execute the FINAL FULL CANONICAL FR-10 Newman run.
+
+PHASE 2D.1D.4 – FR-10 CONTROLLED CANONICAL NEWMAN RUN 03
+
+Current hardened canonical commit: 609005e
+FINAL FROZEN RUN03 COLLECTION SHA-256: 48b760d071a1b1080c2071ca56b26938763a30b9a35cd4c867a7fc5641467c89
+FINAL FROZEN RUN03 ENVIRONMENT SHA-256: 6cde9f7cbaf49176d8f6a3236f38e7ea52017025951de5dfac3a786ab90904b1
+Immutable raw AI SHA-256: 303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc
+
+Canonical formal suite: 41 usable AI-derived + 5 Human Extensions = 46 FORMAL CASES (AI-012 excluded).
+
+[Sections 1-44: AI Audit, preserve historical evidence, run03 collection/environment/raw AI integrity,
+run all static validators, environment cleanliness, run03 evidence directory, Newman version,
+true Newman exit code with pipefail, execute exactly once, expected auth setup, AI-028 runtime validation,
+SEC-02 canonical oracle, SEC-03 canonical cases, AI-032 precondition, FSM candidate cases,
+all valid FSM cases, invalid/backward/terminal FSM, ownership cases, input cases, AI-041, AI-042,
+HUM-001..005, formal verdict model, precondition rule, run03 formal results, run03 failure analysis,
+candidate clustering, no cross-case contamination, actual runtime metrics, request/script errors,
+evidence hashes, hostname validation, run03 execution summary, compare Run02 vs Run03,
+do not repair after execution, do not file bugs yet, git commit, end report]
+```
+

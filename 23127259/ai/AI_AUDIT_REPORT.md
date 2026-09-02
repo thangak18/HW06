@@ -396,3 +396,11 @@
 - **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2162, Output: Pending backfill)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-049`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-049-fr10-ai028-tampered-jwt-failfast-hardening.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-049-fr10-ai028-tampered-jwt-failfast-hardening.md)
+
+### INT-050: Phase 2D.1D.4: FR-10 Controlled Canonical Newman Run 03
+- **Date & Time:** 2026-09-02 08:59:17+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1D.4: Controlled execution of canonical Newman Run 03 for FR-10 across all 46 formal cases with pipefail-safe status capture, formal results reporting, and failure analysis
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2164, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-050`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-050-fr10-controlled-canonical-newman-run03.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-050-fr10-controlled-canonical-newman-run03.md)
