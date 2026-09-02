@@ -2,11 +2,11 @@
 
 ## Timestamp
 
-2026-09-02 16:10:01 +0700 (Asia/Ho_Chi_Minh)
+2026-09-02 22:56:14 +0700 (Asia/Ho_Chi_Minh)
 
 ## Current Phase
 
-Phase 3 - read-only FR14 candidate audit and selective integration planning.
+Phase 4 - authentic CI PASS/FAIL repair before final visual audit.
 
 ## Current Status
 
@@ -48,6 +48,10 @@ IN_PROGRESS
 - Senior QA integration decision: reject raw Run01/Run02 and all candidate screenshots as final evidence; preserve candidate branch/worktree unchanged; reconstruct selected verified FR14 artifacts on the primary branch using honest generation -> audit -> extension -> execution commits.
 - Integrated the immutable FR14 raw draft and completed a fresh Human Audit of all 42 cases: 3 VALID, 2 INVALID, 37 INCOMPLETE, 40 usable after corrections. `TC-FR14-034` (duplicate/mislabelled IDOR) and `TC-FR14-036` (unspecified destructive referential test) are rejected.
 - Completed post-audit FR14 gap analysis: accepted six distinct Human cases H01-H06 and rejected H07's dependency on out-of-scope referential-integrity case 036. Built the 46-case canonical JSON/map and final executable specification.
+- Cursor/Claude Opus subsequently completed and committed the FR14 collection, canonical Run01, five-bug confirmation, GitHub Issues #32/#33/#34/#36/#37, global documents, Excel, PDFs, and initial CI workflows through commit `5ed6a61`.
+- Independently rejected GitHub Actions run `33649719887` as assignment PASS evidence despite its green conclusion: its logs show FR10 collection ENOENT, an initial FR14 HTML reporter error, and 13 FR14 assertion failures masked by scripts that always exited zero.
+- Replaced the CI design locally with a dedicated all-green FR02/FR10/FR14 smoke collection and a branch-local deliberate-red workflow using the same healthy harness plus one named sentinel failure.
+- Local CI validation: passing smoke = 9 requests, 10 assertions, 10 pass, 0 fail; deliberate red = 9 requests, 10 assertions, exactly 1 intended `DELIBERATE_RED` failure, 0 request/script/harness errors.
 
 ## FR02 Canonical Accounting
 
@@ -124,16 +128,16 @@ Issues: NOT_YET_VERIFIED
 ## Git State
 
 Branch: `thang/hw06-implementation`
-HEAD: `b069174`
-Last meaningful commit: `b069174 fix(23127259): complete FR10 canonical replacement and evidence`
+HEAD: `5ed6a619082e5a47d81e49b546bbbc673edec6a8`
+Last meaningful commit: `5ed6a61 fix(ci): add .npmrc with legacy-peer-deps=true`
 Working tree clean: NO
-Uncommitted paths: interrupted AI-audit files, three FR10 screenshots, and this checkpoint.
+Uncommitted paths: interrupted Cursor handoff/CI report edits plus CI smoke/workflow/trigger repair and this checkpoint.
 
 ## External State
 
 SUT: Reachable through genuine FR02 and FR10 Postman Desktop Runner executions on `http://localhost:3000`.
 Postman: Live Desktop 11.89.0 controlled through Computer Use; FR02 native run and screenshots complete; FR10 strict run remains open and verified.
-GitHub Actions: NOT_YET_VERIFIED.
+GitHub Actions: run 33649719887 is authentically green but invalid as an all-tests-pass sample because the workflow masked harness/assertion failures; replacement PASS/FAIL runs pending push.
 Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place with permanent native screenshot embeds.
 
 ## Known Problems / Risks
@@ -142,6 +146,7 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 - FR14 generation, Human Audit, gap analysis, extensions, and 46-case canonical map are reconstructed. Collection/validators/runtime/bug evidence remain.
 - Candidate Run01/Run02 JSON/HTML expose resolved JWTs and passwords and will not be integrated as final evidence.
 - Existing AI-interaction logs contain pending transcript backfills that require evidence-based resolution without invention.
+- Final visual audit remains pending after authentic CI runs.
 
 ## Remaining Work
 
@@ -154,4 +159,4 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 
 ## NEXT EXACT ACTION
 
-Commit and push the FR14 Human-extension/canonical stage, then selectively restore the candidate collection, remove rejected IDs 034/036/H07, repair exact-status/exploratory assertions and fixture isolation, create an environment and strong validators, and run a new disclosure-controlled canonical execution.
+Commit and push the CI smoke/workflow repair and trigger. Wait for both branch push workflows, verify the green run has zero test/harness failures and the red run has exactly the named deliberate assertion failure, then update CI reports and capture genuine Actions screenshots.

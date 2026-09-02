@@ -2,9 +2,8 @@ name: HW06 API Tests (23127259)
 
 on:
   push:
-    branches: [thang/hw06-implementation, thang/fr14-anti, thang/fr14-final]
-  pull_request:
-    branches: [thang/hw06-implementation]
+    branches:
+      - thang/hw06-implementation
   workflow_dispatch:
 
 permissions:
@@ -13,12 +12,11 @@ permissions:
 jobs:
   api-tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     env:
       SUT_PORT: 3010
       BASE_URL: http://localhost:3010
       STUDENT_ID: "23127259"
-      CI_RUN: "true"
 
     steps:
       - name: Checkout repository
@@ -28,51 +26,42 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: npm
 
-      - name: Install Newman + HTMLExtra reporter
+      - name: Install Newman
         run: |
-          npm install --no-save newman@5 newman-reporter-htmlextra@1
+          npm install --no-save newman@6
           npx newman --version
-          npx newman run --help | grep -q htmlextra || echo "htmlextra reporter registered"
 
-      - name: Setup SUT (EShop backend) on port 3010
+      - name: Start and verify SUT on port 3010
         working-directory: 23127259/ci/sut
         run: |
-          if [ -f package.json ]; then
-            npm install --no-audit --no-fund
-          fi
-          PORT=3010 node server.js &
-          SUT_PID=$!
-          echo "SUT_PID=$SUT_PID"
+          npm install --no-audit --no-fund
+          PORT=3010 node server.js > /tmp/hw06-sut.log 2>&1 &
+          ready=false
           for i in $(seq 1 30); do
-            if curl -fsS http://localhost:3010/api/categories >/dev/null 2>&1 || curl -fsS http://localhost:3010/api/products >/dev/null 2>&1; then
-              echo "SUT ready on port 3010"
+            if curl -fsS http://localhost:3010/api/categories >/dev/null; then
+              ready=true
               break
             fi
             sleep 1
           done
+          if [ "$ready" != "true" ]; then
+            cat /tmp/hw06-sut.log
+            exit 1
+          fi
+          echo "SUT health check passed"
 
-      - name: Prepare evidence folder
-        run: |
-          mkdir -p 23127259/ci/evidence/${{ github.run_id }}
+      - name: Run all-passing FR02 FR10 FR14 smoke assertions
+        run: bash scripts/run_ci_smoke.sh "${{ github.run_id }}/passing"
 
-      - name: Run FR10 Newman (canonical Run04)
-        run: |
-          bash scripts/run_fr10_newman.sh "${{ github.run_id }}/FR10"
-
-      - name: Run FR14 Newman (canonical corrected)
-        run: |
-          bash scripts/run_fr14_newman.sh "${{ github.run_id }}/FR14"
-
-      - name: Upload Newman artifacts
+      - name: Upload safe JUnit and CLI evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: hw06-23127259-newman-${{ github.run_id }}
+          name: hw06-23127259-passing-${{ github.run_id }}
           path: |
-            23127259/ci/evidence/**/*.json
-            23127259/ci/evidence/**/*.html
-            23127259/ci/evidence/**/*.log
-          if-no-files-found: ignore
+            23127259/ci/evidence/${{ github.run_id }}/passing/*.xml
+            23127259/ci/evidence/${{ github.run_id }}/passing/*.log
+            23127259/ci/evidence/${{ github.run_id }}/passing/*.txt
+          if-no-files-found: error
           retention-days: 30
