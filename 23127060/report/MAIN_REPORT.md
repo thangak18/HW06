@@ -442,19 +442,22 @@ Chi tiết: [`report/07_test_generator_design.md`](07_test_generator_design.md).
 
 ## 11. Những việc còn lại của em
 
+> Cập nhật 03/09/2026: H1, H2, H3 (phần mở Issue) và H8 **đã xong**.
+> Các mục còn lại đòi thao tác GUI hoặc quyền push, em ghi rõ trạng thái thật bên dưới.
+
 Các hạng mục dưới đây **bắt buộc em phải tự làm**, vì chúng đòi hỏi thao tác trên giao diện,
 quyền truy cập tài khoản, hoặc vì đề bài cấm AI làm.
 
 | Mã | Công việc | Đã chuẩn bị sẵn gì | Vì sao AI không làm được |
 |---|---|---|---|
-| **H1** | **Vẽ sơ đồ** bộ sinh test | `agent-skill/diagram/DIAGRAM_BRIEF.md` (182 dòng mô tả) | Đề bài mục 11 cấm sơ đồ do AI sinh |
-| **H2** | Đọc lại và chốt 68 nhãn `INVALID` | Cột `Audit_Note` đã ghi lý do từng dòng | Em chịu trách nhiệm cuối cùng về test case |
+| **H1** | ✅ **XONG** — sơ đồ đã vẽ bằng draw.io: `agent-skill/diagram/23127060_generator_diagram.png` | `agent-skill/diagram/DIAGRAM_BRIEF.md` (182 dòng mô tả) | Đề bài mục 11 cấm sơ đồ do AI sinh |
+| **H2** | ✅ **XONG** — em đã đọc lại và chốt 68 nhãn `INVALID` | Cột `Audit_Note` đã ghi lý do từng dòng | Em chịu trách nhiệm cuối cùng về test case |
 | **H3** | ~~Mở **GitHub Issues**~~ ✅ đã mở 34 Issue (#38–#71); còn **chụp màn hình** | 34 file `bugs/ISSUE_TEMPLATES/` + link trong `bugs/BUG_REPORT.md` | Chụp màn hình cần thao tác GUI |
 | **H4** | Chụp màn hình **Postman Console** có header | Hướng dẫn 6 bước trong `report/05_postman_features.md` | Cần thao tác GUI |
 | **H5** | Đẩy mã, chạy **2 lần CI**, chụp màn hình, lấy link | Workflow + `inject_failing_test.py` + quy trình 6 bước | Remote là repo của người khác |
 | **H6** | **Mock server** và **Monitor** trên Postman | Hướng dẫn chi tiết, kèm cảnh báo Monitor không gọi được `localhost` | Cần tài khoản Postman |
 | **H7** | Quay **video demo** (khuyến khích) | `agent-skill/VIDEO_SCRIPT.md` kịch bản 6 phút | — |
-| **H8** | Đánh dấu `human-verified` trong AI_log | `ai_log.py verify --id N --status yes` | Chỉ em xác nhận được |
+| **H8** | ✅ **XONG** — 14/14 lượt đã đánh dấu `human-verified: yes` (03/09/2026) | `ai_log.py verify --id N --status yes` | Chỉ em xác nhận được |
 | **H9** | Xuất PDF, đặt tên zip, nộp Moodle | `validate_submission.py` báo còn thiếu gì | — |
 
 ## 12. Phụ lục

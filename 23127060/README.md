@@ -225,7 +225,7 @@ python3 $S/validate_submission.py --root . --sid 23127060
 | Newman report HTML | ✅ | `newman/` (10 file) |
 | Báo cáo CI/CD + 2 lần chạy | ⚠️ cấu hình xong, **chưa push** | `ci/CI_CD_REPORT.md` |
 | Excel test case + sheet Summary | ✅ | `testcases/23127060_HW06_testcases.xlsx` |
-| Sơ đồ bộ sinh (**TỰ VẼ**) | ⬜ HUMAN | `agent-skill/diagram/DIAGRAM_BRIEF.md` |
+| Sơ đồ bộ sinh (**TỰ VẼ**) | ✅ | `agent-skill/diagram/23127060_generator_diagram.png` (draw.io) |
 | Pseudocode bộ sinh | ✅ | `agent-skill/pseudocode/generator.pseudo.md` |
 | Bug report (MD + PDF) | ✅ | `bugs/BUG_REPORT.md` / `.pdf` (34 bug, 25 trang) |
 | Screenshot GitHub Issues | ⚠️ 34 Issue đã mở (#38–#71), **còn thiếu ảnh chụp** | `bugs/screenshots/` |
@@ -271,8 +271,9 @@ mục còn lại đòi hỏi thao tác trên giao diện và quyền truy cập 
   **823/823 request**, xem `ci/evidence/header_evidence.md`. Ảnh chụp Postman Console:
   `bugs/screenshots/console_header.png` (HUMAN H4).
 - ✅ **Newman chạy trên `localhost:3000`**, hostname hiện rõ trong báo cáo HTML.
-- ⬜ **Sơ đồ bộ sinh do em TỰ VẼ**, không dùng AI sinh ảnh. Thư mục
-  `agent-skill/diagram/` hiện **không chứa** file ảnh / mermaid / graphviz nào (HUMAN H1).
+- ✅ **Sơ đồ bộ sinh do em TỰ VẼ bằng draw.io**, không dùng AI sinh ảnh:
+  `agent-skill/diagram/23127060_generator_diagram.png`. AI chỉ viết bản mô tả bằng chữ
+  (`DIAGRAM_BRIEF.md`) để em dựa vào mà vẽ — đúng ràng buộc mục 11 của đề bài.
 - ✅ **Không bịa số liệu:** mọi con số passed/failed sinh từ `newman/*.json.gz` bằng
   `summarize_newman.py`; mọi request/response trong bug report trích từ `bugs/evidence/`
   do `capture_bug_evidence.py` chạy thật.
