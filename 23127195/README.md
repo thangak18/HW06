@@ -152,7 +152,7 @@ TA sẽ kiểm tra khi chấm:
 - [x] ~~**Chụp Postman Console**~~ → ✅ **xong**: 3 ảnh trong [`evidence/`](./evidence/). Ảnh [`postman_console_timestamps.png`](./evidence/postman_console_timestamps.png) bung sẵn khối *Request Headers*, thấy `X-Student-Id: "23127195"` và `Host: "localhost:3000"` — phủ cả hai yêu cầu §11
 - [x] ~~**Tạo 24 GitHub Issue**~~ → ✅ **xong**: [issue #5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195), nhãn `hw06-23127195`
 - [ ] **Đính ảnh chụp vào từng issue** (API không đính được ảnh) → mở từng issue ở link trên, kéo thả ảnh, lưu bản sao vào `bugs/screenshots/`
-- [ ] **Push để chạy CI** rồi chụp 2 lần chạy (một xanh, một đỏ đúng 1 test) → [`ci/CI_CD_REPORT.md`](./ci/CI_CD_REPORT.md) §4–5
+- [x] ~~**Push để chạy CI** rồi lấy 2 lần chạy (một xanh, một đỏ đúng 1 test)~~ → ✅ **xong**: [run #3 xanh](https://github.com/thangak18/HW06/actions/runs/33609193249) · [run #4 đỏ](https://github.com/thangak18/HW06/actions/runs/33609400346), cùng nằm trong [PR #35](https://github.com/thangak18/HW06/pull/35). Chi tiết ở [`ci/CI_CD_REPORT.md`](./ci/CI_CD_REPORT.md) §4–5
 - [ ] **Quay video demo** Agent Skill và lấy link YouTube → [`video/VIDEO_DEMO_SCRIPT.md`](./video/VIDEO_DEMO_SCRIPT.md)
 - [ ] **Xác nhận không trùng API** với 23127060 và 23127259
 - [x] ~~**Xuất PDF** báo cáo chính + AI audit~~ → ✅ **xong**: 9 file trong [`pdf/`](./pdf/), sinh bằng `python scripts/export_pdf.py`
