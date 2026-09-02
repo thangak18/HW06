@@ -1,37 +1,37 @@
-# POSTMAN_GUIDE — Feature checklist + script mau (HW06, SV 23127060)
+# POSTMAN_GUIDE — Feature checklist + script mẫu (HW06, SV 23127060)
 
-De bai: *"Exercise as many Postman features as you reasonably can... List the Postman
-features you used in your report."* => phai dung **>= 8 feature** va liet ke trong bao cao.
+Đề bài: *"Exercise as many Postman features as you reasonably can... List the Postman
+features you used in your report."* => phải dùng **>= 8 feature** và liệt kê trong báo cáo.
 
 ---
 
-## 1. Checklist feature (dien vao `report/05_postman_features.md`)
+## 1. Checklist feature (điền vào `report/05_postman_features.md`)
 
-| # | Feature | Bat buoc? | Cach dung trong bai nay | Bang chung |
+| # | Feature | Bắt buộc? | Cách dùng trong bài này | Bằng chứng |
 |---|---|---|---|---|
-| 1 | **Workspace** | ✓ | Tao workspace `HW06-23127060` (Personal) | screenshot |
-| 2 | **Collection** (3 cai, folder theo Category) | ✓ | `postman/collections/*.json` | file |
+| 1 | **Workspace** | ✓ | Tạo workspace `HW06-23127060` (Personal) | screenshot |
+| 2 | **Collection** (3 cái, folder theo Category) | ✓ | `postman/collections/*.json` | file |
 | 3 | **Environment** | ✓ | `local` (baseUrl=http://localhost:3000, studentId=23127060) | file |
 | 4 | **Collection / Environment variables** | ✓ | `{{baseUrl}}`, `{{token_user}}`, `{{token_admin}}`, `{{orderId}}` | file |
-| 5 | **Pre-request script (collection-level)** | ✓ | chen header `X-Student-Id` + `console.log` | screenshot Console |
+| 5 | **Pre-request script (collection-level)** | ✓ | chèn header `X-Student-Id` + `console.log` | screenshot Console |
 | 6 | **Tests script** | ✓ | assert status, body, schema, response time | file |
-| 7 | **JSON Schema validation** (`pm.response.to.have.jsonSchema`) | ✓ | nhom `SCH` | file |
-| 8 | **Data-driven run (Collection Runner + data file)** | ✓ | `postman/data/*.csv` cho brute-force token & bang state transition | csv + screenshot Runner |
+| 7 | **JSON Schema validation** (`pm.response.to.have.jsonSchema`) | ✓ | nhóm `SCH` | file |
+| 8 | **Data-driven run (Collection Runner + data file)** | ✓ | `postman/data/*.csv` cho brute-force token & bảng state transition | csv + screenshot Runner |
 | 9 | **Newman CLI + htmlextra reporter** | ✓ | `newman/*.html` | file |
-| 10 | **Mock server** | nen co | mock `GET /api/products` theo spec de doi chieu voi impl | screenshot |
-| 11 | **Monitor** | nen co | monitor chay collection `@contract` 1 lan/ngay | screenshot |
-| 12 | **Postman Console** | ✓ | chung minh header `X-Student-Id` (yeu cau chong gian lan) | screenshot |
-| 13 | **Folder-level auth** | tuy | Bearer `{{token_user}}` o folder can auth | file |
-| 14 | **`pm.sendRequest`** | tuy | lay token trong pre-request thay vi hardcode | file |
-| 15 | **Visualizer** | tuy | bang tong hop ket qua | screenshot |
-| 16 | **Example / saved response** | tuy | luu response mau cho tung bug | file |
+| 10 | **Mock server** | nên có | mock `GET /api/products` theo spec để đối chiếu với impl | screenshot |
+| 11 | **Monitor** | nên có | monitor chạy collection `@contract` 1 lần/ngày | screenshot |
+| 12 | **Postman Console** | ✓ | chứng minh header `X-Student-Id` (yêu cầu chống gian lận) | screenshot |
+| 13 | **Folder-level auth** | tùy | Bearer `{{token_user}}` ở folder cần auth | file |
+| 14 | **`pm.sendRequest`** | tùy | lấy token trong pre-request thay vì hardcode | file |
+| 15 | **Visualizer** | tùy | bảng tổng hợp kết quả | screenshot |
+| 16 | **Example / saved response** | tùy | lưu response mẫu cho từng bug | file |
 
-> Feature 10, 11, 12, 15 can tai khoan Postman + thao tac GUI => **HUMAN lam**, agent chi
-> viet huong dan vao `report/05_postman_features.md`.
+> Feature 10, 11, 12, 15 cần tài khoản Postman + thao tác GUI => **HUMAN làm**, agent chỉ
+> viết hướng dẫn vào `report/05_postman_features.md`.
 
 ---
 
-## 2. Collection-level Pre-request Script (BAT BUOC)
+## 2. Collection-level Pre-request Script (BẮT BUỘC)
 
 ```javascript
 // ===== HW06 - SV 23127060 - Ninh Van Khai =====
@@ -70,7 +70,7 @@ if (!pm.environment.get("token_user")) {
 
 ---
 
-## 3. Collection-level Tests Script (chay cho MOI request)
+## 3. Collection-level Tests Script (chạy cho MỌI request)
 
 ```javascript
 // Kiem tra chung cho moi response
@@ -90,12 +90,12 @@ pm.test("[COMMON][SCH] Content-Type la application/json", function () {
 });
 ```
 
-> Test thu 2 va thu 3 se **FAIL** o mot so request — do la bug A-07 va C-03, dung y do.
-> Chung chi duoc bat trong collection `@bug`, khong bat trong `@contract`.
+> Test thứ 2 và thứ 3 sẽ **FAIL** ở một số request — đó là bug A-07 và C-03, đúng ý đồ.
+> Chúng chỉ được bật trong collection `@bug`, không bật trong `@contract`.
 
 ---
 
-## 4. Mau Tests script cho tung Category
+## 4. Mẫu Tests script cho từng Category
 
 ### DOM — domain partition
 ```javascript
@@ -157,8 +157,8 @@ resetToken
 2222
 ...
 ```
-Chay: Collection Runner -> chon folder `A1-SEC-bruteforce` -> Data file -> 20 iterations.
-Hoac Newman: `newman run col.json -e env.json -d postman/data/brute_force_tokens.csv --folder "A1-SEC-bruteforce"`.
+Chạy: Collection Runner -> chọn folder `A1-SEC-bruteforce` -> Data file -> 20 iterations.
+Hoặc Newman: `newman run col.json -e env.json -d postman/data/brute_force_tokens.csv --folder "A1-SEC-bruteforce"`.
 
 File `postman/data/state_transitions.csv`:
 ```csv
@@ -173,7 +173,7 @@ canceled,delivered,400,BUG B-10 - impl tra 200
 
 ---
 
-## 6. Lenh Newman chuan
+## 6. Lệnh Newman chuẩn
 
 ```bash
 npm i -g newman newman-reporter-htmlextra
@@ -187,12 +187,12 @@ newman run postman/collections/23127060_HW06_API-1.postman_collection.json \
   --reporter-htmlextra-logs
 ```
 
-`--reporter-htmlextra-logs` giu lai `console.log` => chinh la bang chung header
-`X-Student-Id` trong file HTML (bo tro cho screenshot Console).
+`--reporter-htmlextra-logs` giữ lại `console.log` => chính là bằng chứng header
+`X-Student-Id` trong file HTML (bổ trợ cho screenshot Console).
 
 ---
 
-## 7. Cau truc folder trong collection
+## 7. Cấu trúc folder trong collection
 
 ```
 23127060_HW06_API-1 (FR-03)
