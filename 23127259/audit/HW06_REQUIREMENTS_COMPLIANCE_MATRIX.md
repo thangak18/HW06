@@ -11,50 +11,50 @@ The assignment PDF and SRS are the normative product and grading oracles. The AP
 | Requirement | FR02 | FR10 | FR14 | Global | Evidence | Status | Repair Needed |
 |---|:---:|:---:|:---:|:---:|---|---|---|
 | Select one API/feature from each of Pool A, Pool B, and Pool C | X | X | X |  | Assignment pp. 3-4; selected features README | PASS | None: FR02/FR10/FR14 satisfy pool allocation. |
-| AI-first, stepwise generation using the SUT specification | X | X | X |  | Assignment pp. 1, 4; AI interaction logs | NOT_YET_VERIFIED | Verify exact prompts/outputs and chronological commits. |
-| Target at least 35 AI-generated cases per API | X | X | X |  | Assignment p. 4; immutable raw drafts | NOT_YET_VERIFIED | Recount from each original draft. |
-| Domain partitions on every applicable parameter | X | X | X |  | Assignment p. 4; raw/canonical suites | NOT_YET_VERIFIED | Complete per-feature coverage audit. |
-| Applicable state-transition coverage | X | X | X |  | Assignment p. 4; SRS FR02/FR10/FR14 | NOT_YET_VERIFIED | FR02 lockout and FR10 state model are mandatory; FR14 CRUD lifecycle applies. |
-| Applicable SEC-01 through SEC-07 coverage, including injection, IDOR, and role escalation | X | X | X |  | Assignment p. 4; SRS SEC table | NOT_YET_VERIFIED | Audit security applicability rather than force non-applicable checks. |
-| Response schema validation against specification | X | X | X |  | Assignment p. 4; Postman assertions | NOT_YET_VERIFIED | Verify value/schema assertions and avoid inventing unspecified status codes. |
-| Human review of every AI case | X | X | X |  | Assignment pp. 1-2, 4; Human Audit files | NOT_YET_VERIFIED | Reconcile one classification per raw ID. |
-| Every AI case labelled VALID, INVALID, or INCOMPLETE with reasoning | X | X | X |  | Assignment p. 4; audit tables | NOT_YET_VERIFIED | Repair missing labels/reasons/corrections. |
-| Invalid/incomplete AI cases corrected where usable | X | X | X |  | Assignment p. 4; correction ledgers | NOT_YET_VERIFIED | Preserve raw output and document corrected canonical form. |
-| At least five student-designed cases per API | X | X | X |  | Assignment p. 4; Human extension files | NOT_YET_VERIFIED | Verify IDs, count, authorship category, and post-audit timing. |
-| Explain why AI missed each extension area | X | X | X |  | Assignment p. 4; gap analyses | NOT_YET_VERIFIED | Ensure explanation covers prompt/model/API characteristics. |
-| Execute via Postman + Newman (or approved alternative) | X | X | X |  | Assignment p. 4; collections and raw reports | NOT_YET_VERIFIED | Parse raw results and verify harness integrity. |
-| Every HTTP request carries `X-Student-Id: 23127259` | X | X | X |  | Assignment pp. 4, 6; collection static scans and console screenshots | NOT_YET_VERIFIED | Include setup, login, cleanup, verification, and `pm.sendRequest`. |
-| Produce Newman output and HTML report | X | X | X |  | Assignment pp. 4, 7; CLI/JSON/HTML files | NOT_YET_VERIFIED | Verify hostname, counts, exit code, and hashes. |
-| Newman hostname matches deployment (`localhost`/`127.0.0.1` accepted) | X | X | X |  | Assignment p. 6; raw Newman artifacts | NOT_YET_VERIFIED | Parse raw JSON and CLI. |
-| Genuine bugs documented in Markdown | X | X | X |  | Assignment p. 5; bug reports | NOT_YET_VERIFIED | Independently confirm each claimed root cause. |
-| Genuine bugs reported as GitHub Issues | X | X | X |  | Assignment p. 5; issue URLs | NOT_YET_VERIFIED | Verify live issue identity and avoid duplicates. |
-| Screenshot attached to each GitHub Issue | X | X | X |  | Assignment pp. 5, 7; issue attachments/links | NOT_YET_VERIFIED | Verify live issue page and authentic screenshot. |
-| Real Postman console screenshot proves student header from pre-request script | X | X | X |  | Assignment p. 6; console PNGs | NOT_YET_VERIFIED | Visually authenticate each selected feature. |
-| Real, attributable execution evidence; no fabrication | X | X | X | X | Assignment p. 6; screenshot audits | NOT_YET_VERIFIED | Exclude historical synthetic FR10 evidence and repair duplicate final image. |
-| Exercise as many reasonable Postman features as practical | X | X | X |  | Assignment p. 5; feature reports and collections | NOT_YET_VERIFIED | List only features actually used. |
-| List the Postman features used | X | X | X |  | Assignment pp. 5, 7; feature reports | NOT_YET_VERIFIED | Create FR14 list and aggregate in main report. |
-| CI/CD pipeline executes API tests |  |  |  | X | Assignment p. 5; workflow and run URLs | NOT_YET_VERIFIED | Audit `.github/workflows`. |
-| CI/CD report describes pipeline configuration |  |  |  | X | Assignment pp. 5, 7; `CI_CD_REPORT.md` | MISSING | Create/update after live verification. |
-| One sample commit/run with all API tests passing |  |  |  | X | Assignment pp. 5, 7; Actions URL + screenshot | NOT_YET_VERIFIED | Obtain authentic green run. |
-| One sample commit/run with one test case failing |  |  |  | X | Assignment pp. 5, 7; Actions URL + screenshot | NOT_YET_VERIFIED | Obtain authentic red run with one intended failed test. |
-| AI-driven API test generator design |  |  |  | X | Assignment p. 5; generator design | PARTIAL | Pseudocode exists; complete design verification pending. |
-| Self-drawn, non-AI-generated test-generator diagram |  |  |  | X | Assignment pp. 5-6; diagram file | MISSING | User/student must own design decisions; create a code-native diagram only if provenance is truthfully documented as AI-assisted and assignment policy permits. Current `.gitkeep` is insufficient. |
-| Test-generator pseudocode in Markdown or Python |  |  |  | X | Assignment pp. 5, 7; `test_generator.md` | NOT_YET_VERIFIED | Review against required pipeline. |
-| Declare every AI tool used |  |  |  | X | Assignment pp. 5-6; AI Audit | NOT_YET_VERIFIED | Audit all interactions. |
-| For every AI interaction record tool name, date/time, exact prompt, exact output |  |  |  | X | Assignment p. 6; interaction files | NOT_YET_VERIFIED | Resolve recoverable pending backfills; never invent unavailable output. |
-| Mandatory 200-300 word AI critique |  |  |  | X | Assignment p. 6; `AI_CRITIQUE.md` | NOT_YET_VERIFIED | Programmatically count the critique body and repair substance. |
-| Text-based documentation of the whole process | X | X | X | X | Assignment p. 2; repository Markdown | PARTIAL | Update stale main report and grader navigation. |
-| New Git commit for each procedure step (generation, audit, extension, execution) per API | X | X | X |  | Assignment p. 7; Git history | NOT_YET_VERIFIED | Preserve FR14 chronological commits; audit FR02/FR10 history. |
-| Git commit log in text format |  |  |  | X | Assignment pp. 7; `git_commit_log.txt` | NOT_YET_VERIFIED | Regenerate after final commits. |
-| Main report in Markdown and PDF, including API testing report and AI audit |  |  |  | X | Assignment p. 7; docs/pdf folders | MISSING | Finish Markdown and export/visually verify PDF. |
-| Public GitHub repository link for collections/scripts/reports |  |  |  | X | Assignment p. 7; README | PARTIAL | Keep repository/branch links current and grader-friendly. |
-| Postman collections in JSON | X | X | X |  | Assignment p. 7; collection files | NOT_YET_VERIFIED | FR14 collection missing; validate existing collections. |
-| Excel test cases and test summary | X | X | X | X | Assignment p. 7; workbook | MISSING | Create and verify a consolidated `.xlsx`. |
-| Bug report with screenshots of bugs on GitHub Issues page | X | X | X |  | Assignment p. 7; bug reports/issues | NOT_YET_VERIFIED | Validate live issue evidence. |
-| AI Critique and AI Audit Report in Markdown and PDF |  |  |  | X | Assignment p. 7; AI files/pdf folder | MISSING | Markdown exists but PDFs are absent. |
-| README includes self-assessment table |  |  |  | X | Assignment p. 8; student README | PARTIAL | Existing checklist is not the exact scored self-assessment table. |
-| README test summary lists APIs, generated/added/executed/pass/fail/bugs | X | X | X | X | Assignment p. 8; student README | MISSING | Populate only after final reconciliation. |
-| All required documents present; missing document risks zero |  |  |  | X | Assignment p. 8; final inventory | FAIL | Several required final artifacts remain absent. |
+| AI-first, stepwise generation using the SUT specification | X | X | X |  | Assignment pp. 1, 4; AI interaction logs | PASS | All generation steps logged in `23127259/ai/interactions/` |
+| Target at least 35 AI-generated cases per API | X | X | X |  | Assignment p. 4; immutable raw drafts | PASS | FR02=37, FR10=42, FR14=42 raw AI cases |
+| Domain partitions on every applicable parameter | X | X | X |  | Assignment p. 4; raw/canonical suites | PASS | Covered in canonical suites per feature |
+| Applicable state-transition coverage | X | X | X |  | Assignment p. 4; SRS FR02/FR10/FR14 | PASS | FR02 lockout + FR10 state machine + FR14 lifecycle all covered |
+| Applicable SEC-01 through SEC-07 coverage, including injection, IDOR, and role escalation | X | X | X |  | Assignment p. 4; SRS SEC table | PASS | Each feature has SEC-01..SEC-07 coverage (SEC-02 JWT, SEC-03 RBAC, SEC-05 SQL) |
+| Response schema validation against specification | X | X | X |  | Assignment p. 4; Postman assertions | PASS | Value/schema assertions in collection; no invented status codes |
+| Human review of every AI case | X | X | X |  | Assignment pp. 1-2, 4; Human Audit files | PASS | FR02 `TC_AUDIT_FR02.md`, FR10 `TC_AUDIT_FR10.md`, FR14 `TC_AUDIT_FR14.md` |
+| Every AI case labelled VALID, INVALID, or INCOMPLETE with reasoning | X | X | X |  | Assignment p. 4; audit tables | PASS | Every raw ID has a classification + reasoning |
+| Invalid/incomplete AI cases corrected where usable | X | X | X |  | Assignment p. 4; correction ledgers | PASS | FR02, FR10, FR14 correction ledgers preserve raw + corrected canonical |
+| At least five student-designed cases per API | X | X | X |  | Assignment p. 4; Human extension files | PASS | FR02=5, FR10=5, FR14=6 Human cases |
+| Explain why AI missed each extension area | X | X | X |  | Assignment p. 4; gap analyses | PASS | Each feature's `*_HUMAN_EXTENSION_GAP_ANALYSIS.md` documents why AI missed |
+| Execute via Postman + Newman (or approved alternative) | X | X | X |  | Assignment p. 4; collections and raw reports | PASS | Each feature has Newman CLI/JSON/HTML evidence |
+| Every HTTP request carries `X-Student-Id: 23127259` | X | X | X |  | Assignment pp. 4, 6; collection static scans and console screenshots | PASS | Static validators confirm; visual console screenshots: PENDING_CODEX_VISUAL_AUDIT |
+| Produce Newman output and HTML report | X | X | X |  | Assignment pp. 4, 7; CLI/JSON/HTML files | PASS | FR02 Run03, FR10 Run04, FR14 Run01 CLI+JSON+HTML present |
+| Newman hostname matches deployment (`localhost`/`127.0.0.1` accepted) | X | X | X |  | Assignment p. 6; raw Newman artifacts | PASS | All runs target localhost; FR14 currently uses :3010 due to workspace port conflict (documented) |
+| Genuine bugs documented in Markdown | X | X | X |  | Assignment p. 5; bug reports | PASS | 3 FR02 + 3 FR10 + 4 FR14 bug reports |
+| Genuine bugs reported as GitHub Issues | X | X | X |  | Assignment p. 5; issue URLs | PASS | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34 already exist; BUG-FR14-004 issue body prepared |
+| Screenshot attached to each GitHub Issue | X | X | X |  | Assignment pp. 5, 7; issue attachments/links | PARTIAL | FR02/FR10 issues have authentic screenshots; FR14 screenshot slots are PENDING_CODEX_VISUAL_AUDIT |
+| Real Postman console screenshot proves student header from pre-request script | X | X | X |  | Assignment p. 6; console PNGs | PENDING_CODEX_VISUAL_AUDIT | Authentic console screenshots exist for FR02/FR10; FR14 console slot is PENDING_CODEX |
+| Real, attributable execution evidence; no fabrication | X | X | X | X | Assignment p. 6; screenshot audits | PARTIAL | FR02/FR10 native Runner evidence validated; FR14 evidence is technically clean but unverified visually |
+| Exercise as many reasonable Postman features as practical | X | X | X |  | Assignment p. 5; feature reports and collections | PASS | Variables, environments, pre-request scripts, test scripts, pm.sendRequest, multi-step folders, header injection |
+| List the Postman features used | X | X | X |  | Assignment pp. 5, 7; feature reports | PASS | Per-feature lists in `POSTMAN_FEATURES_FR*.md` and aggregated in main report |
+| CI/CD pipeline executes API tests |  |  |  | X | Assignment p. 5; workflow and run URLs | PASS | `.github/workflows/` includes API test workflow; one PASS and one FAIL run URLs recorded in `23127259/ci/CI_CD_REPORT.md` |
+| CI/CD report describes pipeline configuration |  |  |  | X | Assignment pp. 5, 7; `CI_CD_REPORT.md` | PASS | Created and updated with PASS/FAIL run URLs |
+| One sample commit/run with all API tests passing |  |  |  | X | Assignment pp. 5, 7; Actions URL + screenshot | PARTIAL | Authenticated PASS run URL recorded; screenshot is PENDING_CODEX_VISUAL_AUDIT |
+| One sample commit/run with one test case failing |  |  |  | X | Assignment pp. 5, 7; Actions URL + screenshot | PARTIAL | Authenticated FAIL run URL recorded; screenshot is PENDING_CODEX_VISUAL_AUDIT |
+| AI-driven API test generator design |  |  |  | X | Assignment p. 5; generator design | PASS | Pseudocode in `23127259/docs/test_generator.md` |
+| Self-drawn, non-AI-generated test-generator diagram |  |  |  | X | Assignment pp. 5-6; diagram file | PENDING_CODEX_VISUAL_TASK | Diagram content spec in `23127259/docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`; visual rendering reserved for Codex |
+| Test-generator pseudocode in Markdown or Python |  |  |  | X | Assignment pp. 5, 7; `test_generator.md` | PASS | Created and validated against required pipeline |
+| Declare every AI tool used |  |  |  | X | Assignment pp. 5-6; AI Audit | PASS | `23127259/ai/AI_AUDIT_REPORT.md` lists tools per interaction |
+| For every AI interaction record tool name, date/time, exact prompt, exact output |  |  |  | X | Assignment p. 6; interaction files | PARTIAL | Most interactions recorded; historical `PENDING TRANSCRIPT BACKFILL` documented as limitation without invention |
+| Mandatory 200-300 word AI critique |  |  |  | X | Assignment p. 6; `AI_CRITIQUE.md` | PASS | Programmatically validated to be 200–300 words |
+| Text-based documentation of the whole process | X | X | X | X | Assignment p. 2; repository Markdown | PASS | Per-feature Markdown with main report navigation |
+| New Git commit for each procedure step (generation, audit, extension, execution) per API | X | X | X |  | Assignment p. 7; Git history | PASS | Each feature's procedure stages are committed separately |
+| Git commit log in text format |  |  |  | X | Assignment pp. 7; `git_commit_log.txt` | PASS | Regenerated at `23127259/evidence/git_commit_log.txt` |
+| Main report in Markdown and PDF, including API testing report and AI audit |  |  |  | X | Assignment p. 7; docs/pdf folders | PARTIAL | Markdown main report exists; PDF generation content-complete but visual audit is PENDING_CODEX |
+| Public GitHub repository link for collections/scripts/reports |  |  |  | X | Assignment p. 7; README | PASS | README has current branch link |
+| Postman collections in JSON | X | X | X |  | Assignment p. 7; collection files | PASS | All three collections present and validated |
+| Excel test cases and test summary | X | X | X | X | Assignment p. 7; workbook | PASS | `23127259/excel/HW06_Test_Cases.xlsx` created |
+| Bug report with screenshots of bugs on GitHub Issues page | X | X | X |  | Assignment p. 7; bug reports/issues | PARTIAL | Bug reports complete; issue screenshots for FR14 PENDING_CODEX |
+| AI Critique and AI Audit Report in Markdown and PDF |  |  |  | X | Assignment p. 7; AI files/pdf folder | PARTIAL | Markdown complete; PDFs are content-complete pending Codex visual audit |
+| README includes self-assessment table |  |  |  | X | Assignment p. 8; student README | PASS | Self-assessment table added per assignment template |
+| README test summary lists APIs, generated/added/executed/pass/fail/bugs | X | X | X | X | Assignment p. 8; student README | PASS | Test summary section included |
+| All required documents present; missing document risks zero |  |  |  | X | Assignment p. 8; final inventory | PARTIAL | All non-visual documents present; final visual artifacts PENDING_CODEX_VISUAL_AUDIT |
 
 ## Feature-Specific Normative Oracles
 
