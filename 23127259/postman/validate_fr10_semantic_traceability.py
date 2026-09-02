@@ -29,8 +29,8 @@ FROZEN_MAP = {
     "FR10-AI-003": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="adminToken", body_must_contain="delivered"),
     "FR10-AI-004": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="adminToken", action_keyword="STEP"),
     "FR10-AI-005": dict(method="PUT", path_must="cancel", path_not="admin", actor="userAToken"),
-    "FR10-AI-006": dict(method="PUT", path_must="cancel", path_not="admin", actor="userAToken"),
-    "FR10-AI-007": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="adminToken", body_must_contain="canceled"),
+    "FR10-AI-006": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="adminToken", body_must_contain="canceled"),
+    "FR10-AI-007": dict(method="PUT", path_must="cancel", path_not="admin", actor="userAToken"),
     "FR10-AI-008": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="adminToken", body_must_contain="canceled"),
     # AI-009..011, 013..015: Invalid skip/backward - action body is the FORBIDDEN target
     "FR10-AI-009": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="adminToken", body_must_contain="shipping"),
@@ -61,20 +61,18 @@ FROZEN_MAP = {
                         note="Malformed bearer on admin/status"),
     "FR10-AI-027": dict(method="PUT", path="api/admin/orders", path_not="cancel",
                         note="Bad signature JWT on admin/status"),
-    # CRITICAL: AI-028/029 must use CANCEL endpoint
-    "FR10-AI-028": dict(method="PUT", path_must="cancel", path_not="admin", no_actor=True,
-                        note="CRITICAL: No auth on PUT /api/orders/:id/cancel"),
-    "FR10-AI-029": dict(method="PUT", path_must="cancel", path_not="admin", auth_fixed_contains="malformed",
-                        note="CRITICAL: Malformed bearer on PUT /api/orders/:id/cancel"),
+    # CRITICAL: AI-028 is cryptographically tampered Admin JWT; AI-029 is missing auth on User cancel.
+    "FR10-AI-028": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="tamperedAdminToken",
+                        note="CRITICAL: Tampered Admin JWT on PUT /api/admin/orders/:id/status"),
+    "FR10-AI-029": dict(method="PUT", path_must="cancel", path_not="admin", no_actor=True,
+                        note="CRITICAL: Missing auth on PUT /api/orders/:id/cancel"),
     # SEC-03 RBAC
     "FR10-AI-030": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="userAToken",
                         note="role=user token on admin/status"),
-    # AI-031: Admin token on cancel endpoint (frozen spec: Admin on cancel)
-    "FR10-AI-031": dict(method="PUT", path_must="cancel", path_not="admin", actor="adminToken",
-                        note="Admin token on customer cancel endpoint"),
-    # AI-032: Guest/Non-Admin on admin/status (any non-admin or guest token)
-    "FR10-AI-032": dict(method="PUT", path="api/admin/orders", path_not="cancel",
-                        note="Guest/non-admin token on admin/status"),
+    "FR10-AI-031": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="userAToken", body_must_contain="canceled",
+                        note="role=user token on Admin pending->canceled"),
+    "FR10-AI-032": dict(method="PUT", path="api/admin/orders", path_not="cancel", actor="userAToken", body_must_contain="shipping",
+                        note="role=user token on Admin confirmed->shipping"),
     # Ownership cases - CANCEL endpoint
     "FR10-AI-033": dict(method="PUT", path_must="cancel", path_not="admin", actor="userBToken",
                         note="User B on User A pending order cancel"),

@@ -103,8 +103,23 @@ This document defines the authoritative, finalized **46-case executable test sui
 - **Description & Objective:** Verify owner customer can cancel a pending order.
 
 ---
-### FR10-AI-006 – Valid Customer Self-Service Cancellation on Confirmed Order (confirmed -> canceled)
+### FR10-AI-006 – Valid Admin Status Cancellation on Pending Order (pending -> canceled)
 - **Formal Test ID:** `FR10-AI-006`
+- **Folder:** `02 – Order Cancellation Pathways`
+- **Oracle Classification:** `SPECIFICATION-BACKED`
+- **Technique:** State Transition Testing / Administrative Control
+- **Actor:** Admin
+- **State Before:** `pending`
+- **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
+- **Request Body:** `{"status": "canceled"}`
+- **Expected HTTP Status:** `200 OK`
+- **Expected State After:** `canceled`
+- **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `canceled`.
+- **Description & Objective:** Verify Admin can cancel a pending order via the status mutation endpoint.
+
+---
+### FR10-AI-007 – Valid Customer Self-Service Cancellation on Confirmed Order (confirmed -> canceled)
+- **Formal Test ID:** `FR10-AI-007`
 - **Folder:** `02 – Order Cancellation Pathways`
 - **Oracle Classification:** `SPECIFICATION-BACKED`
 - **Technique:** State Transition Testing / Pre-Shipment Cancellation
@@ -116,21 +131,6 @@ This document defines the authoritative, finalized **46-case executable test sui
 - **Expected State After:** `canceled`
 - **Persistence Verification:** Authorized `User A / Admin` query verifies order state is `canceled`.
 - **Description & Objective:** Verify owner customer can cancel a confirmed pre-shipment order.
-
----
-### FR10-AI-007 – Valid Admin Status Cancellation on Pending Order (pending -> canceled)
-- **Formal Test ID:** `FR10-AI-007`
-- **Folder:** `02 – Order Cancellation Pathways`
-- **Oracle Classification:** `SPECIFICATION-BACKED`
-- **Technique:** State Transition Testing / Administrative Control
-- **Actor:** Admin
-- **State Before:** `pending`
-- **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
-- **Request Body:** `{"status": "canceled"}`
-- **Expected HTTP Status:** `200 OK`
-- **Expected State After:** `canceled`
-- **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `canceled`.
-- **Description & Objective:** Verify Admin can cancel a pending order via status mutation endpoint.
 
 ---
 ### FR10-AI-008 – Valid Admin Status Cancellation on Confirmed Order (confirmed -> canceled)

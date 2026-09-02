@@ -68,6 +68,19 @@ def validate():
     case_dict = {c["id"]: c for c in cases}
     errors = []
 
+    # Check AI-005..008 cancellation provenance. These IDs must never be shifted.
+    expected_cancellations = {
+        "FR10-AI-005": ("Owner User (User A)", "pending", "/api/orders/:id/cancel", {}),
+        "FR10-AI-006": ("Admin", "pending", "/api/admin/orders/:id/status", {"status": "canceled"}),
+        "FR10-AI-007": ("Owner User (User A)", "confirmed", "/api/orders/:id/cancel", {}),
+        "FR10-AI-008": ("Admin", "confirmed", "/api/admin/orders/:id/status", {"status": "canceled"}),
+    }
+    for cid, expected in expected_cancellations.items():
+        case = case_dict[cid]
+        actual = (case["actor"], case["initial_state"], case["endpoint"], case["input"])
+        if actual != expected:
+            errors.append(f"{cid} cancellation provenance mismatch: expected {expected}, got {actual}")
+
     # Check AI-013..015 mappings
     c13 = case_dict["FR10-AI-013"]
     if c13["initial_state"] != "confirmed" or c13["input"] != {"status": "pending"}:

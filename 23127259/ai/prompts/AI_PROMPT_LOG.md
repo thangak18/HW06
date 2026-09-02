@@ -24477,4 +24477,43 @@ No post-processing, Screenshot hash + visual audit, Authenticity self-check, Tra
 Update bug registry, Update confirmation report, GitHub issues, Preserve SEC02/HUM005 decisions, Git, Final report]
 ```
 
+---
 
+## INT-056
+
+- **Interaction ID:** INT-056
+- **Date & Time:** 2026-09-02 10:00:43+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Stage:** Phase 2D.1F.3R – FR-10 Native Postman Runner Evidence Retry
+- **Detailed Interaction File:** `ai/interactions/INT-056-fr10-native-postman-runner-retry.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit RESUME INT-055 AFTER macOS ACCESSIBILITY PERMISSION WAS GRANTED.
+
+PHASE 2D.1F.3R – FR-10 NATIVE POSTMAN RUNNER EVIDENCE RETRY
+
+Current commit: 57d6ea5
+
+The student has now manually granted macOS Accessibility permission to the
+application/process hosting this automation.
+
+Previous INT-055 correctly stopped with:
+NATIVE_POSTMAN_GUI_BLOCKED
+
+Now RETRY ONLY THE NATIVE GUI EVIDENCE PORTION.
+
+[Sections 1-21: AI Audit (INT-055 backfill, INT-056 log), First verify native accessibility (AppleScript/System Events probe,
+CGEvent click capability, stop with NATIVE_POSTMAN_GUI_STILL_BLOCKED if blocked), Forbidden mechanisms remain absolute
+(ZERO Runtime.evaluate, innerHTML, innerText, DOM injection, fetch, Python, curl, Newman, IndexedDB/window.pm manipulation),
+Allowed mechanisms (osascript, System Events, native keyboard/mouse, CGEvent, Postman menus, native file chooser, screencapture),
+Open Postman natively, Import strict collection if necessary, Open real Collection Runner (FR10_Defect_Evidence_Strict, FR10-local, 1 iter),
+Execute once, Verify organic runner content via Accessibility, Screenshot BUG-FR10-001, BUG-FR10-002, BUG-FR10-003 via screencapture,
+Screenshot validation (SHA-256, 3 distinct hashes), Create final audit, Update bug documents, GitHub issues, Preserve history,
+Technical evidence immutability, Authenticity audit, Git commit & push, Final report]
+```
+
+### Output Availability
+
+The Gemini interaction was manually stopped after screenshot files were written and before a final assistant response was persisted. Exact final output is unrecoverable; it is not reconstructed. See `INT-056-fr10-native-postman-runner-retry.md` for the independently verified artifact outcome.

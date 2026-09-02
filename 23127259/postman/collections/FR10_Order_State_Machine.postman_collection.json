@@ -1122,180 +1122,6 @@
           ]
         },
         {
-          "name": "[FR10-AI-006][SETUP-CREATE] Create Isolated Order Fixture",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userAToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Main St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/checkout",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "checkout"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "// Clear case variable before creation to guarantee fresh data\npm.environment.unset('order_FR10_AI_006');"
-                ]
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('[FR10-AI-006][SETUP-CREATE] Checkout Succeeded', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-                  "    const body = pm.response.json();",
-                  "    const id = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id;",
-                  "    if (!id) {",
-                  "        throw new Error('Fixture checkout succeeded without a recognizable order ID; aborting');",
-                  "    }",
-                  "    pm.environment.set('order_FR10_AI_006', String(id));",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "[FR10-AI-006][SETUP-CONFIRM] Transition to confirmed",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{adminToken}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"status\": \"confirmed\"}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/admin/orders/{{order_FR10_AI_006}}/status",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "admin",
-                "orders",
-                "{{order_FR10_AI_006}}",
-                "status"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('[FR10-AI-006][SETUP-CONFIRM] Prerequisite Transition to confirmed', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "[FR10-AI-006][ACTION] Customer Cancellation on Confirmed Order",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userAToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/orders/{{order_FR10_AI_006}}/cancel",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "orders",
-                "{{order_FR10_AI_006}}",
-                "cancel"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "// Assertion for [FR10-AI-006]",
-                  "pm.test('[FR10-AI-006] - Status & Semantic Assertion', function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-                  "    var jsonData = pm.response.json();",
-                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
-                  "        var s = jsonData.status || jsonData.data.status;",
-                  "        pm.expect(s).to.eql('canceled');",
-                  "    }",
-                  "});",
-                  "",
-                  "// Persistence Verification Oracle via GET",
-                  "const studentId = pm.environment.get('studentId');",
-                  "pm.sendRequest({",
-                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('order_FR10_AI_006'),",
-                  "    method: 'GET',",
-                  "    header: {",
-                  "        'X-Student-Id': studentId,",
-                  "        'Authorization': 'Bearer ' + pm.environment.get('userAToken')",
-                  "    }",
-                  "}, function (err, res) {",
-                  "    pm.test('[FR10-AI-006] - Persistence Verification State', function () {",
-                  "        if (!err && res.code === 200) {",
-                  "            var d = res.json();",
-                  "            var st = d.status || (d.data && d.data.status);",
-                  "            pm.expect(st).to.eql('canceled');",
-                  "        }",
-                  "    });",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
           "name": "[FR10-AI-007][SETUP-CREATE] Create Isolated Order Fixture",
           "request": {
             "method": "POST",
@@ -1354,7 +1180,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-007][ACTION] Admin Status Cancellation on Pending Order",
+          "name": "[FR10-AI-007][SETUP-CONFIRM] Transition to confirmed",
           "request": {
             "method": "PUT",
             "header": [
@@ -1367,6 +1193,10 @@
                 "value": "Bearer {{adminToken}}"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
             "url": {
               "raw": "{{baseUrl}}/api/admin/orders/{{order_FR10_AI_007}}/status",
               "host": [
@@ -1379,10 +1209,51 @@
                 "{{order_FR10_AI_007}}",
                 "status"
               ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[FR10-AI-007][SETUP-CONFIRM] Prerequisite Transition to confirmed', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-007][ACTION] Customer Cancellation on Confirmed Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{order_FR10_AI_007}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{order_FR10_AI_007}}",
+                "cancel"
+              ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"status\": \"canceled\"}"
+              "raw": "{}"
             }
           },
           "event": [
@@ -1408,10 +1279,139 @@
                   "    method: 'GET',",
                   "    header: {",
                   "        'X-Student-Id': studentId,",
-                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('userAToken')",
                   "    }",
                   "}, function (err, res) {",
                   "    pm.test('[FR10-AI-007] - Persistence Verification State', function () {",
+                  "        if (!err && res.code === 200) {",
+                  "            var d = res.json();",
+                  "            var st = d.status || (d.data && d.data.status);",
+                  "            pm.expect(st).to.eql('canceled');",
+                  "        }",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-006][SETUP-CREATE] Create Isolated Order Fixture",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Main St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Clear case variable before creation to guarantee fresh data\npm.environment.unset('order_FR10_AI_006');"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[FR10-AI-006][SETUP-CREATE] Checkout Succeeded', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    const body = pm.response.json();",
+                  "    const id = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id;",
+                  "    if (!id) {",
+                  "        throw new Error('Fixture checkout succeeded without a recognizable order ID; aborting');",
+                  "    }",
+                  "    pm.environment.set('order_FR10_AI_006', String(id));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-006][ACTION] Admin Status Cancellation on Pending Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{order_FR10_AI_006}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{order_FR10_AI_006}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Assertion for [FR10-AI-006]",
+                  "pm.test('[FR10-AI-006] - Status & Semantic Assertion', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.status || (jsonData.data && jsonData.data.status)) {",
+                  "        var s = jsonData.status || jsonData.data.status;",
+                  "        pm.expect(s).to.eql('canceled');",
+                  "    }",
+                  "});",
+                  "",
+                  "// Persistence Verification Oracle via GET",
+                  "const studentId = pm.environment.get('studentId');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get('baseUrl') + '/api/orders/' + pm.environment.get('order_FR10_AI_006'),",
+                  "    method: 'GET',",
+                  "    header: {",
+                  "        'X-Student-Id': studentId,",
+                  "        'Authorization': 'Bearer ' + pm.environment.get('adminToken')",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    pm.test('[FR10-AI-006] - Persistence Verification State', function () {",
                   "        if (!err && res.code === 200) {",
                   "            var d = res.json();",
                   "            var st = d.status || (d.data && d.data.status);",

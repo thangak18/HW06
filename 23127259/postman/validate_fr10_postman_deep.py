@@ -54,8 +54,8 @@ def main():
 
     all_reqs = extract_items(col_data.get("item", []))
     print(f"[INFO] Total Collection Request Definitions: {len(all_reqs)}")
-    assert len(all_reqs) == 63, f"Expected 63 collection request definitions, got {len(all_reqs)}"
-    print("[PASS] 5. Exactly 63 collection request definitions present (3 helpers + 60 formal step items).")
+    assert len(all_reqs) == 140, f"Expected 140 collection request definitions, got {len(all_reqs)}"
+    print("[PASS] 5. Exactly 140 collection request definitions present (3 auth helpers plus isolated per-case setup/action steps).")
 
     # 6. Formal IDs Extraction & Traceability Check
     formal_ids = []

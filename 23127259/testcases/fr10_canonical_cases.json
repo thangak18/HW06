@@ -88,12 +88,14 @@
   {
     "id": "FR10-AI-006",
     "provenance": "LEVEL 2 RAW AI",
-    "actor": "Owner User (User A)",
-    "auth_condition": "Valid User A JWT",
-    "initial_state": "confirmed",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
     "method": "PUT",
-    "endpoint": "/api/orders/:id/cancel",
-    "input": {},
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "canceled"
+    },
     "oracle_strength": "SPECIFICATION-BACKED",
     "semantic_oracle": "200 OK; state transitions to canceled",
     "source_refs": [
@@ -104,14 +106,12 @@
   {
     "id": "FR10-AI-007",
     "provenance": "LEVEL 2 RAW AI",
-    "actor": "Admin",
-    "auth_condition": "Valid Admin JWT",
-    "initial_state": "pending",
+    "actor": "Owner User (User A)",
+    "auth_condition": "Valid User A JWT",
+    "initial_state": "confirmed",
     "method": "PUT",
-    "endpoint": "/api/admin/orders/:id/status",
-    "input": {
-      "status": "canceled"
-    },
+    "endpoint": "/api/orders/:id/cancel",
+    "input": {},
     "oracle_strength": "SPECIFICATION-BACKED",
     "semantic_oracle": "200 OK; state transitions to canceled",
     "source_refs": [

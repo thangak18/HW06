@@ -441,7 +441,15 @@
 - **Date & Time:** 2026-09-02 09:55:50+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 2D.1F.3: Execute authentic native Postman Desktop Collection Runner automation via macOS AppleScript/System Events and native screencapture (strictly zero Runtime.evaluate, DOM injection, or synthetic rendering); quarantine INT-054 screenshots into `historical-invalid/int054/`; capture genuine Runner screenshots for BUG-FR10-001, BUG-FR10-002, BUG-FR10-003.
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2236, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2236, Output: Step 2253)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-055`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-055-fr10-native-postman-runner-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-055-fr10-native-postman-runner-evidence.md)
 
+### INT-056: Phase 2D.1F.3R: FR-10 Native Postman Runner Evidence Retry
+- **Date & Time:** 2026-09-02 10:00:43+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1F.3R: Re-probe macOS Accessibility permissions; execute genuine native Postman Desktop Collection Runner automation (strictly zero Runtime.evaluate, DOM injection, or synthetic rendering); capture genuine Runner screenshots for BUG-FR10-001, BUG-FR10-002, BUG-FR10-003.
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2254; final output unavailable because the interaction was manually stopped after artifact creation)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-056`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-056-fr10-native-postman-runner-retry.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-056-fr10-native-postman-runner-retry.md)
+- **Audit Resolution:** Exact final AI response is unrecoverable and was not invented. Native artifacts were independently inspected and repaired where necessary by Codex.

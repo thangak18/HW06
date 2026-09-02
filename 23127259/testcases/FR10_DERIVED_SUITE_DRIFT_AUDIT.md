@@ -9,6 +9,8 @@
 
 ## 1. Executive Summary of Provenance Reconstruction
 
+> **2026-09-02 final-audit correction:** A later comparison against the immutable raw draft found that this historical audit itself had swapped `FR10-AI-006` and `FR10-AI-007`. The canonical meanings are: AI-006 = Admin pending cancellation; AI-007 = owner User confirmed cancellation. The derived suite, canonical JSON, collection labels, and replacement Run04 were repaired. Run03 remains immutable historical evidence and exercised both behaviors under the swapped labels.
+
 Human review of the previous semantic audit correctly identified that `FR10_FINAL_EXECUTABLE_SUITE.md` itself contained **material semantic drift** from the original frozen AI generation (`FR10_AI_DRAFT.md`) and Human Audit decision history (`FR10_HUMAN_AUDIT_CORRECTIONS.md`). 
 
 The previous static validator (`validate_fr10_semantic_traceability.py`) passed 46/46 because its hardcoded rules were circularly derived from the drifted `FR10_FINAL_EXECUTABLE_SUITE.md`, rather than from the true Level 1–4 provenance.
@@ -26,8 +28,8 @@ This audit establishes the definitive diff between Canonical Provenance, the Der
 | **FR10-AI-003** | Admin shipping -> delivered (`/api/admin/orders/:id/status`) | Admin shipping -> delivered | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
 | **FR10-AI-004** | Full linear lifecycle (pending -> confirmed -> shipping -> delivered) | Full linear lifecycle | 3x PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
 | **FR10-AI-005** | Owner User cancel pending (`/api/orders/:id/cancel`) | Owner User cancel pending | PUT `/api/orders/:id/cancel` | NONE | TRUSTWORTHY (PASS) |
-| **FR10-AI-006** | Owner User cancel confirmed (`/api/orders/:id/cancel`) | Owner User cancel confirmed | PUT `/api/orders/:id/cancel` | NONE | TRUSTWORTHY (PASS) |
-| **FR10-AI-007** | Admin cancel pending (`/api/admin/orders/:id/status`) | Admin cancel pending | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
+| **FR10-AI-006** | Admin cancel pending (`/api/admin/orders/:id/status`) | Admin cancel pending | PUT `/api/admin/orders/:id/status` | NONE after Run04 repair | Run03 behavior covered under swapped label; Run04 is canonical |
+| **FR10-AI-007** | Owner User cancel confirmed (`/api/orders/:id/cancel`) | Owner User cancel confirmed | PUT `/api/orders/:id/cancel` | NONE after Run04 repair | Run03 behavior covered under swapped label; Run04 is canonical |
 | **FR10-AI-008** | Admin cancel confirmed (`/api/admin/orders/:id/status`) | Admin cancel confirmed | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
 | **FR10-AI-009** | Admin illegal skip pending -> shipping (`/api/admin/orders/:id/status`) | Admin illegal skip pending -> shipping | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
 | **FR10-AI-010** | Admin illegal skip pending -> delivered (`/api/admin/orders/:id/status`) | Admin illegal skip pending -> delivered | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |

@@ -54,8 +54,8 @@ def main():
 
     all_reqs = extract_items(col_data.get("item", []))
     print(f"[INFO] Total Collection Request Definitions: {len(all_reqs)}")
-    assert len(all_reqs) == 77, f"Expected 77 collection request definitions (17 setup + 60 formal steps), got {len(all_reqs)}"
-    print("[PASS] 5. Exactly 77 collection request definitions present (17 setup helpers + 60 formal step items).")
+    assert len(all_reqs) == 140, f"Expected 140 collection request definitions, got {len(all_reqs)}"
+    print("[PASS] 5. Exactly 140 collection request definitions present with isolated per-case setup/action steps.")
 
     # 6. Formal IDs Extraction & Traceability Check
     formal_ids = []
@@ -90,19 +90,17 @@ def main():
     print("[PASS] 7. All 36 script-triggered HTTP calls explicitly include X-Student-Id and Authorization headers.")
 
     # 8. Fixture Provenance & Variable Dataflow Verification
-    setup_reqs = all_reqs[:17]
+    setup_reqs = all_reqs[:4]
     setup_names = [r.get("name", "") for r in setup_reqs]
     assert any("Login Admin" in n for n in setup_names), "Missing Login Admin helper"
     assert any("Login User A" in n for n in setup_names), "Missing Login User A helper"
     assert any("Login User B" in n for n in setup_names), "Missing Login User B helper"
-    assert any("Create Order Fixture - Pending" in n for n in setup_names), "Missing Create Pending helper"
-    assert any("Create Order Fixture - Confirmed" in n for n in setup_names), "Missing Create Confirmed helper"
-    assert any("Create Order Fixture - Shipping" in n for n in setup_names), "Missing Create Shipping helper"
-    assert any("Create Order Fixture - Delivered" in n for n in setup_names), "Missing Create Delivered helper"
-    assert any("Create Order Fixture - Canceled" in n for n in setup_names), "Missing Create Canceled helper"
-    assert any("Create Order Fixture - Dual A" in n for n in setup_names), "Missing Create Dual A helper"
-    assert any("Create Order Fixture - Dual B" in n for n in setup_names), "Missing Create Dual B helper"
-    print("[PASS] 8. Complete dynamic order fixture creation and state setup pipeline verified in Folder 00.")
+    per_case_setup_names = [r.get("name", "") for r in all_reqs[4:] if "SETUP" in r.get("name", "")]
+    assert per_case_setup_names, "Missing isolated per-case setup steps"
+    assert any("SETUP-CREATE" in n for n in per_case_setup_names), "Missing per-case checkout setup"
+    assert any("SETUP-SHIP" in n for n in per_case_setup_names), "Missing per-case shipping setup"
+    assert any("SETUP-CANCELED" in n or "SETUP-CANCEL" in n for n in per_case_setup_names), "Missing per-case canceled setup"
+    print("[PASS] 8. User-B registration/authentication helpers plus isolated per-case order fixture/state setup pipeline verified.")
 
     # 9. Check Exploratory and Partially Spec-Backed Oracles
     for req in all_reqs:

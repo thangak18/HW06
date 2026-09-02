@@ -23,6 +23,10 @@
 | Case ID | Verified Canonical Semantics | Validator Check | Result |
 |---|---|---|:---:|
 | **FR10-AI-013** | Admin backward regression: `confirmed` -> `pending` (`PUT /api/admin/orders/:id/status`) | `initial_state = 'confirmed'`, `input = {'status': 'pending'}` | **PASS** |
+| **FR10-AI-005** | Owner User cancels pending order | User cancel route, `initial_state = 'pending'` | **PASS** |
+| **FR10-AI-006** | Admin cancels pending order | Admin status route, `initial_state = 'pending'`, `status = 'canceled'` | **PASS** |
+| **FR10-AI-007** | Owner User cancels confirmed order | User cancel route, `initial_state = 'confirmed'` | **PASS** |
+| **FR10-AI-008** | Admin cancels confirmed order | Admin status route, `initial_state = 'confirmed'`, `status = 'canceled'` | **PASS** |
 | **FR10-AI-014** | Admin backward regression: `shipping` -> `confirmed` (`PUT /api/admin/orders/:id/status`) | `initial_state = 'shipping'`, `input = {'status': 'confirmed'}` | **PASS** |
 | **FR10-AI-015** | Admin backward regression: `shipping` -> `pending` (`PUT /api/admin/orders/:id/status`) | `initial_state = 'shipping'`, `input = {'status': 'pending'}` | **PASS** |
 | **FR10-AI-028** | Cryptographically tampered JWT on Admin status (`PUT /api/admin/orders/:id/status`) | `endpoint = '/api/admin/orders/:id/status'`, `auth = 'Tampered Admin JWT'` | **PASS** |

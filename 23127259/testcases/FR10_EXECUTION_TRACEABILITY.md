@@ -17,8 +17,8 @@
 | `FR10-AI-003` | AI-Generated | VALID | NONE | `01` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `delivered` | **YES** |
 | `FR10-AI-004` | AI-Generated | VALID | NONE | `01` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `delivered` | **YES** |
 | `FR10-AI-005` | AI-Generated | VALID | NONE | `02` | `PUT /api/orders/{{orderId}}/cancel` | Login Admin, Login User A, Create Order Fixture | GET /api/orders/:id -> `canceled` | **YES** |
-| `FR10-AI-006` | AI-Generated | VALID | NONE | `02` | `PUT /api/orders/{{orderId}}/cancel` | Login Admin, Login User A, Create Order Fixture | GET /api/orders/:id -> `canceled` | **YES** |
-| `FR10-AI-007` | AI-Generated | VALID | NONE | `02` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `canceled` | **YES** |
+| `FR10-AI-006` | AI-Generated | VALID | NONE | `02` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `canceled` | **YES (Run04 canonical)** |
+| `FR10-AI-007` | AI-Generated | VALID | NONE | `02` | `PUT /api/orders/{{orderId}}/cancel` | Login Admin, Login User A, Create Order Fixture, advance to confirmed | GET /api/orders/:id -> `canceled` | **YES (Run04 canonical)** |
 | `FR10-AI-008` | AI-Generated | VALID | NONE | `02` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `canceled` | **YES** |
 | `FR10-AI-009` | AI-Generated | VALID | NONE | `03` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
 | `FR10-AI-010` | AI-Generated | VALID | NONE | `03` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
