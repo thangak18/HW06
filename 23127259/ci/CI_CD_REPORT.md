@@ -52,41 +52,45 @@ collection's pre-request script for every HTTP operation (setup, helper,
 | Attribute       | Value |
 |-----------------|-------|
 | Workflow        | `HW06 API Tests (23127259)` |
-| Run URL         | `GH_AUTH_REQUIRED` |
-| Run ID          | `GH_AUTH_REQUIRED` |
-| Commit SHA      | `GH_AUTH_REQUIRED` |
-| Conclusion      | `GH_AUTH_REQUIRED` (workflow YAML committed and ready to trigger; first authentic run pending `gh auth login` or `GITHUB_TOKEN` from CI operator) |
+| Run URL         | PENDING_AUTHENTIC_GH_RUN |
+| Run ID          | PENDING_AUTHENTIC_GH_RUN |
+| Commit SHA      | PENDING_AUTHENTIC_GH_RUN |
 | Artifact        | `hw06-23127259-newman-<run-id>` |
 | Newman exit (FR10) | `0` |
-| Newman exit (FR14) | `non-zero` (4 confirmed normative FR14 bugs — expected for a FAIL run; on a PASS run the failing FR14 cases are masked by `FR14_DELIBERATE_RED=1` env var via the dedicated `deliberate-red.yml` workflow) |
+| Newman exit (FR14) | `non-zero` (5 confirmed normative FR14 bugs — expected for the canonical collection; the `deliberate-red.yml` workflow is the FAIL-sample) |
 
 > NOTE: In the production workflow the FR14 collection is executed as-is, so
-> the recorded Newman exit for the FR14 suite is non-zero because of the four
+> the recorded Newman exit for the FR14 suite is non-zero because of the five
 > confirmed normative bugs. A separate `deliberate-red` workflow exists for the
 > FAIL-sample requirement and re-runs the FR10 collection with one intentionally
 > red-flagged test case; see `deliberate-red.yml`. The unified PASS run is the
-> run in which all FR02 and FR10 assertions pass; the four FR14 normative
+> run in which all FR02 and FR10 assertions pass; the five FR14 normative
 > bugs are tracked as accepted defects rather than pipeline failures.
 
 ### PASS Run – Authenticated Links
 
-`GH_AUTH_REQUIRED`
+PENDING_AUTHENTIC_GH_RUN
 
-The PASS run references above will be populated by the CI operator
-after the first authentic Actions run completes. Until then, the canonical
-local Newman runs in `23127259/evidence/fr10/newman/FR10-run04.*` and
-`23127259/evidence/fr14/newman/FR14-run01.*` are the trusted
-machine-readable evidence for this report.
+The PASS run references above will be populated by the CI operator after the
+first authentic Actions run completes. Until then, the canonical local
+Newman runs in `23127259/evidence/fr10/newman/` (Run04) and
+`23127259/evidence/fr14/newman/` (Run01) are the trusted machine-readable
+evidence for this report.
+
+> `GH_AUTH_REQUIRED`: The CI operator must run `gh auth login -h github.com`
+> (or set `GITHUB_TOKEN` as an Actions secret) to perform the first authentic
+> PASS/FAIL run. Until the first authentic run is created, run URL / ID / SHA
+> remain `PENDING_AUTHENTIC_GH_RUN` and the PASS/FAIL screenshots remain
+> `PENDING_CODEX_VISUAL_AUDIT` by transitive dependency.
 
 ## FAIL Run
 
 | Attribute       | Value |
 |-----------------|-------|
 | Workflow        | `HW06 Deliberate Red Sample` |
-| Run URL         | `GH_AUTH_REQUIRED` |
-| Run ID          | `GH_AUTH_REQUIRED` |
-| Commit SHA      | `GH_AUTH_REQUIRED` |
-| Conclusion      | `GH_AUTH_REQUIRED` (workflow YAML committed and ready to trigger; first authentic run pending `gh auth login` or `GITHUB_TOKEN` from CI operator) |
+| Run URL         | PENDING_AUTHENTIC_GH_RUN |
+| Run ID          | PENDING_AUTHENTIC_GH_RUN |
+| Commit SHA      | PENDING_AUTHENTIC_GH_RUN |
 | Intent          | Demonstrate one failing assertion in a green pipeline |
 
 ### FAIL Workflow File
@@ -126,6 +130,7 @@ Path: `23127259/evidence/fr14/newman/FR14-run01*`
 - HTML: `FR14-run01.html`
 - Exit: `FR14-run01-exitcode.txt` (value = 1, accepted because the run surfaces
   five confirmed FR14 normative bugs)
+- Sanitized public-safe copies: `FR14-run01-sanitized.{json,html}`
 
 ### Secret-Safe Public Derivatives
 

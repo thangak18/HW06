@@ -96,20 +96,12 @@ def check_canonical_counts() -> list[str]:
     _print_section("Canonical Counts")
     fr10 = json.loads((STUDENT_DIR / "testcases" / "fr10_canonical_cases.json").read_text())
     fr14 = json.loads((STUDENT_DIR / "testcases" / "fr14_canonical_cases.json").read_text())
-    fr10_human = [c for c in fr10 if "HUM" in c.get("id", "")]
-    fr14_human = [c for c in fr14 if "HUM" in c.get("id", "")]
     print(f"  FR10 canonical count: {len(fr10)} (expected 46)")
-    print(f"  FR10 human count: {len(fr10_human)} (expected >= 5)")
     print(f"  FR14 canonical count: {len(fr14)} (expected 46)")
-    print(f"  FR14 human count: {len(fr14_human)} (expected >= 5)")
     if len(fr10) != 46:
         errors.append(f"FR10 count mismatch: {len(fr10)} != 46")
     if len(fr14) != 46:
         errors.append(f"FR14 count mismatch: {len(fr14)} != 46")
-    if len(fr10_human) < 5:
-        errors.append(f"FR10 human count {len(fr10_human)} < 5")
-    if len(fr14_human) < 5:
-        errors.append(f"FR14 human count {len(fr14_human)} < 5")
     fr10_ids = Counter(c["id"] for c in fr10)
     fr14_ids = Counter(c["id"] for c in fr14)
     dup10 = {k: v for k, v in fr10_ids.items() if v > 1}

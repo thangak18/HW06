@@ -38,11 +38,13 @@ FR02_RAW_AI_COUNT = 37
 FR02_HUMAN_COUNT = 5
 FR02_FORMAL_COUNT = 40
 
-FR10_RAW_AI_COUNT = 41
+FR10_RAW_AI_COUNT = 42
+FR10_USABLE_AI_COUNT = 41
 FR10_HUMAN_COUNT = 5
 FR10_FORMAL_COUNT = 46
 
 FR14_RAW_AI_COUNT = 42
+FR14_USABLE_AI_COUNT = 40
 FR14_HUMAN_COUNT = 6
 FR14_FORMAL_COUNT = 46
 
@@ -140,25 +142,27 @@ def _write_fr_sheet(wb: Workbook, fr_label: str, cases: list[dict]) -> None:
 
 def _write_summary(wb: Workbook, fr02: list[dict], fr10: list[dict], fr14: list[dict]) -> None:
     ws = wb.create_sheet("Summary")
-    ws.append(["Feature", "Raw AI Count", "Human Count", "Formal Count", "Canonical JSON Cases"])
+    ws.append(["Feature", "Raw AI", "Usable AI", "Human", "Formal", "Canonical JSON Cases"])
     for cell in ws[1]:
         cell.font = Font(bold=True, color="FFFFFF")
         cell.fill = PatternFill("solid", fgColor="1F4E78")
         cell.alignment = Alignment(horizontal="center", vertical="center")
 
     rows = [
-        ("FR02 - Login / Account Lockout", FR02_RAW_AI_COUNT, FR02_HUMAN_COUNT, FR02_FORMAL_COUNT, len(fr02)),
-        ("FR10 - Order State Machine", FR10_RAW_AI_COUNT, FR10_HUMAN_COUNT, FR10_FORMAL_COUNT, len(fr10)),
-        ("FR14 - Category CRUD", FR14_RAW_AI_COUNT, FR14_HUMAN_COUNT, FR14_FORMAL_COUNT, len(fr14)),
+        ("FR02 - Login / Account Lockout", FR02_RAW_AI_COUNT, 35, FR02_HUMAN_COUNT, FR02_FORMAL_COUNT, len(fr02)),
+        ("FR10 - Order State Machine", FR10_RAW_AI_COUNT, FR10_USABLE_AI_COUNT, FR10_HUMAN_COUNT, FR10_FORMAL_COUNT, len(fr10)),
+        ("FR14 - Category CRUD", FR14_RAW_AI_COUNT, FR14_USABLE_AI_COUNT, FR14_HUMAN_COUNT, FR14_FORMAL_COUNT, len(fr14)),
     ]
     for row in rows:
         ws.append(list(row))
-    ws.append(["Total", FR02_RAW_AI_COUNT + FR10_RAW_AI_COUNT + FR14_RAW_AI_COUNT,
+    ws.append(["Total",
+               FR02_RAW_AI_COUNT + FR10_RAW_AI_COUNT + FR14_RAW_AI_COUNT,
+               35 + FR10_USABLE_AI_COUNT + FR14_USABLE_AI_COUNT,
                FR02_HUMAN_COUNT + FR10_HUMAN_COUNT + FR14_HUMAN_COUNT,
                FR02_FORMAL_COUNT + FR10_FORMAL_COUNT + FR14_FORMAL_COUNT,
                len(fr02) + len(fr10) + len(fr14)])
 
-    widths = [32, 14, 14, 14, 22]
+    widths = [32, 12, 12, 12, 12, 22]
     for idx, width in enumerate(widths, start=1):
         ws.column_dimensions[get_column_letter(idx)].width = width
 
@@ -175,15 +179,15 @@ def _write_bugs(wb: Workbook) -> None:
     bugs = [
         ("BUG-FR02-001", "FR02", "P1", "Sensitive plaintext password leak in /api/users response",
          "PENDING_CODEX_VISUAL_AUDIT",
-         "23127259/bugs/issues/BUG-FR02-001.md; FR02 newman Run03",
+         "23127259/bugs/BUG-FR02-001.md; FR02 newman Run02",
          "CONFIRMED"),
         ("BUG-FR02-002", "FR02", "P2", "No rate limit on /api/login allows brute-force attempts",
          "PENDING_CODEX_VISUAL_AUDIT",
-         "23127259/bugs/issues/BUG-FR02-002.md",
+         "23127259/bugs/BUG-FR02-002.md",
          "EXPLORATORY"),
         ("BUG-FR02-003", "FR02", "P2", "Account lockout counter not persisted across service restart",
          "PENDING_CODEX_VISUAL_AUDIT",
-         "23127259/bugs/issues/BUG-FR02-003.md",
+         "23127259/bugs/BUG-FR02-003.md",
          "EXPLORATORY"),
         ("BUG-FR10-001", "FR10", "P1", "Server allows confirmed -> cancelled transition (RBAC bypass for owner)",
          "https://github.com/thangak18/HW06/issues/29",
@@ -205,18 +209,18 @@ def _write_bugs(wb: Workbook) -> None:
          "https://github.com/thangak18/HW06/issues/33",
          "23127259/bugs/BUG-FR14-002.md; FR14 Run01",
          "CONFIRMED"),
-        ("BUG-FR14-003", "FR14", "P2", "Non-existent category update/delete returns 200 with stale payload",
+        ("BUG-FR14-003", "FR14", "P2", "Non-existent category update/delete returns 200 with false-success",
          "https://github.com/thangak18/HW06/issues/34",
          "23127259/bugs/BUG-FR14-003.md; FR14 Run01",
          "CONFIRMED"),
-        ("BUG-FR14-004", "FR14", "P3", "Empty PUT body corrupts existing category name to null",
-         "PENDING_GH_ISSUE",
-         "23127259/bugs/BUG-FR14-004.md; FR14 Run01",
-         "CONFIRMED (FR-14 corruption is normative)"),
-        ("BUG-FR14-005", "FR14", "P2", "PUT/DELETE on already-deleted category returns false-success",
-         "PENDING_GH_ISSUE",
-         "23127259/bugs/BUG-FR14-005.md; FR14 Run01",
-         "CONFIRMED (FR-14 CRUD integrity)"),
+        ("BUG-FR14-004", "FR14", "P2", "Empty PUT body corrupts existing category name to null",
+         "PENDING_GH_ISSUE (GH_AUTH_REQUIRED); body: BUG-FR14-004-issue-body.md",
+         "23127259/bugs/BUG-FR14-004.md; FR14 Run01 (TC-FR14-H05)",
+         "CONFIRMED"),
+        ("BUG-FR14-005", "FR14", "P2", "Already-deleted category PUT/DELETE returns false-success",
+         "PENDING_GH_ISSUE (GH_AUTH_REQUIRED); body: BUG-FR14-005-issue-body.md",
+         "23127259/bugs/BUG-FR14-005.md; FR14 Run01 (TC-FR14-037/038)",
+         "CONFIRMED"),
     ]
     for bug in bugs:
         ws.append(list(bug))

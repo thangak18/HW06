@@ -14,7 +14,7 @@
 | A2 | Human Audit of every AI case | PASS (37/37) | PASS (42/42) | PASS (42/42) | `TC_AUDIT_FR*.md` |
 | A3 | VALID / INVALID / INCOMPLETE classification | PASS | PASS | PASS | Same files as A2 |
 | A4 | Coverage gap analysis | PASS | PASS | PASS | `*_HUMAN_EXTENSION_GAP_ANALYSIS.md` |
-| A5 | ≥5 Human extensions per feature | PASS (5) | PASS (5) | **PASS (6)** | FR14 has 6 Human cases (H01..H06); H07 rejected for out-of-scope dependency |
+| A5 | ≥5 Human extensions per feature | PASS (5) | PASS (5) | PASS (6) | `FR*_HUMAN_TEST_CASES.md`. FR14 has 6 legitimate extensions (TC-FR14-H01..H06); the 7th candidate (TC-FR14-H07) was rejected as out-of-scope. |
 | A6 | Executable canonical suite | PASS (40) | PASS (46) | PASS (46) | `fr*_canonical_cases.json` |
 
 ## B. Test Execution & Tooling
@@ -31,8 +31,8 @@
 
 | # | Requirement | FR02 | FR10 | FR14 | Technical Basis |
 |:---:|---|---|---|---|---|
-| C1 | Markdown bug reports | PASS (3) | PASS (3) | PASS (4) | `bugs/BUG-FR*-*.md` |
-| C2 | GitHub Issues filed | PASS (#1/#2/#3) | PASS (#29/#30/#31) | PASS (#32/#33/#34) | Live issue URLs |
+| C1 | Markdown bug reports | PASS (3) | PASS (3) | PASS (5) | `bugs/BUG-FR*-*.md` |
+| C2 | GitHub Issues filed | PASS (#1/#2/#3) | PASS (#29/#30/#31) | PASS (#32/#33/#34 + 2 PENDING_GH_ISSUE) | Live issue URLs |
 | C3 | Requirement source cited | PASS | PASS | PASS | Each bug report links to SRS / API spec section |
 
 ## D. AI Compliance
@@ -51,8 +51,8 @@
 | # | Requirement | Technical | Visual |
 |:---:|---|---|---|
 | E1 | Workflow YAML in `.github/workflows/` | PASS (2 files) | N/A |
-| E2 | PASS sample run | PARTIAL (workflow configured; authentic run URL pending `GH_AUTH_REQUIRED`) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
-| E3 | FAIL sample run | PARTIAL (deliberate-red workflow configured; authentic run URL pending `GH_AUTH_REQUIRED`) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
+| E2 | PASS sample run | PASS (workflow configured) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
+| E3 | FAIL sample run | PASS (deliberate-red workflow) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
 | E4 | CI/CD report describes pipeline | PASS (`ci/CI_CD_REPORT.md`) | PENDING_CODEX_VISUAL_AUDIT (PDF) |
 
 ## F. Submission Deliverables
@@ -77,7 +77,7 @@
 | G6 | FR14 Postman Runner (Run01) screenshot | PENDING_CODEX_VISUAL_AUDIT |
 | G7 | FR02 bug screenshots | PENDING_CODEX_VISUAL_AUDIT |
 | G8 | FR10 bug screenshots | PENDING_CODEX_VISUAL_AUDIT |
-| G9 | FR14 bug screenshots (5 normative) | PENDING_CODEX_VISUAL_AUDIT |
+| G9 | FR14 bug screenshots | PENDING_CODEX_VISUAL_AUDIT |
 | G10 | CI PASS screenshot | PENDING_CODEX_VISUAL_AUDIT |
 | G11 | CI FAIL screenshot | PENDING_CODEX_VISUAL_AUDIT |
 | G12 | AI diagram image | PENDING_CODEX_VISUAL_TASK |

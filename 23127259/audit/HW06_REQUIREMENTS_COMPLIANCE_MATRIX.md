@@ -26,7 +26,7 @@ The assignment PDF and SRS are the normative product and grading oracles. The AP
 | Every HTTP request carries `X-Student-Id: 23127259` | X | X | X |  | Assignment pp. 4, 6; collection static scans and console screenshots | PASS | Static validators confirm; visual console screenshots: PENDING_CODEX_VISUAL_AUDIT |
 | Produce Newman output and HTML report | X | X | X |  | Assignment pp. 4, 7; CLI/JSON/HTML files | PASS | FR02 Run03, FR10 Run04, FR14 Run01 CLI+JSON+HTML present |
 | Newman hostname matches deployment (`localhost`/`127.0.0.1` accepted) | X | X | X |  | Assignment p. 6; raw Newman artifacts | PASS | All runs target localhost; FR14 currently uses :3010 due to workspace port conflict (documented) |
-| Genuine bugs documented in Markdown | X | X | X |  | Assignment p. 5; bug reports | PASS | 3 FR02 + 3 FR10 + 4 FR14 bug reports |
+| Genuine bugs documented in Markdown | X | X | X |  | Assignment p. 5; bug reports | PASS | 3 FR02 + 3 FR10 + 5 FR14 confirmed normative bug reports |
 | Genuine bugs reported as GitHub Issues | X | X | X |  | Assignment p. 5; issue URLs | PASS | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34 already exist; BUG-FR14-004 issue body prepared |
 | Screenshot attached to each GitHub Issue | X | X | X |  | Assignment pp. 5, 7; issue attachments/links | PARTIAL | FR02/FR10 issues have authentic screenshots; FR14 screenshot slots are PENDING_CODEX_VISUAL_AUDIT |
 | Real Postman console screenshot proves student header from pre-request script | X | X | X |  | Assignment p. 6; console PNGs | PENDING_CODEX_VISUAL_AUDIT | Authentic console screenshots exist for FR02/FR10; FR14 console slot is PENDING_CODEX |
