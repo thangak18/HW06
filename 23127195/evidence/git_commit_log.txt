@@ -1,7 +1,7 @@
 GIT COMMIT LOG - HW06 API Testing
 Sinh vien : 23127195
 Repository: https://github.com/thangak18/HW06
-Xuat luc  : 2026-09-02 16:33:25
+Xuat luc  : 2026-09-02 16:35:40
 
 Theo muc 12 cua de bai: 'Create a new Git commit for each step of the procedure'.
 
@@ -138,6 +138,14 @@ BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
 27. 2f6882c1  2026-09-02 16:26:49
     Commit : fix(bugs): lenh curl in ra phai dung bang lenh duoc chay + sua 2 loi bang chung
     Buoc   : Buoc 5 Report - sua bang chung: lenh in ra dung bang lenh chay
+
+28. 13717cad  2026-09-02 16:33:46
+    Commit : docs(bugs): nhung 32 anh bang chung vao than 24 GitHub Issue
+    Buoc   : Buoc 5 Report - bao cao loi + noi dung GitHub Issue
+
+29. 3e43abf1  2026-09-02 16:35:17
+    Commit : docs(pdf): xuat lai 9 PDF sau khi cap nhat bao cao CI/CD, AI audit va chi muc bang chung
+    Buoc   : Xuat 9 bao cao sang PDF (yeu cau muc 14)
 
 ====================================================================================================
 NHAT KY DAY DU (git log --stat)
@@ -777,3 +785,38 @@ fix(bugs): lenh curl in ra phai dung bang lenh duoc chay + sua 2 loi bang chung
  23127195/evidence/EVIDENCE_INDEX.md                       |  11 +-
  23127195/newman/sut-server.log                            |  22 ---
  103 files changed, 1033 insertions(+), 332 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  13717cad3a88dc35b90e0bf6f326b775bf5d7ccb
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:33:46 2026 +0700
+
+docs(bugs): nhung 32 anh bang chung vao than 24 GitHub Issue
+
+ 23127195/README.md                   |   2 +-
+ 23127195/evidence/git_commit_log.txt | 257 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 23127195/newman/sut-server.log       |  22 +++++
+ 23127195/scripts/export_git_log.py   |   4 +
+ 4 files changed, 283 insertions(+), 2 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  3e43abf10f3cb83b799aaf27115fcc357e05950b
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:35:17 2026 +0700
+
+docs(pdf): xuat lai 9 PDF sau khi cap nhat bao cao CI/CD, AI audit va chi muc bang chung
+
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 623326 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 267700 -> 297594 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 240135 -> 253787 bytes
+ 23127195/pdf/README.pdf              | Bin 329220 -> 345936 bytes
+ 9 files changed, 0 insertions(+), 0 deletions(-)
