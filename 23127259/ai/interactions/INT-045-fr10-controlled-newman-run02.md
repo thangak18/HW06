@@ -59,12 +59,27 @@ Do NOT file GitHub Issues yet.
 ## 2. Exact AI Output
 
 ```markdown
-PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES
+[See end report in this file below - output captured from interaction completion]
+
+Pre-run gates: Collection SHA PASS, Raw AI SHA PASS, 30/30 static validators PASS,
+stale runtime variables=0.
+
+Newman Run 02: 175 requests, 175 assertions, 164 passed, 11 failed, 0 request errors,
+runtime=1957ms, exit code SHELL PIPELINE = 0 (Newman process exit: NOT RELIABLY CAPTURED).
+
+Formal results (corrected): PASS=37, FAIL=7, EXP=2, TOTAL=46.
+
+FAIL cases: AI-016, AI-024, AI-026, AI-027, AI-029, AI-030, HUM-003.
+Candidate clusters: CANDIDATE-FR10-FSM-01 (AI-016, HUM-003), 
+CANDIDATE-FR10-FSM-02 (AI-024), CANDIDATE-SEC02-01 (AI-026,027,029),
+CANDIDATE-SEC03-01 (AI-030).
+
+Commit: e659c4c. Working tree: clean.
 ```
 
 ---
 
 ## 3. Human Evaluation & Outcome
 
-- **Verdict:** In progress. Executing Phase 2D.1D: Newman Run 02 for FR-10 Order State Machine (46 formal test cases) with repaired auth helpers (`/api/login`).
-- **Status:** EXACT PROMPT STORED; OUTPUT PENDING BACKFILL.
+- **Verdict:** COMPLETED. Phase 2D.1D: (1) INT-044 backfilled; (2) All 30 pre-run static gates passed; (3) Newman Run 02 executed once, 175 requests; (4) 46 formal cases evaluated with valid auth and per-case fixture isolation; (5) 7 normative oracle violations identified; (6) 4 candidate defect clusters clustered; (7) Cross-case contamination=NO; (8) Evidence committed as e659c4c.
+- **Status:** COMPLETED & COMMITTED (`e659c4c`). CANDIDATE_FAILURE_CONFIRMATION_REQUIRED.

@@ -364,3 +364,11 @@
 - **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2130, Output: Pending backfill)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-045`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-045-fr10-controlled-newman-run02.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-045-fr10-controlled-newman-run02.md)
+
+### INT-046: Phase 2D.1D.1: FR-10 Run02 Semantic Traceability + Oracle Reconciliation Audit
+- **Date & Time:** 2026-09-01 23:17:10+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Claude Sonnet 4.6 (Thinking)
+- **Purpose:** Phase 2D.1D.1: Audit Run02 against frozen formal cases; classify semantic drift; reconcile formal accounting
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2131, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-046`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-046-fr10-run02-semantic-traceability-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-046-fr10-run02-semantic-traceability-audit.md)

@@ -24057,3 +24057,39 @@ execution metrics, formal accounting, Run 02 evidence hashes, HTML/hostname vali
 execution summary, no repair in interaction, no bug filing, git commit, end report.
 ```
 
+---
+
+## INT-046
+
+- **Interaction ID:** INT-046
+- **Date & Time:** 2026-09-01 23:17:10+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Claude Sonnet 4.6 (Thinking)
+- **Stage:** Phase 2D.1D.1 – FR-10 Run02 Semantic Traceability + Oracle Reconciliation Audit
+- **Detailed Interaction File:** `ai/interactions/INT-046-fr10-run02-semantic-traceability-audit.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit We must STOP candidate-defect confirmation.
+
+PHASE 2D.1D.1 – FR-10 RUN02 SEMANTIC TRACEABILITY + ORACLE RECONCILIATION AUDIT
+
+Current Run 02 evidence commit: e659c4c
+
+DO NOT run Newman again.
+DO NOT send HTTP traffic.
+DO NOT confirm bugs.
+DO NOT create GitHub Issues.
+DO NOT modify Run 02 raw evidence.
+
+[Sections 1-31: AI Audit, preserve evidence, authoritative sources, 
+traceability matrix, frozen case mapping for AI-001..042 and HUM-001..005,
+audit collection vs frozen spec, audit Run02 actuals, semantic drift classification,
+trustworthiness per case, SEC-02 oracle correction, AI-025..029 table,
+SEC-03 AI-030..032, ownership AI-033/034, input AI-035..040, AI-041/042,
+Newman exit code correction, metric validity, rebuild formal reconciliation,
+candidate cluster re-evaluation, expected high-risk findings,
+static semantic validator, no collection repair, update derived docs,
+hash verification, git commit, end report]
+```
+

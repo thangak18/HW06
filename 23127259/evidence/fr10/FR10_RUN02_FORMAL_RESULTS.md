@@ -1,5 +1,7 @@
 # FR-10 Newman Run 02 – Formal Results
 
+> **Note:** CORRECTED AFTER SEMANTIC TRACEABILITY AUDIT (Phase 2D.1D.1 / INT-046)
+
 - **Run:** 02
 - **Collection Commit Under Test:** `a7e2f8d`
 - **Collection SHA-256:** `2ab6debf99a33b4a3886ca6307a3dd6e5ad583ab45090581c4768e8a710cd1f1`

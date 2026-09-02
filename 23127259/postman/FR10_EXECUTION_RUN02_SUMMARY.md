@@ -1,5 +1,7 @@
 # FR-10 Newman Execution Run 02 Summary
 
+> **Note:** CORRECTED AFTER SEMANTIC TRACEABILITY AUDIT (Phase 2D.1D.1 / INT-046)
+
 - **Phase:** 2D.1D – FR-10 Controlled Newman Run 02
 - **Interaction:** INT-045
 - **Date:** 2026-09-01
@@ -41,7 +43,8 @@
 | **Host** | `localhost:3000` |
 | **Start Timestamp (epoch ms)** | `1788278924915` |
 | **End Timestamp (epoch ms)** | `1788278926872` |
-| **Exit Code** | `0` |
+| **Shell Pipeline Exit Code** | `0` |
+| **Newman Process Exit Code** | `NOT RELIABLY CAPTURED` (no `pipefail`) |
 
 ---
 

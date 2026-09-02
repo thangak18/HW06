@@ -1,5 +1,7 @@
 # FR-10 Newman Run 02 – Failure Analysis
 
+> **Note:** CORRECTED AFTER SEMANTIC TRACEABILITY AUDIT (Phase 2D.1D.1 / INT-046)
+
 - **Run:** 02
 - **Total Normative Failures:** 5
 - **Failure Clusters:** 4 candidate root-cause clusters
