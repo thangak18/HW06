@@ -1,11 +1,11 @@
-# REPORT_OUTLINE — Khung bao cao HW06 (SV 23127060)
+# REPORT_OUTLINE — Khung báo cáo HW06 (SV 23127060)
 
-Moi muc duoi day anh xa truc tiep vao 1 yeu cau cham diem cua de bai.
-Khong duoc bo muc nao — "Missing any required document results in 0 points".
+Mỗi mục dưới đây ánh xạ trực tiếp vào 1 yêu cầu chấm điểm của đề bài.
+Không được bỏ mục nào — "Missing any required document results in 0 points".
 
 ---
 
-## Cay file bao cao
+## Cây file báo cáo
 
 ```
 report/
@@ -28,92 +28,92 @@ README.md
 
 ---
 
-## MAIN_REPORT.md — khung chi tiet
+## MAIN_REPORT.md — khung chi tiết
 
-### 1. Thong tin
-Ho ten, MSSV, lop, link GitHub repo cong khai, link video (neu co), ngay nop,
-tu danh gia diem.
+### 1. Thông tin
+Họ tên, MSSV, lớp, link GitHub repo công khai, link video (nếu có), ngày nộp,
+tự đánh giá điểm.
 
-### 2. Moi truong thuc nghiem
-OS, Node, npm, Postman, Newman, base URL, cach chay SUT, commit hash cua SUT.
+### 2. Môi trường thực nghiệm
+OS, Node, npm, Postman, Newman, base URL, cách chạy SUT, commit hash của SUT.
 
-### 3. Lua chon 3 API (muc 5 de bai)
+### 3. Lựa chọn 3 API (mục 5 đề bài)
 
-| API | Pool | FR | Endpoint | Ly do chon | Khong trung voi ai |
+| API | Pool | FR | Endpoint | Lý do chọn | Không trùng với ai |
 |---|---|---|---|---|---|
-| API-1 | A | FR-03 | `POST /api/forgot-password`, `POST /api/reset-password` | luong 2 buoc, giau rui ro bao mat | 23127195 lam FR-05, 23127259 lam FR-02 |
-| API-2 | B | FR-08 | `POST /api/checkout` (+FR-09, FR-10) | co state machine + tinh tien | ... |
-| API-3 | C | FR-15 | `POST/PUT/DELETE /api/products` | CRUD day du + phan quyen | ... |
+| API-1 | A | FR-03 | `POST /api/forgot-password`, `POST /api/reset-password` | luồng 2 bước, giàu rủi ro bảo mật | 23127195 làm FR-04, 23127259 làm FR-02 |
+| API-2 | B | FR-08 | `POST /api/checkout` (+FR-09, FR-10) | có state machine + tính tiền | 23127195 làm FR-09, 23127259 làm FR-10 |
+| API-3 | C | FR-15 | `POST/PUT/DELETE /api/products` | CRUD đầy đủ + phân quyền | 23127195 làm FR-16, 23127259 làm FR-14 |
 
-> Ghi ro: **Pool D (mobile) khong su dung trong HW06** theo muc 5 de bai.
+> Ghi rõ: **Pool D (mobile) không sử dụng trong HW06** theo mục 5 đề bài.
 
-### 4. Quy trinh sinh test case bang AI (muc 6.1)
-**Bat buoc chung minh khong dung 1 prompt tong.** Trinh bay 4 vong:
+### 4. Quy trình sinh test case bằng AI (mục 6.1)
+**Bắt buộc chứng minh không dùng 1 prompt tổng.** Trình bày 4 vòng:
 
-| Vong | Muc tieu | Prompt (trich) | So case thu duoc | AI_log entry |
+| Vòng | Mục tiêu | Prompt (trích) | Số case thu được | AI_log entry |
 |---|---|---|---|---|
 | 2a | domain partition | ... | 16 | #4 |
 | 2b | state transition | ... | 9 | #5 |
 | 2c | security SEC-01..07 | ... | 11 | #6 |
 | 2d | schema validation | ... | 6 | #7 |
 
-Kem bang do phu: moi tham so / moi chuyen trang thai / moi ma SEC deu co >=1 case.
+Kèm bảng độ phủ: mọi tham số / mọi chuyển trạng thái / mọi mã SEC đều có >=1 case.
 
-### 5. Audit ket qua AI (muc 6.2)
+### 5. Audit kết quả AI (mục 6.2)
 
-| API | Tong AI | VALID | INVALID | INCOMPLETE | % VALID |
+| API | Tổng AI | VALID | INVALID | INCOMPLETE | % VALID |
 |---|---|---|---|---|---|
 | API-1 | 36 | 22 | 5 | 9 | 61% |
 
-Kem **>= 5 vi du chi tiet** dang: case goc -> nhan -> ly do -> ban da sua.
+Kèm **>= 5 ví dụ chi tiết** dạng: case gốc -> nhãn -> lý do -> bản đã sửa.
 
-### 6. Test case tu bo sung (muc 6.3)
+### 6. Test case tự bổ sung (mục 6.3)
 
-| TC_ID | Tieu de | Nhom | Tai sao AI bo sot |
+| TC_ID | Tiêu đề | Nhóm | Tại sao AI bỏ sót |
 |---|---|---|---|
-| TC-C3-SEC-901 | DELETE san pham khong can token | SEC-03 | AI suy dien tu ten endpoint, khong doc code |
+| TC-C3-SEC-901 | DELETE sản phẩm không cần token | SEC-03 | AI suy diễn từ tên endpoint, không đọc code |
 
-Toi thieu 5 case/API, tong >= 15.
+Tối thiểu 5 case/API, tổng >= 15.
 
-### 7. Thuc thi (muc 6.4)
+### 7. Thực thi (mục 6.4)
 
-| API | Tong case | Passed | Failed | Fail do bug SUT | Thoi gian | Report |
+| API | Tổng case | Passed | Failed | Fail do bug SUT | Thời gian | Report |
 |---|---|---|---|---|---|---|
 | API-1 | 41 | 27 | 14 | 14 | 12.3s | `newman/23127060_API-1_*.html` |
 
-- Anh chup Postman Console co `X-Student-Id: 23127060`.
-- Giai thich ro: case FAIL nao la **expected failure** (phoi bay bug), case nao la loi that.
+- Ảnh chụp Postman Console có `X-Student-Id: 23127060`.
+- Giải thích rõ: case FAIL nào là **expected failure** (phơi bày bug), case nào là lỗi thật.
 
-### 8. Postman features da dung (muc 6, bat buoc liet ke)
-Bang checklist tu `report/05_postman_features.md`, kem screenshot cho feature GUI.
+### 8. Postman features đã dùng (mục 6, bắt buộc liệt kê)
+Bảng checklist từ `report/05_postman_features.md`, kèm screenshot cho feature GUI.
 
-### 9. Bug report (muc 6.5)
-Tom tat bang, chi tiet o `bugs/BUG_REPORT.md`, moi bug 1 link GitHub Issue + screenshot.
+### 9. Bug report (mục 6.5)
+Tóm tắt bảng, chi tiết ở `bugs/BUG_REPORT.md`, mỗi bug 1 link GitHub Issue + screenshot.
 
-| ID | Tieu de | Muc | SEC | API | Issue |
+| ID | Tiêu đề | Mức | SEC | API | Issue |
 |---|---|---|---|---|---|
-| C-01 | Product CRUD khong yeu cau xac thuc | Critical | SEC-03 | API-3 | #12 |
+| C-01 | Product CRUD không yêu cầu xác thực | Critical | SEC-02, SEC-03 | API-3 | #12 |
 
-### 10. CI/CD (muc 6)
-Cau hinh pipeline, 2 run (1 pass / 1 fail), screenshot + link, 2 commit hash.
+### 10. CI/CD (mục 6)
+Cấu hình pipeline, 2 run (1 pass / 1 fail), screenshot + link, 2 commit hash.
 
-### 11. Thiet ke bo sinh test bang AI (muc 7 — 10 diem)
-- **Diagram tu ve** (khong duoc AI sinh) — `agent-skill/diagram/23127060_generator_diagram.png`.
+### 11. Thiết kế bộ sinh test bằng AI (mục 7 — 10 điểm)
+- **Diagram tự vẽ** (không được AI sinh) — `agent-skill/diagram/23127060_generator_diagram.png`.
 - **Pseudocode** — `agent-skill/pseudocode/generator.pseudo.md`.
-- Ban hien thuc: `scripts/gen_testcases.py`, cach chay, vi du dau ra.
-- Han che va huong mo rong.
+- Bản hiện thực: `scripts/gen_testcases.py`, cách chạy, ví dụ đầu ra.
+- Hạn chế và hướng mở rộng.
 
-### 12. Phu luc A — AI Audit Report (muc 9)
-Cau mo dau bat buoc: **"I use AI tools for the following tasks"**, sau do bang
-Tool / Date-time / Prompt / Output cho tung tuong tac.
+### 12. Phụ lục A — AI Audit Report (mục 9)
+Câu mở đầu bắt buộc: **"I use AI tools for the following tasks"**, sau đó bảng
+Tool / Date-time / Prompt / Output cho từng tương tác.
 
-### 13. Phu luc B — AI Critique (muc 10, 200-300 tu)
-Tra loi du 3 cau: AI sai/thien lech/thieu o dau? Vi sao AI khong bat duoc?
-Ban hoc duoc nguyen tac gi khi lam viec voi AI?
+### 13. Phụ lục B — AI Critique (mục 10, 200-300 từ)
+Trả lời đủ 3 câu: AI sai/thiên lệch/thiếu ở đâu? Vì sao AI không bắt được?
+Bản thân học được nguyên tắc gì khi làm việc với AI?
 
 ---
 
-## README.md (bat buoc trong zip)
+## README.md (bắt buộc trong zip)
 
 ```markdown
 # HW06 — API Testing — Ninh Van Khai — 23127060
@@ -142,31 +142,31 @@ Ban hoc duoc nguyen tac gi khi lam viec voi AI?
 | | **Tong** | **100** | |
 
 ## Link
-- GitHub repo: 
-- GitHub Issues: 
-- Video demo generator (neu co): 
+- GitHub repo:
+- GitHub Issues:
+- Video demo generator (neu co):
 
 ## Cach chay lai
 ...
 ```
 
-Ten file nop: `23127060_HW06_AI_API_<3 chu so>.zip`
+Tên file nộp: `23127060_HW06_AI_API_<3 chữ số>.zip`
 
 ---
 
-## Bang kiem truoc khi nop (chay `validate_submission.py`)
+## Bảng kiểm trước khi nộp (chạy `validate_submission.py`)
 
 - [ ] MAIN_REPORT.md + .pdf
-- [ ] Link GitHub repo cong khai
+- [ ] Link GitHub repo công khai
 - [ ] 3 Postman collection .json
 - [ ] Newman report .html (>=3)
-- [ ] Danh sach Postman feature
+- [ ] Danh sách Postman feature
 - [ ] CI/CD report + 2 screenshot + 2 link run
 - [ ] Excel test case + sheet summary
-- [ ] Diagram (PNG/Mermaid) + pseudocode — diagram TU VE
-- [ ] (tuy chon) OpenAPI .yaml — neu AI sinh thi phai audit
+- [ ] Diagram (PNG/Mermaid) + pseudocode — diagram TỰ VẼ
+- [ ] (tùy chọn) OpenAPI .yaml — nếu AI sinh thì phải audit
 - [ ] Bug report + screenshot GitHub Issues
 - [ ] AI_AUDIT_REPORT.md + .pdf
-- [ ] AI_CRITIQUE.md + .pdf (200-300 tu)
+- [ ] AI_CRITIQUE.md + .pdf (200-300 từ)
 - [ ] git commit log (.txt)
-- [ ] README.md co bang tu danh gia + test summary
+- [ ] README.md có bảng tự đánh giá + test summary

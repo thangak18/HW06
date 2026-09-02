@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # restructure.sh - Doi ten members/member-N -> members/<MSSV> va cai dat goi skill cho 23127060.
 #
+# DA LOI THOI: nhom da chot bo han `members/`, dua thu muc thanh vien len goc repo.
+# Script nay da thi hanh xong va KHONG CAN CHAY LAI. Giu lai lam ghi chep.
+# Xem RESTRUCTURE.md.
+#
 # Chay tai REPO ROOT (thu muc HW06/):
 #   bash restructure.sh --dry-run          # xem truoc, khong sua gi
 #   bash restructure.sh                    # thuc hien

@@ -1,182 +1,182 @@
-# TESTCASE_TAXONOMY — Cong thuc dam bao >= 35 test case / API
+# TESTCASE_TAXONOMY — Công thức đảm bảo >= 35 test case / API
 
-De bai cam "1 prompt tong". Vi vay STEP 2 phai chay **4 vong prompt rieng biet**,
-moi vong 1 nhom ky thuat, moi vong ghi 1 entry AI_log rieng.
+Đề bài cấm "1 prompt tổng". Vì vậy STEP 2 phải chạy **4 vòng prompt riêng biệt**,
+mỗi vòng 1 nhóm kỹ thuật, mỗi vòng ghi 1 entry AI_log riêng.
 
 ---
 
-## Cau truc bat buoc cua 1 test case (cot trong CSV)
+## Cấu trúc bắt buộc của 1 test case (cột trong CSV)
 
-| Cot | Y nghia |
+| Cột | Ý nghĩa |
 |---|---|
 | `TC_ID` | `TC-<API>-<CAT>-<nnn>` vd `TC-A1-SEC-007` |
 | `API` | `API-1` / `API-2` / `API-3` |
 | `FR` | `FR-03` / `FR-08` / `FR-15` |
 | `Category` | `DOM` / `STA` / `SEC` / `SCH` |
 | `Technique` | EP, BVA, Decision Table, State Transition, Pairwise, Error Guessing, Fuzzing, Schema |
-| `Title` | 1 cau, bat dau bang dong tu |
+| `Title` | 1 câu, bắt đầu bằng động từ |
 | `Method` | GET/POST/PUT/DELETE |
-| `Endpoint` | duong dan |
-| `Preconditions` | trang thai DB / token can co |
-| `Request_Body` | JSON 1 dong (hoac `-`) |
-| `Request_Headers` | ngoai `X-Student-Id` va `Content-Type` |
-| `Expected_Status` | ma HTTP mong doi |
-| `Expected_Assertions` | dieu kien tren body, ngan cach `;` |
-| `Oracle` | `SPEC` hoac `IMPL` |
-| `SEC_Ref` | SEC-01..07 hoac `-` |
+| `Endpoint` | đường dẫn |
+| `Preconditions` | trạng thái DB / token cần có |
+| `Request_Body` | JSON 1 dòng (hoặc `-`) |
+| `Request_Headers` | ngoài `X-Student-Id` và `Content-Type` |
+| `Expected_Status` | mã HTTP mong đợi |
+| `Expected_Assertions` | điều kiện trên body, ngăn cách `;` |
+| `Oracle` | `SPEC` hoặc `IMPL` |
+| `SEC_Ref` | SEC-01..07 hoặc `-` |
 | `Priority` | P0/P1/P2 |
-| `Source` | `AI` hoac `HUMAN` |
+| `Source` | `AI` hoặc `HUMAN` |
 | `Audit_Label` | `VALID` / `INVALID` / `INCOMPLETE` |
-| `Audit_Note` | ly do gan nhan + da sua gi |
-| `Tag` | `@contract` hoac `@bug` |
-| `Bug_Ref` | ma bug lien quan (A-01, B-05, C-02...) hoac `-` |
+| `Audit_Note` | lý do gắn nhãn + đã sửa gì |
+| `Tag` | `@contract` hoặc `@bug` |
+| `Bug_Ref` | mã bug liên quan (A-01, B-05, C-02...) hoặc `-` |
 
 ---
 
-## Vong 1 — DOMAIN PARTITION (`DOM`), muc tieu >= 14 case/API
+## Vòng 1 — DOMAIN PARTITION (`DOM`), mục tiêu >= 14 case/API
 
-Voi **moi tham so** cua API, sinh day du:
+Với **mỗi tham số** của API, sinh đầy đủ:
 
-1. **Equivalence Partitioning**: 1 case hop le + moi lop khong hop le 1 case.
-2. **Boundary Value Analysis**: voi tham so co bien (do dai chuoi, gia tri so) lay
+1. **Equivalence Partitioning**: 1 case hợp lệ + mỗi lớp không hợp lệ 1 case.
+2. **Boundary Value Analysis**: với tham số có biên (độ dài chuỗi, giá trị số) lấy
    `min-1, min, min+1, max-1, max, max+1`.
-3. **Missing / null / wrong type**: thieu key, `null`, sai kieu (so <-> chuoi), array/object thay vi scalar.
-4. **Decision table** khi co >= 2 tham so tuong tac (vd `apply-coupon`:
-   `code hop le?` x `total >= min?` x `con han?` x `chua vuot han muc?` = 16 to hop, chon 8-10 to hop dai dien).
+3. **Missing / null / wrong type**: thiếu key, `null`, sai kiểu (số <-> chuỗi), array/object thay vì scalar.
+4. **Decision table** khi có >= 2 tham số tương tác (vd `apply-coupon`:
+   `code hợp lệ?` x `total >= min?` x `còn hạn?` x `chưa vượt hạn mức?` = 16 tổ hợp, chọn 8-10 tổ hợp đại diện).
 
-Cong thuc nhanh: `so tham so x 4 lop toi thieu + so bien x 3`.
+Công thức nhanh: `số tham số x 4 lớp tối thiểu + số biên x 3`.
 
-**Vi du API-3 `POST /api/products`:** 5 tham so x 4 = 20 case DOM ngay tu dau.
+**Ví dụ API-3 `POST /api/products`:** 5 tham số x 4 = 20 case DOM ngay từ đầu.
 
 ---
 
-## Vong 2 — STATE TRANSITION (`STA`), muc tieu >= 8 case/API
+## Vòng 2 — STATE TRANSITION (`STA`), mục tiêu >= 8 case/API
 
-Dung ky thuat **State Transition Testing (0-switch coverage day du)**.
+Dùng kỹ thuật **State Transition Testing (0-switch coverage đầy đủ)**.
 
-- **API-2 (FR-10 order state machine):** bang 5x5 = 25 o. Test toan bo 25 o la ly tuong;
-  toi thieu: 4 chuyen hop le + 10 chuyen khong hop le + 2 chuyen "bug co y"
+- **API-2 (FR-10 order state machine):** bảng 5x5 = 25 ô. Test toàn bộ 25 ô là lý tưởng;
+  tối thiểu: 4 chuyển hợp lệ + 10 chuyển không hợp lệ + 2 chuyển "bug cố ý"
   (`shipping -> canceled` qua `/cancel`, `canceled -> delivered` qua admin).
-- **API-1 (FR-03 la state machine 2 buoc):** trang thai token =
-  `NONE -> ISSUED -> USED`. Test: reset khi chua co token; reset 2 lan voi cung token;
-  xin token 2 lan roi dung token cu; dung token cua user khac; reset roi login bang mat khau cu;
-  reset khi tai khoan dang bi khoa.
-- **API-3 (vong doi san pham):** `NOT_EXIST -> CREATED -> UPDATED -> DELETED -> NOT_EXIST`.
-  Test: GET sau DELETE; PUT sau DELETE; DELETE 2 lan; POST trung ten; GET id vua tao.
+- **API-1 (FR-03 là state machine 2 bước):** trạng thái token =
+  `NONE -> ISSUED -> USED`. Test: reset khi chưa có token; reset 2 lần với cùng token;
+  xin token 2 lần rồi dùng token cũ; dùng token của user khác; reset rồi login bằng mật khẩu cũ;
+  reset khi tài khoản đang bị khóa.
+- **API-3 (vòng đời sản phẩm):** `NOT_EXIST -> CREATED -> UPDATED -> DELETED -> NOT_EXIST`.
+  Test: GET sau DELETE; PUT sau DELETE; DELETE 2 lần; POST trùng tên; GET id vừa tạo.
 
 ---
 
-## Vong 3 — SECURITY (`SEC`), muc tieu >= 9 case/API
+## Vòng 3 — SECURITY (`SEC`), mục tiêu >= 9 case/API
 
-> **DA SUA sau STEP 3.** Ban truoc cua muc nay ghi: *"Bat buoc phu du 7 ma SEC-01..SEC-07 cho
-> **moi** API"*, va dung mot bang SEC **suy dien theo OWASP**. Ca hai deu sai, va chung gay hai
-> that: yeu cau "du 7 ma cho moi API" la bat kha thi (SEC-07 noi ve OTP thi khong the ap vao
-> API quan ly san pham), nen cach duy nhat de "dat chi tieu" la gan bua. Ket qua o STEP 3:
-> **39/41 case SEC bi gan sai ma**. Xem `report/03_audit.md` muc 4.
+> **ĐÃ SỬA sau STEP 3.** Bản trước của mục này ghi: *"Bắt buộc phủ đủ 7 mã SEC-01..SEC-07 cho
+> **mọi** API"*, và dùng một bảng SEC **suy diễn theo OWASP**. Cả hai đều sai, và chúng gây hại
+> thật: yêu cầu "đủ 7 mã cho mọi API" là bất khả thi (SEC-07 nói về OTP thì không thể áp vào
+> API quản lý sản phẩm), nên cách duy nhất để "đạt chỉ tiêu" là gán bừa. Kết quả ở STEP 3:
+> **39/41 case SEC bị gán sai mã**. Xem `report/03_audit.md` mục 4.
 
-### Bang SEC-01..SEC-07 (nguon duy nhat: `eshop-sut/README.md` muc 9)
+### Bảng SEC-01..SEC-07 (nguồn duy nhất: `eshop-sut/README.md` mục 9)
 
-| Ma | Yeu cau | Kiem the nao o tang API |
+| Mã | Yêu cầu | Kiểm thế nào ở tầng API |
 |---|---|---|
-| SEC-01 | Mat khau **khong** duoc luu plaintext | Doc response cua `login` / `users/me`: neu thay `password` dung nguyen van mat khau da gui thi da chung minh vi pham |
-| SEC-02 | API co tinh bao mat phai yeu cau JWT hop le | Goi khong `Authorization`; `Bearer ` rong; token sai chu ky; token cua user khac. Ky vong 401/403 |
-| SEC-03 | API Admin phai kiem `role='admin'`, **khong chi** kiem token ton tai | Dung token cua user thuong (hop le) goi endpoint admin. Ky vong 403 |
-| SEC-04 | Du lieu user nhap phai duoc escape khi hien thi | Gui `<script>`, `<img src=x onerror=>`, `javascript:` roi doc lai xem server co luu tho khong |
-| SEC-05 | Truy van CSDL phai dung Parameterized Query | `%' OR '1'='1`, `' UNION SELECT ...`, `'; DROP TABLE ...--`, va mot dau nhay don don le |
-| SEC-06 | API cap nhat ho so **khong duoc** cho doi truong `role` tu client | `PUT /api/users/me` kem `{"role":"admin"}` roi doc lai role |
-| SEC-07 | OTP reset phai >= 6 chu so, co thoi han, vo hieu hoa sau khi dung | Do dai token; dung lai token da dung; dung token cua email khac; token cu sau khi xin token moi |
+| SEC-01 | Mật khẩu **không** được lưu plaintext | Đọc response của `login` / `users/me`: nếu thấy `password` đúng nguyên văn mật khẩu đã gửi thì đã chứng minh vi phạm |
+| SEC-02 | API có tính bảo mật phải yêu cầu JWT hợp lệ | Gọi không `Authorization`; `Bearer ` rỗng; token sai chữ ký; token của user khác. Kỳ vọng 401/403 |
+| SEC-03 | API Admin phải kiểm `role='admin'`, **không chỉ** kiểm token tồn tại | Dùng token của user thường (hợp lệ) gọi endpoint admin. Kỳ vọng 403 |
+| SEC-04 | Dữ liệu user nhập phải được escape khi hiển thị | Gửi `<script>`, `<img src=x onerror=>`, `javascript:` rồi đọc lại xem server có lưu thô không |
+| SEC-05 | Truy vấn CSDL phải dùng Parameterized Query | `%' OR '1'='1`, `' UNION SELECT ...`, `'; DROP TABLE ...--`, và một dấu nháy đơn đơn lẻ |
+| SEC-06 | API cập nhật hồ sơ **không được** cho đổi trường `role` từ client | `PUT /api/users/me` kèm `{"role":"admin"}` rồi đọc lại role |
+| SEC-07 | OTP reset phải >= 6 chữ số, có thời hạn, vô hiệu hóa sau khi dùng | Độ dài token; dùng lại token đã dùng; dùng token của email khác; token cũ sau khi xin token mới |
 
-### Chi tieu do phu — dat lai cho dung
+### Chỉ tiêu độ phủ — đặt lại cho đúng
 
-- **Toan bo suite phai phu du 7 ma SEC-01..SEC-07.** Day moi la yeu cau cua de bai.
-- **Tung API chi phu nhung ma thuc su ap dung duoc**, va phan khong ap dung **phai co giai
-  trinh mot dong** trong bao cao. Vi du: API-3 (quan ly san pham) khong dung toi luu tru mat
-  khau lan OTP, nen khong co case SEC-01 va SEC-07 — do la dung, khong phai thieu sot.
-- Nguong so luong van la **>= 9 case SEC/API**, nhung dem theo **so phep thu bao mat**, khong
-  phai theo so ma SEC khac nhau.
+- **Toàn bộ suite phải phủ đủ 7 mã SEC-01..SEC-07.** Đây mới là yêu cầu của đề bài.
+- **Từng API chỉ phủ những mã thực sự áp dụng được**, và phần không áp dụng **phải có giải
+  trình một dòng** trong báo cáo. Ví dụ: API-3 (quản lý sản phẩm) không dùng tới lưu trữ mật
+  khẩu lẫn OTP, nên không có case SEC-01 và SEC-07 — đó là đúng, không phải thiếu sót.
+- Ngưỡng số lượng vẫn là **>= 9 case SEC/API**, nhưng đếm theo **số phép thử bảo mật**, không
+  phải theo số mã SEC khác nhau.
 
-**Quy tac chong tai pham:** truoc khi gan mot ma SEC, phai tra loi duoc cau
-*"dieu nay vi pham cau nao trong `README.md` muc 9?"*. Neu khong tra loi duoc thi **de
-`SEC_Ref = '-'`**, khong duoc gan ma gan dung nhat. Mot so vector tan cong that su **khong**
-duoc SEC-01..07 phu (user enumeration, path traversal, mass assignment truong khac `role`,
-thieu rate limiting) — chung van la test hop le, chi la khong co ma SEC de gan.
+**Quy tắc chống tái phạm:** trước khi gắn một mã SEC, phải trả lời được câu
+*"điều này vi phạm câu nào trong `README.md` mục 9?"*. Nếu không trả lời được thì **để
+`SEC_Ref = '-'`**, không được gắn mã gần đúng nhất. Một số vector tấn công thật sự **không**
+được SEC-01..07 phủ (user enumeration, path traversal, mass assignment trường khác `role`,
+thiếu rate limiting) — chúng vẫn là test hợp lệ, chỉ là không có mã SEC để gắn.
 
-**Quy tac ve ky vong:** `Expected_Status` phai truy nguoc duoc ve mot cau trong SRS. Ky vong
-`429` (rate limiting) va `409` (conflict) **khong co can cu trong SRS nay** — dung dat chung
-tru khi trich duoc dong cu the.
+**Quy tắc về kỳ vọng:** `Expected_Status` phải truy ngược được về một câu trong SRS. Kỳ vọng
+`429` (rate limiting) và `409` (conflict) **không có căn cứ trong SRS này** — đừng đặt chúng
+trừ khi trích được dòng cụ thể.
 
-## Vong 4 — SCHEMA VALIDATION (`SCH`), muc tieu >= 5 case/API
+## Vòng 4 — SCHEMA VALIDATION (`SCH`), mục tiêu >= 5 case/API
 
-Dung `pm.response.to.have.jsonSchema(schema)` (Postman ho tro AJV san).
+Dùng `pm.response.to.have.jsonSchema(schema)` (Postman hỗ trợ AJV sẵn).
 
-Moi API can it nhat:
-1. Schema cua response thanh cong (200) — dung ten truong, dung kieu, khong thua truong.
-2. Schema cua tung response loi (400 / 401 / 403 / 404 / 500) — phai la
+Mỗi API cần ít nhất:
+1. Schema của response thành công (200) — đúng tên trường, đúng kiểu, không thừa trường.
+2. Schema của từng response lỗi (400 / 401 / 403 / 404 / 500) — phải là
    `{ "error": string }`.
-3. `Content-Type` phai la `application/json` (bat bug **C-03** tra HTML).
-4. Kieu du lieu on dinh giua cac lan goi (bat bug **C-05** `price` khi string khi number).
-5. Khong lo truong nhay cam (`password`, `reset_token`) — giao voi SEC-02.
+3. `Content-Type` phải là `application/json` (bắt bug **C-03** trả HTML).
+4. Kiểu dữ liệu ổn định giữa các lần gọi (bắt bug **C-05** `price` khi string khi number).
+5. Không lộ trường nhạy cảm (`password`, `reset_token`) — giao với SEC-02.
 
-Schema JSON luu tai `postman/scripts/schemas/<API>.json`, nap vao collection variable.
+Schema JSON lưu tại `postman/scripts/schemas/<API>.json`, nạp vào collection variable.
 
 ---
 
-## Bang kiem so luong (dien truoc khi qua STEP 3)
+## Bảng kiểm số lượng (điền trước khi qua STEP 3)
 
-| API | DOM | STA | SEC | SCH | AI tong | HUMAN them | Tong |
+| API | DOM | STA | SEC | SCH | AI tổng | HUMAN thêm | Tổng |
 |---|---|---|---|---|---|---|---|
 | API-1 FR-03 | >=14 | >=8 | >=9 | >=5 | **>=36** | >=5 | >=41 |
 | API-2 FR-08 | >=14 | >=8 | >=9 | >=5 | **>=36** | >=5 | >=41 |
 | API-3 FR-15 | >=16 | >=6 | >=9 | >=5 | **>=36** | >=5 | >=41 |
 
-Neu chua du: **khong duoc che them case rac**. Quay lai vong tuong ung, tang do sau
-(them bien, them to hop decision table, them payload SEC) va ghi ro trong AI_log
-la da phai prompt lai vong nao.
+Nếu chưa đủ: **không được chế thêm case rác**. Quay lại vòng tương ứng, tăng độ sâu
+(thêm biên, thêm tổ hợp decision table, thêm payload SEC) và ghi rõ trong AI_log
+là đã phải prompt lại vòng nào.
 
 ---
 
-## Huong dan gan nhan AUDIT (STEP 3)
+## Hướng dẫn gắn nhãn AUDIT (STEP 3)
 
-| Nhan | Khi nao dung |
+| Nhãn | Khi nào dùng |
 |---|---|
-| **VALID** | Buoc, du lieu, ky vong deu dung so voi spec; chay duoc ngay. |
-| **INVALID** | Ky vong sai (vd doi 400 nhung spec noi 404), endpoint sai, precondition bat kha thi, hoac trung lap voi case khac. **Phai sua roi ghi cai gi da sua.** |
-| **INCOMPLETE** | Y tuong dung nhung thieu: thieu assertion tren body, thieu precondition, thieu du lieu cu the, khong kiem tra tac dung phu (vd doi mat khau xong khong thu login lai). **Phai bo sung.** |
+| **VALID** | Bước, dữ liệu, kỳ vọng đều đúng so với spec; chạy được ngay. |
+| **INVALID** | Kỳ vọng sai (vd đòi 400 nhưng spec nói 404), endpoint sai, precondition bất khả thi, hoặc trùng lặp với case khác. **Phải sửa rồi ghi cái gì đã sửa.** |
+| **INCOMPLETE** | Ý tưởng đúng nhưng thiếu: thiếu assertion trên body, thiếu precondition, thiếu dữ liệu cụ thể, không kiểm tra tác dụng phụ (vd đổi mật khẩu xong không thử login lại). **Phải bổ sung.** |
 
-Moi nhan phai co `Audit_Note` >= 1 cau ly do. Ty le ky vong hop ly:
-khoang 55-70% VALID, 10-20% INVALID, 20-30% INCOMPLETE. Neu AI ra 100% VALID
-=> gan nhu chac chan la audit hoi hot, phai ra soat lai.
+Mỗi nhãn phải có `Audit_Note` >= 1 câu lý do. Tỷ lệ kỳ vọng hợp lý:
+khoảng 55-70% VALID, 10-20% INVALID, 20-30% INCOMPLETE. Nếu AI ra 100% VALID
+=> gần như chắc chắn là audit hời hợt, phải rà soát lại.
 
 ---
 
-## Huong dan EXTEND (STEP 4) — >= 5 case/API AI thuong bo sot
+## Hướng dẫn EXTEND (STEP 4) — >= 5 case/API AI thường bỏ sót
 
-Danh sach goi y (chon >=5, phai giai thich **tai sao AI bo sot**):
+Danh sách gợi ý (chọn >=5, phải giải thích **tại sao AI bỏ sót**):
 
 **API-1:**
-- Brute force 4 chu so token bang Collection Runner + data file 20 gia tri (SEC-07).
-- Dung token cua user A de doi mat khau user B (IDOR tren luong reset).
-- Reset mat khau khi tai khoan dang `locked_until` -> kiem tra co mo khoa khong (A-06).
-- Race condition: goi `forgot-password` 2 lan song song, token dau con dung khong.
-- Kiem tra `login` sau reset khong con tra `password` trong body (A-07).
+- Brute force 4 chữ số token bằng Collection Runner + data file 20 giá trị (SEC-07).
+- Dùng token của user A để đổi mật khẩu user B (IDOR trên luồng reset).
+- Reset mật khẩu khi tài khoản đang `locked_until` -> kiểm tra có mở khóa không (A-06).
+- Race condition: gọi `forgot-password` 2 lần song song, token đầu còn dùng không.
+- Kiểm tra `login` sau reset không còn trả `password` trong body (A-07).
 
 **API-2:**
-- Checkout voi `total_amount` am roi kiem tra `GET /api/orders/:id` (B-01).
-- Ap coupon voi `total_amount` **bang dung** `min_order_amount` (loi bien `>` — B-06).
-- Bo `user_id` khoi `apply-coupon` de vuot han muc su dung (B-07).
-- User B goi `PUT /api/admin/orders/<order cua A>/status` (B-03, role escalation).
-- Chuoi `pending -> confirmed -> shipping -> canceled` phai bi chan (B-09).
-- `canceled -> delivered` phai bi chan (B-10).
+- Checkout với `total_amount` âm rồi kiểm tra `GET /api/orders/:id` (B-01).
+- Áp coupon với `total_amount` **bằng đúng** `min_order_amount` (lỗi biên `>` — B-06).
+- Bỏ `user_id` khỏi `apply-coupon` để vượt hạn mức sử dụng (B-07).
+- User B gọi `PUT /api/admin/orders/<order của A>/status` (B-03, role escalation).
+- Chuỗi `pending -> confirmed -> shipping -> canceled` phải bị chặn (B-09).
+- `canceled -> delivered` phải bị chặn (B-10).
 
 **API-3:**
-- `DELETE /api/products/1` **khong token** (C-01) — AI hay gia dinh endpoint admin thi da co auth.
-- `GET /api/products?search=%25' UNION SELECT ...` doc bang `users` (C-02).
-- Kiem tra `Content-Type` khi SQL loi (C-03) — AI hiem khi test content-type.
-- So sanh kieu `price` giua id chan va id le (C-05) — can 2 request moi lo ra.
-- `PUT` thieu truong `description` -> kiem tra co bi ghi `null` khong (C-09).
+- `DELETE /api/products/1` **không token** (C-01) — AI hay giả định endpoint admin thì đã có auth.
+- `GET /api/products?search=%25' UNION SELECT ...` đọc bảng `users` (C-02).
+- Kiểm tra `Content-Type` khi SQL lỗi (C-03) — AI hiếm khi test content-type.
+- So sánh kiểu `price` giữa id chẵn và id lẻ (C-05) — cần 2 request mới lộ ra.
+- `PUT` thiếu trường `description` -> kiểm tra có bị ghi `null` không (C-09).
 
-**Ly do AI bo sot — chon 1 trong 4 khi viet bao cao:**
-1. *Prompt quality*: prompt khong yeu cau ro "test ca truong hop endpoint thieu auth".
-2. *Model limitation*: AI suy dien tu ten endpoint (`/api/admin/...`) chu khong doc code, nen gia dinh da co phan quyen.
-3. *API characteristic*: bug chi lo ra khi **ket hop 2 request** (vd so kieu `price` id chan/le), AI sinh tung case doc lap.
-4. *Spec gap*: spec khong mo ta hanh vi nay nen AI khong co gi de bam vao.
+**Lý do AI bỏ sót — chọn 1 trong 4 khi viết báo cáo:**
+1. *Prompt quality*: prompt không yêu cầu rõ "test cả trường hợp endpoint thiếu auth".
+2. *Model limitation*: AI suy diễn từ tên endpoint (`/api/admin/...`) chứ không đọc code, nên giả định đã có phân quyền.
+3. *API characteristic*: bug chỉ lộ ra khi **kết hợp 2 request** (vd so kiểu `price` id chẵn/lẻ), AI sinh từng case độc lập.
+4. *Spec gap*: spec không mô tả hành vi này nên AI không có gì để bám vào.

@@ -17,10 +17,10 @@ import argparse, os, re, sys
 from datetime import datetime, timezone, timedelta
 
 TZ = timezone(timedelta(hours=7))
-HEADER = """# AI_log — Nhat ky lam viec voi AI (HW06 API Testing, SV {sid})
+HEADER = """# AI_log — Nhật ký làm việc với AI (HW06 API Testing, SV {sid})
 
-Moi luot chat = 1 entry. Prompt goc va output day du luu trong `ai/interactions/`.
-File nay la nguon duy nhat de sinh `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py build-audit`).
+Mỗi lượt chat là một entry. Prompt gốc và output đầy đủ em lưu trong `ai/interactions/`.
+File này là nguồn duy nhất để sinh ra `ai/audit/AI_AUDIT_REPORT.md` (`ai_log.py build-audit`).
 
 """
 
@@ -120,39 +120,39 @@ def cmd_build_audit(a):
         sys.exit(1)
     e = parse_entries(log)
     tools = sorted({x["tool"] for x in e})
-    L = [f"# AI Audit Report — HW06 API Testing (SV {a.sid} — Ninh Van Khai)", "",
-         "> Phu luc bat buoc theo de bai muc 9.", "",
-         "## Tuyen bo su dung AI", "",
+    L = [f"# AI Audit Report — HW06 API Testing (SV {a.sid} — Ninh Văn Khải)", "",
+         "> Phụ lục bắt buộc theo đề bài mục 9.", "",
+         "## Tuyên bố sử dụng AI", "",
          "**I use AI tools for the following tasks.**", "",
-         "Toan bo qua trinh lam HW06 (sinh test case tu API spec, audit, mo rong, dung Postman",
-         "collection, phan tich ket qua Newman, soan bao cao) deu co su tham gia cua cong cu AI.",
-         "Moi luot tuong tac deu duoc ghi lai tu dong ngay tai thoi diem xay ra bang",
-         "`agent-skill/eshop-api-23127060/scripts/ai_log.py`, khong viet lai tu tri nho.", "",
-         "| Cong cu AI da dung | Vai tro |", "|---|---|"]
+         "Toàn bộ quá trình em làm HW06 (sinh test case từ API spec, audit, mở rộng, dựng Postman",
+         "collection, phân tích kết quả Newman, soạn báo cáo) đều có sự tham gia của công cụ AI.",
+         "Mỗi lượt tương tác đều được ghi lại tự động ngay tại thời điểm nó xảy ra bằng",
+         "`agent-skill/eshop-api-23127060/scripts/ai_log.py`, em không viết lại từ trí nhớ.", "",
+         "| Công cụ AI đã dùng | Vai trò |", "|---|---|"]
     for t in tools:
-        L.append(f"| {t} | Sinh / bien doi tai lieu va test case, chay script, tong hop bao cao |")
+        L.append(f"| {t} | Sinh / biến đổi tài liệu và test case, chạy script, tổng hợp báo cáo |")
     L += ["",
-         "Cac ket qua so lieu (passed/failed) **khong** do AI uoc luong ma duoc tinh tu file",
-         "`newman/*.json` that qua `scripts/summarize_newman.py`. So do bo sinh test do sinh vien",
-         "**tu ve**, khong do AI sinh (de bai muc 11).", "",
-         f"Sinh tu `ai/AI_log.md` luc {datetime.now(TZ).isoformat(timespec='seconds')} · tong {len(e)} luot tuong tac.",
-         "", "## Phu luc A — Bang tuong tac AI", "",
-         "| # | Thoi diem | Buoc | Tool | Noi dung | Prompt goc | Output | Human verified |",
+         "Các kết quả số liệu (passed/failed) **không** do AI ước lượng, mà được tính từ file",
+         "`newman/*.json` thật qua `scripts/summarize_newman.py`. Sơ đồ bộ sinh test là do em",
+         "**tự vẽ**, không do AI sinh (đề bài mục 11).", "",
+         f"Sinh từ `ai/AI_log.md` lúc {datetime.now(TZ).isoformat(timespec='seconds')} · tổng {len(e)} lượt tương tác.",
+         "", "## Phụ lục A — Bảng tương tác AI", "",
+         "| # | Thời điểm | Bước | Tool | Nội dung | Prompt gốc | Output | Human verified |",
          "|---|---|---|---|---|---|---|---|"]
     for x in e:
         L.append(f"| {x['id']} | {x['ts']} | {x['step']} | {x['tool']} | {x['title']} | "
                  f"{x['prompt']} | {x['output']} | {x['verified']} |")
-    L += ["", "## Phu luc B — Chi tiet tung luot", ""]
+    L += ["", "## Phụ lục B — Chi tiết từng lượt", ""]
     for x in e:
-        L += [f"### #{x['id']} · {x['title']}", f"- Thoi diem: {x['ts']} · Buoc: {x['step']} · Tool: {x['tool']}",
+        L += [f"### #{x['id']} · {x['title']}", f"- Thời điểm: {x['ts']} · Bước: {x['step']} · Tool: {x['tool']}",
               f"- Prompt: {x['prompt']}", f"- Output: {x['output']}",
               f"- Files: {x['files']}", f"- Human verified: {x['verified']}", ""]
-    L += ["## Ghi chu", "",
-          "- Toan bo prompt goc (nguyen van) va output nam trong `ai/interactions/`.",
-          "- Cot `Human verified` = `yes` nghia la sinh vien da doc lai va chiu trach nhiem ve ket qua luot do.",
-          "- So lieu passed/failed trong bao cao duoc tinh tu `newman/*.json` bang",
-          "  `scripts/summarize_newman.py`, khong do AI uoc luong.",
-          "- So do bo sinh test (`agent-skill/diagram/`) do sinh vien tu ve, khong do AI sinh."]
+    L += ["## Ghi chú", "",
+          "- Toàn bộ prompt gốc (nguyên văn) và output nằm trong `ai/interactions/`.",
+          "- Cột `Human verified` = `yes` nghĩa là em đã đọc lại và chịu trách nhiệm về kết quả lượt đó.",
+          "- Số liệu passed/failed trong báo cáo được tính từ `newman/*.json` bằng",
+          "  `scripts/summarize_newman.py`, không do AI ước lượng.",
+          "- Sơ đồ bộ sinh test (`agent-skill/diagram/`) là do em tự vẽ, không do AI sinh."]
     outdir = os.path.join(ai, "audit")
     os.makedirs(outdir, exist_ok=True)
     p = os.path.join(outdir, "AI_AUDIT_REPORT.md")

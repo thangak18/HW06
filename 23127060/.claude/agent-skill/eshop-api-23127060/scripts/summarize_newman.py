@@ -77,16 +77,18 @@ def main():
         elif "_DD-" in b:
             dd.append(f)
 
-    L = ["# STEP 6 — Thuc thi bang Postman + Newman", "",
-         "> HW06 — API Testing | SV **Ninh Van Khai — 23127060** | De bai muc 6.4", "",
-         "Moi con so trong tai lieu nay duoc sinh tu `newman/*.json` bang",
-         "`agent-skill/eshop-api-23127060/scripts/summarize_newman.py`. Khong con so nao duoc go tay.", ""]
+    L = ["# STEP 6 — Thực thi bằng Postman + Newman", "",
+         "> HW06 — API Testing | SV **Ninh Văn Khải — 23127060** | Đề bài mục 6.4", "",
+         "Mọi con số trong tài liệu này được sinh từ `newman/*.json` bằng",
+         "`agent-skill/eshop-api-23127060/scripts/summarize_newman.py`. Em không gõ tay con số nào.", "",
+         "> Cột **Tiêu đề** trong mục 4 lấy nguyên văn từ `testcases/API-*_final.csv`, và cột",
+         "> **Thông báo thất bại** là nguyên văn output của Newman — em giữ nguyên để làm bằng chứng.", ""]
 
     # ---------- 1. Bo day du ----------
-    L += ["---", "", "## 1. Bo test day du (Oracle = SPEC)", "",
-          "Day la ket qua kiem thu that su: moi ky vong deu viet theo dac ta, nen cac case phoi bay",
-          "bug cua SUT **se that bai** — do la muc dich cua chung.", "",
-          "| API | Case | Case PASS | Case FAIL | Assertion | Assertion FAIL | Thoi gian | Bao cao HTML |",
+    L += ["---", "", "## 1. Bộ test đầy đủ (Oracle = SPEC)", "",
+          "Đây là kết quả kiểm thử thật sự: mọi kỳ vọng đều viết theo đặc tả, nên các case phơi bày",
+          "bug của SUT **sẽ thất bại** — đó là mục đích của chúng.", "",
+          "| API | Case | Case PASS | Case FAIL | Assertion | Assertion FAIL | Thời gian | Báo cáo HTML |",
           "|---|---|---|---|---|---|---|---|"]
     tong = collections.Counter()
     chi_tiet = {}
@@ -103,17 +105,17 @@ def main():
         tong["case"] += len(per); tong["pass"] += p; tong["fail"] += fl
         tong["as"] += st["assertions"]["total"]; tong["asf"] += st["assertions"]["failed"]
         chi_tiet[api] = per
-    L.append("| **Tong** | **%d** | **%d** | **%d** | **%d** | **%d** | | |"
+    L.append("| **Tổng** | **%d** | **%d** | **%d** | **%d** | **%d** | | |"
              % (tong["case"], tong["pass"], tong["fail"], tong["as"], tong["asf"]))
     L.append("")
-    L.append("Ty le case PASS: **%.0f%%** (%d/%d). Ty le assertion PASS: **%.0f%%** (%d/%d)."
+    L.append("Tỷ lệ case PASS: **%.0f%%** (%d/%d). Tỷ lệ assertion PASS: **%.0f%%** (%d/%d)."
              % (100.0 * tong["pass"] / tong["case"], tong["pass"], tong["case"],
                 100.0 * (tong["as"] - tong["asf"]) / tong["as"], tong["as"] - tong["asf"], tong["as"]))
     L.append("")
 
     # ---------- 2. Phan loai that bai ----------
-    L += ["## 2. Phan loai case that bai", "",
-          "| API | FAIL tong | Co chu dich (`@bug`) | Ngoai du kien (`@contract`) |", "|---|---|---|---|"]
+    L += ["## 2. Phân loại case thất bại", "",
+          "| API | FAIL tổng | Có chủ đích (`@bug`) | Ngoài dự kiến (`@contract`) |", "|---|---|---|---|"]
     ngoai = collections.defaultdict(list)
     for api in sorted(chi_tiet):
         c = collections.Counter()
@@ -128,8 +130,8 @@ def main():
     L.append("")
 
     # ---------- 3. Bug duoc phoi bay ----------
-    L += ["## 3. Bug duoc phoi bay, theo ma bug", "",
-          "| Ma bug | So case that bai phoi bay no | API |", "|---|---|---|"]
+    L += ["## 3. Bug được phơi bày, theo mã bug", "",
+          "| Mã bug | Số case thất bại phơi bày nó | API |", "|---|---|---|"]
     bug = collections.defaultdict(lambda: [0, set()])
     for api in sorted(chi_tiet):
         for tc, v in chi_tiet[api].items():
@@ -144,25 +146,25 @@ def main():
     L.append("")
 
     # ---------- 4. That bai ngoai du kien ----------
-    L += ["## 4. That bai ngoai du kien — phai ra soat tung cai", "",
-          "Day la cac case gan `@contract` (nghia la luc thiet ke toi nghi SUT dap ung duoc) nhung",
-          "van that bai. Moi dong o day hoac la **mot bug chua co trong danh sach bug da biet**,",
-          "hoac la **mot ky vong sai cua chinh test case**. Khong duoc bo qua.", ""]
+    L += ["## 4. Thất bại ngoài dự kiến — em phải rà soát từng cái", "",
+          "Đây là các case gắn `@contract` (nghĩa là lúc thiết kế em nghĩ SUT đáp ứng được) nhưng",
+          "vẫn thất bại. Mỗi dòng ở đây hoặc là **một bug chưa có trong danh sách bug đã biết**,",
+          "hoặc là **một kỳ vọng sai của chính test case**. Em không bỏ qua dòng nào.", ""]
     for api in sorted(ngoai):
         L += ["### %s — %d case" % (api, len(ngoai[api])), "",
-              "| TC_ID | Tieu de | Thong bao that bai dau tien |", "|---|---|---|"]
+              "| TC_ID | Tiêu đề | Thông báo thất bại đầu tiên |", "|---|---|---|"]
         for tc, ti, ms in sorted(ngoai[api]):
             L.append("| `%s` | %s | %s |" % (tc, ti.replace("|", "\\|"), ms.replace("|", "\\|")[:90]))
         L.append("")
 
     # ---------- 5. Moc hoi quy ----------
     if contract:
-        L += ["## 5. Bo hoi quy (`@contract`) — lan chay all-pass cho CI", "",
-              "Bo nay gom cac test case ma SUT **hien dang dap ung**, duoc chot tu ket qua chay that",
-              "bang `derive_contract.py`. No khong khang dinh 'API nay dung', ma khang dinh 'nhung dieu",
-              "API nay dang lam dung thi khong duoc pha'. Day la lan chay duoc dung cho yeu cau",
-              "'all API test cases passing' cua de bai muc 6.", "",
-              "| API | Case | Assertion | Assertion FAIL | Bao cao HTML |", "|---|---|---|---|---|"]
+        L += ["## 5. Bộ hồi quy (`@contract`) — lần chạy all-pass cho CI", "",
+              "Bộ này gồm các test case mà SUT **hiện đang đáp ứng**, được chốt từ kết quả chạy thật",
+              "bằng `derive_contract.py`. Nó không khẳng định 'API này đúng', mà khẳng định 'những điều",
+              "API này đang làm đúng thì không được phá'. Đây là lần chạy em dùng cho yêu cầu",
+              "'all API test cases passing' của đề bài mục 6.", "",
+              "| API | Case | Assertion | Assertion FAIL | Báo cáo HTML |", "|---|---|---|---|---|"]
         t2 = collections.Counter()
         for api in sorted(contract):
             run, per, _ = read_run(contract[api])
@@ -171,17 +173,17 @@ def main():
                      % (api, len(per), st["assertions"]["total"], st["assertions"]["failed"],
                         os.path.basename(contract[api]).replace(".json.gz", ".html").replace(".json", ".html")))
             t2["c"] += len(per); t2["a"] += st["assertions"]["total"]; t2["f"] += st["assertions"]["failed"]
-        L.append("| **Tong** | **%d** | **%d** | **%d** | |" % (t2["c"], t2["a"], t2["f"]))
+        L.append("| **Tổng** | **%d** | **%d** | **%d** | |" % (t2["c"], t2["a"], t2["f"]))
         L.append("")
 
     # ---------- 6. Data-driven ----------
     if dd:
-        L += ["## 6. Lan chay data-driven (Postman Collection Runner / `newman -d`)", "",
-              "| Bo | Data file | Vong lap | Request | Assertion | Assertion FAIL |", "|---|---|---|---|---|---|"]
+        L += ["## 6. Lần chạy data-driven (Postman Collection Runner / `newman -d`)", "",
+              "| Bộ | Data file | Vòng lặp | Request | Assertion | Assertion FAIL |", "|---|---|---|---|---|---|"]
         NHAN = {"DD1": ("Brute force OTP", "brute_force_tokens.csv"),
-                "DD2": ("Bang chuyen trang thai FR-10", "state_transitions.csv"),
-                "DD3": ("Lam dung han muc coupon", "coupon_abuse.csv"),
-                "DD4": ("Dau vao khong hop le POST /api/products", "product_invalid.csv")}
+                "DD2": ("Bảng chuyển trạng thái FR-10", "state_transitions.csv"),
+                "DD3": ("Lạm dụng hạn mức coupon", "coupon_abuse.csv"),
+                "DD4": ("Đầu vào không hợp lệ POST /api/products", "product_invalid.csv")}
         for f in sorted(dd):
             k = re.search(r"_DD-(DD\d)_", os.path.basename(f)).group(1)
             d = load_json(f)["run"]["stats"]
