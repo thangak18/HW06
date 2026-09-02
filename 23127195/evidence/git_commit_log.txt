@@ -1,7 +1,7 @@
 GIT COMMIT LOG - HW06 API Testing
 Sinh vien : 23127195
 Repository: https://github.com/thangak18/HW06
-Xuat luc  : 2026-09-02 09:03:24
+Xuat luc  : 2026-09-02 15:22:44
 
 Theo muc 12 cua de bai: 'Create a new Git commit for each step of the procedure'.
 
@@ -106,6 +106,14 @@ BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
 19. e8218311  2026-09-02 09:01:59
     Commit : feat(diagram+issues): them so do tu ve va tao 24 GitHub Issue
     Buoc   : So do tu ve + tao 24 GitHub Issue that
+
+20. c9cca23a  2026-09-02 09:04:01
+    Commit : chore(evidence): script sinh git commit log + cap nhat nhat ky commit
+    Buoc   : Chi muc bang chung - script sinh git commit log
+
+21. 604fa7ce  2026-09-02 15:22:37
+    Commit : docs(evidence): anh chup Postman Console + giai phong log console khoi .gitignore
+    Buoc   : Bang chung muc 11 - anh chup Postman Console + giai phong log khoi .gitignore
 
 ====================================================================================================
 NHAT KY DAY DU (git log --stat)
@@ -467,3 +475,50 @@ feat(diagram+issues): them so do tu ve va tao 24 GitHub Issue
  23127195/pdf/README.pdf                                       | Bin 311042 -> 329220 bytes
  23127195/scripts/export_pdf.py                                |  29 +++
  19 files changed, 504 insertions(+), 94 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  c9cca23a7299954858c9f7b7ca46c517080dd72b
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 09:04:01 2026 +0700
+
+chore(evidence): script sinh git commit log + cap nhat nhat ky commit
+
+ 23127195/evidence/EVIDENCE_INDEX.md  |   3 +-
+ 23127195/evidence/git_commit_log.txt | 714 ++++++++++++++++++++-----------------------------------
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 623326 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 267700 -> 267700 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 240135 -> 240135 bytes
+ 23127195/pdf/README.pdf              | Bin 329220 -> 329220 bytes
+ 23127195/scripts/export_git_log.py   | 143 +++++++++++
+ 12 files changed, 397 insertions(+), 463 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  604fa7ce7abbb60a60983911fdc7ab7aae2bc8b0
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:22:37 2026 +0700
+
+docs(evidence): anh chup Postman Console + giai phong log console khoi .gitignore
+
+ 23127195/README.md                                    |   9 +-
+ 23127195/evidence/EVIDENCE_INDEX.md                   |  16 +-
+ 23127195/evidence/postman_console.png                 | Bin 0 -> 234140 bytes
+ 23127195/evidence/postman_console_runner.png          | Bin 0 -> 349849 bytes
+ 23127195/evidence/postman_console_timestamps.png      | Bin 0 -> 314308 bytes
+ 23127195/newman/api1_20260901-204738.console.log      | 860 +++++++++++++++++++++++++++++++++
+ 23127195/newman/api2_20260901-204738.console.log      | 685 ++++++++++++++++++++++++++
+ 23127195/newman/api3_20260901-204738.console.log      | 994 ++++++++++++++++++++++++++++++++++++++
+ 23127195/newman/dd1_phone_partitions.console.log      | 533 ++++++++++++++++++++
+ 23127195/newman/dd2_coupon_decision_table.console.log | 455 +++++++++++++++++
+ 23127195/newman/dd3_import_rows.console.log           | 291 +++++++++++
+ 23127195/newman/sut-server.log                        |   3 +
+ 23127195/scripts/export_git_log.py                    |   2 +
+ 13 files changed, 3840 insertions(+), 8 deletions(-)
