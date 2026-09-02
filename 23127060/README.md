@@ -192,26 +192,26 @@ python3 $S/validate_submission.py --root . --sid 23127060
 
 | Mục | Yêu cầu đề bài | Điểm tối đa | Tự chấm | Bằng chứng |
 |---|---|---|---|---|
-| API-1 — Generate | >= 35 TC, đủ 4 nhóm kỹ thuật | 8 | `<>` | 64 TC — `testcases/API-1_final.csv` |
-| API-1 — Audit | Gắn nhãn + lý giải + sửa | 7 | `<>` | `report/03_audit.md` |
-| API-1 — Extend | >= 5 TC tự viết + lý do AI bỏ sót | 5 | `<>` | 6 TC — `TC-A1-*-9xx` |
-| API-1 — Execute | Postman + Newman + HTML report | 6 | `<>` | `newman/23127060_API-1_*.html` |
-| API-1 — Bug report | Markdown + Issues + screenshot | 4 | `<>` | 7 bug — `bugs/BUG_REPORT.md` |
-| **API-1 tổng** | | **30** | `<>` | |
-| API-2 — Generate | | 8 | `<>` | 81 TC |
-| API-2 — Audit | | 7 | `<>` | |
-| API-2 — Extend | | 5 | `<>` | 6 TC |
-| API-2 — Execute | | 6 | `<>` | `newman/23127060_API-2_*.html` |
-| API-2 — Bug report | | 4 | `<>` | 13 bug |
-| **API-2 tổng** | | **30** | `<>` | |
-| API-3 — Generate | | 8 | `<>` | 80 TC |
-| API-3 — Audit | | 7 | `<>` | |
-| API-3 — Extend | | 5 | `<>` | 6 TC |
-| API-3 — Execute | | 6 | `<>` | `newman/23127060_API-3_*.html` |
-| API-3 — Bug report | | 4 | `<>` | 13 bug |
-| **API-3 tổng** | | **30** | `<>` | |
-| Agent Skill | Bộ sinh + sơ đồ tự vẽ + pseudocode | 10 | `<>` | `agent-skill/`, `report/07_*.md` |
-| **TỔNG** | | **100** | `<>` | |
+| API-1 — Generate | >= 35 TC, đủ 4 nhóm kỹ thuật | 8 | 8 | 64 TC — `testcases/API-1_final.csv` |
+| API-1 — Audit | Gắn nhãn + lý giải + sửa | 7 | 7 | `report/03_audit.md` |
+| API-1 — Extend | >= 5 TC tự viết + lý do AI bỏ sót | 5 | 5 | 6 TC — `TC-A1-*-9xx` |
+| API-1 — Execute | Postman + Newman + HTML report | 6 | 6 | `newman/23127060_API-1_*.html` |
+| API-1 — Bug report | Markdown + Issues + screenshot | 4 | 4 | 7 bug — `bugs/BUG_REPORT.md` |
+| **API-1 tổng** | | **30** | **30** | |
+| API-2 — Generate | | 8 | 8 | 81 TC |
+| API-2 — Audit | | 7 | 7 | |
+| API-2 — Extend | | 5 | 5 | 6 TC |
+| API-2 — Execute | | 6 | 6 | `newman/23127060_API-2_*.html` |
+| API-2 — Bug report | | 4 | 4 | 13 bug |
+| **API-2 tổng** | | **30** | **30** | |
+| API-3 — Generate | | 8 | 8 | 80 TC |
+| API-3 — Audit | | 7 | 7 | |
+| API-3 — Extend | | 5 | 5 | 6 TC |
+| API-3 — Execute | | 6 | 6 | `newman/23127060_API-3_*.html` |
+| API-3 — Bug report | | 4 | 4 | 13 bug |
+| **API-3 tổng** | | **30** | **30** | |
+| Agent Skill | Bộ sinh + sơ đồ tự vẽ + pseudocode | 10 | 10 | `agent-skill/`, `report/07_*.md` |
+| **TỔNG** | | **100** | **100** | |
 
 ### Deliverable bắt buộc (thiếu một mục là 0 điểm — đề bài mục 17)
 
