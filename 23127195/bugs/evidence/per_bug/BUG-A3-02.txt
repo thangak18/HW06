@@ -1,0 +1,12 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-01 20:11:32 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+
+### BUG-A3-02 [High] FR-16 — import KHONG nguyen tu (khong rollback)
+   so san pham truoc : 6
+   gui 1 dong hop le + 1 dong THIEU name:
+{"message":"Import hoàn tất: 1/2 sản phẩm được thêm","inserted":1,"errors":["Hàng 3: Thiếu tên sản phẩm"]}
+   so san pham sau   : 7   (FR-16 yeu cau all-or-nothing -> phai bang 6)
+   dong hop le co con nam lai trong CSDL khong?
+[{"id":7,"name":"ATOMIC-OK-23127195","price":5000,"description":"","imageUrl":"","category_id":1}]

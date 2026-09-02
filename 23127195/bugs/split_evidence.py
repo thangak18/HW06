@@ -39,7 +39,9 @@ def main():
     if not os.path.exists(SRC):
         sys.exit("Chua co %s — chay `bash bugs/reproduce_bugs.sh` truoc" % SRC)
 
-    with io.open(SRC, encoding="utf-8") as fh:
+    # reproduce_bugs.sh cat bot response dai theo BYTE nen co the cat giua chung
+    # mot ky tu tieng Viet. Doc chiu loi de khong vo vi mot ky tu cut do.
+    with io.open(SRC, encoding="utf-8", errors="replace") as fh:
         lines = fh.read().splitlines()
 
     # gom cac dong thuoc ve tung muc

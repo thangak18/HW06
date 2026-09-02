@@ -1,0 +1,10 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-01 20:11:32 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+
+### BUG-A2-04/05 [High] C5 bi vo hieu khi bo user_id / muon luot nguoi khac
+   (da ghi 1 luot dung SAVE10 cho user id=2, max_uses_per_user=1)
+   co user_id=2      -> {"error":"Bạn đã sử dụng mã này 1 lần (đã đạt giới hạn)"}
+   BO user_id        -> {"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành c
+   user_id=1 (nguoi khac) -> {"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành c

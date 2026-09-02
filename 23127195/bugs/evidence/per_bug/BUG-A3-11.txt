@@ -1,0 +1,7 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-01 20:11:32 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+
+### BUG-A3-11 [Medium] imageUrl chap nhan giao thuc javascript: (vector stored XSS)
+   imageUrl luu lai: 'javascript:alert(document.cookie)'
