@@ -1,0 +1,15 @@
+[STEP 6 — Chay Newman va thu bang chung]
+
+Yeu cau:
+1. Chay ca 3 collection bang Newman tren localhost, sinh bao cao HTML + JSON.
+2. Truoc moi lan chay phai dua CSDL ve trang thai goc. Khong duoc chay hai lan lien tiep tren
+   cung mot CSDL: SUT co bug khoa tai khoan nen lan hai se cho ra hang loat that bai gia.
+3. Doc ky tung that bai. Phan biet ba loai: (a) that bai co chu dich vi phoi bay bug SUT,
+   (b) that bai vi ky vong cua test case sai, (c) that bai vi bo test tu lam nhieu chinh no
+   (thu tu chay, du lieu dung chung). Loai (b) va (c) PHAI sua, khong duoc de lan vao so lieu.
+4. Bo @contract dung cho CI phai duoc suy ra tu KET QUA CHAY THAT, khong duoc suy ra tu tag
+   gan luc thiet ke, va phai ghi ro trong bao cao rang no la moc hoi quy chu khong phai
+   "danh sach case dung".
+5. Kiem chung header X-Student-Id bang cach doc request.header ma Newman ghi lai, khong chi
+   dua vao dong console.log.
+6. Moi con so trong bao cao phai sinh tu file newman/*.json, khong duoc go tay.

@@ -1,0 +1,15 @@
+[STEP 5 — Dung Postman collection tu test case]
+
+Yeu cau:
+1. Bien testcases/API-*_final.csv thanh Postman Collection v2.1 chay duoc that, khong phai
+   khung suon. Moi test case phai co assertion THAT.
+2. TUYET DOI khong sinh assertion gia. Neu mot assertion viet bang van xuoi khong dich duoc
+   sang phep kiem Postman thi de lai mot dong ghi chu, KHONG duoc sinh mot pm.test luon pass
+   de lam day so lieu. In ra ty le assertion tu dong hoa duoc de bao cao ghi dung su that.
+3. Header X-Student-Id phai o pre-request script cap collection de khong request nao thieu.
+4. Phai co folder _setup tao tai khoan va token; collection phai chay duoc tu con so khong
+   tren mot CSDL vua seed lai, khong doi thao tac tay.
+5. Dung cang nhieu tinh nang Postman cang tot va liet ke trong bao cao (de bai muc 6), trong
+   do bat buoc co data-driven run voi data file.
+6. Viet JSON Schema cho tung API, thiet ke schema sao cho no BAT DUOC bug (vi du khai bao
+   price la number de bat bug C-05, additionalProperties false de bat viec lo truong password).

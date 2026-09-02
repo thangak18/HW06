@@ -1,0 +1,1 @@
+Sinh 128 case DOM: API-1=36, API-2=41, API-3=51. Do phu tham so: khong tham so nao bi bo sot o ca 3 API. Ky thuat dung: EP, BVA, Decision Table. Chua co case SEC/STA/SCH - dung y do vi day chi la vong 1/4.

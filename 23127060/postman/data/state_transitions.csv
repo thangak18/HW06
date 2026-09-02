@@ -1,0 +1,18 @@
+from_status,to_status,expected_status,ghi_chu
+pending,confirmed,200,hop le - admin xac nhan
+pending,shipping,400,"nhay coc, khong duoc bo qua confirmed"
+pending,delivered,400,nhay coc
+pending,canceled,200,hop le - huy khi chua xu ly
+pending,pending,400,tu chuyen ve chinh no
+confirmed,shipping,200,hop le - admin giao hang
+confirmed,pending,400,lui trang thai
+confirmed,delivered,400,nhay coc
+confirmed,canceled,200,hop le - huy khi da xac nhan
+shipping,delivered,200,hop le - admin hoan tat
+shipping,canceled,400,BUG B-09: impl cho phep qua PUT /orders/:id/cancel
+shipping,pending,400,lui trang thai
+delivered,canceled,400,delivered la trang thai KET THUC
+delivered,shipping,400,lui tu trang thai ket thuc
+canceled,delivered,400,BUG B-10: impl co dong code co y cho phep
+canceled,pending,400,canceled la trang thai KET THUC
+canceled,confirmed,400,canceled la trang thai KET THUC

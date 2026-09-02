@@ -1,0 +1,151 @@
+{
+  "checkout_success": {
+    "type": "object",
+    "required": [
+      "message",
+      "orderId"
+    ],
+    "properties": {
+      "message": {
+        "type": "string"
+      },
+      "orderId": {
+        "type": "integer"
+      }
+    },
+    "additionalProperties": false
+  },
+  "coupon_success": {
+    "type": "object",
+    "required": [
+      "success",
+      "coupon_id",
+      "discount_amount",
+      "final_amount",
+      "message"
+    ],
+    "properties": {
+      "success": {
+        "type": "boolean"
+      },
+      "coupon_id": {
+        "type": "integer"
+      },
+      "discount_amount": {
+        "type": "number",
+        "minimum": 0
+      },
+      "final_amount": {
+        "type": "number",
+        "minimum": 0
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "$comment": "minimum 0 tren discount_amount chinh la phep kiem bat bug B-05: cong thuc percent sai cho ra so am."
+  },
+  "order": {
+    "type": "object",
+    "required": [
+      "id",
+      "user_id",
+      "total_amount",
+      "status",
+      "created_at"
+    ],
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "user_id": {
+        "type": "integer"
+      },
+      "total_amount": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "confirmed",
+          "shipping",
+          "delivered",
+          "canceled"
+        ]
+      },
+      "shipping_address": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "created_at": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "$comment": "exclusiveMinimum 0 tren total_amount bat bug B-01 (checkout chap nhan 0 va so am)."
+  },
+  "order_list": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": [
+        "id",
+        "user_id",
+        "total_amount",
+        "status",
+        "created_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "user_id": {
+          "type": "integer"
+        },
+        "total_amount": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "confirmed",
+            "shipping",
+            "delivered",
+            "canceled"
+          ]
+        },
+        "shipping_address": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "$comment": "exclusiveMinimum 0 tren total_amount bat bug B-01 (checkout chap nhan 0 va so am)."
+    },
+    "$comment": "Danh sach don hang cua chinh minh (GET /api/orders/my-orders): moi phan tu phai khop schema 'order'."
+  },
+  "error": {
+    "type": "object",
+    "required": [
+      "error"
+    ],
+    "properties": {
+      "error": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  }
+}

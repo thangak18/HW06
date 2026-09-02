@@ -1,0 +1,164 @@
+# .github/workflows/api-tests-23127060.yml
+# HW06 - API Testing - SV 23127060 - Ninh Van Khai
+#
+# LUU Y: file nay PHAI nam o .github/workflows/ tai REPO ROOT thi GitHub Actions moi doc.
+# Ban sao trong 23127060/ci/ chi de dinh kem vao bai nop.
+#
+# Hai che do chay:
+#   contract - chay bo hoi quy (84 test case ma SUT hien dang dap ung) -> KY VONG XANH
+#   full     - chay toan bo 243 test case voi oracle la dac ta        -> KY VONG DO
+#
+# Vi sao can hai che do: SUT co 34 bug co that, nen bo test day du **phai** do. Neu ep bo test
+# day du xanh thi chi con cach sua ky vong cho khop voi hanh vi sai cua SUT - tuc la nguy tao
+# ket qua. Bo hoi quy giai quyet dieu do mot cach trung thuc: no chot lai nhung gi SUT DANG
+# lam dung va bao dong khi mot trong so do bi pha.
+
+name: API Tests 23127060
+
+on:
+  push:
+    branches: [main, master, "feat/23127060-**"]
+    paths:
+      - "23127060/**"
+      - ".github/workflows/api-tests-23127060.yml"
+  pull_request:
+    paths:
+      - "23127060/**"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "contract = bo hoi quy (ky vong PASS) | full = toan bo (se FAIL vi SUT co bug)"
+        required: true
+        default: "contract"
+        type: choice
+        options: [contract, full]
+
+env:
+  STUDENT_ID: "23127060"
+  MEMBER_DIR: 23127060
+  SUT_REPO: https://github.com/ttbhanh/eshop-sut.git
+  SUT_COMMIT: 85af3ba875c88283615e22cb108f13e2fccaf0e9
+  BASE_URL: http://localhost:3000
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout bai lam
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Cai Newman va reporter htmlextra
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Clone SUT va ghim dung commit da kiem thu
+        run: |
+          git clone "$SUT_REPO" /tmp/eshop-sut
+          cd /tmp/eshop-sut
+          git checkout "$SUT_COMMIT"
+          echo "SUT dang o commit: $(git rev-parse HEAD)"
+
+      - name: Cai dependency cua SUT
+        working-directory: /tmp/eshop-sut/backend
+        run: npm install
+
+      - name: Xac dinh che do chay
+        id: mode
+        run: |
+          MODE="${{ github.event.inputs.mode }}"
+          [ -z "$MODE" ] && MODE="contract"
+          echo "mode=$MODE" >> $GITHUB_OUTPUT
+          if [ "$MODE" = "contract" ]; then
+            echo "suffix=_contract" >> $GITHUB_OUTPUT
+          else
+            echo "suffix=" >> $GITHUB_OUTPUT
+          fi
+          echo "Che do: $MODE"
+
+      # backend/database.js goi initDatabase() ngay khi require, va ham do bat dau bang mot
+      # loat DROP TABLE. Vi vay khoi dong lai backend = CSDL ve dung trang thai seed goc.
+      # Phai lam viec nay TRUOC MOI collection: SUT khoa tai khoan 180 giay sau hai lan dang
+      # nhap sai, nen chay collection thu hai tren CSDL cu se cho ra hang loat that bai gia.
+      - name: Chay Newman cho ca 3 API
+        id: run
+        working-directory: ${{ env.MEMBER_DIR }}
+        run: |
+          mkdir -p newman
+          SUF="${{ steps.mode.outputs.suffix }}"
+          rc=0
+          for API in API-1 API-2 API-3; do
+            echo "::group::$API ($SUF)"
+            pkill -f "[n]ode serv""er.js" >/dev/null 2>&1 || true
+            sleep 1
+            ( cd /tmp/eshop-sut/backend && setsid --fork node server.js ) \
+              > /tmp/sut_${API}.log 2>&1 < /dev/null || true
+            for i in $(seq 1 30); do
+              curl -sf "$BASE_URL/api/products" >/dev/null 2>&1 && break
+              sleep 1
+            done
+            curl -sf "$BASE_URL/api/products" >/dev/null || { echo "SUT khong len"; cat /tmp/sut_${API}.log; exit 1; }
+
+            newman run "postman/collections/${STUDENT_ID}_HW06_${API}${SUF}.postman_collection.json" \
+              -e postman/environments/${STUDENT_ID}_local.postman_environment.json \
+              --env-var "baseUrl=$BASE_URL" \
+              --env-var "studentId=$STUDENT_ID" \
+              --reporters cli,json,htmlextra \
+              --reporter-json-export "newman/ci_${API}${SUF}.json" \
+              --reporter-htmlextra-export "newman/ci_${API}${SUF}.html" \
+              --reporter-htmlextra-title "CI HW06 ${API} - ${STUDENT_ID}" \
+              --reporter-htmlextra-logs \
+              --timeout-request 10000 || rc=$?
+            echo "::endgroup::"
+          done
+          echo "exit_code=$rc" >> $GITHUB_OUTPUT
+          exit $rc
+
+      - name: Tong hop ket qua vao Job Summary
+        if: always()
+        working-directory: ${{ env.MEMBER_DIR }}
+        run: |
+          python3 agent-skill/eshop-api-23127060/scripts/summarize_newman.py \
+            --dir newman --tc testcases --out /tmp/ci_summary.md || true
+          {
+            echo "## Ket qua chay ${{ steps.mode.outputs.mode }} - SV ${STUDENT_ID}"
+            echo
+            cat /tmp/ci_summary.md 2>/dev/null || echo "(khong sinh duoc bang tong hop)"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # Bang chung chong gian lan (de bai muc 11): doc thang request.header ma Newman ghi lai
+      # de chung minh MOI request that su mang header X-Student-Id.
+      - name: Kiem chung header X-Student-Id
+        if: always()
+        working-directory: ${{ env.MEMBER_DIR }}
+        run: |
+          python3 agent-skill/eshop-api-23127060/scripts/verify_header.py \
+            --dir newman --sid "$STUDENT_ID" --out /tmp/header_evidence.md
+          cat /tmp/header_evidence.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload bao cao Newman
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-${{ env.STUDENT_ID }}-${{ steps.mode.outputs.mode }}-${{ github.run_number }}
+          path: |
+            ${{ env.MEMBER_DIR }}/newman/ci_*.html
+            ${{ env.MEMBER_DIR }}/newman/ci_*.json
+          retention-days: 30
+
+      - name: Log cua SUT khi that bai
+        if: failure()
+        run: |
+          for f in /tmp/sut_*.log; do
+            echo "===== $f ====="
+            cat "$f" || true
+          done
+
+      - name: Dung backend SUT
+        if: always()
+        run: pkill -f "[n]ode serv""er.js" || true

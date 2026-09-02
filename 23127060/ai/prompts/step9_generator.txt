@@ -1,0 +1,15 @@
+[STEP 9 — Agent Skill: bo sinh test case tu dong]
+
+De bai muc 7 (10 diem, muc Create G9.5): "design an AI-driven API test generator for the SUT:
+given the API specification, it produces test cases automatically. Provide a self-drawn diagram
+and pseudocode of the design."
+
+Yeu cau:
+1. Pseudocode phai khop voi ban hien thuc that, khong duoc la mot ban mo ta ly tuong hoa.
+   Neu ban hien thuc da duoc sua trong qua trinh lam thi pseudocode phai duoc sua theo.
+2. TUYET DOI KHONG VE SO DO. De bai muc 11 cam so do nay duoc sinh bang AI. Khong duoc tao
+   file anh, khong mermaid, khong graphviz, khong ASCII-art. Chi duoc viet MO TA BANG CHU
+   du chi tiet de sinh vien tu ve.
+3. Bao cao thiet ke phai noi ro han che cua bo sinh, dua tren so lieu that da do duoc, va de
+   xuat huong mo rong cu the chu khong chung chung.
+4. Ghi lai cac loi da tim thay trong chinh bo sinh va cach tim ra chung.

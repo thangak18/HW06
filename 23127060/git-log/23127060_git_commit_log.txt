@@ -1,0 +1,30 @@
+# Git commit log — HW06 API Testing — SV 23127060 (Ninh Văn Khải)
+# Sinh lúc: 2026-09-02T20:40:11+07:00
+# Lệnh: git log --pretty=format:'%h | %ad | %s' --date=iso -- 23127060 members/23127060 .github/workflows/api-tests-23127060.yml
+# Ghi chú: đường dẫn cũ `members/23127060` được giữ trong lệnh để log không đứt
+#          ở các commit trước khi nhóm đổi cấu trúc thư mục (02/09/2026).
+# Tổng: 23 commit
+
+b24116f | 2026-09-02 20:38:38 +0700 | HW06(23127060): dot 6 - tieng Viet co dau cho bug report 34 bug + xuat lai 4 PDF
+91ec9f5 | 2026-09-02 20:34:06 +0700 | HW06(23127060): dot 5 - tieng Viet co dau cho bao cao chinh va CI/CD
+6a331cd | 2026-09-02 20:29:43 +0700 | HW06(23127060): dot 4 - tieng Viet co dau cho STEP 3 (audit test case)
+7c1c771 | 2026-09-02 20:27:46 +0700 | HW06(23127060): dot 3 - tieng Viet co dau cho STEP 9 (thiet ke bo sinh test)
+3f2f223 | 2026-09-02 20:25:18 +0700 | HW06(23127060): dot 2 - tieng Viet co dau cho STEP 4, 5, 6
+8ccc9f8 | 2026-09-02 20:21:05 +0700 | HW06(23127060): dot 1 - chuyen sang tieng Viet co dau, ngoi thu nhat "em"
+72b909f | 2026-09-02 19:58:23 +0700 | HW06(23127060): dien thong tin ca nhan + chot doi chieu trung lap API
+433a750 | 2026-09-02 19:55:37 +0700 | HW06(23127060): cap nhat MAIN_REPORT.pdf (ban dung lai sau step10)
+bb7db04 | 2026-09-02 19:36:15 +0700 | Merge origin/main: chuyen sang cau truc thu muc moi cua nhom
+036fac0 | 2026-09-01 16:04:23 +0700 | HW06(23127060): cap nhat git commit log sau step10
+7076116 | 2026-09-01 16:04:21 +0700 | HW06(23127060): step10 - bao cao chinh, AI audit, AI critique 299 tu, xuat PDF
+9852659 | 2026-09-01 15:50:23 +0700 | HW06(23127060): step9 - agent skill generator, pseudocode, mo ta so do (KHONG ve bang AI)
+06b6cb8 | 2026-09-01 15:43:44 +0700 | HW06(23127060): step8 - workflow CI/CD + kiem chung 2 lan chay tren may cuc bo
+477c51a | 2026-09-01 15:37:42 +0700 | HW06(23127060): step7 - bug report 34 bug, moi bug co request+response that
+8f426dc | 2026-09-01 15:28:05 +0700 | HW06(23127060): step5+6 - postman collection chay that + newman 1146 assertion
+0015e7f | 2026-09-01 14:56:10 +0700 | HW06(23127060): step4 extend - them 18 case AI bo sot, tong 243 case
+53874f1 | 2026-09-01 14:49:58 +0700 | HW06(23127060): step3 audit - gan nhan 225 case, 68 INVALID + 74 INCOMPLETE da sua
+7b8cf31 | 2026-09-01 14:37:59 +0700 | HW06(23127060): step2c+2d - vong 3/4 sinh 41 case security, vong 4/4 sinh 18 case schema
+351237a | 2026-09-01 14:37:11 +0700 | HW06(23127060): step2b - vong 2/4 sinh 38 test case state transition
+bbbc1ac | 2026-09-01 14:36:46 +0700 | HW06(23127060): step2a - vong 1/4 sinh 128 test case domain partition
+cf48d55 | 2026-09-01 14:36:11 +0700 | HW06(23127060): step1 - lap spec may doc duoc cho 3 API, va 2 loi trong bo sinh test
+83d25d8 | 2026-09-01 14:30:00 +0700 | HW06(23127060): step0 - trinh sat moi truong, sua bang SEC-01..07 theo spec that, kiem chung 22 bug
+0db7cbc | 2026-08-31 22:14:35 +0700 | refactor: update member workspaces with student IDs 23127060 and 23127195

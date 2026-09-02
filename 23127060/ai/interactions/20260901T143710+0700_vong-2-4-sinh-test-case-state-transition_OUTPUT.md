@@ -1,0 +1,1 @@
+Sinh 38 case STA: API-1=9 (vong doi OTP NONE/ISSUED/USED), API-2=20 (bang 5x5 FR-10, phu 20/25 o), API-3=9 (vong doi san pham NOT_EXIST/CREATED/UPDATED/DELETED). 5 o con thieu cua API-2 deu la o tu chuyen ve chinh no - de danh cho STEP 4 extend.

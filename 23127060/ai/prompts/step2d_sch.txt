@@ -1,0 +1,15 @@
+[STEP 2 — VONG 2d / 4: SCHEMA VALIDATION]
+
+Vong 4/4, vong cuoi. Chi sinh nhom SCH.
+
+Yeu cau: dung pm.response.to.have.jsonSchema (Postman co san AJV). Moi API can it nhat:
+  1. Schema cua response thanh cong: dung ten truong, dung kieu, khong thua truong.
+  2. Schema cua tung response loi (400/401/403/404/500) phai la { "error": string }.
+  3. Content-Type phai la application/json - dieu nay bat duoc bug C-03 (tra ve HTML
+     <h1>Database Error</h1> khi SQL loi).
+  4. Kieu du lieu phai on dinh giua cac lan goi - bat duoc bug C-05 (price la number voi
+     id le nhung la string voi id chan). Case nay can HAI request moi lo ra.
+  5. Khong lo truong nhay cam (password, reset_token) - giao voi SEC-01.
+
+Lenh da chay:
+  python3 gen_testcases.py --spec spec/api-N.json --only SCH --out testcases/API-N_generated.csv --append

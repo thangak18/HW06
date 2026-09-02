@@ -1,0 +1,17 @@
+[STEP 4 — EXTEND: bo sung test case AI bo sot]
+
+De bai muc 6.3: "Add at least five test cases of your own that the AI missed - especially around
+security and state transitions - and explain why the AI missed them (prompt quality, model
+limitations, or characteristics of the API)."
+
+Yeu cau:
+1. Doc backend/server.js va backend/database.js cua SUT, tim nhung lo hong ma bo test hien tai
+   KHONG cham toi. Uu tien: bao mat va chuyen trang thai.
+2. Toi thieu 5 case/API, Source=HUMAN, TC_ID danh so tu 900.
+3. Moi case BAT BUOC co cot Why_AI_Missed, chon dung mot trong bon ly do: PROMPT (prompt khoanh
+   vung qua chat), MODEL (AI suy dien tu hinh dang API thay vi doc ma nguon), API (bug chi lo ra
+   khi ket hop nhieu request), SPECGAP (dac ta khong mo ta hanh vi nay). Giai trinh phai cu the
+   den muc doc xong hieu duoc CO CHE tai sao bo sinh khong the tu sinh ra case do, khong duoc
+   viet chung chung kieu "AI khong nghi toi".
+4. Uu tien nhung case lap day khoang trong do phu SEC con lai sau STEP 3.
+5. Thong ke lai phan bo ly do bo sot va rut ra ket luan ve gioi han cua bo sinh.

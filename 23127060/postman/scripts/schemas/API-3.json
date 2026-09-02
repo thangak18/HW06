@@ -1,0 +1,44 @@
+{
+  "product": {
+    "type": "object",
+    "required": ["id", "name", "price", "category_id"],
+    "properties": {
+      "id": { "type": "integer" },
+      "name": { "type": "string" },
+      "price": { "type": "number" },
+      "description": { "type": ["string", "null"] },
+      "imageUrl": { "type": ["string", "null"] },
+      "category_id": { "type": ["integer", "null"] }
+    },
+    "additionalProperties": false,
+    "$comment": "price khai bao la number (khong chap nhan string) - day chinh la phep kiem bat bug C-05."
+  },
+  "product_list": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": ["id", "name", "price"],
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "description": { "type": ["string", "null"] },
+        "imageUrl": { "type": ["string", "null"] },
+        "category_id": { "type": ["integer", "null"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "create_success": {
+    "type": "object",
+    "required": ["message", "id"],
+    "properties": { "message": { "type": "string" }, "id": { "type": "integer" } },
+    "additionalProperties": false
+  },
+  "error": {
+    "type": "object",
+    "required": ["error"],
+    "properties": { "error": { "type": "string" } },
+    "additionalProperties": false
+  }
+}

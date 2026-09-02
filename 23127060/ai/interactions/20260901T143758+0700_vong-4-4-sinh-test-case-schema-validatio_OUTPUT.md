@@ -1,0 +1,1 @@
+Sinh 18 case SCH: 6 case/API. Bao gom schema response thanh cong, schema response loi {error:string}, kiem Content-Type application/json (bat bug C-03) va kiem tinh on dinh kieu du lieu giua 2 lan goi (bat bug C-05). TONG KET STEP 2: 225 case (DOM=128, STA=38, SEC=41, SCH=18); API-1=64, API-2=81, API-3=80 - deu vuot nguong 35/API.

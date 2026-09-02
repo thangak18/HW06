@@ -1,0 +1,18 @@
+[STEP 3 — AUDIT: gan nhan VALID / INVALID / INCOMPLETE]
+
+De bai muc 6.2: "Label each AI-generated test case VALID / INVALID / INCOMPLETE with reasoning,
+and correct the invalid or incomplete ones. You are fully responsible for the final test cases."
+
+Yeu cau:
+1. Doi chieu TUNG case trong testcases/API-*_generated.csv voi eshop-sut/README.md (SRS).
+   Voi moi case phai tra loi duoc: ky vong nay truy nguoc ve CAU NAO trong dac ta?
+   Neu khong truy nguoc duoc thi ky vong do la suy dien, phai ghi nhan.
+2. Khong sua tay tung dong. Viet luat ra giay truoc, moi luat bam vao mot cau cu the trong SRS,
+   roi ap dung nhat quan cho ca 225 case. Phan doi hoi phan doan rieng (gan lai ma SEC, viet lai
+   case sai) de trong bang tra co ly do bang van xuoi cho tung dong.
+3. Sua ngay cac case INVALID va INCOMPLETE trong file *_audited.csv, ghi ro da sua gi vao cot
+   Audit_Note.
+4. KHONG duoc dieu chinh ty le VALID cho dep. Neu ty le lech nhieu so voi du kien thi phai
+   giai thich nguyen nhan, khong duoc ha tieu chuan gan nhan.
+5. Kiem tra lai do phu SEC sau khi gan lai ma, va sua luon references/TESTCASE_TAXONOMY.md
+   neu chinh taxonomy do minh viet la nguon gay loi.

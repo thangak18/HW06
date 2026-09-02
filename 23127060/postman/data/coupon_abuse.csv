@@ -1,0 +1,5 @@
+lan,code,total_amount,gui_user_id,expected_status,ghi_chu
+1,VIP100,500000,co,200,luot 1/2 - hop le
+2,VIP100,500000,co,200,"luot 2/2 - hop le, dat gioi han"
+3,VIP100,500000,co,400,luot 3 - phai bi tu choi vi het han muc
+4,VIP100,500000,khong,401,BUG B-07: bo user_id di la bo qua toan bo kiem tra han muc

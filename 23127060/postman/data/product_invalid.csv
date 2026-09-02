@@ -1,0 +1,8 @@
+ten,gia,danh_muc,expected_status,ghi_chu
+SP hop le 23127060,150000,1,201,moc doi chieu - phai tao duoc
+,150000,1,400,ten rong - SRS FR-15 bat buoc co ten
+SP gia am,-100,1,400,gia am - SRS doi gia > 0
+SP gia 0,0,1,400,"BVA - gia bang 0, nam ngay tren bien"
+SP gia chuoi,abc,1,400,sai kieu du lieu
+SP danh muc la,150000,9999,400,danh muc khong ton tai - SRS doi chon tu danh sach co san
+<script>alert('23127060')</script>,150000,1,400,payload XSS - SEC-04

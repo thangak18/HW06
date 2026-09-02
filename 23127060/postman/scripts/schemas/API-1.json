@@ -1,0 +1,46 @@
+{
+  "forgot_success": {
+    "type": "object",
+    "required": ["message"],
+    "properties": { "message": { "type": "string" } },
+    "additionalProperties": false,
+    "$comment": "SEC-07: response cua forgot-password KHONG duoc chua resetToken. additionalProperties=false lam phep kiem do tro thanh mot phan cua schema."
+  },
+  "reset_success": {
+    "type": "object",
+    "required": ["message"],
+    "properties": { "message": { "type": "string" } },
+    "additionalProperties": false
+  },
+  "error": {
+    "type": "object",
+    "required": ["error"],
+    "properties": { "error": { "type": "string" } },
+    "additionalProperties": false
+  },
+  "login_success": {
+    "type": "object",
+    "required": ["message", "token", "user"],
+    "properties": {
+      "message": { "type": "string" },
+      "token": { "type": "string" },
+      "user": {
+        "type": "object",
+        "required": ["id", "name", "email", "role"],
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": ["string", "null"] },
+          "email": { "type": "string" },
+          "role": { "type": "string", "enum": ["user", "admin"] },
+          "phone": { "type": ["string", "null"] },
+          "shipping_address": { "type": ["string", "null"] },
+          "login_attempts": { "type": ["integer", "null"] },
+          "locked_until": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false,
+        "$comment": "SEC-01: khong duoc co truong password hay reset_token. Chung bi chan boi additionalProperties=false."
+      }
+    },
+    "additionalProperties": false
+  }
+}

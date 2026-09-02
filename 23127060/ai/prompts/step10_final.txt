@@ -1,0 +1,14 @@
+[STEP 10 — Bao cao chinh, AI Audit, AI Critique, kiem tra truoc khi nop]
+
+Yeu cau:
+1. Xuat Excel test case co sheet Summary.
+2. Viet AI Critique dai DUNG 200-300 tu, tra loi du ba cau hoi cua de bai muc 10: AI sai/thien
+   lech/thieu o dau, vi sao AI khong bat duoc, va nguyen tac hoc duoc khi lam viec voi AI.
+   Dem tu truoc khi chot, khong duoc de lech nguong.
+3. Sinh AI Audit Report tu AI_log (khong viet tay), co cau tuyen bo bat buoc cua de bai.
+4. Viet bao cao chinh gop tat ca cac buoc, va README co bang tu danh gia + test summary.
+5. Xuat git commit log dang text.
+6. Xuat ban PDF cho cac tai lieu bat buoc.
+7. Chay validate_submission.py. Neu no bao FAIL thi phai phan biet ro: dau la loi ky thuat can
+   sua, dau la viec chi nguoi lam duoc. Neu chinh bo kiem tra sai thi sua bo kiem tra.
+8. Moi con so trong bao cao phai lay tu file ket qua that, khong go tay.

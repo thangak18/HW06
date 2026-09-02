@@ -1,0 +1,24 @@
+[STEP 2 — VONG 2b / 4: STATE TRANSITION]
+
+Vong 2/4. Chi sinh nhom STA, khong dung lai nhom DOM da sinh o vong truoc.
+
+Yeu cau: dung ky thuat State Transition Testing, phu 0-switch coverage (moi o cua bang
+states x states la mot test case), cho ca ba API:
+
+- API-1 (FR-03): vong doi cua ma OTP la mot state machine 3 trang thai
+  NONE -> ISSUED -> USED. Phai test: reset khi chua he xin token; dung lai token da dung;
+  xin token lan 2 roi dung token cu; dung token cua user khac; reset xong login lai bang
+  mat khau cu.
+- API-2 (FR-10): bang 5x5 = 25 o (pending, confirmed, shipping, delivered, canceled).
+  Chuyen hop le theo SRS chi co 4 duong: pending->confirmed, confirmed->shipping,
+  shipping->delivered, va huy tu pending/confirmed. delivered va canceled la trang thai
+  KET THUC, moi duong ra khoi chung deu phai bi chan.
+- API-3 (FR-15): vong doi tai nguyen NOT_EXIST -> CREATED -> UPDATED -> DELETED -> NOT_EXIST.
+  Phai test: GET sau DELETE, PUT sau DELETE, DELETE hai lan, GET id vua tao.
+
+Cot "allowed" trong spec phai viet theo SRS chu khong theo code. Cac o ma code lam sai
+(B-09 shipping->canceled, B-10 canceled->delivered) van phai sinh voi ky vong DUNG va se
+FAIL co chu dich.
+
+Lenh da chay:
+  python3 gen_testcases.py --spec spec/api-N.json --only STA --out testcases/API-N_generated.csv --append
