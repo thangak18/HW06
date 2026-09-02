@@ -136,6 +136,15 @@ Bằng chứng em thu ở **hai mức**:
 6. Chụp toàn màn hình (phải thấy rõ cả dòng header lẫn dòng log) →
    lưu vào `bugs/screenshots/console_header.png`.
 
+**✅ Đã chụp — `bugs/screenshots/console_header.png`:**
+
+![Postman Console — header X-Student-Id](../bugs/screenshots/console_header.png)
+
+Ảnh chụp thấy rõ chuỗi dòng log `[HW06][23127060] POST ... | X-Student-Id=23127060`
+cho từng request (`register`, `login`, `forgot-password`...) — đúng định dạng mà
+pre-request script cấp collection sinh ra, khớp với bằng chứng tự động ở
+`ci/evidence/header_evidence.md` (823/823 request mang header).
+
 ## 5. Bốn tính năng cần thao tác trên giao diện Postman (HUMAN)
 
 ### H4a — Workspace

@@ -228,7 +228,7 @@ python3 $S/validate_submission.py --root . --sid 23127060
 | Sơ đồ bộ sinh (**TỰ VẼ**) | ✅ | `agent-skill/diagram/23127060_generator_diagram.png` (draw.io) |
 | Pseudocode bộ sinh | ✅ | `agent-skill/pseudocode/generator.pseudo.md` |
 | Bug report (MD + PDF) | ✅ | `bugs/BUG_REPORT.md` / `.pdf` (34 bug, 25 trang) |
-| Screenshot GitHub Issues | ⚠️ 34 Issue đã mở (#38–#71), **còn thiếu ảnh chụp** | `bugs/screenshots/` |
+| Screenshot GitHub Issues | ✅ | `bugs/screenshots/` (34 Issue #38–#71; 6 ảnh bug + tổng quan) |
 | AI Audit Report (MD + PDF) | ✅ | `ai/audit/AI_AUDIT_REPORT.md` / `.pdf` |
 | AI Critique (MD + PDF, 200–300 từ) | ✅ **297 từ** | `ai/critique/AI_CRITIQUE.md` / `.pdf` |
 | Git commit log | ✅ | `git-log/23127060_git_commit_log.txt` |
@@ -269,7 +269,7 @@ mục còn lại đòi hỏi thao tác trên giao diện và quyền truy cập 
 
 - ✅ **Header `X-Student-Id: 23127060` trên mọi request** — kiểm chứng tự động:
   **823/823 request**, xem `ci/evidence/header_evidence.md`. Ảnh chụp Postman Console:
-  `bugs/screenshots/console_header.png` (HUMAN H4).
+  [`bugs/screenshots/console_header.png`](bugs/screenshots/console_header.png) (HUMAN H4 — đã chụp).
 - ✅ **Newman chạy trên `localhost:3000`**, hostname hiện rõ trong báo cáo HTML.
 - ✅ **Sơ đồ bộ sinh do em TỰ VẼ bằng draw.io**, không dùng AI sinh ảnh:
   `agent-skill/diagram/23127060_generator_diagram.png`. AI chỉ viết bản mô tả bằng chữ

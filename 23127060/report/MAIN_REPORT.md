@@ -293,7 +293,8 @@ Bằng chứng em thu ở **hai mức**:
    cho từng request thật sự rời đường: **823/823 request mang `X-Student-Id: 23127060`**.
    Kết quả: [`ci/evidence/header_evidence.md`](../ci/evidence/header_evidence.md).
 2. **Ảnh chụp Postman Console** — dòng `console.log("[HW06][23127060] ...")` xuất hiện trong
-   báo cáo HTML (nhờ `--reporter-htmlextra-logs`) và trong Console.
+   báo cáo HTML (nhờ `--reporter-htmlextra-logs`) và trong Console:
+   [`bugs/screenshots/console_header.png`](../bugs/screenshots/console_header.png).
 
 > Một dòng `console.log` chỉ chứng minh **script đã chạy**, chưa chứng minh **header đã được
 > gửi**. Vì vậy cách thứ nhất mới là bằng chứng thật; ảnh chụp Console em nộp kèm cho đúng yêu
@@ -357,6 +358,18 @@ hoàn toàn không đăng nhập hạ gục được cả hệ thống bằng ha
 
 Bug này minh họa một điều mà kiểm thử từng endpoint độc lập không bao giờ thấy: **rủi ro nằm ở
 tổ hợp, không nằm ở từng thành phần**.
+
+### Bằng chứng GitHub Issues (đề bài mục 6.5)
+
+Em đã mở đủ **34 Issue** trên repo công khai, mỗi bug một Issue, gắn nhãn mức độ + nhóm API:
+[xem tất cả](https://github.com/thangak18/HW06/issues?q=label%3Ahw06-23127060).
+
+![Danh sách 34 GitHub Issue của SV 23127060](../bugs/screenshots/git_issues.png)
+
+Ảnh chi tiết một Issue Critical (**C-13**, #71) — thấy đủ tiêu đề, nhãn, nội dung Ảnh hưởng
+và bước tái hiện bằng `curl` trích thẳng từ `bugs/evidence/C-13.md`:
+
+![Issue C-13 chi tiết trên GitHub](../bugs/screenshots/C-13.png)
 
 Chi tiết 34 bug: [`bugs/BUG_REPORT.md`](../bugs/BUG_REPORT.md). Bằng chứng:
 [`bugs/evidence/`](../bugs/evidence/). File sẵn sàng dán lên GitHub Issues:
