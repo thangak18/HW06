@@ -1,226 +1,226 @@
 # STEP 3 — Audit test case do AI sinh (VALID / INVALID / INCOMPLETE)
 
-> HW06 — API Testing | SV **Ninh Van Khai — 23127060** | De bai muc 6.2
+> HW06 — API Testing | SV **Ninh Văn Khải — 23127060** | Đề bài mục 6.2
 
-De bai: *"Label each AI-generated test case VALID / INVALID / INCOMPLETE with reasoning, and
+Đề bài: *"Label each AI-generated test case VALID / INVALID / INCOMPLETE with reasoning, and
 correct the invalid or incomplete ones. You are fully responsible for the final test cases."*
 
 ---
 
-## 1. Cach lam: luat viet ra giay, khong sua tay tung dong
+## 1. Cách em làm: luật viết ra giấy, không sửa tay từng dòng
 
-225 test case ma sua tay tung dong thi khong tai lap duoc va khong ai kiem chung duoc. Vi vay
-moi nhan o day deu den tu **mot luat viet ro rang**, moi luat bam vao **mot cau cu the trong
-`eshop-sut/README.md`**. Luat nam trong
-`agent-skill/eshop-api-23127060/scripts/audit_testcases.py`; chay lai luon ra dung ket qua nay:
+225 test case mà sửa tay từng dòng thì không tái lập được và không ai kiểm chứng được. Vì vậy
+mọi nhãn ở đây đều đến từ **một luật viết rõ ràng**, mỗi luật bám vào **một câu cụ thể trong
+`eshop-sut/README.md`**. Luật nằm trong
+`agent-skill/eshop-api-23127060/scripts/audit_testcases.py`; chạy lại luôn ra đúng kết quả này:
 
 ```bash
 python3 agent-skill/eshop-api-23127060/scripts/audit_testcases.py --report
 ```
 
-Phan doi hoi phan doan rieng cho tung case — chu yeu la **gan lai ma SEC** va **viet lai
-nhung case co ky vong khong can cu** — nam trong hai bang `SEC_REMAP` va `REWRITE`, moi dong
-kem ly do bang van xuoi. Do la phan "human review" that su; script chi lam viec ap dung nhat quan.
+Phần đòi hỏi phán đoán riêng cho từng case — chủ yếu là **gán lại mã SEC** và **viết lại
+những case có kỳ vọng không căn cứ** — nằm trong hai bảng `SEC_REMAP` và `REWRITE`, mỗi dòng
+kèm lý do bằng văn xuôi. Đó là phần "human review" thật sự; script chỉ làm việc áp dụng nhất quán.
 
-## 2. Ket qua tong hop
+## 2. Kết quả tổng hợp
 
-| API | Tong | VALID | INVALID | INCOMPLETE | % VALID |
+| API | Tổng | VALID | INVALID | INCOMPLETE | % VALID |
 |---|---|---|---|---|---|
 | API-1 (FR-03) | 64 | 22 | 23 | 19 | 34% |
 | API-2 (FR-08) | 81 | 40 | 18 | 23 | 49% |
 | API-3 (FR-15) | 80 | 21 | 27 | 32 | 26% |
-| **Tong** | **225** | **83** | **68** | **74** | **37%** |
+| **Tổng** | **225** | **83** | **68** | **74** | **37%** |
 
-Theo nhom ky thuat — cho thay ro loi tap trung o dau:
+Theo nhóm kỹ thuật — cho thấy rõ lỗi tập trung ở đâu:
 
-| Nhom | Tong | VALID | INVALID | INCOMPLETE | Nhan xet |
+| Nhóm | Tổng | VALID | INVALID | INCOMPLETE | Nhận xét |
 |---|---|---|---|---|---|
-| DOM | 128 | 33 | 23 | 72 | Phan hoach mien lam tot; diem yeu la assertion qua chung chung |
-| STA | 38 | 34 | 4 | 0 | **Nhom tot nhat.** Bang chuyen trang thai buoc AI phai bam vao dac ta |
-| SEC | 41 | **0** | **41** | 0 | **Toan bo nhom sai.** Xem muc 4 |
-| SCH | 18 | 16 | 0 | 2 | Ky vong ve hinh dang response de doi chieu, it sai |
+| DOM | 128 | 33 | 23 | 72 | Phân hoạch miền làm tốt; điểm yếu là assertion quá chung chung |
+| STA | 38 | 34 | 4 | 0 | **Nhóm tốt nhất.** Bảng chuyển trạng thái buộc AI phải bám vào đặc tả |
+| SEC | 41 | **0** | **41** | 0 | **Toàn bộ nhóm sai.** Xem mục 4 |
+| SCH | 18 | 16 | 0 | 2 | Kỳ vọng về hình dạng response dễ đối chiếu, ít sai |
 
-So lan tung luat duoc kich hoat (mot case co the dinh hai luat):
+Số lần từng luật được kích hoạt (một case có thể dính hai luật):
 
-| Luat | Noi dung | So case |
+| Luật | Nội dung | Số case |
 |---|---|---|
-| R3 | Gan sai ma SEC | 61 |
-| R7 | Case tu choi thao tac GHI nhung khong chung minh thao tac da khong xay ra | 50 |
-| R8 | Case thanh cong nhung chi kiem schema, khong kiem gia tri that su duoc luu | 17 |
-| R6 | Ky vong dua tren suy dien, khong phai dieu SRS phat bieu | 5 |
-| R1 | Ky vong 429 (rate limiting) khong co can cu trong SRS | 4 |
-| R2 | Ky vong 409 (conflict) khong co can cu trong SRS | 2 |
-| R4 | Mau thuan noi tai (danh dau "hop le" nhung ky vong 4xx) | 2 |
-| R10 | Dung bien Postman nhung precondition khong noi bien duoc dat o dau | 2 |
-| R5 | Tham so bia (`?debug=true`) | 1 |
-| R3b | Ap mot chinh sach ma dac ta khong he co | 1 |
+| R3 | Gán sai mã SEC | 61 |
+| R7 | Case từ chối thao tác GHI nhưng không chứng minh thao tác đã không xảy ra | 50 |
+| R8 | Case thành công nhưng chỉ kiểm schema, không kiểm giá trị thật sự được lưu | 17 |
+| R6 | Kỳ vọng dựa trên suy diễn, không phải điều SRS phát biểu | 5 |
+| R1 | Kỳ vọng 429 (rate limiting) không có căn cứ trong SRS | 4 |
+| R2 | Kỳ vọng 409 (conflict) không có căn cứ trong SRS | 2 |
+| R4 | Mâu thuẫn nội tại (đánh dấu "hợp lệ" nhưng kỳ vọng 4xx) | 2 |
+| R10 | Dùng biến Postman nhưng precondition không nói biến được đặt ở đâu | 2 |
+| R5 | Tham số bịa (`?debug=true`) | 1 |
+| R3b | Áp một chính sách mà đặc tả không hề có | 1 |
 
-> Ty le VALID 37% thap hon khoang 55-70% ma `references/TESTCASE_TAXONOMY.md` du kien. Con so
-> nay **khong duoc dieu chinh cho dep**. Nguyen nhan la cu the va truy nguyen duoc: mot gia dinh
-> sai duy nhat (bang SEC) da lam hong tron ven mot nhom 41 case, va assertion mac dinh cua bo
-> sinh qua chung chung nen keo theo 67 case vao nhom INCOMPLETE. Ha thap tieu chuan de con so
-> dep hon se dung nghia la audit hoi hot — dung dieu ma taxonomy canh bao.
+> Tỷ lệ VALID 37% thấp hơn khoảng 55-70% mà `references/TESTCASE_TAXONOMY.md` dự kiến. Con số
+> này em **không điều chỉnh cho đẹp**. Nguyên nhân là cụ thể và truy nguyên được: một giả định
+> sai duy nhất (bảng SEC) đã làm hỏng trọn vẹn một nhóm 41 case, và assertion mặc định của bộ
+> sinh quá chung chung nên kéo theo 67 case vào nhóm INCOMPLETE. Hạ thấp tiêu chuẩn để con số
+> đẹp hơn sẽ đúng nghĩa là audit hời hợt — đúng điều mà taxonomy cảnh báo.
 
-## 3. Bon nguyen nhan goc
+## 3. Bốn nguyên nhân gốc
 
-| # | Nguyen nhan | Hau qua | So case |
+| # | Nguyên nhân | Hậu quả | Số case |
 |---|---|---|---|
-| N1 | **Mot gia dinh sai lan ra ca nhom.** Bang SEC-01..07 duoc suy dien theo OWASP thay vi doc `README.md` muc 9 | 61 case bi gan sai ma bao mat | 61 |
-| N2 | **Bo sinh dien assertion mac dinh chung chung.** "body la JSON; co truong error" khong noi gi ve tac dung phu | 67 case thieu phan quan trong nhat cua phep kiem | 67 |
-| N3 | **AI ap chuan nganh thay vi doc dac ta.** Rate limiting, rang buoc khoa ngoai, cam dung lai mat khau cu — deu la thoi quen tot nhung SRS khong he yeu cau | 7 case ky vong sai han | 7 |
-| N4 | **AI bia ra thu khong ton tai** de lap day mo hinh: tham so `?debug=true`, trang thai `EXPIRED` / `IN_SEARCH` / `LOGIN_OLD` | 4 case khong the chay hoac chay ma khong chung minh gi | 4 |
+| N1 | **Một giả định sai lan ra cả nhóm.** Bảng SEC-01..07 được suy diễn theo OWASP thay vì đọc `README.md` mục 9 | 61 case bị gán sai mã bảo mật | 61 |
+| N2 | **Bộ sinh điền assertion mặc định chung chung.** "body là JSON; có trường error" không nói gì về tác dụng phụ | 67 case thiếu phần quan trọng nhất của phép kiểm | 67 |
+| N3 | **AI áp chuẩn ngành thay vì đọc đặc tả.** Rate limiting, ràng buộc khóa ngoại, cấm dùng lại mật khẩu cũ — đều là thói quen tốt nhưng SRS không hề yêu cầu | 7 case kỳ vọng sai hẳn | 7 |
+| N4 | **AI bịa ra thứ không tồn tại** để lấp đầy mô hình: tham số `?debug=true`, trạng thái `EXPIRED` / `IN_SEARCH` / `LOGIN_OLD` | 4 case không thể chạy hoặc chạy mà không chứng minh gì | 4 |
 
-## 4. Phat hien nghiem trong nhat: **toan bo 41 case SEC deu INVALID**
+## 4. Phát hiện nghiêm trọng nhất: **toàn bộ 41 case SEC đều INVALID**
 
-Day khong phai 41 loi doc lap ma la **mot loi duy nhat nhan ban 41 lan**.
+Đây không phải 41 lỗi độc lập mà là **một lỗi duy nhất nhân bản 41 lần**.
 
-Bang SEC-01..07 dung de gan nhan duoc suy ra tu ten cac lo hong OWASP quen thuoc
-(SEC-01 = SQL Injection, SEC-04 = IDOR, SEC-05 = role escalation, SEC-07 = brute force). Bang
-SEC **that** nam trong `eshop-sut/README.md` muc 9 va noi nhung dieu hoan toan khac:
+Bảng SEC-01..07 dùng để gán nhãn được suy ra từ tên các lỗ hổng OWASP quen thuộc
+(SEC-01 = SQL Injection, SEC-04 = IDOR, SEC-05 = role escalation, SEC-07 = brute force). Bảng
+SEC **thật** nằm trong `eshop-sut/README.md` mục 9 và nói những điều hoàn toàn khác:
 
-| Ma | Suy dien (sai) | That (SRS muc 9) |
+| Mã | Suy diễn (sai) | Thật (SRS mục 9) |
 |---|---|---|
-| SEC-01 | Chong SQL Injection | Mat khau **khong** duoc luu plaintext |
-| SEC-02 | Khong lo du lieu nhay cam | API bao mat phai yeu cau JWT hop le |
-| SEC-03 | Endpoint ghi phai xac thuc | API Admin phai kiem `role='admin'` |
-| SEC-04 | Chong IDOR | Du lieu user nhap phai duoc escape khi hien thi |
-| SEC-05 | Chong role escalation | Truy van CSDL phai dung Parameterized Query |
-| SEC-06 | Validate input / chong XSS | API cap nhat ho so khong duoc cho doi `role` |
-| SEC-07 | Chong brute force | OTP >= 6 chu so, co thoi han, vo hieu hoa sau khi dung |
+| SEC-01 | Chống SQL Injection | Mật khẩu **không** được lưu plaintext |
+| SEC-02 | Không lộ dữ liệu nhạy cảm | API bảo mật phải yêu cầu JWT hợp lệ |
+| SEC-03 | Endpoint ghi phải xác thực | API Admin phải kiểm `role='admin'` |
+| SEC-04 | Chống IDOR | Dữ liệu user nhập phải được escape khi hiển thị |
+| SEC-05 | Chống role escalation | Truy vấn CSDL phải dùng Parameterized Query |
+| SEC-06 | Validate input / chống XSS | API cập nhật hồ sơ không được cho đổi `role` |
+| SEC-07 | Chống brute force | OTP >= 6 chữ số, có thời hạn, vô hiệu hóa sau khi dùng |
 
-Ket qua doi chieu tung case: **39/41 case bi gan sai ma**, 2 case con lai dung ma nhung ky
-vong 429 khong co can cu. Vi vay nhom SEC co 0 case VALID.
+Kết quả đối chiếu từng case: **39/41 case bị gán sai mã**, 2 case còn lại đúng mã nhưng kỳ
+vọng 429 không có căn cứ. Vì vậy nhóm SEC có 0 case VALID.
 
-**Vi sao dieu nay nghiem trong hon no thoat nhin:** cac test case **van chay dung** — mot phep
-thu SQL Injection van la mot phep thu SQL Injection du no bi dan nhan SEC-01 hay SEC-05. Cai
-hong la **bang do phu bao mat trong bao cao**. Neu nop ban chua sua, bao cao se ghi "API-3 da
-phu SEC-01 voi 8 test case" trong khi SEC-01 (mat khau plaintext) **khong he duoc kiem o
-API-3 dong nao**. Do la mot khang dinh sai ve pham vi kiem thu — dung loai sai lam ma nguoi
-doc bao cao khong the tu phat hien.
+**Vì sao điều này nghiêm trọng hơn nó thoạt nhìn:** các test case **vẫn chạy đúng** — một phép
+thử SQL Injection vẫn là một phép thử SQL Injection dù nó bị dán nhãn SEC-01 hay SEC-05. Cái
+hỏng là **bảng độ phủ bảo mật trong báo cáo**. Nếu em nộp bản chưa sửa, báo cáo sẽ ghi "API-3
+đã phủ SEC-01 với 8 test case" trong khi SEC-01 (mật khẩu plaintext) **không hề được kiểm ở
+API-3 dòng nào**. Đó là một khẳng định sai về phạm vi kiểm thử — đúng loại sai lầm mà người
+đọc báo cáo không thể tự phát hiện.
 
-**Vi sao AI khong tu bat duoc:** ma `SEC-01` la mot **nhan khong tu giai thich**. Trong ngu canh
-kiem thu API, "SEC-01" gan nhu luon la SQL Injection; do la mo hinh manh nhat va AI dien vao
-ma khong thay can kiem lai. Tai lieu chua bang that (`README.md` cua SUT) lai co ten khien
-nguoi ta tuong la file gioi thieu repo, trong khi file mang ten `api_specification.md` — cai
-ten nghe co ve la "dac ta" — thi **khong he chua bang SEC nao**. Chi mot lenh
-`grep -n "SEC-0" README.md` da lam sang to moi chuyen.
+**Vì sao AI không tự bắt được:** mã `SEC-01` là một **nhãn không tự giải thích**. Trong ngữ cảnh
+kiểm thử API, "SEC-01" gần như luôn là SQL Injection; đó là mô hình mạnh nhất và AI điền vào
+mà không thấy cần kiểm lại. Tài liệu chứa bảng thật (`README.md` của SUT) lại có tên khiến
+người ta tưởng là file giới thiệu repo, trong khi file mang tên `api_specification.md` — cái
+tên nghe có vẻ là "đặc tả" — thì **không hề chứa bảng SEC nào**. Chỉ một lệnh
+`grep -n "SEC-0" README.md` đã làm sáng tỏ mọi chuyện.
 
-### Vi du chi tiet 1 — `TC-B2-SEC-006`
-
-| | |
-|---|---|
-| **Case goc** | `[SEC-04] Xem don hang cua nguoi khac qua GET /api/orders/:id`, `SEC_Ref = SEC-04` |
-| **Nhan** | INVALID |
-| **Ly do** | SEC-04 that la "du lieu user nhap phai duoc escape khi hien thi", khong lien quan gi den truy cap trai phep. Loi that o day la `GET /api/orders/:id` **thieu han middleware `authenticateToken`** — dung la dieu SEC-02 quy dinh. |
-| **Da sua** | `SEC_Ref` -> `SEC-02`; dong bo lai tien to trong `Title` thanh `[SEC-02]`. Kich ban, request va ky vong 403 giu nguyen vi chung von da dung. |
-
-### Vi du chi tiet 2 — `TC-C3-SEC-010`, `TC-C3-SEC-011`
+### Ví dụ chi tiết 1 — `TC-B2-SEC-006`
 
 | | |
 |---|---|
-| **Case goc** | `[SEC-05] User thuong (role=user) tao/xoa san pham`, `SEC_Ref = SEC-05` |
-| **Nhan** | INVALID |
-| **Ly do** | Day dung la kiem tra phan quyen, nhung ma dung phai la **SEC-03** ("API Admin phai kiem `role='admin'`, khong chi kiem su ton tai cua token"). SEC-05 that la parameterized query. |
-| **Da sua** | `SEC_Ref` -> `SEC-03`. Nho vay bang do phu moi phan anh dung: SEC-03 duoc kiem 3 lan o API-3, va SEC-05 (SQLi) duoc kiem 8 lan — truoc khi sua thi hai con so nay bi hoan doi cho nhau. |
+| **Case gốc** | `[SEC-04] Xem đơn hàng của người khác qua GET /api/orders/:id`, `SEC_Ref = SEC-04` |
+| **Nhãn** | INVALID |
+| **Lý do** | SEC-04 thật là "dữ liệu user nhập phải được escape khi hiển thị", không liên quan gì đến truy cập trái phép. Lỗi thật ở đây là `GET /api/orders/:id` **thiếu hẳn middleware `authenticateToken`** — đúng là điều SEC-02 quy định. |
+| **Em đã sửa** | `SEC_Ref` → `SEC-02`; đồng bộ lại tiền tố trong `Title` thành `[SEC-02]`. Kịch bản, request và kỳ vọng 403 giữ nguyên vì chúng vốn đã đúng. |
 
-## 5. Ky vong khong co can cu trong dac ta (luat R1, R2, R3b)
-
-Day la loai loi kho thay nhat, vi test case **doc rat hop ly**.
-
-### Vi du chi tiet 3 — `TC-A1-SEC-011` (ky vong 429)
+### Ví dụ chi tiết 2 — `TC-C3-SEC-010`, `TC-C3-SEC-011`
 
 | | |
 |---|---|
-| **Case goc** | "Do 20 gia tri token 4 chu so lien tiep phai bi chan", `Expected_Status = 429` |
-| **Nhan** | INVALID |
-| **Ly do** | **Khong mot dong nao** trong FR-01..FR-24 hay SEC-01..SEC-07 yeu cau rate limiting. AI suy ra tu thoi quen bao mat chung. Neu giu nguyen, case nay se FAIL va bi ghi vao bao cao nhu mot "bug" — trong khi SUT khong he vi pham dac ta nao ca. **Bao cao mot bug khong ton tai con te hon la bo sot mot bug that.** |
-| **Da sua** | Giu nguyen kich ban do 20 gia tri (no van la cach chung minh entropy yeu), nhung doi oracle sang dieu SEC-07 **thuc su** noi: OTP phai dai toi thieu 6 chu so. `Expected_Status` -> 400; assertion moi: *"moi lan do deu tra 400; do dai `resetToken` lay tu forgot-password phai >= 6 ky tu theo SEC-07"*. Bay gio case FAIL vi mot ly do co that: SUT sinh token 4 chu so. |
+| **Case gốc** | `[SEC-05] User thường (role=user) tạo/xóa sản phẩm`, `SEC_Ref = SEC-05` |
+| **Nhãn** | INVALID |
+| **Lý do** | Đây đúng là kiểm tra phân quyền, nhưng mã đúng phải là **SEC-03** ("API Admin phải kiểm `role='admin'`, không chỉ kiểm sự tồn tại của token"). SEC-05 thật là parameterized query. |
+| **Em đã sửa** | `SEC_Ref` → `SEC-03`. Nhờ vậy bảng độ phủ mới phản ánh đúng: SEC-03 được kiểm 3 lần ở API-3, và SEC-05 (SQLi) được kiểm 8 lần — trước khi sửa thì hai con số này bị hoán đổi cho nhau. |
 
-### Vi du chi tiet 4 — `TC-C3-DOM-041` (ky vong 409)
+## 5. Kỳ vọng không có căn cứ trong đặc tả (luật R1, R2, R3b)
 
-| | |
-|---|---|
-| **Case goc** | "DELETE san pham dang nam trong don hang — phai chan", `Expected_Status = 409` |
-| **Nhan** | INVALID |
-| **Ly do** | SRS FR-15 chi noi "Admin co the Them / Xem / Sua / Xoa san pham". Khong co bat ky rang buoc khoa ngoai nao giua `products` va `orders`; ban than `database.js` cung khong khai bao `FOREIGN KEY`. AI ap kinh nghiem thiet ke CSDL len mot he thong khong co rang buoc do. |
-| **Da sua** | `Expected_Status` -> 200. Chuyen trong tam sang dieu **kiem duoc**: sau khi xoa thi `GET /api/products/1` khong duoc tra ve san pham nua — va chinh phep kiem nay phoi bay bug C-04 (tra `200 {}` thay vi `404`). `Bug_Ref` -> `C-08`. |
+Đây là loại lỗi khó thấy nhất, vì test case **đọc rất hợp lý**.
 
-### Vi du chi tiet 5 — `TC-A1-DOM-035`
+### Ví dụ chi tiết 3 — `TC-A1-SEC-011` (kỳ vọng 429)
 
 | | |
 |---|---|
-| **Case goc** | "Dat lai dung mat khau cu phai bi tu choi", `Expected_Status = 400` |
-| **Nhan** | INVALID |
-| **Ly do** | SRS FR-01/FR-03 chi doi mat khau moi **thoa dieu kien do manh**; khong o dau cam dat lai trung mat khau cu. AI ap mot chinh sach bao mat pho bien ma dac ta khong co. |
-| **Da sua** | `Expected_Status` -> 200, kem khang dinh dang nhap bang mat khau do phai thanh cong. |
+| **Case gốc** | "Dò 20 giá trị token 4 chữ số liên tiếp phải bị chặn", `Expected_Status = 429` |
+| **Nhãn** | INVALID |
+| **Lý do** | **Không một dòng nào** trong FR-01..FR-24 hay SEC-01..SEC-07 yêu cầu rate limiting. AI suy ra từ thói quen bảo mật chung. Nếu giữ nguyên, case này sẽ FAIL và bị ghi vào báo cáo như một "bug" — trong khi SUT không hề vi phạm đặc tả nào cả. **Báo cáo một bug không tồn tại còn tệ hơn là bỏ sót một bug thật.** |
+| **Em đã sửa** | Giữ nguyên kịch bản dò 20 giá trị (nó vẫn là cách chứng minh entropy yếu), nhưng đổi oracle sang điều SEC-07 **thực sự** nói: OTP phải dài tối thiểu 6 chữ số. `Expected_Status` → 400; assertion mới: *"mỗi lần dò đều trả 400; độ dài `resetToken` lấy từ forgot-password phải >= 6 ký tự theo SEC-07"*. Bây giờ case FAIL vì một lý do có thật: SUT sinh token 4 chữ số. |
 
-## 6. Mau thuan noi tai va thu bia ra (luat R4, R5)
-
-### Vi du chi tiet 6 — `TC-A1-STA-006`
+### Ví dụ chi tiết 4 — `TC-C3-DOM-041` (kỳ vọng 409)
 
 | | |
 |---|---|
-| **Case goc** | "Chuyen trang thai ISSUED -> EXPIRED **(hop le)**" nhung `Expected_Status = 400` |
-| **Nhan** | INVALID |
-| **Ly do** | Hai loi chong nhau. Thu nhat, tu mau thuan: danh dau chuyen hop le ma lai ky vong bi tu choi. Thu hai, `EXPIRED` **khong phai mot trang thai dieu khien duoc**: SUT khong luu thoi diem cap OTP (bug A-04), nen khong co cach nao dua OTP ve trang thai het han qua API. Case nay khong the chay. |
-| **Da sua** | Doi thanh chuyen **KHONG hop le** `USED -> USED`: dung lai OTP da dung. Day la dieu SEC-07 quy dinh ro ("vo hieu hoa sau khi dung") va kiem duoc hoan toan qua API. Precondition duoc viet lai cho khop. |
+| **Case gốc** | "DELETE sản phẩm đang nằm trong đơn hàng — phải chặn", `Expected_Status = 409` |
+| **Nhãn** | INVALID |
+| **Lý do** | SRS FR-15 chỉ nói "Admin có thể Thêm / Xem / Sửa / Xóa sản phẩm". Không có bất kỳ ràng buộc khóa ngoại nào giữa `products` và `orders`; bản thân `database.js` cũng không khai báo `FOREIGN KEY`. AI áp kinh nghiệm thiết kế CSDL lên một hệ thống không có ràng buộc đó. |
+| **Em đã sửa** | `Expected_Status` → 200. Chuyển trọng tâm sang điều **kiểm được**: sau khi xóa thì `GET /api/products/1` không được trả về sản phẩm nữa — và chính phép kiểm này phơi bày bug C-04 (trả `200 {}` thay vì `404`). `Bug_Ref` → `C-08`. |
 
-### Vi du chi tiet 7 — `TC-C3-SEC-004`
-
-| | |
-|---|---|
-| **Case goc** | "Response san pham khong lo truong noi bo khi bat co debug", `GET /api/products/1?debug=true` |
-| **Nhan** | INVALID |
-| **Ly do** | Tham so `debug` **khong ton tai** — khong co trong `api_specification.md` lan trong `server.js`. Express bo qua query param la, nen case nay se **PASS** trong moi tinh huong va khong chung minh dieu gi. Mot test luon pass vi ly do sai con nguy hiem hon mot test that bai, vi no tao cam giac an toan gia. |
-| **Da sua** | Bo tham so bia. Kiem dung dieu kiem duoc: *"body chi duoc chua dung 6 truong `id`, `name`, `price`, `description`, `imageUrl`, `category_id`"*. |
-
-## 7. Nhom INCOMPLETE: 67 case thieu phan quan trong nhat (luat R7, R8)
-
-### Vi du chi tiet 8 — mau chung cua 50 case dinh luat R7
+### Ví dụ chi tiết 5 — `TC-A1-DOM-035`
 
 | | |
 |---|---|
-| **Case goc** | `POST /api/products` voi `price = -100`, `Expected_Status = 400`, assertion: *"body la JSON; co truong error"* |
-| **Nhan** | INCOMPLETE |
-| **Ly do** | Case chi kiem **cau tra loi**, khong kiem **hau qua**. Mot API tra `400` roi **van INSERT** vao CSDL se pass case nay. Ma do dung la kieu loi dang co trong SUT: `PUT /api/products/:id` voi id khong ton tai tra `200 "Product updated"` du khong dong nao bi doi (bug C-07). |
-| **Da sua** | Bo sung ve sau cua assertion: *"VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi"*. Trong Postman, phan nay duoc hien thuc bang mot `pm.sendRequest` doc lai `GET /api/products` va dem so ban ghi truoc/sau. |
-| **Pham vi** | Luat R7 chi ap dung cho endpoint co **tac dung phu quan sat duoc** (`/api/products`, `/api/checkout`, `/api/orders/...`, `/api/users/me`, `/api/reset-password`, `/api/categories`, `/api/admin/*`). Khong ap cho `/api/apply-coupon` (thuan tinh toan, khong ghi gi) va `/api/forgot-password` (co ghi nhung tren nhanh loi khong co gi doc lai duoc). Doi hoi mot phep kiem khong ton tai se lam nhan INCOMPLETE mat y nghia. |
+| **Case gốc** | "Đặt lại đúng mật khẩu cũ phải bị từ chối", `Expected_Status = 400` |
+| **Nhãn** | INVALID |
+| **Lý do** | SRS FR-01/FR-03 chỉ đòi mật khẩu mới **thỏa điều kiện độ mạnh**; không ở đâu cấm đặt lại trùng mật khẩu cũ. AI áp một chính sách bảo mật phổ biến mà đặc tả không có. |
+| **Em đã sửa** | `Expected_Status` → 200, kèm khẳng định đăng nhập bằng mật khẩu đó phải thành công. |
 
-### Vi du chi tiet 9 — mau chung cua 17 case dinh luat R8
+## 6. Mâu thuẫn nội tại và thứ bịa ra (luật R4, R5)
+
+### Ví dụ chi tiết 6 — `TC-A1-STA-006`
 
 | | |
 |---|---|
-| **Case goc** | `POST /api/checkout` voi du lieu hop le, `Expected_Status = 201`, assertion: *"body la JSON; khop schema thanh cong"* |
-| **Nhan** | INCOMPLETE |
-| **Ly do** | Kiem hinh dang response ma khong kiem **gia tri that su duoc luu**. Case nay se pass ke ca khi SUT luu sai tong tien — dung bug B-01: `checkout` nhan `total_amount` do client gui va ghi thang vao CSDL. |
-| **Da sua** | Bo sung: *"VA doc lai tai nguyen de xac nhan gia tri luu dung bang gia tri da gui"* — voi checkout la `GET /api/orders/:id` roi so `total_amount`. |
+| **Case gốc** | "Chuyển trạng thái ISSUED → EXPIRED **(hợp lệ)**" nhưng `Expected_Status = 400` |
+| **Nhãn** | INVALID |
+| **Lý do** | Hai lỗi chồng nhau. Thứ nhất, tự mâu thuẫn: đánh dấu chuyển hợp lệ mà lại kỳ vọng bị từ chối. Thứ hai, `EXPIRED` **không phải một trạng thái điều khiển được**: SUT không lưu thời điểm cấp OTP (bug A-04), nên không có cách nào đưa OTP về trạng thái hết hạn qua API. Case này không thể chạy. |
+| **Em đã sửa** | Đổi thành chuyển **KHÔNG hợp lệ** `USED → USED`: dùng lại OTP đã dùng. Đây là điều SEC-07 quy định rõ ("vô hiệu hóa sau khi dùng") và kiểm được hoàn toàn qua API. Precondition được viết lại cho khớp. |
 
-## 8. Do phu SEC sau khi gan lai — va mot gioi han duoc thua nhan
+### Ví dụ chi tiết 7 — `TC-C3-SEC-004`
 
-| API | Ma SEC duoc kiem | Ma khong ap dung | Ly do |
+| | |
+|---|---|
+| **Case gốc** | "Response sản phẩm không lộ trường nội bộ khi bật cờ debug", `GET /api/products/1?debug=true` |
+| **Nhãn** | INVALID |
+| **Lý do** | Tham số `debug` **không tồn tại** — không có trong `api_specification.md` lẫn trong `server.js`. Express bỏ qua query param lạ, nên case này sẽ **PASS** trong mọi tình huống và không chứng minh điều gì. Một test luôn pass vì lý do sai còn nguy hiểm hơn một test thất bại, vì nó tạo cảm giác an toàn giả. |
+| **Em đã sửa** | Bỏ tham số bịa. Kiểm đúng điều kiểm được: *"body chỉ được chứa đúng 6 trường `id`, `name`, `price`, `description`, `imageUrl`, `category_id`"*. |
+
+## 7. Nhóm INCOMPLETE: 67 case thiếu phần quan trọng nhất (luật R7, R8)
+
+### Ví dụ chi tiết 8 — mẫu chung của 50 case dính luật R7
+
+| | |
+|---|---|
+| **Case gốc** | `POST /api/products` với `price = -100`, `Expected_Status = 400`, assertion: *"body là JSON; có trường error"* |
+| **Nhãn** | INCOMPLETE |
+| **Lý do** | Case chỉ kiểm **câu trả lời**, không kiểm **hậu quả**. Một API trả `400` rồi **vẫn INSERT** vào CSDL sẽ pass case này. Mà đó đúng là kiểu lỗi đang có trong SUT: `PUT /api/products/:id` với id không tồn tại trả `200 "Product updated"` dù không dòng nào bị đổi (bug C-07). |
+| **Em đã sửa** | Bổ sung vế sau của assertion: *"VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi"*. Trong Postman, phần này được hiện thực bằng một `pm.sendRequest` đọc lại `GET /api/products` và đếm số bản ghi trước/sau. |
+| **Phạm vi** | Luật R7 chỉ áp dụng cho endpoint có **tác dụng phụ quan sát được** (`/api/products`, `/api/checkout`, `/api/orders/...`, `/api/users/me`, `/api/reset-password`, `/api/categories`, `/api/admin/*`). Không áp cho `/api/apply-coupon` (thuần tính toán, không ghi gì) và `/api/forgot-password` (có ghi nhưng trên nhánh lỗi không có gì đọc lại được). Đòi hỏi một phép kiểm không tồn tại sẽ làm nhãn INCOMPLETE mất ý nghĩa. |
+
+### Ví dụ chi tiết 9 — mẫu chung của 17 case dính luật R8
+
+| | |
+|---|---|
+| **Case gốc** | `POST /api/checkout` với dữ liệu hợp lệ, `Expected_Status = 201`, assertion: *"body là JSON; khớp schema thành công"* |
+| **Nhãn** | INCOMPLETE |
+| **Lý do** | Kiểm hình dạng response mà không kiểm **giá trị thật sự được lưu**. Case này sẽ pass kể cả khi SUT lưu sai tổng tiền — đúng bug B-01: `checkout` nhận `total_amount` do client gửi và ghi thẳng vào CSDL. |
+| **Em đã sửa** | Bổ sung: *"VÀ đọc lại tài nguyên để xác nhận giá trị lưu đúng bằng giá trị đã gửi"* — với checkout là `GET /api/orders/:id` rồi so `total_amount`. |
+
+## 8. Độ phủ SEC sau khi gán lại — và một giới hạn em thừa nhận
+
+| API | Mã SEC được kiểm | Mã không áp dụng | Lý do |
 |---|---|---|---|
-| API-1 | SEC-01(1), SEC-04(3), SEC-05(3), SEC-06(1), SEC-07(6) | SEC-02, SEC-03 | `forgot-password` va `reset-password` **khong yeu cau xac thuc theo dung dac ta** (nguoi quen mat khau thi lam gi con token). Khong co endpoint admin nao trong pham vi API-1. |
-| API-2 | SEC-02(7), SEC-03(3), SEC-04(2), SEC-05(2), SEC-06(1) | SEC-01, SEC-07 | Luong thanh toan khong dung toi luu tru mat khau lan OTP. |
-| API-3 | SEC-02(4), SEC-03(3), SEC-04(5), SEC-05(8), SEC-06(1) | SEC-01, SEC-07 | Nhu tren. |
-| **Toan suite** | **SEC-01(1), SEC-02(11), SEC-03(6), SEC-04(10), SEC-05(13), SEC-06(3), SEC-07(6)** | **(khong thieu ma nao)** | |
+| API-1 | SEC-01(1), SEC-04(3), SEC-05(3), SEC-06(1), SEC-07(6) | SEC-02, SEC-03 | `forgot-password` và `reset-password` **không yêu cầu xác thực theo đúng đặc tả** (người quên mật khẩu thì làm gì còn token). Không có endpoint admin nào trong phạm vi API-1. |
+| API-2 | SEC-02(7), SEC-03(3), SEC-04(2), SEC-05(2), SEC-06(1) | SEC-01, SEC-07 | Luồng thanh toán không dùng tới lưu trữ mật khẩu lẫn OTP. |
+| API-3 | SEC-02(4), SEC-03(3), SEC-04(5), SEC-05(8), SEC-06(1) | SEC-01, SEC-07 | Như trên. |
+| **Toàn suite** | **SEC-01(1), SEC-02(11), SEC-03(6), SEC-04(10), SEC-05(13), SEC-06(3), SEC-07(6)** | **(không thiếu mã nào)** | |
 
-`references/TESTCASE_TAXONOMY.md` do chinh toi viet co mot dong: *"Bat buoc phu du 7 ma
-SEC-01..SEC-07 cho **moi** API"*. Sau khi biet bang SEC that, **yeu cau do la bat kha thi va
-chinh no la nguyen nhan gay hai**: no ep phai tim cho ra mot case SEC-07 o API-3, va cach
-duy nhat de "dat chi tieu" la gan bua mot case rate-limit vao ma SEC-07. Yeu cau dung phai la:
-**du 7 ma tren toan bo suite**, va tung API phu nhung ma **thuc su ap dung duoc**, co giai trinh
-cho phan khong ap dung. Da sua lai taxonomy theo huong nay.
+`references/TESTCASE_TAXONOMY.md` do chính em viết có một dòng: *"Bắt buộc phủ đủ 7 mã
+SEC-01..SEC-07 cho **mọi** API"*. Sau khi biết bảng SEC thật, **yêu cầu đó là bất khả thi và
+chính nó là nguyên nhân gây hại**: nó ép em phải tìm cho ra một case SEC-07 ở API-3, và cách
+duy nhất để "đạt chỉ tiêu" là gán bừa một case rate-limit vào mã SEC-07. Yêu cầu đúng phải là:
+**đủ 7 mã trên toàn bộ suite**, và từng API phủ những mã **thực sự áp dụng được**, có giải trình
+cho phần không áp dụng. Em đã sửa lại taxonomy theo hướng này.
 
-Day la mot bai hoc doc lap voi SUT: **mot chi tieu do luong dat sai se tao ra chinh cai loi
-ma no dinh ngan chan.**
+Đây là một bài học độc lập với SUT: **một chỉ tiêu đo lường đặt sai sẽ tạo ra chính cái lỗi
+mà nó định ngăn chặn.**
 
-## 9. Ket luan STEP 3
+## 9. Kết luận STEP 3
 
-- 225 case duoc gan nhan bang 10 luat viet ro rang, tai lap duoc bang mot lenh.
-- 68 case INVALID va 74 case INCOMPLETE **da duoc sua ngay trong `testcases/API-*_audited.csv`**,
-  moi dong deu co cot `Audit_Note` ghi ly do va noi ro da sua gi.
-- Phat hien lon nhat: **toan bo nhom SEC (41 case) deu sai**, do mot gia dinh duy nhat ve bang
-  SEC-01..07. Do phu bao mat sau khi sua da phan anh dung thuc te.
-- **Cong viec cua human (H2):** doc lai cot `Audit_Note`, dac biet 68 dong INVALID, va xac nhan
-  hoac bac bo tung nhan truoc khi nop.
-- **STEP ke tiep:** STEP 4 — bo sung >= 5 case/API ma AI bo sot.
+- 225 case được gán nhãn bằng 10 luật viết rõ ràng, tái lập được bằng một lệnh.
+- 68 case INVALID và 74 case INCOMPLETE **em đã sửa ngay trong `testcases/API-*_audited.csv`**,
+  mỗi dòng đều có cột `Audit_Note` ghi lý do và nói rõ đã sửa gì.
+- Phát hiện lớn nhất: **toàn bộ nhóm SEC (41 case) đều sai**, do một giả định duy nhất về bảng
+  SEC-01..07. Độ phủ bảo mật sau khi sửa đã phản ánh đúng thực tế.
+- **Công việc của human (H2):** đọc lại cột `Audit_Note`, đặc biệt 68 dòng INVALID, và xác nhận
+  hoặc bác bỏ từng nhãn trước khi nộp.
+- **STEP kế tiếp:** STEP 4 — bổ sung >= 5 case/API mà AI bỏ sót.
