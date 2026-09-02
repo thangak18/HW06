@@ -1,7 +1,7 @@
 GIT COMMIT LOG - HW06 API Testing
 Sinh vien : 23127195
 Repository: https://github.com/thangak18/HW06
-Xuat luc  : 2026-09-02 16:35:40
+Xuat luc  : 2026-09-02 19:11:11
 
 Theo muc 12 cua de bai: 'Create a new Git commit for each step of the procedure'.
 
@@ -146,6 +146,22 @@ BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
 29. 3e43abf1  2026-09-02 16:35:17
     Commit : docs(pdf): xuat lai 9 PDF sau khi cap nhat bao cao CI/CD, AI audit va chi muc bang chung
     Buoc   : Xuat 9 bao cao sang PDF (yeu cau muc 14)
+
+30. 48c66970  2026-09-02 16:35:41
+    Commit : chore(evidence): sinh lai git commit log (29 commit)
+    Buoc   : Chi muc bang chung - script sinh git commit log
+
+31. 836a366e  2026-09-02 18:44:01
+    Commit : docs(pdf): them kich ban video demo vao bo PDF (10 file)
+    Buoc   : Xuat 9 bao cao sang PDF (yeu cau muc 14)
+
+32. 4cce285f  2026-09-02 18:54:05
+    Commit : feat(agent-skill): cai skill vao .claude/skills de goi duoc trong Claude Code
+    Buoc   : Agent Skill - thiet ke + pseudocode + cai dat tham chieu
+
+33. 7e3f6d88  2026-09-02 19:10:55
+    Commit : docs: link video demo + xac nhan khong trung API + chot tu danh gia 100
+    Buoc   : Chot bai nop - link video demo, xac nhan khong trung API, tu danh gia
 
 ====================================================================================================
 NHAT KY DAY DU (git log --stat)
@@ -820,3 +836,88 @@ docs(pdf): xuat lai 9 PDF sau khi cap nhat bao cao CI/CD, AI audit va chi muc ba
  23127195/pdf/CI_CD_REPORT.pdf        | Bin 240135 -> 253787 bytes
  23127195/pdf/README.pdf              | Bin 329220 -> 345936 bytes
  9 files changed, 0 insertions(+), 0 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  48c66970b40a6fc8e44463c9ddc38501387c1a52
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:35:41 2026 +0700
+
+chore(evidence): sinh lai git commit log (29 commit)
+
+ 23127195/evidence/git_commit_log.txt | 45 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
+
+
+
+----------------------------------------------------------------------
+commit  836a366eba5a0809b7207753c03c76f87d2c7cc2
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 18:44:01 2026 +0700
+
+docs(pdf): them kich ban video demo vao bo PDF (10 file)
+
+ 23127195/README.md                   |   2 +-
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 623326 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 297594 -> 297594 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 253787 -> 253787 bytes
+ 23127195/pdf/README.pdf              | Bin 345936 -> 345936 bytes
+ 23127195/pdf/VIDEO_DEMO_SCRIPT.pdf   | Bin 0 -> 208744 bytes
+ 23127195/scripts/export_pdf.py       |   1 +
+ 12 files changed, 2 insertions(+), 1 deletion(-)
+
+
+
+----------------------------------------------------------------------
+commit  4cce285f633bcc194bd7b93996e2074ba8325b8a
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 18:54:05 2026 +0700
+
+feat(agent-skill): cai skill vao .claude/skills de goi duoc trong Claude Code
+
+ 23127195/.claude/skills/api-test-generator/SKILL.md | 104 ++++++++++++++++++++
+ 23127195/README.md                                  |   4 +-
+ 23127195/agent-skill/pseudocode/generator.py        |   8 ++
+ 23127195/pdf/00_MAIN_REPORT.pdf                     | Bin 623326 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf                   | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf                | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf                 | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf                    | Bin 297594 -> 297594 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf                        | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf                        | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf                       | Bin 253787 -> 253787 bytes
+ 23127195/pdf/README.pdf                             | Bin 345936 -> 350879 bytes
+ 23127195/pdf/VIDEO_DEMO_SCRIPT.pdf                  | Bin 208744 -> 186070 bytes
+ 23127195/video/VIDEO_DEMO_SCRIPT.md                 | 210 +++++++++++++++++++---------------------
+ 14 files changed, 215 insertions(+), 111 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  7e3f6d889f5482cd27ea2c3feb8938761d39f2d1
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 19:10:55 2026 +0700
+
+docs: link video demo + xac nhan khong trung API + chot tu danh gia 100
+
+ 23127195/README.md                   |  47 ++++++++++++++++++++++++++++-------------------
+ 23127195/docs/00_MAIN_REPORT.md      |  16 ++++++++--------
+ 23127195/docs/01_API_SELECTION.md    |  28 +++++++++++++++++++++++-----
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 623326 -> 613834 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 151103 -> 160765 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 297594 -> 297594 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 253787 -> 253787 bytes
+ 23127195/pdf/README.pdf              | Bin 350879 -> 427628 bytes
+ 23127195/pdf/VIDEO_DEMO_SCRIPT.pdf   | Bin 186070 -> 188207 bytes
+ 23127195/video/VIDEO_DEMO_SCRIPT.md  |   9 ++++++---
+ 14 files changed, 65 insertions(+), 35 deletions(-)

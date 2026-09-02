@@ -63,6 +63,8 @@ STEPS = [
     ("ci: them TC-A2-013",          "Tich hop CI/CD - commit mau B lam pipeline do"),
     ("docs(bugs):",                 "Buoc 5 Report - anh chup bang chung cho 24 GitHub Issue"),
     ("fix(bugs):",                  "Buoc 5 Report - sua bang chung: lenh in ra dung bang lenh chay"),
+    ("feat(agent-skill):",          "Agent Skill - thiet ke, pseudocode, cai dat, cai skill vao .claude/skills"),
+    ("docs: link video",            "Chot bai nop - link video demo, xac nhan khong trung API, tu danh gia"),
 ]
 
 HEADER = """GIT COMMIT LOG - HW06 API Testing
