@@ -1,0 +1,383 @@
+[0mnewman[0m
+
+[0mFR14_Category_CRUD[0m
+
+❏ [0m00 – Setup Helpers[0m
+↳ [0mHELPER-000A – Login as Admin[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/login[39m [90m[200 OK, 640B, 28ms][39m
+[32m  ✓ [39m [90mHELPER: Admin login successful[39m
+
+↳ [0mHELPER-000B – Login as Regular User[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/login[39m [90m[200 OK, 635B, 2ms][39m
+[32m  ✓ [39m [90mHELPER: User login successful[39m
+
+↳ [0mHELPER-000C – Capture Initial Category Count[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 358B, 1ms][39m
+[32m  ✓ [39m [90mHELPER: Initial category count captured[39m
+
+❏ [0m01 – Happy-Path CRUD[0m
+↳ [0mTC-FR14-001 – GET List All Categories (Public)[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 358B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-001: Status 200 OK[39m
+[32m  ✓ [39m [90mTC-FR14-001: Response is JSON array[39m
+[32m  ✓ [39m [90mTC-FR14-001: Each category has id and name[39m
+[32m  ✓ [39m [90mTC-FR14-001: Content-Type is JSON[39m
+
+↳ [0mTC-FR14-002 – POST Create Category (Admin)[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 304B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-002: Status 200[39m
+[32m  ✓ [39m [90mTC-FR14-002: Response has message and id[39m
+
+↳ [0mTC-FR14-003 – GET Verify Created Category[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 384B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-003: Status 200[39m
+[32m  ✓ [39m [90mTC-FR14-003: New category present in list[39m
+
+↳ [0mTC-FR14-004 – PUT Update Category (Admin)[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/4[39m [90m[200 OK, 297B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-004: Status 200[39m
+[32m  ✓ [39m [90mTC-FR14-004: Response confirms update[39m
+
+↳ [0mTC-FR14-005 – GET Verify Updated Name[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 393B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-005: Status 200[39m
+[32m  ✓ [39m [90mTC-FR14-005: Updated name verified[39m
+
+↳ [0mTC-FR14-006 – DELETE Category (Admin)[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/4[39m [90m[200 OK, 297B, 4ms][39m
+[32m  ✓ [39m [90mTC-FR14-006: Status 200[39m
+[32m  ✓ [39m [90mTC-FR14-006: Response confirms deletion[39m
+
+❏ [0m02 – Authentication (SEC-01)[0m
+↳ [0mTC-FR14-007 – POST Without Auth Token[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[401 Unauthorized, 301B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-007: Returns 401 Unauthorized[39m
+[32m  ✓ [39m [90mTC-FR14-007: Error message present[39m
+
+↳ [0mTC-FR14-008 – PUT Without Auth Token[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/1[39m [90m[401 Unauthorized, 301B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-008: Returns 401 Unauthorized[39m
+[32m  ✓ [39m [90mTC-FR14-008: Error message present[39m
+
+↳ [0mTC-FR14-009 – DELETE Without Auth Token[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/1[39m [90m[401 Unauthorized, 301B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-009: Returns 401 Unauthorized[39m
+[32m  ✓ [39m [90mTC-FR14-009: Error message present[39m
+
+↳ [0mTC-FR14-010 – POST With Malformed Token[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[403 Forbidden, 295B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-010: Returns 403 Forbidden[39m
+[32m  ✓ [39m [90mTC-FR14-010: Error message present[39m
+
+↳ [0mTC-FR14-011 – DELETE With Tampered Token[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/1[39m [90m[403 Forbidden, 295B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-011: Returns 403 Forbidden[39m
+[32m  ✓ [39m [90mTC-FR14-011: Error message present[39m
+
+❏ [0m03 – Authorization RBAC (SEC-02)[0m
+↳ [0mTC-FR14-012 – POST Create as Regular User (RBAC)[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 304B, 3ms][39m
+[31m[1m  1.[22m[39m [31m[1mTC-FR14-012: [SRS EXPECTED] Should return 403 Forbidden[22m[39m
+[32m  ✓ [39m [90mTC-FR14-012: [BUG CONFIRMED] Regular user created category - Missing RBAC[39m
+
+↳ [0mTC-FR14-013 – PUT Update as Regular User (RBAC)[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/2[39m [90m[200 OK, 297B, 2ms][39m
+[31m[1m  2.[22m[39m [31m[1mTC-FR14-013: [SRS EXPECTED] Should return 403 Forbidden[22m[39m
+[32m  ✓ [39m [90mTC-FR14-013: [BUG CONFIRMED] Regular user updated category - Missing RBAC[39m
+
+↳ [0mTC-FR14-014 – DELETE as Regular User (RBAC)[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/5[39m [90m[200 OK, 297B, 2ms][39m
+[31m[1m  3.[22m[39m [31m[1mTC-FR14-014: [SRS EXPECTED] Should return 403 Forbidden[22m[39m
+[32m  ✓ [39m [90mTC-FR14-014: [BUG CONFIRMED] Regular user deleted category - Missing RBAC[39m
+
+↳ [0mTC-FR14-015 – GET List as Regular User (Public)[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 371B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-015: Status 200 OK[39m
+[32m  ✓ [39m [90mTC-FR14-015: Returns array of categories[39m
+
+❏ [0m04 – Input Validation (Name)[0m
+↳ [0mTC-FR14-016 – POST Empty Name[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 304B, 3ms][39m
+[31m[1m  4.[22m[39m [31m[1mTC-FR14-016: [IDEAL] Should return 400[22m[39m
+[32m  ✓ [39m [90mTC-FR14-016: [BUG] Empty name accepted[39m
+
+↳ [0mTC-FR14-017 – POST Null Name[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 304B, 3ms][39m
+[31m[1m  5.[22m[39m [31m[1mTC-FR14-017: [IDEAL] Should return 400[22m[39m
+[32m  ✓ [39m [90mTC-FR14-017: [BUG] Null name accepted[39m
+
+↳ [0mTC-FR14-018 – POST Missing Name Key[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 304B, 3ms][39m
+[31m[1m  6.[22m[39m [31m[1mTC-FR14-018: [IDEAL] Should return 400[22m[39m
+[32m  ✓ [39m [90mTC-FR14-018: [BUG] Missing name accepted[39m
+
+↳ [0mTC-FR14-019 – POST Whitespace-Only Name[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 304B, 2ms][39m
+[31m[1m  7.[22m[39m [31m[1mTC-FR14-019: [IDEAL] Should return 400[22m[39m
+[32m  ✓ [39m [90mTC-FR14-019: [BUG] Whitespace name accepted[39m
+
+↳ [0mTC-FR14-020 – POST Very Long Name (1001 chars)[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-020: Status is 200 or 400[39m
+[32m  ✓ [39m [90mTC-FR14-020: Long name accepted (no length limit)[39m
+
+↳ [0mTC-FR14-021 – POST Unicode Name[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-021: Status 200[39m
+[32m  ✓ [39m [90mTC-FR14-021: Unicode name accepted[39m
+
+↳ [0mTC-FR14-022 – POST Duplicate Name[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 3ms][39m
+[31m[1m  8.[22m[39m [31m[1mTC-FR14-022: [IDEAL] Should return 409 Conflict[22m[39m
+[32m  ✓ [39m [90mTC-FR14-022: [BUG] Duplicate name accepted[39m
+
+↳ [0mTC-FR14-023 – POST Integer Name[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 4ms][39m
+[32m  ✓ [39m [90mTC-FR14-023: Status is 200 or 400[39m
+[32m  ✓ [39m [90mTC-FR14-023: Integer coerced to string[39m
+
+❏ [0m05 – Input Validation (ID)[0m
+↳ [0mTC-FR14-024 – PUT Non-Existent ID[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/99999[39m [90m[200 OK, 297B, 1ms][39m
+[31m[1m  9.[22m[39m [31m[1mTC-FR14-024: [IDEAL] Should return 404[22m[39m
+[32m  ✓ [39m [90mTC-FR14-024: [BUG] Non-existent ID accepted[39m
+
+↳ [0mTC-FR14-025 – DELETE Non-Existent ID[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/99999[39m [90m[200 OK, 297B, 1ms][39m
+[31m[1m 10.[22m[39m [31m[1mTC-FR14-025: [IDEAL] Should return 404[22m[39m
+[32m  ✓ [39m [90mTC-FR14-025: [BUG] Non-existent ID deletion accepted[39m
+
+↳ [0mTC-FR14-026 – PUT Zero ID[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/0[39m [90m[200 OK, 297B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-026: Should return error or 200[39m
+
+↳ [0mTC-FR14-027 – DELETE Negative ID[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/-1[39m [90m[200 OK, 297B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-027: Should return error or 200[39m
+
+↳ [0mTC-FR14-028 – PUT Non-Numeric ID[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/abc[39m [90m[200 OK, 297B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-028: Should return error or 200[39m
+
+❏ [0m06 – Security Probes (SEC-03/04/07)[0m
+↳ [0mTC-FR14-029 – POST SQL Injection in Name[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 5ms][39m
+[32m  ✓ [39m [90mTC-FR14-029: Request completes without 500 error[39m
+[32m  ✓ [39m [90mTC-FR14-029: SQL injection stored as literal string[39m
+
+↳ [0mTC-FR14-029b – GET Verify Categories Table Intact[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 1.63kB, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-029b: Categories table still accessible[39m
+
+↳ [0mTC-FR14-030 – POST XSS Payload in Name[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-030: XSS payload accepted (stored XSS risk)[39m
+
+↳ [0mTC-FR14-031 – POST Mass Assignment[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 5ms][39m
+[32m  ✓ [39m [90mTC-FR14-031: Status 200[39m
+[32m  ✓ [39m [90mTC-FR14-031: Extra fields ignored, ID auto-generated[39m
+
+↳ [0mTC-FR14-032 – PUT Mass Assignment Override ID[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/2[39m [90m[200 OK, 297B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-032: Status 200[39m
+[32m  ✓ [39m [90mTC-FR14-032: ID not overridden[39m
+
+↳ [0mTC-FR14-033 – POST NoSQL Injection Probe[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-033: Server handles object name gracefully[39m
+
+↳ [0mTC-FR14-034 – DELETE IDOR as Regular User[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/3[39m [90m[200 OK, 297B, 2ms][39m
+[31m[1m 11.[22m[39m [31m[1mTC-FR14-034: [SRS EXPECTED] Should return 403[22m[39m
+[32m  ✓ [39m [90mTC-FR14-034: [BUG] IDOR + Missing RBAC confirmed[39m
+
+❏ [0m07 – State Transitions[0m
+↳ [0mTC-FR14-035a – Lifecycle: Create[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-035a: Create lifecycle category[39m
+
+↳ [0mTC-FR14-035b – Lifecycle: Read After Create[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 1.76kB, 0µs][39m
+[32m  ✓ [39m [90mTC-FR14-035b: Lifecycle category exists[39m
+
+↳ [0mTC-FR14-035c – Lifecycle: Update[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/18[39m [90m[200 OK, 297B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-035c: Update lifecycle category[39m
+
+↳ [0mTC-FR14-035d – Lifecycle: Delete[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/18[39m [90m[200 OK, 297B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-035d: Delete lifecycle category[39m
+
+↳ [0mTC-FR14-035e – Lifecycle: Read After Delete[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 1.72kB, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-035e: Lifecycle category absent[39m
+
+↳ [0mTC-FR14-036 – DELETE Category With Products (Orphan)[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/1[39m [90m[200 OK, 297B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-036: [BUG] Category deleted despite associated products[39m
+[32m  ✓ [39m [90mTC-FR14-036: Deletion succeeds (no referential integrity check)[39m
+
+↳ [0mTC-FR14-037 – PUT Update Deleted Category[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/18[39m [90m[200 OK, 297B, 2ms][39m
+[31m[1m 12.[22m[39m [31m[1mTC-FR14-037: [IDEAL] Should return 404[22m[39m
+[32m  ✓ [39m [90mTC-FR14-037: [BUG] Update on deleted category accepted[39m
+
+↳ [0mTC-FR14-038 – Double DELETE[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/18[39m [90m[200 OK, 297B, 1ms][39m
+[31m[1m 13.[22m[39m [31m[1mTC-FR14-038: [IDEAL] Should return 404[22m[39m
+[32m  ✓ [39m [90mTC-FR14-038: [BUG] Double delete accepted[39m
+
+❏ [0m08 – Schema Validation[0m
+↳ [0mTC-FR14-039 – GET Schema Validation[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 1.69kB, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-039: Response matches GET categories schema[39m
+[32m  ✓ [39m [90mTC-FR14-039: Content-Type is application/json[39m
+
+↳ [0mTC-FR14-040 – POST Create Schema Validation[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 5ms][39m
+[32m  ✓ [39m [90mTC-FR14-040: Create response schema[39m
+
+↳ [0mTC-FR14-041 – PUT Update Schema Validation[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/19[39m [90m[200 OK, 297B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-041: Update response schema[39m
+
+↳ [0mTC-FR14-042 – DELETE Schema Validation[0m
+  [90mDELETE[39m [90mhttp://localhost:3000/api/categories/19[39m [90m[200 OK, 297B, 3ms][39m
+[32m  ✓ [39m [90mTC-FR14-042: Delete response schema[39m
+
+❏ [0m09 – Human Extension Cases[0m
+↳ [0mTC-FR14-H01 – POST Without Content-Type Header[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[500 Internal Server Error, 1.53kB, 1ms][39m
+[31m[1m 14.[22m[39m [31m[1mTC-FR14-H01: Handled safely (400, 415 or 200 without crash)[22m[39m
+
+↳ [0mTC-FR14-H02 – POST With Empty Body (Zero-Byte Stream)[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-H02: Handled safely (400 or 200 without crash)[39m
+
+↳ [0mTC-FR14-H03 – PATCH Unsupported Method[0m
+  [90mPATCH[39m [90mhttp://localhost:3000/api/categories/2[39m [90m[404 Not Found, 461B, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-H03: PATCH returns 404 or 405[39m
+
+↳ [0mTC-FR14-H04 – GET Response Headers Validation[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 1.71kB, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-H04: Content-Type header is application/json[39m
+[32m  ✓ [39m [90mTC-FR14-H04: Response is parseable JSON[39m
+
+↳ [0mTC-FR14-H05 – PUT Empty Body Update[0m
+  [90mPUT[39m [90mhttp://localhost:3000/api/categories/2[39m [90m[200 OK, 297B, 4ms][39m
+[31m[1m 15.[22m[39m [31m[1mTC-FR14-H05: [IDEAL] Should return 400[22m[39m
+[32m  ✓ [39m [90mTC-FR14-H05: [BUG] Empty body sets name to null[39m
+
+↳ [0mTC-FR14-H06a – Rapid Create Batch 1[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-H06a: Batch 1 created[39m
+
+↳ [0mTC-FR14-H06b – Rapid Create Batch 2[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-H06b: Batch 2 created[39m
+
+↳ [0mTC-FR14-H06c – Rapid Create Batch 3[0m
+  [90mPOST[39m [90mhttp://localhost:3000/api/categories[39m [90m[200 OK, 305B, 2ms][39m
+[32m  ✓ [39m [90mTC-FR14-H06c: Batch 3 created[39m
+
+↳ [0mTC-FR14-H07 – Verify Products Orphaned After Category Delete[0m
+  [90mGET[39m [90mhttp://localhost:3000/api/products[39m [90m[200 OK, 1.24kB, 1ms][39m
+[32m  ✓ [39m [90mTC-FR14-H07: Products with deleted category_id still exist[39m
+
+[90m┌─────────────────────────[39m[90m┬─────────────────[39m[90m┬─────────────────┐[39m
+[90m│[39m                         [90m│[39m        executed [90m│[39m          failed [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m              [32miterations[39m [90m│[39m               1 [90m│[39m               0 [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m                [32mrequests[39m [90m│[39m              59 [90m│[39m               0 [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m            [32mtest-scripts[39m [90m│[39m              59 [90m│[39m               0 [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m      [32mprerequest-scripts[39m [90m│[39m              60 [90m│[39m               0 [90m│[39m
+[90m├─────────────────────────[39m[90m┼─────────────────[39m[90m┼─────────────────┤[39m
+[90m│[39m              [31massertions[39m [90m│[39m              96 [90m│[39m              [31m15[39m [90m│[39m
+[90m├─────────────────────────┴─────────────────┴─────────────────┤[39m
+[90m│[39m total run duration: 6.8s                                    [90m│[39m
+[90m├─────────────────────────────────────────────────────────────┤[39m
+[90m│[39m total data received: 12.18kB (approx)                       [90m│[39m
+[90m├─────────────────────────────────────────────────────────────┤[39m
+[90m│[39m average response time: 2ms [min: 1ms, max: 28ms, s.d.: 3ms] [90m│[39m
+[90m└─────────────────────────────────────────────────────────────┘[39m
+
+[31m   [31m[4m#[24m[31m [39m[31m [31m[4mfailure[24m[31m        [39m[31m [31m[4mdetail[24m[31m                                                                                       [39m
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 01.  AssertionError  TC-FR14-012: [SRS EXPECTED] Should return 403 Forbidden                                      
+                      [90mexpected response to have status code 403 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "03 – Authorization RBAC (SEC-02) / TC-FR14-012 – POST Create as Regular User (RBAC)"[39m 
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 02.  AssertionError  TC-FR14-013: [SRS EXPECTED] Should return 403 Forbidden                                      
+                      [90mexpected response to have status code 403 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "03 – Authorization RBAC (SEC-02) / TC-FR14-013 – PUT Update as Regular User (RBAC)"[39m  
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 03.  AssertionError  TC-FR14-014: [SRS EXPECTED] Should return 403 Forbidden                                      
+                      [90mexpected response to have status code 403 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "03 – Authorization RBAC (SEC-02) / TC-FR14-014 – DELETE as Regular User (RBAC)"[39m      
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 04.  AssertionError  TC-FR14-016: [IDEAL] Should return 400                                                       
+                      [90mexpected response to have status code 400 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "04 – Input Validation (Name) / TC-FR14-016 – POST Empty Name"[39m                        
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 05.  AssertionError  TC-FR14-017: [IDEAL] Should return 400                                                       
+                      [90mexpected response to have status code 400 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "04 – Input Validation (Name) / TC-FR14-017 – POST Null Name"[39m                         
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 06.  AssertionError  TC-FR14-018: [IDEAL] Should return 400                                                       
+                      [90mexpected response to have status code 400 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "04 – Input Validation (Name) / TC-FR14-018 – POST Missing Name Key"[39m                  
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 07.  AssertionError  TC-FR14-019: [IDEAL] Should return 400                                                       
+                      [90mexpected response to have status code 400 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "04 – Input Validation (Name) / TC-FR14-019 – POST Whitespace-Only Name"[39m              
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 08.  AssertionError  TC-FR14-022: [IDEAL] Should return 409 Conflict                                              
+                      [90mexpected response to have status code 409 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "04 – Input Validation (Name) / TC-FR14-022 – POST Duplicate Name"[39m                    
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 09.  AssertionError  TC-FR14-024: [IDEAL] Should return 404                                                       
+                      [90mexpected response to have status code 404 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "05 – Input Validation (ID) / TC-FR14-024 – PUT Non-Existent ID"[39m                      
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 10.  AssertionError  TC-FR14-025: [IDEAL] Should return 404                                                       
+                      [90mexpected response to have status code 404 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "05 – Input Validation (ID) / TC-FR14-025 – DELETE Non-Existent ID"[39m                   
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 11.  AssertionError  TC-FR14-034: [SRS EXPECTED] Should return 403                                                
+                      [90mexpected response to have status code 403 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "06 – Security Probes (SEC-03/04/07) / TC-FR14-034 – DELETE IDOR as Regular User"[39m     
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 12.  AssertionError  TC-FR14-037: [IDEAL] Should return 404                                                       
+                      [90mexpected response to have status code 404 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "07 – State Transitions / TC-FR14-037 – PUT Update Deleted Category"[39m                  
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 13.  AssertionError  TC-FR14-038: [IDEAL] Should return 404                                                       
+                      [90mexpected response to have status code 404 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "07 – State Transitions / TC-FR14-038 – Double DELETE"[39m                                
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 14.  AssertionError  TC-FR14-H01: Handled safely (400, 415 or 200 without crash)                                  
+                      [90mexpected [ 200, 400, 415 ] to include 500[39m                                                    
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "09 – Human Extension Cases / TC-FR14-H01 – POST Without Content-Type Header"[39m         
+[90m     [39m[90m                [39m[90m                                                                                              [39m
+ 15.  AssertionError  TC-FR14-H05: [IDEAL] Should return 400                                                       
+                      [90mexpected response to have status code 400 but got 200[39m                                        
+                      [90mat assertion:0 in test-script[39m[90m[39m                                                                
+                      [90minside "09 – Human Extension Cases / TC-FR14-H05 – PUT Empty Body Update"[39m                    

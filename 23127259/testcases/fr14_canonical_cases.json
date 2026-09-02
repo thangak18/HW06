@@ -1,0 +1,800 @@
+[
+  {
+    "id": "TC-FR14-001",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated Client",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; returns array of category objects (length >= 3)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-001",
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-002",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Tablet"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Category created with auto-increment ID",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-002",
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-003",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Created category found in array",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-003"
+    ]
+  },
+  {
+    "id": "TC-FR14-004",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/:id",
+    "input": {
+      "name": "Tablets & iPads"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Category name updated",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-004",
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-005",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Updated category name reflected in list",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-005"
+    ]
+  },
+  {
+    "id": "TC-FR14-006",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/:id",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Category deleted",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-006",
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-007",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated Client",
+    "auth_condition": "Missing Authorization Header",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Unauthorized Category"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "401 Unauthorized; error message returned",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-007",
+      "SRS SEC-01"
+    ]
+  },
+  {
+    "id": "TC-FR14-008",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated Client",
+    "auth_condition": "Missing Authorization Header",
+    "method": "PUT",
+    "endpoint": "/api/categories/1",
+    "input": {
+      "name": "Hacked Name"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "401 Unauthorized; error message returned",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-008",
+      "SRS SEC-01"
+    ]
+  },
+  {
+    "id": "TC-FR14-009",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated Client",
+    "auth_condition": "Missing Authorization Header",
+    "method": "DELETE",
+    "endpoint": "/api/categories/1",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "401 Unauthorized; error message returned",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-009",
+      "SRS SEC-01"
+    ]
+  },
+  {
+    "id": "TC-FR14-010",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Malformed Token Client",
+    "auth_condition": "Malformed JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Malformed Token Category"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "403 Forbidden; error message returned",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-010",
+      "SRS SEC-01"
+    ]
+  },
+  {
+    "id": "TC-FR14-011",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Cryptographically Tampered JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/1",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "403 Forbidden; error message returned",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-011",
+      "SRS SEC-01"
+    ]
+  },
+  {
+    "id": "TC-FR14-012",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "User Created Category"
+    },
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "SRS Expected: 403 Forbidden; SUT Actual: 200 OK (BUG-FR14-001 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-012",
+      "SRS SEC-02",
+      "BUG-FR14-001"
+    ]
+  },
+  {
+    "id": "TC-FR14-013",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "PUT",
+    "endpoint": "/api/categories/2",
+    "input": {
+      "name": "User Modified Name"
+    },
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "SRS Expected: 403 Forbidden; SUT Actual: 200 OK (BUG-FR14-001 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-013",
+      "SRS SEC-02",
+      "BUG-FR14-001"
+    ]
+  },
+  {
+    "id": "TC-FR14-014",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "DELETE",
+    "endpoint": "/api/categories/:id",
+    "input": null,
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "SRS Expected: 403 Forbidden; SUT Actual: 200 OK (BUG-FR14-001 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-014",
+      "SRS SEC-02",
+      "BUG-FR14-001"
+    ]
+  },
+  {
+    "id": "TC-FR14-015",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Public category list returned",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-015"
+    ]
+  },
+  {
+    "id": "TC-FR14-016",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": ""
+    },
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 400 Bad Request; SUT Actual: 200 OK (BUG-FR14-002 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-016",
+      "BUG-FR14-002"
+    ]
+  },
+  {
+    "id": "TC-FR14-017",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": null
+    },
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 400 Bad Request; SUT Actual: 200 OK (BUG-FR14-002 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-017",
+      "BUG-FR14-002"
+    ]
+  },
+  {
+    "id": "TC-FR14-018",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {},
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 400 Bad Request; SUT Actual: 200 OK (BUG-FR14-002 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-018",
+      "BUG-FR14-002"
+    ]
+  },
+  {
+    "id": "TC-FR14-019",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "   "
+    },
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 400 Bad Request; SUT Actual: 200 OK (BUG-FR14-002 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-019",
+      "BUG-FR14-002"
+    ]
+  },
+  {
+    "id": "TC-FR14-020",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "oracle_strength": "BOUNDARY / EXPLORATORY",
+    "semantic_oracle": "200 or 400; Long string handled safely",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-020"
+    ]
+  },
+  {
+    "id": "TC-FR14-021",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Điện tử 📱 & Phụ kiện"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Unicode and emoji stored cleanly",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-021"
+    ]
+  },
+  {
+    "id": "TC-FR14-022",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Laptop"
+    },
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal: 409 Conflict; SUT Actual: 200 OK (Non-unique allowed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-022"
+    ]
+  },
+  {
+    "id": "TC-FR14-023",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": 12345
+    },
+    "oracle_strength": "BOUNDARY / EXPLORATORY",
+    "semantic_oracle": "200 or 400; Number coerced to string",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-023"
+    ]
+  },
+  {
+    "id": "TC-FR14-024",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/99999",
+    "input": {
+      "name": "Ghost Category"
+    },
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 404 Not Found; SUT Actual: 200 OK (BUG-FR14-003 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-024",
+      "BUG-FR14-003"
+    ]
+  },
+  {
+    "id": "TC-FR14-025",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/99999",
+    "input": null,
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 404 Not Found; SUT Actual: 200 OK (BUG-FR14-003 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-025",
+      "BUG-FR14-003"
+    ]
+  },
+  {
+    "id": "TC-FR14-026",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/0",
+    "input": {
+      "name": "Zero ID"
+    },
+    "oracle_strength": "BOUNDARY / EXPLORATORY",
+    "semantic_oracle": "200 or 400 or 404; Handled safely",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-026"
+    ]
+  },
+  {
+    "id": "TC-FR14-027",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/-1",
+    "input": null,
+    "oracle_strength": "BOUNDARY / EXPLORATORY",
+    "semantic_oracle": "200 or 400 or 404; Handled safely",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-027"
+    ]
+  },
+  {
+    "id": "TC-FR14-028",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/abc",
+    "input": {
+      "name": "String ID"
+    },
+    "oracle_strength": "BOUNDARY / EXPLORATORY",
+    "semantic_oracle": "200 or 400 or 404; Handled safely",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-028"
+    ]
+  },
+  {
+    "id": "TC-FR14-029",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "'; DROP TABLE categories;--"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-500 status; Parameterized query preserves categories table",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-029",
+      "SRS SEC-03"
+    ]
+  },
+  {
+    "id": "TC-FR14-030",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "<script>alert('XSS')</script>"
+    },
+    "oracle_strength": "SECURITY / STORED-XSS",
+    "semantic_oracle": "200 OK; Stored verbatim as raw string",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-030",
+      "SRS SEC-03"
+    ]
+  },
+  {
+    "id": "TC-FR14-031",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Mass Assign Test",
+      "id": 999,
+      "admin": true,
+      "role": "superuser"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Extra payload fields discarded, auto ID assigned",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-031",
+      "SRS SEC-07"
+    ]
+  },
+  {
+    "id": "TC-FR14-032",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/2",
+    "input": {
+      "name": "Updated via Mass Assign",
+      "id": 999
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Category ID 2 preserved, body ID ignored",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-032",
+      "SRS SEC-07"
+    ]
+  },
+  {
+    "id": "TC-FR14-033",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": {
+        "$gt": ""
+      }
+    },
+    "oracle_strength": "SECURITY / OBJECT-PAYLOAD",
+    "semantic_oracle": "200 or 400 or 500; Handled without permanent corruption",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-033",
+      "SRS SEC-03"
+    ]
+  },
+  {
+    "id": "TC-FR14-034",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "DELETE",
+    "endpoint": "/api/categories/3",
+    "input": null,
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "SRS Expected: 403 Forbidden; SUT Actual: 200 OK (BUG-FR14-001 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-034",
+      "SRS SEC-04",
+      "BUG-FR14-001"
+    ]
+  },
+  {
+    "id": "TC-FR14-035",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "MULTIPLE (POST, GET, PUT, DELETE)",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Lifecycle Test"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Complete sequential CRUD lifecycle succeeds end-to-end",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-035",
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-036",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/1",
+    "input": null,
+    "oracle_strength": "RELATIONAL-INTEGRITY / DEFECT-CONFIRMATION",
+    "semantic_oracle": "Ideal: 409 Conflict; SUT Actual: 200 OK (No FK constraint check)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-036"
+    ]
+  },
+  {
+    "id": "TC-FR14-037",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/:id",
+    "input": {
+      "name": "Zombie Category"
+    },
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 404 Not Found; SUT Actual: 200 OK (BUG-FR14-003 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-037",
+      "BUG-FR14-003"
+    ]
+  },
+  {
+    "id": "TC-FR14-038",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/:id",
+    "input": null,
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 404 Not Found; SUT Actual: 200 OK (BUG-FR14-003 confirmed)",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-038",
+      "BUG-FR14-003"
+    ]
+  },
+  {
+    "id": "TC-FR14-039",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Response strictly matches JSON array schema",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-039",
+      "api_specification.md"
+    ]
+  },
+  {
+    "id": "TC-FR14-040",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Schema Test"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Response strictly matches {message, id} schema",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-040",
+      "api_specification.md"
+    ]
+  },
+  {
+    "id": "TC-FR14-041",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/:id",
+    "input": {
+      "name": "Schema Updated"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Response strictly matches {message} schema",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-041",
+      "api_specification.md"
+    ]
+  },
+  {
+    "id": "TC-FR14-042",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/:id",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; Response strictly matches {message} schema",
+    "source_refs": [
+      "FR14_AI_DRAFT.md#tc-fr14-042",
+      "api_specification.md"
+    ]
+  },
+  {
+    "id": "TC-FR14-H01",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": "Raw text stream without Content-Type",
+    "oracle_strength": "PROTOCOL-ROBUSTNESS",
+    "semantic_oracle": "400 Bad Request or 415 Unsupported Media Type",
+    "source_refs": [
+      "FR14_HUMAN_EXTENSION_DESIGN.md#tc-fr14-h01",
+      "GAP-01"
+    ]
+  },
+  {
+    "id": "TC-FR14-H02",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": "Zero bytes",
+    "oracle_strength": "INPUT-VALIDATION / ROBUSTNESS",
+    "semantic_oracle": "400 Bad Request; Zero-byte stream rejected",
+    "source_refs": [
+      "FR14_HUMAN_EXTENSION_DESIGN.md#tc-fr14-h02",
+      "GAP-02"
+    ]
+  },
+  {
+    "id": "TC-FR14-H03",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PATCH",
+    "endpoint": "/api/categories/2",
+    "input": {
+      "name": "PATCH attempt"
+    },
+    "oracle_strength": "PROTOCOL-BOUNDARY",
+    "semantic_oracle": "404 Not Found or 405 Method Not Allowed; Method not accepted",
+    "source_refs": [
+      "FR14_HUMAN_EXTENSION_DESIGN.md#tc-fr14-h03",
+      "GAP-03"
+    ]
+  },
+  {
+    "id": "TC-FR14-H04",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SCHEMA-VALIDATION / HEADER-CONFORMANCE",
+    "semantic_oracle": "200 OK; Content-Type includes application/json",
+    "source_refs": [
+      "FR14_HUMAN_EXTENSION_DESIGN.md#tc-fr14-h04",
+      "GAP-04"
+    ]
+  },
+  {
+    "id": "TC-FR14-H05",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/2",
+    "input": {},
+    "oracle_strength": "DUAL-ASSERTION DEFECT CONFIRMATION",
+    "semantic_oracle": "Ideal Expected: 400 Bad Request; SUT Actual: 200 OK (Corrupts name to NULL)",
+    "source_refs": [
+      "FR14_HUMAN_EXTENSION_DESIGN.md#tc-fr14-h05",
+      "GAP-07"
+    ]
+  },
+  {
+    "id": "TC-FR14-H06",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST (x3 sequential)",
+    "endpoint": "/api/categories",
+    "input": [
+      {
+        "name": "Batch 1"
+      },
+      {
+        "name": "Batch 2"
+      },
+      {
+        "name": "Batch 3"
+      }
+    ],
+    "oracle_strength": "DATABASE-INTEGRITY / STRESS",
+    "semantic_oracle": "All 200 OK; Distinct incrementing IDs created",
+    "source_refs": [
+      "FR14_HUMAN_EXTENSION_DESIGN.md#tc-fr14-h06",
+      "GAP-06"
+    ]
+  },
+  {
+    "id": "TC-FR14-H07",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/products",
+    "input": null,
+    "oracle_strength": "RELATIONAL-INTEGRITY / DEFECT-CONFIRMATION",
+    "semantic_oracle": "Products with category_id=1 exist with deleted category parent (Orphan confirmed)",
+    "source_refs": [
+      "FR14_HUMAN_EXTENSION_DESIGN.md#tc-fr14-h07",
+      "GAP-05"
+    ]
+  }
+]
