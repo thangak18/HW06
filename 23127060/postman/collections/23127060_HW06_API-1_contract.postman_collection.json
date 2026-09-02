@@ -345,7 +345,7 @@
                   "// POST /api/reset-password | email = api.victim.23127060@test.local (email đúng chứ token)",
                   "",
                   "pm.test(\"TC-A1-DOM-012 | HTTP 200\", function () {",
-                  "  pm.response.to.have.status(200);",
+                  "  pm.response.to.have.status(201);  // [CI-DEMO] co y lam sai de pipeline that bai",
                   "});",
                   "",
                   "pm.test(\"TC-A1-DOM-012 | body có message\", function () {",
