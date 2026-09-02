@@ -133,7 +133,9 @@ python agent-skill/pseudocode/generator.py --demo
 | Workflow GitHub Actions | [`../.github/workflows/newman-23127195.yml`](../.github/workflows/newman-23127195.yml) |
 | **Agent Skill — thiết kế** | [`agent-skill/DESIGN.md`](./agent-skill/DESIGN.md) |
 | Agent Skill — pseudocode + cài đặt | [`agent-skill/pseudocode/`](./agent-skill/pseudocode/) |
-| Agent Skill — skill tái sử dụng | [`agent-skill/SKILL.md`](./agent-skill/SKILL.md) |
+| Agent Skill — phương pháp đầy đủ | [`agent-skill/SKILL.md`](./agent-skill/SKILL.md) |
+| **Agent Skill — bản đã cài, gọi được trong Claude Code** | [`.claude/skills/api-test-generator/SKILL.md`](./.claude/skills/api-test-generator/SKILL.md) — mở Claude Code tại `23127195/` rồi gõ `/api-test-generator` |
+| Kịch bản video demo Agent Skill | [`video/VIDEO_DEMO_SCRIPT.md`](./video/VIDEO_DEMO_SCRIPT.md) |
 | **AI Audit Report** | [`ai/AI_AUDIT_REPORT.md`](./ai/AI_AUDIT_REPORT.md) |
 | **AI Critique** (296 từ) | [`ai/AI_CRITIQUE.md`](./ai/AI_CRITIQUE.md) |
 | Nhật ký tương tác AI | [`ai/interactions/`](./ai/interactions/) |
