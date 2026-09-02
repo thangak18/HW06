@@ -1,0 +1,881 @@
+{
+  "info": {
+    "name": "FR10_Defect_Confirmation",
+    "description": "Targeted Isolated Defect Confirmation Suite for FR-10 Defect Candidates (BUG-FR10-001, BUG-FR10-002, BUG-FR10-003)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Mandatory X-Student-Id header injection across all confirmation requests",
+          "const studentId = pm.environment.get('studentId') || '23127259';",
+          "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "00 \u2013 Authentication Setup",
+      "item": [
+        {
+          "name": "[AUTH-01] Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Admin Login Success', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var data = pm.response.json();",
+                  "    var token = data.token || (data.data && data.data.token);",
+                  "    pm.expect(token).to.be.a('string').and.not.empty;",
+                  "    pm.environment.set('adminToken', token);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[AUTH-02] User A Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{userAEmail}}\", \"password\": \"{{userAPassword}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('User A Login Success', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var data = pm.response.json();",
+                  "    var token = data.token || (data.data && data.data.token);",
+                  "    pm.expect(token).to.be.a('string').and.not.empty;",
+                  "    pm.environment.set('userAToken', token);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 \u2013 Cluster 1: CANDIDATE-FR10-FSM-01 (BUG-FR10-001)",
+      "item": [
+        {
+          "name": "[CONFIRM-FSM-01][SETUP-CREATE] User A Creates Fresh Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Confirm St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var data = pm.response.json();",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('confirm_order_fsm01', String(oid));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-01][SETUP-CONFIRM] Admin Advances to confirmed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{confirm_order_fsm01}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_fsm01}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Precondition Transition to confirmed', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-01][SETUP-SHIPPING] Admin Advances to shipping",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{confirm_order_fsm01}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_fsm01}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Precondition Transition to shipping', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-01][VERIFY-SHIPPING] Verify Initial State Is shipping",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{confirm_order_fsm01}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm01}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Initial State Verified as shipping', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('shipping');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-01][ACTION-CANCEL] Owner User Attempts Cancel on Shipping Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{confirm_order_fsm01}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm01}}",
+                "cancel"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Candidate Action Execution (Expected 4xx, Actual 200 observed)', function () {",
+                  "    // Level 1 SRS prohibits customer cancellation during shipping",
+                  "    // We record actual HTTP status code",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-01][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{confirm_order_fsm01}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm01}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-01] Final Persisted State Observed', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    console.log('[CONFIRM-FSM-01] Persisted State: ' + st);",
+                  "    pm.expect(st).to.be.oneOf(['shipping', 'canceled']);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 \u2013 Cluster 2: CANDIDATE-FR10-FSM-02 (BUG-FR10-002)",
+      "item": [
+        {
+          "name": "[CONFIRM-FSM-02][SETUP-CREATE] User A Creates Fresh Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"456 Terminal St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var data = pm.response.json();",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('confirm_order_fsm02', String(oid));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-02][SETUP-CANCEL] Admin Transitions Order to canceled",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{confirm_order_fsm02}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_fsm02}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Precondition Transition to canceled', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-02][VERIFY-CANCELED] Verify Initial State Is canceled",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{confirm_order_fsm02}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm02}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Initial State Verified as canceled', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('canceled');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-02][ACTION-DELIVER] Admin Attempts canceled -> delivered Mutation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{confirm_order_fsm02}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_fsm02}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Candidate Action Execution', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-FSM-02][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{confirm_order_fsm02}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_fsm02}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-FSM-02] Final Persisted State Observed', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    console.log('[CONFIRM-FSM-02] Persisted State: ' + st);",
+                  "    pm.expect(st).to.be.oneOf(['canceled', 'delivered']);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 \u2013 Cluster 3: CANDIDATE-SEC03-01 (BUG-FR10-003)",
+      "item": [
+        {
+          "name": "[CONFIRM-SEC03-A][SETUP-CREATE] User A Creates Fresh Order A",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 RBAC St A\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-A] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var data = pm.response.json();",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('confirm_order_sec03_a', String(oid));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-SEC03-A][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> confirmed)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{confirm_order_sec03_a}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_sec03_a}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-A] Candidate Action Execution', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 403, 401, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-SEC03-A][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State A",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{confirm_order_sec03_a}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_sec03_a}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-A] Final Persisted State Observed', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    console.log('[CONFIRM-SEC03-A] Persisted State: ' + st);",
+                  "    pm.expect(st).to.be.oneOf(['pending', 'confirmed']);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-SEC03-B][SETUP-CREATE] User A Creates Fresh Order B",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 RBAC St B\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-B] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    var data = pm.response.json();",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('confirm_order_sec03_b', String(oid));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-SEC03-B][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> canceled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{confirm_order_sec03_b}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{confirm_order_sec03_b}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-B] Candidate Action Execution', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 403, 401, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[CONFIRM-SEC03-B][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State B",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{confirm_order_sec03_b}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{confirm_order_sec03_b}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[CONFIRM-SEC03-B] Final Persisted State Observed', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    var d = pm.response.json();",
+                  "    var st = d.status || (d.data && d.data.status);",
+                  "    console.log('[CONFIRM-SEC03-B] Persisted State: ' + st);",
+                  "    pm.expect(st).to.be.oneOf(['pending', 'canceled']);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

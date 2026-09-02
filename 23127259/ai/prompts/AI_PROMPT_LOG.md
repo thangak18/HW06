@@ -24254,3 +24254,49 @@ evidence hashes, hostname validation, run03 execution summary, compare Run02 vs 
 do not repair after execution, do not file bugs yet, git commit, end report]
 ```
 
+---
+
+## INT-051
+
+- **Interaction ID:** INT-051
+- **Date & Time:** 2026-09-02 09:06:40+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Stage:** Phase 2D.1E – FR-10 Targeted Defect Confirmation + Bug Evidence + GitHub Issues
+- **Detailed Interaction File:** `ai/interactions/INT-051-fr10-targeted-defect-confirmation.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit Proceed to isolated defect confirmation.
+
+PHASE 2D.1E – FR-10 TARGETED DEFECT CONFIRMATION + BUG EVIDENCE + GITHUB ISSUES
+
+Current canonical Run03 evidence commit: 9da6647
+Run03 verdict: TARGETED_CONFIRMATION_REQUIRED
+
+Canonical candidate clusters eligible for confirmation:
+1. CANDIDATE-FR10-FSM-01
+2. CANDIDATE-FR10-FSM-02
+3. CANDIDATE-SEC03-01
+
+Dropped candidate: CANDIDATE-SEC02-01
+
+DO NOT run the full FR-10 collection again.
+DO NOT create Run04.
+DO NOT modify Run03 raw evidence.
+DO NOT modify frozen AI generation.
+DO NOT change formal business oracles.
+
+The purpose of this phase is to independently reproduce each candidate on
+fresh isolated fixtures, confirm genuine defects only, capture authentic
+evidence, and create GitHub Issues ONLY for confirmed defects.
+
+[Sections 1-33: AI Audit, preserve Run03 raw evidence, preserve canonical sources,
+correct derived evidence wording, confirmation principle, minimal confirmation execution,
+global header requirement, auth actors, confirm FSM-01 (BUG-FR10-001), confirm FSM-02 (BUG-FR10-002),
+confirm SEC03 (BUG-FR10-003), SEC02 remains dropped, HUM-005 exploratory, authentic Postman evidence,
+bug screenshot requirement, screenshot authenticity, confirmation raw evidence, bug report Markdown,
+issue registry, GitHub Issues via gh CLI, issue title quality, confirmation report, do not modify formal collection,
+no source fixes, no database modification, evidence first issue second, re-verify Run03 evidence, git commit, end report]
+```
+

@@ -404,3 +404,11 @@
 - **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2164, Output: Pending backfill)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-050`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-050-fr10-controlled-canonical-newman-run03.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-050-fr10-controlled-canonical-newman-run03.md)
+
+### INT-051: Phase 2D.1E: FR-10 Targeted Defect Confirmation + Bug Evidence + GitHub Issues
+- **Date & Time:** 2026-09-02 09:06:40+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1E: Targeted independent reproduction of `CANDIDATE-FR10-FSM-01` (`BUG-FR10-001`), `CANDIDATE-FR10-FSM-02` (`BUG-FR10-002`), and `CANDIDATE-SEC03-01` (`BUG-FR10-003`) on isolated fixtures; authentic Postman evidence capture; bug reports; GitHub Issues creation via `gh` CLI; issue registry update
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2166, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-051`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-051-fr10-targeted-defect-confirmation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-051-fr10-targeted-defect-confirmation.md)

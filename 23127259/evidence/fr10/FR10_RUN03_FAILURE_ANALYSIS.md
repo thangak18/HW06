@@ -33,7 +33,7 @@
 - **Target Endpoint:** `PUT /api/orders/{{order_FR10_AI_016}}/cancel`
 - **Input Body:** `{}`
 - **Observed HTTP Response:** `200 OK`
-- **Persisted State in DB:** `'canceled'` (Retrieved via authorized `GET /api/orders/:id`)
+- **Persisted state observed via authorized API GET:** `'canceled'` (Retrieved via authorized `GET /api/orders/:id`)
 - **Canonical Oracle:** Level 1 SRS Section 4.10 strictly prohibits customer self-service cancellation once the order is in `shipping`. Expected `4xx` Client Error rejection with persisted state remaining `'shipping'`.
 - **Actual SUT Behavior:** SUT accepted the cancellation request with HTTP 200 and mutated the order status from `shipping` to `canceled`.
 - **Classification:** **FAIL – NORMATIVE ORACLE VIOLATION**
@@ -52,7 +52,7 @@
 - **Target Endpoint:** `PUT /api/admin/orders/{{order_FR10_AI_024}}/status`
 - **Input Body:** `{"status": "delivered"}`
 - **Observed HTTP Response:** `200 OK`
-- **Persisted State in DB:** `'delivered'` (Retrieved via authorized `GET /api/orders/:id`)
+- **Persisted state observed via authorized API GET:** `'delivered'` (Retrieved via authorized `GET /api/orders/:id`)
 - **Canonical Oracle:** Level 1 SRS Section 4.10 & Level 2 FSM state chart specify that `canceled` is an immutable terminal sink state. Expected `4xx` Client Error rejection with persisted state remaining `'canceled'`.
 - **Actual SUT Behavior:** SUT accepted the status update from terminal `canceled` to `delivered` with HTTP 200 and mutated the persisted database record.
 - **Classification:** **FAIL – NORMATIVE ORACLE VIOLATION**
@@ -72,7 +72,7 @@
 - **Input Body:** `{"status": "confirmed"}`
 - **Authentication:** `Bearer {{userAToken}}`
 - **Observed HTTP Response:** `200 OK`
-- **Persisted State in DB:** `'confirmed'` (Retrieved via authorized `GET /api/orders/:id`)
+- **Persisted state observed via authorized API GET:** `'confirmed'` (Retrieved via authorized `GET /api/orders/:id`)
 - **Canonical Oracle:** Level 1 SRS Section 4 / Assignment Notes RBAC mandates that `/api/admin/*` routes strictly require `role = 'admin'`. Normal customer tokens must be rejected with `403 Forbidden` / `4xx` and zero state mutation (`pending`).
 - **Actual SUT Behavior:** SUT failed to enforce role authorization on Admin mutation route, executing status update `pending -> confirmed` on behalf of a regular customer.
 - **Classification:** **FAIL – NORMATIVE ORACLE VIOLATION**
@@ -92,7 +92,7 @@
 - **Input Body:** `{"status": "canceled"}`
 - **Authentication:** `Bearer {{userAToken}}`
 - **Observed HTTP Response:** `200 OK`
-- **Persisted State in DB:** `'canceled'` (Retrieved via authorized `GET /api/orders/:id`)
+- **Persisted state observed via authorized API GET:** `'canceled'` (Retrieved via authorized `GET /api/orders/:id`)
 - **Canonical Oracle:** Level 1 RBAC policy prohibits regular customers from invoking `/api/admin/*`. Expected `403 Forbidden` / `4xx` with order state remaining `'pending'`.
 - **Actual SUT Behavior:** SUT accepted customer token on Admin cancellation route with HTTP 200 and mutated order state to `canceled`.
 - **Classification:** **FAIL – NORMATIVE ORACLE VIOLATION**
@@ -112,7 +112,7 @@
 - **Input Body:** `{"status": "shipping"}`
 - **Authentication:** `Bearer {{userAToken}}`
 - **Observed HTTP Response:** `200 OK`
-- **Persisted State in DB:** `'shipping'` (Retrieved via authorized `GET /api/orders/:id`)
+- **Persisted state observed via authorized API GET:** `'shipping'` (Retrieved via authorized `GET /api/orders/:id`)
 - **Canonical Oracle:** Level 1 RBAC policy prohibits regular customers from invoking `/api/admin/*`. Expected `403 Forbidden` / `4xx` with order state remaining `'confirmed'`.
 - **Actual SUT Behavior:** SUT accepted customer token on Admin dispatch route with HTTP 200 and mutated order state from `confirmed` to `shipping`.
 - **Classification:** **FAIL – NORMATIVE ORACLE VIOLATION**
@@ -131,7 +131,7 @@
 - **Target Endpoint:** `PUT /api/orders/{{order_FR10_HUM_003}}/cancel`
 - **Input Body:** `{}`
 - **Observed HTTP Response:** `200 OK`
-- **Persisted State in DB:** `'canceled'`
+- **Persisted state observed via authorized API GET:** `'canceled'`
 - **Canonical Oracle:** Level 1 SRS Section 4.10 prohibits customer cancellation during transit. Expected `4xx` rejection with order remaining in `shipping`.
 - **Actual SUT Behavior:** Customer cancellation was accepted (HTTP 200), corrupting the downstream multi-stage sequence assertion.
 - **Classification:** **FAIL – NORMATIVE ORACLE VIOLATION**
