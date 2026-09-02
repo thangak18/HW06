@@ -1,46 +1,46 @@
-# STEP 5 — Cac tinh nang Postman da su dung
+# STEP 5 — Các tính năng Postman em đã sử dụng
 
-> HW06 — API Testing | SV **Ninh Van Khai — 23127060** | De bai muc 6
+> HW06 — API Testing | SV **Ninh Văn Khải — 23127060** | Đề bài mục 6
 
-De bai: *"Exercise as many Postman features as you reasonably can... List the Postman
+Đề bài: *"Exercise as many Postman features as you reasonably can... List the Postman
 features you used in your report."*
 
 ---
 
-## 1. Bang tong hop
+## 1. Bảng tổng hợp
 
-Cot **Bang chung** ghi ro file hoac thao tac nao chung minh tinh nang do da duoc dung that.
+Cột **Bằng chứng** ghi rõ file hoặc thao tác nào chứng minh tính năng đó em đã dùng thật.
 
-| # | Tinh nang | Dung vao viec gi trong bai nay | Bang chung |
+| # | Tính năng | Em dùng vào việc gì trong bài này | Bằng chứng |
 |---|---|---|---|
-| 1 | **Collection** | 7 collection: 3 bo day du, 3 bo hoi quy `@contract`, 1 bo data-driven | `postman/collections/*.json` |
-| 2 | **Folder trong collection** | Moi collection chia 5 folder: `_setup` + 4 nhom ky thuat DOM / STA / SEC / SCH | cau truc `item[]` trong file collection |
-| 3 | **Environment** | `23127060_local` voi 26 bien | `postman/environments/23127060_local.postman_environment.json` |
-| 4 | **Bien moi truong** | `{{baseUrl}}`, `{{token_user}}`, `{{token_admin}}`, `{{token_attacker}}`, `{{orderId}}`, `{{resetToken}}`, `{{newProductId}}`... | dung xuyen suot request va script |
-| 5 | **Bien collection** | Cac JSON Schema duoc nap thanh bien `schema_product`, `schema_order`, `schema_error`... | `variable[]` trong collection |
-| 6 | **Pre-request script cap collection** | Chen header `X-Student-Id` + `console.log` cho **moi** request | 823/823 request mang header — `ci/evidence/header_evidence.md` |
-| 7 | **Pre-request script cap request** | Dua he thong ve dung precondition cua tung case: tao don hang roi day ve trang thai `shipping`, xin OTP moi, dem so ban ghi truoc khi goi | `event[listen=prerequest]` cua tung item |
-| 8 | **Tests script cap collection** | Hai phep kiem ap cho moi response: thoi gian phan hoi, ma trang thai hop le | `event[listen=test]` cap collection |
-| 9 | **Tests script cap request** | 1146 assertion cho 243 test case | `newman/*.json.gz` |
-| 10 | **JSON Schema validation** (`pm.response.to.have.jsonSchema`) | 13 schema, dung `additionalProperties: false` de bat truong thua va `exclusiveMinimum` de bat gia tri sai | `postman/scripts/schemas/*.json` |
-| 11 | **`pm.sendRequest`** | Doc lai tai nguyen sau khi goi (kiem tac dung phu), tao tai khoan cach ly, day trang thai don hang | ~90 lan goi trong cac script |
-| 12 | **Data-driven run** (Collection Runner + data file) | 4 bo, 48 vong lap, 4 file CSV | `postman/data/*.csv`, `newman/23127060_DD-*` |
-| 13 | **`pm.iterationData`** | Doc gia tri tung dong cua data file trong script | folder `DD1`–`DD4` |
-| 14 | **Newman CLI** | Chay tu dong toan bo, dung trong CI | `agent-skill/.../run_newman.sh` |
-| 15 | **Reporter `htmlextra`** | Bao cao HTML, co `--reporter-htmlextra-logs` de giu lai `console.log` | `newman/*.html` |
-| 16 | **Reporter `json`** | Dau vao cho cac script tong hop va kiem chung | `newman/*.json.gz` |
-| 17 | **`--folder`** | Chay rieng tung folder voi data file rieng cua no | `run_datadriven.sh` |
-| 18 | **`--export-environment`** | Chuyen token tu lan chay `_setup` sang lan chay data-driven | `run_datadriven.sh` |
-| 19 | **`--env-var`** | Ghi de `baseUrl` va `studentId` tu dong lenh (CI dung) | workflow GitHub Actions |
-| 20 | **Postman Console** | Doc dong `[HW06][23127060] ...` de chup man hinh lam bang chung | **HUMAN H4** — xem muc 4 |
-| 21 | **Mock server** | Doi chieu hop dong API theo dac ta voi hanh vi thuc te | **HUMAN** — xem muc 5 |
-| 22 | **Monitor** | Chay bo `@contract` dinh ky | **HUMAN** — xem muc 5 |
-| 23 | **Workspace** | Workspace ca nhan `HW06-23127060` chua 7 collection + 1 environment | **HUMAN** — xem muc 5 |
+| 1 | **Collection** | 7 collection: 3 bộ đầy đủ, 3 bộ hồi quy `@contract`, 1 bộ data-driven | `postman/collections/*.json` |
+| 2 | **Folder trong collection** | Mỗi collection chia 5 folder: `_setup` + 4 nhóm kỹ thuật DOM / STA / SEC / SCH | cấu trúc `item[]` trong file collection |
+| 3 | **Environment** | `23127060_local` với 26 biến | `postman/environments/23127060_local.postman_environment.json` |
+| 4 | **Biến môi trường** | `{{baseUrl}}`, `{{token_user}}`, `{{token_admin}}`, `{{token_attacker}}`, `{{orderId}}`, `{{resetToken}}`, `{{newProductId}}`... | dùng xuyên suốt request và script |
+| 5 | **Biến collection** | Các JSON Schema được nạp thành biến `schema_product`, `schema_order`, `schema_error`... | `variable[]` trong collection |
+| 6 | **Pre-request script cấp collection** | Chèn header `X-Student-Id` + `console.log` cho **mọi** request | 823/823 request mang header — `ci/evidence/header_evidence.md` |
+| 7 | **Pre-request script cấp request** | Đưa hệ thống về đúng precondition của từng case: tạo đơn hàng rồi đẩy về trạng thái `shipping`, xin OTP mới, đếm số bản ghi trước khi gọi | `event[listen=prerequest]` của từng item |
+| 8 | **Tests script cấp collection** | Hai phép kiểm áp cho mọi response: thời gian phản hồi, mã trạng thái hợp lệ | `event[listen=test]` cấp collection |
+| 9 | **Tests script cấp request** | 1146 assertion cho 243 test case | `newman/*.json.gz` |
+| 10 | **JSON Schema validation** (`pm.response.to.have.jsonSchema`) | 13 schema, dùng `additionalProperties: false` để bắt trường thừa và `exclusiveMinimum` để bắt giá trị sai | `postman/scripts/schemas/*.json` |
+| 11 | **`pm.sendRequest`** | Đọc lại tài nguyên sau khi gọi (kiểm tác dụng phụ), tạo tài khoản cách ly, đẩy trạng thái đơn hàng | khoảng 90 lần gọi trong các script |
+| 12 | **Data-driven run** (Collection Runner + data file) | 4 bộ, 48 vòng lặp, 4 file CSV | `postman/data/*.csv`, `newman/23127060_DD-*` |
+| 13 | **`pm.iterationData`** | Đọc giá trị từng dòng của data file trong script | folder `DD1`–`DD4` |
+| 14 | **Newman CLI** | Chạy tự động toàn bộ, dùng trong CI | `agent-skill/.../run_newman.sh` |
+| 15 | **Reporter `htmlextra`** | Báo cáo HTML, có `--reporter-htmlextra-logs` để giữ lại `console.log` | `newman/*.html` |
+| 16 | **Reporter `json`** | Đầu vào cho các script tổng hợp và kiểm chứng | `newman/*.json.gz` |
+| 17 | **`--folder`** | Chạy riêng từng folder với data file riêng của nó | `run_datadriven.sh` |
+| 18 | **`--export-environment`** | Chuyển token từ lần chạy `_setup` sang lần chạy data-driven | `run_datadriven.sh` |
+| 19 | **`--env-var`** | Ghi đè `baseUrl` và `studentId` từ dòng lệnh (CI dùng) | workflow GitHub Actions |
+| 20 | **Postman Console** | Đọc dòng `[HW06][23127060] ...` để chụp màn hình làm bằng chứng | **HUMAN H4** — xem mục 4 |
+| 21 | **Mock server** | Đối chiếu hợp đồng API theo đặc tả với hành vi thực tế | **HUMAN** — xem mục 5 |
+| 22 | **Monitor** | Chạy bộ `@contract` định kỳ | **HUMAN** — xem mục 5 |
+| 23 | **Workspace** | Workspace cá nhân `HW06-23127060` chứa 7 collection + 1 environment | **HUMAN** — xem mục 5 |
 
-**Tong: 23 tinh nang, trong do 19 tinh nang co bang chung tu dong kiem chung duoc.**
-Bon tinh nang con lai (20–23) can thao tac tren giao dien Postman va tai khoan Postman.
+**Tổng: 23 tính năng, trong đó 19 tính năng có bằng chứng tự động kiểm chứng được.**
+Bốn tính năng còn lại (20–23) cần thao tác trên giao diện Postman và tài khoản Postman.
 
-## 2. Cau truc collection
+## 2. Cấu trúc collection
 
 ```
 23127060_HW06_API-3
@@ -58,44 +58,45 @@ Bon tinh nang con lai (20–23) can thao tac tren giao dien Postman va tai khoan
 └── SCH - Schema validation       (8 request)
 ```
 
-Folder `_setup` chay dau tien va dat toan bo bien ma cac folder sau can. Nho vay collection
-chay duoc tu con so khong tren mot CSDL vua seed lai, khong doi thao tac tay nao.
+Folder `_setup` chạy đầu tiên và đặt toàn bộ biến mà các folder sau cần. Nhờ vậy collection
+chạy được từ con số không trên một CSDL vừa seed lại, không đòi thao tác tay nào.
 
-## 3. Hai quyet dinh ky thuat dang ghi lai
+## 3. Hai quyết định kỹ thuật em muốn ghi lại
 
-### 3.1 Khong dat phep kiem "khong lo password" o cap collection
+### 3.1 Em không đặt phép kiểm "không lộ password" ở cấp collection
 
-`references/POSTMAN_GUIDE.md` ban dau de nghi dat ba phep kiem chung o cap collection, trong
-do co *"khong lo truong nhay cam"* va *"Content-Type la application/json"*. Da **bo** hai phep
-kiem do khoi cap collection.
+`references/POSTMAN_GUIDE.md` ban đầu đề nghị đặt ba phép kiểm chung ở cấp collection, trong
+đó có *"không lộ trường nhạy cảm"* và *"Content-Type là application/json"*. Em đã **bỏ** hai
+phép kiểm đó khỏi cấp collection.
 
-Ly do: chung that bai o mot so request — nhung do la bug **A-07** (login tra ve ca `password`)
-va **C-03** (loi SQL tra ve HTML). Neu de o cap collection, moi bug se bi dem lai **hang chuc
-lan**, moi lan mot request, va so lieu `failed` trong bao cao Newman se noi ve so luong bug
-gap nhieu lan su that. Hai bug do da co test case rieng phoi bay chung dung mot lan moi cai.
+Lý do: chúng thất bại ở một số request — nhưng đó là bug **A-07** (login trả về cả `password`)
+và **C-03** (lỗi SQL trả về HTML). Nếu để ở cấp collection, mỗi bug sẽ bị đếm lại **hàng chục
+lần**, mỗi lần một request, và số liệu `failed` trong báo cáo Newman sẽ nói về số lượng bug
+gấp nhiều lần sự thật. Hai bug đó đã có test case riêng phơi bày chúng đúng một lần mỗi cái.
 
-Bai hoc: **mot phep kiem chi nen dat o cap collection khi no dung voi moi request.** Dat mot
-phep kiem cua tinh huong cu the len cap collection lam hong phep dem, chu khong lam tang do phu.
+Bài học em rút ra: **một phép kiểm chỉ nên đặt ở cấp collection khi nó đúng với mọi request.**
+Đặt một phép kiểm của tình huống cụ thể lên cấp collection làm hỏng phép đếm, chứ không làm
+tăng độ phủ.
 
-### 3.2 Cach ly tai khoan cho cac case dang nhap
+### 3.2 Cách ly tài khoản cho các case đăng nhập
 
-SUT co bug **A-09**: moi lan dang nhap sai cong **+2** vao `login_attempts` va khoa 180 giay
-khi dat 3. Hau qua khi chay Newman: chi can **mot** case thu mat khau sai la tai khoan
-`api.victim` bi khoa, va **moi** case dang nhap chay sau do deu tra 403 — ke ca nhung case
-hoan toan khong lien quan. Lan chay dau tien co dung hien tuong nay: 7 case that bai day chuyen
-tu mot nguyen nhan duy nhat.
+SUT có bug **A-09**: mỗi lần đăng nhập sai cộng **+2** vào `login_attempts` và khóa 180 giây
+khi đạt 3. Hậu quả khi chạy Newman: chỉ cần **một** case thử mật khẩu sai là tài khoản
+`api.victim` bị khóa, và **mọi** case đăng nhập chạy sau đó đều trả 403 — kể cả những case
+hoàn toàn không liên quan. Lần chạy đầu tiên của em có đúng hiện tượng này: 7 case thất bại
+dây chuyền từ một nguyên nhân duy nhất.
 
-Khong co endpoint nao mo khoa, va cho 180 giay trong CI la khong chap nhan duoc. Giai phap:
-tam collection cach ly — 8 case dung `/api/login` **tu tao mot tai khoan rieng** trong
-pre-request script, roi tu dua tai khoan do ve dung trang thai minh can (`fresh`, `fail2`,
-`reset`, `fail2_then_reset`). Xem bang `ISOLATED` trong `build_collection.py`.
+Không có endpoint nào mở khóa, và chờ 180 giây trong CI là không chấp nhận được. Giải pháp
+em chọn là tầm collection cách ly: 8 case dùng `/api/login` **tự tạo một tài khoản riêng**
+trong pre-request script, rồi tự đưa tài khoản đó về đúng trạng thái mình cần (`fresh`,
+`fail2`, `reset`, `fail2_then_reset`). Xem bảng `ISOLATED` trong `build_collection.py`.
 
-Day la viec cua **tang thuc thi**, khong phai cua thiet ke test case, nen no duoc xu ly trong
-bo dung collection chu khong sua vao file CSV test case.
+Đây là việc của **tầng thực thi**, không phải của thiết kế test case, nên em xử lý nó trong
+bộ dựng collection chứ không sửa vào file CSV test case.
 
-## 4. Bang chung header `X-Student-Id` (de bai muc 11)
+## 4. Bằng chứng header `X-Student-Id` (đề bài mục 11)
 
-Header duoc chen o pre-request script cap **collection**, nen khong request nao co the thieu:
+Header được chèn ở pre-request script cấp **collection**, nên không request nào có thể thiếu:
 
 ```javascript
 const STUDENT_ID = pm.environment.get("studentId") || "23127060";
@@ -110,58 +111,58 @@ console.log(
 );
 ```
 
-Bang chung duoc thu o **hai muc**:
+Bằng chứng em thu ở **hai mức**:
 
-1. **Kiem chung tu dong** — `scripts/verify_header.py` doc thang phan `request.header` ma
-   Newman ghi lai cho tung request that su roi len duong:
-   **823/823 request mang `X-Student-Id: 23127060`, khong request nao thieu.**
-   Ket qua o `ci/evidence/header_evidence.md`.
-2. **Anh chup man hinh** — dong `console.log` tren xuat hien trong bao cao HTML (nho
-   `--reporter-htmlextra-logs`) va trong Postman Console.
+1. **Kiểm chứng tự động** — `scripts/verify_header.py` đọc thẳng phần `request.header` mà
+   Newman ghi lại cho từng request thật sự rời đường:
+   **823/823 request mang `X-Student-Id: 23127060`, không request nào thiếu.**
+   Kết quả ở `ci/evidence/header_evidence.md`.
+2. **Ảnh chụp màn hình** — dòng `console.log` trên xuất hiện trong báo cáo HTML (nhờ
+   `--reporter-htmlextra-logs`) và trong Postman Console.
 
-> Mot dong `console.log` chi chung minh **script da chay**, chua chung minh **header da duoc
-> gui**. Vi vay cach thu nhat moi la bang chung that; anh chup Console nop kem cho dung yeu
-> cau hinh thuc cua de bai.
+> Một dòng `console.log` chỉ chứng minh **script đã chạy**, chưa chứng minh **header đã được
+> gửi**. Vì vậy cách thứ nhất mới là bằng chứng thật; ảnh chụp Console em nộp kèm cho đúng
+> yêu cầu hình thức của đề bài.
 
-### HUMAN H4 — cach chup man hinh Postman Console
+### HUMAN H4 — cách chụp màn hình Postman Console
 
-1. Mo Postman → import `postman/collections/23127060_HW06_API-1.postman_collection.json`
-   va `postman/environments/23127060_local.postman_environment.json`.
-2. Chon environment `23127060_local` o goc tren ben phai.
-3. Mo Console: **View → Show Postman Console** (hoac `Ctrl+Alt+C`).
-4. Chay bat ky request nao trong folder `DOM`.
-5. Trong Console, mo rong muc `Request Headers` cua request vua chay — phai thay dong
-   `X-Student-Id: 23127060`, kem dong log `[HW06][23127060] POST ... | X-Student-Id=23127060`.
-6. Chup toan man hinh (phai thay ro ca dong header lan dong log) →
-   luu vao `bugs/screenshots/console_header.png`.
+1. Mở Postman → import `postman/collections/23127060_HW06_API-1.postman_collection.json`
+   và `postman/environments/23127060_local.postman_environment.json`.
+2. Chọn environment `23127060_local` ở góc trên bên phải.
+3. Mở Console: **View → Show Postman Console** (hoặc `Ctrl+Alt+C`).
+4. Chạy bất kỳ request nào trong folder `DOM`.
+5. Trong Console, mở rộng mục `Request Headers` của request vừa chạy — phải thấy dòng
+   `X-Student-Id: 23127060`, kèm dòng log `[HW06][23127060] POST ... | X-Student-Id=23127060`.
+6. Chụp toàn màn hình (phải thấy rõ cả dòng header lẫn dòng log) →
+   lưu vào `bugs/screenshots/console_header.png`.
 
-## 5. Bon tinh nang can thao tac tren giao dien Postman (HUMAN)
+## 5. Bốn tính năng cần thao tác trên giao diện Postman (HUMAN)
 
 ### H4a — Workspace
-Tao workspace ca nhan ten `HW06-23127060`, import ca 7 collection va environment vao do.
-Chup man hinh danh sach collection → `ci/evidence/postman_workspace.png`.
+Tạo workspace cá nhân tên `HW06-23127060`, import cả 7 collection và environment vào đó.
+Chụp màn hình danh sách collection → `ci/evidence/postman_workspace.png`.
 
 ### H4b — Mock server
-1. Trong Postman: **New → Mock Server**, chon collection `23127060_HW06_API-3`.
-2. Them mot example cho `GET /api/products/2` voi body **dung dac ta**:
-   `{"id":2,"name":"Samsung Galaxy S24 Ultra","price":28000000,...}` — chu y `price` la **so**.
-3. Chay cung mot test case ve schema len ca mock server va len SUT that.
-   Mock **pass**, SUT that **fail** — do chinh la bug **C-05** (`price` bi ep thanh chuoi voi id chan).
-4. Chup man hinh hai ket qua canh nhau → `ci/evidence/postman_mock.png`.
+1. Trong Postman: **New → Mock Server**, chọn collection `23127060_HW06_API-3`.
+2. Thêm một example cho `GET /api/products/2` với body **đúng đặc tả**:
+   `{"id":2,"name":"Samsung Galaxy S24 Ultra","price":28000000,...}` — chú ý `price` là **số**.
+3. Chạy cùng một test case về schema lên cả mock server và lên SUT thật.
+   Mock **pass**, SUT thật **fail** — đó chính là bug **C-05** (`price` bị ép thành chuỗi với id chẵn).
+4. Chụp màn hình hai kết quả cạnh nhau → `ci/evidence/postman_mock.png`.
 
-> Y nghia: mock server o day khong dung de thay the SUT, ma de **hien thuc hoa hop dong API
-> theo dac ta**. Su khac nhau giua mock va SUT chinh la bug, va do la cach dung mock server
-> co gia tri nhat trong bai nay.
+> Ý nghĩa: mock server ở đây em không dùng để thay thế SUT, mà để **hiện thực hóa hợp đồng API
+> theo đặc tả**. Sự khác nhau giữa mock và SUT chính là bug, và đó là cách dùng mock server
+> có giá trị nhất trong bài này.
 
 ### H4c — Monitor
-1. **New → Monitor**, chon collection `23127060_HW06_API-1_contract` va environment `23127060_local`.
-2. Dat lich 1 lan/ngay.
-3. Luu y: monitor cua Postman chay tren may chu cua Postman nen **khong goi duoc `localhost`**.
-   Muon monitor that su chay thi phai dua SUT ra dia chi cong khai (vi du bang ngrok). Neu
-   khong lam duoc thi chup man hinh cau hinh monitor va **ghi ro han che nay trong bao cao** —
-   khong duoc bao la da chay thanh cong.
-4. Chup man hinh → `ci/evidence/postman_monitor.png`.
+1. **New → Monitor**, chọn collection `23127060_HW06_API-1_contract` và environment `23127060_local`.
+2. Đặt lịch 1 lần/ngày.
+3. Lưu ý: monitor của Postman chạy trên máy chủ của Postman nên **không gọi được `localhost`**.
+   Muốn monitor thật sự chạy thì phải đưa SUT ra địa chỉ công khai (ví dụ bằng ngrok). Nếu
+   không làm được thì chụp màn hình cấu hình monitor và **ghi rõ hạn chế này trong báo cáo** —
+   không được báo là đã chạy thành công.
+4. Chụp màn hình → `ci/evidence/postman_monitor.png`.
 
-### H4d — Visualizer (tuy chon)
-Them vao tests script cua mot request bat ky doan `pm.visualizer.set(template, data)` de ve
-bang tong hop ket qua, roi chup tab **Visualize**.
+### H4d — Visualizer (tùy chọn)
+Thêm vào tests script của một request bất kỳ đoạn `pm.visualizer.set(template, data)` để vẽ
+bảng tổng hợp kết quả, rồi chụp tab **Visualize**.

@@ -1,107 +1,107 @@
-# STEP 4 — Test case tu bo sung (nhung gi AI bo sot)
+# STEP 4 — Test case em tự bổ sung (những gì AI bỏ sót)
 
-> HW06 — API Testing | SV **Ninh Van Khai — 23127060** | De bai muc 6.3
+> HW06 — API Testing | SV **Ninh Văn Khải — 23127060** | Đề bài mục 6.3
 
-De bai: *"Add at least five test cases of your own that the AI missed — especially around
+Đề bài: *"Add at least five test cases of your own that the AI missed — especially around
 security and state transitions — and explain why the AI missed them (prompt quality, model
 limitations, or characteristics of the API)."*
 
-Yeu cau toi thieu 5 case/API. Da bo sung **6 case/API, tong 18 case**, tat ca deu
-`Source = HUMAN` va deu co cot `Why_AI_Missed` giai trinh bang van xuoi.
+Yêu cầu tối thiểu 5 case/API. Em đã bổ sung **6 case/API, tổng 18 case**, tất cả đều
+`Source = HUMAN` và đều có cột `Why_AI_Missed` giải trình bằng văn xuôi.
 
 ---
 
-## 1. Tong hop sau khi bo sung
+## 1. Tổng hợp sau khi bổ sung
 
-| API | Tong | AI sinh | Tu bo sung | DOM | STA | SEC | SCH | `@contract` | `@bug` |
+| API | Tổng | AI sinh | Em bổ sung | DOM | STA | SEC | SCH | `@contract` | `@bug` |
 |---|---|---|---|---|---|---|---|---|---|
 | API-1 (FR-03) | 70 | 64 | 6 | 36 | 10 | 18 | 6 | 47 | 23 |
 | API-2 (FR-08) | 87 | 81 | 6 | 43 | 22 | 16 | 6 | 58 | 29 |
 | API-3 (FR-15) | 86 | 80 | 6 | 53 | 9 | 16 | 8 | 35 | 51 |
-| **Tong** | **243** | **225** | **18** | 132 | 41 | 50 | 20 | 140 | 103 |
+| **Tổng** | **243** | **225** | **18** | 132 | 41 | 50 | 20 | 140 | 103 |
 
-Phan bo ly do AI bo sot:
+Phân bố lý do AI bỏ sót:
 
-| Ly do | So case | Y nghia |
+| Lý do | Số case | Ý nghĩa |
 |---|---|---|
-| **API** — dac diem cua API | 9 | Bug chi lo ra khi **ket hop nhieu request**; bo sinh lam viec tren tung case doc lap |
-| **MODEL** — gioi han mo hinh | 4 | AI suy dien tu ten / hinh dang API thay vi doc ma nguon |
-| **PROMPT** — chat luong prompt | 3 | Prompt khoanh vung qua chat, khong yeu cau ro dieu do |
-| **SPECGAP** — dac ta khong noi | 2 | Dac ta khong mo ta hanh vi nay nen AI khong co gi de bam vao |
+| **API** — đặc điểm của API | 9 | Bug chỉ lộ ra khi **kết hợp nhiều request**; bộ sinh làm việc trên từng case độc lập |
+| **MODEL** — giới hạn mô hình | 4 | AI suy diễn từ tên / hình dạng API thay vì đọc mã nguồn |
+| **PROMPT** — chất lượng prompt | 3 | Prompt em khoanh vùng quá chật, không yêu cầu rõ điều đó |
+| **SPECGAP** — đặc tả không nói | 2 | Đặc tả không mô tả hành vi này nên AI không có gì để bám vào |
 
-**Ket qua dang chu y nhat: 9/18 case thuoc nhom `API`.** Nua so case ma AI bo sot khong phai
-vi AI kem hay vi prompt do, ma vi mot **gioi han cau truc**: bo sinh sinh ra cac test case
-**doc lap**, trong khi mot nua so bug nghiem trong cua he thong nay chi lo ra khi **noi hai
-hay nhieu request lai voi nhau**. Do la ket luan quan trong nhat cua buoc nay.
+**Kết quả đáng chú ý nhất: 9/18 case thuộc nhóm `API`.** Nửa số case mà AI bỏ sót không phải
+vì AI kém hay vì prompt dở, mà vì một **giới hạn cấu trúc**: bộ sinh sinh ra các test case
+**độc lập**, trong khi một nửa số bug nghiêm trọng của hệ thống này chỉ lộ ra khi **nối hai
+hay nhiều request lại với nhau**. Đó là kết luận quan trọng nhất của bước này.
 
-## 2. Do phu SEC sau khi bo sung
+## 2. Độ phủ SEC sau khi bổ sung
 
-| API | Ma SEC duoc kiem | Khong ap dung | Giai trinh |
+| API | Mã SEC được kiểm | Không áp dụng | Giải trình |
 |---|---|---|---|
-| API-1 | SEC-01(2), SEC-03(1), SEC-04(3), SEC-05(3), SEC-06(1), SEC-07(7) | SEC-02 | Ca hai endpoint chinh cua FR-03 **khong yeu cau xac thuc theo dung dac ta** — nguoi quen mat khau thi khong con token de ma gui |
-| API-2 | SEC-02(8), SEC-03(3), SEC-04(2), SEC-05(2), SEC-06(1) | SEC-01, SEC-07 | Luong thanh toan khong dung toi luu tru mat khau lan OTP |
-| API-3 | SEC-02(5), SEC-03(3), SEC-04(5), SEC-05(9), SEC-06(1) | SEC-01, SEC-07 | Nhu tren |
-| **Toan suite** | **SEC-01(2), SEC-02(13), SEC-03(7), SEC-04(10), SEC-05(14), SEC-06(3), SEC-07(7)** | **(khong thieu ma nao)** | |
+| API-1 | SEC-01(2), SEC-03(1), SEC-04(3), SEC-05(3), SEC-06(1), SEC-07(7) | SEC-02 | Cả hai endpoint chính của FR-03 **không yêu cầu xác thực theo đúng đặc tả** — người quên mật khẩu thì không còn token để mà gửi |
+| API-2 | SEC-02(8), SEC-03(3), SEC-04(2), SEC-05(2), SEC-06(1) | SEC-01, SEC-07 | Luồng thanh toán không dùng tới lưu trữ mật khẩu lẫn OTP |
+| API-3 | SEC-02(5), SEC-03(3), SEC-04(5), SEC-05(9), SEC-06(1) | SEC-01, SEC-07 | Như trên |
+| **Toàn suite** | **SEC-01(2), SEC-02(13), SEC-03(7), SEC-04(10), SEC-05(14), SEC-06(3), SEC-07(7)** | **(không thiếu mã nào)** | |
 
-`TC-A1-SEC-904` da lap day khoang trong SEC-03 cua API-1 (truoc do la 0) bang mot kich ban co
-that: `GET /api/admin/users` tra ve `login_attempts` va `locked_until` cua **moi nguoi dung**,
-cho phep do xem tai khoan nao dang bi khoa — dung la thong tin ma ke tan cong luong quen mat
-khau can.
+`TC-A1-SEC-904` đã lấp đầy khoảng trống SEC-03 của API-1 (trước đó là 0) bằng một kịch bản có
+thật: `GET /api/admin/users` trả về `login_attempts` và `locked_until` của **mọi người dùng**,
+cho phép dò xem tài khoản nào đang bị khóa — đúng là thông tin mà kẻ tấn công luồng quên mật
+khẩu cần.
 
-## 3. Sau case cua API-1 (FR-03)
+## 3. Sáu case của API-1 (FR-03)
 
-| TC_ID | Tieu de | Nhom | Bug | Ly do AI bo sot |
+| TC_ID | Tiêu đề | Nhóm | Bug | Lý do AI bỏ sót |
 |---|---|---|---|---|
-| `TC-A1-STA-901` | Sau reset, mat khau **cu** phai het hieu luc va mat khau **moi** phai dang nhap duoc | STA | — | **API** |
-| `TC-A1-SEC-901` | Reset thanh cong nhung tai khoan **van bi khoa** | SEC | A-06 | **API** |
-| `TC-A1-SEC-902` | `GET /api/users/me` tra ve ca `password` lan `reset_token` | SEC-01 | A-07 | **PROMPT** |
-| `TC-A1-SEC-903` | Tai khoan bi khoa ngay sau **hai** lan sai, trong khi SRS quy dinh ba | SEC | A-09 | **MODEL** |
-| `TC-A1-SEC-904` | User thuong doc duoc toan bo bang `users` qua `GET /api/admin/users` | SEC-03 | X-01 | **PROMPT** |
-| `TC-A1-SEC-905` | OTP cua nguoi nay dung duoc cho email nguoi kia neu trung gia tri | SEC-07 | A-02 | **SPECGAP** |
+| `TC-A1-STA-901` | Sau reset, mật khẩu **cũ** phải hết hiệu lực và mật khẩu **mới** phải đăng nhập được | STA | — | **API** |
+| `TC-A1-SEC-901` | Reset thành công nhưng tài khoản **vẫn bị khóa** | SEC | A-06 | **API** |
+| `TC-A1-SEC-902` | `GET /api/users/me` trả về cả `password` lẫn `reset_token` | SEC-01 | A-07 | **PROMPT** |
+| `TC-A1-SEC-903` | Tài khoản bị khóa ngay sau **hai** lần sai, trong khi SRS quy định ba | SEC | A-09 | **MODEL** |
+| `TC-A1-SEC-904` | User thường đọc được toàn bộ bảng `users` qua `GET /api/admin/users` | SEC-03 | X-01 | **PROMPT** |
+| `TC-A1-SEC-905` | OTP của người này dùng được cho email người kia nếu trùng giá trị | SEC-07 | A-02 | **SPECGAP** |
 
-### `TC-A1-SEC-903` — vi du dien hinh cua gioi han mo hinh
+### `TC-A1-SEC-903` — ví dụ điển hình của giới hạn mô hình
 
-SRS FR-02 viet: *"Neu dang nhap sai tu **3 lan tro len** lien tiep, tai khoan bi tam khoa."*
-Bo sinh doc cau nay va sinh dung case tuong ung: sai 3 lan roi kiem xem da khoa chua. Case do
-**PASS** — vi sai 3 lan thi tat nhien la da khoa.
+SRS FR-02 viết: *"Nếu đăng nhập sai từ **3 lần trở lên** liên tiếp, tài khoản bị tạm khóa."*
+Bộ sinh đọc câu này và sinh đúng case tương ứng: sai 3 lần rồi kiểm xem đã khóa chưa. Case đó
+**PASS** — vì sai 3 lần thì tất nhiên là đã khóa.
 
-Bug nam o **phia con lai cua bien**. Code cong `login_attempts + 2` moi lan sai, nen khoa ngay
-tu lan sai thu **hai**. Muon thay phai viet mot case khang dinh dieu nguoc lai: *"sau dung hai
-lan sai, dang nhap bang mat khau **dung** van phai thanh cong"*.
+Bug nằm ở **phía còn lại của biên**. Code cộng `login_attempts + 2` mỗi lần sai, nên khóa ngay
+từ lần sai thứ **hai**. Muốn thấy phải viết một case khẳng định điều ngược lại: *"sau đúng hai
+lần sai, đăng nhập bằng mật khẩu **đúng** vẫn phải thành công"*.
 
-Day la mot thoi quen co he thong cua AI: no viet case **khang dinh** dieu dac ta noi, chu rat
-it khi viet case **phu dinh** dieu dac ta khong noi. Ma bien gioi cua mot yeu cau thi luon co
-hai phia.
+Đây là một thói quen có hệ thống của AI: nó viết case **khẳng định** điều đặc tả nói, chứ rất
+ít khi viết case **phủ định** điều đặc tả không nói. Mà biên giới của một yêu cầu thì luôn có
+hai phía.
 
-### `TC-A1-SEC-905` — khi dac ta co ve day du nhung van ho
+### `TC-A1-SEC-905` — khi đặc tả có vẻ đầy đủ nhưng vẫn hở
 
-Dac ta noi *"OTP chi hop le cho email da yeu cau"*, va cau lenh cua SUT co du ca hai dieu kien:
+Đặc tả nói *"OTP chỉ hợp lệ cho email đã yêu cầu"*, và câu lệnh của SUT có đủ cả hai điều kiện:
 
 ```sql
 UPDATE users SET password = ?, reset_token = NULL WHERE email = ? AND reset_token = ?
 ```
 
-Thoat nhin la dung. Cai dac ta **khong** noi la khong gian OTP phai du lon de hai nguoi khong
-trung ma. Voi 4 chu so (9000 gia tri), chi can khoang 100 nguoi cung dang cho reset thi xac
-suat co it nhat mot cap trung ma da vuot 40% (nghich ly ngay sinh). Khi do dieu kien
-`email AND token` khong con bao ve duoc ai ca. AI khong co cau nao trong dac ta de bam vao nen
-khong the sinh case nay — day dung la dinh nghia cua **SPECGAP**.
+Thoạt nhìn là đúng. Cái đặc tả **không** nói là không gian OTP phải đủ lớn để hai người không
+trùng mã. Với 4 chữ số (9000 giá trị), chỉ cần khoảng 100 người cùng đang chờ reset thì xác
+suất có ít nhất một cặp trùng mã đã vượt 40% (nghịch lý ngày sinh). Khi đó điều kiện
+`email AND token` không còn bảo vệ được ai cả. AI không có câu nào trong đặc tả để bám vào nên
+không thể sinh case này — đây đúng là định nghĩa của **SPECGAP**.
 
-## 4. Sau case cua API-2 (FR-08)
+## 4. Sáu case của API-2 (FR-08)
 
-| TC_ID | Tieu de | Nhom | Bug | Ly do AI bo sot |
+| TC_ID | Tiêu đề | Nhóm | Bug | Lý do AI bỏ sót |
 |---|---|---|---|---|
-| `TC-B2-DOM-901` | Checkout `total_amount = 1` roi **doc lai don hang** de xac nhan so tien that su duoc luu | DOM | B-01 | **API** |
-| `TC-B2-DOM-902` | Sau thanh toan thanh cong, gio hang phai duoc xoa | DOM | B-13 | **PROMPT** |
-| `TC-B2-STA-901` | Chuoi day du `pending -> confirmed -> shipping` roi user tu huy: buoc cuoi phai bi chan | STA | B-09 | **API** |
-| `TC-B2-STA-902` | Chuyen tu `pending` sang chinh `pending` phai bi tu choi | STA | — | **MODEL** |
-| `TC-B2-SEC-901` | Bo `user_id` khoi `apply-coupon` de dung ma `VIP100` qua muc cho phep | SEC-02 | B-07 | **MODEL** |
-| `TC-B2-SEC-902` | `POST /api/coupon-usage` ghi nhan luot dung cho `coupon_id` khong ton tai | SEC | B-11 | **SPECGAP** |
+| `TC-B2-DOM-901` | Checkout `total_amount = 1` rồi **đọc lại đơn hàng** để xác nhận số tiền thật sự được lưu | DOM | B-01 | **API** |
+| `TC-B2-DOM-902` | Sau thanh toán thành công, giỏ hàng phải được xóa | DOM | B-13 | **PROMPT** |
+| `TC-B2-STA-901` | Chuỗi đầy đủ `pending → confirmed → shipping` rồi user tự hủy: bước cuối phải bị chặn | STA | B-09 | **API** |
+| `TC-B2-STA-902` | Chuyển từ `pending` sang chính `pending` phải bị từ chối | STA | — | **MODEL** |
+| `TC-B2-SEC-901` | Bỏ `user_id` khỏi `apply-coupon` để dùng mã `VIP100` quá mức cho phép | SEC-02 | B-07 | **MODEL** |
+| `TC-B2-SEC-902` | `POST /api/coupon-usage` ghi nhận lượt dùng cho `coupon_id` không tồn tại | SEC | B-11 | **SPECGAP** |
 
-### `TC-B2-SEC-901` — nghich ly "bo bot du lieu de duoc nhieu quyen hon"
+### `TC-B2-SEC-901` — nghịch lý "bỏ bớt dữ liệu để được nhiều quyền hơn"
 
-Bo sinh coi "thieu tham so bat buoc" la mot lop khong hop le va sinh case *"thieu `user_id` ->
-phai tra 400/401"*. Hop ly theo phan hoach mien. Nhung doc ma nguon:
+Bộ sinh coi "thiếu tham số bắt buộc" là một lớp không hợp lệ và sinh case *"thiếu `user_id` →
+phải trả 400/401"*. Hợp lý theo phân hoạch miền. Nhưng đọc mã nguồn:
 
 ```js
 if (user_id) {
@@ -112,75 +112,74 @@ if (user_id) {
 }
 ```
 
-**Bo `user_id` di khong lam yeu di quyen ma lam bien mat toan bo phep kiem han muc.** Day la
-kieu lo hong khong the suy ra tu hinh dang API — no chi lo ra khi doc nhanh `else`. Vi vay
-case duoc viet lai thanh mot kich ban data-driven: chay 3 vong voi `VIP100` (gioi han 2
-luot/nguoi) va khang dinh vong thu ba phai bi tu choi.
+**Bỏ `user_id` đi không làm yếu đi quyền mà làm biến mất toàn bộ phép kiểm hạn mức.** Đây là
+kiểu lỗ hổng không thể suy ra từ hình dạng API — nó chỉ lộ ra khi đọc nhánh `else`. Vì vậy em
+viết lại case thành một kịch bản data-driven: chạy 3 vòng với `VIP100` (giới hạn 2 lượt/người)
+và khẳng định vòng thứ ba phải bị từ chối.
 
-### `TC-B2-STA-901` — gioi han cua 0-switch coverage
+### `TC-B2-STA-901` — giới hạn của 0-switch coverage
 
-Bo sinh phu bang chuyen trang thai theo **tung o rieng le** (0-switch): dat don vao mot trang
-thai roi thu **mot** buoc chuyen. Nhung de dua don ve `shipping` phai di qua **dung hai buoc
-admin** truoc do. Do la mot chuoi 4 request lien tiep, va bo sinh khong the tu suy ra chuoi
-dan nhap tu bang trang thai — do la **1-switch / n-switch coverage**, mot muc do phu cao hon
-phai thiet ke tay.
+Bộ sinh phủ bảng chuyển trạng thái theo **từng ô riêng lẻ** (0-switch): đặt đơn vào một trạng
+thái rồi thử **một** bước chuyển. Nhưng để đưa đơn về `shipping` phải đi qua **đúng hai bước
+admin** trước đó. Đó là một chuỗi 4 request liên tiếp, và bộ sinh không thể tự suy ra chuỗi
+dẫn nhập từ bảng trạng thái — đó là **1-switch / n-switch coverage**, một mức độ phủ cao hơn
+phải thiết kế tay.
 
-### `TC-B2-STA-902` — nam o duong cheo bi bo trong
+### `TC-B2-STA-902` — nằm ở đường chéo bị bỏ trống
 
-Bang chuyen trang thai trong spec liet ke cac cap `(from, to)` **khac nhau**. Nam o duong cheo
-(`pending -> pending`, `confirmed -> confirmed`, ...) bi bo trong vi truc quan chung "khong
-phai mot buoc chuyen". Do phu STA cua API-2 vi the dung o **20/25**. Trong thuc te day lai la
-loai o hay gay loi nhat: mot request bi gui lai hai lan do mang cham hoac nguoi dung bam hai
-lan.
+Bảng chuyển trạng thái trong spec liệt kê các cặp `(from, to)` **khác nhau**. Nằm ở đường chéo
+(`pending → pending`, `confirmed → confirmed`, ...) bị bỏ trống vì trực quan chúng "không phải
+một bước chuyển". Độ phủ STA của API-2 vì thế dừng ở **20/25**. Trong thực tế đây lại là loại
+ô hay gây lỗi nhất: một request bị gửi lại hai lần do mạng chậm hoặc người dùng bấm hai lần.
 
-## 5. Sau case cua API-3 (FR-15)
+## 5. Sáu case của API-3 (FR-15)
 
-| TC_ID | Tieu de | Nhom | Bug | Ly do AI bo sot |
+| TC_ID | Tiêu đề | Nhóm | Bug | Lý do AI bỏ sót |
 |---|---|---|---|---|
-| `TC-C3-SCH-901` | Kieu cua `price` phai giong nhau giua san pham id le va id chan | SCH | C-05 | **API** |
-| `TC-C3-SEC-901` | Khach vang lai xoa duoc **toan bo catalog** roi kiem so san pham con lai | SEC-02 | C-01 | **API** |
-| `TC-C3-DOM-901` | `PUT` chi gui `name`: cac truong khong gui khong duoc bi ghi de thanh `null` | DOM | C-09 | **API** |
-| `TC-C3-SCH-902` | Response loi phai la `application/json`, khong duoc la HTML | SCH | C-03 | **MODEL** |
-| `TC-C3-DOM-902` | Tao san pham voi `category_id` khong ton tai roi doi chieu bang danh muc | DOM | C-10 | **API** |
-| `TC-C3-SEC-902` | `UNION SELECT` qua `?search` doc duoc mat khau plaintext trong bang `users` | SEC-05 | C-02 | **API** |
+| `TC-C3-SCH-901` | Kiểu của `price` phải giống nhau giữa sản phẩm id lẻ và id chẵn | SCH | C-05 | **API** |
+| `TC-C3-SEC-901` | Khách vãng lai xóa được **toàn bộ catalog** rồi kiểm số sản phẩm còn lại | SEC-02 | C-01 | **API** |
+| `TC-C3-DOM-901` | `PUT` chỉ gửi `name`: các trường không gửi không được bị ghi đè thành `null` | DOM | C-09 | **API** |
+| `TC-C3-SCH-902` | Response lỗi phải là `application/json`, không được là HTML | SCH | C-03 | **MODEL** |
+| `TC-C3-DOM-902` | Tạo sản phẩm với `category_id` không tồn tại rồi đối chiếu bảng danh mục | DOM | C-10 | **API** |
+| `TC-C3-SEC-902` | `UNION SELECT` qua `?search` đọc được mật khẩu plaintext trong bảng `users` | SEC-05 | C-02 | **API** |
 
-### `TC-C3-SCH-901` — vi pham chi ton tai giua hai response
+### `TC-C3-SCH-901` — vi phạm chỉ tồn tại giữa hai response
 
-Moi response rieng le deu hop le: `{"price": 30000000}` dung schema, va `{"price": "28000000"}`
-cung la mot JSON hop le. Vi pham chi hien ra khi **so sanh hai response voi nhau**. Bo sinh
-danh gia tung case doc lap nen khong co cho nao de dat mot khang dinh bac cao hon lien ket hai
+Mỗi response riêng lẻ đều hợp lệ: `{"price": 30000000}` đúng schema, và `{"price": "28000000"}`
+cũng là một JSON hợp lệ. Vi phạm chỉ hiện ra khi **so sánh hai response với nhau**. Bộ sinh
+đánh giá từng case độc lập nên không có chỗ nào để đặt một khẳng định bậc cao hơn liên kết hai
 request.
 
-Chi tiet dang so: neu chi test san pham `id = 1` — dung ID ma moi vi du trong tai lieu deu
-dung — thi **khong bao gio** thay bug nay.
+Chi tiết đáng sợ: nếu chỉ test sản phẩm `id = 1` — đúng ID mà mọi ví dụ trong tài liệu đều
+dùng — thì **không bao giờ** thấy bug này.
 
-### `TC-C3-SEC-902` — payload SQLi phai duoc trinh sat tu ma nguon
+### `TC-C3-SEC-902` — payload SQLi phải được trinh sát từ mã nguồn
 
-Bo sinh co sinh payload `UNION SELECT` nhung viet chung chung voi so cot tuy y. `UNION` trong
-SQLite **chi chay khi so cot khop chinh xac**; doan sai so cot thi chi nhan duoc thong bao loi
-va rat de ket luan nham la *"he thong da duoc bao ve"* — mot **am tinh gia**, ket qua te nhat
-ma mot phep thu bao mat co the cho ra.
+Bộ sinh có sinh payload `UNION SELECT` nhưng viết chung chung với số cột tùy ý. `UNION` trong
+SQLite **chỉ chạy khi số cột khớp chính xác**; đoán sai số cột thì chỉ nhận được thông báo lỗi
+và rất dễ kết luận nhầm là *"hệ thống đã được bảo vệ"* — một **âm tính giả**, kết quả tệ nhất
+mà một phép thử bảo mật có thể cho ra.
 
-Payload dung phai dem chinh xac 5 cot cua bang `products` (`id`, `name`, `price`,
-`description`, `imageUrl`, `category_id` — 6 cot, chon 5 cot khop kieu) roi chon dung so cot
-tuong ung tu bang `users`. Do la buoc **trinh sat lay tu `database.js`**, khong the suy ra tu
-dac ta.
+Payload đúng phải đếm chính xác 5 cột của bảng `products` (`id`, `name`, `price`,
+`description`, `imageUrl`, `category_id` — 6 cột, chọn 5 cột khớp kiểu) rồi chọn đúng số cột
+tương ứng từ bảng `users`. Đó là bước **trinh sát lấy từ `database.js`**, không thể suy ra từ
+đặc tả.
 
-### `TC-C3-SEC-901` — do hau qua, khong chi do ma tra ve
+### `TC-C3-SEC-901` — đo hậu quả, không chỉ đo mã trả về
 
-Bo sinh da co case *"DELETE khong token -> phai 401"* va case do **da bat duoc bug**. Nhung
-mot dong `expected 401, got 200` trong bao cao khong noi len duoc muc do thiet hai. Case bo
-sung nay goi DELETE cho **ca 5 san pham** ma khong kem token, roi doc lai `GET /api/products`:
-neu danh sach rong thi mot nguoi hoan toan khong dang nhap vua xoa sach catalog cua cua hang.
+Bộ sinh đã có case *"DELETE không token → phải 401"* và case đó **đã bắt được bug**. Nhưng một
+dòng `expected 401, got 200` trong báo cáo không nói lên được mức độ thiệt hại. Case bổ sung
+này gọi DELETE cho **cả 5 sản phẩm** mà không kèm token, rồi đọc lại `GET /api/products`:
+nếu danh sách rỗng thì một người hoàn toàn không đăng nhập vừa xóa sạch catalog của cửa hàng.
 
-Cung mot bug, nhung bang chung nay moi du suc thuyet phuc nguoi ra quyet dinh uu tien sua.
+Cùng một bug, nhưng bằng chứng này mới đủ sức thuyết phục người ra quyết định ưu tiên sửa.
 
-## 6. Ket luan STEP 4
+## 6. Kết luận STEP 4
 
-- Da bo sung **18 case** (6/API, vuot yeu cau 5/API), tong bo test len **243 case**.
-- Ly do bo sot duoc phan tich cho **tung case**, khong gop chung chung.
-- Phat hien co gia tri nhat: **9/18 case thuoc nhom `API`** — bo sinh sinh test case doc lap,
-  trong khi mot nua so bug nghiem trong chi lo ra khi noi nhieu request lai voi nhau. Day la
-  gioi han **cau truc**, khong phai gioi han ve prompt hay ve mo hinh, va no duoc ghi thang
-  vao muc "Han che va huong mo rong" cua thiet ke bo sinh (`report/07_test_generator_design.md`).
-- **STEP ke tiep:** STEP 5 — dung Postman collection tu `testcases/API-*_final.csv`.
+- Em đã bổ sung **18 case** (6/API, vượt yêu cầu 5/API), tổng bộ test lên **243 case**.
+- Lý do bỏ sót được phân tích cho **từng case**, không gộp chung chung.
+- Phát hiện có giá trị nhất: **9/18 case thuộc nhóm `API`** — bộ sinh sinh test case độc lập,
+  trong khi một nửa số bug nghiêm trọng chỉ lộ ra khi nối nhiều request lại với nhau. Đây là
+  giới hạn **cấu trúc**, không phải giới hạn về prompt hay về mô hình, và em ghi thẳng nó
+  vào mục "Hạn chế và hướng mở rộng" của thiết kế bộ sinh (`report/07_test_generator_design.md`).
+- **STEP kế tiếp:** STEP 5 — dựng Postman collection từ `testcases/API-*_final.csv`.

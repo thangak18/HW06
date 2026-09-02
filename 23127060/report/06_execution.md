@@ -1,37 +1,40 @@
-# STEP 6 — Thuc thi bang Postman + Newman
+# STEP 6 — Thực thi bằng Postman + Newman
 
-> HW06 — API Testing | SV **Ninh Van Khai — 23127060** | De bai muc 6.4
+> HW06 — API Testing | SV **Ninh Văn Khải — 23127060** | Đề bài mục 6.4
 
-Moi con so trong tai lieu nay duoc sinh tu `newman/*.json` bang
-`agent-skill/eshop-api-23127060/scripts/summarize_newman.py`. Khong con so nao duoc go tay.
+Mọi con số trong tài liệu này được sinh từ `newman/*.json` bằng
+`agent-skill/eshop-api-23127060/scripts/summarize_newman.py`. Em không gõ tay con số nào.
+
+> Cột **Tiêu đề** trong mục 4 lấy nguyên văn từ `testcases/API-*_final.csv`, và cột
+> **Thông báo thất bại** là nguyên văn output của Newman — em giữ nguyên để làm bằng chứng.
 
 ---
 
-## 1. Bo test day du (Oracle = SPEC)
+## 1. Bộ test đầy đủ (Oracle = SPEC)
 
-Day la ket qua kiem thu that su: moi ky vong deu viet theo dac ta, nen cac case phoi bay
-bug cua SUT **se that bai** — do la muc dich cua chung.
+Đây là kết quả kiểm thử thật sự: mọi kỳ vọng đều viết theo đặc tả, nên các case phơi bày
+bug của SUT **sẽ thất bại** — đó là mục đích của chúng.
 
-| API | Case | Case PASS | Case FAIL | Assertion | Assertion FAIL | Thoi gian | Bao cao HTML |
+| API | Case | Case PASS | Case FAIL | Assertion | Assertion FAIL | Thời gian | Báo cáo HTML |
 |---|---|---|---|---|---|---|---|
 | API-1 | 70 | 33 | 37 | 328 | 51 | 3.0s | `newman/23127060_API-1_20260901-151823.html` |
 | API-2 | 87 | 34 | 53 | 413 | 78 | 3.6s | `newman/23127060_API-2_20260901-151831.html` |
 | API-3 | 86 | 17 | 69 | 405 | 105 | 6.0s | `newman/23127060_API-3_20260901-151839.html` |
-| **Tong** | **243** | **84** | **159** | **1146** | **234** | | |
+| **Tổng** | **243** | **84** | **159** | **1146** | **234** | | |
 
-Ty le case PASS: **35%** (84/243). Ty le assertion PASS: **80%** (912/1146).
+Tỷ lệ case PASS: **35%** (84/243). Tỷ lệ assertion PASS: **80%** (912/1146).
 
-## 2. Phan loai case that bai
+## 2. Phân loại case thất bại
 
-| API | FAIL tong | Co chu dich (`@bug`) | Ngoai du kien (`@contract`) |
+| API | FAIL tổng | Có chủ đích (`@bug`) | Ngoài dự kiến (`@contract`) |
 |---|---|---|---|
 | API-1 | 37 | 18 | 19 |
 | API-2 | 53 | 25 | 28 |
 | API-3 | 69 | 48 | 21 |
 
-## 3. Bug duoc phoi bay, theo ma bug
+## 3. Bug được phơi bày, theo mã bug
 
-| Ma bug | So case that bai phoi bay no | API |
+| Mã bug | Số case thất bại phơi bày nó | API |
 |---|---|---|
 | **A-01** | 2 | API-1 |
 | **A-02** | 1 | API-1 |
@@ -65,15 +68,15 @@ Ty le case PASS: **35%** (84/243). Ty le assertion PASS: **80%** (912/1146).
 | **C-12** | 4 | API-3 |
 | **X-01** | 3 | API-1, API-2, API-3 |
 
-## 4. That bai ngoai du kien — phai ra soat tung cai
+## 4. Thất bại ngoài dự kiến — em phải rà soát từng cái
 
-Day la cac case gan `@contract` (nghia la luc thiet ke toi nghi SUT dap ung duoc) nhung
-van that bai. Moi dong o day hoac la **mot bug chua co trong danh sach bug da biet**,
-hoac la **mot ky vong sai cua chinh test case**. Khong duoc bo qua.
+Đây là các case gắn `@contract` (nghĩa là lúc thiết kế em nghĩ SUT đáp ứng được) nhưng
+vẫn thất bại. Mỗi dòng ở đây hoặc là **một bug chưa có trong danh sách bug đã biết**,
+hoặc là **một kỳ vọng sai của chính test case**. Em không bỏ qua dòng nào.
 
 ### API-1 — 19 case
 
-| TC_ID | Tieu de | Thong bao that bai dau tien |
+| TC_ID | Tiêu đề | Thông báo thất bại đầu tiên |
 |---|---|---|
 | `TC-A1-DOM-003` | POST /api/forgot-password \| email =  (email rong) | expected response to have status code 400 but got 404 |
 | `TC-A1-DOM-004` | POST /api/forgot-password \| email = <thieu key> (thieu key email) | expected response to have status code 400 but got 404 |
@@ -97,7 +100,7 @@ hoac la **mot ky vong sai cua chinh test case**. Khong duoc bo qua.
 
 ### API-2 — 28 case
 
-| TC_ID | Tieu de | Thong bao that bai dau tien |
+| TC_ID | Tiêu đề | Thông báo thất bại đầu tiên |
 |---|---|---|
 | `TC-B2-DOM-001` | POST /api/checkout \| total_amount = 200000 (tong tien khop voi gio han | expected response to have status code 201 but got 200 |
 | `TC-B2-DOM-005` | POST /api/checkout \| total_amount = 200000 (tong tien sai kieu (string | expected response to have status code 400 but got 200 |
@@ -130,7 +133,7 @@ hoac la **mot ky vong sai cua chinh test case**. Khong duoc bo qua.
 
 ### API-3 — 21 case
 
-| TC_ID | Tieu de | Thong bao that bai dau tien |
+| TC_ID | Tiêu đề | Thông báo thất bại đầu tiên |
 |---|---|---|
 | `TC-C3-DOM-006` | POST /api/products \| name = A (BVA - 1 ky tu (duoi bien toi thieu)) | expected response to have status code 400 but got 200 |
 | `TC-C3-DOM-007` | POST /api/products \| name = A123456789A123456789A123456789A123456789 ( | expected response to have status code 201 but got 200 |
@@ -154,26 +157,26 @@ hoac la **mot ky vong sai cua chinh test case**. Khong duoc bo qua.
 | `TC-C3-DOM-043` | GET /api/products \| search =  (tu khoa rong - tra ve tat ca) | expected data to satisfy schema but found following errors:  data[7].name should be string |
 | `TC-C3-SEC-013` | [-] Gui kem truong id de ghi de khoa chinh | expected response to have status code 400 but got 200 |
 
-## 5. Bo hoi quy (`@contract`) — lan chay all-pass cho CI
+## 5. Bộ hồi quy (`@contract`) — lần chạy all-pass cho CI
 
-Bo nay gom cac test case ma SUT **hien dang dap ung**, duoc chot tu ket qua chay that
-bang `derive_contract.py`. No khong khang dinh 'API nay dung', ma khang dinh 'nhung dieu
-API nay dang lam dung thi khong duoc pha'. Day la lan chay duoc dung cho yeu cau
-'all API test cases passing' cua de bai muc 6.
+Bộ này gồm các test case mà SUT **hiện đang đáp ứng**, được chốt từ kết quả chạy thật
+bằng `derive_contract.py`. Nó không khẳng định 'API này đúng', mà khẳng định 'những điều
+API này đang làm đúng thì không được phá'. Đây là lần chạy em dùng cho yêu cầu
+'all API test cases passing' của đề bài mục 6.
 
-| API | Case | Assertion | Assertion FAIL | Bao cao HTML |
+| API | Case | Assertion | Assertion FAIL | Báo cáo HTML |
 |---|---|---|---|---|
 | API-1 | 33 | 163 | **0** | `newman/23127060_API-1_contract_20260901-151940.html` |
 | API-2 | 34 | 164 | **0** | `newman/23127060_API-2_contract_20260901-151946.html` |
 | API-3 | 17 | 79 | **0** | `newman/23127060_API-3_contract_20260901-151952.html` |
-| **Tong** | **84** | **406** | **0** | |
+| **Tổng** | **84** | **406** | **0** | |
 
-## 6. Lan chay data-driven (Postman Collection Runner / `newman -d`)
+## 6. Lần chạy data-driven (Postman Collection Runner / `newman -d`)
 
-| Bo | Data file | Vong lap | Request | Assertion | Assertion FAIL |
+| Bộ | Data file | Vòng lặp | Request | Assertion | Assertion FAIL |
 |---|---|---|---|---|---|
 | DD1 Brute force OTP | `postman/data/brute_force_tokens.csv` | 20 | 40 | 40 | 20 |
-| DD2 Bang chuyen trang thai FR-10 | `postman/data/state_transitions.csv` | 17 | 70 | 34 | 1 |
-| DD3 Lam dung han muc coupon | `postman/data/coupon_abuse.csv` | 4 | 7 | 8 | 2 |
-| DD4 Dau vao khong hop le POST /api/products | `postman/data/product_invalid.csv` | 7 | 20 | 14 | 7 |
+| DD2 Bảng chuyển trạng thái FR-10 | `postman/data/state_transitions.csv` | 17 | 70 | 34 | 1 |
+| DD3 Lạm dụng hạn mức coupon | `postman/data/coupon_abuse.csv` | 4 | 7 | 8 | 2 |
+| DD4 Đầu vào không hợp lệ POST /api/products | `postman/data/product_invalid.csv` | 7 | 20 | 14 | 7 |
 
