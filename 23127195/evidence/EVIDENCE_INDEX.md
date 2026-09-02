@@ -111,7 +111,8 @@ PY
 
 | Hạng mục | Vị trí |
 |---|---|
-| Commit log dạng text | [`git_commit_log.txt`](./git_commit_log.txt) |
+| Commit log dạng text | [`git_commit_log.txt`](./git_commit_log.txt) — 19 commit |
+| Script sinh lại file trên | [`scripts/export_git_log.py`](../scripts/export_git_log.py) — `python scripts/export_git_log.py` |
 
 Theo §12 của đề bài, mỗi bước của quy trình có một commit riêng. Bảng đối chiếu commit ↔ bước
 nằm ngay đầu file `git_commit_log.txt`.
