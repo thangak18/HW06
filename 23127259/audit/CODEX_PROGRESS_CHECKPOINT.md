@@ -48,7 +48,7 @@ PASS: 36 formal cases
 FAIL: 3 normative formal cases
 BLOCKED: 0
 Bugs: 3
-Issues: #1, #2, #3 (live; screenshot embedding update pending push)
+Issues: #1, #2, #3 (live; permanent commit-backed native screenshots embedded and verified)
 
 ## FR10 Canonical Accounting
 
@@ -106,17 +106,17 @@ Issues: NOT_YET_VERIFIED
 ## Git State
 
 Branch: `thang/hw06-implementation`
-HEAD: `57d6ea59e04c921b138258f8ed7990328f76ef53`
-Last meaningful commit: `57d6ea5 chore(23127259): quarantine INT-054 runner screenshots and record INT-055 native audit`
+HEAD: `d6b1b04` (full SHA to be refreshed after the issue-linkage commit)
+Last meaningful commit: `d6b1b04 audit(23127259): finalize FR02 compliance review`
 Working tree clean: NO
 Uncommitted paths: interrupted AI-audit files, three FR10 screenshots, and this checkpoint.
 
 ## External State
 
-SUT: NOT_YET_VERIFIED in this session.
-Postman: Native Runner screenshots verified visually; live app state not yet inspected in this session.
+SUT: Reachable through genuine FR02 and FR10 Postman Desktop Runner executions on `http://localhost:3000`.
+Postman: Live Desktop 11.89.0 controlled through Computer Use; FR02 native run and screenshots complete; FR10 strict run remains open and verified.
 GitHub Actions: NOT_YET_VERIFIED.
-Issues: NOT_YET_VERIFIED.
+Issues: FR02 #1/#2/#3 verified live and updated in place with permanent native screenshot embeds; FR10 #29/#30/#31 verified live but still reference stale screenshot hashes.
 
 ## Known Problems / Risks
 
@@ -136,4 +136,4 @@ Issues: NOT_YET_VERIFIED.
 
 ## NEXT EXACT ACTION
 
-Create a logical FR02 audit/evidence commit, push it, then update live Issues #1/#2/#3 to embed the immutable commit-backed native screenshots before beginning FR10 parsing.
+Commit and push the verified FR02 GitHub-issue linkage update, then parse FR10 provenance, canonical Run03, strict evidence, student-header coverage, and formal reconciliation directly from raw artifacts.
