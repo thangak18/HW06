@@ -21,7 +21,8 @@
 | **`adminToken`** | `""` (Empty) | `[SETUP] Login Admin` | `POST /api/auth/login` | All Admin Operations & Persistence GETs | YES | YES |
 | **`userAToken`** | `""` (Empty) | `[SETUP] Login User A` | `POST /api/auth/login` | Setup Checkout Requests, Cancellation & Verification GETs | YES | YES |
 | **`userBToken`** | `""` (Empty) | `[SETUP] Login User B` | `POST /api/auth/login` | Folder 07 Ownership Probes (`AI-033`, `AI-034`) | YES | YES |
-| **`guestToken`** | Synthetic Invalid JWT | Environment | None (Synthetic) | Folder 06 RBAC (`AI-032`) | YES | YES |
+| **`tamperedAdminToken`** | Dynamically Tampered JWT | Pre-request Script | Dynamic derivation from `adminToken` | Folder 05 SEC-02 (`AI-028`) | YES | YES |
+| **`guestToken`** | Synthetic Invalid JWT | Environment | None (Synthetic) | Legacy / Exploratory token | YES | YES |
 | **`order_FR10_AI_001` .. `_041`** | `""` (Unset) | Co-located Setup Item | `POST /api/checkout` (by User A) | Dedicated single formal case only | YES | YES |
 | **`order_FR10_HUM_001` .. `_005`** | `""` (Unset) | Co-located Setup Item | `POST /api/checkout` (by User A) | Dedicated single formal case only | YES | YES |
 | **`order_FR10_HUM_002_A`, `_B`** | `""` (Unset) | Co-located Setup Items | `POST /api/checkout` (by User A) | Dedicated to `FR10-HUM-002` only | YES | YES |
@@ -31,7 +32,11 @@
 ## 2. Strict Per-Case Setup Architecture
 
 Each formal test case containing a real order fixture operates through a dedicated, self-contained lifecycle sequence:
-1. `[FR10-xxx][SETUP-CREATE]` $ightarrow$ Clears case variable, creates fresh order via `POST /api/checkout`, fail-fast extracts ID into `order_FR10_xxx`.
-2. `[FR10-xxx][SETUP-CONFIRM / SHIP / DELIVER / CANCEL]` $ightarrow$ Preconditions state if starting state is non-pending.
-3. `[FR10-xxx][ACTION]` $ightarrow$ Performs formal mutation/probe under test.
-4. `[FR10-xxx][VERIFY]` $ightarrow$ Read-after-write persistence verification oracle.
+1. `[FR10-xxx][SETUP-CREATE]` $
+ightarrow$ Clears case variable, creates fresh order via `POST /api/checkout`, fail-fast extracts ID into `order_FR10_xxx`.
+2. `[FR10-xxx][SETUP-CONFIRM / SHIP / DELIVER / CANCEL]` $
+ightarrow$ Preconditions state if starting state is non-pending.
+3. `[FR10-xxx][ACTION]` $
+ightarrow$ Performs formal mutation/probe under test.
+4. `[FR10-xxx][VERIFY]` $
+ightarrow$ Read-after-write persistence verification oracle.

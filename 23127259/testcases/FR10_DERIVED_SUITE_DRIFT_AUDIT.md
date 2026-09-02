@@ -32,9 +32,9 @@ This audit establishes the definitive diff between Canonical Provenance, the Der
 | **FR10-AI-009** | Admin illegal skip pending -> shipping (`/api/admin/orders/:id/status`) | Admin illegal skip pending -> shipping | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
 | **FR10-AI-010** | Admin illegal skip pending -> delivered (`/api/admin/orders/:id/status`) | Admin illegal skip pending -> delivered | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
 | **FR10-AI-011** | Admin illegal skip confirmed -> delivered (`/api/admin/orders/:id/status`) | Admin illegal skip confirmed -> delivered | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
-| **FR10-AI-013** | Admin backward delivered -> confirmed (`/api/admin/orders/:id/status`) | Admin backward delivered -> confirmed | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
-| **FR10-AI-014** | Admin backward confirmed -> pending (`/api/admin/orders/:id/status`) | Admin backward confirmed -> pending | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
-| **FR10-AI-015** | Admin backward shipping -> confirmed (`/api/admin/orders/:id/status`) | Admin backward shipping -> confirmed | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
+| **FR10-AI-013** | Admin backward confirmed -> pending (`/api/admin/orders/:id/status`) | Admin backward confirmed -> pending | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
+| **FR10-AI-014** | Admin backward shipping -> confirmed (`/api/admin/orders/:id/status`) | Admin backward shipping -> confirmed | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
+| **FR10-AI-015** | Admin backward shipping -> pending (`/api/admin/orders/:id/status`) | Admin backward shipping -> pending | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
 | **FR10-AI-016** | Owner User cancel shipping (`/api/orders/:id/cancel`) -> 4xx | Owner User cancel shipping -> 4xx | PUT `/api/orders/:id/cancel` | NONE | **TRUSTWORTHY (FAIL – CANDIDATE-FR10-FSM-01)** |
 | **FR10-AI-017** | Admin terminal immutability: delivered -> pending | delivered -> pending | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |
 | **FR10-AI-018** | Admin terminal immutability: delivered -> confirmed | delivered -> confirmed | PUT `/api/admin/orders/:id/status` | NONE | TRUSTWORTHY (PASS) |

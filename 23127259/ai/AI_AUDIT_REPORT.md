@@ -380,3 +380,11 @@
 - **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2146, Output: Pending backfill)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-047`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-047-fr10-canonical-provenance-reconstruction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-047-fr10-canonical-provenance-reconstruction.md)
+
+### INT-048: Phase 2D.1D.3: FR-10 Canonical Derived-Suite + Collection Repair for Run 03
+- **Date & Time:** 2026-09-02 08:50:49+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1D.3: Static repair of Postman collection, final executable suite, environment, and derived traceability files against canonical provenance (`fr10_canonical_cases.json`); validation with 5 static validators
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2160, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-048`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-048-fr10-canonical-collection-repair-run03.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-048-fr10-canonical-collection-repair-run03.md)

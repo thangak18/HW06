@@ -35,9 +35,9 @@
 | FR10-AI-009 | YES | YES | **PASS** | YES | Illegal skip pending->shipping rejected (400) |
 | FR10-AI-010 | YES | YES | **PASS** | YES | Illegal skip pending->delivered rejected (400) |
 | FR10-AI-011 | YES | YES | **PASS** | YES | Illegal skip confirmed->delivered rejected (400) |
-| FR10-AI-013 | YES | YES | **PASS** | YES | Backward regression delivered->confirmed rejected (400) |
-| FR10-AI-014 | YES | YES | **PASS** | YES | Backward regression confirmed->pending rejected (400) |
-| FR10-AI-015 | YES | YES | **PASS** | YES | Backward regression shipping->confirmed rejected (400) |
+| FR10-AI-013 | YES | YES | **PASS** | YES | Backward regression confirmed->pending rejected (400) |
+| FR10-AI-014 | YES | YES | **PASS** | YES | Backward regression shipping->confirmed rejected (400) |
+| FR10-AI-015 | YES | YES | **PASS** | YES | Backward regression shipping->pending rejected (400) |
 | FR10-AI-016 | YES | YES | **FAIL – NORMATIVE ORACLE VIOLATION** | YES (CANDIDATE-FR10-FSM-01) | Owner cancel on shipping accepted (HTTP 200, state=canceled); FSM prohibits |
 | FR10-AI-017 | YES | YES | **PASS** | YES | Terminal immutability delivered->pending rejected (400) |
 | FR10-AI-018 | YES | YES | **PASS** | YES | Terminal immutability delivered->confirmed rejected (400) |
@@ -69,7 +69,7 @@
 | FR10-HUM-002 | YES | YES | **PASS** | YES | Order A mutated to confirmed; Order B remains pending |
 | FR10-HUM-003 | YES | YES | **FAIL – NORMATIVE ORACLE VIOLATION** | YES (CANDIDATE-FR10-FSM-01) | Customer cancellation on shipping order accepted (HTTP 200, state=canceled) |
 | FR10-HUM-004 | YES | YES | **EXPLORATORY OBSERVATION** | N/A | Same-state transition probe (confirmed->confirmed) handled safely (HTTP 400) |
-| FR10-HUM-005 | YES | YES | **EXPLORATORY OBSERVATION** | N/A | Non-JSON text/plain media type handled safely (HTTP 500) |
+| FR10-HUM-005 | YES | YES | **EXPLORATORY OBSERVATION** | N/A | HTTP 500 observed; persisted order did not enter an invalid lifecycle state. This is an exploratory robustness observation and is NOT automatically a normative FR-10 defect. |
 
 ---
 

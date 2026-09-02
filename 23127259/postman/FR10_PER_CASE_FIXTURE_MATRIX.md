@@ -37,11 +37,11 @@
 | **`FR10-AI-025`** | `order_FR10_AI_025` | User A | `pending` | None | Missing Auth on Admin Status (Rejected) | Admin | **NO** |
 | **`FR10-AI-026`** | `order_FR10_AI_026` | User A | `pending` | None | Malformed Bearer on Admin Status (Rejected) | Admin | **NO** |
 | **`FR10-AI-027`** | `order_FR10_AI_027` | User A | `pending` | None | Untrusted Signature on Admin Status (Rejected) | Admin | **NO** |
-| **`FR10-AI-028`** | `order_FR10_AI_028` | User A | `pending` | None | Missing Auth on Customer Cancel (Rejected) | User A | **NO** |
-| **`FR10-AI-029`** | `order_FR10_AI_029` | User A | `pending` | None | Malformed Bearer on Customer Cancel (Rejected) | User A | **NO** |
+| **`FR10-AI-028`** | `order_FR10_AI_028` | User A | `pending` | None | Tampered JWT on Admin Status (Rejected) | Admin | **NO** |
+| **`FR10-AI-029`** | `order_FR10_AI_029` | User A | `pending` | None | Missing Auth on Customer Cancel (Rejected) | Admin | **NO** |
 | **`FR10-AI-030`** | `order_FR10_AI_030` | User A | `pending` | None | Customer Token on Admin Status (Rejected) | Admin | **NO** |
-| **`FR10-AI-031`** | `order_FR10_AI_031` | User A | `pending` | None | Admin Token on Customer Cancel (Rejected) | Admin | **NO** |
-| **`FR10-AI-032`** | `order_FR10_AI_032` | User A | `pending` | None | Guest Token on Admin Status (Rejected) | Admin | **NO** |
+| **`FR10-AI-031`** | `order_FR10_AI_031` | User A | `pending` | None | Customer Token on Admin Cancel (Rejected) | Admin | **NO** |
+| **`FR10-AI-032`** | `order_FR10_AI_032` | User A | `pending` | Admin `confirmed` | Customer Token on Admin Shipping (Rejected) | Admin | **NO** |
 | **`FR10-AI-033`** | `order_FR10_AI_033` | User A | `pending` | None | Customer B Cancel on User A Order (Rejected) | User A | **NO** |
 | **`FR10-AI-034`** | `order_FR10_AI_034` | User A | `pending` | Admin `confirmed` | Customer B Cancel on User A Confirmed Order | User A | **NO** |
 | **`FR10-AI-035`** | `order_FR10_AI_035` | User A | `pending` | None | Invalid Enum `'processing'` (Rejected) | Admin | **NO** |

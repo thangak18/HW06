@@ -38,11 +38,11 @@
 | `FR10-AI-025` | AI-Generated | VALID | NONE | `05` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
 | `FR10-AI-026` | AI-Generated | VALID | NONE | `05` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
 | `FR10-AI-027` | AI-Generated | VALID | NONE | `05` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
-| `FR10-AI-028` | AI-Generated | VALID | NONE | `05` | `PUT /api/orders/{{orderId}}/cancel` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
+| `FR10-AI-028` | AI-Generated | VALID | NONE | `05` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture, Tamper JWT | GET /api/orders/:id -> `pending` | **YES** |
 | `FR10-AI-029` | AI-Generated | VALID | NONE | `05` | `PUT /api/orders/{{orderId}}/cancel` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
 | `FR10-AI-030` | AI-Generated | VALID | NONE | `06` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Login User A, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
-| `FR10-AI-031` | AI-Generated | VALID | NONE | `06` | `PUT /api/orders/{{orderId}}/cancel` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
-| `FR10-AI-032` | AI-Generated | VALID | NONE | `06` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
+| `FR10-AI-031` | AI-Generated | VALID | NONE | `06` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Login User A, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
+| `FR10-AI-032` | AI-Generated | VALID | NONE | `06` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Login User A, Create Order Fixture, Advance to confirmed | GET /api/orders/:id -> `confirmed` | **YES** |
 | `FR10-AI-033` | AI-Generated | INCOMPLETE | Refined as Business Auth / Accept any 4xx | `07` | `PUT /api/orders/{{orderAId}}/cancel` | Login Admin, Login User B, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |
 | `FR10-AI-034` | AI-Generated | INCOMPLETE | Refined as Business Auth / Accept any 4xx | `07` | `PUT /api/orders/{{orderAId}}/cancel` | Login Admin, Login User B, Create Order Fixture | GET /api/orders/:id -> `confirmed` | **YES** |
 | `FR10-AI-035` | AI-Generated | VALID | NONE | `08` | `PUT /api/admin/orders/{{orderId}}/status` | Login Admin, Create Order Fixture | GET /api/orders/:id -> `pending` | **YES** |

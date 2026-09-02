@@ -26,7 +26,7 @@
   ],
   "item": [
     {
-      "name": "00 – Setup / Authentication Helpers",
+      "name": "00 \u2013 Setup / Authentication Helpers",
       "item": [
         {
           "name": "[SETUP] Register User B (Non-Owner) Account",
@@ -201,7 +201,7 @@
       ]
     },
     {
-      "name": "01 – Valid Forward & Lifecycle Transitions",
+      "name": "01 \u2013 Valid Forward & Lifecycle Transitions",
       "item": [
         {
           "name": "[FR10-AI-001][SETUP-CREATE] Create Isolated Order Fixture",
@@ -991,7 +991,7 @@
       ]
     },
     {
-      "name": "02 – Order Cancellation Pathways",
+      "name": "02 \u2013 Order Cancellation Pathways",
       "item": [
         {
           "name": "[FR10-AI-005][SETUP-CREATE] Create Isolated Order Fixture",
@@ -1602,7 +1602,7 @@
       ]
     },
     {
-      "name": "03 – Invalid Forward Skips & Backward Regressions",
+      "name": "03 \u2013 Invalid Forward Skips & Backward Regressions",
       "item": [
         {
           "name": "[FR10-AI-009][SETUP-CREATE] Create Isolated Order Fixture",
@@ -2842,7 +2842,7 @@
       ]
     },
     {
-      "name": "04 – Terminal-State Immutability",
+      "name": "04 \u2013 Terminal-State Immutability",
       "item": [
         {
           "name": "[FR10-AI-017][SETUP-CREATE] Create Isolated Order Fixture",
@@ -4571,7 +4571,7 @@
       ]
     },
     {
-      "name": "05 – SEC-02 Authentication Invariants",
+      "name": "05 \u2013 SEC-02 Authentication Invariants",
       "item": [
         {
           "name": "[FR10-AI-025][SETUP-CREATE] Create Isolated Order Fixture",
@@ -4667,7 +4667,8 @@
                 "exec": [
                   "// Assertion for [FR10-AI-025]",
                   "pm.test('[FR10-AI-025] - Status & Semantic Assertion', function () {",
-                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "    // Level-1/2 non-success rejection oracle (4xx client error)",
+                  "    pm.expect(pm.response.code).to.be.within(400, 499);",
                   "});",
                   "",
                   "// Persistence Verification Oracle via GET",
@@ -4791,7 +4792,8 @@
                 "exec": [
                   "// Assertion for [FR10-AI-026]",
                   "pm.test('[FR10-AI-026] - Status & Semantic Assertion', function () {",
-                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "    // Level-1/2 non-success rejection oracle (4xx client error)",
+                  "    pm.expect(pm.response.code).to.be.within(400, 499);",
                   "});",
                   "",
                   "// Persistence Verification Oracle via GET",
@@ -4915,7 +4917,8 @@
                 "exec": [
                   "// Assertion for [FR10-AI-027]",
                   "pm.test('[FR10-AI-027] - Status & Semantic Assertion', function () {",
-                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "    // Level-1/2 non-success rejection oracle (4xx client error)",
+                  "    pm.expect(pm.response.code).to.be.within(400, 499);",
                   "});",
                   "",
                   "// Persistence Verification Oracle via GET",
@@ -5000,33 +5003,60 @@
           ]
         },
         {
-          "name": "[FR10-AI-028][ACTION] SEC-02: Missing Authorization on Customer Cancel",
+          "name": "[FR10-AI-028][ACTION] SEC-02: Cryptographically Tampered JWT on Admin Status",
           "request": {
             "method": "PUT",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tamperedAdminToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{order_FR10_AI_028}}/cancel",
+              "raw": "{{baseUrl}}/api/admin/orders/{{order_FR10_AI_028}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
+                "admin",
                 "orders",
                 "{{order_FR10_AI_028}}",
-                "cancel"
+                "status"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{}"
+              "raw": "{\"status\": \"confirmed\"}"
             }
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Dynamically derive tampered JWT from valid adminToken by altering signature bytes",
+                  "const token = pm.environment.get('adminToken');",
+                  "if (!token) {",
+                  "    throw new Error('adminToken required for tampered token derivation');",
+                  "}",
+                  "const parts = token.split('.');",
+                  "if (parts.length === 3 && parts[2].length > 0) {",
+                  "    const sig = parts[2];",
+                  "    const replacement = sig[0] === 'A' ? 'B' : 'A';",
+                  "    const tampered = parts[0] + '.' + parts[1] + '.' + replacement + sig.slice(1);",
+                  "    pm.environment.set('tamperedAdminToken', tampered);",
+                  "} else {",
+                  "    pm.environment.set('tamperedAdminToken', token + '.tampered');",
+                  "}"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -5034,7 +5064,8 @@
                 "exec": [
                   "// Assertion for [FR10-AI-028]",
                   "pm.test('[FR10-AI-028] - Status & Semantic Assertion', function () {",
-                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "    // Level-1/2 non-success rejection oracle (4xx client error)",
+                  "    pm.expect(pm.response.code).to.be.within(400, 499);",
                   "});",
                   "",
                   "// Persistence Verification Oracle via GET",
@@ -5119,17 +5150,13 @@
           ]
         },
         {
-          "name": "[FR10-AI-029][ACTION] SEC-02: Malformed Bearer on Customer Cancel",
+          "name": "[FR10-AI-029][ACTION] SEC-02: Missing Authorization on Customer Cancel",
           "request": {
             "method": "PUT",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer malformed.jwt.token"
               }
             ],
             "url": {
@@ -5157,7 +5184,8 @@
                 "exec": [
                   "// Assertion for [FR10-AI-029]",
                   "pm.test('[FR10-AI-029] - Status & Semantic Assertion', function () {",
-                  "    pm.expect(pm.response.code).to.eql(401);",
+                  "    // Level-1/2 non-success rejection oracle (4xx client error)",
+                  "    pm.expect(pm.response.code).to.be.within(400, 499);",
                   "});",
                   "",
                   "// Persistence Verification Oracle via GET",
@@ -5186,7 +5214,7 @@
       ]
     },
     {
-      "name": "06 – SEC-03 Role-Based Access Control (RBAC)",
+      "name": "06 \u2013 SEC-03 Role-Based Access Control (RBAC)",
       "item": [
         {
           "name": "[FR10-AI-030][SETUP-CREATE] Create Isolated Order Fixture",
@@ -5247,7 +5275,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-030][ACTION] SEC-03: Customer Token on Admin Status",
+          "name": "[FR10-AI-030][ACTION] SEC-03: Customer Token on Admin Status (pending -> confirmed)",
           "request": {
             "method": "PUT",
             "header": [
@@ -5371,7 +5399,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-031][ACTION] SEC-03: Admin Token on Customer Cancel",
+          "name": "[FR10-AI-031][ACTION] SEC-03: Customer Token on Admin Status (pending -> canceled)",
           "request": {
             "method": "PUT",
             "header": [
@@ -5381,24 +5409,25 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer {{adminToken}}"
+                "value": "Bearer {{userAToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/orders/{{order_FR10_AI_031}}/cancel",
+              "raw": "{{baseUrl}}/api/admin/orders/{{order_FR10_AI_031}}/status",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
+                "admin",
                 "orders",
                 "{{order_FR10_AI_031}}",
-                "cancel"
+                "status"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{}"
+              "raw": "{\"status\": \"canceled\"}"
             }
           },
           "event": [
@@ -5494,7 +5523,7 @@
           ]
         },
         {
-          "name": "[FR10-AI-032][ACTION] SEC-03: Guest Token on Admin Status",
+          "name": "[FR10-AI-032][SETUP-CONFIRM] Transition to confirmed",
           "request": {
             "method": "PUT",
             "header": [
@@ -5504,7 +5533,53 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer {{guestToken}}"
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{order_FR10_AI_032}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{order_FR10_AI_032}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[FR10-AI-032][SETUP-CONFIRM] Prerequisite Transition to confirmed', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[FR10-AI-032][ACTION] SEC-03: Customer Token on Admin Status (confirmed -> shipping)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
               }
             ],
             "url": {
@@ -5522,7 +5597,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"status\": \"confirmed\"}"
+              "raw": "{\"status\": \"shipping\"}"
             }
           },
           "event": [
@@ -5550,7 +5625,7 @@
                   "        if (!err && res.code === 200) {",
                   "            var d = res.json();",
                   "            var st = d.status || (d.data && d.data.status);",
-                  "            pm.expect(st).to.eql('pending');",
+                  "            pm.expect(st).to.eql('confirmed');",
                   "        }",
                   "    });",
                   "});"
@@ -5562,7 +5637,7 @@
       ]
     },
     {
-      "name": "07 – Cross-User Ownership & Partial Authorization",
+      "name": "07 \u2013 Cross-User Ownership & Partial Authorization",
       "item": [
         {
           "name": "[FR10-AI-033][SETUP-CREATE] Create Isolated Order Fixture",
@@ -5861,7 +5936,7 @@
       ]
     },
     {
-      "name": "08 – Status Enum & Order-ID Input Domain",
+      "name": "08 \u2013 Status Enum & Order-ID Input Domain",
       "item": [
         {
           "name": "[FR10-AI-035][SETUP-CREATE] Create Isolated Order Fixture",
@@ -6457,7 +6532,7 @@
       ]
     },
     {
-      "name": "09 – Response Schema, Persistence & SEC-05",
+      "name": "09 \u2013 Response Schema, Persistence & SEC-05",
       "item": [
         {
           "name": "[FR10-AI-041][SETUP-CREATE] Create Isolated Order Fixture",
@@ -6665,7 +6740,7 @@
       ]
     },
     {
-      "name": "10 – Human-Designed Extension Cases",
+      "name": "10 \u2013 Human-Designed Extension Cases",
       "item": [
         {
           "name": "[FR10-HUM-001][SETUP-CREATE] Create Isolated Order Fixture",

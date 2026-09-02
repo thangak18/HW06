@@ -24138,3 +24138,49 @@ new validator (validate_fr10_canonical_traceability.py), Run02 canonical reconci
 candidate re-evaluation, no collection repair, raw hash verification, git commit, end report]
 ```
 
+---
+
+## INT-048
+
+- **Interaction ID:** INT-048
+- **Date & Time:** 2026-09-02 08:50:49+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Stage:** Phase 2D.1D.3 – FR-10 Canonical Derived-Suite + Collection Repair for Run 03
+- **Detailed Interaction File:** `ai/interactions/INT-048-fr10-canonical-collection-repair-run03.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit Proceed with STATIC REPAIR ONLY.
+
+PHASE 2D.1D.3 – FR-10 CANONICAL DERIVED-SUITE + COLLECTION REPAIR FOR RUN 03
+
+Current canonical-provenance commit: 172bfb5
+
+DO NOT run Newman.
+DO NOT send HTTP traffic.
+DO NOT confirm bugs.
+DO NOT create GitHub Issues.
+DO NOT modify raw Run 01 / Run 02 evidence.
+DO NOT modify FR10_AI_DRAFT.md.
+
+Canonical provenance reconstruction established:
+- 42 collection cases semantically matched
+- 4 collection cases drifted: FR10-AI-028, FR10-AI-029, FR10-AI-031, FR10-AI-032
+- CANDIDATE-SEC02-01 = DROP – DERIVED ORACLE OVER-SPECIFICATION
+
+This interaction repairs all derived artifacts and the executable collection
+against the canonical machine-readable map.
+
+[Sections 1-34: AI Audit, immutable evidence gates, canonical authority, reconcile AI-013/014/015 docs,
+check all 46 canonical IDs before repair, repair derived final executable suite, repair AI-028 (tampered JWT),
+dynamic tampered token implementation, repair AI-029 (missing auth cancel), repair AI-031 (user on admin cancel),
+repair AI-032 (user on admin shipping), SEC-02 oracle repair AI-025..029 (relax strict 401 to 4xx),
+AI-025..027 unchanged semantics, AI-028 distinct, AI-029 distinct, SEC-03 3-case coverage,
+fix derived traceability files, correct Run02 derived history, SEC-02 candidate dropped,
+candidate wording discipline, HUM-005 wording correction, collection repair, environment repair,
+fixture preconditions, persistence verification, canonical validator hardening,
+canonical self-check validator, run all 5 static validators, collection parser report,
+Run03 artifact freeze, environment cleanliness, do not run Run03, git commit, end report]
+```
+

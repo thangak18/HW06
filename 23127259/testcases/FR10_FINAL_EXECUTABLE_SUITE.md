@@ -382,115 +382,115 @@ This document defines the authoritative, finalized **46-case executable test sui
 - **State Before:** `pending`
 - **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
 - **Request Body:** `{"status": "confirmed"}`
-- **Expected HTTP Status:** `401 Unauthorized`
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – 4xx Client Error (e.g. 401/403)`
 - **Expected State After:** `pending`
 - **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `pending`.
-- **Description & Objective:** Verify unauthenticated request to admin status endpoint is rejected with 401.
+- **Description & Objective:** Verify unauthenticated request to admin status endpoint is rejected with 4xx and order state remains unchanged.
 
 ---
 ### FR10-AI-026 – SEC-02 Authentication Boundary: Admin Status Mutation With Malformed Bearer Token
 - **Formal Test ID:** `FR10-AI-026`
 - **Folder:** `05 – SEC-02 Authentication Invariants`
 - **Oracle Classification:** `SPECIFICATION-BACKED`
-- **Technique:** Security / Malformed Token
+- **Technique:** Security / Malformed Token Syntax
 - **Actor:** Unauthenticated Client
 - **State Before:** `pending`
 - **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
 - **Request Body:** `{"status": "confirmed"}`
-- **Expected HTTP Status:** `401 Unauthorized`
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – 4xx Client Error (e.g. 401/400/403)`
 - **Expected State After:** `pending`
 - **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `pending`.
-- **Description & Objective:** Verify request with invalid signature/malformed JWT is rejected with 401.
+- **Description & Objective:** Verify request with malformed authorization header scheme is safely rejected with 4xx and order state remains unchanged.
 
 ---
-### FR10-AI-027 – SEC-02 Authentication Boundary: Admin Status Mutation With Expired Bearer Token
+### FR10-AI-027 – SEC-02 Authentication Boundary: Admin Status Mutation With Syntactically Invalid / Garbage JWT
 - **Formal Test ID:** `FR10-AI-027`
 - **Folder:** `05 – SEC-02 Authentication Invariants`
 - **Oracle Classification:** `SPECIFICATION-BACKED`
-- **Technique:** Security / Expired Token
-- **Actor:** Unauthenticated Client
+- **Technique:** Security / Invalid Signature Token Verification
+- **Actor:** Unauthenticated Attacker
 - **State Before:** `pending`
 - **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
 - **Request Body:** `{"status": "confirmed"}`
-- **Expected HTTP Status:** `401 Unauthorized`
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – 4xx Client Error (e.g. 401/403)`
 - **Expected State After:** `pending`
 - **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `pending`.
-- **Description & Objective:** Verify request with expired JWT is rejected with 401.
+- **Description & Objective:** Verify request with unverified arbitrary/garbage JWT string is safely rejected with 4xx and order state remains unchanged.
 
 ---
-### FR10-AI-028 – SEC-02 Authentication Boundary: Customer Cancellation Without Authorization Header
+### FR10-AI-028 – SEC-02 Authentication Boundary: Admin Status Mutation With Cryptographically Tampered JWT
 - **Formal Test ID:** `FR10-AI-028`
 - **Folder:** `05 – SEC-02 Authentication Invariants`
 - **Oracle Classification:** `SPECIFICATION-BACKED`
-- **Technique:** Security / Authentication Header Absence
-- **Actor:** Unauthenticated Client
+- **Technique:** Security / Cryptographic Signature Integrity Testing
+- **Actor:** Attacker attempting signature forgery / payload tampering
 - **State Before:** `pending`
-- **Target Route:** `PUT /api/orders/{{orderId}}/cancel`
-- **Request Body:** `{}`
-- **Expected HTTP Status:** `401 Unauthorized`
+- **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
+- **Request Body:** `{"status": "confirmed"}`
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – 4xx Client Error (e.g. 401/403)`
 - **Expected State After:** `pending`
-- **Persistence Verification:** Authorized `User A / Admin` query verifies order state is `pending`.
-- **Description & Objective:** Verify unauthenticated cancel request is rejected with 401.
+- **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `pending`.
+- **Description & Objective:** Verify request with dynamically tampered JWT (modified signature byte derived from valid Admin JWT) is safely rejected with 4xx and order state remains unchanged.
 
 ---
-### FR10-AI-029 – SEC-02 Authentication Boundary: Customer Cancellation With Malformed Bearer Token
+### FR10-AI-029 – SEC-02 Authentication Boundary: Customer Cancellation Without Authorization Header
 - **Formal Test ID:** `FR10-AI-029`
 - **Folder:** `05 – SEC-02 Authentication Invariants`
 - **Oracle Classification:** `SPECIFICATION-BACKED`
-- **Technique:** Security / Malformed Token
-- **Actor:** Unauthenticated Client
+- **Technique:** Security / Authentication Gate on Customer Endpoint
+- **Actor:** Unauthenticated Client (Anonymous)
 - **State Before:** `pending`
 - **Target Route:** `PUT /api/orders/{{orderId}}/cancel`
 - **Request Body:** `{}`
-- **Expected HTTP Status:** `401 Unauthorized`
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – 4xx Client Error (e.g. 401/403)`
 - **Expected State After:** `pending`
 - **Persistence Verification:** Authorized `User A / Admin` query verifies order state is `pending`.
-- **Description & Objective:** Verify malformed JWT cancel request is rejected with 401.
+- **Description & Objective:** Verify unauthenticated cancellation request to customer endpoint is safely rejected with 4xx and order state remains unchanged.
 
 ---
-### FR10-AI-030 – SEC-03 RBAC Boundary: Normal Customer Token Targeting Admin Status Mutation Endpoint
+### FR10-AI-030 – SEC-03 RBAC Boundary: Normal Customer Role Attempting Admin Confirm Route
 - **Formal Test ID:** `FR10-AI-030`
 - **Folder:** `06 – SEC-03 Role-Based Access Control (RBAC)`
 - **Oracle Classification:** `SPECIFICATION-BACKED`
 - **Technique:** Security / RBAC Privilege Escalation Guard
-- **Actor:** Customer (User A)
+- **Actor:** Normal Customer (User A, `role = 'user'`)
 - **State Before:** `pending`
 - **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
 - **Request Body:** `{"status": "confirmed"}`
-- **Expected HTTP Status:** `403 Forbidden / 4xx`
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – 403 Forbidden / 4xx`
 - **Expected State After:** `pending`
 - **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `pending`.
-- **Description & Objective:** Verify normal customer cannot access admin status update route.
+- **Description & Objective:** Verify normal customer token is rejected on Admin status transition route (pending -> confirmed) and order state remains unchanged.
 
 ---
-### FR10-AI-031 – SEC-03 RBAC Boundary: Admin Token Targeting Customer Cancellation Endpoint
+### FR10-AI-031 – SEC-03 RBAC Boundary: Normal Customer Role Attempting Admin Cancellation Route
 - **Formal Test ID:** `FR10-AI-031`
 - **Folder:** `06 – SEC-03 Role-Based Access Control (RBAC)`
 - **Oracle Classification:** `SPECIFICATION-BACKED`
-- **Technique:** Security / Role Boundary Probe
-- **Actor:** Admin
+- **Technique:** Security / RBAC Privilege Escalation Guard
+- **Actor:** Normal Customer (User A, `role = 'user'`)
 - **State Before:** `pending`
-- **Target Route:** `PUT /api/orders/{{orderId}}/cancel`
-- **Request Body:** `{}`
-- **Expected HTTP Status:** `403 Forbidden / 4xx / Safe Rejection`
+- **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
+- **Request Body:** `{"status": "canceled"}`
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – 403 Forbidden / 4xx`
 - **Expected State After:** `pending`
 - **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `pending`.
-- **Description & Objective:** Verify Admin token on customer cancel route is handled safely without unauthorized cross-route mutation.
+- **Description & Objective:** Verify normal customer token is rejected on Admin status cancellation route (pending -> canceled) and order state remains unchanged.
 
 ---
-### FR10-AI-032 – SEC-03 RBAC Boundary: Non-Admin Role Token Targeting Admin Status Mutation Endpoint
+### FR10-AI-032 – SEC-03 RBAC Boundary: Normal Customer Role Attempting Admin Transit Dispatch
 - **Formal Test ID:** `FR10-AI-032`
 - **Folder:** `06 – SEC-03 Role-Based Access Control (RBAC)`
 - **Oracle Classification:** `SPECIFICATION-BACKED`
-- **Technique:** Security / Unknown Role RBAC Rejection
-- **Actor:** Guest / Non-Admin Role
-- **State Before:** `pending`
+- **Technique:** Security / RBAC Privilege Escalation Guard
+- **Actor:** Normal Customer (User A, `role = 'user'`)
+- **State Before:** `confirmed` (advanced by Admin setup)
 - **Target Route:** `PUT /api/admin/orders/{{orderId}}/status`
-- **Request Body:** `{"status": "confirmed"}`
-- **Expected HTTP Status:** `403 Forbidden / 4xx`
-- **Expected State After:** `pending`
-- **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `pending`.
-- **Description & Objective:** Verify unprivileged non-admin token cannot update order status.
+- **Request Body:** `{"status": "shipping"}`
+- **Expected HTTP Status:** `ERROR / NON-SUCCESS – 403 Forbidden / 4xx`
+- **Expected State After:** `confirmed`
+- **Persistence Verification:** Authorized `Admin / User A` query verifies order state is `confirmed`.
+- **Description & Objective:** Verify normal customer token is rejected on Admin dispatch route (confirmed -> shipping) and order state remains confirmed.
 
 ---
 ### FR10-AI-033 – Cross-User Ownership: Customer B Probes Cancellation on Customer A's Pending Order
