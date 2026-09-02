@@ -46,6 +46,7 @@ IN_PROGRESS
 - Verified candidate raw draft: 42 continuous AI cases, SHA-256 `95ac502b0880efcc1c6ceb040a1171eeacebff5c262a5f6df8d49a86cadcaf70`.
 - Classified Anti artifacts: raw generation VERIFIED_COMPLETE; requirement analysis/audit/canonical/collection VERIFIED_PARTIAL; Run01 historical with untrustworthy manually written exit proof and exposed secrets; uncommitted Run02 historical with mixed weak oracles and exposed secrets; screenshot attempts INVALID/STALE (one shows Chrome/Facebook, others show FR02 or incomplete Runner setup rather than FR14 results).
 - Senior QA integration decision: reject raw Run01/Run02 and all candidate screenshots as final evidence; preserve candidate branch/worktree unchanged; reconstruct selected verified FR14 artifacts on the primary branch using honest generation -> audit -> extension -> execution commits.
+- Integrated the immutable FR14 raw draft and completed a fresh Human Audit of all 42 cases: 3 VALID, 2 INVALID, 37 INCOMPLETE, 40 usable after corrections. `TC-FR14-034` (duplicate/mislabelled IDOR) and `TC-FR14-036` (unspecified destructive referential test) are rejected.
 
 ## FR02 Canonical Accounting
 
@@ -81,12 +82,12 @@ Issues: #29, #30, #31 (live; permanent commit-backed native screenshots embedded
 
 ## FR14 Canonical Accounting
 
-Raw AI: NOT_YET_VERIFIED
-Audited: candidate audit rejected; Senior QA re-audit pending
-VALID: NOT_YET_VERIFIED
-INVALID: NOT_YET_VERIFIED
-INCOMPLETE: NOT_YET_VERIFIED
-Usable AI: NOT_YET_VERIFIED
+Raw AI: 42
+Audited: 42
+VALID: 3
+INVALID: 2
+INCOMPLETE: 37
+Usable AI: 40
 Human: NOT_YET_VERIFIED
 Formal: NOT_YET_VERIFIED
 PASS: NOT_YET_VERIFIED
@@ -137,7 +138,7 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 ## Known Problems / Risks
 
 - Historical Run03 and strict JSON/HTML contain resolved runtime tokens. They remain immutable by instruction and require explicit legacy-risk documentation; final Run04 is disclosure-controlled.
-- FR14 raw draft is salvageable, but its current 39 VALID / 3 INCOMPLETE audit is not source-compliant. Exact status/schema and implementation-derived oracles require reclassification; duplicate RBAC case TC-FR14-034, referential-integrity case TC-FR14-036, and dependent Human H07 are rejection candidates.
+- FR14 Human Audit is repaired; Human gap analysis/extension selection, canonical suite, and collection still need reconstruction. Candidate Human H07 depends on rejected TC-FR14-036 and will be excluded.
 - Candidate Run01/Run02 JSON/HTML expose resolved JWTs and passwords and will not be integrated as final evidence.
 - Existing AI-interaction logs contain pending transcript backfills that require evidence-based resolution without invention.
 
@@ -152,4 +153,4 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 
 ## NEXT EXACT ACTION
 
-Selectively restore the immutable FR14 raw draft, generation coverage, and recoverable interaction records from commit `75203b4`; add a corrected Level-1 requirement analysis and integration manifest; verify the raw hash/count; then create the honest FR14 generation-stage commit on the primary branch.
+Commit and push the reconstructed FR14 Human Audit, then audit the seven candidate Human cases against the corrected gap analysis, retain six meaningful cases, exclude H07, and build the 46-case canonical provenance map/final suite in the Human-extension commit.
