@@ -86,6 +86,18 @@ because this homework targets the backend API."*
 lam bai, bang phan cong con de `TODO` o ca ba dong thanh vien nen **khong the doi chieu tu dong**.
 Bo ba (FR-03, FR-08, FR-15) can duoc **xac nhan mieng voi hai thanh vien con lai truoc khi nop**.
 
+**Cap nhat (02/09/2026, sau khi merge `origin/main`):** bang phan cong da duoc dien day du,
+nen **da doi chieu duoc**. Ba bo API cua nhom:
+
+| SV | Pool A | Pool B | Pool C |
+|---|---|---|---|
+| **23127060** (SV nay) | FR-03 | FR-08 | FR-15 |
+| 23127195 | FR-04 | FR-09 | FR-16 |
+| 23127259 | FR-02 | FR-10 | FR-14 |
+
+**Khong co FR nao trung nhau** giua ba thanh vien -> thoa rang buoc muc 5 cua de bai.
+Rui ro mo neu tren **da duoc dong**.
+
 Chi tiet: [`report/01_api_selection.md`](01_api_selection.md).
 
 ## 3. Sinh test case bang AI — bon vong rieng biet

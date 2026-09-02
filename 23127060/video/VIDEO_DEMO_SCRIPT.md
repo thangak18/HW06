@@ -1,6 +1,6 @@
 # Kịch bản Video Demo HW06 (Thời lượng: >= 6 phút)
 
-**Sinh viên:** TODO  
+**Sinh viên:** Ninh Văn Khải  
 **MSSV:** 23127060  
 **Bài tập:** HW06 – API Testing (EShop SUT)  
 **Yêu cầu:** Tự thuyết minh tiếng Việt, quay trực tiếp màn hình thực thi Postman, Newman CLI và header `X-Student-Id: 23127060`.

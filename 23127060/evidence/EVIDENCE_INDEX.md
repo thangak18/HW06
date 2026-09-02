@@ -1,6 +1,6 @@
 # Evidence Index & Anti-Cheat Verification
 
-**Student:** TODO  
+**Student:** Ninh Văn Khải  
 **Student ID:** 23127060  
 
 ---

@@ -122,6 +122,18 @@ Bo ba (FR-03, FR-08, FR-15) da duoc chot trong `CLAUDE.md` va `SKILL.md` cua rie
 23127060; SV chiu trach nhiem xac nhan mieng voi 2 thanh vien con lai truoc khi nop.
 Day la **rui ro mo** duoc theo doi, khong phai loi ky thuat.
 
+**Cap nhat (02/09/2026, sau khi merge `origin/main`):** bang phan cong da duoc dien day du,
+nen **da doi chieu duoc**. Ba bo API cua nhom:
+
+| SV | Pool A | Pool B | Pool C |
+|---|---|---|---|
+| **23127060** (SV nay) | FR-03 | FR-08 | FR-15 |
+| 23127195 | FR-04 | FR-09 | FR-16 |
+| 23127259 | FR-02 | FR-10 | FR-14 |
+
+**Khong co FR nao trung nhau** giua ba thanh vien -> thoa rang buoc muc 5 cua de bai.
+Rui ro mo neu tren **da duoc dong**.
+
 ## 6. Kiem chung so bo bang request that
 
 Truoc khi sinh test case, da chay mot loat `curl` de xac minh cac bug ghi trong

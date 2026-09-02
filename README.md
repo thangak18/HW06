@@ -26,7 +26,7 @@
 | Member | Full Name | Student ID | GitHub Handle | Pool A (Auth / Catalog) | Pool B (Cart / Order) | Pool C (Admin) | Personal Workspace |
 |---|---|---|---|---|---|---|---|
 | **Member 1** | Nguyễn Tấn Thắng | 23127259 | @thangak18 | TODO | TODO | TODO | [`23127259/`](./23127259/) |
-| **Member 2** | TODO | 23127060 | TODO | TODO | TODO | TODO | [`23127060/`](./23127060/) |
+| **Member 2** | Ninh Văn Khải | 23127060 | @nvkhai238 | **FR-03** — Quên & đặt lại mật khẩu<br>`POST /api/forgot-password`<br>`POST /api/reset-password` | **FR-08** — Thanh toán<br>`POST /api/checkout` | **FR-15** — Quản lý sản phẩm<br>`POST/PUT/DELETE /api/products` | [`23127060/`](./23127060/) |
 | **Member 3** | TODO | 23127195 | @hungtmh | **FR-04** — Hồ sơ cá nhân<br>`GET/PUT /api/users/me` | **FR-09** — Mã giảm giá<br>`POST /api/apply-coupon` | **FR-16** — Import sản phẩm<br>`POST /api/admin/import-products` | [`23127195/`](./23127195/) |
 
 ---

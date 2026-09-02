@@ -9,7 +9,7 @@ This document tracks the API feature assignments for each member of the team to 
 | Member | Student Name | Student ID | GitHub Handle | Pool A Feature (Auth / Prod) | Pool B Feature (Cart / Order) | Pool C Feature (Admin) | Personal Workspace |
 |---|---|---|---|---|---|---|---|
 | **Member 1** | Nguyễn Tấn Thắng | 23127259 | @thangak18 | TODO | TODO | TODO | [`23127259/`](../23127259/) |
-| **Member 2** | TODO | 23127060 | TODO | TODO | TODO | TODO | [`23127060/`](../23127060/) |
+| **Member 2** | Ninh Văn Khải | 23127060 | @nvkhai238 | **FR-03** — Quên & đặt lại mật khẩu<br>`POST /api/forgot-password`<br>`POST /api/reset-password` | **FR-08** — Thanh toán<br>`POST /api/checkout` | **FR-15** — Quản lý sản phẩm<br>`POST/PUT/DELETE /api/products` | [`23127060/`](../23127060/) |
 | **Member 3** | TODO | 23127195 | TODO | TODO | TODO | TODO | [`23127195/`](../23127195/) |
 
 ---
