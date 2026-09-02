@@ -13,7 +13,7 @@ chiếu nhanh. Cột *Kiểm chứng bằng cách nào* nêu rõ cách xác minh
 | 1b | **Log console** của header | ✅ Có | [`newman/*.console.log`](../newman/) | `grep "X-Student-Id" newman/api1_*.console.log` → mỗi request một dòng |
 | 1c | **Ảnh chụp Postman Console** | ⚠️ **SV phải tự chụp** | `evidence/postman_console.png` | Xem hướng dẫn §3 dưới đây |
 | 2 | **Newman output với hostname khớp deployment** | ✅ Có | [`newman/`](../newman/) | Mọi URL trong log đều là `http://localhost:3000` — `localhost` được đề bài chấp nhận |
-| 3 | **Sơ đồ tự vẽ** | ⚠️ **SV phải tự vẽ** | `agent-skill/diagram/` | Thư mục cố ý **không** chứa sơ đồ do AI sinh — xem [`diagram/README.md`](../agent-skill/diagram/README.md) |
+| 3 | **Sơ đồ tự vẽ** | ✅ Có | [`agent-skill/diagram/ai_test_generator_diagram.png`](../agent-skill/diagram/ai_test_generator_diagram.png) | SV tự dựng bằng draw.io; kèm file nguồn `.drawio` mở lại được để kiểm chứng. Repo không chứa bản vẽ do AI sinh |
 
 ## 2. Bằng chứng thi hành
 
@@ -47,7 +47,7 @@ PY
 | Báo cáo 24 lỗi | [`bugs/BUG_REPORTS.md`](../bugs/BUG_REPORTS.md) | Mỗi lỗi có: mức độ, điều khoản vi phạm, bước tái hiện, kết quả kỳ vọng/thực tế, tác động, vị trí trong mã nguồn, đề xuất sửa |
 | **Script tái hiện độc lập** | [`bugs/reproduce_bugs.sh`](../bugs/reproduce_bugs.sh) | Chỉ dùng `curl` — người chấm **không cần cài Postman** |
 | Output tái hiện thật | [`bugs/evidence/reproduce_output.txt`](../bugs/evidence/reproduce_output.txt) | 145 dòng, chạy lúc 2026-09-01 20:11:32 +0700 |
-| Nội dung 24 GitHub Issue | [`bugs/GITHUB_ISSUES.md`](../bugs/GITHUB_ISSUES.md) | Sẵn sàng dán |
+| **24 GitHub Issue đã tạo thật** | [issue #5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195) | ✅ Nhãn `hw06-23127195`; nội dung gốc tại [`bugs/GITHUB_ISSUES.md`](../bugs/GITHUB_ISSUES.md) |
 | Ảnh chụp lỗi | `bugs/screenshots/` | ⚠️ **SV phải tự chụp** |
 
 **Cách kiểm chứng:**

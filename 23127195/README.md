@@ -70,14 +70,14 @@
 | 1 | **API 1** — trọn quy trình (sinh + audit + mở rộng + thi hành + báo lỗi) | 30 | **28** | 45 test case (35 AI + 10 SV) · 25 PASS / 20 FAIL · 5 lỗi gồm 1 Critical · audit đủ nhãn kèm lý do · thi hành thật |
 | 2 | **API 2** — trọn quy trình | 30 | **28** | 50 test case (39 AI + 11 SV) · bảng quyết định 5 điều kiện C1–C5 đầy đủ · oracle số học · 8 lỗi gồm 2 Critical |
 | 3 | **API 3** — trọn quy trình | 30 | **28** | 49 test case (36 AI + 13 SV) · kiểm chứng tính nguyên tử của giao dịch · 11 lỗi gồm 1 Critical |
-| 4 | **Agent Skill** — bộ sinh test case bằng AI | 10 | **8** | Thiết kế 6 giai đoạn + pseudocode + **cài đặt tham chiếu chạy được** (`generator.py --demo` sinh 44 case, 0 lỗi kiểm tra). Trừ điểm vì **sơ đồ chưa vẽ** và **video chưa quay** |
-| | **Tổng** | **100** | **92** | |
+| 4 | **Agent Skill** — bộ sinh test case bằng AI | 10 | **9** | Thiết kế 6 giai đoạn + pseudocode + **cài đặt tham chiếu chạy được** (`generator.py --demo` sinh 44 case, 0 lỗi kiểm tra) + **sơ đồ tự vẽ đã xong**. Trừ điểm vì **video chưa quay** |
+| | **Tổng** | **100** | **93** | |
 
 > ⚠ **Điểm tự đánh giá ở trên giả định các hạng mục thủ công đã hoàn tất.**
-> Nếu chưa vẽ sơ đồ / chưa tạo GitHub Issues / chưa có ảnh chụp CI, hãy **hạ điểm tương ứng**
+> Sơ đồ và GitHub Issues nay **đã xong**. Nếu chưa có ảnh chụp CI / ảnh chụp issue / video, hãy **hạ điểm tương ứng**
 > trước khi đặt tên file nộp. Xem danh sách ở mục *Việc còn phải tự làm* bên dưới.
 >
-> **Tên file nộp:** `23127195_HW06_AI_API_092.zip` *(đổi `092` theo điểm tự đánh giá cuối cùng)*
+> **Tên file nộp:** `23127195_HW06_AI_API_093.zip` *(đổi `093` theo điểm tự đánh giá cuối cùng)*
 
 ---
 
@@ -147,9 +147,10 @@ python agent-skill/pseudocode/generator.py --demo
 Theo §11 (Anti-AI-Cheat) của đề bài, những hạng mục sau **bắt buộc do người thật thực hiện** và
 TA sẽ kiểm tra khi chấm:
 
-- [ ] **Vẽ sơ đồ** bộ sinh test case → [`agent-skill/diagram/README.md`](./agent-skill/diagram/README.md) có danh sách kiểm tra nội dung
+- [x] ~~**Vẽ sơ đồ** bộ sinh test case~~ → ✅ **xong**: [`agent-skill/diagram/ai_test_generator_diagram.png`](./agent-skill/diagram/ai_test_generator_diagram.png) (kèm nguồn `.drawio`), đã nhúng vào báo cáo chính §4
 - [ ] **Chụp Postman Console** hiển thị `[X-Student-Id] 23127195 -> ...` → lưu vào `evidence/`
-- [ ] **Tạo 24 GitHub Issue** + đính ảnh chụp mỗi issue → nội dung sẵn tại [`bugs/GITHUB_ISSUES.md`](./bugs/GITHUB_ISSUES.md)
+- [x] ~~**Tạo 24 GitHub Issue**~~ → ✅ **xong**: [issue #5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195), nhãn `hw06-23127195`
+- [ ] **Đính ảnh chụp vào từng issue** (API không đính được ảnh) → mở từng issue ở link trên, kéo thả ảnh, lưu bản sao vào `bugs/screenshots/`
 - [ ] **Push để chạy CI** rồi chụp 2 lần chạy (một xanh, một đỏ đúng 1 test) → [`ci/CI_CD_REPORT.md`](./ci/CI_CD_REPORT.md) §4–5
 - [ ] **Quay video demo** Agent Skill và lấy link YouTube → [`video/VIDEO_DEMO_SCRIPT.md`](./video/VIDEO_DEMO_SCRIPT.md)
 - [ ] **Xác nhận không trùng API** với 23127060 và 23127259

@@ -14,36 +14,36 @@
 | Mức độ | Số lượng | Mã lỗi |
 |---|---|---|
 | 🔴 **Critical** | 4 | BUG-A1-01, BUG-A2-01, BUG-A2-02, BUG-A3-01 |
-| 🟠 **High** | 6 | BUG-A1-02, BUG-A2-03, BUG-A2-04, BUG-A2-05, BUG-A3-02, BUG-A3-03, BUG-A3-09 |
-| 🟡 **Medium** | 9 | BUG-A1-03, BUG-A1-04, BUG-A1-05, BUG-A2-08, BUG-A3-04, BUG-A3-05, BUG-A3-08, BUG-A3-11 |
+| 🟠 **High** | 7 | BUG-A1-02, BUG-A2-03, BUG-A2-04, BUG-A2-05, BUG-A3-02, BUG-A3-03, BUG-A3-09 |
+| 🟡 **Medium** | 8 | BUG-A1-03, BUG-A1-04, BUG-A1-05, BUG-A2-08, BUG-A3-04, BUG-A3-05, BUG-A3-08, BUG-A3-11 |
 | ⚪ **Low** | 5 | BUG-A2-06, BUG-A2-07, BUG-A3-06, BUG-A3-07, BUG-A3-10 |
 
-| # | Mã | Mức | API | Vi phạm | Tiêu đề |
-|---|---|---|---|---|---|
-| 1 | BUG-A1-01 | 🔴 Critical | FR-04 | SEC-06 | Leo quyền lên admin qua trường `role` trong `PUT /api/users/me` |
-| 2 | BUG-A1-02 | 🟠 High | FR-04 | SEC-01 | `GET /api/users/me` trả về mật khẩu plaintext và `reset_token` |
-| 3 | BUG-A1-03 | 🟡 Medium | FR-04 | FR-04 | Không kiểm tra định dạng số điện thoại |
-| 4 | BUG-A1-04 | 🟡 Medium | FR-04 | FR-04 | Không kiểm tra họ tên (rỗng / khoảng trắng / sai kiểu) |
-| 5 | BUG-A1-05 | 🟡 Medium | FR-04 | FR-04 | Cập nhật một phần xoá trắng các trường không gửi |
-| 6 | BUG-A2-01 | 🔴 Critical | FR-09 | C4, SEC-02 | `POST /api/apply-coupon` không yêu cầu đăng nhập |
-| 7 | BUG-A2-02 | 🔴 Critical | FR-09 | FR-09 | Công thức giảm giá `percent` sai → giảm giá **âm** |
-| 8 | BUG-A2-03 | 🟠 High | FR-09 | C3 | Ngưỡng đơn hàng dùng `>` thay vì `>=` |
-| 9 | BUG-A2-04 | 🟠 High | FR-09 | C5 | Bỏ `user_id` là vô hiệu hoá hoàn toàn giới hạn số lượt |
-| 10 | BUG-A2-05 | 🟠 High | FR-09 | C5, SEC-02 | IDOR: mượn lượt dùng mã của người khác qua `user_id` |
-| 11 | BUG-A2-06 | ⚪ Low | FR-09 | FR-09 | Thứ tự kiểm tra điều kiện gây thông báo lỗi sai lệch |
-| 12 | BUG-A2-07 | ⚪ Low | FR-09 | — | Mã giảm giá phân biệt chữ hoa/thường |
-| 13 | BUG-A2-08 | 🟡 Medium | FR-09 | — | Tràn số với `total_amount` lớn |
-| 14 | BUG-A3-01 | 🔴 Critical | FR-16 | SEC-03, FR-12 | Người dùng thường import được sản phẩm lên cửa hàng |
-| 15 | BUG-A3-02 | 🟠 High | FR-16 | FR-16 | Import **không nguyên tử** — không rollback khi có dòng lỗi |
-| 16 | BUG-A3-03 | 🟠 High | FR-16 | FR-16 | Không kiểm tra `price` (0 / âm / thiếu / null) |
-| 17 | BUG-A3-04 | 🟡 Medium | FR-16 | FR-16 | `price` là chuỗi phi số vẫn được ghi vào cột số |
-| 18 | BUG-A3-05 | 🟡 Medium | FR-16 | FR-15 | Không kiểm tra khoá ngoại `category_id` |
-| 19 | BUG-A3-06 | ⚪ Low | FR-16 | FR-16 | Tên toàn khoảng trắng lọt qua phép kiểm tra |
-| 20 | BUG-A3-07 | ⚪ Low | FR-16 | FR-15 | Không giới hạn 255 ký tự cho tên sản phẩm |
-| 21 | BUG-A3-08 | 🟡 Medium | FR-16 | FR-16 | Thiếu `category_id` bị âm thầm gán mặc định |
-| 22 | BUG-A3-09 | 🟠 High | FR-16 | — | Phần tử `null` trong mảng gây crash 500 và **lộ stack trace** |
-| 23 | BUG-A3-10 | ⚪ Low | FR-16 | — | Mất chính xác với `price` vượt khoảng số nguyên an toàn |
-| 24 | BUG-A3-11 | 🟡 Medium | FR-16 | SEC-04 | `imageUrl` chấp nhận giao thức `javascript:` |
+| # | Mã | Mức | API | Vi phạm | Tiêu đề | Issue |
+|---|---|---|---|---|---|---|
+| 1 | BUG-A1-01 | 🔴 Critical | FR-04 | SEC-06 | Leo quyền lên admin qua trường `role` trong `PUT /api/users/me` | [#5](https://github.com/thangak18/HW06/issues/5) |
+| 2 | BUG-A1-02 | 🟠 High | FR-04 | SEC-01 | `GET /api/users/me` trả về mật khẩu plaintext và `reset_token` | [#6](https://github.com/thangak18/HW06/issues/6) |
+| 3 | BUG-A1-03 | 🟡 Medium | FR-04 | FR-04 | Không kiểm tra định dạng số điện thoại | [#7](https://github.com/thangak18/HW06/issues/7) |
+| 4 | BUG-A1-04 | 🟡 Medium | FR-04 | FR-04 | Không kiểm tra họ tên (rỗng / khoảng trắng / sai kiểu) | [#8](https://github.com/thangak18/HW06/issues/8) |
+| 5 | BUG-A1-05 | 🟡 Medium | FR-04 | FR-04 | Cập nhật một phần xoá trắng các trường không gửi | [#9](https://github.com/thangak18/HW06/issues/9) |
+| 6 | BUG-A2-01 | 🔴 Critical | FR-09 | C4, SEC-02 | `POST /api/apply-coupon` không yêu cầu đăng nhập | [#10](https://github.com/thangak18/HW06/issues/10) |
+| 7 | BUG-A2-02 | 🔴 Critical | FR-09 | FR-09 | Công thức giảm giá `percent` sai → giảm giá **âm** | [#11](https://github.com/thangak18/HW06/issues/11) |
+| 8 | BUG-A2-03 | 🟠 High | FR-09 | C3 | Ngưỡng đơn hàng dùng `>` thay vì `>=` | [#12](https://github.com/thangak18/HW06/issues/12) |
+| 9 | BUG-A2-04 | 🟠 High | FR-09 | C5 | Bỏ `user_id` là vô hiệu hoá hoàn toàn giới hạn số lượt | [#13](https://github.com/thangak18/HW06/issues/13) |
+| 10 | BUG-A2-05 | 🟠 High | FR-09 | C5, SEC-02 | IDOR: mượn lượt dùng mã của người khác qua `user_id` | [#14](https://github.com/thangak18/HW06/issues/14) |
+| 11 | BUG-A2-06 | ⚪ Low | FR-09 | FR-09 | Thứ tự kiểm tra điều kiện gây thông báo lỗi sai lệch | [#15](https://github.com/thangak18/HW06/issues/15) |
+| 12 | BUG-A2-07 | ⚪ Low | FR-09 | — | Mã giảm giá phân biệt chữ hoa/thường | [#16](https://github.com/thangak18/HW06/issues/16) |
+| 13 | BUG-A2-08 | 🟡 Medium | FR-09 | — | Tràn số với `total_amount` lớn | [#17](https://github.com/thangak18/HW06/issues/17) |
+| 14 | BUG-A3-01 | 🔴 Critical | FR-16 | SEC-03, FR-12 | Người dùng thường import được sản phẩm lên cửa hàng | [#18](https://github.com/thangak18/HW06/issues/18) |
+| 15 | BUG-A3-02 | 🟠 High | FR-16 | FR-16 | Import **không nguyên tử** — không rollback khi có dòng lỗi | [#19](https://github.com/thangak18/HW06/issues/19) |
+| 16 | BUG-A3-03 | 🟠 High | FR-16 | FR-16 | Không kiểm tra `price` (0 / âm / thiếu / null) | [#20](https://github.com/thangak18/HW06/issues/20) |
+| 17 | BUG-A3-04 | 🟡 Medium | FR-16 | FR-16 | `price` là chuỗi phi số vẫn được ghi vào cột số | [#21](https://github.com/thangak18/HW06/issues/21) |
+| 18 | BUG-A3-05 | 🟡 Medium | FR-16 | FR-15 | Không kiểm tra khoá ngoại `category_id` | [#22](https://github.com/thangak18/HW06/issues/22) |
+| 19 | BUG-A3-06 | ⚪ Low | FR-16 | FR-16 | Tên toàn khoảng trắng lọt qua phép kiểm tra | [#23](https://github.com/thangak18/HW06/issues/23) |
+| 20 | BUG-A3-07 | ⚪ Low | FR-16 | FR-15 | Không giới hạn 255 ký tự cho tên sản phẩm | [#24](https://github.com/thangak18/HW06/issues/24) |
+| 21 | BUG-A3-08 | 🟡 Medium | FR-16 | FR-16 | Thiếu `category_id` bị âm thầm gán mặc định | [#25](https://github.com/thangak18/HW06/issues/25) |
+| 22 | BUG-A3-09 | 🟠 High | FR-16 | — | Phần tử `null` trong mảng gây crash 500 và **lộ stack trace** | [#26](https://github.com/thangak18/HW06/issues/26) |
+| 23 | BUG-A3-10 | ⚪ Low | FR-16 | — | Mất chính xác với `price` vượt khoảng số nguyên an toàn | [#27](https://github.com/thangak18/HW06/issues/27) |
+| 24 | BUG-A3-11 | 🟡 Medium | FR-16 | SEC-04 | `imageUrl` chấp nhận giao thức `javascript:` | [#28](https://github.com/thangak18/HW06/issues/28) |
 
 ---
 
@@ -575,6 +575,6 @@ Một số test case FAIL cùng chia sẻ một nguyên nhân gốc đã đượ
 
 Theo §5 và §11 của đề bài, phần dưới đây **bắt buộc phải do người thật thực hiện**, không được tạo tự động:
 
-1. **Tạo GitHub Issue cho từng lỗi** trên repo bài tập — nội dung sẵn sàng dán tại [`GITHUB_ISSUES.md`](./GITHUB_ISSUES.md).
+1. ✅ **Đã tạo GitHub Issue cho từng lỗi** — 24 issue [#5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195), nhãn `hw06-23127195`. Nội dung gốc: [`GITHUB_ISSUES.md`](./GITHUB_ISSUES.md).
 2. **Đính kèm ảnh chụp màn hình** cho mỗi issue: ảnh chụp request/response trong Postman hoặc ảnh chụp terminal khi chạy `reproduce_bugs.sh`. Lưu vào [`screenshots/`](./screenshots/).
 3. **Ảnh chụp Postman Console** hiển thị dòng log `[X-Student-Id] 23127195 -> ...` — đây là bằng chứng chống gian lận bắt buộc theo §11.

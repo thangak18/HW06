@@ -1,21 +1,54 @@
-# Nội dung GitHub Issues — sẵn sàng dán
+# Nội dung GitHub Issues — ✅ ĐÃ TẠO
 
-**Repo:** `thangak18/HW06` · **Người tạo:** 23127195
+**Repo:** [`thangak18/HW06`](https://github.com/thangak18/HW06) · **Người tạo:** 23127195 (`hungtmh`)
+· **Ngày tạo:** 2026-09-01
 
-> **Cách dùng.** Mỗi mục dưới đây tương ứng một issue. Copy **Tiêu đề** vào ô title,
-> phần **Nội dung** vào ô body, gán **Nhãn** tương ứng.
->
-> **⚠ Bắt buộc:** mỗi issue phải **đính kèm ảnh chụp màn hình** (§5 của đề bài) —
-> ảnh chụp request/response trong Postman, hoặc ảnh chụp terminal khi chạy
-> `bash bugs/reproduce_bugs.sh`. Kéo thả ảnh vào ô soạn thảo của GitHub, rồi
-> lưu bản sao vào `bugs/screenshots/<mã lỗi>.png`.
->
-> Nhãn nên tạo trước: `bug`, `critical`, `high`, `medium`, `low`,
-> `security`, `api-1-fr04`, `api-2-fr09`, `api-3-fr16`, `hw06-23127195`.
+Toàn bộ **24 issue đã được tạo thật**, gắn nhãn `hw06-23127195`:
+**[xem danh sách đầy đủ →](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195)**
+
+| Mã lỗi | Mức độ | Issue |
+|---|---|---|
+| `BUG-A1-01` | Critical | [#5](https://github.com/thangak18/HW06/issues/5) |
+| `BUG-A1-02` | High | [#6](https://github.com/thangak18/HW06/issues/6) |
+| `BUG-A1-03` | Medium | [#7](https://github.com/thangak18/HW06/issues/7) |
+| `BUG-A1-04` | Medium | [#8](https://github.com/thangak18/HW06/issues/8) |
+| `BUG-A1-05` | Medium | [#9](https://github.com/thangak18/HW06/issues/9) |
+| `BUG-A2-01` | Critical | [#10](https://github.com/thangak18/HW06/issues/10) |
+| `BUG-A2-02` | Critical | [#11](https://github.com/thangak18/HW06/issues/11) |
+| `BUG-A2-03` | High | [#12](https://github.com/thangak18/HW06/issues/12) |
+| `BUG-A2-04` | High | [#13](https://github.com/thangak18/HW06/issues/13) |
+| `BUG-A2-05` | High | [#14](https://github.com/thangak18/HW06/issues/14) |
+| `BUG-A2-06` | Low | [#15](https://github.com/thangak18/HW06/issues/15) |
+| `BUG-A2-07` | Low | [#16](https://github.com/thangak18/HW06/issues/16) |
+| `BUG-A2-08` | Medium | [#17](https://github.com/thangak18/HW06/issues/17) |
+| `BUG-A3-01` | Critical | [#18](https://github.com/thangak18/HW06/issues/18) |
+| `BUG-A3-02` | High | [#19](https://github.com/thangak18/HW06/issues/19) |
+| `BUG-A3-03` | High | [#20](https://github.com/thangak18/HW06/issues/20) |
+| `BUG-A3-04` | Medium | [#21](https://github.com/thangak18/HW06/issues/21) |
+| `BUG-A3-05` | Medium | [#22](https://github.com/thangak18/HW06/issues/22) |
+| `BUG-A3-06` | Low | [#23](https://github.com/thangak18/HW06/issues/23) |
+| `BUG-A3-07` | Low | [#24](https://github.com/thangak18/HW06/issues/24) |
+| `BUG-A3-08` | Medium | [#25](https://github.com/thangak18/HW06/issues/25) |
+| `BUG-A3-09` | High | [#26](https://github.com/thangak18/HW06/issues/26) |
+| `BUG-A3-10` | Low | [#27](https://github.com/thangak18/HW06/issues/27) |
+| `BUG-A3-11` | Medium | [#28](https://github.com/thangak18/HW06/issues/28) |
+
+> ⚠️ **Việc còn phải làm bằng tay:** theo §5 của đề bài, mỗi issue cần **đính kèm ảnh chụp màn hình**.
+> API không đính được ảnh, nên hãy mở từng issue ở bảng trên, kéo thả ảnh vào ô bình luận, rồi lưu
+> bản sao vào `bugs/screenshots/<mã lỗi>.png`. Ảnh có thể chụp Postman (request/response) hoặc
+> terminal khi chạy `bash bugs/reproduce_bugs.sh`.
+
+---
+
+## Nội dung gốc của từng issue
+
+Giữ lại làm bản lưu để đối chiếu với nội dung đã đăng.
 
 ---
 
 ## Issue 1 — BUG-A1-01
+
+> 🔗 Đã đăng: **[#5](https://github.com/thangak18/HW06/issues/5)**
 
 **Tiêu đề:** `[BUG-A1-01][Critical] Leo quyền lên admin qua trường role trong PUT /api/users/me`
 **Nhãn:** `bug`, `critical`, `security`, `api-1-fr04`, `hw06-23127195`
@@ -74,6 +107,8 @@ Bỏ `role` khỏi phép destructuring body. Đổi vai trò phải là endpoint
 
 ## Issue 2 — BUG-A1-02
 
+> 🔗 Đã đăng: **[#6](https://github.com/thangak18/HW06/issues/6)**
+
 **Tiêu đề:** `[BUG-A1-02][High] GET /api/users/me trả về mật khẩu plaintext và reset_token`
 **Nhãn:** `bug`, `high`, `security`, `api-1-fr04`, `hw06-23127195`
 
@@ -115,6 +150,8 @@ Băm mật khẩu bằng `bcrypt`; liệt kê cột tường minh trong câu `SE
 
 ## Issue 3 — BUG-A1-03
 
+> 🔗 Đã đăng: **[#7](https://github.com/thangak18/HW06/issues/7)**
+
 **Tiêu đề:** `[BUG-A1-03][Medium] PUT /api/users/me không kiểm tra định dạng số điện thoại`
 **Nhãn:** `bug`, `medium`, `api-1-fr04`, `hw06-23127195`
 
@@ -151,6 +188,8 @@ Kiểm tra `/^0\d{9,10}$/` trước khi ghi.
 
 ## Issue 4 — BUG-A1-04
 
+> 🔗 Đã đăng: **[#8](https://github.com/thangak18/HW06/issues/8)**
+
 **Tiêu đề:** `[BUG-A1-04][Medium] PUT /api/users/me không kiểm tra họ tên`
 **Nhãn:** `bug`, `medium`, `api-1-fr04`, `hw06-23127195`
 
@@ -182,6 +221,8 @@ Bắt buộc `typeof name === 'string' && name.trim().length > 0`.
 ---
 
 ## Issue 5 — BUG-A1-05
+
+> 🔗 Đã đăng: **[#9](https://github.com/thangak18/HW06/issues/9)**
 
 **Tiêu đề:** `[BUG-A1-05][Medium] Cập nhật một phần hồ sơ xoá trắng các trường không gửi`
 **Nhãn:** `bug`, `medium`, `data-loss`, `api-1-fr04`, `hw06-23127195`
@@ -224,6 +265,8 @@ Xây câu `UPDATE` động, chỉ gồm các trường thực sự có trong bod
 
 ## Issue 6 — BUG-A2-01
 
+> 🔗 Đã đăng: **[#10](https://github.com/thangak18/HW06/issues/10)**
+
 **Tiêu đề:** `[BUG-A2-01][Critical] POST /api/apply-coupon không yêu cầu đăng nhập (vi phạm điều kiện C4)`
 **Nhãn:** `bug`, `critical`, `security`, `api-2-fr09`, `hw06-23127195`
 
@@ -265,6 +308,8 @@ Kẻ tấn công cũng dò được toàn bộ mã giảm giá đang hoạt đ�
 ---
 
 ## Issue 7 — BUG-A2-02
+
+> 🔗 Đã đăng: **[#11](https://github.com/thangak18/HW06/issues/11)**
 
 **Tiêu đề:** `[BUG-A2-02][Critical] Công thức giảm giá percent sai — khách hàng bị tính tiền gấp 10 lần`
 **Nhãn:** `bug`, `critical`, `api-2-fr09`, `hw06-23127195`
@@ -313,6 +358,8 @@ Sửa cả hai nhánh và tách thành một hàm tính giảm giá dùng chung.
 
 ## Issue 8 — BUG-A2-03
 
+> 🔗 Đã đăng: **[#12](https://github.com/thangak18/HW06/issues/12)**
+
 **Tiêu đề:** `[BUG-A2-03][High] Ngưỡng đơn hàng dùng > thay vì >= (điều kiện C3 của FR-09)`
 **Nhãn:** `bug`, `high`, `api-2-fr09`, `hw06-23127195`
 
@@ -344,6 +391,8 @@ Mã nguồn dùng `>`.
 ---
 
 ## Issue 9 — BUG-A2-04
+
+> 🔗 Đã đăng: **[#13](https://github.com/thangak18/HW06/issues/13)**
 
 **Tiêu đề:** `[BUG-A2-04][High] Bỏ user_id là vô hiệu hoá hoàn toàn giới hạn số lượt dùng mã (C5)`
 **Nhãn:** `bug`, `high`, `security`, `api-2-fr09`, `hw06-23127195`
@@ -384,6 +433,8 @@ Lấy định danh từ `req.user.id` (JWT), không từ body; C5 phải luôn �
 
 ## Issue 10 — BUG-A2-05
 
+> 🔗 Đã đăng: **[#14](https://github.com/thangak18/HW06/issues/14)**
+
 **Tiêu đề:** `[BUG-A2-05][High] IDOR — mượn lượt dùng mã giảm giá của người khác qua user_id`
 **Nhãn:** `bug`, `high`, `security`, `api-2-fr09`, `hw06-23127195`
 
@@ -413,6 +464,8 @@ Bỏ hẳn `user_id` khỏi body, dùng `req.user.id`.
 ---
 
 ## Issue 11 — BUG-A2-06
+
+> 🔗 Đã đăng: **[#15](https://github.com/thangak18/HW06/issues/15)**
 
 **Tiêu đề:** `[BUG-A2-06][Low] Thứ tự kiểm tra điều kiện làm thông báo lỗi sai lệch (mã hết hạn báo thành chưa đủ ngưỡng)`
 **Nhãn:** `bug`, `low`, `api-2-fr09`, `hw06-23127195`
@@ -444,6 +497,8 @@ Kiểm tra tuần tự đúng thứ tự C1 → C2 → C3 → C4 → C5, mỗi �
 
 ## Issue 12 — BUG-A2-07
 
+> 🔗 Đã đăng: **[#16](https://github.com/thangak18/HW06/issues/16)**
+
 **Tiêu đề:** `[BUG-A2-07][Low] Mã giảm giá phân biệt chữ hoa/thường`
 **Nhãn:** `bug`, `low`, `ux`, `api-2-fr09`, `hw06-23127195`
 
@@ -467,6 +522,8 @@ khiến khách tưởng mình bị cho mã sai.
 ---
 
 ## Issue 13 — BUG-A2-08
+
+> 🔗 Đã đăng: **[#17](https://github.com/thangak18/HW06/issues/17)**
 
 **Tiêu đề:** `[BUG-A2-08][Medium] Không kiểm tra miền giá trị total_amount — tràn số nguyên an toàn`
 **Nhãn:** `bug`, `medium`, `api-2-fr09`, `hw06-23127195`
@@ -495,6 +552,8 @@ Kiểm tra `Number.isSafeInteger(total_amount) && total_amount > 0` trước khi
 ---
 
 ## Issue 14 — BUG-A3-01
+
+> 🔗 Đã đăng: **[#18](https://github.com/thangak18/HW06/issues/18)**
 
 **Tiêu đề:** `[BUG-A3-01][Critical] Người dùng thường import được sản phẩm lên cửa hàng (thiếu kiểm tra role admin)`
 **Nhãn:** `bug`, `critical`, `security`, `api-3-fr16`, `hw06-23127195`
@@ -544,6 +603,8 @@ Thêm middleware `requireAdmin` và áp cho mọi route `/api/admin/*`.
 ---
 
 ## Issue 15 — BUG-A3-02
+
+> 🔗 Đã đăng: **[#19](https://github.com/thangak18/HW06/issues/19)**
 
 **Tiêu đề:** `[BUG-A3-02][High] Import sản phẩm không nguyên tử — không rollback khi có dòng lỗi`
 **Nhãn:** `bug`, `high`, `data-integrity`, `api-3-fr16`, `hw06-23127195`
@@ -599,6 +660,8 @@ sàn, không có cách thu hồi ngoài xoá tay. Chạy lại file sau khi sử
 
 ## Issue 16 — BUG-A3-03
 
+> 🔗 Đã đăng: **[#20](https://github.com/thangak18/HW06/issues/20)**
+
 **Tiêu đề:** `[BUG-A3-03][High] Import không kiểm tra price (chấp nhận 0, số âm, null, thiếu trường)`
 **Nhãn:** `bug`, `high`, `api-3-fr16`, `hw06-23127195`
 
@@ -633,6 +696,8 @@ kết hợp FR-08 (backend nhận `total_amount` từ client) có thể tạo đ
 
 ## Issue 17 — BUG-A3-04
 
+> 🔗 Đã đăng: **[#21](https://github.com/thangak18/HW06/issues/21)**
+
 **Tiêu đề:** `[BUG-A3-04][Medium] price là chuỗi phi số vẫn được ghi vào cột số`
 **Nhãn:** `bug`, `medium`, `data-integrity`, `api-3-fr16`, `hw06-23127195`
 
@@ -661,6 +726,8 @@ if (!Number.isFinite(price) || price <= 0) { /* báo lỗi dòng */ }
 
 ## Issue 18 — BUG-A3-05
 
+> 🔗 Đã đăng: **[#22](https://github.com/thangak18/HW06/issues/22)**
+
 **Tiêu đề:** `[BUG-A3-05][Medium] Import không kiểm tra khoá ngoại category_id`
 **Nhãn:** `bug`, `medium`, `data-integrity`, `api-3-fr16`, `hw06-23127195`
 
@@ -681,6 +748,8 @@ hàng biến mất khỏi cửa hàng mà quản trị viên không nhận đư�
 ---
 
 ## Issue 19 — BUG-A3-06
+
+> 🔗 Đã đăng: **[#23](https://github.com/thangak18/HW06/issues/23)**
 
 **Tiêu đề:** `[BUG-A3-06][Low] Tên sản phẩm toàn khoảng trắng lọt qua phép kiểm tra`
 **Nhãn:** `bug`, `low`, `api-3-fr16`, `hw06-23127195`
@@ -707,6 +776,8 @@ name="     " -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm"
 
 ## Issue 20 — BUG-A3-07
 
+> 🔗 Đã đăng: **[#24](https://github.com/thangak18/HW06/issues/24)**
+
 **Tiêu đề:** `[BUG-A3-07][Low] Import không giới hạn 255 ký tự cho tên sản phẩm`
 **Nhãn:** `bug`, `low`, `api-3-fr16`, `hw06-23127195`
 
@@ -727,6 +798,8 @@ name (300 ký tự) -> {"inserted":1,"errors":[]}
 ---
 
 ## Issue 21 — BUG-A3-08
+
+> 🔗 Đã đăng: **[#25](https://github.com/thangak18/HW06/issues/25)**
 
 **Tiêu đề:** `[BUG-A3-08][Medium] Thiếu category_id bị âm thầm gán mặc định, báo cáo vẫn nói thành công`
 **Nhãn:** `bug`, `medium`, `data-integrity`, `api-3-fr16`, `hw06-23127195`
@@ -756,6 +829,8 @@ khi khách hàng phản ánh.
 ---
 
 ## Issue 22 — BUG-A3-09
+
+> 🔗 Đã đăng: **[#26](https://github.com/thangak18/HW06/issues/26)**
 
 **Tiêu đề:** `[BUG-A3-09][High] Phần tử null trong mảng products gây crash 500 và lộ stack trace máy chủ`
 **Nhãn:** `bug`, `high`, `security`, `api-3-fr16`, `hw06-23127195`
@@ -804,6 +879,8 @@ trả JSON và ẩn stack trace ở môi trường production.
 
 ## Issue 23 — BUG-A3-10
 
+> 🔗 Đã đăng: **[#27](https://github.com/thangak18/HW06/issues/27)**
+
 **Tiêu đề:** `[BUG-A3-10][Low] Mất chính xác với price vượt khoảng số nguyên an toàn`
 **Nhãn:** `bug`, `low`, `api-3-fr16`, `hw06-23127195`
 
@@ -832,6 +909,8 @@ Kiểm tra `Number.isSafeInteger(price)`.
 ---
 
 ## Issue 24 — BUG-A3-11
+
+> 🔗 Đã đăng: **[#28](https://github.com/thangak18/HW06/issues/28)**
 
 **Tiêu đề:** `[BUG-A3-11][Medium] imageUrl chấp nhận giao thức javascript: (vector stored XSS)`
 **Nhãn:** `bug`, `medium`, `security`, `api-3-fr16`, `hw06-23127195`
