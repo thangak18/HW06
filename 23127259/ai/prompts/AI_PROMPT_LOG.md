@@ -24433,3 +24433,48 @@ X-Student-Id, traffic accounting - stop inventing totals, Postman runner evidenc
 update issue bodies, update registry / confirmation report, screenshot authenticity declaration, final integrity gate, git, end report]
 ```
 
+---
+
+## INT-055
+
+- **Interaction ID:** INT-055
+- **Date & Time:** 2026-09-02 09:55:50+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Stage:** Phase 2D.1F.3 – FR-10 Native Postman Desktop Runner Evidence
+- **Detailed Interaction File:** `ai/interactions/INT-055-fr10-native-postman-runner-evidence.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit FINAL ATTEMPT – DO THE REAL POSTMAN GUI EVIDENCE YOURSELF.
+
+PHASE 2D.1F.3 – FR-10 NATIVE POSTMAN DESKTOP RUNNER EVIDENCE
+
+Current branch: thang/hw06-implementation
+Current latest commit: b207336 or the latest branch HEAD if INT-054 created a later commit.
+
+FR-10 product defects are already technically confirmed.
+
+Accepted immutable technical evidence:
+- Canonical Newman Run03
+- Strict Newman bug-evidence run
+- BUG-FR10-001
+- BUG-FR10-002
+- BUG-FR10-003
+- GitHub Issues #29 #30 #31
+
+The ONLY remaining requirement is authentic visual evidence from REAL Postman Desktop runtime.
+
+[Sections 0-26: Hard Anti-Fabrication Rule (FORBIDDEN: Runtime.evaluate, innerText, innerHTML, textContent,
+DOM injection, fetch, XMLHttpRequest, Python requests, curl, Newman for screenshot run, fabricated HTML,
+synthetic runner rows, synthetic response bodies, fake tabs, IndexedDB/pm manipulation), Allowed Automation
+Methods (AppleScript, osascript, System Events Accessibility, screencapture), AI Audit, Acknowledge previous
+invalid screenshots (INT-053 & INT-054 moved to historical-invalid/int054/), Verify immutable technical evidence,
+Start from clean Postman window, Inspect accessibility tree, Import strict collection through real Postman UI,
+Select environment FR10-local, Open real collection runner, Run strict collection once in Postman Desktop,
+Prove this is a real runner result, Capture BUG-FR10-001, BUG-FR10-002, BUG-FR10-003 via screencapture,
+No post-processing, Screenshot hash + visual audit, Authenticity self-check, Traffic accounting, Update bug reports,
+Update bug registry, Update confirmation report, GitHub issues, Preserve SEC02/HUM005 decisions, Git, Final report]
+```
+
+

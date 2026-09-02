@@ -433,6 +433,15 @@
 - **Date & Time:** 2026-09-02 09:26:41+07:00
 - **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
 - **Purpose:** Phase 2D.1F.2: Acknowledge INT-053 screenshot evidence defect; preserve synthetic screenshots in `historical-invalid/int053/`; execute `FR10_Defect_Evidence_Strict` collection in real Postman Desktop Collection Runner (no DOM mutations); capture 3 genuine Runner screenshots with red failed assertions; update reports & GitHub Issues #29, #30, #31
-- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2196, Output: Pending backfill)
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2196, Output: Step 2235)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-054`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-054-fr10-authentic-postman-runner-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-054-fr10-authentic-postman-runner-evidence.md)
+
+### INT-055: Phase 2D.1F.3: FR-10 Native Postman Desktop Runner Evidence
+- **Date & Time:** 2026-09-02 09:55:50+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1F.3: Execute authentic native Postman Desktop Collection Runner automation via macOS AppleScript/System Events and native screencapture (strictly zero Runtime.evaluate, DOM injection, or synthetic rendering); quarantine INT-054 screenshots into `historical-invalid/int054/`; capture genuine Runner screenshots for BUG-FR10-001, BUG-FR10-002, BUG-FR10-003.
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2236, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-055`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-055-fr10-native-postman-runner-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-055-fr10-native-postman-runner-evidence.md)
+
