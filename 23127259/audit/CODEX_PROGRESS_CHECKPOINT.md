@@ -2,7 +2,7 @@
 
 ## Timestamp
 
-2026-09-02 16:01:58 +0700 (Asia/Ho_Chi_Minh)
+2026-09-02 16:10:01 +0700 (Asia/Ho_Chi_Minh)
 
 ## Current Phase
 
@@ -42,6 +42,10 @@ IN_PROGRESS
 - Created disclosure-controlled Run04 JSON/HTML because raw Newman exports serialize live JWTs; verified final evidence contains no JWT/Bearer pattern and removed the untracked secret-bearing temp files.
 - Rewrote FR10 confirmation, screenshot-authenticity, bug-reference, Run04 reconciliation, and final-audit documents. FR10 final gate is `FR10_COMPLETE`.
 - Fetched and inspected FR14 branches/worktrees read-only: only `origin/thang/fr14-anti` exists at `75203b4`; no `fr14-final` branch exists. The Anti worktree contains substantial uncommitted Run02 and oracle-repair work that must be audited and selectively integrated.
+- Completed the FR14 Level-1 candidate audit: Category GET is public; POST/PUT/DELETE are Admin-only under FR-12/SEC-03 and require valid JWT under SEC-02; category name is mandatory/non-empty; duplicate names, exact error/status codes, exact response schemas, invalid-ID codes, content negotiation, and referential integrity are not explicitly specified.
+- Verified candidate raw draft: 42 continuous AI cases, SHA-256 `95ac502b0880efcc1c6ceb040a1171eeacebff5c262a5f6df8d49a86cadcaf70`.
+- Classified Anti artifacts: raw generation VERIFIED_COMPLETE; requirement analysis/audit/canonical/collection VERIFIED_PARTIAL; Run01 historical with untrustworthy manually written exit proof and exposed secrets; uncommitted Run02 historical with mixed weak oracles and exposed secrets; screenshot attempts INVALID/STALE (one shows Chrome/Facebook, others show FR02 or incomplete Runner setup rather than FR14 results).
+- Senior QA integration decision: reject raw Run01/Run02 and all candidate screenshots as final evidence; preserve candidate branch/worktree unchanged; reconstruct selected verified FR14 artifacts on the primary branch using honest generation -> audit -> extension -> execution commits.
 
 ## FR02 Canonical Accounting
 
@@ -78,7 +82,7 @@ Issues: #29, #30, #31 (live; permanent commit-backed native screenshots embedded
 ## FR14 Canonical Accounting
 
 Raw AI: NOT_YET_VERIFIED
-Audited: NOT_YET_VERIFIED
+Audited: candidate audit rejected; Senior QA re-audit pending
 VALID: NOT_YET_VERIFIED
 INVALID: NOT_YET_VERIFIED
 INCOMPLETE: NOT_YET_VERIFIED
@@ -133,7 +137,8 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 ## Known Problems / Risks
 
 - Historical Run03 and strict JSON/HTML contain resolved runtime tokens. They remain immutable by instruction and require explicit legacy-risk documentation; final Run04 is disclosure-controlled.
-- FR14 has not yet begun and must wait for truthful FR02 and FR10 final gates.
+- FR14 raw draft is salvageable, but its current 39 VALID / 3 INCOMPLETE audit is not source-compliant. Exact status/schema and implementation-derived oracles require reclassification; duplicate RBAC case TC-FR14-034, referential-integrity case TC-FR14-036, and dependent Human H07 are rejection candidates.
+- Candidate Run01/Run02 JSON/HTML expose resolved JWTs and passwords and will not be integrated as final evidence.
 - Existing AI-interaction logs contain pending transcript backfills that require evidence-based resolution without invention.
 
 ## Remaining Work
@@ -147,4 +152,4 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 
 ## NEXT EXACT ACTION
 
-Audit the FR14 Anti worktree's committed and uncommitted requirement analysis, raw draft, Human Audit, canonical mapping, validators, Run01/Run02, bug triage, and screenshots read-only; classify each artifact before selectively integrating it into the primary branch through honest procedural commits.
+Selectively restore the immutable FR14 raw draft, generation coverage, and recoverable interaction records from commit `75203b4`; add a corrected Level-1 requirement analysis and integration manifest; verify the raw hash/count; then create the honest FR14 generation-stage commit on the primary branch.
