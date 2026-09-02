@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8">
+<title>Bao cao chinh HW06 - 23127060</title>
+<style>
+@page { size: A4; margin: 16mm 14mm; }
+
+body { font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif; font-size: 10.5pt;
+       line-height: 1.45; color: #1a1a1a; }
+h1 { font-size: 19pt; border-bottom: 2px solid #1F4E78; padding-bottom: 5px; color: #1F4E78; }
+h2 { font-size: 14pt; margin-top: 18px; color: #1F4E78; border-bottom: 1px solid #d0d7de;
+     padding-bottom: 3px; }
+h3 { font-size: 12pt; margin-top: 14px; color: #24292f; }
+h4 { font-size: 11pt; margin-top: 12px; }
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 8.5pt; }
+th, td { border: 1px solid #b8c0c8; padding: 4px 6px; text-align: left;
+         vertical-align: top; word-break: break-word; }
+th { background: #1F4E78; color: #fff; font-weight: bold; }
+tr:nth-child(even) td { background: #f5f7f9; }
+code { font-family: "DejaVu Sans Mono", "Courier New", monospace; font-size: 8.5pt;
+       background: #f0f2f4; padding: 1px 3px; border-radius: 3px; }
+pre { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 4px; padding: 8px;
+      font-size: 8pt; line-height: 1.35; white-space: pre-wrap; word-break: break-word; }
+pre code { background: none; padding: 0; font-size: 8pt; }
+blockquote { border-left: 3px solid #1F4E78; margin-left: 0; padding: 2px 0 2px 12px;
+             color: #444; background: #f7f9fb; }
+a { color: #0969da; text-decoration: none; }
+hr { border: 0; border-top: 1px solid #d0d7de; margin: 16px 0; }
+
+body { max-width: 190mm; margin: 0 auto; }
+table, pre, blockquote { page-break-inside: avoid; }
+h1, h2, h3 { page-break-after: avoid; }
+</style></head><body>
+<h1>BAO CAO HW06 — API TESTING</h1>
+<p><strong>Ho ten:</strong> Ninh Van Khai — <strong>MSSV:</strong> 23127060
+<strong>Mon:</strong> Kiem thu phan mem | <strong>Bai:</strong> HW06 — API Testing
+<strong>SUT:</strong> EShop — https://github.com/ttbhanh/eshop-sut, commit <code>85af3ba875c88283615e22cb108f13e2fccaf0e9</code>
+<strong>Ngay lam:</strong> 01/09/2026</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repo GitHub cong khai</td>
+<td><code>&lt;dien link sau khi push — xem ci/CI_CD_REPORT.md muc 5&gt;</code></td>
+</tr>
+<tr>
+<td>GitHub Issues</td>
+<td><code>&lt;dien link&gt;</code></td>
+</tr>
+<tr>
+<td>Video demo bo sinh (YouTube, tuy chon)</td>
+<td><code>&lt;dien link — kich ban o agent-skill/VIDEO_SCRIPT.md&gt;</code></td>
+</tr>
+<tr>
+<td>Tu danh gia</td>
+<td><strong><code>&lt;dien 3 chu so&gt;</code></strong> / 100</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Muc luc</h2>
+<ol>
+<li>Moi truong thuc nghiem</li>
+<li>Lua chon 3 API</li>
+<li>Sinh test case bang AI — bon vong rieng biet</li>
+<li>Audit ket qua AI</li>
+<li>Test case tu bo sung</li>
+<li>Thuc thi bang Postman + Newman</li>
+<li>Cac tinh nang Postman da dung</li>
+<li>Bug report</li>
+<li>CI/CD</li>
+<li>Thiet ke bo sinh test bang AI</li>
+<li>Nhung dieu con lai cua sinh vien</li>
+<li>Phu luc</li>
+</ol>
+<hr />
+<h2>1. Moi truong thuc nghiem</h2>
+<table>
+<thead>
+<tr>
+<th>Hang muc</th>
+<th>Gia tri</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>He dieu hanh</td>
+<td>Linux 6.18.33.2 (WSL2 tren Windows)</td>
+</tr>
+<tr>
+<td>Node.js / npm</td>
+<td>v20.20.2 / 10.8.2</td>
+</tr>
+<tr>
+<td>Newman</td>
+<td>6.2.2 + <code>newman-reporter-htmlextra</code></td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.13.5 (cac script sinh test, tong hop bao cao)</td>
+</tr>
+<tr>
+<td>Base URL</td>
+<td><code>http://localhost:3000</code> — thoa yeu cau chong gian lan cua de bai muc 11</td>
+</tr>
+<tr>
+<td>SUT</td>
+<td>Node.js + Express + SQLite, commit <code>85af3ba</code></td>
+</tr>
+</tbody>
+</table>
+<p>Chi tiet day du va cach khoi dong lai SUT: <code>report/00_environment.md</code> (<code>00_environment.md</code>).</p>
+<h3>Mot chi tiet ky thuat quyet dinh toan bo quy trinh chay</h3>
+<p><code>backend/database.js</code> goi <code>initDatabase()</code> <strong>ngay khi module duoc <code>require</code></strong>, va ham do bat
+dau bang mot loat <code>DROP TABLE</code>. Nghia la <strong>moi lan khoi dong lai backend la toan bo CSDL bi
+xoa va seed lai</strong>.</p>
+<p>Dieu nay bien thanh mot rang buoc bat buoc: <strong>phai khoi dong lai backend truoc moi collection</strong>.
+Ly do khong phai de cho sach ma vi SUT co bug <strong>A-09</strong> — moi lan dang nhap sai cong <code>+2</code> vao bo
+dem va khoa tai khoan 180 giay khi dat 3. Chay collection thu hai tren CSDL cu thi tai khoan
+test da bi khoa, va hang loat test se that bai vi mot ly do khong lien quan gi den chat luong
+API. Lan chay dau tien o may cuc bo dinh dung loi nay: <strong>7 test case that bai day chuyen tu mot
+nguyen nhan duy nhat</strong>.</p>
+<h3>Xac dinh oracle: hai tai lieu, vai tro khac han nhau</h3>
+<table>
+<thead>
+<tr>
+<th>Tai lieu</th>
+<th>Vai tro thuc su</th>
+<th>Lam oracle?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>eshop-sut/README.md</code></td>
+<td><strong>SRS</strong> — tu tuyen bo &quot;mo ta yeu cau nghiep vu <strong>dung</strong>&quot;. Chua FR-01..FR-24 va bang SEC-01..07</td>
+<td><strong>CO — oracle <code>SPEC</code></strong></td>
+</tr>
+<tr>
+<td><code>eshop-sut/api_specification.md</code></td>
+<td>Huong dan goi API: endpoint, body mau. Khong mo ta rang buoc nghiep vu</td>
+<td>Chi lay hinh dang request/response</td>
+</tr>
+<tr>
+<td><code>eshop-sut/backend/server.js</code></td>
+<td>Hanh vi thuc te</td>
+<td>Oracle <code>IMPL</code>, dung cho test hoi quy</td>
+</tr>
+</tbody>
+</table>
+<p>Xac dinh dung vai tro nay la viec quan trong nhat cua buoc chuan bi, vi no quyet dinh moi
+<code>Expected_Status</code> ve sau. Vi du dien hinh: <code>api_specification.md</code> in response mau cua
+<code>forgot-password</code> la <code>&quot;resetToken&quot;: &quot;123456&quot;</code> (6 chu so), <code>README.md</code> doi <strong>toi thieu 6 chu so</strong>,
+con code that sinh <strong>4 chu so</strong>. Ca hai tai lieu deu chong lai implementation nen day chac chan
+la bug (A-02).</p>
+<h2>2. Lua chon 3 API</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Pool</th>
+<th>FR</th>
+<th>Endpoint chinh</th>
+<th>Endpoint ho tro</th>
+<th>Ly do chon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API-1</strong></td>
+<td>A</td>
+<td>FR-03 Quen &amp; dat lai mat khau</td>
+<td><code>POST /api/forgot-password</code>, <code>POST /api/reset-password</code></td>
+<td><code>POST /api/login</code>, <code>POST /api/register</code></td>
+<td>Luong <strong>2 buoc co trang thai</strong> (chua co token → da cap → da dung), nen vua co phan hoach mien vua co state machine that. Dong thoi la be mat tan cong dam dac nhat: SEC-01 va SEC-07 deu hoi tu o day</td>
+</tr>
+<tr>
+<td><strong>API-2</strong></td>
+<td>B</td>
+<td>FR-08 Thanh toan</td>
+<td><code>POST /api/checkout</code></td>
+<td><code>POST /api/apply-coupon</code> (FR-09), <code>GET /api/orders/:id</code>, <code>PUT /api/orders/:id/cancel</code>, <code>PUT /api/admin/orders/:id/status</code> (FR-10)</td>
+<td>Ket hop ba thu de bai doi: tinh tien, <strong>state machine 5 trang thai</strong>, va phan quyen. FR-09 con cho san mot <strong>bang quyet dinh 5 dieu kien</strong> viet trong SRS</td>
+</tr>
+<tr>
+<td><strong>API-3</strong></td>
+<td>C</td>
+<td>FR-15 Quan ly san pham</td>
+<td><code>POST</code> / <code>PUT</code> / <code>DELETE /api/products</code></td>
+<td><code>GET /api/products</code>, <code>?search=</code>, <code>/:id</code></td>
+<td>CRUD day du nen co vong doi tai nguyen; tham so o ca <strong>body, path va query</strong>; va la noi duy nhat co <strong>SQL noi chuoi</strong> — bat buoc de phu SEC-05</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pool D (Mobile) khong su dung</strong> — de bai muc 5: <em>&quot;Pool D, the mobile app, is not used here,
+because this homework targets the backend API.&quot;</em></p>
+<p><strong>Kiem tra trung lap trong nhom:</strong> da doc <code>docs/team-api-allocation.md</code> (chi doc). Tai thoi diem
+lam bai, bang phan cong con de <code>TODO</code> o ca ba dong thanh vien nen <strong>khong the doi chieu tu dong</strong>.
+Bo ba (FR-03, FR-08, FR-15) can duoc <strong>xac nhan mieng voi hai thanh vien con lai truoc khi nop</strong>.</p>
+<p><strong>Cap nhat (02/09/2026, sau khi merge <code>origin/main</code>):</strong> bang phan cong da duoc dien day du,
+nen <strong>da doi chieu duoc</strong>. Ba bo API cua nhom:</p>
+<table>
+<thead>
+<tr>
+<th>SV</th>
+<th>Pool A</th>
+<th>Pool B</th>
+<th>Pool C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>23127060</strong> (SV nay)</td>
+<td>FR-03</td>
+<td>FR-08</td>
+<td>FR-15</td>
+</tr>
+<tr>
+<td>23127195</td>
+<td>FR-04</td>
+<td>FR-09</td>
+<td>FR-16</td>
+</tr>
+<tr>
+<td>23127259</td>
+<td>FR-02</td>
+<td>FR-10</td>
+<td>FR-14</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Khong co FR nao trung nhau</strong> giua ba thanh vien -&gt; thoa rang buoc muc 5 cua de bai.
+Rui ro mo neu tren <strong>da duoc dong</strong>.</p>
+<p>Chi tiet: <code>report/01_api_selection.md</code> (<code>01_api_selection.md</code>).</p>
+<h2>3. Sinh test case bang AI — bon vong rieng biet</h2>
+<p>De bai muc 6.1 cam mot prompt tong. Quy trinh o day chia thanh <strong>bon vong doc lap</strong>, moi vong
+mot ky thuat kiem thu, moi vong mot commit rieng va mot entry AI_log rieng.</p>
+<table>
+<thead>
+<tr>
+<th>Vong</th>
+<th>Nhom</th>
+<th>Ky thuat</th>
+<th>Lenh</th>
+<th>Ket qua</th>
+<th>AI_log</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2a</td>
+<td>DOM</td>
+<td>Equivalence Partitioning, BVA, Decision Table</td>
+<td><code>gen_testcases.py --only DOM</code></td>
+<td>128 case</td>
+<td>#3</td>
+</tr>
+<tr>
+<td>2b</td>
+<td>STA</td>
+<td>State Transition Testing (0-switch)</td>
+<td><code>--only STA --append</code></td>
+<td>38 case</td>
+<td>#4</td>
+</tr>
+<tr>
+<td>2c</td>
+<td>SEC</td>
+<td>Anh xa SEC-01..SEC-07</td>
+<td><code>--only SEC --append</code></td>
+<td>41 case</td>
+<td>#5</td>
+</tr>
+<tr>
+<td>2d</td>
+<td>SCH</td>
+<td>JSON Schema Validation</td>
+<td><code>--only SCH --append</code></td>
+<td>18 case</td>
+<td>#6</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>225 case</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>DOM</th>
+<th>STA</th>
+<th>SEC</th>
+<th>SCH</th>
+<th>Tong AI sinh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API-1 (FR-03)</td>
+<td>36</td>
+<td>9</td>
+<td>13</td>
+<td>6</td>
+<td><strong>64</strong></td>
+</tr>
+<tr>
+<td>API-2 (FR-08)</td>
+<td>41</td>
+<td>20</td>
+<td>14</td>
+<td>6</td>
+<td><strong>81</strong></td>
+</tr>
+<tr>
+<td>API-3 (FR-15)</td>
+<td>51</td>
+<td>9</td>
+<td>14</td>
+<td>6</td>
+<td><strong>80</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Ca ba API deu vuot xa nguong <strong>35 case/API</strong> cua de bai.</p>
+<p><strong>Vi sao chia duoc bon vong:</strong> file spec may doc duoc (<code>spec/api-N.json</code>) co bon truc doc lap,
+anh xa mot doi mot sang bon nhom ky thuat. Do la mot <strong>quyet dinh thiet ke</strong> chu khong phai
+tien ich phu — xem muc 10.</p>
+<p>Chi tiet: <code>report/01_api_selection.md</code> (<code>01_api_selection.md</code>), <code>spec/_SCHEMA.md</code> (<code>../spec/_SCHEMA.md</code>).</p>
+<h2>4. Audit ket qua AI</h2>
+<p>De bai muc 6.2 doi gan nhan <strong>VALID / INVALID / INCOMPLETE</strong> kem ly do, va <strong>sua</strong> cac case sai.</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Tong AI sinh</th>
+<th>VALID</th>
+<th>INVALID</th>
+<th>INCOMPLETE</th>
+<th>% VALID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API-1</td>
+<td>64</td>
+<td>22</td>
+<td>23</td>
+<td>19</td>
+<td>34%</td>
+</tr>
+<tr>
+<td>API-2</td>
+<td>81</td>
+<td>40</td>
+<td>18</td>
+<td>23</td>
+<td>49%</td>
+</tr>
+<tr>
+<td>API-3</td>
+<td>80</td>
+<td>21</td>
+<td>27</td>
+<td>32</td>
+<td>26%</td>
+</tr>
+<tr>
+<td><strong>Tong</strong></td>
+<td><strong>225</strong></td>
+<td><strong>83</strong></td>
+<td><strong>68</strong></td>
+<td><strong>74</strong></td>
+<td><strong>37%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Theo nhom ky thuat — cho thay ngay loi tap trung o dau:</p>
+<table>
+<thead>
+<tr>
+<th>Nhom</th>
+<th>Tong</th>
+<th>VALID</th>
+<th>INVALID</th>
+<th>INCOMPLETE</th>
+<th>Nhan xet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DOM</td>
+<td>128</td>
+<td>33</td>
+<td>23</td>
+<td>72</td>
+<td>Phan hoach mien lam tot; diem yeu la assertion qua chung chung</td>
+</tr>
+<tr>
+<td>STA</td>
+<td>38</td>
+<td>34</td>
+<td>4</td>
+<td>0</td>
+<td><strong>Tot nhat</strong> — bang chuyen trang thai buoc AI phai bam vao dac ta</td>
+</tr>
+<tr>
+<td>SEC</td>
+<td>41</td>
+<td><strong>0</strong></td>
+<td><strong>41</strong></td>
+<td>0</td>
+<td><strong>Toan bo nhom sai</strong> — xem duoi</td>
+</tr>
+<tr>
+<td>SCH</td>
+<td>18</td>
+<td>16</td>
+<td>0</td>
+<td>2</td>
+<td>Ky vong ve hinh dang response de doi chieu</td>
+</tr>
+</tbody>
+</table>
+<h3>Phat hien nghiem trong nhat: toan bo 41 case bao mat deu INVALID</h3>
+<p>Day khong phai 41 loi doc lap ma la <strong>mot loi duy nhat nhan ban 41 lan</strong>.</p>
+<p>Bang SEC-01..07 dung de gan nhan duoc suy ra tu ten cac lo hong OWASP quen thuoc. Bang <strong>that</strong>
+nam trong <code>eshop-sut/README.md</code> muc 9 va noi nhung dieu khac han:</p>
+<table>
+<thead>
+<tr>
+<th>Ma</th>
+<th>Suy dien (sai)</th>
+<th>That (SRS muc 9)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEC-01</td>
+<td>Chong SQL Injection</td>
+<td>Mat khau <strong>khong</strong> duoc luu plaintext</td>
+</tr>
+<tr>
+<td>SEC-02</td>
+<td>Khong lo du lieu nhay cam</td>
+<td>API bao mat phai yeu cau JWT hop le</td>
+</tr>
+<tr>
+<td>SEC-03</td>
+<td>Endpoint ghi phai xac thuc</td>
+<td>API Admin phai kiem <code>role='admin'</code></td>
+</tr>
+<tr>
+<td>SEC-04</td>
+<td>Chong IDOR</td>
+<td>Du lieu user nhap phai duoc escape khi hien thi</td>
+</tr>
+<tr>
+<td>SEC-05</td>
+<td>Chong role escalation</td>
+<td>Truy van CSDL phai dung Parameterized Query</td>
+</tr>
+<tr>
+<td>SEC-06</td>
+<td>Validate input / chong XSS</td>
+<td>API cap nhat ho so khong duoc cho doi <code>role</code></td>
+</tr>
+<tr>
+<td>SEC-07</td>
+<td>Chong brute force</td>
+<td>OTP &gt;= 6 chu so, co thoi han, vo hieu hoa sau khi dung</td>
+</tr>
+</tbody>
+</table>
+<p>Doi chieu tung case: <strong>39/41 bi gan sai ma</strong>, 2 case con lai dung ma nhung ky vong <code>429</code> khong
+co can cu.</p>
+<p><strong>Vi sao nghiem trong hon no thoat nhin:</strong> cac test case <strong>van chay dung</strong> — mot phep thu SQL
+Injection van la mot phep thu SQL Injection du bi dan nhan sai. Cai hong la <strong>bang do phu bao
+mat trong bao cao</strong>: no se ghi <em>&quot;API-3 da phu SEC-01 voi 8 test case&quot;</em> trong khi SEC-01 (mat
+khau plaintext) khong he duoc kiem o API-3 dong nao. Do la loai khang dinh sai ma nguoi doc bao
+cao khong the tu phat hien.</p>
+<h3>Bon nguyen nhan goc</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Nguyen nhan</th>
+<th>So case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N1</td>
+<td>Mot gia dinh sai lan ra ca nhom (bang SEC)</td>
+<td>61</td>
+</tr>
+<tr>
+<td>N2</td>
+<td>Bo sinh dien assertion mac dinh chung chung, khong kiem tac dung phu</td>
+<td>67</td>
+</tr>
+<tr>
+<td>N3</td>
+<td>AI ap chuan nganh thay vi doc dac ta (rate limiting, rang buoc khoa ngoai)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>N4</td>
+<td>AI bia ra thu khong ton tai de lap day mo hinh (<code>?debug=true</code>, trang thai <code>EXPIRED</code>)</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Ty le VALID <strong>37%</strong> thap hon khoang 55-70% du kien trong taxonomy cua chinh toi. Con so nay
+<strong>khong duoc dieu chinh cho dep</strong>: nguyen nhan cu the va truy nguyen duoc, va ha thap tieu
+chuan gan nhan de con so dep hon se dung nghia la audit hoi hot.</p>
+</blockquote>
+<p>Chi tiet, kem 9 vi du truoc/sau khi sua: <code>report/03_audit.md</code> (<code>03_audit.md</code>).</p>
+<h2>5. Test case tu bo sung</h2>
+<p>De bai muc 6.3 doi <strong>toi thieu 5 case/API</strong> ma AI bo sot. Da bo sung <strong>6 case/API, tong 18</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Ly do bo sot</th>
+<th>So case</th>
+<th>Y nghia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API</strong> — dac diem cua API</td>
+<td><strong>9</strong></td>
+<td>Bug chi lo ra khi <strong>ket hop nhieu request</strong></td>
+</tr>
+<tr>
+<td><strong>MODEL</strong> — gioi han mo hinh</td>
+<td>4</td>
+<td>AI suy dien tu hinh dang API thay vi doc ma nguon</td>
+</tr>
+<tr>
+<td><strong>PROMPT</strong> — prompt khoanh vung qua chat</td>
+<td>3</td>
+<td>Vi du: prompt chi neu 2 endpoint chinh cua FR-03</td>
+</tr>
+<tr>
+<td><strong>SPECGAP</strong> — dac ta khong noi</td>
+<td>2</td>
+<td>AI khong co gi de bam vao</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ket qua dang chu y nhat: 9/18 thuoc nhom <code>API</code>.</strong> Mot nua so case ma AI bo sot khong phai vi
+AI kem hay prompt do, ma vi mot <strong>gioi han cau truc</strong>: bo sinh sinh ra test case <strong>doc lap</strong>,
+moi case mot request; trong khi mot nua so bug nghiem trong cua he thong nay chi lo ra khi noi
+nhieu request lai voi nhau.</p>
+<p>Ba vi du:</p>
+<table>
+<thead>
+<tr>
+<th>TC_ID</th>
+<th>Vi sao can nhieu request</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TC-C3-SCH-901</code></td>
+<td><code>{&quot;price&quot;: 30000000}</code> va <code>{&quot;price&quot;: &quot;28000000&quot;}</code> deu la JSON hop le. Vi pham chi hien ra khi <strong>so sanh hai response</strong></td>
+</tr>
+<tr>
+<td><code>TC-B2-STA-901</code></td>
+<td>Dua don ve trang thai <code>shipping</code> doi hoi di qua dung hai buoc admin — chuoi 4 request</td>
+</tr>
+<tr>
+<td><code>TC-A1-SEC-903</code></td>
+<td>AI viet case <em>&quot;sai 3 lan thi phai khoa&quot;</em> (PASS). Bug nam o phia con lai cua bien: code cong <code>+2</code> nen khoa ngay o lan <strong>thu hai</strong>. Phai viet case khang dinh dieu <strong>nguoc lai</strong> moi thay</td>
+</tr>
+</tbody>
+</table>
+<p>Chi tiet: <code>report/04_extend.md</code> (<code>04_extend.md</code>).</p>
+<h2>6. Thuc thi bang Postman + Newman</h2>
+<h3>6.1 Bo test day du (Oracle = SPEC)</h3>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Case</th>
+<th>PASS</th>
+<th>FAIL</th>
+<th>Assertion</th>
+<th>Assertion FAIL</th>
+<th>Bao cao</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API-1</td>
+<td>70</td>
+<td>33</td>
+<td>37</td>
+<td>328</td>
+<td>51</td>
+<td><code>newman/23127060_API-1_20260901-151823.html</code></td>
+</tr>
+<tr>
+<td>API-2</td>
+<td>87</td>
+<td>34</td>
+<td>53</td>
+<td>413</td>
+<td>78</td>
+<td><code>newman/23127060_API-2_20260901-151831.html</code></td>
+</tr>
+<tr>
+<td>API-3</td>
+<td>86</td>
+<td>17</td>
+<td>69</td>
+<td>405</td>
+<td>105</td>
+<td><code>newman/23127060_API-3_20260901-151839.html</code></td>
+</tr>
+<tr>
+<td><strong>Tong</strong></td>
+<td><strong>243</strong></td>
+<td><strong>84</strong></td>
+<td><strong>159</strong></td>
+<td><strong>1146</strong></td>
+<td><strong>234</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Trong 159 case that bai: <strong>91 case gan <code>@bug</code></strong> (that bai co chu dich, phoi bay bug da biet) va
+<strong>68 case gan <code>@contract</code></strong> (ngoai du kien). Nhom thu hai chinh la phan co gia tri nhat: no chua
+nhung bug <strong>chua co trong danh sach bug da biet</strong> — vi du 63 case that bai vi
+<code>forgot-password</code> tra <code>404 &quot;User not found&quot;</code> cho <strong>moi</strong> dau vao xau (rong, <code>null</code>, thieu key,
+sai dinh dang) thay vi <code>400</code>, cho thay endpoint nay khong he validate dau vao.</p>
+<h3>6.2 Bo hoi quy — lan chay all-pass cho CI</h3>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Case</th>
+<th>Assertion</th>
+<th>Assertion FAIL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API-1</td>
+<td>33</td>
+<td>163</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>API-2</td>
+<td>34</td>
+<td>164</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>API-3</td>
+<td>17</td>
+<td>79</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td><strong>Tong</strong></td>
+<td><strong>84</strong></td>
+<td><strong>406</strong></td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Bo nay gom cac test case ma SUT <strong>hien dang dap ung</strong>, chot tu ket qua chay that bang
+<code>derive_contract.py</code>. No <strong>khong</strong> khang dinh <em>&quot;API nay dung&quot;</em>, ma khang dinh <em>&quot;nhung dieu API
+nay dang lam dung thi khong duoc pha&quot;</em> — mot <strong>moc hoi quy</strong>.</p>
+<blockquote>
+<p>Vi sao khong ep bo test day du phai xanh: SUT co <strong>34 bug that</strong>, nen bo test day du <strong>phai
+do</strong> — do la ket qua kiem thu dung. Ep no xanh thi chi con cach sua ky vong cho khop voi hanh
+vi sai cua SUT, tuc la <strong>nguy tao ket qua</strong>.</p>
+</blockquote>
+<h3>6.3 Lan chay data-driven</h3>
+<table>
+<thead>
+<tr>
+<th>Bo</th>
+<th>Data file</th>
+<th>Vong lap</th>
+<th>Assertion</th>
+<th>FAIL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DD1 Brute force OTP</td>
+<td><code>brute_force_tokens.csv</code></td>
+<td>20</td>
+<td>40</td>
+<td>20</td>
+</tr>
+<tr>
+<td>DD2 Bang chuyen trang thai FR-10</td>
+<td><code>state_transitions.csv</code></td>
+<td>17</td>
+<td>34</td>
+<td>1</td>
+</tr>
+<tr>
+<td>DD3 Lam dung han muc coupon</td>
+<td><code>coupon_abuse.csv</code></td>
+<td>4</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>DD4 Dau vao khong hop le</td>
+<td><code>product_invalid.csv</code></td>
+<td>7</td>
+<td>14</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<h3>6.4 Hai loi cua chinh bo test, tim ra va sua truoc khi chot so lieu</h3>
+<ol>
+<li><strong>Assertion doi nguyen van chuoi <code>&quot;Invalid state transition&quot;</code> o ca hai endpoint.</strong> Endpoint
+<code>PUT /api/orders/:id/cancel</code> tu choi bang thong bao khac (<code>&quot;Cannot cancel this order.&quot;</code>) va
+dieu do hoan toan hop le — SRS chi doi <em>&quot;thong bao loi phu hop&quot;</em>. Day la <strong>loi cua test</strong>,
+khong phai loi cua API. Da sua.</li>
+<li><strong><code>TC-C3-DOM-041</code> xoa san pham <code>id = 1</code></strong>, ma <code>id = 1</code> lai la vat co dinh ma hang chuc case
+khac dung lam moc. Xoa no o giua lan chay khien nhung case chay sau that bai vi mot ly do
+khong lien quan gi den chinh chung. Da doi sang san pham thu do <code>_setup</code> tao rieng.</li>
+</ol>
+<p>Chi tiet: <code>report/06_execution.md</code> (<code>06_execution.md</code>).</p>
+<h2>7. Cac tinh nang Postman da dung</h2>
+<p><strong>23 tinh nang</strong>, trong do <strong>19 co bang chung tu dong kiem chung duoc</strong>. Bang day du:
+<code>report/05_postman_features.md</code> (<code>05_postman_features.md</code>).</p>
+<p>Noi bat: collection + folder theo nhom ky thuat, environment 26 bien, pre-request script cap
+collection <strong>va</strong> cap request, JSON Schema validation (13 schema <strong>thiet ke de bat bug</strong> — vi du
+khai bao <code>price</code> la <code>number</code> de bat C-05, <code>additionalProperties: false</code> de bat viec lo truong
+<code>password</code>), <code>pm.sendRequest</code> (~90 lan, dung de doc lai tai nguyen kiem tac dung phu),
+data-driven run, Newman CLI + <code>htmlextra</code>, <code>--folder</code>, <code>--export-environment</code>, <code>--env-var</code>.</p>
+<p>Bon tinh nang can thao tac GUI (Workspace, Mock server, Monitor, Console) da co huong dan chi
+tiet trong bao cao, danh cho sinh vien thuc hien.</p>
+<h3>Bang chung header <code>X-Student-Id</code> (de bai muc 11)</h3>
+<p>Header duoc chen o pre-request script cap <strong>collection</strong> nen khong request nao co the thieu.
+Bang chung duoc thu o <strong>hai muc</strong>:</p>
+<ol>
+<li><strong>Kiem chung tu dong</strong> — <code>verify_header.py</code> doc thang phan <code>request.header</code> ma Newman ghi lai
+cho tung request that su roi len duong: <strong>823/823 request mang <code>X-Student-Id: 23127060</code></strong>.
+Ket qua: <code>ci/evidence/header_evidence.md</code> (<code>../ci/evidence/header_evidence.md</code>).</li>
+<li><strong>Anh chup Postman Console</strong> — dong <code>console.log(&quot;[HW06][23127060] ...&quot;)</code> xuat hien trong
+bao cao HTML (nho <code>--reporter-htmlextra-logs</code>) va trong Console.</li>
+</ol>
+<blockquote>
+<p>Mot dong <code>console.log</code> chi chung minh <strong>script da chay</strong>, chua chung minh <strong>header da duoc
+gui</strong>. Vi vay cach thu nhat moi la bang chung that; anh chup Console nop kem cho dung yeu cau
+hinh thuc cua de bai.</p>
+</blockquote>
+<h2>8. Bug report</h2>
+<p><strong>34 bug</strong>, tat ca deu <strong>tai hien duoc bang request that</strong>: <strong>12 Critical, 11 High, 9 Medium, 2 Low</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>So bug</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API-1 (FR-03)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>API-2 (FR-08)</td>
+<td>13</td>
+</tr>
+<tr>
+<td>API-3 (FR-15)</td>
+<td>13</td>
+</tr>
+<tr>
+<td>Lien API</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>De bai doi toi thieu 3 bug/API; ca ba deu vuot xa.</p>
+<p>Request va response trong bao cao <strong>khong duoc go tay</strong>: chung duoc trich thang tu
+<code>bugs/evidence/&lt;ID&gt;.md</code>, la ket qua cua mot lan chay that bang <code>capture_bug_evidence.py</code>.</p>
+<h3>Muoi hai bug Critical</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Tieu de</th>
+<th>API</th>
+<th>Vi pham</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A-01</strong></td>
+<td><code>forgot-password</code> tra thang ma OTP trong response body</td>
+<td>API-1</td>
+<td>SEC-07</td>
+</tr>
+<tr>
+<td><strong>A-07</strong></td>
+<td>Mat khau luu plaintext va bi tra ve trong response <code>login</code> / <code>users/me</code></td>
+<td>API-1</td>
+<td>SEC-01</td>
+</tr>
+<tr>
+<td><strong>B-01</strong></td>
+<td><code>checkout</code> tin tuyet doi <code>total_amount</code> do client gui</td>
+<td>API-2</td>
+<td>FR-08</td>
+</tr>
+<tr>
+<td><strong>B-01b</strong></td>
+<td><code>checkout</code> chap nhan <code>total_amount</code> am</td>
+<td>API-2</td>
+<td>FR-08</td>
+</tr>
+<tr>
+<td><strong>B-02</strong></td>
+<td><code>GET /api/orders/:id</code> thieu han xac thuc — IDOR</td>
+<td>API-2</td>
+<td>SEC-02</td>
+</tr>
+<tr>
+<td><strong>B-03</strong></td>
+<td><code>PUT /api/admin/orders/:id/status</code> khong kiem <code>role</code></td>
+<td>API-2</td>
+<td>SEC-03</td>
+</tr>
+<tr>
+<td><strong>B-05</strong></td>
+<td>Cong thuc giam gia <code>percent</code> sai dau, cho ra so tien giam <strong>am</strong></td>
+<td>API-2</td>
+<td>FR-09</td>
+</tr>
+<tr>
+<td><strong>B-07</strong></td>
+<td><code>apply-coupon</code> khong xac thuc; bo <code>user_id</code> la bo qua kiem tra han muc</td>
+<td>API-2</td>
+<td>SEC-02</td>
+</tr>
+<tr>
+<td><strong>C-01</strong></td>
+<td><code>POST</code>/<code>PUT</code>/<code>DELETE /api/products</code> hoan toan khong xac thuc</td>
+<td>API-3</td>
+<td>SEC-02, SEC-03</td>
+</tr>
+<tr>
+<td><strong>C-02</strong></td>
+<td>SQL Injection qua <code>?search=</code></td>
+<td>API-3</td>
+<td>SEC-05</td>
+</tr>
+<tr>
+<td><strong>C-13</strong></td>
+<td>Mot san pham co <code>price = null</code> lam <strong>sap han backend</strong></td>
+<td>API-3</td>
+<td>FR-15</td>
+</tr>
+<tr>
+<td><strong>X-01</strong></td>
+<td><code>PUT /api/users/me</code> cho user thuong tu nang <code>role</code> len <code>admin</code></td>
+<td>lien API</td>
+<td>SEC-06</td>
+</tr>
+</tbody>
+</table>
+<h3>Hai bug dang noi rieng</h3>
+<p><strong>C-02 — SQL Injection lay duoc thong tin dang nhap cua quan tri vien.</strong> Lan chay thu nghiem voi
+payload <code>UNION SELECT id,email,password,role,1,1 FROM users--</code> tra ve nguyen van:</p>
+<pre><code class="language-json">[{&quot;id&quot;:1,&quot;name&quot;:&quot;admin@eshop.com&quot;,&quot;price&quot;:&quot;Admin123!&quot;,&quot;description&quot;:&quot;admin&quot;,...}, ...]
+</code></pre>
+<p>Ket hop voi A-07 (mat khau luu plaintext), <strong>mot request duy nhat</strong> lay duoc mat khau quan tri.</p>
+<p><strong>C-13 — bug tu choi dich vu, va la bug tu tim ra trong luc thu bang chung.</strong> No la <strong>he qua
+day chuyen cua ba bug khac</strong>, khong bug nao trong so do tu no gay sap:</p>
+<ol>
+<li><strong>C-01</strong> cho phep goi <code>PUT /api/products/:id</code> <strong>khong can token</strong>.</li>
+<li><strong>C-09</strong>: mot <code>PUT</code> thieu truong ghi de <code>price</code> thanh <code>null</code>.</li>
+<li><strong>C-05</strong>: <code>GET /api/products/:id</code> chay <code>row.price.toString()</code> khi id la so <strong>chan</strong>.</li>
+</ol>
+<p><code>TypeError</code> nem ra trong callback cua <code>sqlite3</code> khong duoc ai bat → tien trinh Node <strong>thoat
+han</strong> → toan bo API ngung phuc vu. Bang chung: request tiep theo tra <code>Connection refused</code>, va
+moi kich ban chay sau do khong chay duoc nua cho toi khi khoi dong lai may chu. <strong>Mot nguoi
+hoan toan khong dang nhap ha guc duoc ca he thong bang hai request.</strong></p>
+<p>Bug nay minh hoa mot dieu ma kiem thu tung endpoint doc lap khong bao gio thay: <strong>rui ro nam o
+to hop, khong nam o tung thanh phan</strong>.</p>
+<p>Chi tiet 34 bug: <code>bugs/BUG_REPORT.md</code> (<code>../bugs/BUG_REPORT.md</code>). Bang chung:
+<code>bugs/evidence/</code> (<code>../bugs/evidence/</code>). File san sang dan len GitHub Issues:
+<code>bugs/ISSUE_TEMPLATES/</code> (<code>../bugs/ISSUE_TEMPLATES/</code>).</p>
+<h2>9. CI/CD</h2>
+<p>Pipeline: <strong>GitHub Actions</strong>, file <code>.github/workflows/api-tests-23127060.yml</code>.</p>
+<p>Cac buoc: checkout → Node 20 → cai Newman → clone SUT va <strong><code>git checkout 85af3ba</code></strong> (ghim commit)
+→ cai dependency → chay 3 collection (<strong>khoi dong lai backend truoc moi collection</strong>) → tong hop
+ket qua vao Job Summary → <strong>kiem chung header <code>X-Student-Id</code> ngay trong pipeline</strong> → upload
+artifact.</p>
+<p>Hai che do: <code>contract</code> (ky vong xanh) va <code>full</code> (ky vong do — SUT co 34 bug that).</p>
+<p>Ca hai kich ban da duoc <strong>kiem chung tren may cuc bo</strong> truoc khi bao cao:</p>
+<table>
+<thead>
+<tr>
+<th>Kich ban</th>
+<th>Ket qua do duoc</th>
+<th>Bang chung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lan chay PASS</td>
+<td>406 assertion, <strong>0 that bai</strong>, exit code 0</td>
+<td><code>ci/evidence/local_ci_run_pass.log</code></td>
+</tr>
+<tr>
+<td>Lan chay FAIL</td>
+<td>406 assertion, <strong>dung 1 that bai</strong>, newman exit code <strong>1</strong></td>
+<td><code>ci/evidence/local_ci_run_fail.log</code></td>
+</tr>
+</tbody>
+</table>
+<p>Lan chay FAIL duoc tao bang <code>ci/inject_failing_test.py --apply</code>, doi ky vong ma trang thai cua
+<code>TC-A1-DOM-012</code> tu 200 thanh 201, va tra lai duoc bang <code>--revert</code>.</p>
+<blockquote>
+<p><strong>Chua day ma len GitHub.</strong> Remote hien tai la <code>https://github.com/thangak18/HW06.git</code> —
+khong phai tai khoan cua sinh vien. Day ma vao repo cua nguoi khac phai duoc chinh chu dong y
+truoc. Quy trinh 6 buoc de sinh vien tu thuc hien da viet san.</p>
+</blockquote>
+<p>Chi tiet: <code>ci/CI_CD_REPORT.md</code> (<code>../ci/CI_CD_REPORT.md</code>).</p>
+<h2>10. Thiet ke bo sinh test bang AI</h2>
+<h3>Kien truc: tach lam hai lop</h3>
+<table>
+<thead>
+<tr>
+<th>Lop</th>
+<th>Ai lam</th>
+<th>San pham</th>
+<th>Tinh chat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tri thuc</strong></td>
+<td>Con nguoi + AI</td>
+<td><code>spec/api-N.json</code></td>
+<td>Doi hoi doc hieu; quyet dinh chat luong</td>
+</tr>
+<tr>
+<td><strong>Sinh</strong></td>
+<td>May</td>
+<td><code>testcases/API-N_generated.csv</code></td>
+<td><strong>Tat dinh</strong> — cung dau vao luon cho cung dau ra</td>
+</tr>
+</tbody>
+</table>
+<p>AI khong duoc phep &quot;sang tac&quot; test case; no chi giup <strong>dich dac ta van xuoi sang cau truc co
+truc phan hoach ro rang</strong>. Tu do tro di la mot chuong trinh tat dinh. Loi ich cu the: khi mot
+test case sai, truy nguoc duoc ngay ve <strong>dong nao trong file spec</strong> gay ra no.</p>
+<pre><code>PARSE → NORMALISE → 4 BO SINH SONG SONG → KHU_TRUNG → DANH_SO → KIEM_TRA_DO_PHU → EMIT
+                                                                       |
+                                        (chua du do phu) ──────────────┘
+</code></pre>
+<p>Bon bo sinh <strong>doc lap</strong> nen chay duoc rieng tung cai — do chinh la co so ky thuat de thoa yeu
+cau <em>&quot;drive it step by step&quot;</em> cua de bai.</p>
+<h3>Hai loi that trong chinh bo sinh</h3>
+<p><strong>1. Khoa khu trung nuot mat 34 test case.</strong> Khoa ban dau la
+<code>(Method, Endpoint, Request_Body, Expected_Status)</code> — coi hai case la trung nhau khi chung gui
+cung mot request, <strong>bat ke chung khang dinh dieu gi</strong>. Hau qua: API-1 khai bao 6 case schema chi
+sinh ra 1; 9 chuyen trang thai chi sinh ra 5. Sau khi bo sung <code>Category</code>,
+<code>Expected_Assertions</code>, <code>Preconditions</code> vao khoa: <strong>191 → 225 case</strong>, do phu state machine cua
+API-2 <strong>11/25 → 20/25</strong>.</p>
+<p><strong>2. Bang <code>SEC_DEFAULT_ASSERT</code> duoc dien tu tri nho</strong> — xem muc 4.</p>
+<blockquote>
+<p>Bai hoc: <strong>cong cu tu dong cung phai duoc kiem thu.</strong> Neu tin ngay con so dau tien thi bao cao
+da ghi thieu 34 test case va mot do phu sai.</p>
+</blockquote>
+<h3>Han che lon nhat va huong mo rong</h3>
+<p>Ca bon bo sinh deu theo mot khuon: mot vong lap tren mot danh sach khai bao, moi phan tu cho ra
+<strong>mot</strong> test case, <strong>mot</strong> request. Do la gioi han <strong>cau truc</strong>. So lieu do duoc: <strong>9/18</strong> case
+con nguoi phai bo sung thuoc nhom <em>&quot;bug chi lo ra khi ket hop nhieu request&quot;</em>.</p>
+<p>Huong mo rong: bo sung truc thu nam <code>scenarios[]</code> khai bao <strong>chuoi</strong> request kem khang dinh
+<code>cross_step</code> lien ket cac buoc — chuyen tu <strong>0-switch</strong> sang <strong>n-switch coverage</strong>.</p>
+<p><strong>So do:</strong> <code>agent-skill/diagram/23127060_generator_diagram.png</code> — <strong>do sinh vien tu ve</strong> theo de
+bai muc 11. Mo ta de ve: <code>agent-skill/diagram/DIAGRAM_BRIEF.md</code> (<code>../agent-skill/diagram/DIAGRAM_BRIEF.md</code>).
+<strong>Pseudocode:</strong> <code>agent-skill/pseudocode/generator.pseudo.md</code> (<code>../agent-skill/pseudocode/generator.pseudo.md</code>).
+<strong>Ban hien thuc:</strong> <code>agent-skill/eshop-api-23127060/scripts/gen_testcases.py</code>.
+Chi tiet: <code>report/07_test_generator_design.md</code> (<code>07_test_generator_design.md</code>).</p>
+<h2>11. Nhung dieu con lai cua sinh vien</h2>
+<p>Cac hang muc duoi day <strong>bat buoc phai do sinh vien tu lam</strong>, vi chung doi hoi thao tac tren
+giao dien, quyen truy cap tai khoan, hoac vi de bai cam AI lam.</p>
+<table>
+<thead>
+<tr>
+<th>Ma</th>
+<th>Cong viec</th>
+<th>Da chuan bi san gi</th>
+<th>Vi sao AI khong lam duoc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>H1</strong></td>
+<td><strong>Ve so do</strong> bo sinh test</td>
+<td><code>agent-skill/diagram/DIAGRAM_BRIEF.md</code> (182 dong mo ta)</td>
+<td>De bai muc 11 cam so do do AI sinh</td>
+</tr>
+<tr>
+<td><strong>H2</strong></td>
+<td>Doc lai va chot 68 nhan <code>INVALID</code></td>
+<td>Cot <code>Audit_Note</code> da ghi ly do tung dong</td>
+<td>Sinh vien chiu trach nhiem cuoi cung ve test case</td>
+</tr>
+<tr>
+<td><strong>H3</strong></td>
+<td>Mo <strong>GitHub Issues</strong> cho tung bug + chup man hinh</td>
+<td>34 file trong <code>bugs/ISSUE_TEMPLATES/</code> san sang dan</td>
+<td>Can quyen ghi tren GitHub</td>
+</tr>
+<tr>
+<td><strong>H4</strong></td>
+<td>Chup man hinh <strong>Postman Console</strong> co header</td>
+<td>Huong dan 6 buoc trong <code>report/05_postman_features.md</code></td>
+<td>Can thao tac GUI</td>
+</tr>
+<tr>
+<td><strong>H5</strong></td>
+<td>Day ma, chay <strong>2 lan CI</strong>, chup man hinh, lay link</td>
+<td>Workflow + <code>inject_failing_test.py</code> + quy trinh 6 buoc</td>
+<td>Remote la repo cua nguoi khac</td>
+</tr>
+<tr>
+<td><strong>H6</strong></td>
+<td><strong>Mock server</strong> va <strong>Monitor</strong> tren Postman</td>
+<td>Huong dan chi tiet, kem canh bao Monitor khong goi duoc <code>localhost</code></td>
+<td>Can tai khoan Postman</td>
+</tr>
+<tr>
+<td><strong>H7</strong></td>
+<td>Quay <strong>video demo</strong> (khuyen khich)</td>
+<td><code>agent-skill/VIDEO_SCRIPT.md</code> kich ban 6 phut</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>H8</strong></td>
+<td>Danh dau <code>human-verified</code> trong AI_log</td>
+<td><code>ai_log.py verify --id N --status yes</code></td>
+<td>Chi sinh vien xac nhan duoc</td>
+</tr>
+<tr>
+<td><strong>H9</strong></td>
+<td>Xuat PDF, dat ten zip, nop Moodle</td>
+<td><code>validate_submission.py</code> bao con thieu gi</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>12. Phu luc</h2>
+<table>
+<thead>
+<tr>
+<th>Phu luc</th>
+<th>Noi dung</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><strong>AI Audit Report</strong> — 13 luot tuong tac, day du prompt goc va output</td>
+<td><code>ai/audit/AI_AUDIT_REPORT.md</code> (<code>../ai/audit/AI_AUDIT_REPORT.md</code>)</td>
+</tr>
+<tr>
+<td>B</td>
+<td><strong>AI Critique</strong> (299 tu)</td>
+<td><code>ai/critique/AI_CRITIQUE.md</code> (<code>../ai/critique/AI_CRITIQUE.md</code>)</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Nhat ky AI theo thoi gian thuc</td>
+<td><code>ai/AI_log.md</code> (<code>../ai/AI_log.md</code>)</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Prompt goc cua tung buoc</td>
+<td><code>ai/prompts/</code> (<code>../ai/prompts/</code>)</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Test case dang Excel (3 sheet + Summary)</td>
+<td><code>testcases/23127060_HW06_testcases.xlsx</code> (<code>../testcases/23127060_HW06_testcases.xlsx</code>)</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Git commit log</td>
+<td><code>git-log/23127060_git_commit_log.txt</code> (<code>../git-log/23127060_git_commit_log.txt</code>)</td>
+</tr>
+<tr>
+<td>G</td>
+<td>Bang chung header chong gian lan</td>
+<td><code>ci/evidence/header_evidence.md</code> (<code>../ci/evidence/header_evidence.md</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3>Tuyen bo su dung AI (de bai muc 9)</h3>
+<p><strong>I use AI tools for the following tasks.</strong></p>
+<p>Cong cu: <strong>Claude Code (<code>claude-opus-5</code>)</strong>. Toan bo <strong>13 luot tuong tac</strong> duoc ghi lai <strong>tu dong
+ngay tai thoi diem xay ra</strong> bang <code>scripts/ai_log.py</code>, khong viet lai tu tri nho. Moi luot luu
+day du prompt goc va tom tat output.</p>
+<p>Cac so lieu passed/failed <strong>khong</strong> do AI uoc luong ma tinh tu <code>newman/*.json</code> that qua
+<code>summarize_newman.py</code>. So do bo sinh test do <strong>sinh vien tu ve</strong>, khong do AI sinh (de bai muc 11).</p>
+
+</body></html>

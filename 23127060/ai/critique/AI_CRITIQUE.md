@@ -1,24 +1,25 @@
 # AI Critique
 
-> HW06 — API Testing | SV **Ninh Van Khai — 23127060** | De bai muc 10 (200–300 tu)
+> HW06 — API Testing | SV **Ninh Văn Khải — 23127060** | Đề bài mục 10 (200–300 từ)
 
-Sai lam nghiem trong nhat cua AI o bai nay khong phai viet sai mot test case, ma la **dien mot
-bang kien thuc bang tri nho thay vi doc tai lieu**. Bay ma bao mat SEC-01..07 duoc AI hieu
-theo danh sach lo hong OWASP quen thuoc: SEC-01 la SQL Injection, SEC-05 la leo thang quyen. Bang that noi khac han: SEC-01 la mat khau khong duoc luu plaintext, SEC-05 la truy van
-phai dung parameterized query. Hau qua: 39 tren 41 test case bao mat bi gan sai ma.
+Sai lầm nặng nhất của AI trong bài này không phải viết sai test case, mà là **điền một bảng
+kiến thức bằng trí nhớ thay vì đọc tài liệu**. Bảy mã bảo mật SEC-01..07 được AI hiểu theo
+danh sách lỗ hổng OWASP quen thuộc: SEC-01 là SQL Injection, SEC-05 là leo thang quyền. Bảng
+thật nói khác hẳn: SEC-01 là mật khẩu không được lưu plaintext, SEC-05 là truy vấn phải dùng
+parameterized query. Hậu quả: 39/41 test case bảo mật bị gắn sai mã.
 
-Dang chu y la cac test case **van chay dung**: mot phep thu SQL Injection van la phep thu SQL
-Injection du bi dan nhan sai. Cai hong la bang do phu trong bao cao — no khang dinh API-3 da
-kiem SEC-01 tam ca se, trong khi ma do khong duoc cham toi dong nao. Nguoi doc khong the tu
-phat hien loai sai lam nay.
+Đáng chú ý, các test case **vẫn chạy đúng**: một phép thử SQL Injection vẫn là phép thử SQL
+Injection dù bị dán nhãn sai. Thứ hỏng là bảng độ phủ trong báo cáo — nó khẳng định API-3 đã
+phủ SEC-01 với tám test case, trong khi SEC-01 không hề được kiểm ở API-3 dòng nào. Người đọc
+không thể tự phát hiện loại sai lầm này.
 
-AI khong bat duoc vi `SEC-01` la mot **nhan khong tu giai thich**: doc ma do khong ai doan duoc
-no noi gi, nen mo hinh dien vao bang lien tuong manh nhat co san. Bang that nam trong
-`README.md`, con `api_specification.md` thi khong co bang nao.
+AI không bắt được vì `SEC-01` là một **nhãn không tự giải thích**: đọc mã đó không ai đoán
+được nó nói gì, nên mô hình điền vào bằng liên tưởng mạnh nhất có sẵn. Bảng thật nằm trong
+`README.md` của SUT; `api_specification.md` không chứa bảng nào.
 
-Toi cung mac loi cung ban chat: chinh toi viet yeu cau moi API phai phu du bay ma SEC. Yeu cau
-do bat kha thi, va cach duy nhat de dat duoc la gan bua.
+Em cũng mắc lỗi cùng bản chất: chính em viết yêu cầu mỗi API phải phủ đủ bảy mã SEC. Yêu cầu
+đó bất khả thi, và cách duy nhất để đạt được là gán bừa.
 
-Nguyen tac rut ra: **moi khang dinh cua AI ve mot dinh danh — ma yeu cau, ten truong, hang so —
-phai duoc doi chieu voi tai lieu goc truoc khi dung.** AI suy luan tot tren noi dung nhung
-khong dang tin khi tra cuu dinh danh, vi no khong phan biet duoc nho voi doan.
+Nguyên tắc em rút ra: **mọi khẳng định của AI về một định danh — mã yêu cầu, tên trường, hằng
+số — đều phải đối chiếu với tài liệu gốc trước khi dùng.** AI suy luận tốt trên nội dung,
+nhưng không đáng tin khi tra cứu định danh, vì nó không phân biệt được nhớ với đoán.
