@@ -1,0 +1,801 @@
+[
+  {
+    "id": "FR10-AI-001",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; state transitions to confirmed",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-001",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-002",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "confirmed",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "shipping"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; state transitions to shipping",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-002",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-003",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "shipping",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "delivered"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; state transitions to delivered",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-003",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-004",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": "Linear: confirm -> ship -> deliver",
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK across all steps; terminal state delivered",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-004",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-005",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Owner User (User A)",
+    "auth_condition": "Valid User A JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/orders/:id/cancel",
+    "input": {},
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; state transitions to canceled",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-005",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-006",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Owner User (User A)",
+    "auth_condition": "Valid User A JWT",
+    "initial_state": "confirmed",
+    "method": "PUT",
+    "endpoint": "/api/orders/:id/cancel",
+    "input": {},
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; state transitions to canceled",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-006",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-007",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "canceled"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; state transitions to canceled",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-007",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-008",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "confirmed",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "canceled"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; state transitions to canceled",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-008",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-009",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "shipping"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-009",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-010",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "delivered"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-010",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-011",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "confirmed",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "delivered"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); state remains confirmed",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-011",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-013",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "confirmed",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "pending"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); state remains confirmed",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-013",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-014",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "shipping",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); state remains shipping",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-014",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-015",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "shipping",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "pending"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); state remains shipping",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-015",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-016",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Owner User (User A)",
+    "auth_condition": "Valid User A JWT",
+    "initial_state": "shipping",
+    "method": "PUT",
+    "endpoint": "/api/orders/:id/cancel",
+    "input": {},
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); customer cancellation prohibited during shipping; state remains shipping",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-016",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-017",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "delivered",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "pending"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); delivered is terminal immutable; state remains delivered",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-017",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-018",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "delivered",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); delivered is terminal immutable; state remains delivered",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-018",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-019",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "delivered",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "shipping"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); delivered is terminal immutable; state remains delivered",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-019",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-020",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "delivered",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "canceled"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); delivered is terminal immutable; state remains delivered",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-020",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-021",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "canceled",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "pending"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); canceled is terminal immutable; state remains canceled",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-021",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-022",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "canceled",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); canceled is terminal immutable; state remains canceled",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-022",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-023",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "canceled",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "shipping"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); canceled is terminal immutable; state remains canceled",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-023",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-024",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "canceled",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "delivered"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/4xx); canceled is terminal immutable; state remains canceled",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-024",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-025",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated",
+    "auth_condition": "Missing Authorization header",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (401/403/4xx); unauthenticated request rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-025",
+      "SEC-02"
+    ]
+  },
+  {
+    "id": "FR10-AI-026",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated (malformed)",
+    "auth_condition": "Malformed Authorization header (InvalidBearerFormat)",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (401/400/403); malformed auth rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-026",
+      "SEC-02"
+    ]
+  },
+  {
+    "id": "FR10-AI-027",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated (invalid JWT)",
+    "auth_condition": "Garbage / invalid JWT signature (Bearer invalid.token.garbage12345)",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (401/403/4xx); unverified JWT rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-027",
+      "SEC-02"
+    ]
+  },
+  {
+    "id": "FR10-AI-028",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker (tampered JWT)",
+    "auth_condition": "Cryptographically tampered JWT (tampered signature/payload)",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (401/403/4xx); tampered JWT rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-028",
+      "SEC-02"
+    ]
+  },
+  {
+    "id": "FR10-AI-029",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated",
+    "auth_condition": "Missing Authorization header on customer cancel route",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/orders/:id/cancel",
+    "input": {},
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (401/403/4xx); unauthenticated cancel rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-029",
+      "SEC-02"
+    ]
+  },
+  {
+    "id": "FR10-AI-030",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Normal Customer (role = 'user')",
+    "auth_condition": "Valid customer JWT (User A)",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (403/401/404); customer token rejected on admin route; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-030",
+      "SEC-03"
+    ]
+  },
+  {
+    "id": "FR10-AI-031",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Normal Customer (role = 'user')",
+    "auth_condition": "Valid customer JWT (User A)",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "canceled"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (403/401/404); customer token rejected on admin route; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-031",
+      "SEC-03"
+    ]
+  },
+  {
+    "id": "FR10-AI-032",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Normal Customer (role = 'user')",
+    "auth_condition": "Valid customer JWT (User A)",
+    "initial_state": "confirmed",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "shipping"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (403/401/404); customer token rejected on admin route; state remains confirmed",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-032",
+      "SEC-03"
+    ]
+  },
+  {
+    "id": "FR10-AI-033",
+    "provenance": "LEVEL 3 HUMAN AUDITED",
+    "actor": "User B (Non-Owner, role = 'user')",
+    "auth_condition": "Valid customer JWT of User B",
+    "initial_state": "pending (User A)",
+    "method": "PUT",
+    "endpoint": "/api/orders/:id/cancel",
+    "input": {},
+    "oracle_strength": "PARTIALLY SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (403/404/4xx); customer cannot cancel another user's order; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-033",
+      "FR10_HUMAN_AUDIT_CORRECTIONS.md#fr10-ai-033"
+    ]
+  },
+  {
+    "id": "FR10-AI-034",
+    "provenance": "LEVEL 3 HUMAN AUDITED",
+    "actor": "User B (Non-Owner, role = 'user')",
+    "auth_condition": "Valid customer JWT of User B",
+    "initial_state": "confirmed (User A)",
+    "method": "PUT",
+    "endpoint": "/api/orders/:id/cancel",
+    "input": {},
+    "oracle_strength": "PARTIALLY SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (403/404/4xx); customer cannot cancel another user's confirmed order; state remains confirmed",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-034",
+      "FR10_HUMAN_AUDIT_CORRECTIONS.md#fr10-ai-034"
+    ]
+  },
+  {
+    "id": "FR10-AI-035",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "processing"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/422/4xx); undocumented enum rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-035",
+      "API-SPEC"
+    ]
+  },
+  {
+    "id": "FR10-AI-036",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {},
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/422/4xx); missing mandatory status property rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-036",
+      "API-SPEC"
+    ]
+  },
+  {
+    "id": "FR10-AI-037",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": null
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/422/4xx); null status property rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-037",
+      "API-SPEC"
+    ]
+  },
+  {
+    "id": "FR10-AI-038",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": 123
+    },
+    "oracle_strength": "PARTIALLY SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/422/4xx); numeric type mismatch rejected; state remains pending",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-038",
+      "API-SPEC"
+    ]
+  },
+  {
+    "id": "FR10-AI-039",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "Non-existent order ID",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/999999/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "404 Not Found; non-existent order rejected; no side effects",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-039",
+      "API-SPEC"
+    ]
+  },
+  {
+    "id": "FR10-AI-040",
+    "provenance": "LEVEL 3 HUMAN AUDITED",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "Malformed non-numeric ID",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/not-an-id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "PARTIALLY SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/404/4xx); malformed path ID rejected safely without server crash",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-040",
+      "FR10_HUMAN_AUDIT_CORRECTIONS.md#fr10-ai-040"
+    ]
+  },
+  {
+    "id": "FR10-AI-041",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "200 OK; response status matches external GET query persisted state",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-041",
+      "SRS FR-10"
+    ]
+  },
+  {
+    "id": "FR10-AI-042",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT + SQLi in path",
+    "initial_state": "Baseline orders exist",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/1' OR '1'='1/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "PARTIALLY SPECIFICATION-BACKED",
+    "semantic_oracle": "Non-success error (400/404/4xx); SQLi probe rejected safely; zero accidental database alterations",
+    "source_refs": [
+      "FR10_AI_DRAFT.md#fr10-ai-042",
+      "SEC-05"
+    ]
+  },
+  {
+    "id": "FR10-HUM-001",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": "Illegal skip pending->shipping then legal pending->confirmed",
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Step 1 (skip) rejected (400); Step 2 (valid) accepted (200); state becomes confirmed",
+    "source_refs": [
+      "FR10_HUMAN_TEST_CASES.md#fr10-hum-001"
+    ]
+  },
+  {
+    "id": "FR10-HUM-002",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "2x pending (A & B)",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": "Mutate Order A to confirmed",
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Order A transitions to confirmed; Order B remains pending",
+    "source_refs": [
+      "FR10_HUMAN_TEST_CASES.md#fr10-hum-002"
+    ]
+  },
+  {
+    "id": "FR10-HUM-003",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Owner User & Admin",
+    "auth_condition": "User A JWT & Admin JWT",
+    "initial_state": "shipping (after advance)",
+    "method": "PUT",
+    "endpoint": "/api/orders/:id/cancel",
+    "input": "Owner cancel on shipping; then Admin deliver",
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Customer cancel rejected (4xx); state remains shipping; Admin transition to delivered succeeds (200)",
+    "source_refs": [
+      "FR10_HUMAN_TEST_CASES.md#fr10-hum-003"
+    ]
+  },
+  {
+    "id": "FR10-HUM-004",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "confirmed",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": {
+      "status": "confirmed"
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "SUT handles same-state mutation safely (200 NOP or 400 rejection); order remains confirmed",
+    "source_refs": [
+      "FR10_HUMAN_TEST_CASES.md#fr10-hum-004"
+    ]
+  },
+  {
+    "id": "FR10-HUM-005",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "initial_state": "pending",
+    "method": "PUT",
+    "endpoint": "/api/admin/orders/:id/status",
+    "input": "status=confirmed in text/plain payload",
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "SUT handles unsupported content type safely without unhandled error or corrupted state",
+    "source_refs": [
+      "FR10_HUMAN_TEST_CASES.md#fr10-hum-005"
+    ]
+  }
+]

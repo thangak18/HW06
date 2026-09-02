@@ -24093,3 +24093,48 @@ static semantic validator, no collection repair, update derived docs,
 hash verification, git commit, end report]
 ```
 
+---
+
+## INT-047
+
+- **Interaction ID:** INT-047
+- **Date & Time:** 2026-09-02 08:45:53+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Stage:** Phase 2D.1D.2 – FR-10 Canonical Test Provenance Reconstruction
+- **Detailed Interaction File:** `ai/interactions/INT-047-fr10-canonical-provenance-reconstruction.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit STOP targeted defect confirmation.
+
+PHASE 2D.1D.2 – FR-10 CANONICAL TEST PROVENANCE RECONSTRUCTION
+
+Current semantic-audit commit: 04b6859
+
+DO NOT run Newman.
+DO NOT send HTTP traffic.
+DO NOT confirm bugs.
+DO NOT create GitHub Issues.
+DO NOT modify Run 01 / Run 02 raw evidence.
+DO NOT modify FR10_AI_DRAFT.md.
+
+Human review found that the previous semantic audit validated the collection
+against FR10_FINAL_EXECUTABLE_SUITE.md, but that derived file itself appears to
+have semantic drift from the original frozen AI generation and Human Audit
+history.
+
+We must reconstruct the CANONICAL mapping from provenance, not from a derived
+suite that may have been rewritten.
+
+[Sections 1-28: AI Audit, immutable raw AI gate, raw Run02 evidence immutability,
+source-hierarchy rule (Levels 1-4), reconstruct original AI ID mapping from FR10_AI_DRAFT.md,
+critical expected original mapping, check AI-028/029, check AI-030/031/032, check AI-033/034,
+check AI-035..040, Human Audit override rule, rejected AI-012, reconstruct Human Extensions,
+derived-suite diff, collection diff against canonical map, circular validator design audit,
+SEC-02 Level 1 normative source check, SEC-02 classification rule, SEC-03 Level 1 source,
+FSM Level 1 requirements, canonical machine-readable map (fr10_canonical_cases.json),
+new validator (validate_fr10_canonical_traceability.py), Run02 canonical reconciliation,
+candidate re-evaluation, no collection repair, raw hash verification, git commit, end report]
+```
+

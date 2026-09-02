@@ -372,3 +372,11 @@
 - **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2131, Output: Pending backfill)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-046`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-046-fr10-run02-semantic-traceability-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-046-fr10-run02-semantic-traceability-audit.md)
+
+### INT-047: Phase 2D.1D.2: FR-10 Canonical Test Provenance Reconstruction
+- **Date & Time:** 2026-09-02 08:45:53+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1D.2: Reconstruct canonical test provenance from original normative requirements, immutable AI draft, and Human Audit history; diff derived suite and collection; reconcile Run02 results
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2146, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-047`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-047-fr10-canonical-provenance-reconstruction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-047-fr10-canonical-provenance-reconstruction.md)
