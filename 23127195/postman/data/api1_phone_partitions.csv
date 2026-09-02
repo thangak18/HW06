@@ -1,0 +1,16 @@
+phone,expect_valid,partition
+0912345678,yes,Hop le - bien duoi 10 chu so
+09123456789,yes,Hop le - bien tren 11 chu so
+0987654321,yes,Hop le - dau so khac
+091234567,no,Duoi bien - 9 chu so
+091234567890,no,Tren bien - 12 chu so
+9912345678,no,Khong bat dau bang 0
+1912345678,no,Khong bat dau bang 0 (dau 1)
+abcdefghij,no,Chua chu cai
+0abcdefghi,no,Bat dau bang 0 nhung co chu cai
+0912-345-678,no,Co ky tu phan cach
++84912345678,no,Dinh dang quoc te E.164
+0912 345 678,no,Co khoang trang o giua
+,no,Chuoi rong
+0,no,Chi mot chu so
+00000000000000,no,14 chu so

@@ -1,0 +1,164 @@
+{
+  "info": {
+    "_postman_id": "476be09d-5d85-5280-89dd-72e24e8a5c6c",
+    "name": "HW06 - 23127195 - DD2 - Bang quyet dinh ma giam gia (FR-09)",
+    "description": "Data-driven: bang quyet dinh 5 dieu kien C1-C5 cua FR-09.\n\nMoi dong trong postman/data/api2_coupon_decision_table.csv la mot to hop dieu kien, kem ky vong ve status va ve so tien (cot expect_discount / expect_final tinh theo dung cong thuc trong dac ta).\n\nChay bang: newman run <collection> -e <environment> -d postman/data/api2_coupon_decision_table.csv",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "[SETUP] Dang nhap lay token",
+      "id": "e9c841ca-9106-5799-976d-827a5e4de273",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Dang nhap thanh cong', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.collectionVariables.set('ddToken', pm.response.json().token);",
+              "pm.collectionVariables.set('ddUserId', pm.response.json().user.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Ap dung ma giam gia theo dong du lieu",
+      "id": "df74e958-26d8-5e86-9723-bb9f4b2d3a5a",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Bang quyet dinh 5 dieu kien C1-C5 cua FR-09, moi dong CSV la mot to hop",
+              "var d        = pm.iterationData;",
+              "var code     = d.get('code');",
+              "var total    = Number(d.get('total_amount'));",
+              "var expSt    = Number(d.get('expect_status'));",
+              "var expDisc  = d.get('expect_discount');",
+              "var expFinal = d.get('expect_final');",
+              "var cond     = d.get('condition');",
+              "var note     = d.get('note');",
+              "",
+              "pm.test('[' + cond + '] ' + code + ' / ' + total + ' -> HTTP ' + expSt + '  (' + note + ')',",
+              "    function () {",
+              "        pm.expect(pm.response.code).to.eql(expSt);",
+              "    });",
+              "",
+              "if (String(expDisc).trim() !== '') {",
+              "    pm.test('discount_amount = ' + expDisc + ' (cong thuc FR-09)', function () {",
+              "        pm.expect(pm.response.json().discount_amount).to.eql(Number(expDisc));",
+              "    });",
+              "    pm.test('final_amount = ' + expFinal, function () {",
+              "        pm.expect(pm.response.json().final_amount).to.eql(Number(expFinal));",
+              "    });",
+              "    pm.test('Bat bien: 0 <= discount_amount <= total_amount', function () {",
+              "        var b = pm.response.json();",
+              "        pm.expect(b.discount_amount, 'giam gia am').to.be.at.least(0);",
+              "        pm.expect(b.discount_amount, 'giam gia vuot tong don').to.be.at.most(total);",
+              "    });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{ddToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/apply-coupon",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "apply-coupon"
+          ]
+        },
+        "description": "Moi vong lap la mot hang cua bang quyet dinh FR-09.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"{{code}}\",\n  \"total_amount\": {{total_amount}},\n  \"user_id\": {{ddUserId}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "var sid = pm.environment.get('studentId') || '23127195';",
+          "pm.request.headers.upsert({ key: 'X-Student-Id', value: sid });",
+          "console.log('[X-Student-Id] ' + sid + '  ->  ' + pm.request.method + ' ' + pm.request.url.getPath()",
+          "    + '   | iteration ' + (pm.info.iteration + 1));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('[GLOBAL] Request mang header X-Student-Id dung dinh dang', function () {",
+          "    pm.expect(pm.request.headers.get('X-Student-Id')).to.match(/^\\d{8}$/);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "studentId",
+      "value": "23127195"
+    }
+  ]
+}

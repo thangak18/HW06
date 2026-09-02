@@ -1,0 +1,11 @@
+name,price,category_id,expect_inserted,partition
+IMP-DD-OK-1,150000,1,1,Hop le day du
+IMP-DD-OK-2,1,3,1,Hop le - gia toi thieu duong
+IMP-DD-ZERO,0,1,0,price = 0 (khong phai so duong)
+IMP-DD-NEG,-50000,1,0,price am
+IMP-DD-STR,khong-phai-so,1,0,price la chuoi phi so
+,10000,1,0,name rong
+   ,10000,1,0,name toan khoang trang
+IMP-DD-BADCAT,10000,999,0,category_id khong ton tai
+IMP-DD-CAT0,10000,0,0,category_id = 0
+IMP-DD-CATNEG,10000,-1,0,category_id am

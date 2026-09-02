@@ -1,19 +1,19 @@
 # Utility Scripts
 
-This folder contains shared utility scripts for local execution, Newman report generation, and continuous integration helpers.
+This directory contains shared utility scripts for local test execution, Newman report generation, and continuous integration helpers.
 
 ---
 
 ## Example Usage
 
-### 1. Running Newman Locally for a Member Workspace
+### 1. Running Newman Locally for Student Workspace (e.g. 23127259)
 ```bash
-# Run Member 1 Postman Collection
-newman run members/member-1/postman/collections/collection.json \
-  -e members/member-1/postman/environments/environment.json \
-  -d members/member-1/postman/data/testdata.json \
+# Run 23127259 Postman Collection
+newman run 23127259/postman/collections/collection.json \
+  -e 23127259/postman/environments/environment.json \
+  -d 23127259/postman/data/testdata.json \
   -r cli,htmlextra \
-  --reporter-htmlextra-export members/member-1/newman/report.html
+  --reporter-htmlextra-export 23127259/newman/report.html
 ```
 
 ### 2. Prerequisites

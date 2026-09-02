@@ -1,0 +1,3010 @@
+{
+  "api_id": "API-3",
+  "pool": "C",
+  "fr": "FR-16",
+  "name": "Import San pham tu CSV (Admin)",
+  "collection_file": "api3_fr16_import_products.postman_collection.json",
+  "endpoints": [
+    "POST /api/admin/import-products"
+  ],
+  "description": "HW06 - 23127195 - API-3 (Pool C, FR-16).\n\nPhu: domain partition tren cau truc mang products va tren 5 truong cua tung dong (name, price, description, imageUrl, category_id), state transition kiem chung TINH NGUYEN TU cua giao dich import (all-or-nothing), access control FR-12 / SEC-02 / SEC-03, SEC-05, va schema validation.\n\nDac ta FR-16 (SRS muc 6): 'Neu co loi o bat ky dong nao, toan bo import phai duoc rollback (giao dich nguyen tu - all-or-nothing)' va 'He thong hien thi bao cao ro rang: bao nhieu dong thanh cong, bao nhieu dong loi va ly do'.\n\nSinh tu testcases/api3_fr16_testcases.json bang postman/scripts/build_collections.py.",
+  "snippets": {},
+  "cases": [
+    {
+      "id": "TC-A3-S01",
+      "setup": true,
+      "group": "00 - Setup & Fixtures",
+      "title": "[SETUP] Dang nhap admin",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture."
+      },
+      "expected_by_spec": "200 OK, role = admin.",
+      "request": {
+        "method": "POST",
+        "path": "/api/login",
+        "body": {
+          "email": "{{adminEmail}}",
+          "password": "{{adminPassword}}"
+        }
+      },
+      "capture": [
+        {
+          "var": "adminToken",
+          "path": "token"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "user.role",
+            "v": "admin"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-S02",
+      "setup": true,
+      "group": "00 - Setup & Fixtures",
+      "title": "[SETUP] Dang ky nguoi dung THUONG de kiem thu phan quyen",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture cho nhom SEC-03."
+      },
+      "expected_by_spec": "200 OK.",
+      "request": {
+        "method": "POST",
+        "path": "/api/register",
+        "body": {
+          "name": "Import Tester 23127195",
+          "email": "{{importEmail}}",
+          "password": "Import123!"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-S03",
+      "setup": true,
+      "group": "00 - Setup & Fixtures",
+      "title": "[SETUP] Dang nhap nguoi dung thuong",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture."
+      },
+      "expected_by_spec": "200 OK, role = user.",
+      "request": {
+        "method": "POST",
+        "path": "/api/login",
+        "body": {
+          "email": "{{importEmail}}",
+          "password": "Import123!"
+        }
+      },
+      "capture": [
+        {
+          "var": "userToken",
+          "path": "token"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "user.role",
+            "v": "user"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-001-SNAP",
+      "setup": true,
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-001",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-001",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "Mang 1 dong hop le -> 200, inserted = 1, so san pham tang dung 1",
+      "technique": "domain-partition",
+      "param": "products",
+      "partition": "Mang hop le, 1 phan tu",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Happy path theo api_specification.md muc 6.3."
+      },
+      "expected_by_spec": "200 OK, inserted = 1, CSDL tang dung 1 ban ghi.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-OK-1-23127195",
+              "price": 150000,
+              "description": "San pham hop le",
+              "imageUrl": "https://placehold.co/300",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 1
+          },
+          {
+            "t": "arrayLen",
+            "path": "errors",
+            "v": 0,
+            "name": "Khong co dong loi"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('So san pham tang dung 1', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var before = Number(pm.collectionVariables.get('countBefore'));\n        pm.expect(res.json().length).to.eql(before + 1);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-002",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "Mang rong [] -> 400",
+      "technique": "domain-partition",
+      "param": "products",
+      "partition": "Mang rong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Khong co du lieu de import; SUT da cai dat nhanh nay."
+      },
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": []
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          },
+          {
+            "t": "hasKey",
+            "path": "error"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-003",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "Thieu truong products -> 400",
+      "technique": "domain-partition",
+      "param": "products",
+      "partition": "Thieu truong bat buoc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung thieu tham so."
+      },
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {}
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-004",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "products la chuoi thay vi mang -> 400",
+      "technique": "domain-partition",
+      "param": "products",
+      "partition": "Sai kieu: string",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung sai kieu du lieu."
+      },
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": "name,price,description"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-005",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "products = null -> 400",
+      "technique": "domain-partition",
+      "param": "products",
+      "partition": "Gia tri null",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung null."
+      },
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": null
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-006",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "products la object thay vi mang -> 400",
+      "technique": "domain-partition",
+      "param": "products",
+      "partition": "Sai kieu: object",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Object co the vo tinh lot qua neu chi kiem tra 'ton tai' ma khong kiem tra Array.isArray."
+      },
+      "expected_by_spec": "400 Bad Request.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": {
+            "name": "OBJ-23127195",
+            "price": 1000,
+            "category_id": 1
+          }
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-007-SNAP",
+      "setup": true,
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-007",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-007",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "Mang 3 dong deu hop le -> inserted = 3, so san pham tang dung 3",
+      "technique": "domain-partition",
+      "param": "products",
+      "partition": "Mang hop le, nhieu phan tu",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Kiem chung import hang loat, khong chi 1 dong."
+      },
+      "expected_by_spec": "200 OK, inserted = 3, CSDL tang dung 3.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-MULTI-A-23127195",
+              "price": 10000,
+              "description": "a",
+              "imageUrl": "",
+              "category_id": 1
+            },
+            {
+              "name": "IMP-MULTI-B-23127195",
+              "price": 20000,
+              "description": "b",
+              "imageUrl": "",
+              "category_id": 2
+            },
+            {
+              "name": "IMP-MULTI-C-23127195",
+              "price": 30000,
+              "description": "c",
+              "imageUrl": "",
+              "category_id": 3
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 3
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('So san pham tang dung 3', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var before = Number(pm.collectionVariables.get('countBefore'));\n        pm.expect(res.json().length).to.eql(before + 3);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-008-SNAP",
+      "setup": true,
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-008",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-008",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "Mang chua phan tu null -> bao loi va khong ghi gi",
+      "technique": "domain-partition",
+      "param": "products[i]",
+      "partition": "Phan tu null trong mang",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Dong rong trong file CSV la tinh huong rat pho bien khi nguoi dung xuat tu Excel."
+      },
+      "expected_by_spec": "400 hoac 200 kem errors; CSDL khong duoc tang.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-NULLROW-23127195",
+              "price": 10000,
+              "category_id": 1
+            },
+            null
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong 5xx', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Rollback: so san pham khong doi', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var before = Number(pm.collectionVariables.get('countBefore'));\n        pm.expect(res.json().length, 'da ghi du lieu du co dong loi').to.eql(before);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      },
+      "known_defect": "BUG-A3-09"
+    },
+    {
+      "id": "TC-A3-009-SNAP",
+      "setup": true,
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-009",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-009",
+      "group": "01 - Domain Partition: cau truc mang products",
+      "title": "Mang 100 dong hop le -> khong timeout, inserted = 100",
+      "technique": "domain-partition",
+      "param": "products",
+      "partition": "Vuot bien tren so luong dong",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI chi sinh mang 1-3 phan tu. Nhung import CSV la tinh nang duoc dung voi hang tram dong that; cai dat dung stmt.finalize() voi callback bat dong bo co the tra ve response TRUOC khi ghi xong, va loi do chi lo ra khi so dong du lon. Dung pre-request script de sinh 100 dong thay vi viet tay."
+      },
+      "preScript": "// Sinh 100 dong hop le cho phep thu import hang loat\nvar rows = [];\nfor (var i = 1; i <= 100; i++) {\n    rows.push({\n        name: 'IMP-BULK-' + i + '-23127195',\n        price: 1000 + i,\n        description: 'bulk row ' + i,\n        imageUrl: '',\n        category_id: (i % 3) + 1\n    });\n}\npm.collectionVariables.set('bulkRows', JSON.stringify(rows));",
+      "expected_by_spec": "200 OK, inserted = 100, CSDL tang dung 100, khong timeout.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": "{\"products\": {{bulkRows}}}"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 100
+          },
+          {
+            "t": "responseTimeUnder",
+            "v": 5000
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('CSDL tang dung 100 ban ghi (response khong tra ve som truoc khi ghi xong)', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var before = Number(pm.collectionVariables.get('countBefore'));\n        pm.expect(res.json().length).to.eql(before + 100);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-010-SNAP",
+      "setup": true,
+      "group": "02 - Domain Partition: name",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-010",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-010",
+      "group": "02 - Domain Partition: name",
+      "title": "name rong \"\" -> bao loi, khong ghi",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Chuoi rong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-16 ghi ro 'name khong duoc rong'."
+      },
+      "expected_by_spec": "Bao loi cho dong do; khong ghi ban ghi nao.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1,
+            "name": "Phai bao cao dong loi"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-011-SNAP",
+      "setup": true,
+      "group": "02 - Domain Partition: name",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-011",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-011",
+      "group": "02 - Domain Partition: name",
+      "title": "Thieu truong name -> bao loi, khong ghi",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Thieu truong bat buoc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Nhanh da duoc SUT cai dat (kiem tra !row.name)."
+      },
+      "expected_by_spec": "inserted = 0 va co thong bao loi neu ro so dong.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-012-SNAP",
+      "setup": true,
+      "group": "02 - Domain Partition: name",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-012",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-012",
+      "group": "02 - Domain Partition: name",
+      "title": "name = null -> bao loi",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Gia tri null",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung null."
+      },
+      "expected_by_spec": "inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": null,
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-013-SNAP",
+      "setup": true,
+      "group": "02 - Domain Partition: name",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-013",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-013",
+      "group": "02 - Domain Partition: name",
+      "title": "name chi gom khoang trang -> phai bao loi (khong duoc coi la hop le)",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Chuoi trang (whitespace-only)",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI sinh 'name rong' va 'thieu name' - ca hai deu bi chan boi phep kiem tra !row.name. Nhung chuoi ' ' la TRUTHY trong JavaScript nen lot qua phep kiem tra do va tao ra san pham khong ten trong danh muc. Day dung la khe ho ma phep kiem tra don gian bo sot, va la dieu AI khong nhin ra vi no chi doc dac ta chu khong nghi den ngu nghia truthy."
+      },
+      "known_defect": "BUG-A3-06",
+      "expected_by_spec": "Bao loi va khong ghi - ten sau khi trim la rong.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "     ",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-014-SNAP",
+      "setup": true,
+      "group": "02 - Domain Partition: name",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-014",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-014",
+      "group": "02 - Domain Partition: name",
+      "title": "name dai dung 255 ky tu (bien tren hop le) -> chap nhan",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Dung bien tren: 255 ky tu",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-15 quy dinh ten san pham toi da 255 ky tu; FR-16 import cung tao san pham nen ke thua rang buoc do."
+      },
+      "expected_by_spec": "200 OK, inserted = 1.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "N255-23127195-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-015-SNAP",
+      "setup": true,
+      "group": "02 - Domain Partition: name",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-015",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-015",
+      "group": "02 - Domain Partition: name",
+      "title": "name dai 256 ky tu (vuot bien) -> bao loi",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Vuot bien tren: 256 ky tu",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "BVA: max + 1 cua rang buoc 255 ky tu."
+      },
+      "known_defect": "BUG-A3-07",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "N256-23127195-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-016",
+      "group": "02 - Domain Partition: name",
+      "title": "name tieng Viet co dau -> luu va doc lai dung (UTF-8)",
+      "technique": "domain-partition",
+      "param": "name",
+      "partition": "Hop le: Unicode tieng Viet",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Ten san pham tieng Viet la truong hop su dung chinh cua he thong."
+      },
+      "expected_by_spec": "200 OK; tim kiem lai phai thay dung ten co dau.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "Điện thoại Xiaomi 23127195",
+              "price": 5000000,
+              "description": "Mô tả tiếng Việt",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 1
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Doc lai giu nguyen dau tieng Viet', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var found = res.json().filter(function (p) {\n            return p.name === 'Điện thoại Xiaomi 23127195';\n        });\n        pm.expect(found.length, 'khong tim thay san pham voi ten co dau').to.eql(1);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-017",
+      "group": "03 - Domain Partition: price",
+      "title": "price duong hop le -> chap nhan",
+      "technique": "domain-partition",
+      "param": "price",
+      "partition": "Hop le: so duong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Nhanh hop le cua rang buoc 'price phai la so duong' trong FR-16."
+      },
+      "expected_by_spec": "200 OK, inserted = 1.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-PRICE-OK-23127195",
+              "price": 1,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-018-SNAP",
+      "setup": true,
+      "group": "03 - Domain Partition: price",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-018",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-018",
+      "group": "03 - Domain Partition: price",
+      "title": "price = 0 (bien duoi khong hop le) -> bao loi",
+      "technique": "domain-partition",
+      "param": "price",
+      "partition": "Dung bien: 0 (khong duong)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "BVA: FR-16 yeu cau 'so duong', tuc phai > 0; gia tri 0 la bien loai tru."
+      },
+      "known_defect": "BUG-A3-03",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-PRICE-ZERO-23127195",
+              "price": 0,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-019-SNAP",
+      "setup": true,
+      "group": "03 - Domain Partition: price",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-019",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-019",
+      "group": "03 - Domain Partition: price",
+      "title": "price am -> bao loi",
+      "technique": "domain-partition",
+      "param": "price",
+      "partition": "Gia tri am",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Vi pham truc tiep FR-16. Gia am co the bi loi dung: khach dat hang va he thong tra tien nguoc lai."
+      },
+      "known_defect": "BUG-A3-03",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-PRICE-NEG-23127195",
+              "price": -50000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-020-SNAP",
+      "setup": true,
+      "group": "03 - Domain Partition: price",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-020",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-020",
+      "group": "03 - Domain Partition: price",
+      "title": "price la chuoi khong so hoa duoc -> bao loi",
+      "technique": "domain-partition",
+      "param": "price",
+      "partition": "Sai kieu: chuoi khong so",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Truong hop rat thuc te khi import CSV: o Excel bi dinh chu ('10.000 d') se sinh ra chuoi khong so hoa duoc."
+      },
+      "known_defect": "BUG-A3-04",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-PRICE-STR-23127195",
+              "price": "muoi nghin dong",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-021",
+      "group": "03 - Domain Partition: price",
+      "title": "price la chuoi so \"25000\" -> phai ep kieu tuong minh, luu duoi dang so",
+      "technique": "domain-partition",
+      "param": "price",
+      "partition": "Sai kieu: chuoi so hoa duoc",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. Moi truong hop parse CSV deu tra ve CHUOI - do la ban chat cua dinh dang CSV. Nen day khong phai truong hop hiem ma la truong hop MAC DINH cua tinh nang nay. Neu API luu thang chuoi vao cot price thi moi phep tinh tong tien phia sau se noi chuoi thay vi cong so. AI bo sot vi no doc api_specification.md thay 'price: 10000' la so va mac dinh client luon gui so."
+      },
+      "expected_by_spec": "Chap nhan va luu duoi dang SO, hoac tu choi tuong minh - khong duoc luu chuoi vao cot so.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-PRICE-NUMSTR-23127195",
+              "price": "25000",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Neu chap nhan thi price phai duoc luu duoi dang SO', function (done) {\n    if (Number(J().inserted) === 0) { return done(); }\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products?search=IMP-PRICE-NUMSTR-23127195',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var rows = res.json();\n        pm.expect(rows.length, 'khong tim thay san pham vua import').to.be.above(0);\n        pm.expect(rows[0].price, 'price bi luu duoi dang chuoi').to.be.a('number');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-022-SNAP",
+      "setup": true,
+      "group": "03 - Domain Partition: price",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-022",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-022",
+      "group": "03 - Domain Partition: price",
+      "title": "Thieu truong price -> bao loi",
+      "technique": "domain-partition",
+      "param": "price",
+      "partition": "Thieu truong bat buoc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-16 liet ke price trong header CSV bat buoc."
+      },
+      "known_defect": "BUG-A3-03",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-NO-PRICE-23127195",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-023-SNAP",
+      "setup": true,
+      "group": "03 - Domain Partition: price",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-023",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-023",
+      "group": "03 - Domain Partition: price",
+      "title": "price = null -> bao loi",
+      "technique": "domain-partition",
+      "param": "price",
+      "partition": "Gia tri null",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung null."
+      },
+      "known_defect": "BUG-A3-03",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-NULL-PRICE-23127195",
+              "price": null,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-024",
+      "group": "03 - Domain Partition: price",
+      "title": "price cuc lon (1e18) -> khong tran so",
+      "technique": "domain-partition",
+      "param": "price",
+      "partition": "Vuot bien tren mien so",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI dung lai o cac gia tri tien 'hop ly'. Nhung cot price la INTEGER cua SQLite (64-bit) trong khi JSON parse ra Number cua JavaScript (an toan den 2^53); mot gia tri qua lon se bi lam tron am tham va gia san pham luu vao CSDL khac voi gia gui len - sai lech khong he nem loi."
+      },
+      "expected_by_spec": "Tu choi, hoac luu dung gia tri khong bi lam tron.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": "{\"products\": [{\"name\": \"IMP-HUGE-PRICE-23127195\", \"price\": 1000000000000000000, \"category_id\": 1}]}"
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong 5xx', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Neu chap nhan thi gia luu khong duoc sai lech do tran so', function (done) {\n    if (Number(J().inserted) === 0) { return done(); }\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products?search=IMP-HUGE-PRICE-23127195',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var rows = res.json();\n        if (rows.length === 0) { return done(); }\n        pm.expect(Number.isSafeInteger(rows[0].price), 'gia tri gia da vuot khoang so nguyen an toan').to.be.true;\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      },
+      "known_defect": "BUG-A3-10"
+    },
+    {
+      "id": "TC-A3-025-SNAP",
+      "setup": true,
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-025",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-025",
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "category_id khong ton tai (999) -> bao loi",
+      "technique": "domain-partition",
+      "param": "category_id",
+      "partition": "Khoa ngoai khong ton tai",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-15 quy dinh 'Danh muc: bat buoc, phai chon tu danh sach co san'. San pham gan vao danh muc ma khong ton tai se khong hien thi o bat ky trang danh muc nao - hang bien mat khoi cua hang."
+      },
+      "known_defect": "BUG-A3-05",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-BADCAT-23127195",
+              "price": 10000,
+              "category_id": 999
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-026-SNAP",
+      "setup": true,
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-026",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-026",
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "category_id = 0 -> bao loi",
+      "technique": "domain-partition",
+      "param": "category_id",
+      "partition": "Bien duoi khong hop le",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "id tu tang cua SQLite bat dau tu 1 nen 0 chac chan khong hop le."
+      },
+      "known_defect": "BUG-A3-05",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-CAT0-23127195",
+              "price": 10000,
+              "category_id": 0
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-027-SNAP",
+      "setup": true,
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-027",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-027",
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "category_id am -> bao loi",
+      "technique": "domain-partition",
+      "param": "category_id",
+      "partition": "Gia tri am",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung gia tri am."
+      },
+      "known_defect": "BUG-A3-05",
+      "expected_by_spec": "Bao loi, inserted = 0.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-CATNEG-23127195",
+              "price": 10000,
+              "category_id": -1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-028-SNAP",
+      "setup": true,
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-028",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-028",
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "Thieu category_id -> KHONG duoc am tham gan mac dinh",
+      "technique": "domain-partition",
+      "param": "category_id",
+      "partition": "Thieu truong bat buoc",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI coi 'thieu truong' la mot phan vung binh thuong va chi ky vong bao loi. Diem SV nhan ra them la: neu cai dat lang le thay bang mot gia tri mac dinh (vi du danh muc 1) thi import van bao THANH CONG trong khi toan bo lo hang bi xep sai danh muc - loi im lang, khong ai phat hien cho den khi khach hang phan anh. Vi vay ky vong phai duoc phat bieu manh hon: hoac bao loi, hoac neu chap nhan thi khong duoc gan bua danh muc."
+      },
+      "known_defect": "BUG-A3-08",
+      "expected_by_spec": "Bao loi. FR-16 liet ke category_id trong header CSV bat buoc; khong duoc thay the bang gia tri mac dinh.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-NOCAT-23127195",
+              "price": 10000
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0,
+            "name": "Khong duoc import khi thieu danh muc"
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-029",
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "category_id la chuoi -> bao loi hoac ep kieu tuong minh",
+      "technique": "domain-partition",
+      "param": "category_id",
+      "partition": "Sai kieu: chuoi",
+      "source": "AI",
+      "audit": {
+        "label": "INCOMPLETE",
+        "reason": "AI ky vong cung 'bao loi'. SV sua: giong price, du lieu tu CSV luon la chuoi nen '2' la dau vao hop ly; ky vong dung la ep kieu tuong minh ve so va lien ket dung danh muc 2, hoac tu choi."
+      },
+      "expected_by_spec": "Neu chap nhan thi phai lien ket dung danh muc so 2.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-CATSTR-23127195",
+              "price": 10000,
+              "category_id": "2"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong 5xx', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Neu chap nhan thi category_id phai la SO 2', function (done) {\n    if (Number(J().inserted) === 0) { return done(); }\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products?search=IMP-CATSTR-23127195',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var rows = res.json();\n        if (rows.length === 0) { return done(); }\n        pm.expect(rows[0].category_id).to.eql(2);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-030",
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "Thieu description va imageUrl (truong khong bat buoc) -> van import duoc",
+      "technique": "domain-partition",
+      "param": "description / imageUrl",
+      "partition": "Thieu truong KHONG bat buoc",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan biet ro truong bat buoc (name, price, category_id) voi truong tuy chon - neu he thong bat buoc ca hai truong nay thi la qua nghiem khac so voi dac ta."
+      },
+      "expected_by_spec": "200 OK, inserted = 1.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-NODESC-23127195",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-031",
+      "group": "04 - Domain Partition: category_id / description / imageUrl",
+      "title": "description chua dau phay va dau nhay kep (RFC 4180) -> luu nguyen van",
+      "technique": "domain-partition",
+      "param": "description",
+      "partition": "Chuoi chua ky tu phan cach cua CSV",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. FR-16 yeu cau 'Ho tro cac truong co chua dau phay neu duoc boc trong dau nhay kep (RFC 4180)'. AI khong sinh case nay vi endpoint nhan JSON chu khong nhan CSV, nen tu goc do API thi dau phay khong con y nghia. Nhung day chinh la cho phai kiem: neu tang parse CSV o frontend cat sai thi du lieu den API se bi vo, va test nay la choi doi chieu de khoanh vung loi thuoc tang nao."
+      },
+      "expected_by_spec": "200 OK; doc lai phai giu nguyen van ca dau phay va dau nhay kep.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-RFC4180-23127195",
+              "price": 10000,
+              "description": "Mau: den, trang, xanh. Kich thuoc \"L\", \"XL\"",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 1
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Mo ta giu nguyen dau phay va dau nhay kep', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products?search=IMP-RFC4180-23127195',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var rows = res.json();\n        pm.expect(rows.length).to.be.above(0);\n        pm.expect(rows[0].description).to.eql('Mau: den, trang, xanh. Kich thuoc \"L\", \"XL\"');\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-032-SNAP",
+      "setup": true,
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-032",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-032",
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[NGUYEN TU] 1 dong hop le + 1 dong THIEU NAME -> phai rollback toan bo",
+      "technique": "state-transition",
+      "param": "products",
+      "partition": "Import mot phan (partial failure)",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Anh xa truc tiep tu FR-16: 'Neu co loi o bat ky dong nao, toan bo import phai duoc rollback (giao dich nguyen tu - all-or-nothing)'. Day la case quan trong nhat cua API-3."
+      },
+      "known_defect": "BUG-A3-02",
+      "expected_by_spec": "Khong ban ghi nao duoc ghi; inserted = 0; so san pham khong doi.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-ATOMIC-OK-23127195",
+              "price": 50000,
+              "description": "dong hop le",
+              "imageUrl": "",
+              "category_id": 1
+            },
+            {
+              "price": 70000,
+              "description": "dong thieu ten",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1,
+            "name": "Phai bao cao co dong loi"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('ROLLBACK: so san pham phai khong doi', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var before = Number(pm.collectionVariables.get('countBefore'));\n        pm.expect(res.json().length,\n            'giao dich KHONG nguyen tu: dong hop le da duoc ghi trong khi dong khac loi').to.eql(before);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('ROLLBACK: san pham cua dong hop le KHONG duoc ton tai', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products?search=IMP-ATOMIC-OK-23127195',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().length, 'dong hop le van nam lai trong CSDL').to.eql(0);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-033-SNAP",
+      "setup": true,
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-033",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-033",
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[NGUYEN TU] Dong loi nam o DAU mang -> cac dong sau khong duoc ghi",
+      "technique": "state-transition",
+      "param": "products",
+      "partition": "Vi tri dong loi: dau mang",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI chi sinh mot bien the 'co dong loi'. Nhung vi tri cua dong loi lam thay doi hoan toan hanh vi cua cac cai dat kieu 'chay tuan tu roi dung lai': neu loi o dong dau thi khong dong nao duoc ghi (trong nhu da rollback dung), con neu loi o dong cuoi thi tat ca cac dong truoc da nam trong CSDL. Chi test mot vi tri co the cho ket luan sai ve tinh nguyen tu."
+      },
+      "known_defect": "BUG-A3-02",
+      "expected_by_spec": "Khong ban ghi nao duoc ghi.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "price": 10000,
+              "description": "dong loi o dau",
+              "imageUrl": "",
+              "category_id": 1
+            },
+            {
+              "name": "IMP-AFTER-ERR-A-23127195",
+              "price": 20000,
+              "description": "",
+              "imageUrl": "",
+              "category_id": 1
+            },
+            {
+              "name": "IMP-AFTER-ERR-B-23127195",
+              "price": 30000,
+              "description": "",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('ROLLBACK: so san pham khong doi', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var before = Number(pm.collectionVariables.get('countBefore'));\n        pm.expect(res.json().length,\n            'cac dong sau dong loi van duoc ghi vao CSDL').to.eql(before);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-034-SNAP",
+      "setup": true,
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-034",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-034",
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[NGUYEN TU] Dong loi nam o CUOI mang -> cac dong truoc phai bi thu hoi",
+      "technique": "state-transition",
+      "param": "products",
+      "partition": "Vi tri dong loi: cuoi mang",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case doi chung cua TC-A3-033. Day moi la vi tri bay ra loi that: cac cai dat khong dung transaction se da ghi xong hai dong dau truoc khi gap dong loi thu ba, va khong co co che nao thu hoi lai."
+      },
+      "known_defect": "BUG-A3-02",
+      "expected_by_spec": "Khong ban ghi nao con lai trong CSDL.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-BEFORE-ERR-A-23127195",
+              "price": 20000,
+              "description": "",
+              "imageUrl": "",
+              "category_id": 1
+            },
+            {
+              "name": "IMP-BEFORE-ERR-B-23127195",
+              "price": 30000,
+              "description": "",
+              "imageUrl": "",
+              "category_id": 1
+            },
+            {
+              "price": 40000,
+              "description": "dong loi o cuoi",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('ROLLBACK: hai dong truoc dong loi KHONG duoc ton tai', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products?search=IMP-BEFORE-ERR-',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().length,\n            'cac dong truoc dong loi da duoc ghi va khong duoc thu hoi').to.eql(0);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-035-SNAP",
+      "setup": true,
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-035",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-035",
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[NGUYEN TU] Tat ca cac dong deu loi -> inserted = 0, CSDL khong doi",
+      "technique": "state-transition",
+      "param": "products",
+      "partition": "Toan bo dong deu loi",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Trang thai cuc doan cua giao dich: khong co gi duoc ghi."
+      },
+      "expected_by_spec": "inserted = 0, errors co 2 phan tu, CSDL khong doi.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "price": 10000,
+              "category_id": 1
+            },
+            {
+              "price": 20000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "eq",
+            "path": "inserted",
+            "v": 0
+          },
+          {
+            "t": "arrayLen",
+            "path": "errors",
+            "v": 2
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('CSDL khong doi', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().length).to.eql(Number(pm.collectionVariables.get('countBefore')));\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-036-SNAP",
+      "setup": true,
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-036",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-036",
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "Bao cao ket qua phai NHAT QUAN voi trang thai that cua CSDL",
+      "technique": "state-transition",
+      "param": "inserted / errors",
+      "partition": "Tinh nhat quan cua bao cao",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them - day la case sac ben nhat cua nhom nay. AI kiem tra 'co bao loi khong' va 'CSDL co doi khong' nhu hai viec roi rac. Nhung dieu nguy hiem nhat la khi hai thu do MAU THUAN nhau: neu API bao 'Import hoan tat: 1/2 san pham duoc them' thi quan tri vien tin rang mot san pham da vao he thong, trong khi theo FR-16 dang le phai rollback het. Bao cao sai lam nguoi van hanh hanh dong sai. Case nay doi chieu truc tiep con so inserted voi so ban ghi thuc te tang them."
+      },
+      "known_defect": "BUG-A3-02",
+      "expected_by_spec": "So ban ghi tang them trong CSDL phai bang dung gia tri inserted trong bao cao.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-REPORT-OK-23127195",
+              "price": 11000,
+              "description": "",
+              "imageUrl": "",
+              "category_id": 1
+            },
+            {
+              "name": "",
+              "price": 12000,
+              "description": "",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('inserted trong bao cao phai bang so ban ghi that su tang them', function (done) {\n    var reported = Number(J().inserted);\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var before = Number(pm.collectionVariables.get('countBefore'));\n        var actual = res.json().length - before;\n        pm.expect(actual, 'bao cao noi inserted=' + reported + ' nhung CSDL tang ' + actual).to.eql(reported);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Theo FR-16 (all-or-nothing) thi inserted phai la 0 khi co dong loi', function () {\n    pm.expect(Number(J().inserted)).to.eql(0);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-037",
+      "group": "05 - State Transition: tinh nguyen tu cua giao dich import",
+      "title": "Bao cao loi phai neu ro so dong bi loi (FR-16)",
+      "technique": "state-transition",
+      "param": "errors",
+      "partition": "Chat luong bao cao loi",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-16: 'He thong hien thi bao cao ro rang: bao nhieu dong thanh cong, bao nhieu dong loi va ly do'. Bao loi khong kem so dong thi voi file 500 dong la vo dung."
+      },
+      "expected_by_spec": "Moi phan tu errors phai chua so dong va ly do.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-ERRMSG-OK-23127195",
+              "price": 10000,
+              "category_id": 1
+            },
+            {
+              "price": 20000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "arrayLenGte",
+            "path": "errors",
+            "v": 1
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Thong bao loi neu ro so dong', function () {\n    var errs = J().errors || [];\n    pm.expect(errs.length).to.be.above(0);\n    pm.expect(String(errs[0]), 'thong bao loi khong chi ro dong nao').to.match(/\\d+/);\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-038",
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "SEC-02: goi import KHONG kem token -> 401",
+      "technique": "security",
+      "param": "Authorization",
+      "partition": "Khong xac thuc",
+      "sec": [
+        "SEC-02"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "FR-12 yeu cau tat ca API /api/admin/* phai co JWT hop le."
+      },
+      "expected_by_spec": "401 Unauthorized.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-NOAUTH-23127195",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 401
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-039",
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "SEC-02: token rac -> 403",
+      "technique": "security",
+      "param": "Authorization",
+      "partition": "Token khong parse duoc",
+      "sec": [
+        "SEC-02"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Phan vung token sai."
+      },
+      "expected_by_spec": "403 Forbidden.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "raw",
+        "authValue": "Bearer rac-23127195",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-BADTOKEN-23127195",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              401,
+              403
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-040-SNAP",
+      "setup": true,
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-040",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-040",
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "SEC-03: token cua NGUOI DUNG THUONG -> 403 (khong duoc import)",
+      "technique": "security",
+      "param": "Authorization",
+      "partition": "Xac thuc dung nhung khong du quyen",
+      "sec": [
+        "SEC-03"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Anh xa truc tiep tu SEC-03: 'API Admin phai kiem tra role = admin trong Token, KHONG CHI kiem tra su ton tai cua Token'. Day la case quan trong nhat cua API-3."
+      },
+      "known_defect": "BUG-A3-01",
+      "expected_by_spec": "403 Forbidden; khong ban ghi nao duoc ghi.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "user",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-USERROLE-23127195",
+              "price": 10000,
+              "description": "nguoi dung thuong import",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 403
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Khong ban ghi nao duoc ghi boi nguoi dung thuong', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products?search=IMP-USERROLE-23127195',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.json().length,\n            'nguoi dung thuong da ghi duoc du lieu vao kho san pham').to.eql(0);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-041",
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "SEC-03 (tac dong): san pham do nguoi dung thuong chen vao hien cong khai tren cua hang",
+      "technique": "security",
+      "param": "-",
+      "partition": "Chuoi tac dong cua thieu kiem tra quyen",
+      "sec": [
+        "SEC-03"
+      ],
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI dung lai o cho 'API co tra 403 khong'. Nhung muc do nghiem trong chi hien ra khi di them mot buoc: san pham do khach vang lai chen vao co hien tren trang chu cho moi nguoi mua khong. Neu co thi day khong con la loi phan quyen ma la lo hong cho phep nguoi la dang hang gia len cua hang - kem theo gia, mo ta va duong dan anh do ho kiem soat."
+      },
+      "known_defect": "BUG-A3-01",
+      "expected_by_spec": "Danh sach san pham cong khai khong duoc chua ban ghi do nguoi dung thuong chen.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products",
+        "query": {
+          "search": "IMP-USERROLE-23127195"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "arrayLen",
+            "path": "-",
+            "v": 0,
+            "name": "Cua hang khong duoc hien thi san pham do nguoi dung thuong chen"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-042",
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "SEC-02/03: JWT ky bang khoa SAI mang role=admin -> 403",
+      "technique": "security",
+      "param": "Authorization",
+      "partition": "Token gia mao quyen admin",
+      "sec": [
+        "SEC-02",
+        "SEC-03"
+      ],
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. Neu server chi decode payload ma khong verify chu ky thi bat ky ai cung tu phong minh lam admin. Token duoi day mang dung {id:1, role:'admin'} nhung ky bang khoa khac."
+      },
+      "expected_by_spec": "403 Forbidden.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "raw",
+        "authValue": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MjY1MzE3fQ.Z7LjnTp0gy4sgW-VSZeS8M8S_u6llyhMLw15h__XSEk",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-FORGED-23127195",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "statusIn",
+            "v": [
+              401,
+              403
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-043-SNAP",
+      "setup": true,
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "[SETUP] Chup so luong san pham truoc TC-A3-043",
+      "technique": "setup",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Fixture. Dung mot REQUEST rieng de chup moc doi chieu thay vi goi pm.sendRequest trong pre-request script: script pre-request chay bat dong bo nen khong dam bao hoan tat truoc khi request chinh duoc gui, khien countBefore bi lech hoac undefined. Loi nay do chinh SV phat hien khi doi chieu ket qua Newman lan 1 (xem AI_CRITIQUE.md)."
+      },
+      "expected_by_spec": "200 OK; luu so luong san pham hien tai vao countBefore.",
+      "request": {
+        "method": "GET",
+        "path": "/api/products"
+      },
+      "capture": [
+        {
+          "var": "countBefore",
+          "path": "length"
+        }
+      ],
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-043",
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "SEC-05: payload SQL injection trong ten san pham -> luu nguyen van, khong pha CSDL",
+      "technique": "security",
+      "param": "name",
+      "partition": "Payload SQL injection",
+      "sec": [
+        "SEC-05"
+      ],
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "SEC-05 yeu cau parameterized query. SUT dung db.prepare cho import nen day la nhanh duoc ky vong DAT - kiem thu de xac nhan chu khong phai de bat loi."
+      },
+      "expected_by_spec": "Ten duoc luu nguyen van nhu du lieu; bang products va bang categories khong bi anh huong.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-SQLI-23127195'); DROP TABLE categories; --",
+              "price": 10000,
+              "description": "",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('Khong 5xx', function () {\n    pm.expect(pm.response.code).to.be.below(500);\n});"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Bang categories van con nguyen (khong bi DROP)', function (done) {\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/categories',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        pm.expect(res.code).to.eql(200);\n        pm.expect(res.json().length, 'bang categories da bi xoa').to.be.at.least(3);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-044",
+      "group": "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05",
+      "title": "imageUrl chua duong dan javascript: -> khong duoc luu nguyen si de tra ve client",
+      "technique": "security",
+      "param": "imageUrl",
+      "partition": "URL voi giao thuc nguy hiem",
+      "sec": [
+        "SEC-04"
+      ],
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. imageUrl duoc do thang vao thuoc tinh src cua the img tren giao dien. Mot giao thuc javascript: hoac data: co the tro thanh vector XSS luu tru ma khong can cham vao truong name hay description. AI khong sinh case nay vi no chi kiem tra imageUrl nhu mot chuoi binh thuong."
+      },
+      "expected_by_spec": "Tu choi, hoac chi cho phep http/https.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-JSURL-23127195",
+              "price": 10000,
+              "description": "",
+              "imageUrl": "javascript:alert('23127195')",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "exec",
+            "v": "pm.test('imageUrl chi duoc phep dung giao thuc http/https', function (done) {\n    if (Number(J().inserted) === 0) { return done(); }\n    pm.sendRequest({\n        url: pm.environment.get('baseUrl') + '/api/products?search=IMP-JSURL-23127195',\n        method: 'GET',\n        header: { 'X-Student-Id': pm.environment.get('studentId') }\n    }, function (err, res) {\n        try {\n        pm.expect(err).to.be.null;\n        var rows = res.json();\n        if (rows.length === 0) { return done(); }\n        pm.expect(rows[0].imageUrl, 'da luu duong dan javascript: vao truong anh')\n            .to.not.match(/^\\s*javascript:/i);\n        done();\n        } catch (e) { done(e); }\n    });\n});"
+          }
+        ]
+      },
+      "known_defect": "BUG-A3-11"
+    },
+    {
+      "id": "TC-A3-045",
+      "group": "07 - Schema Validation",
+      "title": "Schema: response thanh cong khop hop dong API",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Response thanh cong",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Hop dong duoc suy ra tu api_specification.md muc 6.3 va tu yeu cau bao cao cua FR-16."
+      },
+      "expected_by_spec": "{ message: string, inserted: number, errors: array }.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-SCHEMA-23127195",
+              "price": 10000,
+              "description": "",
+              "imageUrl": "",
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "contentTypeJson"
+          },
+          {
+            "t": "schema",
+            "v": {
+              "type": "object",
+              "required": [
+                "message",
+                "inserted",
+                "errors"
+              ],
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "inserted": {
+                  "type": "number"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-046",
+      "group": "07 - Schema Validation",
+      "title": "Schema: inserted la kieu SO va errors la MANG",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Kieu du lieu cua truong bao cao",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Client dung inserted de hien thi so lieu; neu tra ve chuoi thi phep cong se noi chuoi."
+      },
+      "expected_by_spec": "typeof inserted === 'number'; Array.isArray(errors).",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-SCHEMA2-23127195",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "type",
+            "path": "inserted",
+            "v": "number"
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('errors phai la mang', function () {\n    pm.expect(J().errors).to.be.an('array');\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-047",
+      "group": "07 - Schema Validation",
+      "title": "Schema: response loi khop dinh dang { error: string }",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Response loi",
+      "source": "AI",
+      "audit": {
+        "label": "VALID",
+        "reason": "Tinh nhat quan cua dinh dang loi."
+      },
+      "expected_by_spec": "{ error: string }.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": []
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 400
+          },
+          {
+            "t": "contentTypeJson"
+          },
+          {
+            "t": "schema",
+            "v": {
+              "type": "object",
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-048",
+      "group": "07 - Schema Validation",
+      "title": "Schema: san pham sau import khop schema cua GET /api/products",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Nhat quan schema giua ghi va doc",
+      "source": "HUMAN",
+      "audit": {
+        "label": "VALID",
+        "reason": "Case do SV tu them. AI chi kiem schema cua CHINH response import. Nhung san pham vua tao ra con phai doc duoc dung qua API danh sach - do moi la thu khach hang nhin thay. Kiem tra nay noi lien hai endpoint va bat duoc cac sai lech kieu du lieu sinh ra o tang luu tru."
+      },
+      "expected_by_spec": "Ban ghi doc lai co du id, name, price (number), description, imageUrl, category_id (number).",
+      "request": {
+        "method": "GET",
+        "path": "/api/products",
+        "query": {
+          "search": "IMP-SCHEMA-23127195"
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "status",
+            "v": 200
+          },
+          {
+            "t": "arrayLenGte",
+            "path": "-",
+            "v": 1
+          },
+          {
+            "t": "exec",
+            "v": "pm.test('Ban ghi doc lai khop schema san pham', function () {\n    var p = J()[0];\n    pm.expect(p.id).to.be.a('number');\n    pm.expect(p.name).to.be.a('string');\n    pm.expect(p.price, 'price khong phai kieu so').to.be.a('number');\n    pm.expect(p.category_id).to.be.a('number');\n});"
+          }
+        ]
+      }
+    },
+    {
+      "id": "TC-A3-049",
+      "group": "07 - Schema Validation",
+      "title": "Schema: import 1 dong phan hoi duoi 2000ms",
+      "technique": "schema",
+      "param": "-",
+      "partition": "Phi chuc nang - hieu nang",
+      "source": "AI",
+      "audit": {
+        "label": "INCOMPLETE",
+        "reason": "AI xep nham vao nhom schema. SV giu lai va ghi ro day la kiem thu phi chuc nang, nguong tu dat cho moi truong local."
+      },
+      "expected_by_spec": "Khong co trong SRS. Nguong tu dat: < 2000ms.",
+      "request": {
+        "method": "POST",
+        "path": "/api/admin/import-products",
+        "auth": "admin",
+        "body": {
+          "products": [
+            {
+              "name": "IMP-PERF-23127195",
+              "price": 10000,
+              "category_id": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "assert": [
+          {
+            "t": "responseTimeUnder",
+            "v": 2000
+          }
+        ]
+      }
+    }
+  ]
+}

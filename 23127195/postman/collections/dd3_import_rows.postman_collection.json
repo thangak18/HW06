@@ -1,0 +1,153 @@
+{
+  "info": {
+    "_postman_id": "d23f6f75-1889-516c-b9f5-34ad09726d97",
+    "name": "HW06 - 23127195 - DD3 - Phan vung du lieu import (FR-16)",
+    "description": "Data-driven: moi dong trong postman/data/api3_import_rows.csv la mot phan vung du lieu cua mot dong CSV import, kem ky vong ve so ban ghi duoc chen.\n\nFR-16: name khong duoc rong, price phai la so duong, category_id phai ton tai.\n\nChay bang: newman run <collection> -e <environment> -d postman/data/api3_import_rows.csv",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "[SETUP] Dang nhap admin",
+      "id": "1729341a-2072-5b77-b23a-bb51b84b7a72",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Dang nhap admin thanh cong', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.collectionVariables.set('ddAdminToken', pm.response.json().token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Import mot dong du lieu tu file",
+      "id": "2172cfb6-e5d2-54b7-844a-7216c3b1b766",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Ky vong so ban ghi duoc chen, lay tu cot expect_inserted cua file CSV",
+              "var expIns    = Number(pm.iterationData.get('expect_inserted'));",
+              "var partition = pm.iterationData.get('partition');",
+              "",
+              "pm.test('[' + partition + '] inserted phai bang ' + expIns, function () {",
+              "    pm.expect(pm.response.code, 'khong duoc tra loi may chu').to.be.below(500);",
+              "    pm.expect(Number(pm.response.json().inserted),",
+              "        'dong du lieu KHONG hop le theo FR-16 nhung van duoc ghi').to.eql(expIns);",
+              "});",
+              "",
+              "if (expIns === 0) {",
+              "    pm.test('Phai bao cao ro dong bi loi', function () {",
+              "        pm.expect(pm.response.json().errors).to.be.an('array');",
+              "        pm.expect(pm.response.json().errors.length,",
+              "            'khong bao loi cho dong khong hop le').to.be.at.least(1);",
+              "    });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{ddAdminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/import-products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "description": "Moi vong lap import dung mot dong voi mot to hop gia tri khac nhau.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"products\": [\n    {\n      \"name\": \"{{name}}\",\n      \"price\": \"{{price}}\",\n      \"description\": \"data-driven row\",\n      \"imageUrl\": \"\",\n      \"category_id\": \"{{category_id}}\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "var sid = pm.environment.get('studentId') || '23127195';",
+          "pm.request.headers.upsert({ key: 'X-Student-Id', value: sid });",
+          "console.log('[X-Student-Id] ' + sid + '  ->  ' + pm.request.method + ' ' + pm.request.url.getPath()",
+          "    + '   | iteration ' + (pm.info.iteration + 1));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('[GLOBAL] Request mang header X-Student-Id dung dinh dang', function () {",
+          "    pm.expect(pm.request.headers.get('X-Student-Id')).to.match(/^\\d{8}$/);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "studentId",
+      "value": "23127195"
+    }
+  ]
+}
