@@ -139,8 +139,27 @@ Source: `23127259/evidence/fr14/FR14_FORMAL_HTTP_RECONCILIATION.md`
 | BUG-FR14-001 | [#32](https://github.com/thangak18/HW06/issues/32) |
 | BUG-FR14-002 | [#33](https://github.com/thangak18/HW06/issues/33) |
 | BUG-FR14-003 | [#34](https://github.com/thangak18/HW06/issues/34) |
-| BUG-FR14-004 | PENDING_GH_ISSUE (`GH_AUTH_REQUIRED`); body prepared at `23127259/bugs/BUG-FR14-004-issue-body.md` |
-| BUG-FR14-005 | PENDING_GH_ISSUE (`GH_AUTH_REQUIRED`); body prepared at `23127259/bugs/BUG-FR14-005-issue-body.md` |
+| BUG-FR14-004 | [#36](https://github.com/thangak18/HW06/issues/36) |
+| BUG-FR14-005 | [#37](https://github.com/thangak18/HW06/issues/37) |
+
+## Canonical Newman Run01 Provenance
+
+The canonical `FR14-run01.json` is a **genuinely new, distinct execution** produced during the Senior-QA reconstruction on `thang/hw06-implementation`. It is NOT a relabelling of the historical Anti `Run01`.
+
+| Run | Source branch | Last item | Execution count | SHA-256 | Size |
+|---|---|---|---:|---|---:|
+| Anti `Run01` (historical) | `thang/fr14-anti` | `TC-FR14-H07 – Verify Products Orphaned After Category Delete` | 59 | `212c4aaa25997a0b...` | 947,318 B |
+| Primary `Run01` (canonical) | `thang/hw06-implementation` | `TC-FR14-H06 – Verify All Batch Entities` | 60 | `eb3d05509d304a73...` | 5,386,036 B |
+
+Distinguishing facts (no ambiguity remains):
+
+- File size differs by **5.7×** (Anti `947 KB` vs. Primary `5.4 MB`) — Anti was the truncated/early run; Primary carries the complete 46-case suite with 60 requests and 70 assertions.
+- Terminal test case differs: Anti ends at `TC-FR14-H07` (orphan-product verify, later dropped); Primary ends at `TC-FR14-H06` (the accepted Human batch-verify extension).
+- SHA-256 of the JSON artifact is distinct: Anti `212c4aaa...` vs. Primary `eb3d0550...`.
+- Primary collection SHA-256 `7cf6604d...` and environment SHA-256 `3082f854...` are recorded in the table above; Anti does not publish these because its run was superseded.
+- The historical Anti `Run01` is retained in worktree `/Volumes/Thang/HW06/HW06-fr14-anti` (untouched, audit-only). It is NOT the canonical run.
+
+Therefore Run01 in this final report refers unambiguously to the Primary canonical execution `eb3d05509d304a73...`. No Run02..Run05 numbering was ever used on `thang/hw06-implementation`, so no monotonic renumber is needed.
 
 ## Secret Hygiene
 
