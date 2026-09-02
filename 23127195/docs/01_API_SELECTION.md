@@ -10,8 +10,8 @@ Theo §5 của đề bài:
 - Pool D (Mobile) không dùng vì bài này nhắm vào backend API.
 - **Không trùng** với thành viên khác trong nhóm.
 
-Thành viên khác trong nhóm đã nhận: **FR-02, FR-03, FR-08, FR-10, FR-14, FR-15**
-→ sáu FR này bị loại khỏi danh sách ứng viên.
+Thành viên khác trong nhóm đã nhận: **FR-01, FR-02, FR-07, FR-08, FR-14, FR-15**
+→ sáu FR này bị loại khỏi danh sách ứng viên. Xem bảng đối chiếu ở §5.
 
 Danh sách còn lại sau khi loại trừ:
 
@@ -65,7 +65,25 @@ Bốn tiêu chí được áp dụng cho từng pool, theo đúng yêu cầu v�
 
 ## 5. Xác nhận không trùng nhóm
 
-Xem `docs/team-api-allocation.md` ở thư mục gốc repo.
+Đối chiếu trực tiếp từ thư mục bài làm của cả ba thành viên trong repo — không dựa vào lời khai:
 
-> **⚠ Việc sinh viên phải tự làm:** xác nhận lại lần cuối với hai thành viên còn lại
-> (23127060, 23127259) rằng bộ **FR-04 / FR-09 / FR-16** không trùng, trước khi nộp bài.
+| Sinh viên | Pool A | Pool B | Pool C |
+|---|---|---|---|
+| 23127060 | FR-01 — Đăng ký tài khoản | FR-08 — Thanh toán | FR-14 — Quản lý danh mục |
+| 23127259 | FR-02 — Đăng nhập & khoá tài khoản | FR-07 — Giỏ hàng | FR-15 — Quản lý sản phẩm |
+| **23127195 (bài này)** | **FR-04 — Hồ sơ cá nhân** | **FR-09 — Mã giảm giá** | **FR-16 — Import sản phẩm** |
+
+**Chín FR đôi một khác nhau**, mỗi thành viên đúng một tính năng mỗi Pool. Thoả §5 của đề bài.
+
+Cách người chấm tự kiểm chứng:
+
+```bash
+# chạy ở thư mục gốc repo
+for d in 23127060 23127259 23127195; do
+  echo -n "$d: "
+  grep -rhoE "FR-[0-9]{2}" "$d"/README.md "$d"/docs/00_MAIN_REPORT.md | sort -u | tr '\n' ' '
+  echo
+done
+```
+
+Bảng phân công đầy đủ của nhóm: [`docs/team-api-allocation.md`](../../docs/team-api-allocation.md).

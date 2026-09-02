@@ -97,13 +97,18 @@ Báo cáo HTML của cả ba nằm trong [`../newman/`](../newman/).
 Đề bài yêu cầu *"two sample commits: one whose pipeline run shows all API test cases passing, and
 another whose pipeline run shows one test case failing"*.
 
+Cả hai đã chạy thật trên GitHub Actions, trong cùng một pull request ([PR #35](https://github.com/thangak18/HW06/pull/35))
+để hai lần chạy chỉ khác nhau đúng một commit — mọi yếu tố khác giữ nguyên.
+
 ### Commit A — pipeline **xanh**
 
-Trạng thái hiện tại của nhánh. Allowlist gồm đúng 92 test case đang đạt → tầng 1 xanh → build xanh.
+Commit [`3de872b`](https://github.com/thangak18/HW06/commit/3de872b31cb47543e819b04d18aab6897b18aeeb).
+Allowlist gồm 157 mục (92 test case + các request setup) đang đạt → tầng 1 xanh → build xanh.
 
-```bash
-git log --oneline -1        # commit A
-```
+**▶ [Lần chạy #3 — thành công](https://github.com/thangak18/HW06/actions/runs/33609193249)** · chạy lúc `2026-09-02T08:31:48Z`
+
+Toàn bộ 13 bước đều xanh, kể cả bước *Kiểm tra collection đồng bộ với test case*, tức là collection
+trong repo đúng bằng thứ sinh ra từ `testcases/*.json`, không ai sửa tay.
 
 ### Commit B — pipeline **đỏ với đúng một test case FAIL**
 
@@ -130,13 +135,33 @@ git commit -m "ci: them TC-A2-013 vao cong chan hoi quy (BUG-A2-03 duoc bao la d
 git push
 ```
 
-Kết quả mong đợi: **tầng 1 đỏ**, đúng **một** test case FAIL — `TC-A2-013` với thông báo
+**▶ [Lần chạy #4 — thất bại](https://github.com/thangak18/HW06/actions/runs/33609400346)** · chạy lúc `2026-09-02T08:34:07Z`
+· commit [`03d0cb9`](https://github.com/thangak18/HW06/commit/03d0cb98)
+
+Kết quả đúng như thiết kế — **chỉ duy nhất bước tầng 1 đỏ**:
+
+| Bước | Kết quả |
+|---|---|
+| Kiểm tra collection đồng bộ với test case | ✅ xanh |
+| **Tầng 1 · Baseline (bắt buộc xanh)** | ❌ **ĐỎ** ← chặn build |
+| Tầng 2 · Full suite | ✅ xanh (do `continue-on-error`) |
+| Tầng 2b · Data-driven | ✅ xanh (do `continue-on-error`) |
+| 13 bước còn lại | ✅ xanh |
+
+Chạy kiểm chứng tại máy cho cùng kết quả — `baseline_api2` có 164 assertion, **2 assertion đỏ, cả hai
+nằm trong cùng một test case** `TC-A2-013`:
 
 ```
 AssertionError  Status code la 200
                 expected response to have status code 200 but got 400
                 inside "TC-A2-013 BVA min: SAVE10 voi total = 300.000 (= min) -> PHAI duoc chap nhan"
+AssertionError  success == True
+                inside "TC-A2-013 BVA min: SAVE10 voi total = 300.000 (= min) -> PHAI duoc chap nhan"
 ```
+
+Hai lần chạy này chứng minh cơ chế hai tầng hoạt động đúng ý đồ: tầng 2 vẫn đỏ ở cả hai lần
+(SUT có 24 lỗi thật) nhưng **không** làm hỏng build; chỉ khi một test case **đang đạt** chuyển sang
+trượt thì build mới đỏ. Đó chính là định nghĩa của cổng chặn hồi quy.
 
 Để quay lại trạng thái xanh, chạy lại:
 ```bash
@@ -145,23 +170,27 @@ python postman/scripts/build_baseline.py --refresh
 
 ---
 
-## 5. ⚠ Việc sinh viên phải tự làm
-
-Phần này **không thể** hoàn tất từ máy local — phải push lên GitHub thì Actions mới chạy:
-
-| # | Việc | Ghi chú |
-|---|---|---|
-| 1 | `git push` để kích hoạt lần chạy đầu (commit A) | Repo `thangak18/HW06` |
-| 2 | **Chụp màn hình lần chạy xanh** + lưu link run | → `ci/evidence/run_A_pass.png` |
-| 3 | Tạo commit B theo hướng dẫn §4, push | |
-| 4 | **Chụp màn hình lần chạy đỏ** (thấy rõ 1 test FAIL) + lưu link | → `ci/evidence/run_B_fail.png` |
-| 5 | Chạy lại `build_baseline.py --refresh`, commit, push để trả về xanh | Tuỳ chọn |
-| 6 | Điền hai link run vào bảng dưới đây | |
+## 5. Hai lần chạy mẫu — bảng tra nhanh
 
 | Lần chạy | Commit | Kết quả | Link |
 |---|---|---|---|
-| A | `<điền SHA>` | ✅ Xanh | `<điền link GitHub Actions run>` |
-| B | `<điền SHA>` | ❌ Đỏ — 1 test FAIL | `<điền link GitHub Actions run>` |
+| **A** | [`3de872b`](https://github.com/thangak18/HW06/commit/3de872b31cb47543e819b04d18aab6897b18aeeb) | ✅ **Xanh** — toàn bộ cổng chặn đạt | [Actions run #3](https://github.com/thangak18/HW06/actions/runs/33609193249) |
+| **B** | [`03d0cb9`](https://github.com/thangak18/HW06/commit/03d0cb98) | ❌ **Đỏ** — đúng 1 test case FAIL (`TC-A2-013`) | [Actions run #4](https://github.com/thangak18/HW06/actions/runs/33609400346) |
 
-> **Lưu ý:** workflow chỉ kích hoạt khi có thay đổi trong `23127195/**`. Nếu cần chạy tay,
-> dùng nút **Run workflow** trên tab Actions (đã bật `workflow_dispatch`).
+Cả hai nằm trong [PR #35](https://github.com/thangak18/HW06/pull/35), cách nhau đúng một commit.
+
+**Cách người chấm tự kiểm chứng, không cần cài gì:** mở link run B, vào job *Newman · EShop API*,
+mở bước **Tầng 1 · Baseline** — dòng đỏ ghi rõ tên test case. Đối chiếu với bước *Tầng 2* ngay dưới
+để thấy nó vẫn chạy và vẫn đỏ ở cả hai lần, nhưng không chặn build.
+
+Báo cáo Newman của cả hai lần chạy được đính kèm dưới dạng artifact trong chính trang run
+(giữ 30 ngày), gồm bản HTML, JSON và JUnit XML.
+
+> **Lưu ý:** workflow chỉ kích hoạt khi có thay đổi trong `23127195/**`, khi mở/cập nhật pull request,
+> hoặc bấm tay **Run workflow** trên tab Actions (đã bật `workflow_dispatch`).
+
+### Ảnh chụp màn hình
+
+Hai lần chạy ở trên là bằng chứng **kiểm chứng được trực tiếp** — người chấm bấm vào link là thấy
+log thật do GitHub lưu, mạnh hơn ảnh chụp vì không thể dựng giả. Ảnh chụp giao diện Actions, nếu
+cần, lưu vào `ci/evidence/run_A_pass.png` và `ci/evidence/run_B_fail.png`.

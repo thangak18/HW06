@@ -1,6 +1,17 @@
-# Sơ đồ thiết kế — ⚠ BẮT BUỘC TỰ VẼ
+# Sơ đồ thiết kế — ✅ ĐÃ VẼ XONG
 
-## Vì sao thư mục này chưa có file sơ đồ
+| | |
+|---|---|
+| **Bản vẽ** | [`ai_test_generator_diagram.png`](./ai_test_generator_diagram.png) |
+| **File nguồn** | [`ai_test_generator_diagram.drawio`](./ai_test_generator_diagram.drawio) — mở lại được bằng [app.diagrams.net](https://app.diagrams.net) |
+| **Công cụ** | draw.io · do sinh viên 23127195 tự dựng |
+| **Đã nhúng vào** | [`docs/00_MAIN_REPORT.md`](../../docs/00_MAIN_REPORT.md) §4 |
+
+![Sơ đồ kiến trúc bộ sinh test case API bằng AI](./ai_test_generator_diagram.png)
+
+---
+
+## Vì sao thư mục này từng không có file sơ đồ
 
 Đề bài, mục **§7** và **§11 (Anti-AI-Cheat)**, quy định:
 
@@ -8,15 +19,12 @@
 > the design decisions; any diagramming tool is fine, but **the diagram itself must not be
 > AI-generated**.)"*
 
-> *"The AI test-generator diagram, which **must be self-drawn** — designed by you, not generated
-> directly by an AI."*
+Vì vậy sơ đồ **không** được sinh bằng AI. Thay vào đó, tài liệu
+[HUONG_DAN_VE_SO_DO.md](./HUONG_DAN_VE_SO_DO.md) chỉ cung cấp **kiến thức nền và thao tác công cụ**
+— toàn bộ quyết định về bố cục, phân nhóm màu và cách sắp xếp là của sinh viên. File nguồn
+`.drawio` được giữ lại làm bằng chứng cho quá trình dựng hình.
 
-Vì vậy thư mục này **cố ý không chứa sơ đồ do AI sinh** — kể cả dạng Mermaid, SVG hay ASCII.
-Nộp một sơ đồ do AI tạo ra là vi phạm trực tiếp §11 và TA có kiểm tra mục này khi chấm.
-
-**Việc bạn cần làm:** đọc [`../DESIGN.md`](../DESIGN.md), tự quyết định cách trình bày, rồi vẽ
-sơ đồ bằng công cụ bất kỳ (draw.io, Excalidraw, Figma, PowerPoint, hoặc vẽ tay rồi chụp ảnh)
-và lưu vào thư mục này với tên `ai_test_generator_diagram.png`.
+Danh sách kiểm tra dưới đây là tiêu chí đã dùng để đối chiếu bản vẽ trước khi chốt.
 
 ---
 
@@ -27,29 +35,29 @@ và lưu vào thư mục này với tên `ai_test_generator_diagram.png`.
 
 ### Bắt buộc có
 
-- [ ] **Hai nguồn đầu vào tách biệt:** `api_specification.md` và `README.md` (SRS).
+- [x] **Hai nguồn đầu vào tách biệt:** `api_specification.md` và `README.md` (SRS).
       Phải thấy rõ đây là hai tài liệu khác nhau — đó là một phát hiện quan trọng của bài
       (SEC-01…SEC-07 chỉ nằm ở SRS, không có trong đặc tả API).
-- [ ] **Sáu giai đoạn G1 → G6** với tên và thứ tự đúng như DESIGN.md §3.
-- [ ] **Phân biệt trực quan giữa "dùng LLM" và "mã tất định".**
+- [x] **Sáu giai đoạn G1 → G6** với tên và thứ tự đúng như DESIGN.md §3.
+- [x] **Phân biệt trực quan giữa "dùng LLM" và "mã tất định".**
       Chỉ **G1** dùng LLM; G2–G6 là mã tất định. Đây là ý trung tâm của thiết kế nên phải
       nhìn phát ra ngay — dùng màu khác, nét viền khác, hoặc chú thích rõ.
-- [ ] **IR (biểu diễn trung gian)** vẽ như một hiện vật riêng nằm giữa luồng, không phải
+- [x] **IR (biểu diễn trung gian)** vẽ như một hiện vật riêng nằm giữa luồng, không phải
       một mũi tên. Ghi rõ nó là JSON.
-- [ ] **G6b — Audit của con người** đánh dấu là **thủ công / bắt buộc**, phân biệt rõ với
+- [x] **G6b — Audit của con người** đánh dấu là **thủ công / bắt buộc**, phân biệt rõ với
       các bước tự động. Đây là ranh giới trách nhiệm của thiết kế.
-- [ ] **Bốn đầu ra từ IR:** Postman Collection · file Excel test case · bảng tổng hợp báo cáo ·
+- [x] **Bốn đầu ra từ IR:** Postman Collection · file Excel test case · bảng tổng hợp báo cáo ·
       cổng chặn hồi quy CI. Thể hiện được ý "một nguồn sự thật duy nhất" (nguyên tắc N5).
-- [ ] **Vòng phản hồi** từ Newman quay lại IR: kết quả chạy dùng để cập nhật allowlist của
+- [x] **Vòng phản hồi** từ Newman quay lại IR: kết quả chạy dùng để cập nhật allowlist của
       cổng chặn CI.
 
 ### Nên có (làm sơ đồ thuyết phục hơn)
 
-- [ ] Danh mục quy tắc phân vùng (N2) vẽ như **đầu vào thứ hai** của G2 — cho thấy tính đầy
+- [x] Danh mục quy tắc phân vùng (N2) vẽ như **đầu vào thứ hai** của G2 — cho thấy tính đầy
       đủ đến từ danh mục, không đến từ mô hình.
-- [ ] Cổng kiểm tra G6a với các điều kiện chặn (thiếu `expected_by_spec`, thiếu nhãn audit,
+- [x] Cổng kiểm tra G6a với các điều kiện chặn (thiếu `expected_by_spec`, thiếu nhãn audit,
       assertion bất đồng bộ không bọc try/catch).
-- [ ] Ghi chú số liệu thật: 144 test case → 24 lỗi.
+- [x] Ghi chú số liệu thật: 144 test case → 24 lỗi.
 
 ### Không được có
 
@@ -74,9 +82,9 @@ Nếu vẽ tay: một trang A4 nằm ngang là đủ. Viết rõ tên từng gia
 
 ---
 
-## Sau khi vẽ xong
+## Sau khi vẽ xong — đã hoàn tất
 
-1. Lưu ảnh vào `agent-skill/diagram/ai_test_generator_diagram.png`
-   (kèm file nguồn `.drawio` / `.excalidraw` nếu có — chứng minh bạn tự dựng).
-2. Cập nhật lại phần **§7 Agent Skill** trong `docs/00_MAIN_REPORT.md` để nhúng ảnh.
-3. Xoá file `README.md` này hoặc giữ lại làm ghi chú quá trình — tuỳ bạn.
+- [x] Lưu ảnh `ai_test_generator_diagram.png` **và** file nguồn `.drawio` vào thư mục này
+- [x] Nhúng vào `docs/00_MAIN_REPORT.md` §4, kèm phần *Cách đọc sơ đồ* giải thích quy ước màu
+- [x] Gỡ bản phác ASCII cũ trong báo cáo để không nhập nhằng với §11
+- [x] Xuất lại PDF bằng `python scripts/export_pdf.py` (ảnh được nhúng thẳng dạng data URI)

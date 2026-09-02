@@ -613,4 +613,12 @@ def main():
 
 
 if __name__ == "__main__":
+    # Console Windows mac dinh dung cp1252, khong in duoc tieng Viet trong IR.
+    # Khong ep UTF-8 thi lenh nay crash bang UnicodeEncodeError ngay sau khi da
+    # in xong bang tong ket — tuong nhu chay thanh cong nhung that ra that bai.
+    for _s in (sys.stdout, sys.stderr):
+        try:
+            _s.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
     sys.exit(main())

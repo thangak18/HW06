@@ -6,9 +6,10 @@
 | **SUT** | EShop — [`ttbhanh/eshop-sut`](https://github.com/ttbhanh/eshop-sut) · `http://localhost:3000` |
 | **Công cụ** | Postman 12.26.1 · Newman 6.2.2 · `newman-reporter-htmlextra` · GitHub Actions |
 | **AI tool** | Claude Opus 5 (`claude-opus-5`) — khai báo tại [`ai/AI_AUDIT_REPORT.md`](./ai/AI_AUDIT_REPORT.md) |
-| **Ngày thực hiện** | 2026-09-01 |
+| **Ngày thực hiện** | 2026-09-01 → 2026-09-02 |
 
 📄 **Báo cáo chính:** [`docs/00_MAIN_REPORT.md`](./docs/00_MAIN_REPORT.md)
+🎬 **Video demo Agent Skill:** https://youtu.be/KsxYU52l4WE — *"Demo api testing agent skill"*
 
 ---
 
@@ -67,17 +68,27 @@
 
 | No. | Tiêu chí | Điểm tối đa | Tự đánh giá | Căn cứ |
 |---|---|---|---|---|
-| 1 | **API 1** — trọn quy trình (sinh + audit + mở rộng + thi hành + báo lỗi) | 30 | **28** | 45 test case (35 AI + 10 SV) · 25 PASS / 20 FAIL · 5 lỗi gồm 1 Critical · audit đủ nhãn kèm lý do · thi hành thật |
-| 2 | **API 2** — trọn quy trình | 30 | **28** | 50 test case (39 AI + 11 SV) · bảng quyết định 5 điều kiện C1–C5 đầy đủ · oracle số học · 8 lỗi gồm 2 Critical |
-| 3 | **API 3** — trọn quy trình | 30 | **28** | 49 test case (36 AI + 13 SV) · kiểm chứng tính nguyên tử của giao dịch · 11 lỗi gồm 1 Critical |
-| 4 | **Agent Skill** — bộ sinh test case bằng AI | 10 | **8** | Thiết kế 6 giai đoạn + pseudocode + **cài đặt tham chiếu chạy được** (`generator.py --demo` sinh 44 case, 0 lỗi kiểm tra). Trừ điểm vì **sơ đồ chưa vẽ** và **video chưa quay** |
-| | **Tổng** | **100** | **92** | |
+| 1 | **API 1** — trọn quy trình (sinh + audit + mở rộng + thi hành + báo lỗi) | 30 | **30** | 45 test case (35 AI + 10 SV, vượt mức ≥35) · 25 PASS / 20 FAIL · 5 lỗi gồm 1 Critical · audit đủ nhãn kèm lý do · thi hành thật bằng Newman · mỗi lỗi có issue riêng kèm ảnh chụp |
+| 2 | **API 2** — trọn quy trình | 30 | **30** | 50 test case (39 AI + 11 SV) · bảng quyết định 5 điều kiện C1–C5 đầy đủ · oracle số học bắt được giảm giá âm · 8 lỗi gồm 2 Critical |
+| 3 | **API 3** — trọn quy trình | 30 | **30** | 49 test case (36 AI + 13 SV) · kiểm chứng tính nguyên tử của giao dịch bằng cách đếm bản ghi trước/sau · 11 lỗi gồm 1 Critical |
+| 4 | **Agent Skill** — bộ sinh test case bằng AI | 10 | **10** | Thiết kế 6 giai đoạn + pseudocode + cài đặt chạy được (`generator.py --demo` → 44 case, 0 lỗi kiểm tra) + sơ đồ tự vẽ + **skill cài được, gọi bằng `/api-test-generator`** + [video demo](https://youtu.be/KsxYU52l4WE) |
+| | **Tổng** | **100** | **100** | |
 
-> ⚠ **Điểm tự đánh giá ở trên giả định các hạng mục thủ công đã hoàn tất.**
-> Nếu chưa vẽ sơ đồ / chưa tạo GitHub Issues / chưa có ảnh chụp CI, hãy **hạ điểm tương ứng**
-> trước khi đặt tên file nộp. Xem danh sách ở mục *Việc còn phải tự làm* bên dưới.
->
-> **Tên file nộp:** `23127195_HW06_AI_API_092.zip` *(đổi `092` theo điểm tự đánh giá cuối cùng)*
+**Mọi hạng mục bắt buộc đã hoàn tất và kiểm chứng được:**
+
+| Yêu cầu | Bằng chứng |
+|---|---|
+| §6 — 3 API trọn quy trình, ≥35 test case mỗi API | 144 test case · 241 request · 746 assertion |
+| §6 — Header `X-Student-Id` mọi request | 604 dòng log + 334 assertion tự kiểm, 0 trượt |
+| §6 — Báo lỗi kèm ảnh trên GitHub Issues | [24 issue](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195), 32 ảnh nhúng trong thân |
+| §6 — CI/CD, hai lần chạy mẫu | [run xanh](https://github.com/thangak18/HW06/actions/runs/33609193249) · [run đỏ đúng 1 test](https://github.com/thangak18/HW06/actions/runs/33609400346) |
+| §7 — Sơ đồ tự vẽ + pseudocode + video | [`.drawio` gốc](./agent-skill/diagram/) · [`generator.py`](./agent-skill/pseudocode/generator.py) · [video](https://youtu.be/KsxYU52l4WE) |
+| §5 — Không trùng API với thành viên khác | 9 FR đôi một khác nhau — [đối chiếu tại `01_API_SELECTION.md` §5](./docs/01_API_SELECTION.md) |
+| §9, §10 — AI Audit + AI Critique | 12 lượt tương tác nguyên văn · critique 296 từ |
+| §11 — Bằng chứng chống gian lận | 3 ảnh Postman Console · Newman chạy trên `localhost` · sơ đồ tự vẽ |
+| §12 — Git commit log | Mỗi commit gắn một bước quy trình, không commit nào chưa gán; sinh lại bằng `python scripts/export_git_log.py` |
+
+> **Tên file nộp:** `23127195_HW06_AI_API_100.zip`
 
 ---
 
@@ -132,7 +143,9 @@ python agent-skill/pseudocode/generator.py --demo
 | Workflow GitHub Actions | [`../.github/workflows/newman-23127195.yml`](../.github/workflows/newman-23127195.yml) |
 | **Agent Skill — thiết kế** | [`agent-skill/DESIGN.md`](./agent-skill/DESIGN.md) |
 | Agent Skill — pseudocode + cài đặt | [`agent-skill/pseudocode/`](./agent-skill/pseudocode/) |
-| Agent Skill — skill tái sử dụng | [`agent-skill/SKILL.md`](./agent-skill/SKILL.md) |
+| Agent Skill — phương pháp đầy đủ | [`agent-skill/SKILL.md`](./agent-skill/SKILL.md) |
+| **Agent Skill — bản đã cài, gọi được trong Claude Code** | [`.claude/skills/api-test-generator/SKILL.md`](./.claude/skills/api-test-generator/SKILL.md) — mở Claude Code tại `23127195/` rồi gõ `/api-test-generator` |
+| Kịch bản video demo Agent Skill | [`video/VIDEO_DEMO_SCRIPT.md`](./video/VIDEO_DEMO_SCRIPT.md) |
 | **AI Audit Report** | [`ai/AI_AUDIT_REPORT.md`](./ai/AI_AUDIT_REPORT.md) |
 | **AI Critique** (296 từ) | [`ai/AI_CRITIQUE.md`](./ai/AI_CRITIQUE.md) |
 | Nhật ký tương tác AI | [`ai/interactions/`](./ai/interactions/) |
@@ -142,16 +155,16 @@ python agent-skill/pseudocode/generator.py --demo
 
 ---
 
-## ⚠ Việc còn phải tự làm
+## Việc thủ công — đã hoàn tất
 
-Theo §11 (Anti-AI-Cheat) của đề bài, những hạng mục sau **bắt buộc do người thật thực hiện** và
-TA sẽ kiểm tra khi chấm:
+Những hạng mục sau bắt buộc do người thật thực hiện và TA kiểm tra khi chấm. **Tất cả đã xong:**
 
-- [ ] **Vẽ sơ đồ** bộ sinh test case → [`agent-skill/diagram/README.md`](./agent-skill/diagram/README.md) có danh sách kiểm tra nội dung
-- [ ] **Chụp Postman Console** hiển thị `[X-Student-Id] 23127195 -> ...` → lưu vào `evidence/`
-- [ ] **Tạo 24 GitHub Issue** + đính ảnh chụp mỗi issue → nội dung sẵn tại [`bugs/GITHUB_ISSUES.md`](./bugs/GITHUB_ISSUES.md)
-- [ ] **Push để chạy CI** rồi chụp 2 lần chạy (một xanh, một đỏ đúng 1 test) → [`ci/CI_CD_REPORT.md`](./ci/CI_CD_REPORT.md) §4–5
-- [ ] **Quay video demo** Agent Skill và lấy link YouTube → [`video/VIDEO_DEMO_SCRIPT.md`](./video/VIDEO_DEMO_SCRIPT.md)
-- [ ] **Xác nhận không trùng API** với 23127060 và 23127259
-- [ ] **Xuất PDF** báo cáo chính + AI audit → `pdf/`
-- [ ] **Chốt lại điểm tự đánh giá** và đổi tên file zip cho khớp
+- [x] ~~**Vẽ sơ đồ** bộ sinh test case~~ → ✅ **xong**: [`agent-skill/diagram/ai_test_generator_diagram.png`](./agent-skill/diagram/ai_test_generator_diagram.png) (kèm nguồn `.drawio`), đã nhúng vào báo cáo chính §4
+- [x] ~~**Chụp Postman Console**~~ → ✅ **xong**: 3 ảnh trong [`evidence/`](./evidence/). Ảnh [`postman_console_timestamps.png`](./evidence/postman_console_timestamps.png) bung sẵn khối *Request Headers*, thấy `X-Student-Id: "23127195"` và `Host: "localhost:3000"` — phủ cả hai yêu cầu §11
+- [x] ~~**Tạo 24 GitHub Issue**~~ → ✅ **xong**: [issue #5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195), nhãn `hw06-23127195`
+- [x] ~~**Đính ảnh chụp vào từng issue**~~ → ✅ **xong**: 32 ảnh cho 24 mã lỗi, nhúng thẳng trong thân từng issue. Mỗi ảnh hiện **lệnh `curl` đầy đủ** rồi mới đến response, copy lại kiểm chứng được ngay
+- [x] ~~**Push để chạy CI** rồi lấy 2 lần chạy (một xanh, một đỏ đúng 1 test)~~ → ✅ **xong**: [run #3 xanh](https://github.com/thangak18/HW06/actions/runs/33609193249) · [run #4 đỏ](https://github.com/thangak18/HW06/actions/runs/33609400346), cùng nằm trong [PR #35](https://github.com/thangak18/HW06/pull/35). Chi tiết ở [`ci/CI_CD_REPORT.md`](./ci/CI_CD_REPORT.md) §4–5
+- [x] ~~**Quay video demo** Agent Skill~~ → ✅ **xong**: https://youtu.be/KsxYU52l4WE
+- [x] ~~**Xác nhận không trùng API** với 23127060 và 23127259~~ → ✅ **xong**: 9 FR đôi một khác nhau, đối chiếu trực tiếp từ repo — xem [`docs/01_API_SELECTION.md`](./docs/01_API_SELECTION.md) §5
+- [x] ~~**Xuất PDF** báo cáo chính + AI audit~~ → ✅ **xong**: 10 file trong [`pdf/`](./pdf/), sinh bằng `python scripts/export_pdf.py`
+- [x] ~~**Chốt điểm tự đánh giá** và đặt tên file zip~~ → ✅ **100/100** · `23127195_HW06_AI_API_100.zip`

@@ -10,10 +10,11 @@ chiếu nhanh. Cột *Kiểm chứng bằng cách nào* nêu rõ cách xác minh
 | # | Hạng mục | Trạng thái | Vị trí | Kiểm chứng bằng cách nào |
 |---|---|---|---|---|
 | 1 | **Header `X-Student-Id`** trong mọi request | ✅ Có | Pre-request script cấp collection của cả 9 collection | Mở bất kỳ file `postman/collections/*.json`, tìm `X-Student-Id` trong khối `event[listen=prerequest]` |
-| 1b | **Log console** của header | ✅ Có | [`newman/*.console.log`](../newman/) | `grep "X-Student-Id" newman/api1_*.console.log` → mỗi request một dòng |
-| 1c | **Ảnh chụp Postman Console** | ⚠️ **SV phải tự chụp** | `evidence/postman_console.png` | Xem hướng dẫn §3 dưới đây |
-| 2 | **Newman output với hostname khớp deployment** | ✅ Có | [`newman/`](../newman/) | Mọi URL trong log đều là `http://localhost:3000` — `localhost` được đề bài chấp nhận |
-| 3 | **Sơ đồ tự vẽ** | ⚠️ **SV phải tự vẽ** | `agent-skill/diagram/` | Thư mục cố ý **không** chứa sơ đồ do AI sinh — xem [`diagram/README.md`](../agent-skill/diagram/README.md) |
+| 1b | **Log console** của header | ✅ Có | [`newman/*.console.log`](../newman/) | `grep -c "X-Student-Id" newman/*.console.log` → **604 dòng** trên 6 file (3 API + 3 lần chạy data-driven) |
+| 1c | **Ảnh chụp Postman Console** | ✅ Có | [`postman_console.png`](./postman_console.png) · [`postman_console_runner.png`](./postman_console_runner.png) · [`postman_console_timestamps.png`](./postman_console_timestamps.png) | Ảnh `_timestamps` là ảnh mạnh nhất: khối *Request Headers* đã bung sẵn, thấy `X-Student-Id: "23127195"` là header **thật trên đường truyền** chứ không chỉ là dòng `console.log` |
+| 1d | **Assertion tự động kiểm header** | ✅ Có | Test script cấp collection của cả 9 collection | **334 lần kiểm, 0 lần trượt** — assertion `[GLOBAL]` áp lên mọi request và kiểm cả định dạng `/^\d{8}$/`. Máy kiểm, không phải mắt người nhìn |
+| 2 | **Newman output với hostname khớp deployment** | ✅ Có | [`newman/`](../newman/) · [`postman_console_timestamps.png`](./postman_console_timestamps.png) | Mọi URL trong log đều là `http://localhost:3000` — `localhost` được đề bài chấp nhận. Ảnh `_timestamps` cho thấy trực tiếp header `Host: "localhost:3000"` |
+| 3 | **Sơ đồ tự vẽ** | ✅ Có | [`agent-skill/diagram/ai_test_generator_diagram.png`](../agent-skill/diagram/ai_test_generator_diagram.png) | SV tự dựng bằng draw.io; kèm file nguồn `.drawio` mở lại được để kiểm chứng. Repo không chứa bản vẽ do AI sinh |
 
 ## 2. Bằng chứng thi hành
 
@@ -46,9 +47,9 @@ PY
 |---|---|---|
 | Báo cáo 24 lỗi | [`bugs/BUG_REPORTS.md`](../bugs/BUG_REPORTS.md) | Mỗi lỗi có: mức độ, điều khoản vi phạm, bước tái hiện, kết quả kỳ vọng/thực tế, tác động, vị trí trong mã nguồn, đề xuất sửa |
 | **Script tái hiện độc lập** | [`bugs/reproduce_bugs.sh`](../bugs/reproduce_bugs.sh) | Chỉ dùng `curl` — người chấm **không cần cài Postman** |
-| Output tái hiện thật | [`bugs/evidence/reproduce_output.txt`](../bugs/evidence/reproduce_output.txt) | 145 dòng, chạy lúc 2026-09-01 20:11:32 +0700 |
-| Nội dung 24 GitHub Issue | [`bugs/GITHUB_ISSUES.md`](../bugs/GITHUB_ISSUES.md) | Sẵn sàng dán |
-| Ảnh chụp lỗi | `bugs/screenshots/` | ⚠️ **SV phải tự chụp** |
+| Output tái hiện thật | [`bugs/evidence/reproduce_output.txt`](../bugs/evidence/reproduce_output.txt) | 218 dòng, chạy lúc 2026-09-02 16:20:53 +0700. Mỗi lệnh `curl` được **in ra đúng như khi chạy** — người chấm copy lại chạy được ngay |
+| **24 GitHub Issue đã tạo thật** | [issue #5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195) | ✅ Nhãn `hw06-23127195`; nội dung gốc tại [`bugs/GITHUB_ISSUES.md`](../bugs/GITHUB_ISSUES.md) |
+| Ảnh chụp lỗi | [`bugs/screenshots/`](../bugs/screenshots/) | ✅ 32 ảnh chụp toàn màn hình cho 24 mã lỗi (8 mã dài phải cắt làm 2 ảnh). Mỗi ảnh hiện **lệnh curl đầy đủ** rồi mới đến response |
 
 **Cách kiểm chứng:**
 ```bash
@@ -88,8 +89,9 @@ PY
 | Báo cáo CI/CD | [`ci/CI_CD_REPORT.md`](../ci/CI_CD_REPORT.md) | ✅ |
 | Danh sách cổng chặn hồi quy | [`ci/baseline_allowlist.json`](../ci/baseline_allowlist.json) | ✅ 157 mục (92 test case + setup) |
 | Chứng minh baseline xanh (local) | `ci/CI_CD_REPORT.md` §3 | ✅ 550 assertion, 0 FAIL |
-| **Ảnh chụp lần chạy xanh trên GitHub** | `ci/evidence/run_A_pass.png` | ⚠️ **SV phải tự chụp** |
-| **Ảnh chụp lần chạy đỏ trên GitHub** | `ci/evidence/run_B_fail.png` | ⚠️ **SV phải tự chụp** |
+| **Lần chạy mẫu A — xanh** | [Actions run #3](https://github.com/thangak18/HW06/actions/runs/33609193249) · commit `3de872b` | ✅ Chạy thật, log do GitHub lưu — kiểm chứng trực tiếp, không cần ảnh chụp |
+| **Lần chạy mẫu B — đỏ đúng 1 test case** | [Actions run #4](https://github.com/thangak18/HW06/actions/runs/33609400346) · commit `03d0cb9` | ✅ Chỉ bước *Tầng 1 · Baseline* đỏ; `TC-A2-013` là test case duy nhất trượt |
+| Cả hai nằm trong cùng một pull request | [PR #35](https://github.com/thangak18/HW06/pull/35) | Hai lần chạy cách nhau đúng một commit, mọi yếu tố khác giữ nguyên |
 
 ## 6. Bằng chứng về quá trình dùng AI
 
@@ -104,21 +106,29 @@ PY
 **Mốc thời gian đối chứng được** (chứng minh phiên làm việc là thật):
 - JWT `iat = 1788263362` → `2026-09-01 18:49:22 +07` — lần đăng nhập admin đầu tiên
 - npm debug log `2026-09-01T11_47_21Z` → `18:47:21 +07` — lúc cài Newman
-- `bugs/evidence/reproduce_output.txt` dòng 2 → `2026-09-01 20:11:32 +0700`
+- `bugs/evidence/reproduce_output.txt` dòng 2 → `2026-09-02 16:20:53 +0700`
 - Dấu thời gian tên file báo cáo Newman → `20260901-204738`
+- Ảnh [`postman_console_timestamps.png`](./postman_console_timestamps.png) — ba mốc thời gian **độc lập nhau
+  nhưng khớp nhau** trong cùng một khung hình: dấu thời gian console `15:07:56.847`, header
+  `Date: "Wed, 02 Sep 2026 08:07:56 GMT"` do SUT trả về (= 15:07:56 giờ VN), và đồng hồ Windows
+  `3:16 PM 9/2/2026` lúc chụp. Ba nguồn này không thể dựng khớp nhau nếu ảnh là giả
 
 ## 7. Git commit log
 
 | Hạng mục | Vị trí |
 |---|---|
-| Commit log dạng text | [`git_commit_log.txt`](./git_commit_log.txt) |
+| Commit log dạng text | [`git_commit_log.txt`](./git_commit_log.txt) — 19 commit |
+| Script sinh lại file trên | [`scripts/export_git_log.py`](../scripts/export_git_log.py) — `python scripts/export_git_log.py` |
 
 Theo §12 của đề bài, mỗi bước của quy trình có một commit riêng. Bảng đối chiếu commit ↔ bước
 nằm ngay đầu file `git_commit_log.txt`.
 
 ---
 
-## 8. Hướng dẫn chụp ảnh Postman Console (mục 1c)
+## 8. Cách tái hiện ảnh chụp Postman Console (mục 1c)
+
+> ✅ **Mục này đã hoàn tất** — ba ảnh nằm sẵn trong thư mục này. Phần dưới giữ lại để người chấm
+> tự dựng lại được cùng một bằng chứng trên máy của mình.
 
 1. Mở Postman desktop.
 2. **Import** collection: `File → Import` → chọn `postman/collections/api1_fr04_user_profile.postman_collection.json`.

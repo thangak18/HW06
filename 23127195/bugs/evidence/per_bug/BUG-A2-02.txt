@@ -1,0 +1,11 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-02 16:20:53 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+
+### BUG-A2-02 [Critical] Cong thuc percent sai -> giam gia AM
+   FR-09: discount = total x discount_value / 100 = 500000 x 10 / 100 = 50000
+   Ky vong: discount_amount=50000, final_amount=450000
+
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000,"user_id":2}'
+{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}   -> khach hang phai tra 5.000.000 thay vi 450.000 (gap 11 lan gia goc)

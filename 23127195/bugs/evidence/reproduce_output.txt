@@ -1,127 +1,192 @@
 Tai hien loi — SUT: http://localhost:3000/api
-Thoi diem   : 2026-09-01 20:11:32 +0700
+Thoi diem   : 2026-09-02 16:20:53 +0700
 Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+Bien dung trong cac lenh duoi day (rut gon cho de doc, noi dung that duoc gui di):
+  $B           = http://localhost:3000/api
+  $H           = -H 'Content-Type: application/json' -H 'X-Student-Id: 23127195'
+  $USER_TOKEN  = JWT lay tu POST http://localhost:3000/api/login  voi test@eshop.com  (role=user)
+  $ADMIN_TOKEN = JWT lay tu POST http://localhost:3000/api/login  voi admin@eshop.com (role=admin)
 
 ----------------------------------------------------------------------
 ### BUG-A1-01 [Critical] SEC-06 — leo quyen len admin qua PUT /api/users/me
-$ curl -X PUT /api/users/me -d {"name":...,"role":"admin"}
-{"message":"Profile updated"}
-$ curl /api/users/me   -> role hien tai:
-admin
-$ dang nhap lai -> JWT moi mang role gi?
-role trong JWT: admin
-$ dung JWT do goi GET /api/admin/users (chi admin moi duoc phep):
-   HTTP 200
-[{"id":1,"name":"Admin User","email":"admin@eshop.com","role":"admin","login_attempts":0,"locked_until":null,"shipping_address":null},{"id":2,"name":"Test User","email":"test@eshop.com","role":"admin"
+
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"Test User","shipping_address":"1 Le Loi","phone":"0912345678","role":"admin"}'
+{"message":"Profile updated"}   role hien tai sau lenh tren:
+
+$ curl -s $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN'
+{"id":2,"name":"Test User","email":"test@eshop.com","password":"Test1234!","role":"admin","login_attempts":0,"locked_until":null,"reset_token":null,"shipping_address":"1 Le Loi","phone":"0912345678"}   dang nhap lai — JWT moi mang role gi?
+
+$ curl -s -X POST $B/login $H -d '{"email":"test@eshop.com","password":"Test1234!"}'
+{"message":"Login successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg4MzQwODU0fQ.mkD_NdGrtoGJL5PdAhkQDQ7jru0DBcpixgYg_LlqdI4","user":{"id":2,"name":"Test User","email":"test@eshop.com","password":"Test1234!","role":"admin","login_attempts":0,"locked_until":null,"reset_token":null,"shipping_address":"1 Le Loi","phone":"0912345678"}}   dung JWT moi goi GET /api/admin/users (chi admin moi duoc phep):
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' $B/admin/users $H -H 'Authorization: Bearer $NEW_TOKEN'
+HTTP 200
 
 ----------------------------------------------------------------------
 ### BUG-A1-02 [High] SEC-01 — GET /api/users/me tra ve mat khau plaintext + reset_token
-{"id":2,"name":"Test User","email":"test@eshop.com","password":"Test1234!","role":"admin","login_attempts":0,"locked_until":null,"reset_token":null,"shipping_address":"1 Le Loi","phone":"0912345678"}
 
+$ curl -s $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN'
+{"id":2,"name":"Test User","email":"test@eshop.com","password":"Test1234!","role":"admin","login_attempts":0,"locked_until":null,"reset_token":null,"shipping_address":"1 Le Loi","phone":"0912345678"}
 ----------------------------------------------------------------------
 ### BUG-A1-03 [Medium] FR-04 — khong validate so dien thoai
-   phone="abc"          -> {"message":"Profile updated"}
-   phone="12345"        -> {"message":"Profile updated"}
-   phone="9912345678"   -> {"message":"Profile updated"}
-   phone=""             -> {"message":"Profile updated"}
-   phone="0912-345-678" -> {"message":"Profile updated"}
-   phone="+84912345678" -> {"message":"Profile updated"}
 
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"abc"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"12345"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"9912345678"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":""}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"0912-345-678"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"+84912345678"}'
+{"message":"Profile updated"}
 ----------------------------------------------------------------------
 ### BUG-A1-04 [Medium] FR-04 — khong validate ho ten
-   name=""           -> {"message":"Profile updated"}
-   name="   "        -> {"message":"Profile updated"}
-   name="23127195"   -> {"message":"Profile updated"}
 
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"","shipping_address":"a","phone":"0912345678"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"   ","shipping_address":"a","phone":"0912345678"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"23127195","shipping_address":"a","phone":"0912345678"}'
+{"message":"Profile updated"}
 ----------------------------------------------------------------------
 ### BUG-A1-05 [Medium] Cap nhat mot phan xoa trang cac truong khong gui
-   truoc:  
-           name='Baseline' phone='0912345678' addr='227 Nguyen Van Cu'
-   sau khi PUT chi gui {"name":"Chi doi ten"}:
-           name='Chi doi ten' phone=None addr=None
 
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"Baseline","shipping_address":"227 Nguyen Van Cu","phone":"0912345678"}'
+{"message":"Profile updated"}   chi gui MOT truong name, khong gui phone va shipping_address:
+
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"Chi doi ten"}'
+{"message":"Profile updated"}   doc lai ho so — hai truong khong gui da bi xoa trang:
+
+$ curl -s $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN'
+{"id":2,"name":"Chi doi ten","email":"test@eshop.com","password":"Test1234!","role":"admin","login_attempts":0,"locked_until":null,"reset_token":null,"shipping_address":null,"phone":null}
 ----------------------------------------------------------------------
 ### BUG-A2-01 [Critical] C4/SEC-02 — apply-coupon khong yeu cau dang nhap
-$ curl -X POST /api/apply-coupon  (KHONG kem Authorization)
-   HTTP 200
-{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}
+   KHONG kem header Authorization:
 
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000}'
+HTTP 200
+
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000}'
+{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}
 ----------------------------------------------------------------------
 ### BUG-A2-02 [Critical] Cong thuc percent sai -> giam gia AM
    FR-09: discount = total x discount_value / 100 = 500000 x 10 / 100 = 50000
    Ky vong: discount_amount=50000, final_amount=450000
-   Thuc te:
-{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}
-   -> khach hang phai tra 5.000.000 thay vi 450.000 (gap 11 lan gia goc)
+
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000,"user_id":2}'
+{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}   -> khach hang phai tra 5.000.000 thay vi 450.000 (gap 11 lan gia goc)
 
 ----------------------------------------------------------------------
 ### BUG-A2-03 [High] C3 dung dau > thay vi >= (FR-09 ghi ro >=)
-   SAVE10 total=299999   (min=300000) -> {"error":"Đơn hàng chưa đủ giá trị tối thiểu 300,000 ₫ để áp dụng mã này"}
-   SAVE10 total=300000   (min=300000) -> {"error":"Đơn hàng chưa đủ giá trị tối thiểu 300,000 ₫ để áp dụng mã này"}
-   SAVE10 total=300001   (min=300000) -> {"success":true,"coupon_id":1,"discount_amount":-2700009,"final_amount":3000010,"message":"Áp dụng thành công! Gi�
+   min_order_amount = 300000; don bang dung nguong PHAI duoc chap nhan
 
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":299999,"user_id":2}'
+{"error":"Đơn hàng chưa đủ giá trị tối thiểu 300,000 ₫ để áp dụng mã này"}
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":300000,"user_id":2}'
+{"error":"Đơn hàng chưa đủ giá trị tối thiểu 300,000 ₫ để áp dụng mã này"}
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":300001,"user_id":2}'
+{"success":true,"coupon_id":1,"discount_amount":-2700009,"final_amount":3000010,"message":"Áp dụng thành công! Giảm 10%"}
 ----------------------------------------------------------------------
 ### BUG-A2-04/05 [High] C5 bi vo hieu khi bo user_id / muon luot nguoi khac
-   (da ghi 1 luot dung SAVE10 cho user id=2, max_uses_per_user=1)
-   co user_id=2      -> {"error":"Bạn đã sử dụng mã này 1 lần (đã đạt giới hạn)"}
-   BO user_id        -> {"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành c
-   user_id=1 (nguoi khac) -> {"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành c
 
+$ curl -s -X POST $B/coupon-usage $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"coupon_id":1}'
+{"message":"Usage recorded"}   da ghi 1 luot dung SAVE10 cho user id=2, max_uses_per_user=1
+
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000,"user_id":2}'
+{"error":"Bạn đã sử dụng mã này 1 lần (đã đạt giới hạn)"}
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000}'
+{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000,"user_id":1}'
+{"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}
 ----------------------------------------------------------------------
 ### BUG-A2-06 [Low] Thu tu kiem tra dieu kien: ma het han bao nham 'chua du nguong'
-   EXPIRED total=500000 (>= min 100000) -> {"error":"Mã giảm giá đã hết hạn"}
-   EXPIRED total=50000  (<  min 100000) -> {"error":"Đơn hàng chưa đủ giá trị tối thiểu 100,000 ₫ để áp dụng mã này"}
 
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"EXPIRED","total_amount":500000}'
+{"error":"Mã giảm giá đã hết hạn"}
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"EXPIRED","total_amount":50000}'
+{"error":"Đơn hàng chưa đủ giá trị tối thiểu 100,000 ₫ để áp dụng mã này"}
 ----------------------------------------------------------------------
 ### BUG-A2-07 [Low] Ma giam gia phan biet chu hoa/thuong
-   code=SAVE10 -> HTTP 200
-   code=save10 -> HTTP 404
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000}'
+HTTP 200
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST $B/apply-coupon $H -d '{"code":"save10","total_amount":500000}'
+HTTP 404
 
 ----------------------------------------------------------------------
-### BUG-A2-08 [Medium] Tran so voi total_amount lon
-{"success":true,"coupon_id":1,"discount_amount":-9000000000000000,"final_amount":10000000000000000,"message":"Áp dụng thành công! Giảm 10%"}
+### BUG-A2-08 [Medium] Khong kiem mien gia tri total_amount
 
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":1000000000000000}'
+{"success":true,"coupon_id":1,"discount_amount":-9000000000000000,"final_amount":10000000000000000,"message":"Áp dụng thành công! Giảm 10%"}
 ----------------------------------------------------------------------
 ### BUG-A3-01 [Critical] SEC-03 — nguoi dung THUONG import duoc san pham
-$ POST /api/admin/import-products voi JWT cua tai khoan role=user
-{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   -> san pham co hien tren cua hang cong khai khong?
-[{"id":6,"name":"HANG-GIA-DO-USER-CHEN-23127195","price":1,"description":"khong phai admin","imageUrl":"","category_id":1}]
+   dung $USER_TOKEN (role=user), khong phai token admin:
 
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"products":[{"name":"HANG-GIA-DO-USER-CHEN-23127195","price":1,"description":"khong phai admin","imageUrl":"","category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   san pham co hien tren cua hang cong khai khong?
+
+$ curl -s $B/products?search=HANG-GIA-DO-USER-CHEN-23127195 $H
+[{"id":6,"name":"HANG-GIA-DO-USER-CHEN-23127195","price":1,"description":"khong phai admin","imageUrl":"","category_id":1}]
 ----------------------------------------------------------------------
 ### BUG-A3-02 [High] FR-16 — import KHONG nguyen tu (khong rollback)
-   so san pham truoc : 6
-   gui 1 dong hop le + 1 dong THIEU name:
-{"message":"Import hoàn tất: 1/2 sản phẩm được thêm","inserted":1,"errors":["Hàng 3: Thiếu tên sản phẩm"]}
-   so san pham sau   : 7   (FR-16 yeu cau all-or-nothing -> phai bang 6)
+   so san pham truoc: 6
+   gui 1 dong hop le + 1 dong THIEU name — FR-16 yeu cau all-or-nothing:
+
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"ATOMIC-OK-23127195","price":5000,"category_id":1},{"price":7000,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/2 sản phẩm được thêm","inserted":1,"errors":["Hàng 3: Thiếu tên sản phẩm"]}   so san pham sau : 7   (phai bang 6 neu rollback dung)
    dong hop le co con nam lai trong CSDL khong?
+
+$ curl -s $B/products?search=ATOMIC-OK-23127195 $H
 [{"id":7,"name":"ATOMIC-OK-23127195","price":5000,"description":"","imageUrl":"","category_id":1}]
-
 ----------------------------------------------------------------------
-### BUG-A3-03/04 [High] Khong validate price (0 / am / chuoi / thieu / null)
-   price=0                -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   price=-50000           -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   price="khong-phai-so"  -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   price=null             -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+### BUG-A3-03/04 [High] Khong validate price (0 / am / chuoi / thieu truong / null)
 
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PRICE-TEST-23127195","price":0,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PRICE-TEST-23127195","price":-50000,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PRICE-TEST-23127195","price":"khong-phai-so","category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PRICE-TEST-23127195","price":null,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   truong hop THIEU HAN truong price:
+
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"NOPRICE-23127195","category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
 ----------------------------------------------------------------------
 ### BUG-A3-05/08 [Medium] Khong kiem khoa ngoai category_id / am tham gan mac dinh
-   category_id=999   -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   category_id=0     -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   category_id=-1    -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   THIEU category_id  -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   -> danh muc thuc te duoc gan:
-     category_id = 1
 
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"CAT-TEST-23127195","price":1000,"category_id":999}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"CAT-TEST-23127195","price":1000,"category_id":0}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"CAT-TEST-23127195","price":1000,"category_id":-1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   truong hop THIEU category_id:
+
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"NOCAT-23127195","price":1000}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   danh muc thuc te duoc gan cho san pham do:
+
+$ curl -s $B/products?search=NOCAT-23127195 $H
+[{"id":16,"name":"NOCAT-23127195","price":1000,"description":"","imageUrl":"","category_id":1}]
 ----------------------------------------------------------------------
 ### BUG-A3-06/07 [Low] name toan khoang trang lot qua / khong gioi han 255 ky tu
-   name="     " -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   name dai 300 ky tu -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"     ","price":1000,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   name dai 300 ky tu (rut gon khi hien thi):
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"XXX...300 ky tu X...XXX","price":1000,"category_id":1}]}'
+HTTP 200
 
 ----------------------------------------------------------------------
 ### BUG-A3-09 [High] Phan tu null trong mang gay CRASH 500 + lo stack trace HTML
-   HTTP 500
-   30 dong dau cua response body:
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"NULLROW-23127195","price":1000,"category_id":1},null]}'
+HTTP 500
+   300 ky tu dau cua response body — lo duong dan he thong:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -129,17 +194,25 @@ $ POST /api/admin/import-products voi JWT cua tai khoan role=user
 <title>Error</title>
 </head>
 <body>
-<pre>TypeError: Cannot read properties of null (reading &#39;name&#39;)<br> &nbsp; &nbsp;at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:214:14<br> &nbsp; &nbsp;at Array.forEach (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:213:8<br> &nbsp; &nbsp;at Layer.handleRequest (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\layer.js:152:17)<br> &nbsp; &nbsp;at next (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\route.js:157:1
+<pre>TypeError: Cannot read properties of null (reading &#39;name&#39;)<br> &nbsp; &nbsp;at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:214:14<br> &nbsp; &nbsp;at Array.forEach (&lt;anonymous&gt;)
 
 ----------------------------------------------------------------------
-### BUG-A3-10 [Low] Tran so voi price cuc lon
-   gia gui len : 1000000000000000000
-   gia luu lai : 1000000000000000000
+### BUG-A3-10 [Low] Mat chinh xac voi price vuot Number.MAX_SAFE_INTEGER
+   Number.MAX_SAFE_INTEGER = 9007199254740991; thu voi gia tri +2 = 9007199254740993
 
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PREC-23127195","price":9007199254740993,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   doc lai gia da luu — so bi lam tron xuong, mat 1 don vi:
+
+$ curl -s $B/products?search=PREC-23127195 $H
+[{"id":22,"name":"PREC-23127195","price":9007199254740992,"description":"","imageUrl":"","category_id":1}]
 ----------------------------------------------------------------------
 ### BUG-A3-11 [Medium] imageUrl chap nhan giao thuc javascript: (vector stored XSS)
-   imageUrl luu lai: 'javascript:alert(document.cookie)'
 
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"JSURL-23127195","price":1000,"imageUrl":"javascript:alert(document.cookie)","category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   gia tri imageUrl duoc luu nguyen van, khong bi loc:
+
+$ curl -s $B/products?search=JSURL-23127195 $H
+[{"id":23,"name":"JSURL-23127195","price":1000,"description":"","imageUrl":"javascript:alert(document.cookie)","category_id":1}]
 ----------------------------------------------------------------------
-Hoan tat. Luu y: cac loi tren deu duoc phu boi test case tuong ung —
+Hoan tat. Cac loi tren deu duoc phu boi test case tuong ung —
 doi chieu cot 'Ma loi' trong testcases/TESTCASES_23127195.xlsx.

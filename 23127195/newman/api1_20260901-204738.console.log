@@ -1,0 +1,860 @@
+HW06 · 23127195 · API-1 (FR-04) — Quan ly ho so ca nhan (Personal Profile Management)
+
+□ 00 - Setup & Fixtures
+└ TC-A1-S01 [SETUP] Dang ky tai khoan thu nghiem rieng cho API-1
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 34ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-S02 [SETUP] Dang nhap de lay JWT cua user thuong
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login'
+  └
+  POST http://localhost:3000/api/login [200 OK, 665B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Response co truong 'token'
+
+└ TC-A1-S03 [SETUP] Dang nhap admin de doi chieu quyen
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  user.role == admin
+
+□ 01 - Domain Partition: name
+└ TC-A1-001 name hop le -> 200 va doc lai dung gia tri
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 13ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Response co truong 'message'
+  GET http://localhost:3000/api/users/me [200 OK, 498B, 6ms]
+  √  Doc lai ho so phai thay ten moi
+
+└ TC-A1-002-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-002
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 12ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-002 name rong "" -> 400 (ho ten la truong bat buoc)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 12ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  1. Status code la 400
+
+└ TC-A1-003-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-003
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 13ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-003 name = null -> 400 (khong duoc ghi NULL de mat ten)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  2. Status code la 400
+
+└ TC-A1-004-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-004
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 12ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-004 name chi gom khoang trang -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  3. Status code la 400
+
+└ TC-A1-005-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-005
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-005 name dai 500 ky tu -> khong duoc 500
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 13ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [200, 400, 413]
+  √  Response time < 3000ms
+
+└ TC-A1-006-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-006
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-006 name sai kieu (so nguyen) -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  4. Status code la 400
+
+└ TC-A1-007 name tieng Viet co dau -> luu va doc lai dung (UTF-8)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  GET http://localhost:3000/api/users/me [200 OK, 514B, 2ms]
+  √  Doc lai giu nguyen dau tieng Viet
+
+└ TC-A1-008-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-008
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-008 name chua payload XSS -> luu nguyen van, khong 5xx
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [200, 400]
+  GET http://localhost:3000/api/users/me [200 OK, 506B, 2ms]
+  √  Neu chap nhan thi phai luu nguyen van (khong bien dang)
+
+□ 02 - Domain Partition: phone
+└ TC-A1-009-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-009
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-009 phone 10 chu so bat dau bang 0 (bien duoi hop le) -> 200
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-010-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-010
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-010 phone 11 chu so bat dau bang 0 (bien tren hop le) -> 200
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-011-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-011
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-011 phone 9 chu so (duoi bien) -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  5. Status code la 400
+
+└ TC-A1-012-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-012
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-012 phone 12 chu so (tren bien) -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  6. Status code la 400
+
+└ TC-A1-013-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-013
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-013 phone du 10 so nhung KHONG bat dau bang 0 -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  7. Status code la 400
+
+└ TC-A1-014-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-014
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-014 phone chua chu cai -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  8. Status code la 400
+
+└ TC-A1-015-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-015
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-015 phone co dau gach ngang "0912-345-678" -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  9. Status code la 400
+
+└ TC-A1-016-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-016
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 12ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-016 phone dinh dang quoc te "+84912345678" -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 10. Status code la 400
+
+└ TC-A1-017-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-017
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-017 phone rong "" -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 11. Status code la 400
+
+└ TC-A1-018-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-018
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-018 phone sai kieu (number) -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 12. Status code la 400
+
+└ TC-A1-019-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-019
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-019 phone co khoang trang bao quanh -> 400 hoac trim, khong 5xx
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [200, 400]
+  GET http://localhost:3000/api/users/me [200 OK, 488B, 2ms]
+ 13. Neu chap nhan thi phai luu gia tri da trim
+
+└ TC-A1-020-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-020
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-020 phone = null -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 14. Status code la 400
+
+□ 03 - Domain Partition: shipping_address
+└ TC-A1-021 shipping_address hop le -> 200 va doc lai dung
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  GET http://localhost:3000/api/users/me [200 OK, 498B, 4ms]
+  √  Doc lai dung dia chi
+
+└ TC-A1-022 shipping_address rong -> chap nhan (truong khong bat buoc)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-023-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-023
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-023 shipping_address dai 2000 ky tu -> khong 5xx
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [200, 400, 413]
+  √  Response time < 3000ms
+
+└ TC-A1-024-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-024
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-024 shipping_address chua payload SQL injection -> khong ro ri loi SQL
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [200, 400]
+  √  Khong ro ri loi SQL
+  GET http://localhost:3000/api/users/me [200 OK, 513B, 3ms]
+  √  SQLi khong duoc nang quyen tai khoan
+
+└ TC-A1-025 shipping_address = null -> chap nhan (xoa dia chi mac dinh)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 12ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+□ 04 - State Transition: vong doi ho so & phien
+└ TC-A1-026 [S1] Ghi roi doc: PUT xong GET phai phan anh dung 3 truong
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  GET http://localhost:3000/api/users/me [200 OK, 483B, 2ms]
+  √  Ca 3 truong deu duoc luu dung
+
+└ TC-A1-027 [S1 -> S2] Cap nhat lan hai phai ghi de lan mot
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  GET http://localhost:3000/api/users/me [200 OK, 483B, 3ms]
+  √  Gia tri S1 da bi thay the hoan toan
+
+└ TC-A1-028-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-028
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-028 Cap nhat MOT PHAN (chi gui name) khong duoc xoa trang cac truong con lai
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  GET http://localhost:3000/api/users/me [200 OK, 474B, 2ms]
+ 15. Cac truong khong gui phai duoc bao toan
+
+└ TC-A1-029-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-029
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-029 Khong duoc doi email qua PUT /api/users/me
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  GET http://localhost:3000/api/users/me [200 OK, 487B, 3ms]
+  √  Email KHONG duoc thay doi (FR-04)
+
+└ TC-A1-030-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-030
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-030 Khong duoc doi id (khoa chinh) qua PUT
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  GET http://localhost:3000/api/users/me [200 OK, 484B, 3ms]
+  √  id KHONG duoc thay doi
+
+└ TC-A1-031 Cap nhat ho so KHONG duoc lam mat hieu luc token dang dung
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [200 OK, 484B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Response co truong 'id'
+
+□ 05 - Security: SEC-01 / SEC-02 / SEC-06
+└ TC-A1-032 SEC-02: GET /api/users/me khong kem token -> 401
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [401 Unauthorized, 301B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 401
+  √  Khong ro ri du lieu ho so
+
+└ TC-A1-033 SEC-02: PUT /api/users/me khong kem token -> 401
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [401 Unauthorized, 301B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 401
+
+└ TC-A1-034 SEC-02: token sai dinh dang -> 403
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [403 Forbidden, 295B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [401, 403]
+
+└ TC-A1-035 SEC-02: JWT ky bang khoa SAI (gia mao admin) -> 403
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [403 Forbidden, 295B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [401, 403]
+  √  Khong duoc tra ho so cho token gia mao
+
+└ TC-A1-036 SEC-02: JWT dung thuat toan "none" -> 403
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [403 Forbidden, 295B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [401, 403]
+
+└ TC-A1-037-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-037
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 16ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-037 SEC-06: gui kem role=admin KHONG duoc nang quyen tai khoan
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  GET http://localhost:3000/api/users/me [200 OK, 488B, 3ms]
+ 16. SEC-06: role phai van la user sau khi cap nhat
+
+└ TC-A1-038 SEC-06 (tac dong): sau khi tu dat role=admin, token MOI khong duoc mo khoa API admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login'
+  └
+  POST http://localhost:3000/api/login [200 OK, 673B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+ 17. Token moi khong duoc mang role=admin
+  GET http://localhost:3000/api/admin/users [200 OK, 689B, 4ms]
+ 18. Token nay khong duoc goi duoc GET /api/admin/users
+
+└ TC-A1-039 SEC-01: GET /api/users/me khong duoc tra mat khau
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [200 OK, 488B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+ 19. SEC-01: khong duoc tra truong password
+ 20. SEC-01: khong duoc phan chieu mat khau plaintext
+
+└ TC-A1-040 SEC-01: GET /api/users/me khong duoc tra reset_token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [200 OK, 488B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+ 21. Khong duoc lo ma OTP dat lai mat khau
+ 22. Khong duoc lo bo dem dang nhap sai
+
+└ TC-A1-041 IDOR: gui user_id cua nguoi khac khong duoc sua ho so nguoi do
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 13ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  GET http://localhost:3000/api/users/me [200 OK, 455B, 3ms]
+  √  Ho so cua admin khong bi sua
+
+□ 06 - Schema Validation
+└ TC-A1-042 Schema: GET /api/users/me khop hop dong API va KHONG co truong thua
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [200 OK, 480B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Content-Type la application/json
+  √  Kieu du lieu cua 'id' la number
+  √  Kieu du lieu cua 'email' la string
+  √  role phai thuoc tap {user, admin}
+ 23. Khong co truong nao ngoai hop dong API
+
+└ TC-A1-043-BASE [SETUP] Dua ho so ve baseline truoc TC-A1-043
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A1-043 Schema: PUT /api/users/me tra ve dung { message: string }
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Content-Type la application/json
+  √  Response khop JSON Schema cua spec
+
+└ TC-A1-044 Schema: response loi dung dinh dang { error: string }
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [401 Unauthorized, 301B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 401
+  √  Content-Type la application/json
+  √  Response khop JSON Schema cua spec
+
+└ TC-A1-045 Schema: GET /api/users/me phan hoi duoi 2000ms
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/users/me'
+  └
+  GET http://localhost:3000/api/users/me [200 OK, 486B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Response time < 2000ms
+
+□ 99 - Teardown
+└ TC-A1-Z99 [TEARDOWN] Tra ho so ve baseline
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              88 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │             148 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              74 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │             256 │              23 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 7.1s                                    │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 7.46kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 8ms [min: 2ms, max: 34ms, s.d.: 4ms] │
+└─────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                                                                                            [39m
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 01.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "01 - Domain Partition: name / TC-A1-002 name rong "" -> 400 (ho ten la truong bat buoc)"                                                  
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 02.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "01 - Domain Partition: name / TC-A1-003 name = null -> 400 (khong duoc ghi NULL de mat ten)"                                              
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 03.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "01 - Domain Partition: name / TC-A1-004 name chi gom khoang trang -> 400"                                                                 
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 04.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "01 - Domain Partition: name / TC-A1-006 name sai kieu (so nguyen) -> 400"                                                                 
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 05.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-011 phone 9 chu so (duoi bien) -> 400"                                                               
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 06.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-012 phone 12 chu so (tren bien) -> 400"                                                              
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 07.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-013 phone du 10 so nhung KHONG bat dau bang 0 -> 400"                                                
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 08.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-014 phone chua chu cai -> 400"                                                                       
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 09.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-015 phone co dau gach ngang "0912-345-678" -> 400"                                                   
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 10.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-016 phone dinh dang quoc te "+84912345678" -> 400"                                                   
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 11.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-017 phone rong "" -> 400"                                                                            
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 12.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-018 phone sai kieu (number) -> 400"                                                                  
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 13.  AssertionError  Neu chap nhan thi phai luu gia tri da trim                                                                                                        
+                      expected '  0912345678  ' to deeply equal '0912345678'                                                                                            
+                      at assertion:1 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-019 phone co khoang trang bao quanh -> 400 hoac trim, khong 5xx"                                     
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 14.  AssertionError  Status code la 400                                                                                                                                
+                      expected response to have status code 400 but got 200                                                                                             
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "02 - Domain Partition: phone / TC-A1-020 phone = null -> 400"                                                                             
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 15.  AssertionError  Cac truong khong gui phai duoc bao toan                                                                                                           
+                      phone bi xoa trang khi cap nhat mot phan: expected null to deeply equal '0912345678'                                                              
+                      at assertion:1 in test-script                                                                                                                     
+                      inside "04 - State Transition: vong doi ho so & phien / TC-A1-028 Cap nhat MOT PHAN (chi gui name) khong duoc xoa trang cac truong con lai"       
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 16.  AssertionError  SEC-06: role phai van la user sau khi cap nhat                                                                                                    
+                      TAI KHOAN DA BI NANG QUYEN LEN ADMIN: expected 'admin' to deeply equal 'user'                                                                     
+                      at assertion:0 in test-script                                                                                                                     
+                      inside "05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-037 SEC-06: gui kem role=admin KHONG duoc nang quyen tai khoan"                           
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 17.  AssertionError  Token moi khong duoc mang role=admin                                                                                                              
+                      JWT moi da mang quyen admin: expected 'admin' to deeply equal 'user'                                                                              
+                      at assertion:1 in test-script                                                                                                                     
+                      inside "05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-038 SEC-06 (tac dong): sau khi tu dat role=admin, token MOI khong duoc mo khoa API admin" 
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 18.  AssertionError  Token nay khong duoc goi duoc GET /api/admin/users                                                                                                
+                      da doc duoc toan bo danh sach nguoi dung: expected 200 to be one of [ 401, 403 ]                                                                  
+                      at assertion:2 in test-script                                                                                                                     
+                      inside "05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-038 SEC-06 (tac dong): sau khi tu dat role=admin, token MOI khong duoc mo khoa API admin" 
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 19.  AssertionError  SEC-01: khong duoc tra truong password                                                                                                            
+                      expected { Object (id, name, ...) } to not have nested property 'password'                                                                        
+                      at assertion:1 in test-script                                                                                                                     
+                      inside "05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-039 SEC-01: GET /api/users/me khong duoc tra mat khau"                                    
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 20.  AssertionError  SEC-01: khong duoc phan chieu mat khau plaintext                                                                                                  
+                      expected '{"id":3,"name":"Escalation Test","ema…' not to match /Profile123!/i                                                                     
+                      at assertion:2 in test-script                                                                                                                     
+                      inside "05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-039 SEC-01: GET /api/users/me khong duoc tra mat khau"                                    
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 21.  AssertionError  Khong duoc lo ma OTP dat lai mat khau                                                                                                             
+                      expected { Object (id, name, ...) } to not have nested property 'reset_token'                                                                     
+                      at assertion:1 in test-script                                                                                                                     
+                      inside "05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-040 SEC-01: GET /api/users/me khong duoc tra reset_token"                                 
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 22.  AssertionError  Khong duoc lo bo dem dang nhap sai                                                                                                                
+                      expected { Object (id, name, ...) } to not have nested property 'login_attempts'                                                                  
+                      at assertion:2 in test-script                                                                                                                     
+                      inside "05 - Security: SEC-01 / SEC-02 / SEC-06 / TC-A1-040 SEC-01: GET /api/users/me khong duoc tra reset_token"                                 
+[90m     [39m[90m                [39m[90m                                                                                                                                                   [39m
+ 23.  AssertionError  Khong co truong nao ngoai hop dong API                                                                                                            
+                      truong thua bi ro ri: password, login_attempts, locked_until, reset_token: expected [ 'password', 'login_attempts', …(2) ] to be empty            
+                      at assertion:5 in test-script                                                                                                                     
+                      inside "06 - Schema Validation / TC-A1-042 Schema: GET /api/users/me khop hop dong API va KHONG co truong thua"                                   

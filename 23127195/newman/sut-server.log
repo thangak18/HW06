@@ -1,0 +1,25 @@
+Database initialized and seeded (Phase 2).
+Server is running on http://localhost:3000
+Connected to database
+TypeError: Cannot read properties of null (reading 'name')
+    at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:214:14
+    at Array.forEach (<anonymous>)
+    at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:213:8
+    at Layer.handleRequest (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\layer.js:152:17)
+    at next (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\route.js:157:13)
+    at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:108:5
+    at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\jsonwebtoken\verify.js:261:12
+    at getSecret (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\jsonwebtoken\verify.js:97:14)
+    at module.exports [as verify] (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\jsonwebtoken\verify.js:101:10)
+    at authenticateToken (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:105:7)
+TypeError: Cannot read properties of null (reading 'name')
+    at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:214:14
+    at Array.forEach (<anonymous>)
+    at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:213:8
+    at Layer.handleRequest (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\layer.js:152:17)
+    at next (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\route.js:157:13)
+    at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:108:5
+    at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\jsonwebtoken\verify.js:261:12
+    at getSecret (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\jsonwebtoken\verify.js:97:14)
+    at module.exports [as verify] (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\jsonwebtoken\verify.js:101:10)
+    at authenticateToken (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:105:7)

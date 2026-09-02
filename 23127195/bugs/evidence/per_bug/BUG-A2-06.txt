@@ -1,0 +1,11 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-02 16:20:53 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+
+### BUG-A2-06 [Low] Thu tu kiem tra dieu kien: ma het han bao nham 'chua du nguong'
+
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"EXPIRED","total_amount":500000}'
+{"error":"Mã giảm giá đã hết hạn"}
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"EXPIRED","total_amount":50000}'
+{"error":"Đơn hàng chưa đủ giá trị tối thiểu 100,000 ₫ để áp dụng mã này"}

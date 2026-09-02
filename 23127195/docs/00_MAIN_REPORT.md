@@ -175,7 +175,7 @@ Sau khi sửa, 3 FAIL giả biến mất và **3 lỗi thật mới lộ ra** (`
 
 Chi tiết đầy đủ: [`bugs/BUG_REPORTS.md`](../bugs/BUG_REPORTS.md).
 Tái hiện độc lập bằng `curl`: `bash bugs/reproduce_bugs.sh` → [`bugs/evidence/reproduce_output.txt`](../bugs/evidence/reproduce_output.txt).
-Nội dung sẵn sàng dán lên GitHub Issues: [`bugs/GITHUB_ISSUES.md`](../bugs/GITHUB_ISSUES.md).
+Cả **24 lỗi đã được tạo thành GitHub Issue** trên repo bài tập: [issue #5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195) (nhãn `hw06-23127195`). Nội dung gốc: [`bugs/GITHUB_ISSUES.md`](../bugs/GITHUB_ISSUES.md).
 
 #### Bốn lỗi Critical
 
@@ -230,16 +230,16 @@ Cài đặt tham chiếu: [`agent-skill/pseudocode/generator.py`](../agent-skill
 G1–G6, **chỉ G1 dùng LLM** (trích xuất đặc tả thành `EndpointModel`); năm giai đoạn còn lại là mã
 tất định. Tính đầy đủ đến từ danh mục quy tắc, không từ mô hình.
 
-```
-Đặc tả API + SRS ──[G1: LLM]──► EndpointModel ──[G2..G5: tất định]──► IR (JSON)
-                                                                        │
-                            ┌───────────────────────────────────────────┤
-                            ▼                    ▼                      ▼
-                     G6a Kiểm tra IR    G6b Audit con người      G6c Biên dịch
-                      (tất định)          (BẮT BUỘC, thủ công)    (tất định)
-                                                                        │
-                                          Postman · Excel · Báo cáo · Cổng CI
-```
+![Sơ đồ kiến trúc bộ sinh test case API bằng AI](../agent-skill/diagram/ai_test_generator_diagram.png)
+
+*Sơ đồ do sinh viên 23127195 tự vẽ bằng draw.io theo yêu cầu §11. File nguồn:*
+[`agent-skill/diagram/ai_test_generator_diagram.drawio`](../agent-skill/diagram/ai_test_generator_diagram.drawio)
+*— mở lại được để kiểm chứng quá trình dựng hình.*
+
+**Cách đọc sơ đồ.** Màu phân theo *trách nhiệm*, không theo thứ tự: 🟨 vàng = giai đoạn dùng LLM
+(**duy nhất G1**) · 🟦 xanh = mã tất định · 🟥 hồng = bước thủ công bắt buộc của con người (G6b) ·
+🟩 xanh lá = hiện vật trung gian (`EndpointModel`, IR) · 🟪 tím = đầu ra. Mũi tên đứt màu cam ở
+đáy là vòng phản hồi: kết quả Newman cập nhật lại allowlist của cổng chặn CI.
 
 **Kiểm chứng thiết kế:** `python agent-skill/pseudocode/generator.py --demo` sinh **44 test case**
 cho FR-04 từ một `EndpointModel`, qua bộ kiểm tra G6a với **0 lỗi** — rất gần con số 45 mà quy
@@ -248,9 +248,10 @@ trình đầy đủ tạo ra, cho thấy thiết kế phản ánh đúng việc 
 Bộ kiểm tra G6a nay **chặn** cả hai khiếm khuyết đã gặp thật ở §2 bước 4: assertion bất đồng bộ
 thiếu try/catch, và tác dụng phụ đặt trong pre-request script.
 
-> ⚠ **Sơ đồ thiết kế:** theo §11 của đề bài, sơ đồ **phải do sinh viên tự vẽ**. Thư mục
-> [`agent-skill/diagram/`](../agent-skill/diagram/) cố ý **không** chứa sơ đồ do AI sinh — chỉ có
-> đặc tả chi tiết những gì sơ đồ phải thể hiện. **Sơ đồ sẽ được nhúng vào mục này sau khi vẽ xong.**
+> ✅ **Về §11 (Anti-AI-Cheat).** Sơ đồ trên do sinh viên tự dựng bằng draw.io — bố cục,
+> phân nhóm màu và cách sắp xếp là quyết định của sinh viên. Repo **không** chứa bản vẽ nào do
+> AI sinh (kể cả Mermaid/ASCII); bản phác ASCII trước đây đã được gỡ bỏ để tránh nhập nhằng.
+> Ghi chú quá trình: [`agent-skill/diagram/README.md`](../agent-skill/diagram/README.md).
 
 ---
 
@@ -293,12 +294,12 @@ mức khuôn mã dùng chung, và không tự phát hiện được lỗi của 
 
 Theo §11 của đề bài, các hạng mục sau **không được** do AI tạo và TA sẽ kiểm tra khi chấm:
 
-| # | Việc | Vị trí lưu | Hướng dẫn |
+| # | Việc | Trạng thái | Bằng chứng |
 |---|---|---|---|
-| 1 | **Vẽ sơ đồ bộ sinh test case** | `agent-skill/diagram/` | [`diagram/README.md`](../agent-skill/diagram/README.md) — có danh sách kiểm tra nội dung |
-| 2 | **Chụp Postman Console** hiển thị `[X-Student-Id] 23127195 -> ...` | `evidence/` | Mở Postman → View → Show Postman Console → chạy collection |
-| 3 | **Tạo 24 GitHub Issue** + đính ảnh chụp mỗi issue | `bugs/screenshots/` | [`bugs/GITHUB_ISSUES.md`](../bugs/GITHUB_ISSUES.md) — nội dung sẵn sàng dán |
-| 4 | **Push để chạy CI**, chụp 2 lần chạy (xanh / đỏ 1 test) | `ci/evidence/` | [`ci/CI_CD_REPORT.md`](../ci/CI_CD_REPORT.md) §4–5 |
-| 5 | **Quay video demo** Agent Skill (YouTube) | `video/` | [`video/VIDEO_DEMO_SCRIPT.md`](../video/VIDEO_DEMO_SCRIPT.md) |
-| 6 | **Xác nhận không trùng API** với 23127060 và 23127259 | `docs/team-api-allocation.md` | |
-| 7 | **Xuất PDF** báo cáo chính và AI audit | `pdf/` | |
+| 1 | **Vẽ sơ đồ bộ sinh test case** | ✅ Xong | Tự vẽ bằng draw.io, kèm file nguồn [`.drawio`](../agent-skill/diagram/ai_test_generator_diagram.drawio) mở lại được; nhúng ở §4 |
+| 2 | **Chụp Postman Console** (`[X-Student-Id] 23127195 -> ...`) | ✅ Xong | 3 ảnh trong [`evidence/`](../evidence/); ảnh `_timestamps` bung sẵn *Request Headers* nên thấy cả header thật trên đường truyền lẫn `Host: localhost:3000` |
+| 3 | **24 GitHub Issue kèm ảnh chụp** | ✅ Xong | [#5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195); 32 ảnh nhúng trong thân từng issue, mỗi ảnh hiện lệnh `curl` đầy đủ |
+| 4 | **CI chạy thật, 2 lần chạy mẫu** | ✅ Xong | [run #3 xanh](https://github.com/thangak18/HW06/actions/runs/33609193249) · [run #4 đỏ đúng 1 test case](https://github.com/thangak18/HW06/actions/runs/33609400346), cùng trong [PR #35](https://github.com/thangak18/HW06/pull/35) |
+| 5 | **Video demo Agent Skill** | ✅ Xong | **https://youtu.be/KsxYU52l4WE** — *"Demo api testing agent skill"* |
+| 6 | **Xác nhận không trùng API** với 23127060 và 23127259 | ✅ Xong | 9 FR đôi một khác nhau — bảng đối chiếu ở [`01_API_SELECTION.md`](./01_API_SELECTION.md) §5 |
+| 7 | **Xuất PDF** toàn bộ báo cáo | ✅ Xong | 10 file trong [`pdf/`](../pdf/) |

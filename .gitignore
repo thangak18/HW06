@@ -20,6 +20,11 @@ pnpm-debug.log*
 *.tmp
 /tmp/
 
+# Ngoai le cho 23127195: log console cua Newman la bang chung bat buoc theo
+# muc 11 cua de bai (header X-Student-Id), phai co mat tren repo cong khai.
+!23127195/newman/*.console.log
+!23127195/newman/sut-server.log
+
 # Sensitive data / Secrets / Token overrides
 *.env
 *.env.*

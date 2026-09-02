@@ -1,0 +1,14 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-02 16:20:53 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+### BUG-A1-05 [Medium] Cap nhat mot phan xoa trang cac truong khong gui
+
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"Baseline","shipping_address":"227 Nguyen Van Cu","phone":"0912345678"}'
+{"message":"Profile updated"}   chi gui MOT truong name, khong gui phone va shipping_address:
+
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"Chi doi ten"}'
+{"message":"Profile updated"}   doc lai ho so — hai truong khong gui da bi xoa trang:
+
+$ curl -s $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN'
+{"id":2,"name":"Chi doi ten","email":"test@eshop.com","password":"Test1234!","role":"admin","login_attempts":0,"locked_until":null,"reset_token":null,"shipping_address":null,"phone":null}

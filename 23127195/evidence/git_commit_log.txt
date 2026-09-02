@@ -1,7 +1,7 @@
 GIT COMMIT LOG - HW06 API Testing
 Sinh vien : 23127195
 Repository: https://github.com/thangak18/HW06
-Xuat luc  : 2026-09-01 20:49:01
+Xuat luc  : 2026-09-02 19:11:11
 
 Theo muc 12 cua de bai: 'Create a new Git commit for each step of the procedure'.
 
@@ -31,214 +31,141 @@ Buoc 4 Execute duoc gom mot commit cho ca ba API vi ca ba chay trong cung mot la
 BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
 ====================================================================================================
 
- 1. ab3bff41  2026-09-01 19:02:54
+ 1. 0db7cbc4  2026-08-31 22:14:35
+    Commit : refactor: update member workspaces with student IDs 23127060 and 23127195
+    Buoc   : Chuan bi - tao workspace theo MSSV trong repo nhom
+
+ 2. ab3bff41  2026-09-01 19:02:54
     Commit : chore(23127195): setup workspace, chon 3 API va dung ha tang sinh test
     Buoc   : Chuan bi - dung workspace, chon API lan 1
 
- 2. 70350346  2026-09-01 20:09:47
+ 3. 70350346  2026-09-01 20:09:47
     Commit : chore(23127195): doi bo API sang FR-04/FR-09/FR-16 va hoan thien ha tang sinh test
     Buoc   : Chuan bi - chot lai bo 3 API + ha tang sinh test
 
- 3. 6a073480  2026-09-01 20:09:48
+ 4. 6a073480  2026-09-01 20:09:48
     Commit : feat(api1-fr04): sinh + audit + mo rong test case cho FR-04 (45 case)
     Buoc   : API-1 - Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
 
- 4. adbf76c8  2026-09-01 20:09:48
+ 5. adbf76c8  2026-09-01 20:09:48
     Commit : feat(api2-fr09): sinh + audit + mo rong test case cho FR-09 (50 case)
     Buoc   : API-2 - Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
 
- 5. cc3a908a  2026-09-01 20:09:48
+ 6. cc3a908a  2026-09-01 20:09:48
     Commit : feat(api3-fr16): sinh + audit + mo rong test case cho FR-16 (49 case)
     Buoc   : API-3 - Buoc 1 Generate + Buoc 2 Audit + Buoc 3 Extend
 
- 6. 75747093  2026-09-01 20:09:48
+ 7. 75747093  2026-09-01 20:09:48
     Commit : build(postman): sinh 3 Postman Collection v2.1 tu IR test case
     Buoc   : Ca 3 API - bien dich test case sang Postman Collection
 
- 7. 78f99200  2026-09-01 20:10:08
+ 8. 78f99200  2026-09-01 20:10:08
     Commit : test(all): thi hanh 144 test case bang Newman + xuat bang test case
     Buoc   : Ca 3 API - Buoc 4 Execute (Newman) + xuat bang test case
 
- 8. e984add5  2026-09-01 20:18:08
+ 9. e984add5  2026-09-01 20:18:08
     Commit : docs(bugs): bao cao 24 loi kem bang chung tai hien duoc
-    Buoc   : Ca 3 API - Buoc 5 Report bugs
+    Buoc   : Buoc 5 Report - bao cao loi + noi dung GitHub Issue
 
- 9. eff0bfce  2026-09-01 20:31:45
+10. eff0bfce  2026-09-01 20:31:45
     Commit : feat(postman,ci): data-driven runs + cong chan hoi quy + GitHub Actions
-    Buoc   : Data-driven runs + cong chan hoi quy + GitHub Actions
+    Buoc   : Tich hop CI/CD - data-driven + cong chan hoi quy + GitHub Actions
 
-10. 003e6f1c  2026-09-01 20:31:45
+11. 003e6f1c  2026-09-01 20:31:45
     Commit : feat(agent-skill): thiet ke bo sinh test case API bang AI (muc G9.5 Create)
-    Buoc   : Agent Skill - thiet ke bo sinh test case (muc G9.5)
+    Buoc   : Agent Skill - thiet ke + pseudocode + cai dat tham chieu
 
-11. 65ec82ca  2026-09-01 20:38:24
+12. 65ec82ca  2026-09-01 20:38:24
     Commit : docs(ai): AI Audit Report, AI Critique va nhat ky 12 luot tuong tac
-    Buoc   : AI Audit Report + AI Critique + nhat ky tuong tac
+    Buoc   : Ho so AI audit - khai bao, nhat ky tuong tac, phe binh
 
-12. d108989d  2026-09-01 20:45:06
+13. d108989d  2026-09-01 20:45:06
     Commit : docs: bao cao chinh, CI/CD report, danh sach Postman features, README va chi muc bang chung
-    Buoc   : Bao cao chinh, CI/CD report, README, chi muc bang chung
+    Buoc   : Bao cao chinh, CI/CD report, Postman features, chi muc bang chung
 
-13. 1dcfdb42  2026-09-01 20:47:52
+14. 1dcfdb42  2026-09-01 20:47:52
     Commit : docs: kich ban video demo, git commit log va cap nhat bang phan cong nhom
-    Buoc   : Kich ban video, git commit log, bang phan cong nhom
+    Buoc   : Kich ban video demo, git commit log, bang phan cong nhom
+
+15. 4b0e1a14  2026-09-01 20:49:01
+    Commit : chore: chot ket qua lan chay cuoi va dong bo so lieu bao cao
+    Buoc   : Chot ket qua lan chay cuoi, dong bo so lieu giua cac bao cao
+
+16. 36195913  2026-09-01 20:51:24
+    Commit : docs(pdf): xuat 9 bao cao sang PDF (yeu cau muc 14 cua de bai)
+    Buoc   : Xuat 9 bao cao sang PDF (yeu cau muc 14)
+
+17. 71b0ae91  2026-09-01 20:51:32
+    Commit : chore: bo __pycache__ khoi theo doi cua git
+    Buoc   : Ve sinh repo - bo file rac khoi theo doi cua git
+
+18. b9ee5dbf  2026-09-01 21:33:31
+    Commit : docs(diagram): huong dan ve so do tu A den Z, tu chua hoan toan
+    Buoc   : Huong dan ve so do (tu chua, khong kem ban ve)
+
+19. e8218311  2026-09-02 09:01:59
+    Commit : feat(diagram+issues): them so do tu ve va tao 24 GitHub Issue
+    Buoc   : So do tu ve + tao 24 GitHub Issue that
+
+20. c9cca23a  2026-09-02 09:04:01
+    Commit : chore(evidence): script sinh git commit log + cap nhat nhat ky commit
+    Buoc   : Chi muc bang chung - script sinh git commit log
+
+21. 604fa7ce  2026-09-02 15:22:37
+    Commit : docs(evidence): anh chup Postman Console + giai phong log console khoi .gitignore
+    Buoc   : Bang chung muc 11 - anh chup Postman Console + giai phong log khoi .gitignore
+
+22. 3de872b3  2026-09-02 15:23:14
+    Commit : chore(evidence): sinh lai git commit log (21 commit, tat ca da gan buoc)
+    Buoc   : Chi muc bang chung - script sinh git commit log
+
+23. 03d0cb98  2026-09-02 15:33:50
+    Commit : ci: them TC-A2-013 vao cong chan hoi quy (BUG-A2-03 duoc bao la da sua)
+    Buoc   : Tich hop CI/CD - commit mau B lam pipeline do
+
+24. 7d5404f3  2026-09-02 15:38:05
+    Commit : ci: tra cong chan ve trang thai xanh + ghi nhan 2 lan chay mau vao bao cao
+    Buoc   : Tich hop CI/CD - hai lan chay mau (xanh / do dung 1 test case)
+
+25. 7991fe90  2026-09-02 15:40:20
+    Commit : docs(bugs): tach bang chung theo tung ma loi + tro giup chup anh cho 24 issue
+    Buoc   : Buoc 5 Report - bao cao loi + noi dung GitHub Issue
+
+26. fcb613e4  2026-09-02 16:03:30
+    Commit : docs(bugs): 24 anh chup man hinh bang chung loi cho GitHub Issues
+    Buoc   : Buoc 5 Report - bao cao loi + noi dung GitHub Issue
+
+27. 2f6882c1  2026-09-02 16:26:49
+    Commit : fix(bugs): lenh curl in ra phai dung bang lenh duoc chay + sua 2 loi bang chung
+    Buoc   : Buoc 5 Report - sua bang chung: lenh in ra dung bang lenh chay
+
+28. 13717cad  2026-09-02 16:33:46
+    Commit : docs(bugs): nhung 32 anh bang chung vao than 24 GitHub Issue
+    Buoc   : Buoc 5 Report - bao cao loi + noi dung GitHub Issue
+
+29. 3e43abf1  2026-09-02 16:35:17
+    Commit : docs(pdf): xuat lai 9 PDF sau khi cap nhat bao cao CI/CD, AI audit va chi muc bang chung
+    Buoc   : Xuat 9 bao cao sang PDF (yeu cau muc 14)
+
+30. 48c66970  2026-09-02 16:35:41
+    Commit : chore(evidence): sinh lai git commit log (29 commit)
+    Buoc   : Chi muc bang chung - script sinh git commit log
+
+31. 836a366e  2026-09-02 18:44:01
+    Commit : docs(pdf): them kich ban video demo vao bo PDF (10 file)
+    Buoc   : Xuat 9 bao cao sang PDF (yeu cau muc 14)
+
+32. 4cce285f  2026-09-02 18:54:05
+    Commit : feat(agent-skill): cai skill vao .claude/skills de goi duoc trong Claude Code
+    Buoc   : Agent Skill - thiet ke + pseudocode + cai dat tham chieu
+
+33. 7e3f6d88  2026-09-02 19:10:55
+    Commit : docs: link video demo + xac nhan khong trung API + chot tu danh gia 100
+    Buoc   : Chot bai nop - link video demo, xac nhan khong trung API, tu danh gia
 
 ====================================================================================================
 NHAT KY DAY DU (git log --stat)
 ====================================================================================================
-
-
-----------------------------------------------------------------------
-commit  2f111876c2b0e41240c07804974924fc01edad81
-Author  thangak18 <thangak18@gmail.com>
-Date    Sun Aug 30 22:02:06 2026 +0700
-
-feat: initialize HW06 multi-member repository structure and templates
-
- .github/workflows/README.md                      |  14 +++
- .gitignore                                       |  39 ++++++
- README.md                                        |  90 ++++++++++++++
- docs/assignment-notes.md                         | 147 +++++++++++++++++++++++
- docs/team-api-allocation.md                      |  50 ++++++++
- members/member-1/README.md                       | 111 +++++++++++++++++
- members/member-1/agent-skill/diagram/.gitkeep    |   0
- members/member-1/agent-skill/pseudocode/.gitkeep |   0
- members/member-1/ai/audit/.gitkeep               |   0
- members/member-1/ai/audit/AI_AUDIT_TEMPLATE.md   |  86 +++++++++++++
- members/member-1/ai/critique/.gitkeep            |   0
- members/member-1/ai/prompts/.gitkeep             |   0
- members/member-1/bugs/screenshots/.gitkeep       |   0
- members/member-1/ci/evidence/.gitkeep            |   0
- members/member-1/git-log/.gitkeep                |   0
- members/member-1/newman/.gitkeep                 |   0
- members/member-1/postman/collections/.gitkeep    |   0
- members/member-1/postman/data/.gitkeep           |   0
- members/member-1/postman/environments/.gitkeep   |   0
- members/member-1/postman/scripts/.gitkeep        |   0
- members/member-1/report/.gitkeep                 |   0
- members/member-1/testcases/.gitkeep              |   0
- members/member-2/README.md                       | 111 +++++++++++++++++
- members/member-2/agent-skill/diagram/.gitkeep    |   0
- members/member-2/agent-skill/pseudocode/.gitkeep |   0
- members/member-2/ai/audit/.gitkeep               |   0
- members/member-2/ai/audit/AI_AUDIT_TEMPLATE.md   |  86 +++++++++++++
- members/member-2/ai/critique/.gitkeep            |   0
- members/member-2/ai/prompts/.gitkeep             |   0
- members/member-2/bugs/screenshots/.gitkeep       |   0
- members/member-2/ci/evidence/.gitkeep            |   0
- members/member-2/git-log/.gitkeep                |   0
- members/member-2/newman/.gitkeep                 |   0
- members/member-2/postman/collections/.gitkeep    |   0
- members/member-2/postman/data/.gitkeep           |   0
- members/member-2/postman/environments/.gitkeep   |   0
- members/member-2/postman/scripts/.gitkeep        |   0
- members/member-2/report/.gitkeep                 |   0
- members/member-2/testcases/.gitkeep              |   0
- members/member-3/README.md                       | 111 +++++++++++++++++
- members/member-3/agent-skill/diagram/.gitkeep    |   0
- members/member-3/agent-skill/pseudocode/.gitkeep |   0
- members/member-3/ai/audit/.gitkeep               |   0
- members/member-3/ai/audit/AI_AUDIT_TEMPLATE.md   |  86 +++++++++++++
- members/member-3/ai/critique/.gitkeep            |   0
- members/member-3/ai/prompts/.gitkeep             |   0
- members/member-3/bugs/screenshots/.gitkeep       |   0
- members/member-3/ci/evidence/.gitkeep            |   0
- members/member-3/git-log/.gitkeep                |   0
- members/member-3/newman/.gitkeep                 |   0
- members/member-3/postman/collections/.gitkeep    |   0
- members/member-3/postman/data/.gitkeep           |   0
- members/member-3/postman/environments/.gitkeep   |   0
- members/member-3/postman/scripts/.gitkeep        |   0
- members/member-3/report/.gitkeep                 |   0
- members/member-3/testcases/.gitkeep              |   0
- scripts/README.md                                |  22 ++++
- 57 files changed, 953 insertions(+)
-
-
-----------------------------------------------------------------------
-commit  aca4ebdfc6ca7cd1b960cbad3ef3f31ecc098af0
-Author  thangak18 <thangak18@gmail.com>
-Date    Mon Aug 31 22:11:54 2026 +0700
-
-refactor: reorganize repository structure to match HW05 standard
-
- .github/workflows/README.md                        |   6 +-
- 23127259/README.md                                 | 134 +++++++++++++++++++++
- .../agent-skill/diagram/.gitkeep                   |   0
- .../agent-skill/pseudocode/.gitkeep                |   0
- 23127259/ai/AI_AUDIT_REPORT.md                     | 102 ++++++++++++++++
- 23127259/ai/AI_CRITIQUE.md                         |  18 +++
- .../ai/audit => 23127259/ai/interactions}/.gitkeep |   0
- .../ai/critique => 23127259/ai/prompts}/.gitkeep   |   0
- .../prompts => 23127259/bugs/screenshots}/.gitkeep |   0
- .../screenshots => 23127259/ci/evidence}/.gitkeep  |   0
- 23127259/docs/00_MAIN_REPORT.md                    |  75 ++++++++++++
- 23127259/evidence/EVIDENCE_INDEX.md                |  24 ++++
- .../ci/evidence => 23127259/newman}/.gitkeep       |   0
- .../member-1/git-log => 23127259/pdf}/.gitkeep     |   0
- .../postman/collections}/.gitkeep                  |   0
- .../collections => 23127259/postman/data}/.gitkeep |   0
- .../postman/environments}/.gitkeep                 |   0
- .../postman/scripts}/.gitkeep                      |   0
- .../member-1/postman => 23127259}/scripts/.gitkeep |   0
- .../report => 23127259/testcases}/.gitkeep         |   0
- 23127259/video/VIDEO_DEMO_SCRIPT.md                |  42 +++++++
- 23127259/video/VIDEO_RECORDING_CHECKLIST.md        |  23 ++++
- README.md                                          | 130 ++++++++++----------
- docs/team-api-allocation.md                        |   8 +-
- member-2/README.md                                 |  83 +++++++++++++
- .../agent-skill/diagram}/.gitkeep                  |   0
- .../agent-skill/pseudocode}/.gitkeep               |   0
- member-2/ai/AI_AUDIT_REPORT.md                     | 102 ++++++++++++++++
- member-2/ai/AI_CRITIQUE.md                         |  18 +++
- .../ai/interactions}/.gitkeep                      |   0
- .../ai/audit => member-2/ai/prompts}/.gitkeep      |   0
- .../bugs/screenshots}/.gitkeep                     |   0
- .../ai/prompts => member-2/ci/evidence}/.gitkeep   |   0
- member-2/docs/00_MAIN_REPORT.md                    |  75 ++++++++++++
- member-2/evidence/EVIDENCE_INDEX.md                |  24 ++++
- .../bugs/screenshots => member-2/newman}/.gitkeep  |   0
- .../member-2/ci/evidence => member-2/pdf}/.gitkeep |   0
- .../postman/collections}/.gitkeep                  |   0
- .../newman => member-2/postman/data}/.gitkeep      |   0
- .../postman/environments}/.gitkeep                 |   0
- .../data => member-2/postman/scripts}/.gitkeep     |   0
- .../environments => member-2/scripts}/.gitkeep     |   0
- .../scripts => member-2/testcases}/.gitkeep        |   0
- member-2/video/VIDEO_DEMO_SCRIPT.md                |  42 +++++++
- member-2/video/VIDEO_RECORDING_CHECKLIST.md        |  23 ++++
- member-3/README.md                                 |  83 +++++++++++++
- .../agent-skill/diagram}/.gitkeep                  |   0
- .../agent-skill/pseudocode}/.gitkeep               |   0
- member-3/ai/AI_AUDIT_REPORT.md                     | 102 ++++++++++++++++
- member-3/ai/AI_CRITIQUE.md                         |  18 +++
- .../diagram => member-3/ai/interactions}/.gitkeep  |   0
- .../pseudocode => member-3/ai/prompts}/.gitkeep    |   0
- .../audit => member-3/bugs/screenshots}/.gitkeep   |   0
- .../ai/critique => member-3/ci/evidence}/.gitkeep  |   0
- member-3/docs/00_MAIN_REPORT.md                    |  75 ++++++++++++
- member-3/evidence/EVIDENCE_INDEX.md                |  24 ++++
- .../ai/prompts => member-3/newman}/.gitkeep        |   0
- .../bugs/screenshots => member-3/pdf}/.gitkeep     |   0
- .../postman/collections}/.gitkeep                  |   0
- .../git-log => member-3/postman/data}/.gitkeep     |   0
- .../postman/environments}/.gitkeep                 |   0
- .../postman/scripts}/.gitkeep                      |   0
- .../postman/data => member-3/scripts}/.gitkeep     |   0
- .../environments => member-3/testcases}/.gitkeep   |   0
- member-3/video/VIDEO_DEMO_SCRIPT.md                |  42 +++++++
- member-3/video/VIDEO_RECORDING_CHECKLIST.md        |  23 ++++
- members/member-1/README.md                         | 111 -----------------
- members/member-1/ai/audit/AI_AUDIT_TEMPLATE.md     |  86 -------------
- members/member-2/README.md                         | 111 -----------------
- members/member-2/ai/audit/AI_AUDIT_TEMPLATE.md     |  86 -------------
- members/member-3/README.md                         | 111 -----------------
- members/member-3/ai/audit/AI_AUDIT_TEMPLATE.md     |  86 -------------
- members/member-3/postman/scripts/.gitkeep          |   0
- members/member-3/report/.gitkeep                   |   0
- members/member-3/testcases/.gitkeep                |   0
- scripts/README.md                                  |  14 +--
- 76 files changed, 1232 insertions(+), 669 deletions(-)
 
 
 ----------------------------------------------------------------------
@@ -248,52 +175,29 @@ Date    Mon Aug 31 22:14:35 2026 +0700
 
 refactor: update member workspaces with student IDs 23127060 and 23127195
 
- .github/workflows/README.md                               |  2 +-
- {member-2 => 23127060}/README.md                          |  8 ++++----
- {member-2 => 23127060}/agent-skill/diagram/.gitkeep       |  0
- {member-2 => 23127060}/agent-skill/pseudocode/.gitkeep    |  0
- {member-2 => 23127060}/ai/AI_AUDIT_REPORT.md              |  0
- {member-2 => 23127060}/ai/AI_CRITIQUE.md                  |  0
- {member-2 => 23127060}/ai/interactions/.gitkeep           |  0
- {member-2 => 23127060}/ai/prompts/.gitkeep                |  0
- {member-2 => 23127060}/bugs/screenshots/.gitkeep          |  0
- {member-2 => 23127060}/ci/evidence/.gitkeep               |  0
- {member-2 => 23127060}/docs/00_MAIN_REPORT.md             |  0
- {member-3 => 23127060}/evidence/EVIDENCE_INDEX.md         |  6 +++---
- {member-2 => 23127060}/newman/.gitkeep                    |  0
- {member-2 => 23127060}/pdf/.gitkeep                       |  0
- {member-2 => 23127060}/postman/collections/.gitkeep       |  0
- {member-2 => 23127060}/postman/data/.gitkeep              |  0
- {member-2 => 23127060}/postman/environments/.gitkeep      |  0
- {member-2 => 23127060}/postman/scripts/.gitkeep           |  0
- {member-2 => 23127060}/scripts/.gitkeep                   |  0
- {member-2 => 23127060}/testcases/.gitkeep                 |  0
- {member-2 => 23127060}/video/VIDEO_DEMO_SCRIPT.md         |  6 +++---
- {member-3 => 23127060}/video/VIDEO_RECORDING_CHECKLIST.md |  6 +++---
- {member-3 => 23127195}/README.md                          |  8 ++++----
- {member-3 => 23127195}/agent-skill/diagram/.gitkeep       |  0
- {member-3 => 23127195}/agent-skill/pseudocode/.gitkeep    |  0
- {member-3 => 23127195}/ai/AI_AUDIT_REPORT.md              |  0
- {member-3 => 23127195}/ai/AI_CRITIQUE.md                  |  0
- {member-3 => 23127195}/ai/interactions/.gitkeep           |  0
- {member-3 => 23127195}/ai/prompts/.gitkeep                |  0
- {member-3 => 23127195}/bugs/screenshots/.gitkeep          |  0
- {member-3 => 23127195}/ci/evidence/.gitkeep               |  0
- {member-3 => 23127195}/docs/00_MAIN_REPORT.md             |  0
- {member-2 => 23127195}/evidence/EVIDENCE_INDEX.md         |  6 +++---
- {member-3 => 23127195}/newman/.gitkeep                    |  0
- {member-3 => 23127195}/pdf/.gitkeep                       |  0
- {member-3 => 23127195}/postman/collections/.gitkeep       |  0
- {member-3 => 23127195}/postman/data/.gitkeep              |  0
- {member-3 => 23127195}/postman/environments/.gitkeep      |  0
- {member-3 => 23127195}/postman/scripts/.gitkeep           |  0
- {member-3 => 23127195}/scripts/.gitkeep                   |  0
- {member-3 => 23127195}/testcases/.gitkeep                 |  0
- {member-3 => 23127195}/video/VIDEO_DEMO_SCRIPT.md         |  6 +++---
- {member-2 => 23127195}/video/VIDEO_RECORDING_CHECKLIST.md |  6 +++---
- README.md                                                 | 10 ++++++----
- docs/team-api-allocation.md                               |  4 ++--
- 45 files changed, 35 insertions(+), 33 deletions(-)
+ 23127195/README.md                          |  83 +++++++++++++++++++++++++++++++++++++++
+ 23127195/agent-skill/diagram/.gitkeep       |   0
+ 23127195/agent-skill/pseudocode/.gitkeep    |   0
+ 23127195/ai/AI_AUDIT_REPORT.md              | 102 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 23127195/ai/AI_CRITIQUE.md                  |  18 +++++++++
+ 23127195/ai/interactions/.gitkeep           |   0
+ 23127195/ai/prompts/.gitkeep                |   0
+ 23127195/bugs/screenshots/.gitkeep          |   0
+ 23127195/ci/evidence/.gitkeep               |   0
+ 23127195/docs/00_MAIN_REPORT.md             |  75 +++++++++++++++++++++++++++++++++++
+ 23127195/evidence/EVIDENCE_INDEX.md         |  24 ++++++++++++
+ 23127195/newman/.gitkeep                    |   0
+ 23127195/pdf/.gitkeep                       |   0
+ 23127195/postman/collections/.gitkeep       |   0
+ 23127195/postman/data/.gitkeep              |   0
+ 23127195/postman/environments/.gitkeep      |   0
+ 23127195/postman/scripts/.gitkeep           |   0
+ 23127195/scripts/.gitkeep                   |   0
+ 23127195/testcases/.gitkeep                 |   0
+ 23127195/video/VIDEO_DEMO_SCRIPT.md         |  42 ++++++++++++++++++++
+ 23127195/video/VIDEO_RECORDING_CHECKLIST.md |  23 +++++++++++
+ 21 files changed, 367 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -303,25 +207,16 @@ Date    Tue Sep 1 19:02:54 2026 +0700
 
 chore(23127195): setup workspace, chon 3 API va dung ha tang sinh test
 
-- Khoi phuc scaffold workspace 23127195 (bi xoa tren disk, con trong index)
-- docs/01_API_SELECTION.md: chot API-1=FR-03 (Pool A), API-2=FR-09 (Pool B),
-  API-3=FR-15 (Pool C); tranh trung FR-02/FR-10/FR-14 cua thanh vien khac
-- postman/scripts/build_collections.py: builder IR -> Postman Collection v2.1
-- postman/environments/eshop-local.postman_environment.json
-- ai/interactions/SESSION-01: log AI INT-01..INT-05 (gom 10 probe curl xac
-  minh loi that tren SUT chay local)
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/2026.HW06.API Testing_En.pdf              |  Bin 0 -> 455391 bytes
- 23127195/ai/interactions/SESSION-01_2026-09-01.md  |  153 ++
- .../SESSION-01_2026-09-01_claude-opus-5.md         |  115 +
- 23127195/docs/01_API_SELECTION.md                  |   50 +
- 23127195/package-lock.json                         | 2393 ++++++++++++++++++++
- 23127195/package.json                              |   19 +
- .../eshop-local.postman_environment.json           |   74 +
- 23127195/postman/scripts/build_collections.py      |  382 ++++
+ 23127195/2026.HW06.API Testing_En.pdf                           |  Bin 0 -> 455391 bytes
+ 23127195/ai/interactions/SESSION-01_2026-09-01.md               |  153 ++
+ 23127195/ai/interactions/SESSION-01_2026-09-01_claude-opus-5.md |  115 ++
+ 23127195/docs/01_API_SELECTION.md                               |   50 +
+ 23127195/package-lock.json                                      | 2393 +++++++++++++++++++++++++++
+ 23127195/package.json                                           |   19 +
+ .../postman/environments/eshop-local.postman_environment.json   |   74 +
+ 23127195/postman/scripts/build_collections.py                   |  382 +++++
  8 files changed, 3186 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -331,26 +226,13 @@ Date    Tue Sep 1 20:09:47 2026 +0700
 
 chore(23127195): doi bo API sang FR-04/FR-09/FR-16 va hoan thien ha tang sinh test
 
-Thanh vien khac da nhan FR-02/03/08/10/14/15 -> chon lai bo khong trung:
-  API-1 Pool A = FR-04 (ho so ca nhan)
-  API-2 Pool B = FR-09 (ma giam gia)
-  API-3 Pool C = FR-16 (import san pham)
-
-- build_collections.py: ho tro auth theo ten bien token, snippet dung chung,
-  arrayLen/arrayLenGte ton trong path
-- environment: bo cac bien runtime rong (adminToken/userToken/otp/productId).
-  Bien Environment co do uu tien CAO HON Collection nen gia tri rong de len
-  gia tri that -> gay 401 hang loat o lan chay dau tien
-- run_newman.sh: luon restart SUT truoc khi chay (SUT drop+seed moi lan khoi dong)
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- .../SESSION-01_2026-09-01_claude-opus-5.md         | 115 ---------------------
- 23127195/docs/01_API_SELECTION.md                  |  73 ++++++++-----
- .../eshop-local.postman_environment.json           |  34 ++++--
- 23127195/postman/scripts/build_collections.py      |  31 +++---
- 23127195/scripts/run_newman.sh                     | 105 +++++++++++++++++++
+ 23127195/ai/interactions/SESSION-01_2026-09-01_claude-opus-5.md | 115 ----------------------------
+ 23127195/docs/01_API_SELECTION.md                               |  73 +++++++++++-------
+ .../postman/environments/eshop-local.postman_environment.json   |  34 +++++---
+ 23127195/postman/scripts/build_collections.py                   |  31 ++++----
+ 23127195/scripts/run_newman.sh                                  | 105 +++++++++++++++++++++++++
  5 files changed, 189 insertions(+), 169 deletions(-)
+
 
 
 ----------------------------------------------------------------------
@@ -360,22 +242,9 @@ Date    Tue Sep 1 20:09:48 2026 +0700
 
 feat(api1-fr04): sinh + audit + mo rong test case cho FR-04 (45 case)
 
-Buoc 1 Generate: 35 case do AI sinh, dan tung buoc theo ky thuat (domain
-  partition tren name/phone/shipping_address, state transition, SEC, schema)
-Buoc 2 Audit: gan nhan VALID/INCOMPLETE kem ly do cho tung case; 4 case bi
-  hieu chinh (ky vong sai ve do dai ten, trim phone, null dia chi, xep nham
-  case hieu nang vao nhom schema)
-Buoc 3 Extend: 10 case do SV tu them ma AI bo sot — dang chu y:
-  - TC-A1-028 partial update xoa trang truong khong gui
-  - TC-A1-029/030 truong bat bien email/id
-  - TC-A1-035/036 JWT ky sai khoa va thuat toan alg=none
-  - TC-A1-038 chuoi tac dong cua leo quyen SEC-06
-  - TC-A1-042 schema kiem ca chieu 'khong co truong thua'
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/testcases/api1_fr04_testcases.json | 2552 +++++++++++++++++++++++++++
+ 23127195/testcases/api1_fr04_testcases.json | 2552 +++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 2552 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -385,20 +254,9 @@ Date    Tue Sep 1 20:09:48 2026 +0700
 
 feat(api2-fr09): sinh + audit + mo rong test case cho FR-09 (50 case)
 
-Buoc 1 Generate: 39 case AI sinh theo bang quyet dinh 5 dieu kien C1-C5,
-  phan tich gia tri bien tren min_order_amount, oracle so hoc cho cong thuc
-Buoc 2 Audit: 3 case duoc hieu chinh ky vong (trim ma, so thap phan, hieu nang)
-Buoc 3 Extend: 11 case SV tu them:
-  - TC-A2-024 bo user_id de lach kiem tra so luot
-  - TC-A2-025 IDOR muon luot cua nguoi khac
-  - TC-A2-031 bo dem luot phai cach ly giua cac nguoi dung
-  - TC-A2-036/037 kiem tra theo BAT BIEN thay vi tung gia tri cu the
-  - TC-A2-043 total_amount dang chuoi so va bay so sanh tu dien cua JavaScript
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/testcases/api2_fr09_testcases.json | 2105 +++++++++++++++++++++++++++
+ 23127195/testcases/api2_fr09_testcases.json | 2105 +++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 2105 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -408,21 +266,9 @@ Date    Tue Sep 1 20:09:48 2026 +0700
 
 feat(api3-fr16): sinh + audit + mo rong test case cho FR-16 (49 case)
 
-Buoc 1 Generate: 36 case AI sinh (cau truc mang + 5 truong moi dong, SEC-02/03/05)
-Buoc 2 Audit: 2 case hieu chinh (category_id dang chuoi, hieu nang)
-Buoc 3 Extend: 13 case SV tu them:
-  - TC-A3-033/034 vi tri dong loi o DAU va o CUOI mang (quyet dinh ket luan
-    ve tinh nguyen tu — chi test mot vi tri se ket luan sai)
-  - TC-A3-036 bao cao inserted phai NHAT QUAN voi so ban ghi that su tang
-  - TC-A3-013 ten toan khoang trang lot qua phep kiem tra truthy
-  - TC-A3-021 price dang chuoi — truong hop MAC DINH cua du lieu CSV
-  - TC-A3-041 chuoi tac dong: hang do user thuong chen hien cong khai
-  - TC-A3-044 imageUrl voi giao thuc javascript:
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/testcases/api3_fr16_testcases.json | 3010 +++++++++++++++++++++++++++
+ 23127195/testcases/api3_fr16_testcases.json | 3010 +++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 3010 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -432,16 +278,11 @@ Date    Tue Sep 1 20:09:48 2026 +0700
 
 build(postman): sinh 3 Postman Collection v2.1 tu IR test case
 
-Moi collection co pre-request script cap collection gan header X-Student-Id
-cho MOI request kem console.log lam bang chung (yeu cau §11 cua de bai),
-va test script cap collection kiem tra header + chong ro ri stack trace.
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- .../api1_fr04_user_profile.postman_collection.json | 4895 +++++++++++++++++++
- .../api2_fr09_apply_coupon.postman_collection.json | 3712 +++++++++++++++
- ...i3_fr16_import_products.postman_collection.json | 4967 ++++++++++++++++++++
+ .../collections/api1_fr04_user_profile.postman_collection.json  | 4895 ++++++++++++++++++++++++++
+ .../collections/api2_fr09_apply_coupon.postman_collection.json  | 3712 ++++++++++++++++++++
+ .../api3_fr16_import_products.postman_collection.json           | 4967 +++++++++++++++++++++++++++
  3 files changed, 13574 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -451,34 +292,14 @@ Date    Tue Sep 1 20:10:08 2026 +0700
 
 test(all): thi hanh 144 test case bang Newman + xuat bang test case
 
-Buoc 4 Execute — chay that tren SUT o http://localhost:3000 (hostname khop
-yeu cau §11 cua de bai). Bao cao htmlextra + JSON + JUnit trong newman/.
-
-Ket qua: 144 test case | 92 PASS | 52 FAIL | 24 loi that
-
-Hai khiem khuyet cua CHINH BO TEST duoc phat hien va sua trong buoc nay
-(khong phai loi cua SUT):
-1. Assertion bat dong bo goi pm.sendRequest ma khong bat exception: khi
-   assertion FAIL thi done() khong bao gio duoc goi -> Newman AM THAM bo qua
-   test do. Hau qua: loi SEC-06 nghiem trong nhat (TC-A1-037) ban dau hien ra
-   la 'pass'. Da boc try/catch + done(e) cho 32 assertion.
-2. Chup moc so luong ban ghi bang pm.sendRequest trong pre-request script
-   khong dam bao hoan tat truoc khi request chinh duoc gui -> countBefore bi
-   lech/undefined. Da thay bang 26 request [SETUP] tuong minh.
-
-scripts/export_testcases.py doi chieu IR voi bao cao Newman de sinh
-TESTCASES_23127195.xlsx, 3 file CSV va TEST_SUMMARY.md.
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/newman/api1_20260901-200655.html   |  24705 ++
- 23127195/newman/api1_20260901-200655.json   |  66882 ++++
+ 23127195/newman/api1_20260901-200655.html   |  24705 +++
+ 23127195/newman/api1_20260901-200655.json   |  66882 ++++++
  23127195/newman/api1_20260901-200655.xml    |    660 +
- 23127195/newman/api2_20260901-200655.html   |  20227 +
- 23127195/newman/api2_20260901-200655.json   |  36362 ++
+ 23127195/newman/api2_20260901-200655.html   |  20227 ++
+ 23127195/newman/api2_20260901-200655.json   |  36362 +++
  23127195/newman/api2_20260901-200655.xml    |    547 +
- 23127195/newman/api3_20260901-200655.html   |  25630 ++
- 23127195/newman/api3_20260901-200655.json   | 533518 +++++++++++++++++++++++++
+ 23127195/newman/api3_20260901-200655.html   |  25630 +++
+ 23127195/newman/api3_20260901-200655.json   | 533518 +++++++++++++++++++++++++++++++++++++++++++++
  23127195/newman/api3_20260901-200655.xml    |    769 +
  23127195/scripts/export_testcases.py        |    243 +
  23127195/testcases/TESTCASES_23127195.xlsx  |    Bin 0 -> 37503 bytes
@@ -489,6 +310,7 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
  15 files changed, 709722 insertions(+)
 
 
+
 ----------------------------------------------------------------------
 commit  e984add5a4519b8a96b5e023faf62e790ab43d6b
 Author  hungtmh <hungtmh20002@gmail.com>
@@ -496,27 +318,12 @@ Date    Tue Sep 1 20:18:08 2026 +0700
 
 docs(bugs): bao cao 24 loi kem bang chung tai hien duoc
 
-Buoc 5 Report bugs.
-
-4 Critical:
-  BUG-A1-01 leo quyen len admin qua truong role trong PUT /api/users/me (SEC-06)
-  BUG-A2-01 apply-coupon khong yeu cau dang nhap (dieu kien C4 khong duoc cai dat)
-  BUG-A2-02 cong thuc percent sai -> giam gia AM, khach tra gap 10 lan gia goc
-  BUG-A3-01 nguoi dung thuong import duoc hang len cua hang cong khai (SEC-03)
-
-7 High, 8 Medium, 5 Low. Tong 24 loi / 52 test case FAIL.
-
-- bugs/reproduce_bugs.sh: tai hien toan bo loi bang curl, doc lap voi Postman
-- bugs/evidence/reproduce_output.txt: output that (145 dong)
-- bugs/GITHUB_ISSUES.md: noi dung 24 issue san sang dan len GitHub
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/bugs/BUG_REPORTS.md                | 580 +++++++++++++++++++
- 23127195/bugs/GITHUB_ISSUES.md              | 861 ++++++++++++++++++++++++++++
- 23127195/bugs/evidence/reproduce_output.txt | 145 +++++
- 23127195/bugs/reproduce_bugs.sh             | 181 ++++++
+ 23127195/bugs/BUG_REPORTS.md                | 580 ++++++++++++++++++++++++++++++++
+ 23127195/bugs/GITHUB_ISSUES.md              | 861 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 23127195/bugs/evidence/reproduce_output.txt | 145 ++++++++
+ 23127195/bugs/reproduce_bugs.sh             | 181 ++++++++++
  4 files changed, 1767 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -526,47 +333,29 @@ Date    Tue Sep 1 20:31:45 2026 +0700
 
 feat(postman,ci): data-driven runs + cong chan hoi quy + GitHub Actions
 
-Postman features bo sung:
-- 3 collection data-driven chay bang Collection Runner + data file CSV
-  (39 iteration: bang phan vung phone, bang quyet dinh coupon C1-C5,
-   bang phan vung du lieu import)
-- build_baseline.py: sinh collection 'baseline' chi gom test case dang dat,
-  lam cong chan hoi quy cho CI
-
-CI/CD hai tang (.github/workflows/newman-23127195.yml):
-  Tang 1 baseline  - BAT BUOC XANH, chan build (92 test case, 550 assertion)
-  Tang 2 full suite - tham khao, khong chan build (144 test case)
-  Tang 2b data-driven
-Ly do tach hai tang: SUT co 24 khiem khuyet nen chay full suite se LUON do;
-mot pipeline luon do thi khong con gia tri canh bao.
-
-Pipeline con kiem tra collection co dong bo voi testcases/*.json khong,
-tranh tinh trang collection bi sua tay lech khoi nguon.
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- .github/workflows/newman-23127195.yml              |   220 +
- 23127195/ci/baseline_allowlist.json                |   218 +
- 23127195/newman/dd1_phone_partitions.html          | 14883 +++++++++++++
- 23127195/newman/dd1_phone_partitions.json          | 22140 +++++++++++++++++++
- 23127195/newman/dd2_coupon_decision_table.html     | 10372 +++++++++
- 23127195/newman/dd2_coupon_decision_table.json     | 21421 ++++++++++++++++++
- 23127195/newman/dd3_import_rows.html               |  7480 +++++++
- 23127195/newman/dd3_import_rows.json               | 13161 +++++++++++
- ..._api1_fr04_user_profile.postman_collection.json |  3569 +++
- ..._api2_fr09_apply_coupon.postman_collection.json |  2928 +++
- ...i3_fr16_import_products.postman_collection.json |  3572 +++
- .../dd1_phone_partitions.postman_collection.json   |   200 +
- ...2_coupon_decision_table.postman_collection.json |   164 +
- .../dd3_import_rows.postman_collection.json        |   153 +
- 23127195/postman/data/api1_phone_partitions.csv    |    16 +
- .../postman/data/api2_coupon_decision_table.csv    |    15 +
- 23127195/postman/data/api3_import_rows.csv         |    11 +
- .../eshop-local.postman_environment.json           |     6 +
- .../__pycache__/build_collections.cpython-312.pyc  |   Bin 0 -> 18445 bytes
- 23127195/postman/scripts/build_baseline.py         |   132 +
- 23127195/postman/scripts/build_datadriven.py       |   254 +
+ .github/workflows/newman-23127195.yml                           |   220 +
+ 23127195/ci/baseline_allowlist.json                             |   218 +
+ 23127195/newman/dd1_phone_partitions.html                       | 14883 +++++++++++++++++
+ 23127195/newman/dd1_phone_partitions.json                       | 22140 ++++++++++++++++++++++++++
+ 23127195/newman/dd2_coupon_decision_table.html                  | 10372 ++++++++++++
+ 23127195/newman/dd2_coupon_decision_table.json                  | 21421 +++++++++++++++++++++++++
+ 23127195/newman/dd3_import_rows.html                            |  7480 +++++++++
+ 23127195/newman/dd3_import_rows.json                            | 13161 +++++++++++++++
+ .../baseline_api1_fr04_user_profile.postman_collection.json     |  3569 +++++
+ .../baseline_api2_fr09_apply_coupon.postman_collection.json     |  2928 ++++
+ .../baseline_api3_fr16_import_products.postman_collection.json  |  3572 +++++
+ .../collections/dd1_phone_partitions.postman_collection.json    |   200 +
+ .../dd2_coupon_decision_table.postman_collection.json           |   164 +
+ .../postman/collections/dd3_import_rows.postman_collection.json |   153 +
+ 23127195/postman/data/api1_phone_partitions.csv                 |    16 +
+ 23127195/postman/data/api2_coupon_decision_table.csv            |    15 +
+ 23127195/postman/data/api3_import_rows.csv                      |    11 +
+ .../postman/environments/eshop-local.postman_environment.json   |     6 +
+ .../scripts/__pycache__/build_collections.cpython-312.pyc       |   Bin 0 -> 18445 bytes
+ 23127195/postman/scripts/build_baseline.py                      |   132 +
+ 23127195/postman/scripts/build_datadriven.py                    |   254 +
  21 files changed, 100915 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -576,26 +365,14 @@ Date    Tue Sep 1 20:31:45 2026 +0700
 
 feat(agent-skill): thiet ke bo sinh test case API bang AI (muc G9.5 Create)
 
-- DESIGN.md: kien truc 6 giai doan G1..G6; chi G1 dung LLM, con lai tat dinh.
-  Kem danh gia thuc nghiem tren chinh bai nay va 2 bai hoc rut ra tu 2 khiem
-  khuyet cua chinh bo test.
-- pseudocode/generator_pseudocode.md: pseudocode day du tung giai doan
-- pseudocode/generator.py: cai dat tham chieu CHAY DUOC.
-  'python generator.py --demo' sinh 44 test case cho FR-04 tu EndpointModel,
-  qua bo kiem tra G6a voi 0 loi.
-- SKILL.md: Agent Skill tai su dung duoc
-- diagram/README.md: dac ta chi tiet so do CAN VE, KHONG kem so do nao —
-  §11 cua de bai cam nop so do do AI sinh, sinh vien phai tu ve.
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/agent-skill/DESIGN.md                     |  212 +++
- 23127195/agent-skill/SKILL.md                      |  126 ++
- 23127195/agent-skill/diagram/README.md             |   82 +
- .../agent-skill/pseudocode/demo_generated_ir.json  | 1569 ++++++++++++++++++++
- 23127195/agent-skill/pseudocode/generator.py       |  616 ++++++++
- .../agent-skill/pseudocode/generator_pseudocode.md |  434 ++++++
+ 23127195/agent-skill/DESIGN.md                          |  212 +++++
+ 23127195/agent-skill/SKILL.md                           |  126 +++
+ 23127195/agent-skill/diagram/README.md                  |   82 ++
+ 23127195/agent-skill/pseudocode/demo_generated_ir.json  | 1569 +++++++++++++++++++++++++++++++++++
+ 23127195/agent-skill/pseudocode/generator.py            |  616 ++++++++++++++
+ 23127195/agent-skill/pseudocode/generator_pseudocode.md |  434 ++++++++++
  6 files changed, 3039 insertions(+)
+
 
 
 ----------------------------------------------------------------------
@@ -605,22 +382,12 @@ Date    Tue Sep 1 20:38:24 2026 +0700
 
 docs(ai): AI Audit Report, AI Critique va nhat ky 12 luot tuong tac
 
-- ai/AI_AUDIT_REPORT.md: khai bao bat buoc, bang cong cu, 12 luot tuong tac,
-  va §4 liet ke 4 nhom sai sot cua AI da duoc sua (quan trong nhat: assertion
-  bat dong bo lam Newman am tham bo qua test)
-- ai/AI_CRITIQUE.md: 296 tu (yeu cau 200-300)
-- ai/interactions/SESSION-01: INT-01..INT-12 kem prompt nguyen van, suy luan
-  cua AI, output that va phan quyet review cua sinh vien
-- ai/prompts/PROMPT_LIBRARY.md: 6 prompt tuong ung 6 buoc cua quy trinh,
-  kem ghi chu trung thuc ve cach chung duoc su dung trong phien lam viec
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/ai/AI_AUDIT_REPORT.md                    | 198 +++++++++++++--------
- 23127195/ai/AI_CRITIQUE.md                        |  40 +++--
- 23127195/ai/interactions/SESSION-01_2026-09-01.md | 148 +++++++++++++++-
- 23127195/ai/prompts/PROMPT_LIBRARY.md             | 201 ++++++++++++++++++++++
+ 23127195/ai/AI_AUDIT_REPORT.md                    | 198 +++++++++++++++++++++++++----------------
+ 23127195/ai/AI_CRITIQUE.md                        |  40 ++++++---
+ 23127195/ai/interactions/SESSION-01_2026-09-01.md | 148 ++++++++++++++++++++++++++++++-
+ 23127195/ai/prompts/PROMPT_LIBRARY.md             | 201 ++++++++++++++++++++++++++++++++++++++++++
  4 files changed, 499 insertions(+), 88 deletions(-)
+
 
 
 ----------------------------------------------------------------------
@@ -630,22 +397,13 @@ Date    Tue Sep 1 20:45:06 2026 +0700
 
 docs: bao cao chinh, CI/CD report, danh sach Postman features, README va chi muc bang chung
 
-- docs/00_MAIN_REPORT.md: bao cao chinh day du 7 muc
-- docs/02_POSTMAN_FEATURES.md: 24/27 tinh nang Postman da dung, kem vi tri
-  bang chung cho tung muc; 3 tinh nang con lai (Workspace/Mock/Monitor) co
-  huong dan de SV tu lam
-- ci/CI_CD_REPORT.md: thiet ke pipeline 2 tang + huong dan tao 2 commit mau
-- README.md: bang tong hop test + bang tu danh gia + ban do tai lieu
-- evidence/EVIDENCE_INDEX.md: chi muc moi bang chung kem cach kiem chung
-
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-
- 23127195/README.md                   | 192 ++++++++++++++-------
- 23127195/ci/CI_CD_REPORT.md          | 167 +++++++++++++++++++
- 23127195/docs/00_MAIN_REPORT.md      | 313 ++++++++++++++++++++++++++++++-----
- 23127195/docs/02_POSTMAN_FEATURES.md |  61 +++++++
- 23127195/evidence/EVIDENCE_INDEX.md  | 143 ++++++++++++++--
+ 23127195/README.md                   | 192 +++++++++++++++++++++++-----------
+ 23127195/ci/CI_CD_REPORT.md          | 167 +++++++++++++++++++++++++++++
+ 23127195/docs/00_MAIN_REPORT.md      | 313 +++++++++++++++++++++++++++++++++++++++++++++++--------
+ 23127195/docs/02_POSTMAN_FEATURES.md |  61 +++++++++++
+ 23127195/evidence/EVIDENCE_INDEX.md  | 143 ++++++++++++++++++++++---
  5 files changed, 760 insertions(+), 116 deletions(-)
+
 
 
 ----------------------------------------------------------------------
@@ -655,25 +413,511 @@ Date    Tue Sep 1 20:47:52 2026 +0700
 
 docs: kich ban video demo, git commit log va cap nhat bang phan cong nhom
 
-- video/VIDEO_DEMO_SCRIPT.md: kich ban 7 phut, trong tam la Agent Skill sinh
-  test case cho API-2 (dung yeu cau §7 'showing it generate tests for one API')
-- evidence/git_commit_log.txt: bang doi chieu commit <-> buoc quy trinh, kem
-  ghi chu trung thuc ve do min cua commit (3 buoc Generate/Audit/Extend cua
-  moi API nam trong cung mot file nguon nen gom mot commit)
-- README.md goc: dien FR-04/FR-09/FR-16 vao bang phan cong nhom
-- Sinh lai collection sau khi bo sung anh xa known_defect
+ 23127195/evidence/git_commit_log.txt                            |   650 +
+ 23127195/newman/api1_20260901-204738.html                       | 24705 ++++++++++
+ 23127195/newman/api1_20260901-204738.json                       | 66901 ++++++++++++++++++++++++++
+ 23127195/newman/api1_20260901-204738.xml                        |   660 +
+ .../collections/api1_fr04_user_profile.postman_collection.json  |     1 +
+ .../collections/api2_fr09_apply_coupon.postman_collection.json  |     1 +
+ .../api3_fr16_import_products.postman_collection.json           |     3 +
+ 23127195/testcases/TESTCASES_23127195.xlsx                      |   Bin 37503 -> 37502 bytes
+ 23127195/video/VIDEO_DEMO_SCRIPT.md                             |   214 +-
+ 9 files changed, 93093 insertions(+), 42 deletions(-)
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 
- 23127195/evidence/git_commit_log.txt               |   650 +
- 23127195/newman/api1_20260901-204738.html          | 24705 +++++++
- 23127195/newman/api1_20260901-204738.json          | 66901 +++++++++++++++++++
- 23127195/newman/api1_20260901-204738.xml           |   660 +
- .../api1_fr04_user_profile.postman_collection.json |     1 +
- .../api2_fr09_apply_coupon.postman_collection.json |     1 +
- ...i3_fr16_import_products.postman_collection.json |     3 +
- 23127195/testcases/TESTCASES_23127195.xlsx         |   Bin 37503 -> 37502 bytes
- 23127195/video/VIDEO_DEMO_SCRIPT.md                |   214 +-
- README.md                                          |     5 +-
- 10 files changed, 93097 insertions(+), 43 deletions(-)
 
+----------------------------------------------------------------------
+commit  4b0e1a14da3a12c104b1aeef9d6f1be25fe76c78
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Tue Sep 1 20:49:01 2026 +0700
+
+chore: chot ket qua lan chay cuoi va dong bo so lieu bao cao
+
+ 23127195/evidence/EVIDENCE_INDEX.md                             |    16 +-
+ 23127195/evidence/git_commit_log.txt                            |    71 +-
+ 23127195/newman/api1_20260901-200655.html                       | 24705 ----------
+ 23127195/newman/api1_20260901-200655.json                       | 66882 --------------------------
+ 23127195/newman/api1_20260901-200655.xml                        |   660 -
+ .../{api2_20260901-200655.html => api2_20260901-204738.html}    |  2956 +-
+ .../{api2_20260901-200655.json => api2_20260901-204738.json}    |  2839 +-
+ .../{api2_20260901-200655.xml => api2_20260901-204738.xml}      |   522 +-
+ .../{api3_20260901-200655.html => api3_20260901-204738.html}    |  3938 +-
+ .../{api3_20260901-200655.json => api3_20260901-204738.json}    |  4933 +-
+ .../{api3_20260901-200655.xml => api3_20260901-204738.xml}      |   588 +-
+ 23127195/testcases/TESTCASES_23127195.xlsx                      |   Bin 37502 -> 37503 bytes
+ 23127195/testcases/TEST_SUMMARY.md                              |     6 +-
+ 13 files changed, 7971 insertions(+), 100145 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  3619591321651098750a530cd4b60fda775f39ee
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Tue Sep 1 20:51:24 2026 +0700
+
+docs(pdf): xuat 9 bao cao sang PDF (yeu cau muc 14 cua de bai)
+
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 0 -> 447581 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 0 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 0 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 0 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 0 -> 267700 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 0 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 0 -> 687547 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 0 -> 240135 bytes
+ 23127195/pdf/README.pdf              | Bin 0 -> 311042 bytes
+ 23127195/scripts/export_pdf.py       | 149 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 10 files changed, 149 insertions(+)
+
+
+
+----------------------------------------------------------------------
+commit  71b0ae917e580c39f32ce5aeb690838f602dc712
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Tue Sep 1 20:51:32 2026 +0700
+
+chore: bo __pycache__ khoi theo doi cua git
+
+ 23127195/postman/scripts/__pycache__/build_collections.cpython-312.pyc | Bin 18445 -> 0 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  b9ee5dbf5a5d62ec7e17089c08218b163e958f4a
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Tue Sep 1 21:33:31 2026 +0700
+
+docs(diagram): huong dan ve so do tu A den Z, tu chua hoan toan
+
+ 23127195/agent-skill/diagram/HUONG_DAN_VE_SO_DO.md | 725 +++++++++++++++++++++++++++++++++++++++++
+ 23127195/agent-skill/diagram/README.md             |  10 +-
+ 2 files changed, 732 insertions(+), 3 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  e821831149cd468d17db527903cb4c59ead19183
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 09:01:59 2026 +0700
+
+feat(diagram+issues): them so do tu ve va tao 24 GitHub Issue
+
+ 23127195/README.md                                            |  13 +-
+ 23127195/agent-skill/diagram/.gitkeep                         |   0
+ 23127195/agent-skill/diagram/README.md                        |  62 ++++---
+ 23127195/agent-skill/diagram/ai_test_generator_diagram.drawio | 296 ++++++++++++++++++++++++++++++
+ 23127195/agent-skill/diagram/ai_test_generator_diagram.png    | Bin 0 -> 327163 bytes
+ 23127195/bugs/BUG_REPORTS.md                                  |  58 +++---
+ 23127195/bugs/GITHUB_ISSUES.md                                | 103 +++++++++--
+ 23127195/docs/00_MAIN_REPORT.md                               |  33 ++--
+ 23127195/evidence/EVIDENCE_INDEX.md                           |   4 +-
+ 23127195/pdf/00_MAIN_REPORT.pdf                               | Bin 447581 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf                             | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf                          | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf                           | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf                              | Bin 267700 -> 267700 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf                                  | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf                                  | Bin 687547 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf                                 | Bin 240135 -> 240135 bytes
+ 23127195/pdf/README.pdf                                       | Bin 311042 -> 329220 bytes
+ 23127195/scripts/export_pdf.py                                |  29 +++
+ 19 files changed, 504 insertions(+), 94 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  c9cca23a7299954858c9f7b7ca46c517080dd72b
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 09:04:01 2026 +0700
+
+chore(evidence): script sinh git commit log + cap nhat nhat ky commit
+
+ 23127195/evidence/EVIDENCE_INDEX.md  |   3 +-
+ 23127195/evidence/git_commit_log.txt | 714 ++++++++++++++++++++-----------------------------------
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 623326 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 267700 -> 267700 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 240135 -> 240135 bytes
+ 23127195/pdf/README.pdf              | Bin 329220 -> 329220 bytes
+ 23127195/scripts/export_git_log.py   | 143 +++++++++++
+ 12 files changed, 397 insertions(+), 463 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  604fa7ce7abbb60a60983911fdc7ab7aae2bc8b0
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:22:37 2026 +0700
+
+docs(evidence): anh chup Postman Console + giai phong log console khoi .gitignore
+
+ 23127195/README.md                                    |   9 +-
+ 23127195/evidence/EVIDENCE_INDEX.md                   |  16 +-
+ 23127195/evidence/postman_console.png                 | Bin 0 -> 234140 bytes
+ 23127195/evidence/postman_console_runner.png          | Bin 0 -> 349849 bytes
+ 23127195/evidence/postman_console_timestamps.png      | Bin 0 -> 314308 bytes
+ 23127195/newman/api1_20260901-204738.console.log      | 860 +++++++++++++++++++++++++++++++++
+ 23127195/newman/api2_20260901-204738.console.log      | 685 ++++++++++++++++++++++++++
+ 23127195/newman/api3_20260901-204738.console.log      | 994 ++++++++++++++++++++++++++++++++++++++
+ 23127195/newman/dd1_phone_partitions.console.log      | 533 ++++++++++++++++++++
+ 23127195/newman/dd2_coupon_decision_table.console.log | 455 +++++++++++++++++
+ 23127195/newman/dd3_import_rows.console.log           | 291 +++++++++++
+ 23127195/newman/sut-server.log                        |   3 +
+ 23127195/scripts/export_git_log.py                    |   2 +
+ 13 files changed, 3840 insertions(+), 8 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  3de872b31cb47543e819b04d18aab6897b18aeeb
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:23:14 2026 +0700
+
+chore(evidence): sinh lai git commit log (21 commit, tat ca da gan buoc)
+
+ 23127195/evidence/git_commit_log.txt | 57 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 56 insertions(+), 1 deletion(-)
+
+
+
+----------------------------------------------------------------------
+commit  03d0cb98904f16806dba320251c6c2a5403377ad
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:33:50 2026 +0700
+
+ci: them TC-A2-013 vao cong chan hoi quy (BUG-A2-03 duoc bao la da sua)
+
+ 23127195/ci/baseline_allowlist.json                             |  6 ++-
+ .../baseline_api2_fr09_apply_coupon.postman_collection.json     | 65 +++++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+), 2 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  7d5404f340d0f180d33b8d6915b3038f30c12bb4
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:38:05 2026 +0700
+
+ci: tra cong chan ve trang thai xanh + ghi nhan 2 lan chay mau vao bao cao
+
+ 23127195/README.md                                              |  2 +-
+ 23127195/bugs/split_evidence.py                                 | 95 +++++++++++++++++++++++++++++
+ 23127195/ci/CI_CD_REPORT.md                                     | 71 ++++++++++++++-------
+ 23127195/ci/baseline_allowlist.json                             |  6 +-
+ .../baseline_api2_fr09_apply_coupon.postman_collection.json     | 65 --------------------
+ 5 files changed, 148 insertions(+), 91 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  7991fe90f025af77274dfb452ad08c6981f20a06
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:40:20 2026 +0700
+
+docs(bugs): tach bang chung theo tung ma loi + tro giup chup anh cho 24 issue
+
+ 23127195/bugs/capture_screenshots.sh         | 72 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-01.txt | 15 ++++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-02.txt |  7 +++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-03.txt | 12 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-04.txt |  9 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-05.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-01.txt |  9 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-02.txt | 11 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-03.txt |  9 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-04.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-05.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-06.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-07.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-08.txt |  7 +++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-01.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-02.txt | 12 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-03.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-04.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-05.txt | 12 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-06.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-07.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-08.txt | 12 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-09.txt | 16 +++++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-10.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-11.txt |  7 +++++
+ 23127195/bugs/split_evidence.py              |  4 ++-
+ 23127195/newman/sut-server.log               | 22 +++++++++++++++
+ 27 files changed, 335 insertions(+), 1 deletion(-)
+
+
+
+----------------------------------------------------------------------
+commit  fcb613e49d560c0179d5b40e0f4261ed95bff5d3
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:03:30 2026 +0700
+
+docs(bugs): 24 anh chup man hinh bang chung loi cho GitHub Issues
+
+ 23127195/ai/AI_AUDIT_REPORT.md          |  33 +++++++++--
+ 23127195/bugs/capture_screenshots.ps1   | 154 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 23127195/bugs/capture_screenshots.sh    |  72 ------------------------
+ 23127195/bugs/screenshots/BUG-A1-01.png | Bin 0 -> 80709 bytes
+ 23127195/bugs/screenshots/BUG-A1-02.png | Bin 0 -> 97938 bytes
+ 23127195/bugs/screenshots/BUG-A1-03.png | Bin 0 -> 87117 bytes
+ 23127195/bugs/screenshots/BUG-A1-04.png | Bin 0 -> 92000 bytes
+ 23127195/bugs/screenshots/BUG-A1-05.png | Bin 0 -> 85065 bytes
+ 23127195/bugs/screenshots/BUG-A2-01.png | Bin 0 -> 87290 bytes
+ 23127195/bugs/screenshots/BUG-A2-02.png | Bin 0 -> 78469 bytes
+ 23127195/bugs/screenshots/BUG-A2-03.png | Bin 0 -> 85090 bytes
+ 23127195/bugs/screenshots/BUG-A2-04.png | Bin 0 -> 73701 bytes
+ 23127195/bugs/screenshots/BUG-A2-05.png | Bin 0 -> 73696 bytes
+ 23127195/bugs/screenshots/BUG-A2-06.png | Bin 0 -> 94306 bytes
+ 23127195/bugs/screenshots/BUG-A2-07.png | Bin 0 -> 98947 bytes
+ 23127195/bugs/screenshots/BUG-A2-08.png | Bin 0 -> 102817 bytes
+ 23127195/bugs/screenshots/BUG-A3-01.png | Bin 0 -> 95555 bytes
+ 23127195/bugs/screenshots/BUG-A3-02.png | Bin 0 -> 74619 bytes
+ 23127195/bugs/screenshots/BUG-A3-03.png | Bin 0 -> 74915 bytes
+ 23127195/bugs/screenshots/BUG-A3-04.png | Bin 0 -> 74900 bytes
+ 23127195/bugs/screenshots/BUG-A3-05.png | Bin 0 -> 78990 bytes
+ 23127195/bugs/screenshots/BUG-A3-06.png | Bin 0 -> 93615 bytes
+ 23127195/bugs/screenshots/BUG-A3-07.png | Bin 0 -> 93571 bytes
+ 23127195/bugs/screenshots/BUG-A3-08.png | Bin 0 -> 79018 bytes
+ 23127195/bugs/screenshots/BUG-A3-09.png | Bin 0 -> 94896 bytes
+ 23127195/bugs/screenshots/BUG-A3-10.png | Bin 0 -> 97116 bytes
+ 23127195/bugs/screenshots/BUG-A3-11.png | Bin 0 -> 100655 bytes
+ 27 files changed, 182 insertions(+), 77 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  2f6882c19589079f173f875db04ba74895616c85
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:26:49 2026 +0700
+
+fix(bugs): lenh curl in ra phai dung bang lenh duoc chay + sua 2 loi bang chung
+
+ 23127195/ai/AI_AUDIT_REPORT.md                            |  12 +-
+ 23127195/bugs/capture_screenshots.ps1                     |  27 ++--
+ 23127195/bugs/chunk_evidence.py                           | 123 +++++++++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-01.txt              |  23 +--
+ 23127195/bugs/evidence/per_bug/BUG-A1-02.txt              |   4 +-
+ 23127195/bugs/evidence/per_bug/BUG-A1-03.txt              |  21 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A1-04.txt              |  12 +-
+ 23127195/bugs/evidence/per_bug/BUG-A1-05.txt              |  15 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-01.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-02.txt              |   8 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-03.txt              |  13 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-04.txt              |  16 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-05.txt              |  16 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-06.txt              |   9 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-07.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-08.txt              |   6 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-01.txt              |  11 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-02.txt              |  13 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-03.txt              |  20 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A3-04.txt              |  20 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A3-05.txt              |  21 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A3-06.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-07.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-08.txt              |  21 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A3-09.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-10.txt              |  13 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-11.txt              |   9 +-
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-01.part1.txt |  11 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-01.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-02.part1.txt |   8 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-03.part1.txt |  16 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-03.part2.txt |   7 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-04.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-05.part1.txt |  14 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-01.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-02.part1.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-03.part1.txt |  13 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-04.part1.txt |  13 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-04.part2.txt |   7 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-05.part1.txt |  13 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-05.part2.txt |   7 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-06.part1.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-07.part1.txt |  11 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-08.part1.txt |   8 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-01.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-02.part1.txt |  14 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-03.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-03.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-04.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-04.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-05.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-05.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-06.part1.txt |  11 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-07.part1.txt |  11 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-08.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-08.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-09.part1.txt |  17 +++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-10.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-11.part1.txt |  11 ++
+ 23127195/bugs/evidence/reproduce_output.txt               | 219 ++++++++++++++++++---------
+ 23127195/bugs/reproduce_bugs.sh                           | 272 ++++++++++++++++++++--------------
+ 23127195/bugs/screenshots/BUG-A1-01.png                   | Bin 80709 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A1-01_p1.png                | Bin 0 -> 84464 bytes
+ 23127195/bugs/screenshots/BUG-A1-01_p2.png                | Bin 0 -> 97084 bytes
+ 23127195/bugs/screenshots/BUG-A1-02.png                   | Bin 97938 -> 86227 bytes
+ 23127195/bugs/screenshots/BUG-A1-03.png                   | Bin 87117 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A1-03_p1.png                | Bin 0 -> 103975 bytes
+ 23127195/bugs/screenshots/BUG-A1-03_p2.png                | Bin 0 -> 109057 bytes
+ 23127195/bugs/screenshots/BUG-A1-04.png                   | Bin 92000 -> 83367 bytes
+ 23127195/bugs/screenshots/BUG-A1-05.png                   | Bin 85065 -> 93348 bytes
+ 23127195/bugs/screenshots/BUG-A2-01.png                   | Bin 87290 -> 74020 bytes
+ 23127195/bugs/screenshots/BUG-A2-02.png                   | Bin 78469 -> 73632 bytes
+ 23127195/bugs/screenshots/BUG-A2-03.png                   | Bin 85090 -> 89762 bytes
+ 23127195/bugs/screenshots/BUG-A2-04.png                   | Bin 73701 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A2-04_p1.png                | Bin 0 -> 86367 bytes
+ 23127195/bugs/screenshots/BUG-A2-04_p2.png                | Bin 0 -> 88946 bytes
+ 23127195/bugs/screenshots/BUG-A2-05.png                   | Bin 73696 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A2-05_p1.png                | Bin 0 -> 86208 bytes
+ 23127195/bugs/screenshots/BUG-A2-05_p2.png                | Bin 0 -> 92594 bytes
+ 23127195/bugs/screenshots/BUG-A2-06.png                   | Bin 94306 -> 68551 bytes
+ 23127195/bugs/screenshots/BUG-A2-07.png                   | Bin 98947 -> 66467 bytes
+ 23127195/bugs/screenshots/BUG-A2-08.png                   | Bin 102817 -> 93153 bytes
+ 23127195/bugs/screenshots/BUG-A3-01.png                   | Bin 95555 -> 89823 bytes
+ 23127195/bugs/screenshots/BUG-A3-02.png                   | Bin 74619 -> 93093 bytes
+ 23127195/bugs/screenshots/BUG-A3-03.png                   | Bin 74915 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A3-03_p1.png                | Bin 0 -> 101793 bytes
+ 23127195/bugs/screenshots/BUG-A3-03_p2.png                | Bin 0 -> 86091 bytes
+ 23127195/bugs/screenshots/BUG-A3-04.png                   | Bin 74900 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A3-04_p1.png                | Bin 0 -> 101783 bytes
+ 23127195/bugs/screenshots/BUG-A3-04_p2.png                | Bin 0 -> 86087 bytes
+ 23127195/bugs/screenshots/BUG-A3-05.png                   | Bin 78990 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A3-05_p1.png                | Bin 0 -> 102839 bytes
+ 23127195/bugs/screenshots/BUG-A3-05_p2.png                | Bin 0 -> 79390 bytes
+ 23127195/bugs/screenshots/BUG-A3-06.png                   | Bin 93615 -> 82419 bytes
+ 23127195/bugs/screenshots/BUG-A3-07.png                   | Bin 93571 -> 82384 bytes
+ 23127195/bugs/screenshots/BUG-A3-08.png                   | Bin 79018 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A3-08_p1.png                | Bin 0 -> 102874 bytes
+ 23127195/bugs/screenshots/BUG-A3-08_p2.png                | Bin 0 -> 79424 bytes
+ 23127195/bugs/screenshots/BUG-A3-09.png                   | Bin 94896 -> 90752 bytes
+ 23127195/bugs/screenshots/BUG-A3-10.png                   | Bin 97116 -> 87210 bytes
+ 23127195/bugs/screenshots/BUG-A3-11.png                   | Bin 100655 -> 85801 bytes
+ 23127195/evidence/EVIDENCE_INDEX.md                       |  11 +-
+ 23127195/newman/sut-server.log                            |  22 ---
+ 103 files changed, 1033 insertions(+), 332 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  13717cad3a88dc35b90e0bf6f326b775bf5d7ccb
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:33:46 2026 +0700
+
+docs(bugs): nhung 32 anh bang chung vao than 24 GitHub Issue
+
+ 23127195/README.md                   |   2 +-
+ 23127195/evidence/git_commit_log.txt | 257 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 23127195/newman/sut-server.log       |  22 +++++
+ 23127195/scripts/export_git_log.py   |   4 +
+ 4 files changed, 283 insertions(+), 2 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  3e43abf10f3cb83b799aaf27115fcc357e05950b
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:35:17 2026 +0700
+
+docs(pdf): xuat lai 9 PDF sau khi cap nhat bao cao CI/CD, AI audit va chi muc bang chung
+
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 623326 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 267700 -> 297594 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 240135 -> 253787 bytes
+ 23127195/pdf/README.pdf              | Bin 329220 -> 345936 bytes
+ 9 files changed, 0 insertions(+), 0 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  48c66970b40a6fc8e44463c9ddc38501387c1a52
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:35:41 2026 +0700
+
+chore(evidence): sinh lai git commit log (29 commit)
+
+ 23127195/evidence/git_commit_log.txt | 45 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
+
+
+
+----------------------------------------------------------------------
+commit  836a366eba5a0809b7207753c03c76f87d2c7cc2
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 18:44:01 2026 +0700
+
+docs(pdf): them kich ban video demo vao bo PDF (10 file)
+
+ 23127195/README.md                   |   2 +-
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 623326 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 297594 -> 297594 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 253787 -> 253787 bytes
+ 23127195/pdf/README.pdf              | Bin 345936 -> 345936 bytes
+ 23127195/pdf/VIDEO_DEMO_SCRIPT.pdf   | Bin 0 -> 208744 bytes
+ 23127195/scripts/export_pdf.py       |   1 +
+ 12 files changed, 2 insertions(+), 1 deletion(-)
+
+
+
+----------------------------------------------------------------------
+commit  4cce285f633bcc194bd7b93996e2074ba8325b8a
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 18:54:05 2026 +0700
+
+feat(agent-skill): cai skill vao .claude/skills de goi duoc trong Claude Code
+
+ 23127195/.claude/skills/api-test-generator/SKILL.md | 104 ++++++++++++++++++++
+ 23127195/README.md                                  |   4 +-
+ 23127195/agent-skill/pseudocode/generator.py        |   8 ++
+ 23127195/pdf/00_MAIN_REPORT.pdf                     | Bin 623326 -> 623326 bytes
+ 23127195/pdf/01_API_SELECTION.pdf                   | Bin 151103 -> 151103 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf                | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf                 | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf                    | Bin 297594 -> 297594 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf                        | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf                        | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf                       | Bin 253787 -> 253787 bytes
+ 23127195/pdf/README.pdf                             | Bin 345936 -> 350879 bytes
+ 23127195/pdf/VIDEO_DEMO_SCRIPT.pdf                  | Bin 208744 -> 186070 bytes
+ 23127195/video/VIDEO_DEMO_SCRIPT.md                 | 210 +++++++++++++++++++---------------------
+ 14 files changed, 215 insertions(+), 111 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  7e3f6d889f5482cd27ea2c3feb8938761d39f2d1
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 19:10:55 2026 +0700
+
+docs: link video demo + xac nhan khong trung API + chot tu danh gia 100
+
+ 23127195/README.md                   |  47 ++++++++++++++++++++++++++++-------------------
+ 23127195/docs/00_MAIN_REPORT.md      |  16 ++++++++--------
+ 23127195/docs/01_API_SELECTION.md    |  28 +++++++++++++++++++++++-----
+ 23127195/pdf/00_MAIN_REPORT.pdf      | Bin 623326 -> 613834 bytes
+ 23127195/pdf/01_API_SELECTION.pdf    | Bin 151103 -> 160765 bytes
+ 23127195/pdf/02_POSTMAN_FEATURES.pdf | Bin 206901 -> 206901 bytes
+ 23127195/pdf/AGENT_SKILL_DESIGN.pdf  | Bin 214460 -> 214460 bytes
+ 23127195/pdf/AI_AUDIT_REPORT.pdf     | Bin 297594 -> 297594 bytes
+ 23127195/pdf/AI_CRITIQUE.pdf         | Bin 79934 -> 79934 bytes
+ 23127195/pdf/BUG_REPORTS.pdf         | Bin 707690 -> 707690 bytes
+ 23127195/pdf/CI_CD_REPORT.pdf        | Bin 253787 -> 253787 bytes
+ 23127195/pdf/README.pdf              | Bin 350879 -> 427628 bytes
+ 23127195/pdf/VIDEO_DEMO_SCRIPT.pdf   | Bin 186070 -> 188207 bytes
+ 23127195/video/VIDEO_DEMO_SCRIPT.md  |   9 ++++++---
+ 14 files changed, 65 insertions(+), 35 deletions(-)

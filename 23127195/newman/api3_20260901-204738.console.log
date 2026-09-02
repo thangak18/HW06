@@ -1,0 +1,994 @@
+HW06 · 23127195 · API-3 (FR-16) — Import San pham tu CSV (Admin)
+
+□ 00 - Setup & Fixtures
+└ TC-A3-S01 [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 20ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  user.role == admin
+
+└ TC-A3-S02 [SETUP] Dang ky nguoi dung THUONG de kiem thu phan quyen
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-S03 [SETUP] Dang nhap nguoi dung thuong
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login'
+  └
+  POST http://localhost:3000/api/login [200 OK, 662B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  user.role == user
+
+□ 01 - Domain Partition: cau truc mang products
+└ TC-A3-001-SNAP [SETUP] Chup so luong san pham truoc TC-A3-001
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 1.24kB, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-001 Mang 1 dong hop le -> 200, inserted = 1, so san pham tang dung 1
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  inserted == 1
+  √  Khong co dong loi
+  GET http://localhost:3000/api/products [200 OK, 1.38kB, 3ms]
+  √  So san pham tang dung 1
+
+└ TC-A3-002 Mang rong [] -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [400 Bad Request, 323B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 400
+  √  Response co truong 'error'
+
+└ TC-A3-003 Thieu truong products -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [400 Bad Request, 323B, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 400
+
+└ TC-A3-004 products la chuoi thay vi mang -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [400 Bad Request, 323B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 400
+
+└ TC-A3-005 products = null -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [400 Bad Request, 323B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 400
+
+└ TC-A3-006 products la object thay vi mang -> 400
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [400 Bad Request, 323B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 400
+
+└ TC-A3-007-SNAP [SETUP] Chup so luong san pham truoc TC-A3-007
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 1.38kB, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-007 Mang 3 dong deu hop le -> inserted = 3, so san pham tang dung 3
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 16ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  inserted == 3
+  GET http://localhost:3000/api/products [200 OK, 1.68kB, 1ms]
+  √  So san pham tang dung 3
+
+└ TC-A3-008-SNAP [SETUP] Chup so luong san pham truoc TC-A3-008
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 1.68kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-008 Mang chua phan tu null -> bao loi va khong ghi gi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [500 Internal Server Error, 1.46kB, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  1. [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  2. Khong 5xx
+  GET http://localhost:3000/api/products [200 OK, 1.78kB, 2ms]
+  3. Rollback: so san pham khong doi
+
+└ TC-A3-009-SNAP [SETUP] Chup so luong san pham truoc TC-A3-009
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 1.78kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-009 Mang 100 dong hop le -> khong timeout, inserted = 100
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 363B, 120ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  inserted == 100
+  √  Response time < 5000ms
+  GET http://localhost:3000/api/products [200 OK, 12.88kB, 2ms]
+  √  CSDL tang dung 100 ban ghi (response khong tra ve som truoc khi ghi xong)
+
+□ 02 - Domain Partition: name
+└ TC-A3-010-SNAP [SETUP] Chup so luong san pham truoc TC-A3-010
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 12.88kB, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-010 name rong "" -> bao loi, khong ghi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  inserted == 0
+  √  Phai bao cao dong loi
+
+└ TC-A3-011-SNAP [SETUP] Chup so luong san pham truoc TC-A3-011
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 12.88kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-011 Thieu truong name -> bao loi, khong ghi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  inserted == 0
+  √  Mang 'errors' co >= 1 phan tu
+
+└ TC-A3-012-SNAP [SETUP] Chup so luong san pham truoc TC-A3-012
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 12.88kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-012 name = null -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  inserted == 0
+
+└ TC-A3-013-SNAP [SETUP] Chup so luong san pham truoc TC-A3-013
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 12.88kB, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-013 name chi gom khoang trang -> phai bao loi (khong duoc coi la hop le)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  4. inserted == 0
+  5. Mang 'errors' co >= 1 phan tu
+
+└ TC-A3-014-SNAP [SETUP] Chup so luong san pham truoc TC-A3-014
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 12.96kB, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-014 name dai dung 255 ky tu (bien tren hop le) -> chap nhan
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  inserted == 1
+
+└ TC-A3-015-SNAP [SETUP] Chup so luong san pham truoc TC-A3-015
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 13.3kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-015 name dai 256 ky tu (vuot bien) -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  6. inserted == 0
+
+└ TC-A3-016 name tieng Viet co dau -> luu va doc lai dung (UTF-8)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  inserted == 1
+  GET http://localhost:3000/api/products [200 OK, 13.78kB, 3ms]
+  √  Doc lai giu nguyen dau tieng Viet
+
+□ 03 - Domain Partition: price
+└ TC-A3-017 price duong hop le -> chap nhan
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  inserted == 1
+
+└ TC-A3-018-SNAP [SETUP] Chup so luong san pham truoc TC-A3-018
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 13.88kB, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-018 price = 0 (bien duoi khong hop le) -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  7. inserted == 0
+  8. Mang 'errors' co >= 1 phan tu
+
+└ TC-A3-019-SNAP [SETUP] Chup so luong san pham truoc TC-A3-019
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 13.98kB, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-019 price am -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  9. inserted == 0
+ 10. Mang 'errors' co >= 1 phan tu
+
+└ TC-A3-020-SNAP [SETUP] Chup so luong san pham truoc TC-A3-020
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 14.08kB, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-020 price la chuoi khong so hoa duoc -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 11. inserted == 0
+ 12. Mang 'errors' co >= 1 phan tu
+
+└ TC-A3-021 price la chuoi so "25000" -> phai ep kieu tuong minh, luu duoi dang so
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  GET http://localhost:3000/api/products?search=IMP-PRICE-NUMSTR-23127195 [200 OK, 376B, 2ms]
+  √  Neu chap nhan thi price phai duoc luu duoi dang SO
+
+└ TC-A3-022-SNAP [SETUP] Chup so luong san pham truoc TC-A3-022
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 14.31kB, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-022 Thieu truong price -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 13. inserted == 0
+
+└ TC-A3-023-SNAP [SETUP] Chup so luong san pham truoc TC-A3-023
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 14.41kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-023 price = null -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 14. inserted == 0
+
+└ TC-A3-024 price cuc lon (1e18) -> khong tran so
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Khong 5xx
+  GET http://localhost:3000/api/products?search=IMP-HUGE-PRICE-23127195 [200 OK, 388B, 2ms]
+ 15. Neu chap nhan thi gia luu khong duoc sai lech do tran so
+
+□ 04 - Domain Partition: category_id / description / imageUrl
+└ TC-A3-025-SNAP [SETUP] Chup so luong san pham truoc TC-A3-025
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 14.63kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-025 category_id khong ton tai (999) -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 16. inserted == 0
+ 17. Mang 'errors' co >= 1 phan tu
+
+└ TC-A3-026-SNAP [SETUP] Chup so luong san pham truoc TC-A3-026
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 14.73kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-026 category_id = 0 -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 18. inserted == 0
+
+└ TC-A3-027-SNAP [SETUP] Chup so luong san pham truoc TC-A3-027
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 14.83kB, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-027 category_id am -> bao loi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 19. inserted == 0
+
+└ TC-A3-028-SNAP [SETUP] Chup so luong san pham truoc TC-A3-028
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 14.93kB, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-028 Thieu category_id -> KHONG duoc am tham gan mac dinh
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 20. Khong duoc import khi thieu danh muc
+ 21. Mang 'errors' co >= 1 phan tu
+
+└ TC-A3-029 category_id la chuoi -> bao loi hoac ep kieu tuong minh
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Khong 5xx
+  GET http://localhost:3000/api/products?search=IMP-CATSTR-23127195 [200 OK, 370B, 1ms]
+  √  Neu chap nhan thi category_id phai la SO 2
+
+└ TC-A3-030 Thieu description va imageUrl (truong khong bat buoc) -> van import duoc
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  inserted == 1
+
+└ TC-A3-031 description chua dau phay va dau nhay kep (RFC 4180) -> luu nguyen van
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  inserted == 1
+  GET http://localhost:3000/api/products?search=IMP-RFC4180-23127195 [200 OK, 418B, 2ms]
+  √  Mo ta giu nguyen dau phay va dau nhay kep
+
+□ 05 - State Transition: tinh nguyen tu cua giao dich import
+└ TC-A3-032-SNAP [SETUP] Chup so luong san pham truoc TC-A3-032
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 15.39kB, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-032 [NGUYEN TU] 1 dong hop le + 1 dong THIEU NAME -> phai rollback toan bo
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Phai bao cao co dong loi
+  GET http://localhost:3000/api/products   GET http://localhost:3000/api/products?search=IMP-ATOMIC-OK-23127195 [200 OK, 15.5kB, 4ms]
+ 22. ROLLBACK: so san pham phai khong doi
+[200 OK, 384B, 17ms]
+ 23. ROLLBACK: san pham cua dong hop le KHONG duoc ton tai
+
+└ TC-A3-033-SNAP [SETUP] Chup so luong san pham truoc TC-A3-033
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 15.5kB, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-033 [NGUYEN TU] Dong loi nam o DAU mang -> cac dong sau khong duoc ghi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  GET http://localhost:3000/api/products [200 OK, 15.71kB, 4ms]
+ 24. ROLLBACK: so san pham khong doi
+
+└ TC-A3-034-SNAP [SETUP] Chup so luong san pham truoc TC-A3-034
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 15.71kB, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-034 [NGUYEN TU] Dong loi nam o CUOI mang -> cac dong truoc phai bi thu hoi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  GET http://localhost:3000/api/products?search=IMP-BEFORE-ERR- [200 OK, 483B, 3ms]
+ 25. ROLLBACK: hai dong truoc dong loi KHONG duoc ton tai
+
+└ TC-A3-035-SNAP [SETUP] Chup so luong san pham truoc TC-A3-035
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 15.93kB, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-035 [NGUYEN TU] Tat ca cac dong deu loi -> inserted = 0, CSDL khong doi
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 431B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  inserted == 0
+  √  Mang 'errors' co dung 2 phan tu
+  GET http://localhost:3000/api/products [200 OK, 15.93kB, 5ms]
+  √  CSDL khong doi
+
+└ TC-A3-036-SNAP [SETUP] Chup so luong san pham truoc TC-A3-036
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 15.93kB, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-036 Bao cao ket qua phai NHAT QUAN voi trang thai that cua CSDL
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 26. Theo FR-16 (all-or-nothing) thi inserted phai la 0 khi co dong loi
+  GET http://localhost:3000/api/products [200 OK, 16.03kB, 2ms]
+  √  inserted trong bao cao phai bang so ban ghi that su tang them
+
+└ TC-A3-037 Bao cao loi phai neu ro so dong bi loi (FR-16)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Mang 'errors' co >= 1 phan tu
+  √  Thong bao loi neu ro so dong
+
+□ 06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05
+└ TC-A3-038 SEC-02: goi import KHONG kem token -> 401
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [401 Unauthorized, 301B, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 401
+
+└ TC-A3-039 SEC-02: token rac -> 403
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [403 Forbidden, 295B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [401, 403]
+
+└ TC-A3-040-SNAP [SETUP] Chup so luong san pham truoc TC-A3-040
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 16.13kB, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-040 SEC-03: token cua NGUOI DUNG THUONG -> 403 (khong duoc import)
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 12ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+ 27. Status code la 403
+  GET http://localhost:3000/api/products?search=IMP-USERROLE-23127195 [200 OK, 396B, 2ms]
+ 28. Khong ban ghi nao duoc ghi boi nguoi dung thuong
+
+└ TC-A3-041 SEC-03 (tac dong): san pham do nguoi dung thuong chen vao hien cong khai tren cua hang
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products?search=IMP-USERROLE-23127195 [200 OK, 396B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+ 29. Cua hang khong duoc hien thi san pham do nguoi dung thuong chen
+
+└ TC-A3-042 SEC-02/03: JWT ky bang khoa SAI mang role=admin -> 403
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [403 Forbidden, 295B, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code thuoc [401, 403]
+
+└ TC-A3-043-SNAP [SETUP] Chup so luong san pham truoc TC-A3-043
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products [200 OK, 16.26kB, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+
+└ TC-A3-043 SEC-05: payload SQL injection trong ten san pham -> luu nguyen van, khong pha CSDL
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Khong 5xx
+  GET http://localhost:3000/api/categories [200 OK, 358B, 2ms]
+  √  Bang categories van con nguyen (khong bi DROP)
+
+└ TC-A3-044 imageUrl chua duong dan javascript: -> khong duoc luu nguyen si de tra ve client
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  GET http://localhost:3000/api/products?search=IMP-JSURL-23127195 [200 OK, 397B, 3ms]
+ 30. imageUrl chi duoc phep dung giao thuc http/https
+
+□ 07 - Schema Validation
+└ TC-A3-045 Schema: response thanh cong khop hop dong API
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Content-Type la application/json
+  √  Response khop JSON Schema cua spec
+
+└ TC-A3-046 Schema: inserted la kieu SO va errors la MANG
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Kieu du lieu cua 'inserted' la number
+  √  errors phai la mang
+
+└ TC-A3-047 Schema: response loi khop dinh dang { error: string }
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [400 Bad Request, 323B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 400
+  √  Content-Type la application/json
+  √  Response khop JSON Schema cua spec
+
+└ TC-A3-048 Schema: san pham sau import khop schema cua GET /api/products
+  ┌
+  │ '[X-Student-Id] 23127195  ->  GET /api/products'
+  └
+  GET http://localhost:3000/api/products?search=IMP-SCHEMA-23127195 [200 OK, 370B, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Status code la 200
+  √  Mang goc co >= 1 phan tu
+  √  Ban ghi doc lai khop schema san pham
+
+└ TC-A3-049 Schema: import 1 dong phan hoi duoi 2000ms
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [GLOBAL] Server khong ro ri stack trace / duong dan he thong
+  √  Response time < 2000ms
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               96 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │              156 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │               79 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │              280 │               30 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 7.6s                                      │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 417.01kB (approx)                        │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 7ms [min: 1ms, max: 120ms, s.d.: 12ms] │
+└───────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                                                                                                      [39m
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 01.  AssertionError  [GLOBAL] Server khong ro ri stack trace / duong dan he thong                                                                                                
+                      expected '<!DOCTYPE html>\n<html lang="en">\n<h…' not to match /at Object\.|node_modules|ECONNREFUSED|\\Users\\/                                            
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "01 - Domain Partition: cau truc mang products / TC-A3-008 Mang chua phan tu null -> bao loi va khong ghi gi"                                        
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 02.  AssertionError  Khong 5xx                                                                                                                                                   
+                      expected 500 to be below 500                                                                                                                                
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "01 - Domain Partition: cau truc mang products / TC-A3-008 Mang chua phan tu null -> bao loi va khong ghi gi"                                        
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 03.  AssertionError  Rollback: so san pham khong doi                                                                                                                             
+                      da ghi du lieu du co dong loi: expected 10 to deeply equal 9                                                                                                
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "01 - Domain Partition: cau truc mang products / TC-A3-008 Mang chua phan tu null -> bao loi va khong ghi gi"                                        
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 04.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "02 - Domain Partition: name / TC-A3-013 name chi gom khoang trang -> phai bao loi (khong duoc coi la hop le)"                                       
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 05.  AssertionError  Mang 'errors' co >= 1 phan tu                                                                                                                               
+                      expected +0 to be at least 1                                                                                                                                
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "02 - Domain Partition: name / TC-A3-013 name chi gom khoang trang -> phai bao loi (khong duoc coi la hop le)"                                       
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 06.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "02 - Domain Partition: name / TC-A3-015 name dai 256 ky tu (vuot bien) -> bao loi"                                                                  
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 07.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-018 price = 0 (bien duoi khong hop le) -> bao loi"                                                             
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 08.  AssertionError  Mang 'errors' co >= 1 phan tu                                                                                                                               
+                      expected +0 to be at least 1                                                                                                                                
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-018 price = 0 (bien duoi khong hop le) -> bao loi"                                                             
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 09.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-019 price am -> bao loi"                                                                                       
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 10.  AssertionError  Mang 'errors' co >= 1 phan tu                                                                                                                               
+                      expected +0 to be at least 1                                                                                                                                
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-019 price am -> bao loi"                                                                                       
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 11.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-020 price la chuoi khong so hoa duoc -> bao loi"                                                               
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 12.  AssertionError  Mang 'errors' co >= 1 phan tu                                                                                                                               
+                      expected +0 to be at least 1                                                                                                                                
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-020 price la chuoi khong so hoa duoc -> bao loi"                                                               
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 13.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-022 Thieu truong price -> bao loi"                                                                             
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 14.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-023 price = null -> bao loi"                                                                                   
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 15.  AssertionError  Neu chap nhan thi gia luu khong duoc sai lech do tran so                                                                                                    
+                      gia tri gia da vuot khoang so nguyen an toan: expected false to be true                                                                                     
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "03 - Domain Partition: price / TC-A3-024 price cuc lon (1e18) -> khong tran so"                                                                     
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 16.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "04 - Domain Partition: category_id / description / imageUrl / TC-A3-025 category_id khong ton tai (999) -> bao loi"                                 
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 17.  AssertionError  Mang 'errors' co >= 1 phan tu                                                                                                                               
+                      expected +0 to be at least 1                                                                                                                                
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "04 - Domain Partition: category_id / description / imageUrl / TC-A3-025 category_id khong ton tai (999) -> bao loi"                                 
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 18.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "04 - Domain Partition: category_id / description / imageUrl / TC-A3-026 category_id = 0 -> bao loi"                                                 
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 19.  AssertionError  inserted == 0                                                                                                                                               
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "04 - Domain Partition: category_id / description / imageUrl / TC-A3-027 category_id am -> bao loi"                                                  
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 20.  AssertionError  Khong duoc import khi thieu danh muc                                                                                                                        
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "04 - Domain Partition: category_id / description / imageUrl / TC-A3-028 Thieu category_id -> KHONG duoc am tham gan mac dinh"                       
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 21.  AssertionError  Mang 'errors' co >= 1 phan tu                                                                                                                               
+                      expected +0 to be at least 1                                                                                                                                
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "04 - Domain Partition: category_id / description / imageUrl / TC-A3-028 Thieu category_id -> KHONG duoc am tham gan mac dinh"                       
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 22.  AssertionError  ROLLBACK: so san pham phai khong doi                                                                                                                        
+                      giao dich KHONG nguyen tu: dong hop le da duoc ghi trong khi dong khac loi: expected 130 to deeply equal 129                                                
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "05 - State Transition: tinh nguyen tu cua giao dich import / TC-A3-032 [NGUYEN TU] 1 dong hop le + 1 dong THIEU NAME -> phai rollback toan bo"      
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 23.  AssertionError  ROLLBACK: san pham cua dong hop le KHONG duoc ton tai                                                                                                       
+                      dong hop le van nam lai trong CSDL: expected 1 to deeply equal +0                                                                                           
+                      at assertion:2 in test-script                                                                                                                               
+                      inside "05 - State Transition: tinh nguyen tu cua giao dich import / TC-A3-032 [NGUYEN TU] 1 dong hop le + 1 dong THIEU NAME -> phai rollback toan bo"      
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 24.  AssertionError  ROLLBACK: so san pham khong doi                                                                                                                             
+                      cac dong sau dong loi van duoc ghi vao CSDL: expected 132 to deeply equal 130                                                                               
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "05 - State Transition: tinh nguyen tu cua giao dich import / TC-A3-033 [NGUYEN TU] Dong loi nam o DAU mang -> cac dong sau khong duoc ghi"          
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 25.  AssertionError  ROLLBACK: hai dong truoc dong loi KHONG duoc ton tai                                                                                                        
+                      cac dong truoc dong loi da duoc ghi va khong duoc thu hoi: expected 2 to deeply equal +0                                                                    
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "05 - State Transition: tinh nguyen tu cua giao dich import / TC-A3-034 [NGUYEN TU] Dong loi nam o CUOI mang -> cac dong truoc phai bi thu hoi"      
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 26.  AssertionError  Theo FR-16 (all-or-nothing) thi inserted phai la 0 khi co dong loi                                                                                          
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "05 - State Transition: tinh nguyen tu cua giao dich import / TC-A3-036 Bao cao ket qua phai NHAT QUAN voi trang thai that cua CSDL"                 
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 27.  AssertionError  Status code la 403                                                                                                                                          
+                      expected response to have status code 403 but got 200                                                                                                       
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05 / TC-A3-040 SEC-03: token cua NGUOI DUNG THUONG -> 403 (khong duoc import)"                         
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 28.  AssertionError  Khong ban ghi nao duoc ghi boi nguoi dung thuong                                                                                                            
+                      nguoi dung thuong da ghi duoc du lieu vao kho san pham: expected 1 to deeply equal +0                                                                       
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05 / TC-A3-040 SEC-03: token cua NGUOI DUNG THUONG -> 403 (khong duoc import)"                         
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 29.  AssertionError  Cua hang khong duoc hien thi san pham do nguoi dung thuong chen                                                                                             
+                      expected 1 to deeply equal +0                                                                                                                               
+                      at assertion:1 in test-script                                                                                                                               
+                      inside "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05 / TC-A3-041 SEC-03 (tac dong): san pham do nguoi dung thuong chen vao hien cong khai tren cua hang" 
+[90m     [39m[90m                [39m[90m                                                                                                                                                             [39m
+ 30.  AssertionError  imageUrl chi duoc phep dung giao thuc http/https                                                                                                            
+                      da luu duong dan javascript: vao truong anh: expected 'javascript:alert(\'23127195\')' not to match /^\s*javascript:/i                                      
+                      at assertion:0 in test-script                                                                                                                               
+                      inside "06 - Security: FR-12 / SEC-02 / SEC-03 / SEC-05 / TC-A3-044 imageUrl chua duong dan javascript: -> khong duoc luu nguyen si de tra ve client"       
