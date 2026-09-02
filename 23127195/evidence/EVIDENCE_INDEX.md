@@ -47,9 +47,9 @@ PY
 |---|---|---|
 | Báo cáo 24 lỗi | [`bugs/BUG_REPORTS.md`](../bugs/BUG_REPORTS.md) | Mỗi lỗi có: mức độ, điều khoản vi phạm, bước tái hiện, kết quả kỳ vọng/thực tế, tác động, vị trí trong mã nguồn, đề xuất sửa |
 | **Script tái hiện độc lập** | [`bugs/reproduce_bugs.sh`](../bugs/reproduce_bugs.sh) | Chỉ dùng `curl` — người chấm **không cần cài Postman** |
-| Output tái hiện thật | [`bugs/evidence/reproduce_output.txt`](../bugs/evidence/reproduce_output.txt) | 145 dòng, chạy lúc 2026-09-01 20:11:32 +0700 |
+| Output tái hiện thật | [`bugs/evidence/reproduce_output.txt`](../bugs/evidence/reproduce_output.txt) | 218 dòng, chạy lúc 2026-09-02 16:20:53 +0700. Mỗi lệnh `curl` được **in ra đúng như khi chạy** — người chấm copy lại chạy được ngay |
 | **24 GitHub Issue đã tạo thật** | [issue #5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195) | ✅ Nhãn `hw06-23127195`; nội dung gốc tại [`bugs/GITHUB_ISSUES.md`](../bugs/GITHUB_ISSUES.md) |
-| Ảnh chụp lỗi | `bugs/screenshots/` | ⚠️ **SV phải tự chụp** |
+| Ảnh chụp lỗi | [`bugs/screenshots/`](../bugs/screenshots/) | ✅ 32 ảnh chụp toàn màn hình cho 24 mã lỗi (8 mã dài phải cắt làm 2 ảnh). Mỗi ảnh hiện **lệnh curl đầy đủ** rồi mới đến response |
 
 **Cách kiểm chứng:**
 ```bash
@@ -89,8 +89,9 @@ PY
 | Báo cáo CI/CD | [`ci/CI_CD_REPORT.md`](../ci/CI_CD_REPORT.md) | ✅ |
 | Danh sách cổng chặn hồi quy | [`ci/baseline_allowlist.json`](../ci/baseline_allowlist.json) | ✅ 157 mục (92 test case + setup) |
 | Chứng minh baseline xanh (local) | `ci/CI_CD_REPORT.md` §3 | ✅ 550 assertion, 0 FAIL |
-| **Ảnh chụp lần chạy xanh trên GitHub** | `ci/evidence/run_A_pass.png` | ⚠️ **SV phải tự chụp** |
-| **Ảnh chụp lần chạy đỏ trên GitHub** | `ci/evidence/run_B_fail.png` | ⚠️ **SV phải tự chụp** |
+| **Lần chạy mẫu A — xanh** | [Actions run #3](https://github.com/thangak18/HW06/actions/runs/33609193249) · commit `3de872b` | ✅ Chạy thật, log do GitHub lưu — kiểm chứng trực tiếp, không cần ảnh chụp |
+| **Lần chạy mẫu B — đỏ đúng 1 test case** | [Actions run #4](https://github.com/thangak18/HW06/actions/runs/33609400346) · commit `03d0cb9` | ✅ Chỉ bước *Tầng 1 · Baseline* đỏ; `TC-A2-013` là test case duy nhất trượt |
+| Cả hai nằm trong cùng một pull request | [PR #35](https://github.com/thangak18/HW06/pull/35) | Hai lần chạy cách nhau đúng một commit, mọi yếu tố khác giữ nguyên |
 
 ## 6. Bằng chứng về quá trình dùng AI
 
@@ -105,7 +106,7 @@ PY
 **Mốc thời gian đối chứng được** (chứng minh phiên làm việc là thật):
 - JWT `iat = 1788263362` → `2026-09-01 18:49:22 +07` — lần đăng nhập admin đầu tiên
 - npm debug log `2026-09-01T11_47_21Z` → `18:47:21 +07` — lúc cài Newman
-- `bugs/evidence/reproduce_output.txt` dòng 2 → `2026-09-01 20:11:32 +0700`
+- `bugs/evidence/reproduce_output.txt` dòng 2 → `2026-09-02 16:20:53 +0700`
 - Dấu thời gian tên file báo cáo Newman → `20260901-204738`
 - Ảnh [`postman_console_timestamps.png`](./postman_console_timestamps.png) — ba mốc thời gian **độc lập nhau
   nhưng khớp nhau** trong cùng một khung hình: dấu thời gian console `15:07:56.847`, header

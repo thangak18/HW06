@@ -1,9 +1,13 @@
 Tai hien loi — SUT: http://localhost:3000/api
-Thoi diem   : 2026-09-01 20:11:32 +0700
+Thoi diem   : 2026-09-02 16:20:53 +0700
 Student ID  : 23127195 (moi request deu mang header X-Student-Id)
 
 
 ### BUG-A2-01 [Critical] C4/SEC-02 — apply-coupon khong yeu cau dang nhap
-$ curl -X POST /api/apply-coupon  (KHONG kem Authorization)
-   HTTP 200
+   KHONG kem header Authorization:
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000}'
+HTTP 200
+
+$ curl -s -X POST $B/apply-coupon $H -d '{"code":"SAVE10","total_amount":500000}'
 {"success":true,"coupon_id":1,"discount_amount":-4500000,"final_amount":5000000,"message":"Áp dụng thành công! Giảm 10%"}

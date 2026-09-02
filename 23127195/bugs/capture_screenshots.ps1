@@ -20,12 +20,13 @@
 #
 # Usage:
 #   powershell -File bugs/capture_screenshots.ps1 -Bug BUG-A1-01 `
-#       -SrcDir bugs/evidence/per_bug -OutDir bugs/screenshots
+#       -SrcFile bugs/evidence/per_bug/chunks/BUG-A1-01.part1.txt `
+#       -OutFile bugs/screenshots/BUG-A1-01.png
 
 param(
-    [Parameter(Mandatory = $true)][string]$Bug,
-    [Parameter(Mandatory = $true)][string]$SrcDir,
-    [Parameter(Mandatory = $true)][string]$OutDir
+    [Parameter(Mandatory = $true)][string]$SrcFile,   # file van ban can hien thi
+    [Parameter(Mandatory = $true)][string]$OutFile,   # duong dan anh PNG ghi ra
+    [string]$Name = ""                                # nhan hien tren tab terminal
 )
 
 Add-Type -AssemblyName System.Drawing
@@ -51,10 +52,13 @@ public class Win32Api {
 "@
 }
 
-$src = Join-Path $SrcDir "$Bug.txt"
+$src = $SrcFile
 if (-not (Test-Path $src)) { throw "Khong thay $src" }
+if (-not $Name) { $Name = [IO.Path]::GetFileNameWithoutExtension($OutFile) }
 
-$marker = "BANGCHUNG-$Bug"
+# nhan duy nhat de tim lai dung cua so vua mo
+$marker = "BANGCHUNG-$Name"
+$slug   = ($Name -replace '[^A-Za-z0-9]', '_')
 # Dem so dong SAU khi xuong dong o 80 cot, de chieu cao cua so vua khit noi dung
 $lineCount = 0
 foreach ($l in (Get-Content -LiteralPath $src -Encoding UTF8)) {
@@ -63,7 +67,7 @@ foreach ($l in (Get-Content -LiteralPath $src -Encoding UTF8)) {
 $rows = [Math]::Min(24, [Math]::Max(10, $lineCount + 2))
 
 # Script chay ben trong cua so console moi
-$inner = Join-Path $env:TEMP "shoot_inner_$Bug.ps1"
+$inner = Join-Path $env:TEMP "shoot_inner_$slug.ps1"
 @"
 chcp 65001 > `$null
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -138,17 +142,18 @@ $g = [System.Drawing.Graphics]::FromImage($bmp)
 $g.CopyFromScreen($screen.X, $screen.Y, 0, 0, (New-Object System.Drawing.Size($w, $h)))
 $g.Dispose()
 
-if (-not (Test-Path $OutDir)) { New-Item -ItemType Directory -Path $OutDir -Force | Out-Null }
-$out = Join-Path $OutDir "$Bug.png"
+$outDir = Split-Path -Parent $OutFile
+if ($outDir -and -not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir -Force | Out-Null }
+$out = $OutFile
 $bmp.Save($out, [System.Drawing.Imaging.ImageFormat]::Png)
 $bmp.Dispose()
 
 # Dong cua so va don file tam
 Stop-Process -Id $winProc.Id -Force -ErrorAction SilentlyContinue
 Get-Process powershell -ErrorAction SilentlyContinue |
-    Where-Object { $_.CommandLine -like "*shoot_inner_$Bug*" } |
+    Where-Object { $_.CommandLine -like "*shoot_inner_$slug*" } |
     Stop-Process -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 200
 Remove-Item $inner -Force -ErrorAction SilentlyContinue
 
-"{0}  {1}x{2}" -f $Bug, $w, $h
+"{0}  {1}x{2}" -f $Name, $w, $h

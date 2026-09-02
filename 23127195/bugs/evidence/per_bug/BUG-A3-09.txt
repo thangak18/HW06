@@ -1,11 +1,13 @@
 Tai hien loi — SUT: http://localhost:3000/api
-Thoi diem   : 2026-09-01 20:11:32 +0700
+Thoi diem   : 2026-09-02 16:20:53 +0700
 Student ID  : 23127195 (moi request deu mang header X-Student-Id)
 
 
 ### BUG-A3-09 [High] Phan tu null trong mang gay CRASH 500 + lo stack trace HTML
-   HTTP 500
-   30 dong dau cua response body:
+
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"NULLROW-23127195","price":1000,"category_id":1},null]}'
+HTTP 500
+   300 ky tu dau cua response body — lo duong dan he thong:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,4 +15,4 @@ Student ID  : 23127195 (moi request deu mang header X-Student-Id)
 <title>Error</title>
 </head>
 <body>
-<pre>TypeError: Cannot read properties of null (reading &#39;name&#39;)<br> &nbsp; &nbsp;at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:214:14<br> &nbsp; &nbsp;at Array.forEach (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:213:8<br> &nbsp; &nbsp;at Layer.handleRequest (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\layer.js:152:17)<br> &nbsp; &nbsp;at next (D:\Kiem_thu\HW6\.sut\eshop-sut\backend\node_modules\router\lib\route.js:157:1
+<pre>TypeError: Cannot read properties of null (reading &#39;name&#39;)<br> &nbsp; &nbsp;at D:\Kiem_thu\HW6\.sut\eshop-sut\backend\server.js:214:14<br> &nbsp; &nbsp;at Array.forEach (&lt;anonymous&gt;)

@@ -1,8 +1,13 @@
 Tai hien loi — SUT: http://localhost:3000/api
-Thoi diem   : 2026-09-01 20:11:32 +0700
+Thoi diem   : 2026-09-02 16:20:53 +0700
 Student ID  : 23127195 (moi request deu mang header X-Student-Id)
 
 
-### BUG-A3-10 [Low] Tran so voi price cuc lon
-   gia gui len : 1000000000000000000
-   gia luu lai : 1000000000000000000
+### BUG-A3-10 [Low] Mat chinh xac voi price vuot Number.MAX_SAFE_INTEGER
+   Number.MAX_SAFE_INTEGER = 9007199254740991; thu voi gia tri +2 = 9007199254740993
+
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PREC-23127195","price":9007199254740993,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   doc lai gia da luu — so bi lam tron xuong, mat 1 don vi:
+
+$ curl -s $B/products?search=PREC-23127195 $H
+[{"id":22,"name":"PREC-23127195","price":9007199254740992,"description":"","imageUrl":"","category_id":1}]

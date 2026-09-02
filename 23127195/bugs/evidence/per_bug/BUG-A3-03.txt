@@ -1,10 +1,18 @@
 Tai hien loi — SUT: http://localhost:3000/api
-Thoi diem   : 2026-09-01 20:11:32 +0700
+Thoi diem   : 2026-09-02 16:20:53 +0700
 Student ID  : 23127195 (moi request deu mang header X-Student-Id)
 
 
-### BUG-A3-03/04 [High] Khong validate price (0 / am / chuoi / thieu / null)
-   price=0                -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   price=-50000           -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   price="khong-phai-so"  -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
-   price=null             -> {"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+### BUG-A3-03/04 [High] Khong validate price (0 / am / chuoi / thieu truong / null)
+
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PRICE-TEST-23127195","price":0,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PRICE-TEST-23127195","price":-50000,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PRICE-TEST-23127195","price":"khong-phai-so","category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"PRICE-TEST-23127195","price":null,"category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}   truong hop THIEU HAN truong price:
+
+$ curl -s -X POST $B/admin/import-products $H -H 'Authorization: Bearer $ADMIN_TOKEN' -d '{"products":[{"name":"NOPRICE-23127195","category_id":1}]}'
+{"message":"Import hoàn tất: 1/1 sản phẩm được thêm","inserted":1,"errors":[]}

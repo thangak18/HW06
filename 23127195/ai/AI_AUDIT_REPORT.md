@@ -155,14 +155,22 @@ khai báo. Khai báo cụ thể:
 
 | Thành phần | Ai làm | Ghi chú |
 |---|---|---|
-| **Dữ liệu trong ảnh** | Sinh viên | Output của lần chạy thật `bash bugs/reproduce_bugs.sh` lúc `2026-09-01 20:11:32 +0700` trên SUT `localhost:3000`. Lưu tại `bugs/evidence/reproduce_output.txt` |
-| **Cắt theo từng mã lỗi** | AI | `bugs/split_evidence.py` — chỉ cắt, không sửa nội dung |
+| **Dữ liệu trong ảnh** | Sinh viên | Output của lần chạy thật `bash bugs/reproduce_bugs.sh` trên SUT `localhost:3000`. Lưu tại `bugs/evidence/reproduce_output.txt` |
+| **Cắt theo từng mã lỗi** | AI | `bugs/split_evidence.py` + `bugs/chunk_evidence.py` — chỉ cắt, không sửa nội dung |
 | **Thao tác chụp** | AI | `bugs/capture_screenshots.ps1` mở cửa sổ Windows Terminal hiển thị bằng chứng rồi chụp toàn màn hình bằng `Graphics.CopyFromScreen` |
 | **Máy thực thi** | Sinh viên | Chụp trên chính máy làm bài; ảnh BUG-A3-09 hiện đường dẫn thật `D:\Kiem_thu\HW6\.sut\...\server.js:214:14` |
 
 **Ảnh là ảnh chụp màn hình thật**, không phải ảnh do AI vẽ lại: script đọc pixel trực tiếp từ màn
 hình, đúng cơ chế mà Snipping Tool dùng. Từng ký tự trong ảnh đối chiếu được với file văn bản
 tương ứng trong `bugs/evidence/per_bug/`.
+
+**Mỗi ảnh cho thấy lệnh `curl` đầy đủ rồi mới đến response.** Đây là kết quả của một vòng review:
+bản đầu tiên của `reproduce_bugs.sh` in ra dòng mô tả lệnh *viết tay* bằng `echo` (ví dụ
+`echo '$ curl -X PUT /api/users/me -d {...}'`) trong khi lệnh thật chạy ở dòng dưới với biến
+`"${H[@]}" "${AU[@]}"` mà người đọc không nhìn thấy. Dòng hiển thị và lệnh thật là hai thứ khác
+nhau — một dạng bằng chứng không kiểm chứng được. Script đã được viết lại quanh hàm `run()`: nó
+nhận lệnh dưới dạng mảng đối số, dựng dòng hiển thị **từ chính mảng đó**, rồi chạy bằng `"$@"`.
+Nhờ vậy thứ in ra luôn đúng bằng thứ được chạy, và người chấm copy lại chạy được ngay.
 
 > **Một phương án đã bị loại bỏ.** Ban đầu có thử dựng ảnh bằng thư viện đồ hoạ (Pillow) từ chính
 > văn bản đó. Dữ liệu vẫn thật, nhưng ảnh được vẽ thêm thanh tiêu đề và ba chấm tròn khiến nó

@@ -1,0 +1,16 @@
+Tai hien loi — SUT: http://localhost:3000/api
+Thoi diem   : 2026-09-02 16:20:53 +0700
+Student ID  : 23127195 (moi request deu mang header X-Student-Id)
+
+### BUG-A1-03 [Medium] FR-04 — khong validate so dien thoai   (phan 1/2)
+
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"abc"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"12345"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"9912345678"}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":""}'
+{"message":"Profile updated"}
+$ curl -s -X PUT $B/users/me $H -H 'Authorization: Bearer $USER_TOKEN' -d '{"name":"T","shipping_address":"a","phone":"0912-345-678"}'
+{"message":"Profile updated"}
