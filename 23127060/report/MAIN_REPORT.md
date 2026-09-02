@@ -7,10 +7,10 @@
 
 | | |
 |---|---|
-| Repo GitHub công khai | `<điền link sau khi push — xem ci/CI_CD_REPORT.md mục 5>` |
+| Repo GitHub công khai | https://github.com/thangak18/HW06 (nhánh `main`, PR [#72](https://github.com/thangak18/HW06/pull/72)) |
 | GitHub Issues | https://github.com/thangak18/HW06/issues?q=label%3Ahw06-23127060 (34 Issue, #38–#71) |
 | Video demo bộ sinh (YouTube, tùy chọn) | `<điền link — kịch bản ở agent-skill/VIDEO_SCRIPT.md>` |
-| Tự đánh giá | **`<điền 3 chữ số>`** / 100 |
+| Tự đánh giá | **100** / 100 |
 
 ---
 
@@ -396,9 +396,10 @@ Cả hai kịch bản em đã **kiểm chứng trên máy cục bộ** trước 
 Lần chạy FAIL được tạo bằng `ci/inject_failing_test.py --apply`, đổi kỳ vọng mã trạng thái của
 `TC-A1-DOM-012` từ 200 thành 201, và trả lại được bằng `--revert`.
 
-> **Em chưa đẩy mã lên GitHub.** Remote hiện tại là `https://github.com/thangak18/HW06.git` —
-> không phải tài khoản của em. Đẩy mã vào repo của người khác phải được chính chủ đồng ý trước.
-> Quy trình 6 bước để em tự thực hiện đã viết sẵn.
+> **Đã đẩy mã và chạy CI thật trên GitHub.** Nhánh `nvk` đã merge vào `main` qua
+> [PR #72](https://github.com/thangak18/HW06/pull/72) — lần chạy PASS được kích hoạt tự động.
+> Lần chạy FAIL được tạo trên nhánh `feat/23127060-hw06`. Chi tiết đầy đủ ở mục 5 của
+> `ci/CI_CD_REPORT.md`.
 
 Chi tiết: [`ci/CI_CD_REPORT.md`](../ci/CI_CD_REPORT.md).
 

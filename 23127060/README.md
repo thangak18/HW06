@@ -5,7 +5,7 @@
 | Họ tên | **Ninh Văn Khải** |
 | MSSV | **23127060** |
 | Lớp / Nhóm | `<điền lớp>` / `<điền nhóm>` |
-| Repo công khai | `<điền link — xem ci/CI_CD_REPORT.md mục 5>` |
+| Repo công khai | https://github.com/thangak18/HW06 (nhánh `main`, PR [#72](https://github.com/thangak18/HW06/pull/72)) |
 | SUT | https://github.com/ttbhanh/eshop-sut, commit `85af3ba875c88283615e22cb108f13e2fccaf0e9` |
 | Ngày làm | 01/09/2026 |
 | Video demo bộ sinh (tùy chọn) | `<điền link YouTube — kịch bản ở agent-skill/VIDEO_SCRIPT.md>` |
@@ -219,7 +219,7 @@ python3 $S/validate_submission.py --root . --sid 23127060
 |---|---|---|
 | Báo cáo chính (MD) | ✅ | `report/MAIN_REPORT.md` |
 | Báo cáo chính (PDF) | ✅ | `report/MAIN_REPORT.pdf` (11 trang) |
-| Link GitHub công khai | ⬜ HUMAN | xem `ci/CI_CD_REPORT.md` mục 5 |
+| Link GitHub công khai | ✅ | https://github.com/thangak18/HW06 |
 | Postman collection `.json` | ✅ | `postman/collections/` (7 file) |
 | Danh sách Postman feature | ✅ | `report/05_postman_features.md` (23 feature) |
 | Newman report HTML | ✅ | `newman/` (10 file) |
