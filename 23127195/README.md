@@ -86,7 +86,7 @@
 | §5 — Không trùng API với thành viên khác | 9 FR đôi một khác nhau — [đối chiếu tại `01_API_SELECTION.md` §5](./docs/01_API_SELECTION.md) |
 | §9, §10 — AI Audit + AI Critique | 12 lượt tương tác nguyên văn · critique 296 từ |
 | §11 — Bằng chứng chống gian lận | 3 ảnh Postman Console · Newman chạy trên `localhost` · sơ đồ tự vẽ |
-| §12 — Git commit log | 34 commit, mỗi commit gắn một bước quy trình, không commit nào chưa gán |
+| §12 — Git commit log | Mỗi commit gắn một bước quy trình, không commit nào chưa gán; sinh lại bằng `python scripts/export_git_log.py` |
 
 > **Tên file nộp:** `23127195_HW06_AI_API_100.zip`
 
