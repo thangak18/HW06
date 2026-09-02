@@ -47,3 +47,5 @@ Perform human audit of FR14_AI_DRAFT.md.
 The preliminary response above is preserved as the actual Anti interaction summary, but its 39 VALID / 3 INCOMPLETE result is **INVALID AS FINAL HUMAN AUDIT**. It over-specified exact status codes and response schemas, mis-mapped SEC requirements, used implementation predictions as oracles, and retained redundant/out-of-scope cases.
 
 Codex independently re-audited all 42 raw cases against Level-1 and produced the final result: **3 VALID, 2 INVALID, 37 INCOMPLETE; 40 usable after correction**. The rejected IDs are `TC-FR14-034` and `TC-FR14-036`. This later Human decision is authoritative for the canonical suite.
+
+The seven preliminary Human candidates were also re-evaluated. H01-H06 remain meaningful post-audit gaps with weakened source-grounded oracles; H07 is rejected because it depends on rejected raw case 036 and an unspecified cross-feature referential policy. Final Human count: 6. Final formal count: 46.

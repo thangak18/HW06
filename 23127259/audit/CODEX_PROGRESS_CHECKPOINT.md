@@ -47,6 +47,7 @@ IN_PROGRESS
 - Classified Anti artifacts: raw generation VERIFIED_COMPLETE; requirement analysis/audit/canonical/collection VERIFIED_PARTIAL; Run01 historical with untrustworthy manually written exit proof and exposed secrets; uncommitted Run02 historical with mixed weak oracles and exposed secrets; screenshot attempts INVALID/STALE (one shows Chrome/Facebook, others show FR02 or incomplete Runner setup rather than FR14 results).
 - Senior QA integration decision: reject raw Run01/Run02 and all candidate screenshots as final evidence; preserve candidate branch/worktree unchanged; reconstruct selected verified FR14 artifacts on the primary branch using honest generation -> audit -> extension -> execution commits.
 - Integrated the immutable FR14 raw draft and completed a fresh Human Audit of all 42 cases: 3 VALID, 2 INVALID, 37 INCOMPLETE, 40 usable after corrections. `TC-FR14-034` (duplicate/mislabelled IDOR) and `TC-FR14-036` (unspecified destructive referential test) are rejected.
+- Completed post-audit FR14 gap analysis: accepted six distinct Human cases H01-H06 and rejected H07's dependency on out-of-scope referential-integrity case 036. Built the 46-case canonical JSON/map and final executable specification.
 
 ## FR02 Canonical Accounting
 
@@ -88,8 +89,8 @@ VALID: 3
 INVALID: 2
 INCOMPLETE: 37
 Usable AI: 40
-Human: NOT_YET_VERIFIED
-Formal: NOT_YET_VERIFIED
+Human: 6
+Formal: 46
 PASS: NOT_YET_VERIFIED
 FAIL: NOT_YET_VERIFIED
 BLOCKED: NOT_YET_VERIFIED
@@ -138,7 +139,7 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 ## Known Problems / Risks
 
 - Historical Run03 and strict JSON/HTML contain resolved runtime tokens. They remain immutable by instruction and require explicit legacy-risk documentation; final Run04 is disclosure-controlled.
-- FR14 Human Audit is repaired; Human gap analysis/extension selection, canonical suite, and collection still need reconstruction. Candidate Human H07 depends on rejected TC-FR14-036 and will be excluded.
+- FR14 generation, Human Audit, gap analysis, extensions, and 46-case canonical map are reconstructed. Collection/validators/runtime/bug evidence remain.
 - Candidate Run01/Run02 JSON/HTML expose resolved JWTs and passwords and will not be integrated as final evidence.
 - Existing AI-interaction logs contain pending transcript backfills that require evidence-based resolution without invention.
 
@@ -153,4 +154,4 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 
 ## NEXT EXACT ACTION
 
-Commit and push the reconstructed FR14 Human Audit, then audit the seven candidate Human cases against the corrected gap analysis, retain six meaningful cases, exclude H07, and build the 46-case canonical provenance map/final suite in the Human-extension commit.
+Commit and push the FR14 Human-extension/canonical stage, then selectively restore the candidate collection, remove rejected IDs 034/036/H07, repair exact-status/exploratory assertions and fixture isolation, create an environment and strong validators, and run a new disclosure-controlled canonical execution.
