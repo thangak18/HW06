@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""make_bug_report.py - Sinh bugs/BUG_REPORT.md va bugs/ISSUE_TEMPLATES/*.md.
+"""make_bug_report.py - Sinh bugs/BUG_REPORT.md và bugs/ISSUE_TEMPLATES/*.md.
 
   python3 make_bug_report.py
 
-Phan mo ta / muc do / de xuat sua duoc viet tay trong bang BUGS duoi day. Phan request va
-response thi KHONG go tay: no duoc trich thang tu bugs/evidence/<ID>.md, tuc la tu lan chay
-that cua capture_bug_evidence.py. Nho vay khong the co chuyen bao cao ghi mot dang response
-ma he thong tra ve mot dang khac.
+Phần mô tả / mức độ / đề xuất sửa được viết tay trong bảng BUGS dưới đây. Phần request và
+response thì KHÔNG gõ tay: nó được trích thẳng từ bugs/evidence/<ID>.md, tức là từ lần chạy
+thật của capture_bug_evidence.py. Nhờ vậy không thể có chuyện báo cáo ghi một dạng response
+mà hệ thống trả về một dạng khác.
 """
 import os
 import re

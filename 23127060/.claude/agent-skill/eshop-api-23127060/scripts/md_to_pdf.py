@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""md_to_pdf.py - Xuat cac tai lieu Markdown bat buoc sang PDF.
+"""md_to_pdf.py - Xuất các tài liệu Markdown bắt buộc sang PDF.
 
-  python3 md_to_pdf.py                       # xuat 3 file bat buoc cua de bai
+  python3 md_to_pdf.py                       # xuat 4 file bat buoc cua de bai
   python3 md_to_pdf.py --in a.md --out a.pdf # xuat mot file bat ky
 
-De bai muc 14 doi ban PDF cho: bao cao chinh, AI Audit Report va AI Critique.
+Đề bài mục 14 đòi bản PDF cho: báo cáo chính, AI Audit Report và AI Critique
+(script này xuất thêm cả bug report).
 
-Dung `markdown-pdf` (thuan Python, khong can pandoc / LaTeX / trinh duyet). Neu goi PDF chua
-duoc cai, script bao ro cach cai thay vi that bai am tham.
+Dùng `markdown-pdf` (thuần Python, không cần pandoc / LaTeX / trình duyệt). Nếu gói PDF chưa
+được cài, script báo rõ cách cài thay vì thất bại âm thầm.
 """
 import argparse
 import os

@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""verify_header.py - Chung minh header X-Student-Id co mat tren MOI request da gui.
+"""verify_header.py - Chứng minh header X-Student-Id có mặt trên MỌI request đã gửi.
 
   python3 verify_header.py --dir newman --sid 23127060 --out ci/evidence/header_evidence.md
 
-De bai muc 11 (chong gian lan) doi bang chung cho header `X-Student-Id: {StudentID}`, va noi
-ro bang chung do la anh chup Postman Console. Anh chup thi khong kiem chung tu dong duoc, va
-mot dong console.log chi chung minh script DA CHAY chu chua chung minh header DA DUOC GUI.
+Đề bài mục 11 (chống gian lận) đòi bằng chứng cho header `X-Student-Id: {StudentID}`, và nói
+rõ bằng chứng đó là ảnh chụp Postman Console. Ảnh chụp thì không kiểm chứng tự động được, và
+một dòng console.log chỉ chứng minh script ĐÃ CHẠY chứ chưa chứng minh header ĐÃ ĐƯỢC GỬI.
 
-Script nay doc thang phan `request.header` ma Newman ghi lai cho tung request that su roi
-len duong, nen no tra loi dung cau hoi: co bao nhieu request mang header, gia tri la gi, va
-co request nao thieu khong. Anh chup Console van duoc nop kem, nhung day moi la bang chung
-kiem chung lai duoc.
+Script này đọc thẳng phần `request.header` mà Newman ghi lại cho từng request thật sự rời
+lên đường, nên nó trả lời đúng câu hỏi: có bao nhiêu request mang header, giá trị là gì, và
+có request nào thiếu không. Ảnh chụp Console vẫn được nộp kèm, nhưng đây mới là bằng chứng
+kiểm chứng lại được.
 """
 import argparse
 import collections

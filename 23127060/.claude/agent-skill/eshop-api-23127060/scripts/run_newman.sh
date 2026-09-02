@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# run_newman.sh - Chay Newman cho 1 API tren mot CSDL sach, sinh bao cao HTML + JSON.
+# run_newman.sh - Chạy Newman cho 1 API trên một CSDL sạch, sinh báo cáo HTML + JSON.
 #
 #   bash run_newman.sh API-1            # chay day du (co case @bug -> se FAIL, dung y do)
 #   bash run_newman.sh API-1 contract    # chi chay collection @contract (moc hoi quy)
 #   bash run_newman.sh all               # chay ca 3 API
 #
-# Chay tu thu muc 23127060/.
+# Chạy từ thư mục 23127060/.
 #
-# VI SAO PHAI KHOI DONG LAI BACKEND TRUOC MOI LAN CHAY
-#   backend/database.js goi initDatabase() ngay khi module duoc require, va ham do bat dau
+# VÌ SAO PHẢI KHỞI ĐỘNG LẠI BACKEND TRƯỚC MỖI LẦN CHẠY
+#   backend/database.js gọi initDatabase() ngay khi module được require, và hàm đó bắt đầu
 #   bang mot loat DROP TABLE. Khoi dong lai backend = CSDL ve dung trang thai seed goc.
-#   Day khong phai tuy chon: SUT co bug A-09 (moi lan dang nhap sai cong +2, khoa o 3), nen
-#   sau mot lan chay thi tai khoan test da bi khoa 180 giay. Chay lan hai tren cung CSDL do
-#   se cho ra hang loat that bai GIA khong lien quan gi den chat luong API.
+#   Đây không phải tùy chọn: SUT có bug A-09 (mỗi lần đăng nhập sai cộng +2, khóa ở 3), nên
+#   sau một lần chạy thì tài khoản test đã bị khóa 180 giây. Chạy lần hai trên cùng CSDL đó
+#   sẽ cho ra hàng loạt thất bại GIẢ không liên quan gì đến chất lượng API.
 set -uo pipefail
 
 API="${1:-API-1}"
@@ -53,12 +53,12 @@ mkdir -p "$OUTDIR"
 echo "[1/4] Khoi dong lai SUT de CSDL ve trang thai seed goc..."
 # Dung mau "[n]ode" thay vi "node": pkill -f so khop tren TOAN BO dong lenh, nen mot mau
 # chua nguyen van "node server.js" se khop luon chinh dong lenh dang goi pkill (va shell cha
-# cua no), tu giet phien lam viec. Dat mot ky tu vao ngoac vuong lam mau khong con khop chinh no.
+# của nó), tự giết phiên làm việc. Đặt một ký tự vào ngoặc vuông làm mẫu không còn khớp chính nó.
 pkill -f "[n]ode server\.js" >/dev/null 2>&1 || true
 sleep 1
-# setsid --fork tach han tien trinh backend ra khoi phien lam viec cua script nay.
-# Neu dung "node server.js &" thi backend van la con cua script, va script se treo o buoc
-# thoat vi cho mot tien trinh khong bao gio ket thuc.
+# setsid --fork tách hẳn tiến trình backend ra khỏi phiên làm việc của script này.
+# Nếu dùng "node server.js &" thì backend vẫn là con của script, và script sẽ treo ở bước
+# thoát vì chờ một tiến trình không bao giờ kết thúc.
 ( cd "$SUT_DIR" && setsid --fork node server.js ) > /tmp/eshop_${SID}.log 2>&1 < /dev/null || true
 
 echo "[2/4] Cho SUT san sang tai $BASE_URL ..."
@@ -69,13 +69,13 @@ for i in $(seq 1 30); do
 done
 [ "$up" = "1" ] || { echo "[LOI] SUT khong khoi dong duoc. Log:"; cat /tmp/eshop_${SID}.log; exit 1; }
 
-# ---- 2) Kiem tra nhanh trang thai SUT ----
+# ---- 2) Kiểm tra nhanh trạng thái SUT ----
 echo "[3/4] Kiem tra trang thai SUT..."
 node agent-skill/eshop-api-23127060/scripts/seed_sut.js check 2>/dev/null || true
 
-# ---- 3) Chay Newman ----
-# Tai khoan test duoc tao boi folder _setup ngay trong collection, khong dung seed_sut.js
-# reset, de tranh dang ky trung email (SUT khong co rang buoc UNIQUE tren cot email).
+# ---- 3) Chạy Newman ----
+# Tài khoản test được tạo bởi folder _setup ngay trong collection, không dùng seed_sut.js
+# reset, để tránh đăng ký trùng email (SUT không có ràng buộc UNIQUE trên cột email).
 JSON="${OUTDIR}/${SID}_${API}${SUF}_${TS}.json"
 HTML="${OUTDIR}/${SID}_${API}${SUF}_${TS}.html"
 echo "[4/4] Chay Newman: $COL"
@@ -94,8 +94,8 @@ newman run "$COL" \
   --suppress-exit-code
 rc=$?
 
-# Bao cao JSON cua Newman chua toan bo body request/response nen rat lon (8-24 MB).
-# Nen lai ngay de repo khong phinh; moi script phan tich deu doc duoc ca .json va .json.gz.
+# Báo cáo JSON của Newman chứa toàn bộ body request/response nên rất lớn (8-24 MB).
+# Nén lại ngay để repo không phình; mọi script phân tích đều đọc được cả .json và .json.gz.
 [ -f "$JSON" ] && gzip -9 -f "$JSON" && JSON="${JSON}.gz"
 
 echo

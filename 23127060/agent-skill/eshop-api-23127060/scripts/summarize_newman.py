@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""summarize_newman.py - Doc newman/*.json va sinh bang tong hop ket qua thuc thi.
+"""summarize_newman.py - Đọc newman/*.json và sinh bảng tổng hợp kết quả thực thi.
 
   python3 summarize_newman.py --dir newman --tc testcases --out report/06_execution.md
 
-Moi con so trong bao cao chinh deu phai den tu day, khong duoc go tay. Script noi CSV test
-case voi bao cao Newman qua ma TC_ID, nho vay phan biet duoc:
-  - that bai CO CHU DICH  : case gan @bug, phoi bay mot bug da biet cua SUT;
-  - that bai NGOAI DU KIEN: case gan @contract nhung van do -> hoac la bug moi, hoac la
-                            ky vong cua chinh test case sai. Phai ra soat tung cai.
+Mọi con số trong báo cáo chính đều phải đến từ đây, không được gõ tay. Script nối CSV test
+case với báo cáo Newman qua mã TC_ID, nhờ vậy phân biệt được:
+  - thất bại CÓ CHỦ ĐÍCH  : case gắn @bug, phơi bày một bug đã biết của SUT;
+  - thất bại NGOÀI DỰ KIẾN: case gắn @contract nhưng vẫn đỏ -> hoặc là bug mới, hoặc là
+                            kỳ vọng của chính test case sai. Phải rà soát từng cái.
 """
 import argparse
 import collections
@@ -129,7 +129,7 @@ def main():
         L.append("| %s | %d | %d | %d |" % (api, sum(c.values()), c["@bug"], c["@contract"]))
     L.append("")
 
-    # ---------- 3. Bug duoc phoi bay ----------
+    # ---------- 3. Bug được phơi bày ----------
     L += ["## 3. Bug được phơi bày, theo mã bug", "",
           "| Mã bug | Số case thất bại phơi bày nó | API |", "|---|---|---|"]
     bug = collections.defaultdict(lambda: [0, set()])

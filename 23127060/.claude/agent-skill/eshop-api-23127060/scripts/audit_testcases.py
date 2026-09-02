@@ -1,26 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""audit_testcases.py - Gan nhan VALID / INVALID / INCOMPLETE cho test case do AI sinh.
+"""audit_testcases.py - Gắn nhãn VALID / INVALID / INCOMPLETE cho test case do AI sinh.
 
   python3 audit_testcases.py --in testcases/API-1_generated.csv --out testcases/API-1_audited.csv
   python3 audit_testcases.py --report          # in bang thong ke cho ca 3 API
 
-De bai muc 6.2 doi: "Label each AI-generated test case VALID / INVALID / INCOMPLETE with
+Đề bài mục 6.2 đòi: "Label each AI-generated test case VALID / INVALID / INCOMPLETE with
 reasoning, and correct the invalid or incomplete ones."
 
-Vi sao dung script thay vi sua tay tung dong:
-  225 test case sua tay thi khong the tai lap va khong the kiem chung. O day moi nhan deu
-  den tu mot LUAT viet ro rang, bam vao mot cau cu the trong eshop-sut/README.md. Ai doc
-  file nay cung kiem tra duoc luat co dung khong, va chay lai cho ra dung ket qua do.
-  Phan doi hoi phan doan rieng cho tung case (chu yeu la gan lai ma SEC) nam trong bang
-  OVERRIDES ben duoi, moi dong deu kem ly do.
+Vì sao dùng script thay vì sửa tay từng dòng:
+  225 test case sửa tay thì không thể tái lập và không thể kiểm chứng. Ở đây mỗi nhãn đều
+  đến từ một LUẬT viết rõ ràng, bám vào một câu cụ thể trong eshop-sut/README.md. Ai đọc
+  file này cũng kiểm tra được luật có đúng không, và chạy lại cho ra đúng kết quả đó.
+  Phần đòi hỏi phán đoán riêng cho từng case (chủ yếu là gán lại mã SEC) nằm trong bảng
+  OVERRIDES bên dưới, mỗi dòng đều kèm lý do.
 
-Nhan:
-  VALID      buoc, du lieu, ky vong deu dung so voi SRS; chay duoc ngay.
-  INVALID    ky vong sai / khong co can cu trong SRS / tham so bia / mau thuan noi tai.
-             BAT BUOC sua roi ghi ro da sua gi.
-  INCOMPLETE y tuong dung nhung thieu assertion, thieu precondition, hoac oracle chua ro.
-             BAT BUOC bo sung.
+Nhãn:
+  VALID      bước, dữ liệu, kỳ vọng đều đúng so với SRS; chạy được ngay.
+  INVALID    kỳ vọng sai / không có căn cứ trong SRS / tham số bịa / mâu thuẫn nội tại.
+             BẮT BUỘC sửa rồi ghi rõ đã sửa gì.
+  INCOMPLETE ý tưởng đúng nhưng thiếu assertion, thiếu precondition, hoặc oracle chưa rõ.
+             BẮT BUỘC bổ sung.
 """
 import argparse
 import csv
@@ -28,25 +28,25 @@ import os
 import re
 from collections import Counter, defaultdict
 
-COLUMNS = None  # lay tu file dau vao
+COLUMNS = None  # lấy từ file đầu vào
 
 # ---------------------------------------------------------------------------
 # BANG 1 — Gan lai ma SEC.
 #
-# Toan bo cot SEC_Ref do AI sinh deu bam theo mot bang SEC SUY DIEN THEO OWASP
+# Toàn bộ cột SEC_Ref do AI sinh đều bám theo một bảng SEC SUY DIỄN THEO OWASP
 # (SEC-01=SQLi, SEC-04=IDOR, SEC-05=role escalation, SEC-07=brute force).
 # Bang SEC THAT nam o eshop-sut/README.md muc 9 va khac han:
 #
-#   SEC-01 Mat khau khong duoc luu plaintext
-#   SEC-02 API co tinh bao mat phai yeu cau JWT hop le
-#   SEC-03 API Admin phai kiem role='admin', khong chi kiem token ton tai
-#   SEC-04 Du lieu user nhap phai duoc escape khi hien thi (stored XSS)
-#   SEC-05 Truy van CSDL phai dung Parameterized Query
-#   SEC-06 API cap nhat ho so khong duoc cho doi truong role tu client
-#   SEC-07 OTP reset phai >= 6 chu so, co thoi han, vo hieu hoa sau khi dung
+#   SEC-01 Mật khẩu không được lưu plaintext
+#   SEC-02 API có tính bảo mật phải yêu cầu JWT hợp lệ
+#   SEC-03 API Admin phải kiểm role='admin', không chỉ kiểm token tồn tại
+#   SEC-04 Dữ liệu user nhập phải được escape khi hiển thị (stored XSS)
+#   SEC-05 Truy vấn CSDL phải dùng Parameterized Query
+#   SEC-06 API cập nhật hồ sơ không được cho đổi trường role từ client
+#   SEC-07 OTP reset phải >= 6 chữ số, có thời hạn, vô hiệu hóa sau khi dùng
 #
-# Vi vay gan nhu moi case SEC deu bi gan sai ma. Day khong phai loi vat: cot SEC_Ref la
-# thu duy nhat chung minh do phu bao mat trong bao cao, gan sai la bao cao sai.
+# Vì vậy gần như mọi case SEC đều bị gán sai mã. Đây không phải lỗi vặt: cột SEC_Ref là
+# thứ duy nhất chứng minh độ phủ bảo mật trong báo cáo, gán sai là báo cáo sai.
 # ---------------------------------------------------------------------------
 SEC_REMAP = {
     # --- API-1 ---
@@ -95,10 +95,10 @@ SEC_REMAP = {
     "TC-C3-SEC-014": ("SEC-06", "Da viet lai thanh chuoi leo thang quyen (xem luat R1)."),
 }
 
-# --- Cac case NGOAI nhom SEC nhung van bi gan ma SEC theo bang suy dien ---
-# Cung mot loi he thong: SQLi bi gan SEC-01, XSS bi gan SEC-06, IDOR bi gan SEC-04,
+# --- Các case NGOÀI nhóm SEC nhưng vẫn bị gán mã SEC theo bảng suy diễn ---
+# Cùng một lỗi hệ thống: SQLi bị gán SEC-01, XSS bị gán SEC-06, IDOR bị gán SEC-04,
 # leo thang quyen bi gan SEC-05. Chung nam rai rac trong nhom DOM/STA nen de bi bo sot
-# hon cac case trong nhom SEC.
+# hơn các case trong nhóm SEC.
 SEC_REMAP.update({
     "TC-A1-DOM-013": ("SEC-07", "Dung OTP cua tai khoan khac chinh la dieu SEC-07 + FR-03 quy dinh ('OTP chi hop le cho email da yeu cau'), khong phai SEC-04 (escape XSS)."),
     "TC-A1-DOM-022": ("SEC-05", "SQLi -> SEC-05 (parameterized query), khong phai SEC-01 (luu mat khau plaintext)."),
@@ -125,9 +125,9 @@ SEC_REMAP.update({
 })
 
 # ---------------------------------------------------------------------------
-# BANG 2 — Cac case phai VIET LAI vi ky vong khong co can cu trong SRS,
-# hoac vi tham so / trang thai duoc bia ra.
-# Moi muc: (nhan, ly do, cac cot can ghi de)
+# BẢNG 2 — Các case phải VIẾT LẠI vì kỳ vọng không có căn cứ trong SRS,
+# hoặc vì tham số / trạng thái được bịa ra.
+# Mỗi mục: (nhãn, lý do, các cột cần ghi đè)
 # ---------------------------------------------------------------------------
 REWRITE = {
     # ---- R1: ky vong 429 (rate limiting) ----
@@ -171,7 +171,7 @@ REWRITE = {
          "Request_Headers": "Authorization: Bearer {{token_attacker}}",
          "Technique": "Privilege Escalation", "Bug_Ref": "X-01", "Tag": "@bug", "Priority": "P0"}),
 
-    # ---- R2: ky vong 409 khong co can cu ----
+    # ---- R2: kỳ vọng 409 không có căn cứ ----
     "TC-C3-DOM-041": ("INVALID",
         "R2 - Ky vong 409 khong co can cu: SRS FR-15 chi noi 'Admin co the Them/Xem/Sua/Xoa san pham', "
         "khong he dat rang buoc khoa ngoai giua san pham va don hang. AI suy dien tu kinh nghiem CSDL. "
@@ -181,10 +181,10 @@ REWRITE = {
          "Expected_Assertions": "body co message; GET lai san pham do sau khi xoa KHONG duoc tra ve du lieu (bug C-04 tra 200 {})",
          "Title": "DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)",
          "Bug_Ref": "C-08"}),
-    # Ghi chu them: ban dau case nay xoa san pham id = 1. Nhung id = 1 la vat co dinh duoc
-    # hang chuc case khac dung lam moc (vd TC-C3-DOM-051 kiem kieu cua price o id le). Xoa no
-    # o giua lan chay khien nhung case chay sau do that bai vi mot ly do khong lien quan gi
-    # den chinh chung. Da doi sang san pham thu do folder _setup tao rieng.
+    # Ghi chú thêm: ban đầu case này xóa sản phẩm id = 1. Nhưng id = 1 là vật cố định được
+    # hàng chục case khác dùng làm mốc (vd TC-C3-DOM-051 kiểm kiểu của price ở id lẻ). Xóa nó
+    # ở giữa lần chạy khiến những case chạy sau đó thất bại vì một lý do không liên quan gì
+    # đến chính chúng. Đã đổi sang sản phẩm thứ do folder _setup tạo riêng.
     "TC-C3-STA-007": ("INVALID",
         "R2 - Ky vong 409 khong co can cu: SRS khong yeu cau ten san pham duy nhat, va cot 'name' "
         "trong database.js khong co rang buoc UNIQUE. DA SUA: ky vong 201 (tao thanh cong) va chuyen "
@@ -225,7 +225,7 @@ REWRITE = {
          "Expected_Assertions": "body chi duoc chua dung 6 truong id,name,price,description,imageUrl,category_id; khong co truong noi bo nao khac",
          "Title": "[--] Response san pham khong duoc chua truong nam ngoai schema"}),
 
-    # ---- R3b: ky vong khong co can cu (khong lien quan SEC) ----
+    # ---- R3b: kỳ vọng không có căn cứ (không liên quan SEC) ----
     "TC-A1-DOM-035": ("INVALID",
         "R3b - Ky vong 400 khong co can cu: SRS FR-01/FR-03 chi doi mat khau moi THOA DIEU KIEN DO MANH, "
         "khong he cam dat lai trung mat khau cu. AI ap mot chinh sach ma dac ta khong co. "
@@ -236,8 +236,8 @@ REWRITE = {
 }
 
 # ---------------------------------------------------------------------------
-# BANG 3 — Case co y tuong dung nhung ky vong dua tren suy dien, khong phai dieu
-# SRS viet ra. Khong sai den muc INVALID, nhung phai ghi ro oracle la suy dien.
+# BẢNG 3 — Case có ý tưởng đúng nhưng kỳ vọng dựa trên suy diễn, không phải điều
+# SRS viết ra. Không sai đến mức INVALID, nhưng phải ghi rõ oracle là suy diễn.
 # ---------------------------------------------------------------------------
 INFERRED_ORACLE = {
     "TC-A1-DOM-002": "email khong ton tai van tra 200 (chong user enumeration)",
@@ -247,26 +247,26 @@ INFERRED_ORACLE = {
     "TC-A1-DOM-021": "do dai OTP tren bien",
 }
 
-# Chi nhung assertion THAT SU chung chung. Luu y: assertion mac dinh cua nhom STA
-# ("body.error chua Invalid state transition; trang thai KHONG doi") KHONG nam trong day,
-# vi ve cuoi cua no da chinh la phep kiem tac dung phu ma luat R7 doi hoi.
+# Chỉ những assertion THẬT SỰ chung chung. Lưu ý: assertion mặc định của nhóm STA
+# ("body.error chua Invalid state transition; trang thai KHONG doi") KHÔNG nằm trong đây,
+# vì vế cuối của nó đã chính là phép kiểm tác dụng phụ mà luật R7 đòi hỏi.
 GENERIC_ASSERTS = {
     "body la JSON; co truong error",
     "body la JSON; khop schema thanh cong",
 }
 MUTATING = {"POST", "PUT", "DELETE", "PATCH"}
 
-# Luat R7 chi co nghia khi thao tac bi tu choi CO mot tac dung phu QUAN SAT DUOC.
+# Luật R7 chỉ có nghĩa khi thao tác bị từ chối CÓ một tác dụng phụ QUAN SÁT ĐƯỢC.
 # Doi chieu tung endpoint voi server.js:
 #   - /api/checkout, /api/products, /api/categories, /api/admin/*, /api/orders/:id/cancel,
-#     /api/users/me, /api/coupon-usage  -> co INSERT/UPDATE/DELETE, doc lai duoc qua GET.
-#   - /api/reset-password                -> UPDATE users.password, kiem duoc bang cach login lai.
-#   - /api/apply-coupon                  -> THUAN TINH TOAN, khong ghi gi ca.
-#   - /api/forgot-password               -> co ghi reset_token nhung tren nhanh loi thi khong co
-#                                           user nao de ma doc lai, nen khong quan sat duoc.
-#   - /api/login, /api/register          -> khong phai doi tuong kiem cua 3 API da chon.
-# Doi hoi "chung minh thao tac khong xay ra" o hai nhom cuoi la doi hoi mot phep kiem
-# khong ton tai -> se bien nhan INCOMPLETE thanh vo nghia.
+#     /api/users/me, /api/coupon-usage  -> có INSERT/UPDATE/DELETE, đọc lại được qua GET.
+#   - /api/reset-password                -> UPDATE users.password, kiểm được bằng cách login lại.
+#   - /api/apply-coupon                  -> THUẦN TÍNH TOÁN, không ghi gì cả.
+#   - /api/forgot-password               -> có ghi reset_token nhưng trên nhánh lỗi thì không có
+#                                           user nào để mà đọc lại, nên không quan sát được.
+#   - /api/login, /api/register          -> không phải đối tượng kiểm của 3 API đã chọn.
+# Đòi hỏi "chứng minh thao tác không xảy ra" ở hai nhóm cuối là đòi hỏi một phép kiểm
+# không tồn tại -> sẽ biến nhãn INCOMPLETE thành vô nghĩa.
 OBSERVABLE_WRITE = (
     "/api/checkout", "/api/products", "/api/categories", "/api/admin/",
     "/api/orders/", "/api/users/me", "/api/coupon-usage", "/api/reset-password",
@@ -287,7 +287,7 @@ def audit_row(r):
     ov = {}
     label = None
 
-    # --- Luat SEC: gan lai ma SEC (ap dung truoc, co the cong don voi luat khac) ---
+    # --- Luật SEC: gán lại mã SEC (áp dụng trước, có thể cộng dồn với luật khác) ---
     if tc in SEC_REMAP:
         new_sec, why = SEC_REMAP[tc]
         if new_sec != r["SEC_Ref"]:
@@ -295,7 +295,7 @@ def audit_row(r):
             notes.append("R3 - Gan sai ma SEC (%s -> %s). %s" % (r["SEC_Ref"], new_sec, why))
             label = "INVALID"
 
-    # --- Luat viet lai (R1, R2, R4, R5, R3b) ---
+    # --- Luật viết lại (R1, R2, R4, R5, R3b) ---
     if tc in REWRITE:
         lab, why, fixes = REWRITE[tc]
         label = "INVALID"
@@ -305,7 +305,7 @@ def audit_row(r):
     if label == "INVALID":
         return label, " | ".join(notes), ov
 
-    # --- Luat oracle suy dien ---
+    # --- Luật oracle suy diễn ---
     if tc in INFERRED_ORACLE:
         notes.append("R6 - Ky vong '%s' KHONG duoc SRS phat bieu truc tiep; day la suy dien tu "
                      "thong le. DA SUA: ghi ro Oracle = SPEC(suy dien) de nguoi cham phan biet "
@@ -313,7 +313,7 @@ def audit_row(r):
         ov["Oracle"] = "SPEC(suy dien)"
         return "INCOMPLETE", " | ".join(notes), ov
 
-    # --- Luat assertion chung chung ---
+    # --- Luật assertion chung chung ---
     a = r["Expected_Assertions"].strip()
     st = int(r["Expected_Status"])
     if a in GENERIC_ASSERTS:
@@ -331,9 +331,9 @@ def audit_row(r):
             ov["Expected_Assertions"] = a + "; VA doc lai tai nguyen de xac nhan gia tri luu dung bang gia tri da gui"
             return "INCOMPLETE", " | ".join(notes), ov
         # Con lai: endpoint CHI DOC bi tu choi dau vao xau. "Tra 4xx + co truong error" da la
-        # mot phep kiem tron ven vi khong co tac dung phu nao de ma kiem. Khong gan INCOMPLETE.
+        # một phép kiểm trọn vẹn vì không có tác dụng phụ nào để mà kiểm. Không gắn INCOMPLETE.
 
-    # --- Luat thieu precondition cho case phu thuoc bien dong ---
+    # --- Luật thiếu precondition cho case phụ thuộc biến động ---
     if "{{" in r["Request_Body"] and r["Preconditions"] in ("SUT da seed", "-", ""):
         notes.append("R10 - Case dung bien Postman ({{...}}) nhung precondition chi ghi 'SUT da seed', "
                      "khong noi bien do duoc dat o dau. Chay doc lap se that bai. DA SUA: ghi ro buoc "
@@ -354,8 +354,8 @@ def process(path_in, path_out):
     for r in rows:
         label, note, ov = audit_row(r)
         r.update(ov)
-        # Bo sinh nhet ma SEC vao dau Title ("[SEC-04] Xem don hang..."). Khi gan lai ma o
-        # cot SEC_Ref ma quen sua Title thi bao cao se tu mau thuan voi chinh no.
+        # Bộ sinh nhét mã SEC vào đầu Title ("[SEC-04] Xem don hang..."). Khi gán lại mã ở
+        # cột SEC_Ref mà quên sửa Title thì báo cáo sẽ tự mâu thuẫn với chính nó.
         if r["Title"].startswith("[SEC-0") or r["Title"].startswith("[--]"):
             r["Title"] = re.sub(r"^\[(SEC-0\d|--)\] ", "[%s] " % r["SEC_Ref"], r["Title"])
         r["Audit_Label"] = label

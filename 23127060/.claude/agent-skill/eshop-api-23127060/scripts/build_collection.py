@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""build_collection.py - Bien CSV test case thanh Postman Collection v2.1 + Environment.
+"""build_collection.py - Biến CSV test case thành Postman Collection v2.1 + Environment.
 
   python3 build_collection.py --csv testcases/API-1_final.csv --api API-1 \
       --out postman/collections/23127060_HW06_API-1.postman_collection.json
   python3 build_collection.py --env-only --out postman/environments/23127060_local.postman_environment.json
   python3 build_collection.py --csv ... --only-tag @contract --out ..._contract...json
 
-Chi dung thu vien chuan.
+Chỉ dùng thư viện chuẩn.
 
-NGUYEN TAC SO 1 — KHONG SINH ASSERTION GIA.
-  Ban truoc cua script nay, voi moi assertion khong dich duoc, sinh ra:
+NGUYÊN TẮC SỐ 1 — KHÔNG SINH ASSERTION GIẢ.
+  Bản trước của script này, với mọi assertion không dịch được, sinh ra:
       pm.test("...", function () { pm.expect(pm.response.code).to.be.a('number'); });
-  Phep kiem do LUON PASS. No lam so "assertion passed" trong bao cao Newman phong len ma
-  khong kiem gi ca — dung loai so lieu ma de bai muc 11 goi la fabricated. Ban nay thay bang
-  mot dong CHU THICH `// [CHUA TU DONG HOA]`, va in ra ty le assertion da tu dong hoa duoc
-  de bao cao ghi dung su that.
+  Phép kiểm đó LUÔN PASS. Nó làm số "assertion passed" trong báo cáo Newman phồng lên mà
+  không kiểm gì cả — đúng loại số liệu mà đề bài mục 11 gọi là fabricated. Bản này thay bằng
+  một dòng CHÚ THÍCH `// [CHUA TU DONG HOA]`, và in ra tỷ lệ assertion đã tự động hóa được
+  để báo cáo ghi đúng sự thật.
 """
 import argparse
 import csv
@@ -46,10 +46,10 @@ console.log(
 );
 """
 
-# Kiem tra chung. Chi giu lai nhung phep kiem DUNG VOI MOI REQUEST.
-# Hai phep kiem "khong lo password" va "Content-Type la JSON" da bi BO khoi day: chung
-# that bai o mot so request vi bug A-07 va C-03, ma do la phat hien rieng cua tung test case
-# cu the, khong phai mot rang buoc chung. De o cap collection thi mot bug se bi dem lai
+# Kiểm tra chung. Chỉ giữ lại những phép kiểm ĐÚNG VỚI MỌI REQUEST.
+# Hai phép kiểm "khong lo password" và "Content-Type la JSON" đã bị BỎ khỏi đây: chúng
+# thất bại ở một số request vì bug A-07 và C-03, mà đó là phát hiện riêng của từng test case
+# cụ thể, không phải một ràng buộc chung. Để ở cấp collection thì một bug sẽ bị đếm lại
 # hang chuc lan va lam sai hoan toan so lieu passed/failed.
 COMMON_TESTS = r"""pm.test("[COMMON] Response time < 5000ms", function () {
   pm.expect(pm.response.responseTime).to.be.below(5000);
@@ -88,8 +88,8 @@ def js_str(s):
 
 
 # Anh xa (endpoint, ma trang thai) -> ten schema trong postman/scripts/schemas/<API>.json.
-# CSV test case khong co cot schema_ref, nen suy ra tu chinh request. Neu khong khop cai nao
-# thi tra ve "default" (schema rong) va phep kiem jsonSchema se bi bo qua - tot hon la ap mot
+# CSV test case không có cột schema_ref, nên suy ra từ chính request. Nếu không khớp cái nào
+# thì trả về "default" (schema rỗng) và phép kiểm jsonSchema sẽ bị bỏ qua - tốt hơn là áp một
 # schema sai roi bao loi nham.
 def guess_schema_ref(row):
     ep = row["Endpoint"].split("?")[0]
@@ -118,7 +118,7 @@ def guess_schema_ref(row):
 
 
 # ---------------------------------------------------------------------------
-# Bo dich assertion: van xuoi -> phep kiem Postman that
+# Bộ dịch assertion: văn xuôi -> phép kiểm Postman thật
 # ---------------------------------------------------------------------------
 def compile_assertion(text, row):
     """Tra ve (list dong JS, da_tu_dong_hoa?)."""
@@ -136,14 +136,14 @@ def compile_assertion(text, row):
             "pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');"
         ]), True
 
-    # --- khong duoc la HTML ---
+    # --- không được là HTML ---
     if "html" in low or "<h1>" in low:
         return wrap([
             "pm.expect(pm.response.text()).to.not.include('<h1>');",
             "pm.expect(pm.response.text()).to.not.include('<p>');",
         ]), True
 
-    # --- khong lo password / reset_token ---
+    # --- không lộ password / reset_token ---
     if "password" in low and ("khong" in low or "not" in low):
         body = ["var txt = pm.response.text();",
                 "pm.expect(txt).to.not.include('\"password\"');"]
@@ -151,7 +151,7 @@ def compile_assertion(text, row):
             body.append("pm.expect(txt).to.not.include('\"reset_token\"');")
         return wrap(body), True
 
-    # --- KHONG chua resetToken trong body ---
+    # --- KHÔNG chứa resetToken trong body ---
     if "khong chua resettoken" in low.replace(" ", " ") or ("resettoken" in low and "khong" in low):
         return wrap(["pm.expect(pm.response.text()).to.not.include('resetToken');"]), True
 
@@ -191,7 +191,7 @@ def compile_assertion(text, row):
             "pm.expect(j.final_amount, 'final_amount phai <= total').to.be.at.most(j.discount_amount + j.final_amount);",
         ]), True
 
-    # --- price phai la number ---
+    # --- price phải là number ---
     if "price" in low and "number" in low:
         return wrap([
             "var j = pm.response.json();",
@@ -208,7 +208,7 @@ def compile_assertion(text, row):
             "pm.expect(sau, 'kieu price phai la number').to.eql('number');",
         ]), True
 
-    # --- khong duoc chua email/password cua bang users (SQLi exfiltration) ---
+    # --- không được chứa email/password của bảng users (SQLi exfiltration) ---
     if "@eshop.com" in low or ("email" in low and "khong duoc chua" in low):
         return wrap([
             "var txt = pm.response.text();",
@@ -216,7 +216,7 @@ def compile_assertion(text, row):
             "pm.expect(txt).to.not.include('Admin123!');",
         ]), True
 
-    # --- danh sach phai con N phan tu ---
+    # --- danh sách phải còn N phần tử ---
     m = re.search(r"(?:con nguyen|phai co|con lai)\s*([0-9]+)\s*(?:phan tu|san pham)", low)
     if m:
         return wrap([
@@ -233,7 +233,7 @@ def compile_assertion(text, row):
             "pm.expect(j.length, 'phai rong').to.eql(0);",
         ]), True
 
-    # --- trang thai van phai la X / trang thai KHONG doi ---
+    # --- trạng thái vẫn phải là X / trạng thái KHÔNG đổi ---
     m = re.search(r"van phai la '([a-z]+)'|van la '([a-z]+)'", low)
     if m or "trang thai khong doi" in low:
         st = (m.group(1) or m.group(2)) if m else None
@@ -254,11 +254,11 @@ def compile_assertion(text, row):
         return wrap(body), True
 
     # --- Invalid state transition trong thong bao loi ---
-    # LUU Y: chuoi 'Invalid state transition' chi la thong bao cua endpoint admin
-    # PUT /api/admin/orders/:id/status. Endpoint PUT /api/orders/:id/cancel tu choi bang mot
-    # thong bao khac ('Cannot cancel this order.'), va dieu do hoan toan hop le - SRS chi doi
-    # "thong bao loi phu hop" chu khong quy dinh nguyen van. Doi dung chuoi o ca hai noi la
-    # mot LOI CUA TEST, khong phai loi cua API.
+    # LƯU Ý: chuỗi 'Invalid state transition' chỉ là thông báo của endpoint admin
+    # PUT /api/admin/orders/:id/status. Endpoint PUT /api/orders/:id/cancel từ chối bằng một
+    # thông báo khác ('Cannot cancel this order.'), và điều đó hoàn toàn hợp lệ - SRS chỉ đòi
+    # "thông báo lỗi phù hợp" chứ không quy định nguyên văn. Đòi đúng chuỗi ở cả hai nơi là
+    # một LỖI CỦA TEST, không phải lỗi của API.
     if "invalid state transition" in low:
         if "/cancel" in row["Endpoint"]:
             return wrap([
@@ -272,7 +272,7 @@ def compile_assertion(text, row):
             "pm.expect(pm.response.json().error || '').to.include('Invalid state transition');"
         ]), True
 
-    # --- doc lai tai nguyen de xac nhan KHONG bi thay doi (luat R7 cua audit) ---
+    # --- đọc lại tài nguyên để xác nhận KHÔNG bị thay đổi (luật R7 của audit) ---
     if "khong bi thay doi" in low or "khong duoc tao" in low or "khong duoc thuc hien" in low:
         return wrap([
             "// Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
@@ -294,7 +294,7 @@ def compile_assertion(text, row):
             "if (Object.keys(schema).length) { pm.response.to.have.jsonSchema(schema); }",
         ]), True
 
-    # --- role van phai la 'user' ---
+    # --- role vẫn phải là 'user' ---
     if "role" in low and ("user" in low or "khong duoc" in low):
         return wrap([
             "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/users/me',",
@@ -306,32 +306,32 @@ def compile_assertion(text, row):
             "  });",
         ]), True
 
-    # --- khong dich duoc: GHI CHU, TUYET DOI KHONG sinh phep kiem gia ---
+    # --- không dịch được: GHI CHÚ, TUYỆT ĐỐI KHÔNG sinh phép kiểm giả ---
     return ["// [CHUA TU DONG HOA] " + t], False
 
 
 
 # ---------------------------------------------------------------------------
-# CACH LY TAI KHOAN cho cac case dung /api/login
+# CÁCH LY TÀI KHOẢN cho các case dùng /api/login
 #
 # SUT co bug A-09: moi lan dang nhap sai cong +2 vao login_attempts, va khoa 180 giay khi
-# dat 3. Hau qua thuc te khi chay Newman: chi can MOT case thu mat khau sai la tai khoan
-# api.victim bi khoa, va MOI case dang nhap chay sau do deu tra 403 - ke ca nhung case
-# hoan toan khong lien quan. Ket qua la mot bug duy nhat tao ra hang loat that bai gia.
+# đạt 3. Hậu quả thực tế khi chạy Newman: chỉ cần MỘT case thử mật khẩu sai là tài khoản
+# api.victim bị khóa, và MỌI case đăng nhập chạy sau đó đều trả 403 - kể cả những case
+# hoàn toàn không liên quan. Kết quả là một bug duy nhất tạo ra hàng loạt thất bại giả.
 #
-# Khong co endpoint nao mo khoa, va cho 180 giay trong CI la khong chap nhan duoc. Cach
-# duy nhat sach se la moi case dang nhap tu tao MOT tai khoan rieng, roi tu dua tai khoan
-# do ve dung trang thai minh can. Do la viec cua tang thuc thi (Postman), khong phai cua
-# thiet ke test case, nen no duoc xu ly o day chu khong sua vao CSV.
+# Không có endpoint nào mở khóa, và chờ 180 giây trong CI là không chấp nhận được. Cách
+# duy nhất sạch sẽ là mỗi case đăng nhập tự tạo MỘT tài khoản riêng, rồi tự đưa tài khoản
+# đó về đúng trạng thái mình cần. Đó là việc của tầng thực thi (Postman), không phải của
+# thiết kế test case, nên nó được xử lý ở đây chứ không sửa vào CSV.
 ISOLATED = {
-    "TC-A1-SEC-005": "fresh",             # can tai khoan dang nhap duoc binh thuong
+    "TC-A1-SEC-005": "fresh",             # cần tài khoản đăng nhập được bình thường
     "TC-A1-SCH-005": "fresh",
     "TC-A1-SEC-012": "fail2",             # da sai 2 lan, day la lan sai thu 3
     "TC-A1-SEC-903": "fail2",             # da sai DUNG 2 lan, gio dang nhap bang mat khau DUNG
     "TC-A1-STA-008": "reset",             # da doi mat khau, gio thu mat khau CU
     "TC-A1-STA-901": "reset",
     "TC-A1-STA-009": "reset",             # da doi mat khau, gio thu mat khau MOI
-    "TC-A1-SEC-901": "fail2_then_reset",  # bi khoa roi moi reset - kiem xem reset co mo khoa khong
+    "TC-A1-SEC-901": "fail2_then_reset",  # bị khóa rồi mới reset - kiểm xem reset có mở khóa không
 }
 
 ISO_HEAD = [
@@ -391,9 +391,9 @@ def build_prerequest(row):
         lines += ISO_HEAD + ISO_BODY[ISOLATED[row["TC_ID"]]]
         return lines
 
-    # (a) Moi case cham toi reset-password deu can mot OTP con hieu luc.
-    #     forgot-password khong doi xac thuc va goi bao nhieu lan cung duoc, nen lay OTP moi
-    #     ngay truoc moi request la cach re nhat de tung case DOC LAP voi nhau.
+    # (a) Mọi case chạm tới reset-password đều cần một OTP còn hiệu lực.
+    #     forgot-password không đòi xác thực và gọi bao nhiêu lần cũng được, nên lấy OTP mới
+    #     ngay trước mỗi request là cách rẻ nhất để từng case ĐỘC LẬP với nhau.
     if "/api/reset-password" in ep and "USED" not in row.get("Title", ""):
         lines += [
             "// Lay OTP moi de case nay khong phu thuoc vao thu tu chay",
@@ -408,7 +408,7 @@ def build_prerequest(row):
             "  });",
         ]
 
-    # (b) Case chuyen trang thai don hang: tao don MOI va dua ve dung trang thai xuat phat.
+    # (b) Case chuyển trạng thái đơn hàng: tạo đơn MỚI và đưa về đúng trạng thái xuất phát.
     m = re.search(r"trang thai (pending|confirmed|shipping|delivered|canceled)", pre)
     if row["Category"] == "STA" and row["API"] == "API-2" and m:
         target = m.group(1)
@@ -441,8 +441,8 @@ def build_prerequest(row):
             "});",
         ]
 
-    # (c) Case ghi len /api/products bi ky vong tu choi: dem so ban ghi TRUOC khi goi,
-    #     de assertion "du lieu KHONG bi thay doi" co cai ma so sanh.
+    # (c) Case ghi lên /api/products bị kỳ vọng từ chối: đếm số bản ghi TRƯỚC khi gọi,
+    #     để assertion "du lieu KHONG bi thay doi" có cái mà so sánh.
     if (row["Method"] in ("POST", "PUT", "DELETE")
             and ep.split("?")[0].startswith("/api/products")
             and str(row["Expected_Status"]).startswith(("4", "5"))):
@@ -455,7 +455,7 @@ def build_prerequest(row):
             "  });",
         ]
 
-    # (d) Case so sanh kieu price giua id le va id chan: doc id le truoc.
+    # (d) Case so sánh kiểu price giữa id lẻ và id chẵn: đọc id lẻ trước.
     if "typeof price" in str(row.get("Expected_Assertions", "")).lower():
         lines += [
             "// Doc san pham id le truoc de lay kieu cua price lam moc so sanh",
@@ -500,7 +500,7 @@ def build_test_script(row, stats):
         lines += js
         stats["auto" if ok else "manual"] += 1
 
-    # Luu lai bien cho cac case sau dung
+    # Lưu lại biến cho các case sau dùng
     ep = row["Endpoint"]
     if ep.endswith("/api/checkout"):
         lines += ["", "if (pm.response.code < 300) {",
@@ -718,8 +718,8 @@ def build_env(sid):
         ("userPassword", "Api1234!"),
         ("attackerEmail", "api.attacker.%s@test.local" % sid),
         ("attackerPassword", "Api1234!"),
-        # Tai khoan admin la du lieu seed san cua SUT (backend/database.js).
-        # Mat khau dung la 'Admin123!' - ban truoc cua script ghi 'admin123' nen
+        # Tài khoản admin là dữ liệu seed sẵn của SUT (backend/database.js).
+        # Mật khẩu đúng là 'Admin123!' - bản trước của script ghi 'admin123' nên
         # buoc lay token_admin luon that bai am tham.
         ("adminEmail", "admin@eshop.com"),
         ("adminPassword", "Admin123!"),

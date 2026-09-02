@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""extend_testcases.py - Bo sung test case do NGUOI viet, nhung case bo sinh AI da bo sot.
+"""extend_testcases.py - Bổ sung test case do NGƯỜI viết, những case bộ sinh AI đã bỏ sót.
 
   python3 extend_testcases.py            # sinh testcases/API-*_final.csv tu *_audited.csv
 
-De bai muc 6.3: "Add at least five test cases of your own that the AI missed - especially
+Đề bài mục 6.3: "Add at least five test cases of your own that the AI missed - especially
 around security and state transitions - and explain why the AI missed them (prompt quality,
 model limitations, or characteristics of the API)."
 
-Bon ly do AI bo sot (moi case phai chon dung 1):
-  PROMPT   Prompt khong yeu cau ro dieu do.
-  MODEL    AI suy dien tu ten/hinh dang API thay vi doc ma nguon.
-  API      Bug chi lo ra khi KET HOP NHIEU REQUEST; bo sinh lam viec tren tung case doc lap.
-  SPECGAP  Dac ta khong mo ta hanh vi nay nen AI khong co gi de bam vao.
+Bốn lý do AI bỏ sót (mỗi case phải chọn đúng 1):
+  PROMPT   Prompt không yêu cầu rõ điều đó.
+  MODEL    AI suy diễn từ tên/hình dạng API thay vì đọc mã nguồn.
+  API      Bug chỉ lộ ra khi KẾT HỢP NHIỀU REQUEST; bộ sinh làm việc trên từng case độc lập.
+  SPECGAP  Đặc tả không mô tả hành vi này nên AI không có gì để bám vào.
 """
 import csv
 import os
@@ -24,7 +24,7 @@ COLS = ["TC_ID","API","FR","Category","Technique","Title","Method","Endpoint","P
 BEARER_U = "Authorization: Bearer {{token_user}}"
 BEARER_A = "Authorization: Bearer {{token_attacker}}"
 
-# Moi phan tu: dict cac cot khac mac dinh.
+# Mỗi phần tử: dict các cột khác mặc định.
 EXTRA = [
 # ============================== API-1 — FR-03 ==============================
 dict(TC_ID="TC-A1-STA-901", API="API-1", FR="FR-03", Category="STA", Technique="State Transition",

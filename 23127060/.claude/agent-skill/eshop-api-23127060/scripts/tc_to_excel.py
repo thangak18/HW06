@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""tc_to_excel.py - Gop cac CSV test case thanh 1 file Excel co sheet Summary.
+"""tc_to_excel.py - Gộp các CSV test case thành 1 file Excel có sheet Summary.
 
   python3 tc_to_excel.py --csv testcases/API-1_final.csv testcases/API-2_final.csv \
       testcases/API-3_final.csv --out testcases/23127060_HW06_testcases.xlsx
 
-Can openpyxl:  pip install openpyxl
-Neu khong cai duoc openpyxl, dung --fallback-html de xuat file .xls dang HTML table
-(Excel van mo duoc), roi Save As .xlsx bang tay.
+Cần openpyxl:  pip install openpyxl
+Nếu không cài được openpyxl, dùng --fallback-html để xuất file .xls dạng HTML table
+(Excel vẫn mở được), rồi Save As .xlsx bằng tay.
 """
 import argparse
 import csv
@@ -50,10 +50,10 @@ def build_summary(all_rows):
             note += "THIEU case AI (<35). "
         if c_src.get("HUMAN", 0) < 5:
             note += "THIEU case tu bo sung (<5). "
-        # Khong phai ma SEC nao cung ap dung duoc cho moi API: SEC-01 (luu tru mat khau) va
+        # Không phải mã SEC nào cũng áp dụng được cho mọi API: SEC-01 (lưu trữ mật khẩu) và
         # SEC-07 (vong doi OTP) chi lien quan den API-1. Yeu cau "du 7 ma cho MOI API" la bat
-        # kha thi, va chinh no ep phai gan bua ma SEC (xem report/03_audit.md muc 8). Chi tieu
-        # dung la du 7 ma tren TOAN BO suite; o day chi ghi nhan, khong bao thieu.
+        # khả thi, và chính nó ép phải gán bừa mã SEC (xem report/03_audit.md mục 8). Chỉ tiêu
+        # đúng là đủ 7 mã trên TOÀN BỘ suite; ở đây chỉ ghi nhận, không báo thiếu.
         if missing:
             note += "Khong ap dung: " + ",".join(missing) + ". "
         out.append([

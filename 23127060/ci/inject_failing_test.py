@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""inject_failing_test.py - Lam sai DUNG MOT assertion de tao lan chay CI that bai.
+"""inject_failing_test.py - Làm sai ĐÚNG MỘT assertion để tạo lần chạy CI thất bại.
 
   python3 ci/inject_failing_test.py --apply     # lam sai 1 assertion
   python3 ci/inject_failing_test.py --revert    # tra lai nhu cu
   python3 ci/inject_failing_test.py --check     # xem dang o trang thai nao
 
-De bai muc 6 doi hai lan chay pipeline: mot lan tat ca test PASS, mot lan co MOT test FAIL.
-Lan thu hai phai la mot thay doi nho, co chu dich, tra lai duoc — khong duoc pha bo test.
+Đề bài mục 6 đòi hai lần chạy pipeline: một lần tất cả test PASS, một lần có MỘT test FAIL.
+Lần thứ hai phải là một thay đổi nhỏ, có chủ đích, trả lại được — không được phá bộ test.
 
-Script sua dung mot dong trong collection hoi quy cua API-1: doi ky vong ma trang thai cua
-test case TC-A1-DOM-012 (`POST /api/reset-password` voi du lieu hop le) tu 200 thanh 201.
-Ly do chon dung case nay:
-  - No nam trong bo hoi quy, tuc la binh thuong chac chan PASS - nen khi pipeline do thi ly do
-    duy nhat la thay doi vua chen vao.
-  - No la case DOM dau tien cua bo hoi quy API-1 nen xuat hien som trong log CI, de nhin thay.
-  - Doi 200 -> 201 la kieu nham lan con nguoi hay mac that (quy uoc REST cho thao tac tao moi),
-    nen no minh hoa dung loai loi ma pipeline sinh ra de bat, thay vi mot loi bia dat.
+Script sửa đúng một dòng trong collection hồi quy của API-1: đổi kỳ vọng mã trạng thái của
+test case TC-A1-DOM-012 (`POST /api/reset-password` với dữ liệu hợp lệ) từ 200 thành 201.
+Lý do chọn đúng case này:
+  - Nó nằm trong bộ hồi quy, tức là bình thường chắc chắn PASS - nên khi pipeline đỏ thì lý do
+    duy nhất là thay đổi vừa chèn vào.
+  - Nó là case DOM đầu tiên của bộ hồi quy API-1 nên xuất hiện sớm trong log CI, dễ nhìn thấy.
+  - Đổi 200 -> 201 là kiểu nhầm lẫn con người hay mắc thật (quy ước REST cho thao tác tạo mới),
+    nên nó minh họa đúng loại lỗi mà pipeline sinh ra để bắt, thay vì một lỗi bịa đặt.
 """
 import argparse
 import json

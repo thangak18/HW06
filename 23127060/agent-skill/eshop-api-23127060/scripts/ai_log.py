@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ai_log.py — ghi nhat ky moi luot lam viec voi AI (bat buoc cho AI_Audit_Report).
+"""ai_log.py — ghi nhật ký mỗi lượt làm việc với AI (bắt buộc cho AI_Audit_Report).
 
   # them 1 entry (goi SAU MOI luot tra loi cua agent)
   python3 ai_log.py add --root . --tool "Claude Code (sonnet-4.5)" --step "STEP 3" \

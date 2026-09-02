@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""gen_testcases.py - Bo sinh test case API tu dong tu API spec may doc duoc.
+"""gen_testcases.py - Bộ sinh test case API tự động từ API spec máy đọc được.
 
-Day chinh la hien thuc cua AI-driven API test generator (HW06 muc 7, G9.5).
-Chi dung thu vien chuan cua Python.
+Đây chính là hiện thực của AI-driven API test generator (HW06 mục 7, G9.5).
+Chỉ dùng thư viện chuẩn của Python.
 
-Cach dung:
+Cách dùng:
   python3 gen_testcases.py --spec spec/api-3.json --out testcases/API-3_generated.csv
   python3 gen_testcases.py --spec spec/api-3.json --only DOM --out testcases/API-3_generated.csv
   python3 gen_testcases.py --spec spec/api-3.json --only STA --out out.csv --append
   python3 gen_testcases.py --spec spec/api-1.json --stats
 
-Kien truc (khop voi diagram + pseudocode trong agent-skill/):
+Kiến trúc (khớp với diagram + pseudocode trong agent-skill/):
   PARSE -> NORMALISE -> 4 RULE ENGINES (DOM/STA/SEC/SCH) -> DEDUP -> COVERAGE -> EMIT
 """
 import argparse
@@ -31,7 +31,7 @@ COLUMNS = [
 CATS = ["DOM", "STA", "SEC", "SCH"]
 
 # Bang nay bam theo eshop-sut/README.md muc 9 "Yeu cau Bao mat" (ban that),
-# KHONG phai bang SEC suy dien theo OWASP. Xem report/00_environment.md muc 4.
+# KHÔNG phải bảng SEC suy diễn theo OWASP. Xem report/00_environment.md mục 4.
 SEC_DEFAULT_ASSERT = {
     "SEC-01": "response KHONG chua truong password (du plaintext hay hash); mat khau khong duoc luu plaintext",
     "SEC-02": "tra 401 khi thieu token / 403 khi token sai; du lieu KHONG bi doc hay thay doi",

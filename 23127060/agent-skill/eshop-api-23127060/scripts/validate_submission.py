@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""validate_submission.py - Kiem tra du deliverable truoc khi nen nop Moodle.
+"""validate_submission.py - Kiểm tra đủ deliverable trước khi nén nộp Moodle.
 
   python3 validate_submission.py --root . --sid 23127060
 
-In PASS / WARN / FAIL cho tung muc theo danh sach muc 14 cua de bai.
-Exit code 1 neu con muc FAIL.
+In PASS / WARN / FAIL cho từng mục theo danh sách mục 14 của đề bài.
+Exit code 1 nếu còn mục FAIL.
 """
 import argparse
 import csv
@@ -35,7 +35,7 @@ def main():
     R = a.root
     SID = a.sid
 
-    # 1. Bao cao chinh MD + PDF
+    # 1. Báo cáo chính MD + PDF
     md = exists_any(R, "report/MAIN_REPORT.md")
     pdf = exists_any(R, "report/MAIN_REPORT.pdf")
     chk(PASS if md else FAIL, "Bao cao chinh (report/MAIN_REPORT.md)")
@@ -47,7 +47,7 @@ def main():
         txt = open(readme, encoding="utf-8").read()
         has_repo = bool(re.search(r"https://github\.com/[\w.-]+/[\w.-]+", txt))
         chk(PASS if has_repo else FAIL, "README.md co link GitHub repo cong khai")
-        # chap nhan ca ban co dau lan khong dau (tai lieu da chuyen sang tieng Viet co dau)
+        # chấp nhận cả bản có dấu lẫn không dấu (tài liệu đã chuyển sang tiếng Việt có dấu)
         low = txt.lower()
         chk(PASS if any(k in low for k in
                         ("tu cham", "tự chấm", "self", "tu danh gia", "tự đánh giá"))
@@ -84,8 +84,8 @@ def main():
 
     # 4. Newman report
     html = exists_any(R, "newman/*.html")
-    # Bao cao JSON cua Newman rat lon (8-24 MB moi file) nen duoc nen gzip;
-    # moi cong cu phan tich deu doc duoc ca hai dang.
+    # Báo cáo JSON của Newman rất lớn (8-24 MB mỗi file) nên được nén gzip;
+    # mọi công cụ phân tích đều đọc được cả hai dạng.
     js = exists_any(R, "newman/*.json") + exists_any(R, "newman/*.json.gz")
     chk(PASS if len(html) >= 3 else FAIL, "Newman HTML report >= 3", "%d file" % len(html))
     chk(PASS if js else FAIL, "Newman JSON report", "%d file" % len(js))
@@ -133,10 +133,10 @@ def main():
             secs = set(r.get("SEC_Ref") for r in rows)
             SEC_TAT_CA.update(x for x in secs if str(x).startswith("SEC-"))
             missing = [s for s in ["SEC-0%d" % i for i in range(1, 8)] if s not in secs]
-            # Khong phai ma SEC nao cung ap dung duoc cho moi API: SEC-01 (luu tru mat khau) va
+            # Không phải mã SEC nào cũng áp dụng được cho mọi API: SEC-01 (lưu trữ mật khẩu) và
             # SEC-07 (vong doi OTP) chi lien quan den API-1. Doi "du 7 ma cho MOI API" la bat
-            # kha thi, va chinh doi hoi do ep phai gan bua ma SEC cho case khong thuoc no.
-            # Chi tieu dung: du 7 ma tren TOAN BO suite (kiem o duoi).
+            # khả thi, và chính đòi hỏi đó ép phải gán bừa mã SEC cho case không thuộc nó.
+            # Chỉ tiêu đúng: đủ 7 mã trên TOÀN BỘ suite (kiểm ở dưới).
             chk(PASS, "%s: do phu SEC" % base,
                 "%d/7 ma ap dung duoc" % (7 - len(missing))
                 + (" (khong ap dung: %s)" % ",".join(missing) if missing else ""))
@@ -211,7 +211,7 @@ def main():
     else:
         chk(FAIL, "Git commit log (git-log/*.txt)")
 
-    # 12. Khong dinh file cua nguoi khac
+    # 12. Không dính file của người khác
     leak = []
     for other in ("23127195", "23127259", "member-1", "member-2", "member-3"):
         leak += exists_any(R, "**/*%s*" % other)
@@ -231,9 +231,9 @@ def main():
     n_pass = sum(1 for r in res if r[0] == PASS)
     print("-" * 78)
     print("PASS=%d  WARN=%d  FAIL=%d" % (n_pass, n_warn, n_fail))
-    # Mot so muc KHONG THE tu dong hoa duoc: hoac de bai cam AI lam (so do), hoac chung doi
+    # Một số mục KHÔNG THỂ tự động hóa được: hoặc đề bài cấm AI làm (sơ đồ), hoặc chúng đòi
     # hoi thao tac tren giao dien / quyen truy cap tai khoan. Tach chung ra khoi phan "loi ky
-    # thuat" de sinh vien biet chinh xac con phai tu lam gi.
+    # thuật" để sinh viên biết chính xác còn phải tự làm gì.
     HUMAN = {
         "Diagram bo sinh test (PNG/JPG/Mermaid) - PHAI TU VE, khong dung AI":
             "H1 - ve tay theo agent-skill/diagram/DIAGRAM_BRIEF.md (de bai muc 11 cam AI sinh)",

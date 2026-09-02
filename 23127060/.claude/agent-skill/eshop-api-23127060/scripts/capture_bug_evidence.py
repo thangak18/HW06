@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""capture_bug_evidence.py - Chay lai kich ban tai hien cua tung bug va ghi lai
-request + response THAT.
+"""capture_bug_evidence.py - Chạy lại kịch bản tái hiện của từng bug và ghi lại
+request + response THẬT.
 
   python3 capture_bug_evidence.py --base http://localhost:3000 --out bugs/evidence
 
-Muc dich: `CLAUDE.md` muc 4 va de bai muc 11 deu cam bao cao bug ma khong co bang chung tai
-hien duoc. Script nay chay tung kich ban roi ghi nguyen van cap request/response ra file, de
-bao cao bug trich thang tu do thay vi cheo lai tu tri nho.
+Mục đích: `CLAUDE.md` mục 4 và đề bài mục 11 đều cấm báo cáo bug mà không có bằng chứng tái
+hiện được. Script này chạy từng kịch bản rồi ghi nguyên văn cặp request/response ra file, để
+báo cáo bug trích thẳng từ đó thay vì chép lại từ trí nhớ.
 
-Moi bug khai bao mot danh sach buoc. Buoc cuoi la buoc PHOI BAY bug; cac buoc truoc chi
-chuan bi trang thai. Bien `$ten` trong buoc sau lay tu ket qua buoc truoc.
+Mỗi bug khai báo một danh sách bước. Bước cuối là bước PHƠI BÀY bug; các bước trước chỉ
+chuẩn bị trạng thái. Biến `$ten` trong bước sau lấy từ kết quả bước trước.
 """
 import argparse
 import json
@@ -71,13 +71,13 @@ def curl(base, r):
 
 
 # ---------------------------------------------------------------------------
-# Khai bao kich ban tai hien. "set" lay gia tri tu response cua buoc do dua vao ctx.
+# Khai báo kịch bản tái hiện. "set" lấy giá trị từ response của bước đó đưa vào ctx.
 # ---------------------------------------------------------------------------
 def kich_ban():
-    # Moi bug dung MOT cap tai khoan rieng. Ly do: bug A-09 khoa tai khoan 180 giay sau
-    # hai lan dang nhap sai, nen neu dung chung mot tai khoan thi moi kich ban chay sau A-09
-    # deu khong lay duoc token va "tai hien" ra mot bug hoan toan khac. Bien $U va $A duoc
-    # ham main() gan gia tri rieng truoc khi chay tung kich ban.
+    # Mỗi bug dùng MỘT cặp tài khoản riêng. Lý do: bug A-09 khóa tài khoản 180 giây sau
+    # hai lần đăng nhập sai, nên nếu dùng chung một tài khoản thì mọi kịch bản chạy sau A-09
+    # đều không lấy được token và "tái hiện" ra một bug hoàn toàn khác. Biến $U và $A được
+    # hàm main() gán giá trị riêng trước khi chạy từng kịch bản.
     U = "$U"
     A = "$A"
     dk_u = ("POST", "/api/register", {"name": "Victim", "email": U, "password": "Api1234!"}, None, {})
@@ -201,14 +201,14 @@ def kich_ban():
                                    "category_id": 1}, None, {"pid": "id"}),
         ("GET", "/api/products/$pid", None, None, {})]),
     "C-13": ("Mot san pham co price = null lam SAP HAN backend khi doc lai (tu choi dich vu)", [
-        # Dung san pham id = 2 co san tu seed. Phai la id CHAN: nhanh gay sap chi chay khi
-        # row.id % 2 === 0. Neu tao san pham moi thi id la ngau nhien chan/le va bug se khong
-        # tai hien duoc mot cach on dinh.
+        # Dùng sản phẩm id = 2 có sẵn từ seed. Phải là id CHẴN: nhánh gây sập chỉ chạy khi
+        # row.id % 2 === 0. Nếu tạo sản phẩm mới thì id là ngẫu nhiên chẵn/lẻ và bug sẽ không
+        # tái hiện được một cách ổn định.
         ("GET", "/api/products/2", None, None, {}),
         # PUT thieu truong -> price bi ghi de thanh null (day la bug C-09)
         ("PUT", "/api/products/2", {"name": "Chi con ten " + SID}, None, {}),
-        # Doc lai san pham id chan: server chay row.price.toString() tren null -> TypeError
-        # khong ai bat -> tien trinh Node thoat han.
+        # Đọc lại sản phẩm id chẵn: server chạy row.price.toString() trên null -> TypeError
+        # không ai bắt -> tiến trình Node thoát hẳn.
         ("GET", "/api/products/2", None, None, {}),
         # Bat ky request nao sau do cung Connection refused: toan bo API da chet.
         ("GET", "/api/products", None, None, {})]),
