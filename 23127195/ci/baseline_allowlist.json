@@ -1,7 +1,7 @@
 {
   "_mo_ta": "Danh sach test case DANG DAT, dung lam cong chan hoi quy cho CI/CD. Mot test case o day chuyen sang FAIL nghia la co hoi quy -> pipeline phai do. Khi mot khiem khuyet duoc sua, hay them test case tuong ung vao day.",
   "_cap_nhat": "sinh boi build_baseline.py --refresh",
-  "_so_luong": 157,
+  "_so_luong": 158,
   "test_case_dat": [
     "TC-A1-001",
     "TC-A1-002-BASE",
@@ -67,6 +67,7 @@
     "TC-A2-009",
     "TC-A2-011",
     "TC-A2-012",
+    "TC-A2-013",
     "TC-A2-014",
     "TC-A2-016",
     "TC-A2-019",
@@ -214,5 +215,6 @@
     "TC-A3-040",
     "TC-A3-041",
     "TC-A3-044"
-  ]
+  ],
+  "_ghi_chu_commit_B": "Them TC-A2-013 (BVA: don bang dung min_order_amount) vao cong chan de mo phong tinh huong lap trinh vien tuyen bo da sua BUG-A2-03. CI se chung minh loi van con -> pipeline do voi dung 1 test case FAIL."
 }
