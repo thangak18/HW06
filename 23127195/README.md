@@ -74,8 +74,9 @@
 | | **Tổng** | **100** | **93** | |
 
 > ⚠ **Điểm tự đánh giá ở trên giả định các hạng mục thủ công đã hoàn tất.**
-> Sơ đồ và GitHub Issues nay **đã xong**. Nếu chưa có ảnh chụp CI / ảnh chụp issue / video, hãy **hạ điểm tương ứng**
-> trước khi đặt tên file nộp. Xem danh sách ở mục *Việc còn phải tự làm* bên dưới.
+> Sơ đồ, GitHub Issues, **ảnh chụp Postman Console** (bằng chứng §11) và PDF nay **đã xong**.
+> Còn thiếu: ảnh chụp lỗi đính vào issue, lần chạy CI đỏ, và video. Nếu nộp khi chưa có,
+> hãy **hạ điểm tương ứng** trước khi đặt tên file nộp. Xem mục *Việc còn phải tự làm* bên dưới.
 >
 > **Tên file nộp:** `23127195_HW06_AI_API_093.zip` *(đổi `093` theo điểm tự đánh giá cuối cùng)*
 
@@ -148,11 +149,11 @@ Theo §11 (Anti-AI-Cheat) của đề bài, những hạng mục sau **bắt bu�
 TA sẽ kiểm tra khi chấm:
 
 - [x] ~~**Vẽ sơ đồ** bộ sinh test case~~ → ✅ **xong**: [`agent-skill/diagram/ai_test_generator_diagram.png`](./agent-skill/diagram/ai_test_generator_diagram.png) (kèm nguồn `.drawio`), đã nhúng vào báo cáo chính §4
-- [ ] **Chụp Postman Console** hiển thị `[X-Student-Id] 23127195 -> ...` → lưu vào `evidence/`
+- [x] ~~**Chụp Postman Console**~~ → ✅ **xong**: 3 ảnh trong [`evidence/`](./evidence/). Ảnh [`postman_console_timestamps.png`](./evidence/postman_console_timestamps.png) bung sẵn khối *Request Headers*, thấy `X-Student-Id: "23127195"` và `Host: "localhost:3000"` — phủ cả hai yêu cầu §11
 - [x] ~~**Tạo 24 GitHub Issue**~~ → ✅ **xong**: [issue #5 → #28](https://github.com/thangak18/HW06/issues?q=is%3Aissue+label%3Ahw06-23127195), nhãn `hw06-23127195`
 - [ ] **Đính ảnh chụp vào từng issue** (API không đính được ảnh) → mở từng issue ở link trên, kéo thả ảnh, lưu bản sao vào `bugs/screenshots/`
 - [ ] **Push để chạy CI** rồi chụp 2 lần chạy (một xanh, một đỏ đúng 1 test) → [`ci/CI_CD_REPORT.md`](./ci/CI_CD_REPORT.md) §4–5
 - [ ] **Quay video demo** Agent Skill và lấy link YouTube → [`video/VIDEO_DEMO_SCRIPT.md`](./video/VIDEO_DEMO_SCRIPT.md)
 - [ ] **Xác nhận không trùng API** với 23127060 và 23127259
-- [ ] **Xuất PDF** báo cáo chính + AI audit → `pdf/`
+- [x] ~~**Xuất PDF** báo cáo chính + AI audit~~ → ✅ **xong**: 9 file trong [`pdf/`](./pdf/), sinh bằng `python scripts/export_pdf.py`
 - [ ] **Chốt lại điểm tự đánh giá** và đổi tên file zip cho khớp

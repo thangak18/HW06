@@ -1,0 +1,455 @@
+HW06 - 23127195 - DD2 - Bang quyet dinh ma giam gia (FR-09)
+
+Iteration 1/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 1'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 23ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 1'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 396B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C1..C5 deu dung] SAVE10 / 500000 -> HTTP 200  (percent 10% tren 500k)
+  1. discount_amount = 50000 (cong thuc FR-09)
+  2. final_amount = 450000
+  3. Bat bien: 0 <= discount_amount <= total_amount
+
+Iteration 2/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 2'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 2'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 397B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C1..C5 deu dung] SAVE10 / 1000000 -> HTTP 200  (percent 10% tren 1tr)
+  4. discount_amount = 100000 (cong thuc FR-09)
+  5. final_amount = 900000
+  6. Bat bien: 0 <= discount_amount <= total_amount
+
+Iteration 3/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 3'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 3'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 374B, 16ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  7. [C3 tai bien =] SAVE10 / 300000 -> HTTP 200  (don bang dung nguong 300k)
+  8. discount_amount = 30000 (cong thuc FR-09)
+  9. final_amount = 270000
+ 10. Bat bien: 0 <= discount_amount <= total_amount
+
+Iteration 4/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 4'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 4'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 374B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C3 sai] SAVE10 / 299999 -> HTTP 400  (duoi nguong 1 dong)
+
+Iteration 5/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 5'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 5'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 396B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C3 tren bien] SAVE10 / 300001 -> HTTP 200  (tren nguong 1 dong)
+ 11. discount_amount = 30000 (cong thuc FR-09)
+ 12. final_amount = 270000
+ 13. Bat bien: 0 <= discount_amount <= total_amount
+
+Iteration 6/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 6'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 6'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 399B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C1..C5 deu dung] BIGBUY / 600000 -> HTTP 200  (fixed 50k)
+  √  discount_amount = 50000 (cong thuc FR-09)
+  √  final_amount = 550000
+  √  Bat bien: 0 <= discount_amount <= total_amount
+
+Iteration 7/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 7'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 7'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 374B, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+ 14. [C3 tai bien =] BIGBUY / 500000 -> HTTP 200  (don bang dung nguong 500k)
+ 15. discount_amount = 50000 (cong thuc FR-09)
+ 16. final_amount = 450000
+ 17. Bat bien: 0 <= discount_amount <= total_amount
+
+Iteration 8/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 8'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 8'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 374B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C3 sai] BIGBUY / 499999 -> HTTP 400  (duoi nguong 1 dong)
+
+Iteration 9/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 9'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 9'
+  └
+  POST http://localhost:3000/api/apply-coupon [200 OK, 401B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C1..C5 deu dung] VIP100 / 400000 -> HTTP 200  (fixed 100k)
+  √  discount_amount = 100000 (cong thuc FR-09)
+  √  final_amount = 300000
+  √  Bat bien: 0 <= discount_amount <= total_amount
+
+Iteration 10/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 10'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 10'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 374B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+ 18. [C3 tai bien =] VIP100 / 300000 -> HTTP 200  (don bang dung nguong 300k)
+ 19. discount_amount = 100000 (cong thuc FR-09)
+ 20. final_amount = 200000
+ 21. Bat bien: 0 <= discount_amount <= total_amount
+
+Iteration 11/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 11'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 11'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 320B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C2 sai] EXPIRED / 500000 -> HTTP 400  (ma da het han 2020-01-01)
+
+Iteration 12/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 12'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 12'
+  └
+  POST http://localhost:3000/api/apply-coupon [400 Bad Request, 374B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C2 sai va C3 sai] EXPIRED / 50000 -> HTTP 400  (het han + duoi nguong)
+
+Iteration 13/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 13'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 13'
+  └
+  POST http://localhost:3000/api/apply-coupon [404 Not Found, 353B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [C1 sai] KHONGTONTAI / 500000 -> HTTP 404  (ma khong ton tai)
+
+Iteration 14/14
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 14'
+  └
+  POST http://localhost:3000/api/login [200 OK, 635B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Ap dung ma giam gia theo dong du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/apply-coupon  
+  │  | iteration 14'
+  └
+  POST http://localhost:3000/api/apply-coupon [404 Not Found, 353B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+ 22. [C1 - hoa/thuong] save10 / 500000 -> HTTP 200  (ma viet thuong)
+ 23. discount_amount = 50000 (cong thuc FR-09)
+ 24. final_amount = 450000
+ 25. Bat bien: 0 <= discount_amount <= total_amount
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │              14 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              28 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              56 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              28 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              83 │              25 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 2.6s                                    │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 6.56kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 6ms [min: 2ms, max: 23ms, s.d.: 3ms] │
+└─────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                   [39m
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 01.  AssertionError  discount_amount = 50000 (cong thuc FR-09)                                
+      iteration: 1    expected -4500000 to deeply equal 50000                                  
+                      at assertion:1 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 02.  AssertionError  final_amount = 450000                                                    
+      iteration: 1    expected 5000000 to deeply equal 450000                                  
+                      at assertion:2 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 03.  AssertionError  Bat bien: 0 <= discount_amount <= total_amount                           
+      iteration: 1    giam gia am: expected -4500000 to be at least +0                         
+                      at assertion:3 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 04.  AssertionError  discount_amount = 100000 (cong thuc FR-09)                               
+      iteration: 2    expected -9000000 to deeply equal 100000                                 
+                      at assertion:1 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 05.  AssertionError  final_amount = 900000                                                    
+      iteration: 2    expected 10000000 to deeply equal 900000                                 
+                      at assertion:2 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 06.  AssertionError  Bat bien: 0 <= discount_amount <= total_amount                           
+      iteration: 2    giam gia am: expected -9000000 to be at least +0                         
+                      at assertion:3 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 07.  AssertionError  [C3 tai bien =] SAVE10 / 300000 -> HTTP 200  (don bang dung nguong 300k) 
+      iteration: 3    expected 400 to deeply equal 200                                         
+                      at assertion:0 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 08.  AssertionError  discount_amount = 30000 (cong thuc FR-09)                                
+      iteration: 3    expected undefined to deeply equal 30000                                 
+                      at assertion:1 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 09.  AssertionError  final_amount = 270000                                                    
+      iteration: 3    expected undefined to deeply equal 270000                                
+                      at assertion:2 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 10.  AssertionError  Bat bien: 0 <= discount_amount <= total_amount                           
+      iteration: 3    giam gia am: expected undefined to be a number or a date                 
+                      at assertion:3 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 11.  AssertionError  discount_amount = 30000 (cong thuc FR-09)                                
+      iteration: 5    expected -2700009 to deeply equal 30000                                  
+                      at assertion:1 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 12.  AssertionError  final_amount = 270000                                                    
+      iteration: 5    expected 3000010 to deeply equal 270000                                  
+                      at assertion:2 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 13.  AssertionError  Bat bien: 0 <= discount_amount <= total_amount                           
+      iteration: 5    giam gia am: expected -2700009 to be at least +0                         
+                      at assertion:3 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 14.  AssertionError  [C3 tai bien =] BIGBUY / 500000 -> HTTP 200  (don bang dung nguong 500k) 
+      iteration: 7    expected 400 to deeply equal 200                                         
+                      at assertion:0 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 15.  AssertionError  discount_amount = 50000 (cong thuc FR-09)                                
+      iteration: 7    expected undefined to deeply equal 50000                                 
+                      at assertion:1 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 16.  AssertionError  final_amount = 450000                                                    
+      iteration: 7    expected undefined to deeply equal 450000                                
+                      at assertion:2 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 17.  AssertionError  Bat bien: 0 <= discount_amount <= total_amount                           
+      iteration: 7    giam gia am: expected undefined to be a number or a date                 
+                      at assertion:3 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 18.  AssertionError  [C3 tai bien =] VIP100 / 300000 -> HTTP 200  (don bang dung nguong 300k) 
+      iteration: 10   expected 400 to deeply equal 200                                         
+                      at assertion:0 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 19.  AssertionError  discount_amount = 100000 (cong thuc FR-09)                               
+      iteration: 10   expected undefined to deeply equal 100000                                
+                      at assertion:1 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 20.  AssertionError  final_amount = 200000                                                    
+      iteration: 10   expected undefined to deeply equal 200000                                
+                      at assertion:2 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 21.  AssertionError  Bat bien: 0 <= discount_amount <= total_amount                           
+      iteration: 10   giam gia am: expected undefined to be a number or a date                 
+                      at assertion:3 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 22.  AssertionError  [C1 - hoa/thuong] save10 / 500000 -> HTTP 200  (ma viet thuong)          
+      iteration: 14   expected 404 to deeply equal 200                                         
+                      at assertion:0 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 23.  AssertionError  discount_amount = 50000 (cong thuc FR-09)                                
+      iteration: 14   expected undefined to deeply equal 50000                                 
+                      at assertion:1 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 24.  AssertionError  final_amount = 450000                                                    
+      iteration: 14   expected undefined to deeply equal 450000                                
+                      at assertion:2 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           
+[90m     [39m[90m                [39m[90m                                                                          [39m
+ 25.  AssertionError  Bat bien: 0 <= discount_amount <= total_amount                           
+      iteration: 14   giam gia am: expected undefined to be a number or a date                 
+                      at assertion:3 in test-script                                            
+                      inside "Ap dung ma giam gia theo dong du lieu"                           

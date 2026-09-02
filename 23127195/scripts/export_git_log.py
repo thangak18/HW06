@@ -57,6 +57,8 @@ STEPS = [
     ("docs(video):",                "Kich ban video, git commit log, bang phan cong nhom"),
     ("docs(diagram):",              "Huong dan ve so do (tu chua, khong kem ban ve)"),
     ("feat(diagram+issues):",       "So do tu ve + tao 24 GitHub Issue that"),
+    ("chore(evidence):",            "Chi muc bang chung - script sinh git commit log"),
+    ("docs(evidence):",             "Bang chung muc 11 - anh chup Postman Console + giai phong log khoi .gitignore"),
 ]
 
 HEADER = """GIT COMMIT LOG - HW06 API Testing

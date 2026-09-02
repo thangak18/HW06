@@ -1,0 +1,291 @@
+HW06 - 23127195 - DD3 - Phan vung du lieu import (FR-16)
+
+Iteration 1/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 1'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 20ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 1'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [Hop le day du] inserted phai bang 1
+
+Iteration 2/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 2'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 2'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [Hop le - gia toi thieu duong] inserted phai bang 1
+
+Iteration 3/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 3'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 3'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  1. [price = 0 (khong phai so duong)] inserted phai bang 0
+  2. Phai bao cao ro dong bi loi
+
+Iteration 4/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 4'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 4'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  3. [price am] inserted phai bang 0
+  4. Phai bao cao ro dong bi loi
+
+Iteration 5/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 5'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 5'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  5. [price la chuoi phi so] inserted phai bang 0
+  6. Phai bao cao ro dong bi loi
+
+Iteration 6/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 6'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 6'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [name rong] inserted phai bang 0
+  √  Phai bao cao ro dong bi loi
+
+Iteration 7/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 7'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 7'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 394B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [name toan khoang trang] inserted phai bang 0
+  √  Phai bao cao ro dong bi loi
+
+Iteration 8/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 8'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 8'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 12ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  7. [category_id khong ton tai] inserted phai bang 0
+  8. Phai bao cao ro dong bi loi
+
+Iteration 9/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 9'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 9'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  9. [category_id = 0] inserted phai bang 0
+ 10. Phai bao cao ro dong bi loi
+
+Iteration 10/10
+
+→ [SETUP] Dang nhap admin
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 10'
+  └
+  POST http://localhost:3000/api/login [200 OK, 640B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap admin thanh cong
+
+→ Import mot dong du lieu tu file
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/admin/import-p
+  │ roducts   | iteration 10'
+  └
+  POST http://localhost:3000/api/admin/import-products [200 OK, 357B, 12ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+ 11. [category_id am] inserted phai bang 0
+ 12. Phai bao cao ro dong bi loi
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │              10 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              20 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              40 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              20 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              48 │              12 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 1816ms                                  │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 4.68kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 7ms [min: 2ms, max: 20ms, s.d.: 4ms] │
+└─────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                                 [39m
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 01.  AssertionError  [price = 0 (khong phai so duong)] inserted phai bang 0                                 
+      iteration: 3    dong du lieu KHONG hop le theo FR-16 nhung van duoc ghi: expected 1 to deeply equal +0 
+                      at assertion:0 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 02.  AssertionError  Phai bao cao ro dong bi loi                                                            
+      iteration: 3    khong bao loi cho dong khong hop le: expected +0 to be at least 1                      
+                      at assertion:1 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 03.  AssertionError  [price am] inserted phai bang 0                                                        
+      iteration: 4    dong du lieu KHONG hop le theo FR-16 nhung van duoc ghi: expected 1 to deeply equal +0 
+                      at assertion:0 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 04.  AssertionError  Phai bao cao ro dong bi loi                                                            
+      iteration: 4    khong bao loi cho dong khong hop le: expected +0 to be at least 1                      
+                      at assertion:1 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 05.  AssertionError  [price la chuoi phi so] inserted phai bang 0                                           
+      iteration: 5    dong du lieu KHONG hop le theo FR-16 nhung van duoc ghi: expected 1 to deeply equal +0 
+                      at assertion:0 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 06.  AssertionError  Phai bao cao ro dong bi loi                                                            
+      iteration: 5    khong bao loi cho dong khong hop le: expected +0 to be at least 1                      
+                      at assertion:1 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 07.  AssertionError  [category_id khong ton tai] inserted phai bang 0                                       
+      iteration: 8    dong du lieu KHONG hop le theo FR-16 nhung van duoc ghi: expected 1 to deeply equal +0 
+                      at assertion:0 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 08.  AssertionError  Phai bao cao ro dong bi loi                                                            
+      iteration: 8    khong bao loi cho dong khong hop le: expected +0 to be at least 1                      
+                      at assertion:1 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 09.  AssertionError  [category_id = 0] inserted phai bang 0                                                 
+      iteration: 9    dong du lieu KHONG hop le theo FR-16 nhung van duoc ghi: expected 1 to deeply equal +0 
+                      at assertion:0 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 10.  AssertionError  Phai bao cao ro dong bi loi                                                            
+      iteration: 9    khong bao loi cho dong khong hop le: expected +0 to be at least 1                      
+                      at assertion:1 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 11.  AssertionError  [category_id am] inserted phai bang 0                                                  
+      iteration: 10   dong du lieu KHONG hop le theo FR-16 nhung van duoc ghi: expected 1 to deeply equal +0 
+                      at assertion:0 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               
+[90m     [39m[90m                [39m[90m                                                                                        [39m
+ 12.  AssertionError  Phai bao cao ro dong bi loi                                                            
+      iteration: 10   khong bao loi cho dong khong hop le: expected +0 to be at least 1                      
+                      at assertion:1 in test-script                                                          
+                      inside "Import mot dong du lieu tu file"                                               

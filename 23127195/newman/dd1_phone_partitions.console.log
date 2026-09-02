@@ -1,0 +1,533 @@
+HW06 - 23127195 - DD1 - Phan vung so dien thoai (FR-04)
+
+Iteration 1/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 1'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 32ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 1'
+  └
+  POST http://localhost:3000/api/login [200 OK, 656B, 14ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 1'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [Hop le - bien duoi 10 chu so] phone=912345678 -> phai duoc chap nhan (200)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 2/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 2'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 2'
+  └
+  POST http://localhost:3000/api/login [200 OK, 682B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 2'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [Hop le - bien tren 11 chu so] phone=9123456789 -> phai duoc chap nhan (200)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 3/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 3'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 3'
+  └
+  POST http://localhost:3000/api/login [200 OK, 683B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 3'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 14ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  [Hop le - dau so khac] phone=987654321 -> phai duoc chap nhan (200)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 4/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 4'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 4'
+  └
+  POST http://localhost:3000/api/login [200 OK, 682B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 4'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  1. [Duoi bien - 9 chu so] phone=91234567 -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 5/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 5'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 5'
+  └
+  POST http://localhost:3000/api/login [200 OK, 681B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 5'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  2. [Tren bien - 12 chu so] phone=91234567890 -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 6/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 6'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 6'
+  └
+  POST http://localhost:3000/api/login [200 OK, 684B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 6'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  3. [Khong bat dau bang 0] phone=9912345678 -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 7/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 7'
+  └
+  POST http://localhost:3000/api/register [200 OK, 316B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 7'
+  └
+  POST http://localhost:3000/api/login [200 OK, 683B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 7'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  4. [Khong bat dau bang 0 (dau 1)] phone=1912345678 -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 8/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 8'
+  └
+  POST http://localhost:3000/api/register [200 OK, 317B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 8'
+  └
+  POST http://localhost:3000/api/login [200 OK, 683B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 8'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 8ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  5. [Chua chu cai] phone="abcdefghij" -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 9/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 9'
+  └
+  POST http://localhost:3000/api/register [200 OK, 317B, 11ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 9'
+  └
+  POST http://localhost:3000/api/login [200 OK, 683B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 9'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  6. [Bat dau bang 0 nhung co chu cai] phone="0abcdefghi" -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 10/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 10'
+  └
+  POST http://localhost:3000/api/register [200 OK, 317B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 10'
+  └
+  POST http://localhost:3000/api/login [200 OK, 683B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 10'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  7. [Co ky tu phan cach] phone="0912-345-678" -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 11/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 11'
+  └
+  POST http://localhost:3000/api/register [200 OK, 317B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 11'
+  └
+  POST http://localhost:3000/api/login [200 OK, 685B, 3ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 11'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  8. [Dinh dang quoc te E.164] phone=84912345678 -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 12/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 12'
+  └
+  POST http://localhost:3000/api/register [200 OK, 317B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 12'
+  └
+  POST http://localhost:3000/api/login [200 OK, 684B, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 12'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  9. [Co khoang trang o giua] phone="0912 345 678" -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 13/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 13'
+  └
+  POST http://localhost:3000/api/register [200 OK, 317B, 4ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 13'
+  └
+  POST http://localhost:3000/api/login [200 OK, 685B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 13'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 10ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+ 10. [Chuoi rong] phone="" -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 14/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 14'
+  └
+  POST http://localhost:3000/api/register [200 OK, 317B, 16ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 14'
+  └
+  POST http://localhost:3000/api/login [200 OK, 673B, 6ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 14'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 7ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+ 11. [Chi mot chu so] phone=0 -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+Iteration 15/15
+
+→ [SETUP] Dang ky tai khoan data-driven
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/register   | i
+  │ teration 15'
+  └
+  POST http://localhost:3000/api/register [200 OK, 317B, 9ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang ky hoac da ton tai
+
+→ [SETUP] Dang nhap lay token
+  ┌
+  │ '[X-Student-Id] 23127195  ->  POST /api/login   | iter
+  │ ation 15'
+  └
+  POST http://localhost:3000/api/login [200 OK, 674B, 5ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+  √  Dang nhap thanh cong
+
+→ Cap nhat ho so voi so dien thoai tu file du lieu
+  ┌
+  │ '[X-Student-Id] 23127195  ->  PUT /api/users/me   | it
+  │ eration 15'
+  └
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 2ms]
+  √  [GLOBAL] Request mang header X-Student-Id dung dinh dang
+ 12. [14 chu so] phone=0 -> phai bi tu choi (400)
+  √  Khong tra ve loi may chu (5xx)
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │              15 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              45 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              90 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              45 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │             105 │              12 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 4.1s                                    │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 7.34kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 7ms [min: 2ms, max: 32ms, s.d.: 4ms] │
+└─────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                                [39m
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 01.  AssertionError  [Duoi bien - 9 chu so] phone=91234567 -> phai bi tu choi (400)                        
+      iteration: 4    so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 02.  AssertionError  [Tren bien - 12 chu so] phone=91234567890 -> phai bi tu choi (400)                    
+      iteration: 5    so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 03.  AssertionError  [Khong bat dau bang 0] phone=9912345678 -> phai bi tu choi (400)                      
+      iteration: 6    so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 04.  AssertionError  [Khong bat dau bang 0 (dau 1)] phone=1912345678 -> phai bi tu choi (400)              
+      iteration: 7    so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 05.  AssertionError  [Chua chu cai] phone="abcdefghij" -> phai bi tu choi (400)                            
+      iteration: 8    so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 06.  AssertionError  [Bat dau bang 0 nhung co chu cai] phone="0abcdefghi" -> phai bi tu choi (400)         
+      iteration: 9    so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 07.  AssertionError  [Co ky tu phan cach] phone="0912-345-678" -> phai bi tu choi (400)                    
+      iteration: 10   so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 08.  AssertionError  [Dinh dang quoc te E.164] phone=84912345678 -> phai bi tu choi (400)                  
+      iteration: 11   so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 09.  AssertionError  [Co khoang trang o giua] phone="0912 345 678" -> phai bi tu choi (400)                
+      iteration: 12   so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 10.  AssertionError  [Chuoi rong] phone="" -> phai bi tu choi (400)                                        
+      iteration: 13   so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 11.  AssertionError  [Chi mot chu so] phone=0 -> phai bi tu choi (400)                                     
+      iteration: 14   so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             
+[90m     [39m[90m                [39m[90m                                                                                       [39m
+ 12.  AssertionError  [14 chu so] phone=0 -> phai bi tu choi (400)                                          
+      iteration: 15   so KHONG hop le theo FR-04 nhung van duoc chap nhan: expected 200 to deeply equal 400 
+                      at assertion:0 in test-script                                                         
+                      inside "Cap nhat ho so voi so dien thoai tu file du lieu"                             

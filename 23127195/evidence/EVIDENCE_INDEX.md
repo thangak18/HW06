@@ -10,9 +10,10 @@ chiếu nhanh. Cột *Kiểm chứng bằng cách nào* nêu rõ cách xác minh
 | # | Hạng mục | Trạng thái | Vị trí | Kiểm chứng bằng cách nào |
 |---|---|---|---|---|
 | 1 | **Header `X-Student-Id`** trong mọi request | ✅ Có | Pre-request script cấp collection của cả 9 collection | Mở bất kỳ file `postman/collections/*.json`, tìm `X-Student-Id` trong khối `event[listen=prerequest]` |
-| 1b | **Log console** của header | ✅ Có | [`newman/*.console.log`](../newman/) | `grep "X-Student-Id" newman/api1_*.console.log` → mỗi request một dòng |
-| 1c | **Ảnh chụp Postman Console** | ⚠️ **SV phải tự chụp** | `evidence/postman_console.png` | Xem hướng dẫn §3 dưới đây |
-| 2 | **Newman output với hostname khớp deployment** | ✅ Có | [`newman/`](../newman/) | Mọi URL trong log đều là `http://localhost:3000` — `localhost` được đề bài chấp nhận |
+| 1b | **Log console** của header | ✅ Có | [`newman/*.console.log`](../newman/) | `grep -c "X-Student-Id" newman/*.console.log` → **604 dòng** trên 6 file (3 API + 3 lần chạy data-driven) |
+| 1c | **Ảnh chụp Postman Console** | ✅ Có | [`postman_console.png`](./postman_console.png) · [`postman_console_runner.png`](./postman_console_runner.png) · [`postman_console_timestamps.png`](./postman_console_timestamps.png) | Ảnh `_timestamps` là ảnh mạnh nhất: khối *Request Headers* đã bung sẵn, thấy `X-Student-Id: "23127195"` là header **thật trên đường truyền** chứ không chỉ là dòng `console.log` |
+| 1d | **Assertion tự động kiểm header** | ✅ Có | Test script cấp collection của cả 9 collection | **334 lần kiểm, 0 lần trượt** — assertion `[GLOBAL]` áp lên mọi request và kiểm cả định dạng `/^\d{8}$/`. Máy kiểm, không phải mắt người nhìn |
+| 2 | **Newman output với hostname khớp deployment** | ✅ Có | [`newman/`](../newman/) · [`postman_console_timestamps.png`](./postman_console_timestamps.png) | Mọi URL trong log đều là `http://localhost:3000` — `localhost` được đề bài chấp nhận. Ảnh `_timestamps` cho thấy trực tiếp header `Host: "localhost:3000"` |
 | 3 | **Sơ đồ tự vẽ** | ✅ Có | [`agent-skill/diagram/ai_test_generator_diagram.png`](../agent-skill/diagram/ai_test_generator_diagram.png) | SV tự dựng bằng draw.io; kèm file nguồn `.drawio` mở lại được để kiểm chứng. Repo không chứa bản vẽ do AI sinh |
 
 ## 2. Bằng chứng thi hành
@@ -106,6 +107,10 @@ PY
 - npm debug log `2026-09-01T11_47_21Z` → `18:47:21 +07` — lúc cài Newman
 - `bugs/evidence/reproduce_output.txt` dòng 2 → `2026-09-01 20:11:32 +0700`
 - Dấu thời gian tên file báo cáo Newman → `20260901-204738`
+- Ảnh [`postman_console_timestamps.png`](./postman_console_timestamps.png) — ba mốc thời gian **độc lập nhau
+  nhưng khớp nhau** trong cùng một khung hình: dấu thời gian console `15:07:56.847`, header
+  `Date: "Wed, 02 Sep 2026 08:07:56 GMT"` do SUT trả về (= 15:07:56 giờ VN), và đồng hồ Windows
+  `3:16 PM 9/2/2026` lúc chụp. Ba nguồn này không thể dựng khớp nhau nếu ảnh là giả
 
 ## 7. Git commit log
 
@@ -119,7 +124,10 @@ nằm ngay đầu file `git_commit_log.txt`.
 
 ---
 
-## 8. Hướng dẫn chụp ảnh Postman Console (mục 1c)
+## 8. Cách tái hiện ảnh chụp Postman Console (mục 1c)
+
+> ✅ **Mục này đã hoàn tất** — ba ảnh nằm sẵn trong thư mục này. Phần dưới giữ lại để người chấm
+> tự dựng lại được cùng một bằng chứng trên máy của mình.
 
 1. Mở Postman desktop.
 2. **Import** collection: `File → Import` → chọn `postman/collections/api1_fr04_user_profile.postman_collection.json`.
