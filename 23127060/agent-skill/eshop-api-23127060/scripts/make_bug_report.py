@@ -11,6 +11,7 @@ mà hệ thống trả về một dạng khác.
 """
 import os
 import re
+import unicodedata
 
 SID = "23127060"
 
@@ -221,7 +222,58 @@ BUGS = [
  "của tầng CSDL, để một bản ghi hỏng không thể hạ được cả tiến trình."),
 ]
 
+
+# Link GitHub Issue cua tung bug (dien sau khi mo Issue that o STEP 7 / HUMAN H3).
+# Nguon: https://github.com/thangak18/HW06/issues
+ISSUE_LINKS = {
+    "A-01": "https://github.com/thangak18/HW06/issues/38",
+    "A-02": "https://github.com/thangak18/HW06/issues/39",
+    "A-03": "https://github.com/thangak18/HW06/issues/40",
+    "A-05": "https://github.com/thangak18/HW06/issues/41",
+    "A-07": "https://github.com/thangak18/HW06/issues/42",
+    "A-08": "https://github.com/thangak18/HW06/issues/43",
+    "A-09": "https://github.com/thangak18/HW06/issues/44",
+    "B-01": "https://github.com/thangak18/HW06/issues/46",
+    "B-01b": "https://github.com/thangak18/HW06/issues/47",
+    "B-02": "https://github.com/thangak18/HW06/issues/48",
+    "B-03": "https://github.com/thangak18/HW06/issues/49",
+    "B-05": "https://github.com/thangak18/HW06/issues/50",
+    "B-06": "https://github.com/thangak18/HW06/issues/51",
+    "B-07": "https://github.com/thangak18/HW06/issues/52",
+    "B-08": "https://github.com/thangak18/HW06/issues/53",
+    "B-09": "https://github.com/thangak18/HW06/issues/54",
+    "B-10": "https://github.com/thangak18/HW06/issues/55",
+    "B-11": "https://github.com/thangak18/HW06/issues/56",
+    "B-12": "https://github.com/thangak18/HW06/issues/57",
+    "B-14": "https://github.com/thangak18/HW06/issues/58",
+    "C-01": "https://github.com/thangak18/HW06/issues/59",
+    "C-02": "https://github.com/thangak18/HW06/issues/60",
+    "C-03": "https://github.com/thangak18/HW06/issues/61",
+    "C-04": "https://github.com/thangak18/HW06/issues/62",
+    "C-05": "https://github.com/thangak18/HW06/issues/63",
+    "C-06": "https://github.com/thangak18/HW06/issues/64",
+    "C-07": "https://github.com/thangak18/HW06/issues/65",
+    "C-08": "https://github.com/thangak18/HW06/issues/66",
+    "C-09": "https://github.com/thangak18/HW06/issues/67",
+    "C-10": "https://github.com/thangak18/HW06/issues/68",
+    "C-11": "https://github.com/thangak18/HW06/issues/69",
+    "C-12": "https://github.com/thangak18/HW06/issues/70",
+    "C-13": "https://github.com/thangak18/HW06/issues/71",
+    "X-01": "https://github.com/thangak18/HW06/issues/45",
+}
+
 SEV_ICON = {"Critical": "🔴 Critical", "High": "🟠 High", "Medium": "🟡 Medium", "Low": "⚪ Low"}
+
+
+def bo_dau(s):
+    """Bo dau tieng Viet de moc tim kiem khop duoc voi CA hai dang.
+
+    File bang chung do capture_bug_evidence.py sinh ra, va nhan buoc cuoi cua no da chuyen
+    sang co dau ("PHOI BAY BUG" -> "PHƠI BÀY BUG"). Neu tim bang chuoi khong dau thi khong
+    khop nua, va toan bo khoi curl/response bi bo khoi bug report ma khong bao loi.
+    """
+    s = unicodedata.normalize("NFD", s)
+    return "".join(c for c in s if unicodedata.category(c) != "Mn")
 
 
 def lay_buoc_cuoi(bug):
@@ -230,7 +282,7 @@ def lay_buoc_cuoi(bug):
     if not os.path.exists(p):
         return None, None
     t = open(p, encoding="utf-8").read()
-    i = t.find("PHOI BAY BUG")
+    i = bo_dau(t).upper().find("PHOI BAY BUG")
     if i < 0:
         return None, None
     khoi = re.findall(r"```(?:bash|http)\n(.*?)```", t[i:], re.S)
@@ -259,8 +311,10 @@ def main():
     dem = {}
     for bid, sev, tt, api, ref, _, _ in bugs:
         dem[sev] = dem.get(sev, 0) + 1
-        L.append("| **%s** | %s | %s | %s | %s | [`%s.md`](evidence/%s.md) | `<điền link>` |"
-                 % (bid, SEV_ICON[sev], tt, api, ref, bid, bid))
+        lk = ISSUE_LINKS.get(bid)
+        lk = "[#%s](%s)" % (lk.rsplit("/", 1)[-1], lk) if lk else "`<điền link>`"
+        L.append("| **%s** | %s | %s | %s | %s | [`%s.md`](evidence/%s.md) | %s |"
+                 % (bid, SEV_ICON[sev], tt, api, ref, bid, bid, lk))
     L += ["", "**Tổng %d bug:** %d Critical, %d High, %d Medium, %d Low."
           % (len(bugs), dem.get("Critical", 0), dem.get("High", 0),
              dem.get("Medium", 0), dem.get("Low", 0)), ""]
@@ -282,6 +336,7 @@ def main():
               "| **API** | %s |" % api,
               "| **Vi phạm** | %s |" % ref,
               "| **Bằng chứng đầy đủ** | [`bugs/evidence/%s.md`](evidence/%s.md) |" % (bid, bid),
+              "| **GitHub Issue** | %s |" % (ISSUE_LINKS.get(bid) or "`<điền link>`"),
               "", "**Ảnh hưởng:** %s" % tac_dong, ""]
         if c:
             L += ["**Bước tái hiện** (bước cuối của kịch bản; các bước chuẩn bị xem file bằng chứng):",

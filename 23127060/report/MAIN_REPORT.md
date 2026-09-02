@@ -8,7 +8,7 @@
 | | |
 |---|---|
 | Repo GitHub công khai | `<điền link sau khi push — xem ci/CI_CD_REPORT.md mục 5>` |
-| GitHub Issues | `<điền link>` |
+| GitHub Issues | https://github.com/thangak18/HW06/issues?q=label%3Ahw06-23127060 (34 Issue, #38–#71) |
 | Video demo bộ sinh (YouTube, tùy chọn) | `<điền link — kịch bản ở agent-skill/VIDEO_SCRIPT.md>` |
 | Tự đánh giá | **`<điền 3 chữ số>`** / 100 |
 
@@ -449,7 +449,7 @@ quyền truy cập tài khoản, hoặc vì đề bài cấm AI làm.
 |---|---|---|---|
 | **H1** | **Vẽ sơ đồ** bộ sinh test | `agent-skill/diagram/DIAGRAM_BRIEF.md` (182 dòng mô tả) | Đề bài mục 11 cấm sơ đồ do AI sinh |
 | **H2** | Đọc lại và chốt 68 nhãn `INVALID` | Cột `Audit_Note` đã ghi lý do từng dòng | Em chịu trách nhiệm cuối cùng về test case |
-| **H3** | Mở **GitHub Issues** cho từng bug + chụp màn hình | 34 file trong `bugs/ISSUE_TEMPLATES/` sẵn sàng dán | Cần quyền ghi trên GitHub |
+| **H3** | ~~Mở **GitHub Issues**~~ ✅ đã mở 34 Issue (#38–#71); còn **chụp màn hình** | 34 file `bugs/ISSUE_TEMPLATES/` + link trong `bugs/BUG_REPORT.md` | Chụp màn hình cần thao tác GUI |
 | **H4** | Chụp màn hình **Postman Console** có header | Hướng dẫn 6 bước trong `report/05_postman_features.md` | Cần thao tác GUI |
 | **H5** | Đẩy mã, chạy **2 lần CI**, chụp màn hình, lấy link | Workflow + `inject_failing_test.py` + quy trình 6 bước | Remote là repo của người khác |
 | **H6** | **Mock server** và **Monitor** trên Postman | Hướng dẫn chi tiết, kèm cảnh báo Monitor không gọi được `localhost` | Cần tài khoản Postman |

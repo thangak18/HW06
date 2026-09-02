@@ -42,7 +42,7 @@
 | Tổng assertion đã chạy | **1146** |
 | Assertion thất bại | **234** |
 | Số bug báo cáo | **34** (12 Critical, 11 High, 9 Medium, 2 Low) |
-| Số GitHub Issue đã mở | `<điền sau khi làm H3>` |
+| Số GitHub Issue đã mở | **34** — [xem tất cả](https://github.com/thangak18/HW06/issues?q=label%3Ahw06-23127060) |
 
 ### Phân bố theo nhóm kỹ thuật
 
@@ -84,18 +84,18 @@
 
 | ID | API | Mô tả ngắn | GitHub Issue |
 |---|---|---|---|
-| **A-01** | API-1 | `forgot-password` trả thẳng mã OTP trong response body | `<link>` |
-| **A-07** | API-1 | Mật khẩu lưu plaintext, bị trả về trong response `login` | `<link>` |
-| **B-01** | API-2 | `checkout` tin tuyệt đối `total_amount` do client gửi | `<link>` |
-| **B-01b** | API-2 | `checkout` chấp nhận `total_amount` âm | `<link>` |
-| **B-02** | API-2 | `GET /api/orders/:id` thiếu hẳn xác thực — IDOR | `<link>` |
-| **B-03** | API-2 | `admin/orders/:id/status` không kiểm `role` | `<link>` |
-| **B-05** | API-2 | Công thức coupon `percent` sai dấu — số tiền giảm **âm** | `<link>` |
-| **B-07** | API-2 | `apply-coupon` không xác thực; bỏ `user_id` là bỏ qua hạn mức | `<link>` |
-| **C-01** | API-3 | CRUD sản phẩm hoàn toàn không xác thực | `<link>` |
-| **C-02** | API-3 | SQL Injection qua `?search=` — lấy được mật khẩu admin | `<link>` |
-| **C-13** | API-3 | `price = null` làm **sập hẳn backend** (từ chối dịch vụ) | `<link>` |
-| **X-01** | liên API | `PUT /api/users/me` cho user thường tự nâng `role` lên `admin` | `<link>` |
+| **A-01** | API-1 | `forgot-password` trả thẳng mã OTP trong response body | [#38](https://github.com/thangak18/HW06/issues/38) |
+| **A-07** | API-1 | Mật khẩu lưu plaintext, bị trả về trong response `login` | [#42](https://github.com/thangak18/HW06/issues/42) |
+| **B-01** | API-2 | `checkout` tin tuyệt đối `total_amount` do client gửi | [#46](https://github.com/thangak18/HW06/issues/46) |
+| **B-01b** | API-2 | `checkout` chấp nhận `total_amount` âm | [#47](https://github.com/thangak18/HW06/issues/47) |
+| **B-02** | API-2 | `GET /api/orders/:id` thiếu hẳn xác thực — IDOR | [#48](https://github.com/thangak18/HW06/issues/48) |
+| **B-03** | API-2 | `admin/orders/:id/status` không kiểm `role` | [#49](https://github.com/thangak18/HW06/issues/49) |
+| **B-05** | API-2 | Công thức coupon `percent` sai dấu — số tiền giảm **âm** | [#50](https://github.com/thangak18/HW06/issues/50) |
+| **B-07** | API-2 | `apply-coupon` không xác thực; bỏ `user_id` là bỏ qua hạn mức | [#52](https://github.com/thangak18/HW06/issues/52) |
+| **C-01** | API-3 | CRUD sản phẩm hoàn toàn không xác thực | [#59](https://github.com/thangak18/HW06/issues/59) |
+| **C-02** | API-3 | SQL Injection qua `?search=` — lấy được mật khẩu admin | [#60](https://github.com/thangak18/HW06/issues/60) |
+| **C-13** | API-3 | `price = null` làm **sập hẳn backend** (từ chối dịch vụ) | [#71](https://github.com/thangak18/HW06/issues/71) |
+| **X-01** | liên API | `PUT /api/users/me` cho user thường tự nâng `role` lên `admin` | [#45](https://github.com/thangak18/HW06/issues/45) |
 
 Chi tiết 34 bug + bằng chứng request/response thật:
 [`bugs/BUG_REPORT.md`](bugs/BUG_REPORT.md).
@@ -228,7 +228,7 @@ python3 $S/validate_submission.py --root . --sid 23127060
 | Sơ đồ bộ sinh (**TỰ VẼ**) | ⬜ HUMAN | `agent-skill/diagram/DIAGRAM_BRIEF.md` |
 | Pseudocode bộ sinh | ✅ | `agent-skill/pseudocode/generator.pseudo.md` |
 | Bug report (MD + PDF) | ✅ | `bugs/BUG_REPORT.md` / `.pdf` (34 bug, 25 trang) |
-| Screenshot GitHub Issues | ⬜ HUMAN | `bugs/ISSUE_TEMPLATES/` đã sẵn sàng |
+| Screenshot GitHub Issues | ⚠️ 34 Issue đã mở (#38–#71), **còn thiếu ảnh chụp** | `bugs/screenshots/` |
 | AI Audit Report (MD + PDF) | ✅ | `ai/audit/AI_AUDIT_REPORT.md` / `.pdf` |
 | AI Critique (MD + PDF, 200–300 từ) | ✅ **297 từ** | `ai/critique/AI_CRITIQUE.md` / `.pdf` |
 | Git commit log | ✅ | `git-log/23127060_git_commit_log.txt` |
