@@ -3,7 +3,7 @@
   "tc_prefix": "C3",
   "pool": "C",
   "fr": "FR-15",
-  "name": "Quan ly san pham (CRUD + tim kiem)",
+  "name": "Quản lý sản phẩm (CRUD + tìm kiếm)",
   "base_url": "{{baseUrl}}",
   "endpoints": [
     {
@@ -12,7 +12,7 @@
       "path": "/api/products",
       "auth_required": true,
       "success_status": 201,
-      "preconditions": "Da login bang tai khoan admin, co {{token_admin}}",
+      "preconditions": "Đã login bằng tài khoản admin, có {{token_admin}}",
       "headers": "Authorization: Bearer {{token_admin}}",
       "valid_body": {
         "name": "SP Test 23127060",
@@ -32,9 +32,9 @@
               "id": "valid",
               "value": "SP Test 23127060",
               "valid": true,
-              "desc": "ten hop le",
+              "desc": "tên hợp lệ",
               "expected_status": 201,
-              "assertions": "body co id; GET lai san pham thay dung ten",
+              "assertions": "body có id; GET lại sản phẩm thấy đúng tên",
               "bug": "C-12",
               "priority": "P0"
             },
@@ -42,7 +42,7 @@
               "id": "empty",
               "value": "",
               "valid": false,
-              "desc": "ten rong",
+              "desc": "tên rỗng",
               "expected_status": 400,
               "bug": "C-06"
             },
@@ -50,7 +50,7 @@
               "id": "null",
               "value": null,
               "valid": false,
-              "desc": "ten null",
+              "desc": "tên null",
               "expected_status": 400,
               "bug": "C-06",
               "priority": "P0"
@@ -59,7 +59,7 @@
               "id": "omit",
               "omit": true,
               "valid": false,
-              "desc": "thieu key name",
+              "desc": "thiếu key name",
               "expected_status": 400,
               "bug": "C-06"
             },
@@ -67,7 +67,7 @@
               "id": "wrong_type",
               "value": 12345,
               "valid": false,
-              "desc": "ten sai kieu (number)",
+              "desc": "tên sai kiểu (number)",
               "expected_status": 400,
               "bug": "C-06"
             },
@@ -76,7 +76,7 @@
               "value": "A",
               "valid": false,
               "boundary": true,
-              "desc": "BVA - 1 ky tu (duoi bien toi thieu)",
+              "desc": "BVA - 1 ký tự (dưới biên tối thiểu)",
               "expected_status": 400
             },
             {
@@ -84,7 +84,7 @@
               "value": "A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A1234",
               "valid": true,
               "boundary": true,
-              "desc": "BVA - dung 255 ky tu",
+              "desc": "BVA - đúng 255 ký tự",
               "expected_status": 201
             },
             {
@@ -92,14 +92,14 @@
               "value": "A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A12345",
               "valid": false,
               "boundary": true,
-              "desc": "BVA - 256 ky tu (vuot bien)",
+              "desc": "BVA - 256 ký tự (vượt biên)",
               "expected_status": 400
             },
             {
               "id": "xss",
               "value": "<script>alert('23127060')</script>",
               "valid": false,
-              "desc": "stored XSS trong ten san pham",
+              "desc": "stored XSS trong tên sản phẩm",
               "expected_status": 400,
               "sec": "SEC-06",
               "bug": "C-11",
@@ -109,7 +109,7 @@
               "id": "unicode",
               "value": "San pham tieng Viet co dau 23127060",
               "valid": true,
-              "desc": "ten co ky tu Unicode",
+              "desc": "tên có ký tự Unicode",
               "expected_status": 201
             }
           ]
@@ -124,14 +124,14 @@
               "id": "valid",
               "value": 150000,
               "valid": true,
-              "desc": "gia hop le",
+              "desc": "giá hợp lệ",
               "expected_status": 201
             },
             {
               "id": "negative",
               "value": -1000,
               "valid": false,
-              "desc": "gia am",
+              "desc": "giá âm",
               "expected_status": 400,
               "bug": "C-06",
               "priority": "P0"
@@ -141,7 +141,7 @@
               "value": 0,
               "valid": false,
               "boundary": true,
-              "desc": "BVA - gia bang 0",
+              "desc": "BVA - giá bằng 0",
               "expected_status": 400,
               "bug": "C-06"
             },
@@ -150,14 +150,14 @@
               "value": 1,
               "valid": true,
               "boundary": true,
-              "desc": "BVA - gia 1 (bien duoi hop le)",
+              "desc": "BVA - giá 1 (biên dưới hợp lệ)",
               "expected_status": 201
             },
             {
               "id": "string",
               "value": "khong-phai-so",
               "valid": false,
-              "desc": "gia sai kieu (string)",
+              "desc": "giá sai kiểu (string)",
               "expected_status": 400,
               "bug": "C-06",
               "priority": "P0"
@@ -166,7 +166,7 @@
               "id": "null",
               "value": null,
               "valid": false,
-              "desc": "gia null",
+              "desc": "giá null",
               "expected_status": 400,
               "bug": "C-06"
             },
@@ -174,7 +174,7 @@
               "id": "omit",
               "omit": true,
               "valid": false,
-              "desc": "thieu key price",
+              "desc": "thiếu key price",
               "expected_status": 400,
               "bug": "C-06"
             },
@@ -183,14 +183,14 @@
               "value": 999999999999999,
               "valid": false,
               "boundary": true,
-              "desc": "BVA - gia vuot gioi han",
+              "desc": "BVA - giá vượt giới hạn",
               "expected_status": 400
             },
             {
               "id": "float",
               "value": 150000.55,
               "valid": true,
-              "desc": "gia co phan thap phan",
+              "desc": "giá có phần thập phân",
               "expected_status": 201
             }
           ]
@@ -205,14 +205,14 @@
               "id": "valid",
               "value": 1,
               "valid": true,
-              "desc": "danh muc ton tai",
+              "desc": "danh mục tồn tại",
               "expected_status": 201
             },
             {
               "id": "not_exist",
               "value": 999999,
               "valid": false,
-              "desc": "danh muc khong ton tai - khoa ngoai khong duoc kiem tra",
+              "desc": "danh mục không tồn tại - khóa ngoại không được kiểm tra",
               "expected_status": 400,
               "bug": "C-10",
               "priority": "P0"
@@ -229,14 +229,14 @@
               "id": "string",
               "value": "abc",
               "valid": false,
-              "desc": "category_id sai kieu",
+              "desc": "category_id sai kiểu",
               "expected_status": 400
             },
             {
               "id": "null",
               "value": null,
               "valid": true,
-              "desc": "category_id null (khong bat buoc)",
+              "desc": "category_id null (không bắt buộc)",
               "expected_status": 201
             }
           ]
@@ -251,7 +251,7 @@
               "id": "valid",
               "value": "https://example.com/a.png",
               "valid": true,
-              "desc": "URL anh hop le",
+              "desc": "URL ảnh hợp lệ",
               "expected_status": 201
             },
             {
@@ -275,7 +275,7 @@
               "id": "not_url",
               "value": "khong-phai-url",
               "valid": false,
-              "desc": "chuoi khong phai URL",
+              "desc": "chuỗi không phải URL",
               "expected_status": 400
             }
           ]
@@ -288,10 +288,10 @@
       "path": "/api/products/:id",
       "auth_required": true,
       "success_status": 200,
-      "preconditions": "San pham id=1 ton tai",
+      "preconditions": "Sản phẩm id=1 tồn tại",
       "headers": "Authorization: Bearer {{token_admin}}",
       "valid_body": {
-        "name": "SP Da Sua 23127060",
+        "name": "SP Đã Sửa 23127060",
         "price": 180000,
         "description": "Da cap nhat",
         "imageUrl": "https://example.com/b.png",
@@ -308,14 +308,14 @@
               "id": "valid",
               "value": 1,
               "valid": true,
-              "desc": "id ton tai",
+              "desc": "id tồn tại",
               "expected_status": 200
             },
             {
               "id": "not_exist",
               "value": 999999,
               "valid": false,
-              "desc": "id khong ton tai - phai tra 404",
+              "desc": "id không tồn tại - phải trả 404",
               "expected_status": 404,
               "bug": "C-07",
               "priority": "P0"
@@ -339,7 +339,7 @@
               "id": "string",
               "value": "abc",
               "valid": false,
-              "desc": "id khong phai so",
+              "desc": "id không phải số",
               "expected_status": 400
             },
             {
@@ -363,9 +363,9 @@
               "id": "omit",
               "omit": true,
               "valid": true,
-              "desc": "PUT khong gui description - KHONG duoc ghi de thanh null",
+              "desc": "PUT không gửi description - KHÔNG được ghi đè thành null",
               "expected_status": 200,
-              "assertions": "GET lai san pham: description phai giu nguyen gia tri cu",
+              "assertions": "GET lại sản phẩm: description phải giữ nguyên giá trị cũ",
               "bug": "C-09",
               "priority": "P0"
             },
@@ -380,7 +380,7 @@
               "id": "xss",
               "value": "<img src=x onerror=alert('23127060')>",
               "valid": false,
-              "desc": "stored XSS trong mo ta (FE dung dangerouslySetInnerHTML)",
+              "desc": "stored XSS trong mô tả (FE dùng dangerouslySetInnerHTML)",
               "expected_status": 400,
               "sec": "SEC-06",
               "bug": "C-11",
@@ -396,7 +396,7 @@
       "path": "/api/products/:id",
       "auth_required": true,
       "success_status": 200,
-      "preconditions": "San pham id=3 ton tai",
+      "preconditions": "Sản phẩm id=3 tồn tại",
       "headers": "Authorization: Bearer {{token_admin}}",
       "params": [
         {
@@ -409,15 +409,15 @@
               "id": "valid",
               "value": 3,
               "valid": true,
-              "desc": "xoa san pham ton tai",
+              "desc": "xóa sản phẩm tồn tại",
               "expected_status": 200,
-              "assertions": "GET lai id=3 phai tra 404"
+              "assertions": "GET lại id=3 phải trả 404"
             },
             {
               "id": "not_exist",
               "value": 999999,
               "valid": false,
-              "desc": "xoa id khong ton tai - phai 404",
+              "desc": "xóa id không tồn tại - phải 404",
               "expected_status": 404,
               "bug": "C-08",
               "priority": "P0"
@@ -426,7 +426,7 @@
               "id": "twice",
               "value": 3,
               "valid": false,
-              "desc": "xoa lan thu 2 cung id",
+              "desc": "xóa lần thứ 2 cùng id",
               "expected_status": 404,
               "bug": "C-08"
             },
@@ -434,7 +434,7 @@
               "id": "in_order",
               "value": 1,
               "valid": false,
-              "desc": "xoa san pham dang nam trong don hang - phai chan hoac soft delete",
+              "desc": "xóa sản phẩm đang nằm trong đơn hàng - phải chặn hoặc soft delete",
               "expected_status": 409,
               "priority": "P0"
             }
@@ -448,7 +448,7 @@
       "path": "/api/products",
       "auth_required": false,
       "success_status": 200,
-      "preconditions": "DB da seed san pham",
+      "preconditions": "DB đã seed sản phẩm",
       "params": [
         {
           "name": "search",
@@ -460,33 +460,33 @@
               "id": "valid",
               "value": "Laptop",
               "valid": true,
-              "desc": "tu khoa binh thuong",
+              "desc": "từ khóa bình thường",
               "expected_status": 200,
-              "assertions": "tra ve mang; moi phan tu co name chua 'Laptop'"
+              "assertions": "trả về mảng; mỗi phần tử có name chứa 'Laptop'"
             },
             {
               "id": "empty",
               "value": "",
               "valid": true,
-              "desc": "tu khoa rong - tra ve tat ca",
+              "desc": "từ khóa rỗng - trả về tất cả",
               "expected_status": 200
             },
             {
               "id": "no_result",
               "value": "KhongTonTai23127060",
               "valid": true,
-              "desc": "khong co ket qua - phai tra mang rong chu khong loi",
+              "desc": "không có kết quả - phải trả mảng rỗng chứ không lỗi",
               "expected_status": 200,
-              "assertions": "body la mang rong []"
+              "assertions": "body là mảng rỗng []"
             },
             {
               "id": "quote",
               "value": "%27",
               "valid": false,
-              "desc": "1 dau nhay don lam vo cau SQL",
+              "desc": "1 dấu nháy đơn làm vỡ câu SQL",
               "expected_status": 400,
               "sec": "SEC-01",
-              "assertions": "khong tra 500; khong tra HTML",
+              "assertions": "không trả 500; không trả HTML",
               "bug": "C-02",
               "priority": "P0"
             },
@@ -494,7 +494,7 @@
               "id": "sqli_or",
               "value": "%25%27%20OR%20%271%27%3D%271",
               "valid": false,
-              "desc": "SQLi OR 1=1 - lay toan bo san pham",
+              "desc": "SQLi OR 1=1 - lấy toàn bộ sản phẩm",
               "expected_status": 400,
               "sec": "SEC-01",
               "bug": "C-02",
@@ -504,10 +504,10 @@
               "id": "sqli_union",
               "value": "%25%27%20UNION%20SELECT%20id%2Cemail%2Cpassword%2C1%2C1%2C1%20FROM%20users--",
               "valid": false,
-              "desc": "SQLi UNION doc bang users",
+              "desc": "SQLi UNION đọc bảng users",
               "expected_status": 400,
               "sec": "SEC-01",
-              "assertions": "response KHONG chua email hoac password cua user",
+              "assertions": "response KHÔNG chứa email hoặc password của user",
               "bug": "C-02",
               "priority": "P0"
             },
@@ -518,7 +518,7 @@
               "desc": "SQLi stacked query DROP TABLE",
               "expected_status": 400,
               "sec": "SEC-01",
-              "assertions": "bang products van con; GET /api/products sau do van hoat dong",
+              "assertions": "bảng products vẫn còn; GET /api/products sau đó vẫn hoạt động",
               "bug": "C-02",
               "priority": "P0"
             },
@@ -526,17 +526,17 @@
               "id": "xss",
               "value": "%3Cscript%3Ealert(1)%3C%2Fscript%3E",
               "valid": false,
-              "desc": "reflected XSS trong tu khoa",
+              "desc": "reflected XSS trong từ khóa",
               "expected_status": 200,
               "sec": "SEC-06",
-              "assertions": "response khong echo lai the script chua escape"
+              "assertions": "response không echo lại thẻ script chưa escape"
             },
             {
               "id": "very_long",
               "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "valid": true,
               "boundary": true,
-              "desc": "BVA - tu khoa rat dai",
+              "desc": "BVA - từ khóa rất dài",
               "expected_status": 200
             }
           ]
@@ -560,7 +560,7 @@
               "id": "odd",
               "value": 1,
               "valid": true,
-              "desc": "id le - price phai la number",
+              "desc": "id lẻ - price phải là number",
               "expected_status": 200,
               "assertions": "typeof price === 'number'"
             },
@@ -568,9 +568,9 @@
               "id": "even",
               "value": 2,
               "valid": true,
-              "desc": "id chan - price bi chuyen thanh string",
+              "desc": "id chẵn - price bị chuyển thành string",
               "expected_status": 200,
-              "assertions": "typeof price === 'number' (hien tai la string)",
+              "assertions": "typeof price === 'number' (hiện tại là string)",
               "bug": "C-05",
               "priority": "P0"
             },
@@ -578,9 +578,9 @@
               "id": "not_exist",
               "value": 999999,
               "valid": false,
-              "desc": "id khong ton tai - phai 404 chu khong phai 200 {}",
+              "desc": "id không tồn tại - phải 404 chứ không phải 200 {}",
               "expected_status": 404,
-              "assertions": "status 404; body co truong error",
+              "assertions": "status 404; body có trường error",
               "bug": "C-04",
               "priority": "P0"
             }
@@ -590,7 +590,7 @@
     }
   ],
   "state_machine": {
-    "name": "Vong doi san pham",
+    "name": "Vòng đời sản phẩm",
     "endpoint": "/api/products",
     "method": "POST",
     "states": [
@@ -613,7 +613,7 @@
           "category_id": 1
         },
         "expected_status": 201,
-        "assertions": "tra 201 kem Location hoac id; GET lai thay san pham",
+        "assertions": "trả 201 kèm Location hoặc id; GET lại thấy sản phẩm",
         "bug": "C-12"
       },
       {
@@ -647,7 +647,7 @@
         "endpoint": "/api/products/{{newProductId}}",
         "body": {},
         "expected_status": 404,
-        "assertions": "phai 404, khong duoc tra 200 voi body rong",
+        "assertions": "phải 404, không được trả 200 với body rỗng",
         "bug": "C-04",
         "priority": "P0"
       },
@@ -663,7 +663,7 @@
           "price": 1
         },
         "expected_status": 404,
-        "assertions": "khong duoc sua san pham da xoa",
+        "assertions": "không được sửa sản phẩm đã xóa",
         "bug": "C-07",
         "priority": "P0"
       },
@@ -676,7 +676,7 @@
         "headers": "Authorization: Bearer {{token_admin}}",
         "body": {},
         "expected_status": 404,
-        "assertions": "xoa lan 2 phai 404",
+        "assertions": "xóa lần 2 phải 404",
         "bug": "C-08",
         "priority": "P0"
       },
@@ -693,7 +693,7 @@
           "category_id": 1
         },
         "expected_status": 409,
-        "preconditions": "Tao trung ten san pham"
+        "preconditions": "Tạo trùng tên sản phẩm"
       },
       {
         "from": "CREATED",
@@ -703,7 +703,7 @@
         "endpoint": "/api/products?search=SP%20STA%2023127060",
         "body": {},
         "expected_status": 200,
-        "assertions": "san pham vua tao xuat hien trong ket qua tim kiem"
+        "assertions": "sản phẩm vừa tạo xuất hiện trong kết quả tìm kiếm"
       },
       {
         "from": "DELETED",
@@ -713,7 +713,7 @@
         "endpoint": "/api/products?search=SP%20STA%2023127060",
         "body": {},
         "expected_status": 200,
-        "assertions": "san pham da xoa KHONG con trong ket qua tim kiem"
+        "assertions": "sản phẩm đã xóa KHÔNG còn trong kết quả tìm kiếm"
       }
     ]
   },
@@ -721,11 +721,11 @@
     {
       "sec": "SEC-01",
       "technique": "SQL Injection",
-      "title": "UNION SELECT doc bang users qua ?search",
+      "title": "UNION SELECT đọc bảng users qua ?search",
       "method": "GET",
       "endpoint": "/api/products?search=%25%27%20UNION%20SELECT%20id%2Cemail%2Cpassword%2C1%2C1%2C1%20FROM%20users--",
       "expected_status": 400,
-      "assertions": "response KHONG chua email/password cua user; khong tra 500",
+      "assertions": "response KHÔNG chứa email/password của user; không trả 500",
       "bug": "C-02",
       "priority": "P0"
     },
@@ -736,34 +736,34 @@
       "method": "GET",
       "endpoint": "/api/products?search=a%27%3B%20DROP%20TABLE%20products--",
       "expected_status": 400,
-      "assertions": "bang products van ton tai sau khi goi",
+      "assertions": "bảng products vẫn tồn tại sau khi gọi",
       "bug": "C-02",
       "priority": "P0"
     },
     {
       "sec": "SEC-02",
       "technique": "Information Disclosure",
-      "title": "Loi SQL khong duoc tra ve HTML kem thong diep DB",
+      "title": "Lỗi SQL không được trả về HTML kèm thông điệp DB",
       "method": "GET",
       "endpoint": "/api/products?search=%27--",
       "expected_status": 400,
-      "assertions": "Content-Type application/json; body khong chua <h1>Database Error",
+      "assertions": "Content-Type application/json; body không chứa <h1>Database Error",
       "bug": "C-03",
       "priority": "P0"
     },
     {
       "sec": "SEC-02",
       "technique": "Information Disclosure",
-      "title": "Response san pham khong lo truong noi bo khi bat co debug",
+      "title": "Response sản phẩm không lộ trường nội bộ khi bật cờ debug",
       "method": "GET",
       "endpoint": "/api/products/1?debug=true",
       "expected_status": 200,
-      "assertions": "khong co truong cost_price, internal_note, created_by hay tuong tu"
+      "assertions": "không có trường cost_price, internal_note, created_by hay tương tự"
     },
     {
       "sec": "SEC-03",
       "technique": "Missing Authentication",
-      "title": "Tao san pham KHONG kem token",
+      "title": "Tạo sản phẩm KHÔNG kèm token",
       "method": "POST",
       "endpoint": "/api/products",
       "headers": "-",
@@ -773,14 +773,14 @@
         "category_id": 1
       },
       "expected_status": 401,
-      "assertions": "san pham KHONG duoc tao; kiem tra bang GET /api/products?search=Hacked",
+      "assertions": "sản phẩm KHÔNG được tạo; kiểm tra bằng GET /api/products?search=Hacked",
       "bug": "C-01",
       "priority": "P0"
     },
     {
       "sec": "SEC-03",
       "technique": "Missing Authentication",
-      "title": "Sua san pham KHONG kem token",
+      "title": "Sửa sản phẩm KHÔNG kèm token",
       "method": "PUT",
       "endpoint": "/api/products/1",
       "headers": "-",
@@ -795,20 +795,20 @@
     {
       "sec": "SEC-03",
       "technique": "Missing Authentication",
-      "title": "Xoa san pham KHONG kem token",
+      "title": "Xóa sản phẩm KHÔNG kèm token",
       "method": "DELETE",
       "endpoint": "/api/products/2",
       "headers": "-",
       "body": {},
       "expected_status": 401,
-      "assertions": "san pham id=2 van con sau khi goi",
+      "assertions": "sản phẩm id=2 vẫn còn sau khi gọi",
       "bug": "C-01",
       "priority": "P0"
     },
     {
       "sec": "SEC-03",
       "technique": "Broken JWT",
-      "title": "Token sai chu ky khi tao san pham",
+      "title": "Token sai chữ ký khi tạo sản phẩm",
       "method": "POST",
       "endpoint": "/api/products",
       "headers": "Authorization: Bearer abc.def.ghi23127060",
@@ -824,7 +824,7 @@
     {
       "sec": "SEC-04",
       "technique": "IDOR",
-      "title": "User thuong sua san pham cua he thong",
+      "title": "User thường sửa sản phẩm của hệ thống",
       "method": "PUT",
       "endpoint": "/api/products/1",
       "headers": "Authorization: Bearer {{token_user}}",
@@ -839,24 +839,24 @@
     {
       "sec": "SEC-05",
       "technique": "Privilege Escalation",
-      "title": "User thuong (role=user) tao san pham",
+      "title": "User thường (role=user) tạo sản phẩm",
       "method": "POST",
       "endpoint": "/api/products",
       "headers": "Authorization: Bearer {{token_user}}",
       "body": {
-        "name": "User tao 23127060",
+        "name": "User tạo 23127060",
         "price": 5000,
         "category_id": 1
       },
       "expected_status": 403,
-      "assertions": "chi role=admin moi duoc tao san pham",
+      "assertions": "chỉ role=admin mới được tạo sản phẩm",
       "bug": "C-01",
       "priority": "P0"
     },
     {
       "sec": "SEC-05",
       "technique": "Privilege Escalation",
-      "title": "User thuong xoa san pham",
+      "title": "User thường xóa sản phẩm",
       "method": "DELETE",
       "endpoint": "/api/products/2",
       "headers": "Authorization: Bearer {{token_user}}",
@@ -868,7 +868,7 @@
     {
       "sec": "SEC-06",
       "technique": "Stored XSS",
-      "title": "Luu the script vao ten san pham roi doc lai",
+      "title": "Lưu thẻ script vào tên sản phẩm rồi đọc lại",
       "method": "POST",
       "endpoint": "/api/products",
       "headers": "Authorization: Bearer {{token_admin}}",
@@ -878,31 +878,31 @@
         "category_id": 1
       },
       "expected_status": 400,
-      "assertions": "bi tu choi HOAC khi GET lai phai duoc escape",
+      "assertions": "bị từ chối HOẶC khi GET lại phải được escape",
       "bug": "C-11",
       "priority": "P0"
     },
     {
       "sec": "SEC-06",
       "technique": "Mass Assignment",
-      "title": "Gui kem truong id de ghi de khoa chinh",
+      "title": "Gửi kèm trường id để ghi đè khóa chính",
       "method": "POST",
       "endpoint": "/api/products",
       "headers": "Authorization: Bearer {{token_admin}}",
       "body": {
         "id": 1,
-        "name": "Ghi de id 23127060",
+        "name": "Ghi đè id 23127060",
         "price": 1000,
         "category_id": 1
       },
       "expected_status": 400,
-      "assertions": "san pham id=1 cu KHONG bi ghi de",
+      "assertions": "sản phẩm id=1 cũ KHÔNG bị ghi đè",
       "priority": "P0"
     },
     {
       "sec": "SEC-07",
       "technique": "Abuse / DoS",
-      "title": "Tao 50 san pham lien tiep phai bi rate-limit",
+      "title": "Tạo 50 sản phẩm liên tiếp phải bị rate-limit",
       "method": "POST",
       "endpoint": "/api/products",
       "headers": "Authorization: Bearer {{token_admin}}",
@@ -917,23 +917,23 @@
   ],
   "schema_cases": [
     {
-      "title": "GET /api/products tra ve mang doi tuong dung schema",
+      "title": "GET /api/products trả về mảng đối tượng đúng schema",
       "method": "GET",
       "endpoint": "/api/products",
       "expected_status": 200,
       "schema_ref": "products_array",
-      "assertions": "body la array; moi phan tu co id (integer), name (string), price (number)"
+      "assertions": "body là array; mỗi phần tử có id (integer), name (string), price (number)"
     },
     {
-      "title": "GET /api/products/1 khop schema san pham don",
+      "title": "GET /api/products/1 khớp schema sản phẩm đơn",
       "method": "GET",
       "endpoint": "/api/products/1",
       "expected_status": 200,
       "schema_ref": "product_schema",
-      "assertions": "body khop jsonSchema product_schema; additionalProperties=false"
+      "assertions": "body khớp jsonSchema product_schema; additionalProperties=false"
     },
     {
-      "title": "price luon la number ke ca voi id chan",
+      "title": "price luôn là number kể cả với id chẵn",
       "method": "GET",
       "endpoint": "/api/products/2",
       "expected_status": 200,
@@ -948,21 +948,21 @@
       "endpoint": "/api/products/999999",
       "expected_status": 404,
       "schema_ref": "error_schema",
-      "assertions": "status 404; body khop { error: string }",
+      "assertions": "status 404; body khớp { error: string }",
       "bug": "C-04",
       "priority": "P0"
     },
     {
-      "title": "Response loi luon la application/json chu khong phai HTML",
+      "title": "Response lỗi luôn là application/json chứ không phải HTML",
       "method": "GET",
       "endpoint": "/api/products?search=%27",
       "expected_status": 400,
-      "assertions": "Content-Type application/json; body khong chua <h1>",
+      "assertions": "Content-Type application/json; body không chứa <h1>",
       "bug": "C-03",
       "priority": "P0"
     },
     {
-      "title": "POST thanh cong tra ve 201 va body chua id vua tao",
+      "title": "POST thành công trả về 201 và body chứa id vừa tạo",
       "method": "POST",
       "endpoint": "/api/products",
       "headers": "Authorization: Bearer {{token_admin}}",
@@ -973,7 +973,7 @@
       },
       "expected_status": 201,
       "schema_ref": "create_success",
-      "assertions": "status 201; body co id kieu integer",
+      "assertions": "status 201; body có id kiểu integer",
       "bug": "C-12"
     }
   ]

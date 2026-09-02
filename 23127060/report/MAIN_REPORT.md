@@ -221,9 +221,9 @@ Chi tiết: [`report/04_extend.md`](04_extend.md).
 
 | API | Case | PASS | FAIL | Assertion | Assertion FAIL | Báo cáo |
 |---|---|---|---|---|---|---|
-| API-1 | 70 | 33 | 37 | 328 | 51 | `newman/23127060_API-1_20260901-151823.html` |
-| API-2 | 87 | 34 | 53 | 413 | 78 | `newman/23127060_API-2_20260901-151831.html` |
-| API-3 | 86 | 17 | 69 | 405 | 105 | `newman/23127060_API-3_20260901-151839.html` |
+| API-1 | 70 | 33 | 37 | 328 | 51 | `newman/23127060_API-1_20260902-235242.html` |
+| API-2 | 87 | 34 | 53 | 413 | 78 | `newman/23127060_API-2_20260902-235253.html` |
+| API-3 | 86 | 17 | 69 | 405 | 105 | `newman/23127060_API-3_20260902-235305.html` |
 | **Tổng** | **243** | **84** | **159** | **1146** | **234** | |
 
 Trong 159 case thất bại: **91 case gắn `@bug`** (thất bại có chủ đích, phơi bày bug đã biết) và

@@ -3,7 +3,7 @@
   "tc_prefix": "A1",
   "pool": "A",
   "fr": "FR-03",
-  "name": "Quen mat khau va Dat lai mat khau",
+  "name": "Quên mật khẩu và Đặt lại mật khẩu",
   "base_url": "{{baseUrl}}",
   "endpoints": [
     {
@@ -12,7 +12,7 @@
       "path": "/api/forgot-password",
       "auth_required": false,
       "success_status": 200,
-      "preconditions": "User api.victim.23127060@test.local da ton tai",
+      "preconditions": "User api.victim.23127060@test.local đã tồn tại",
       "valid_body": { "email": "api.victim.23127060@test.local" },
       "params": [
         {
@@ -21,16 +21,16 @@
           "type": "string",
           "required": true,
           "partitions": [
-            { "id": "valid", "value": "api.victim.23127060@test.local", "valid": true, "desc": "email ton tai", "expected_status": 200, "assertions": "body co message; body KHONG chua resetToken", "priority": "P0", "bug": "A-01" },
-            { "id": "not_exist", "value": "khongtontai.23127060@test.local", "valid": false, "desc": "email khong ton tai - khong duoc lo user enumeration", "expected_status": 200, "assertions": "tra ve thong diep chung chung giong truong hop ton tai", "priority": "P0", "bug": "A-03" },
-            { "id": "empty", "value": "", "valid": false, "desc": "email rong", "expected_status": 400 },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu key email", "expected_status": 400 },
+            { "id": "valid", "value": "api.victim.23127060@test.local", "valid": true, "desc": "email tồn tại", "expected_status": 200, "assertions": "body có message; body KHÔNG chứa resetToken", "priority": "P0", "bug": "A-01" },
+            { "id": "not_exist", "value": "khongtontai.23127060@test.local", "valid": false, "desc": "email không tồn tại - không được lộ user enumeration", "expected_status": 200, "assertions": "trả về thông điệp chung chung giống trường hợp tồn tại", "priority": "P0", "bug": "A-03" },
+            { "id": "empty", "value": "", "valid": false, "desc": "email rỗng", "expected_status": 400 },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu key email", "expected_status": 400 },
             { "id": "null", "value": null, "valid": false, "desc": "email null", "expected_status": 400 },
-            { "id": "wrong_type", "value": 12345, "valid": false, "desc": "email sai kieu (number)", "expected_status": 400 },
-            { "id": "malformed", "value": "abc@@test", "valid": false, "desc": "email sai dinh dang", "expected_status": 400 },
-            { "id": "too_long", "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@test.local", "valid": false, "boundary": true, "desc": "BVA - email vuot 254 ky tu", "expected_status": 400 },
-            { "id": "case_diff", "value": "API.VICTIM.23127060@TEST.LOCAL", "valid": true, "desc": "email khac hoa thuong - phai coi la cung 1 user", "expected_status": 200 },
-            { "id": "whitespace", "value": "  api.victim.23127060@test.local  ", "valid": true, "desc": "email co khoang trang thua - phai trim", "expected_status": 200 },
+            { "id": "wrong_type", "value": 12345, "valid": false, "desc": "email sai kiểu (number)", "expected_status": 400 },
+            { "id": "malformed", "value": "abc@@test", "valid": false, "desc": "email sai định dạng", "expected_status": 400 },
+            { "id": "too_long", "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@test.local", "valid": false, "boundary": true, "desc": "BVA - email vượt 254 ký tự", "expected_status": 400 },
+            { "id": "case_diff", "value": "API.VICTIM.23127060@TEST.LOCAL", "valid": true, "desc": "email khác hoa thường - phải coi là cùng 1 user", "expected_status": 200 },
+            { "id": "whitespace", "value": "  api.victim.23127060@test.local  ", "valid": true, "desc": "email có khoảng trắng thừa - phải trim", "expected_status": 200 },
             { "id": "array", "value": ["a@b.c"], "valid": false, "desc": "email la array", "expected_status": 400 }
           ]
         }
@@ -42,7 +42,7 @@
       "path": "/api/reset-password",
       "auth_required": false,
       "success_status": 200,
-      "preconditions": "Da goi forgot-password va co {{resetToken}}",
+      "preconditions": "Đã gọi forgot-password và có {{resetToken}}",
       "valid_body": {
         "email": "api.victim.23127060@test.local",
         "resetToken": "{{resetToken}}",
@@ -55,9 +55,9 @@
           "type": "string",
           "required": true,
           "partitions": [
-            { "id": "valid", "value": "api.victim.23127060@test.local", "valid": true, "desc": "email dung chu token", "expected_status": 200, "assertions": "body co message; login bang mat khau moi thanh cong; login bang mat khau cu that bai", "priority": "P0" },
-            { "id": "other_user", "value": "api.attacker.23127060@test.local", "valid": false, "desc": "dung token cua user khac", "expected_status": 400, "sec": "SEC-04", "priority": "P0" },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu key email", "expected_status": 400 },
+            { "id": "valid", "value": "api.victim.23127060@test.local", "valid": true, "desc": "email đúng chứ token", "expected_status": 200, "assertions": "body có message; login bằng mật khẩu mới thành công; login bằng mật khẩu cũ thất bại", "priority": "P0" },
+            { "id": "other_user", "value": "api.attacker.23127060@test.local", "valid": false, "desc": "dùng token của user khác", "expected_status": 400, "sec": "SEC-04", "priority": "P0" },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu key email", "expected_status": 400 },
             { "id": "null", "value": null, "valid": false, "desc": "email null", "expected_status": 400 }
           ]
         },
@@ -68,14 +68,14 @@
           "required": true,
           "partitions": [
             { "id": "wrong", "value": "0000", "valid": false, "desc": "token sai", "expected_status": 400 },
-            { "id": "empty", "value": "", "valid": false, "desc": "token rong", "expected_status": 400 },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu token", "expected_status": 400 },
+            { "id": "empty", "value": "", "valid": false, "desc": "token rỗng", "expected_status": 400 },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu token", "expected_status": 400 },
             { "id": "null", "value": null, "valid": false, "desc": "token null", "expected_status": 400 },
-            { "id": "len3", "value": "123", "valid": false, "boundary": true, "desc": "BVA - token 3 ky tu (duoi bien)", "expected_status": 400 },
-            { "id": "len5", "value": "12345", "valid": false, "boundary": true, "desc": "BVA - token 5 ky tu (tren bien)", "expected_status": 400 },
-            { "id": "sqli", "value": "' OR '1'='1", "valid": false, "desc": "token chua SQLi", "expected_status": 400, "sec": "SEC-01", "priority": "P0" },
-            { "id": "wrong_type", "value": 1234, "valid": false, "desc": "token sai kieu (number)", "expected_status": 400 },
-            { "id": "expired", "value": "{{oldResetToken}}", "valid": false, "desc": "token cu sau khi xin token moi - phai het hieu luc", "expected_status": 400, "bug": "A-04", "priority": "P0" }
+            { "id": "len3", "value": "123", "valid": false, "boundary": true, "desc": "BVA - token 3 ký tự (dưới biên)", "expected_status": 400 },
+            { "id": "len5", "value": "12345", "valid": false, "boundary": true, "desc": "BVA - token 5 ký tự (trên biên)", "expected_status": 400 },
+            { "id": "sqli", "value": "' OR '1'='1", "valid": false, "desc": "token chứa SQLi", "expected_status": 400, "sec": "SEC-01", "priority": "P0" },
+            { "id": "wrong_type", "value": 1234, "valid": false, "desc": "token sai kiểu (number)", "expected_status": 400 },
+            { "id": "expired", "value": "{{oldResetToken}}", "valid": false, "desc": "token cũ sau khi xin token mới - phải hết hiệu lực", "expected_status": 400, "bug": "A-04", "priority": "P0" }
           ]
         },
         {
@@ -84,61 +84,61 @@
           "type": "string",
           "required": true,
           "partitions": [
-            { "id": "valid", "value": "NewApi1234!", "valid": true, "desc": "mat khau manh hop le", "expected_status": 200 },
-            { "id": "empty", "value": "", "valid": false, "desc": "mat khau rong", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu newPassword", "expected_status": 400 },
+            { "id": "valid", "value": "NewApi1234!", "valid": true, "desc": "mật khẩu mạnh hợp lệ", "expected_status": 200 },
+            { "id": "empty", "value": "", "valid": false, "desc": "mật khẩu rỗng", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu newPassword", "expected_status": 400 },
             { "id": "null", "value": null, "valid": false, "desc": "newPassword null", "expected_status": 400 },
-            { "id": "len7", "value": "Ab1234!", "valid": false, "boundary": true, "desc": "BVA - 7 ky tu (duoi bien toi thieu 8)", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
-            { "id": "len8", "value": "Ab1234!x", "valid": true, "boundary": true, "desc": "BVA - dung 8 ky tu", "expected_status": 200 },
-            { "id": "no_upper", "value": "abcd1234!", "valid": false, "desc": "thieu chu hoa", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
-            { "id": "no_digit", "value": "Abcdefgh!", "valid": false, "desc": "thieu chu so", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
-            { "id": "weak", "value": "123456", "valid": false, "desc": "mat khau qua yeu pho bien", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
-            { "id": "xss", "value": "<script>alert(1)</script>", "valid": false, "desc": "payload XSS lam mat khau", "expected_status": 400, "sec": "SEC-06" },
-            { "id": "same_as_old", "value": "Api1234!", "valid": false, "desc": "dat lai dung mat khau cu", "expected_status": 400 },
-            { "id": "very_long", "value": "A1!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "valid": false, "boundary": true, "desc": "BVA - vuot do dai toi da 128", "expected_status": 400 }
+            { "id": "len7", "value": "Ab1234!", "valid": false, "boundary": true, "desc": "BVA - 7 ký tự (dưới biên tối thiểu 8)", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
+            { "id": "len8", "value": "Ab1234!x", "valid": true, "boundary": true, "desc": "BVA - đúng 8 ký tự", "expected_status": 200 },
+            { "id": "no_upper", "value": "abcd1234!", "valid": false, "desc": "thiếu chữ hoa", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
+            { "id": "no_digit", "value": "Abcdefgh!", "valid": false, "desc": "thiếu chữ số", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
+            { "id": "weak", "value": "123456", "valid": false, "desc": "mật khẩu quá yếu phổ biến", "expected_status": 400, "sec": "SEC-06", "bug": "A-05" },
+            { "id": "xss", "value": "<script>alert(1)</script>", "valid": false, "desc": "payload XSS làm mật khẩu", "expected_status": 400, "sec": "SEC-06" },
+            { "id": "same_as_old", "value": "Api1234!", "valid": false, "desc": "đặt lại đúng mật khẩu cũ", "expected_status": 400 },
+            { "id": "very_long", "value": "A1!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "valid": false, "boundary": true, "desc": "BVA - vượt độ dài tối đa 128", "expected_status": 400 }
           ]
         }
       ]
     }
   ],
   "state_machine": {
-    "name": "Vong doi reset token",
+    "name": "Vòng đời reset token",
     "endpoint": "/api/reset-password",
     "method": "POST",
     "states": ["NONE", "ISSUED", "USED"],
     "transitions": [
-      { "from": "NONE", "to": "USED", "allowed": false, "endpoint": "/api/reset-password", "method": "POST", "preconditions": "Chua goi forgot-password lan nao", "body": { "email": "api.victim.23127060@test.local", "resetToken": "1234", "newPassword": "NewApi1234!" }, "expected_status": 400, "assertions": "body.error co gia tri; mat khau KHONG doi" },
-      { "from": "NONE", "to": "ISSUED", "allowed": true, "endpoint": "/api/forgot-password", "method": "POST", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 200, "assertions": "token duoc tao va gui qua kenh ngoai band; KHONG tra trong response", "bug": "A-01" },
-      { "from": "ISSUED", "to": "USED", "allowed": true, "endpoint": "/api/reset-password", "method": "POST", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!" }, "expected_status": 200, "assertions": "reset_token bi xoa; login bang mat khau moi OK" },
-      { "from": "USED", "to": "USED", "allowed": false, "endpoint": "/api/reset-password", "method": "POST", "preconditions": "Token da dung 1 lan", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "AnotherApi1234!" }, "expected_status": 400, "assertions": "token dung 1 lan duy nhat" },
-      { "from": "ISSUED", "to": "ISSUED", "allowed": true, "endpoint": "/api/forgot-password", "method": "POST", "preconditions": "Da co token, xin token moi", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 200, "assertions": "token cu phai bi vo hieu hoa", "bug": "A-04" },
-      { "from": "ISSUED", "to": "EXPIRED", "allowed": true, "endpoint": "/api/reset-password", "method": "POST", "preconditions": "Token duoc tao qua thoi han (mo phong bang cach sua reset_token_expiry trong DB)", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!" }, "expected_status": 400, "assertions": "token het han bi tu choi", "bug": "A-04", "priority": "P0" },
-      { "from": "LOCKED", "to": "USED", "allowed": true, "endpoint": "/api/reset-password", "method": "POST", "preconditions": "Tai khoan dang bi khoa do login sai 3 lan", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!" }, "expected_status": 200, "assertions": "sau khi reset, login_attempts=0 va locked_until=NULL; login duoc ngay", "bug": "A-06", "priority": "P0" },
-      { "from": "USED", "to": "LOGIN_OLD", "allowed": false, "endpoint": "/api/login", "method": "POST", "preconditions": "Da reset mat khau thanh cong", "body": { "email": "api.victim.23127060@test.local", "password": "Api1234!" }, "expected_status": 401, "assertions": "mat khau cu khong con dung duoc" },
-      { "from": "USED", "to": "LOGIN_NEW", "allowed": true, "endpoint": "/api/login", "method": "POST", "preconditions": "Da reset mat khau thanh cong", "body": { "email": "api.victim.23127060@test.local", "password": "NewApi1234!" }, "expected_status": 200, "assertions": "tra ve token JWT; body KHONG chua truong password", "bug": "A-07" }
+      { "from": "NONE", "to": "USED", "allowed": false, "endpoint": "/api/reset-password", "method": "POST", "preconditions": "Chua goi forgot-password lan nao", "body": { "email": "api.victim.23127060@test.local", "resetToken": "1234", "newPassword": "NewApi1234!" }, "expected_status": 400, "assertions": "body.error có giá trị; mật khẩu KHÔNG đổi" },
+      { "from": "NONE", "to": "ISSUED", "allowed": true, "endpoint": "/api/forgot-password", "method": "POST", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 200, "assertions": "token được tạo và gửi qua kênh ngoài băng; KHÔNG trả trong response", "bug": "A-01" },
+      { "from": "ISSUED", "to": "USED", "allowed": true, "endpoint": "/api/reset-password", "method": "POST", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!" }, "expected_status": 200, "assertions": "reset_token bị xóa; login bằng mật khẩu mới OK" },
+      { "from": "USED", "to": "USED", "allowed": false, "endpoint": "/api/reset-password", "method": "POST", "preconditions": "Token đã dùng 1 lần", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "AnotherApi1234!" }, "expected_status": 400, "assertions": "token dùng 1 lần duy nhất" },
+      { "from": "ISSUED", "to": "ISSUED", "allowed": true, "endpoint": "/api/forgot-password", "method": "POST", "preconditions": "Đã có token, xin token mới", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 200, "assertions": "token cũ phải bị vô hiệu hóa", "bug": "A-04" },
+      { "from": "ISSUED", "to": "EXPIRED", "allowed": true, "endpoint": "/api/reset-password", "method": "POST", "preconditions": "Token được tạo quá thời hạn (mô phỏng bằng cách sửa reset_token_expiry trong DB)", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!" }, "expected_status": 400, "assertions": "token hết hạn bị từ chối", "bug": "A-04", "priority": "P0" },
+      { "from": "LOCKED", "to": "USED", "allowed": true, "endpoint": "/api/reset-password", "method": "POST", "preconditions": "Tài khoản đang bị khóa do login sai 3 lần", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!" }, "expected_status": 200, "assertions": "sau khi reset, login_attempts=0 và locked_until=NULL; login được ngay", "bug": "A-06", "priority": "P0" },
+      { "from": "USED", "to": "LOGIN_OLD", "allowed": false, "endpoint": "/api/login", "method": "POST", "preconditions": "Đã reset mật khẩu thành công", "body": { "email": "api.victim.23127060@test.local", "password": "Api1234!" }, "expected_status": 401, "assertions": "mật khẩu cũ không còn dùng được" },
+      { "from": "USED", "to": "LOGIN_NEW", "allowed": true, "endpoint": "/api/login", "method": "POST", "preconditions": "Đã reset mật khẩu thành công", "body": { "email": "api.victim.23127060@test.local", "password": "NewApi1234!" }, "expected_status": 200, "assertions": "trả về token JWT; body KHÔNG chứa trường password", "bug": "A-07" }
     ]
   },
   "security": [
-    { "sec": "SEC-01", "technique": "SQL Injection", "title": "SQLi qua truong email cua forgot-password", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "' OR '1'='1' --" }, "expected_status": 400, "priority": "P0" },
-    { "sec": "SEC-01", "technique": "SQL Injection", "title": "SQLi qua resetToken de bypass kiem tra token", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "resetToken": "' OR '1'='1", "newPassword": "Hacked1234!" }, "expected_status": 400, "assertions": "mat khau KHONG bi doi; kiem tra bang cach login lai bang mat khau cu", "priority": "P0" },
-    { "sec": "SEC-02", "technique": "Information Disclosure", "title": "Response cua forgot-password khong duoc chua resetToken", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 200, "assertions": "body KHONG co truong resetToken; body KHONG co truong password", "bug": "A-01", "priority": "P0" },
-    { "sec": "SEC-02", "technique": "User Enumeration", "title": "Thong diep phai giong nhau giua email ton tai va khong ton tai", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "khongtontai.23127060@test.local" }, "expected_status": 200, "assertions": "status va message giong het truong hop email ton tai", "bug": "A-03", "priority": "P0" },
-    { "sec": "SEC-02", "technique": "Information Disclosure", "title": "Response cua login khong duoc chua hash/plaintext mat khau", "method": "POST", "endpoint": "/api/login", "body": { "email": "api.victim.23127060@test.local", "password": "Api1234!" }, "expected_status": 200, "assertions": "body.user KHONG co truong password", "bug": "A-07", "priority": "P0" },
-    { "sec": "SEC-03", "technique": "Broken Authentication", "title": "Reset password khong duoc chap nhan khi thieu ca token lan xac thuc", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "newPassword": "Hacked1234!" }, "expected_status": 400 },
-    { "sec": "SEC-04", "technique": "IDOR", "title": "Dung token cua user A de doi mat khau user B", "method": "POST", "endpoint": "/api/reset-password", "preconditions": "Attacker tu xin token cho chinh minh", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{attackerResetToken}}", "newPassword": "Hacked1234!" }, "expected_status": 400, "assertions": "mat khau cua victim KHONG doi", "priority": "P0" },
-    { "sec": "SEC-05", "technique": "Privilege Escalation", "title": "Reset password khong duoc cho phep gui kem truong role", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!", "role": "admin" }, "expected_status": 200, "assertions": "sau khi reset, GET /api/users/me tra role='user' chu KHONG phai 'admin'", "priority": "P0" },
-    { "sec": "SEC-06", "technique": "Input Validation / XSS", "title": "Email chua payload XSS phai bi tu choi hoac escape", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "<img src=x onerror=alert(1)>@test.local" }, "expected_status": 400 },
-    { "sec": "SEC-06", "technique": "Input Validation", "title": "Path traversal trong email khong duoc gay loi 500", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "../../etc/passwd" }, "expected_status": 400, "assertions": "khong tra 500; khong lo stack trace" },
-    { "sec": "SEC-07", "technique": "Brute Force", "title": "Do 20 gia tri token 4 chu so lien tiep phai bi chan", "method": "POST", "endpoint": "/api/reset-password", "preconditions": "Chay bang Collection Runner voi data file postman/data/brute_force_tokens.csv", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{bruteToken}}", "newPassword": "Hacked1234!" }, "expected_status": 429, "assertions": "sau N lan sai lien tiep phai bi rate-limit hoac khoa; khong duoc cho thu vo han", "bug": "A-02", "priority": "P0" },
-    { "sec": "SEC-07", "technique": "Brute Force", "title": "Do mat khau login lien tiep phai bi khoa dung sau 3 lan", "method": "POST", "endpoint": "/api/login", "preconditions": "Chay 3 lan lien tiep voi mat khau sai", "body": { "email": "api.victim.23127060@test.local", "password": "SaiRoi123!" }, "expected_status": 403, "assertions": "lan thu 3 moi bi khoa (khong duoc khoa som o lan thu 2 do login_attempts+2)", "bug": "A-09", "priority": "P0" },
-    { "sec": "SEC-07", "technique": "Rate Limiting", "title": "Spam forgot-password 10 lan lien tiep phai bi gioi han", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 429, "assertions": "co rate limit tren endpoint cong khai" }
+    { "sec": "SEC-01", "technique": "SQL Injection", "title": "SQLi qua trường email của forgot-password", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "' OR '1'='1' --" }, "expected_status": 400, "priority": "P0" },
+    { "sec": "SEC-01", "technique": "SQL Injection", "title": "SQLi qua resetToken để bypass kiểm tra token", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "resetToken": "' OR '1'='1", "newPassword": "Hacked1234!" }, "expected_status": 400, "assertions": "mật khẩu KHÔNG bị đổi; kiểm tra bằng cách login lại bằng mật khẩu cũ", "priority": "P0" },
+    { "sec": "SEC-02", "technique": "Information Disclosure", "title": "Response của forgot-password không được chứa resetToken", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 200, "assertions": "body KHÔNG có trường resetToken; body KHÔNG có trường password", "bug": "A-01", "priority": "P0" },
+    { "sec": "SEC-02", "technique": "User Enumeration", "title": "Thông điệp phải giống nhau giữa email tồn tại và không tồn tại", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "khongtontai.23127060@test.local" }, "expected_status": 200, "assertions": "status và message giống hệt trường hợp email tồn tại", "bug": "A-03", "priority": "P0" },
+    { "sec": "SEC-02", "technique": "Information Disclosure", "title": "Response của login không được chứa hash/plaintext mật khẩu", "method": "POST", "endpoint": "/api/login", "body": { "email": "api.victim.23127060@test.local", "password": "Api1234!" }, "expected_status": 200, "assertions": "body.user KHÔNG có trường password", "bug": "A-07", "priority": "P0" },
+    { "sec": "SEC-03", "technique": "Broken Authentication", "title": "Reset password không được chấp nhận khi thiếu cả token lẫn xác thực", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "newPassword": "Hacked1234!" }, "expected_status": 400 },
+    { "sec": "SEC-04", "technique": "IDOR", "title": "Dùng token của user A để đổi mật khẩu user B", "method": "POST", "endpoint": "/api/reset-password", "preconditions": "Attacker tự xin token cho chính mình", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{attackerResetToken}}", "newPassword": "Hacked1234!" }, "expected_status": 400, "assertions": "mật khẩu của victim KHÔNG đổi", "priority": "P0" },
+    { "sec": "SEC-05", "technique": "Privilege Escalation", "title": "Reset password không được cho phép gửi kèm trường role", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!", "role": "admin" }, "expected_status": 200, "assertions": "sau khi reset, GET /api/users/me trả role='user' chứ KHÔNG phải 'admin'", "priority": "P0" },
+    { "sec": "SEC-06", "technique": "Input Validation / XSS", "title": "Email chứa payload XSS phải bị từ chối hoặc escape", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "<img src=x onerror=alert(1)>@test.local" }, "expected_status": 400 },
+    { "sec": "SEC-06", "technique": "Input Validation", "title": "Path traversal trong email không được gây lỗi 500", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "../../etc/passwd" }, "expected_status": 400, "assertions": "không trả 500; không lộ stack trace" },
+    { "sec": "SEC-07", "technique": "Brute Force", "title": "Dò 20 giá trị token 4 chữ số liên tiếp phải bị chặn", "method": "POST", "endpoint": "/api/reset-password", "preconditions": "Chạy bằng Collection Runner với data file postman/data/brute_force_tokens.csv", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{bruteToken}}", "newPassword": "Hacked1234!" }, "expected_status": 429, "assertions": "sau N lần sai liên tiếp phải bị rate-limit hoặc khóa; không được cho thử vô hạn", "bug": "A-02", "priority": "P0" },
+    { "sec": "SEC-07", "technique": "Brute Force", "title": "Dò mật khẩu login liên tiếp phải bị khóa đúng sau 3 lần", "method": "POST", "endpoint": "/api/login", "preconditions": "Chạy 3 lần liên tiếp với mật khẩu sai", "body": { "email": "api.victim.23127060@test.local", "password": "SaiRoi123!" }, "expected_status": 403, "assertions": "lần thứ 3 mới bị khóa (không được khóa sớm ở lần thứ 2 do login_attempts+2)", "bug": "A-09", "priority": "P0" },
+    { "sec": "SEC-07", "technique": "Rate Limiting", "title": "Spam forgot-password 10 lần liên tiếp phải bị giới hạn", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 429, "assertions": "co rate limit tren endpoint cong khai" }
   ],
   "schema_cases": [
-    { "title": "Response 200 cua forgot-password khop schema { message: string }", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 200, "schema_ref": "forgot_success", "assertions": "Content-Type application/json; body khop { message: string }; additionalProperties=false", "bug": "A-01" },
-    { "title": "Response loi cua forgot-password khop schema { error: string }", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "" }, "expected_status": 400, "schema_ref": "error_schema", "assertions": "body khop { error: string }; chi co dung 1 truong" },
-    { "title": "Response 200 cua reset-password khop schema { message: string }", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!" }, "expected_status": 200, "schema_ref": "reset_success" },
-    { "title": "Response loi cua reset-password khop schema { error: string }", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "resetToken": "0000", "newPassword": "NewApi1234!" }, "expected_status": 400, "schema_ref": "error_schema" },
-    { "title": "Response cua login khop schema { token: string, user: {...} } khong co password", "method": "POST", "endpoint": "/api/login", "body": { "email": "api.victim.23127060@test.local", "password": "Api1234!" }, "expected_status": 200, "schema_ref": "login_success", "assertions": "body khop schema; body KHONG chua password", "bug": "A-07" },
-    { "title": "Moi response loi deu phai la application/json chu khong phai HTML", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": null, "resetToken": null, "newPassword": null }, "expected_status": 400, "assertions": "Content-Type application/json; body khong chua <h1>" }
+    { "title": "Response 200 của forgot-password khớp schema { message: string }", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "api.victim.23127060@test.local" }, "expected_status": 200, "schema_ref": "forgot_success", "assertions": "Content-Type application/json; body khớp { message: string }; additionalProperties=false", "bug": "A-01" },
+    { "title": "Response lỗi của forgot-password khớp schema { error: string }", "method": "POST", "endpoint": "/api/forgot-password", "body": { "email": "" }, "expected_status": 400, "schema_ref": "error_schema", "assertions": "body khớp { error: string }; chỉ có đúng 1 trường" },
+    { "title": "Response 200 của reset-password khớp schema { message: string }", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "resetToken": "{{resetToken}}", "newPassword": "NewApi1234!" }, "expected_status": 200, "schema_ref": "reset_success" },
+    { "title": "Response lỗi của reset-password khớp schema { error: string }", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": "api.victim.23127060@test.local", "resetToken": "0000", "newPassword": "NewApi1234!" }, "expected_status": 400, "schema_ref": "error_schema" },
+    { "title": "Response của login khớp schema { token: string, user: {...} } không có password", "method": "POST", "endpoint": "/api/login", "body": { "email": "api.victim.23127060@test.local", "password": "Api1234!" }, "expected_status": 200, "schema_ref": "login_success", "assertions": "body khớp schema; body KHÔNG chứa password", "bug": "A-07" },
+    { "title": "Mọi response lỗi đều phải là application/json chứ không phải HTML", "method": "POST", "endpoint": "/api/reset-password", "body": { "email": null, "resetToken": null, "newPassword": null }, "expected_status": 400, "assertions": "Content-Type application/json; body không chứa <h1>" }
   ]
 }

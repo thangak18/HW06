@@ -85,122 +85,122 @@ def kich_ban():
     li_u = ("POST", "/api/login", {"email": U, "password": "Api1234!"}, None, {"tokenU": "token", "uid": "user.id"})
     li_a = ("POST", "/api/login", {"email": A, "password": "Api1234!"}, None, {"tokenA": "token", "aid": "user.id"})
     return {
-    "A-01": ("Response cua forgot-password tra thang ma OTP ra ngoai", [
+    "A-01": ("Response của forgot-password trả thẳng mã OTP ra ngoài", [
         dk_u, ("POST", "/api/forgot-password", {"email": U}, None, {})]),
-    "A-02": ("OTP chi co 4 chu so trong khi SEC-07 doi toi thieu 6", [
+    "A-02": ("OTP chỉ có 4 chữ số trong khi SEC-07 đòi tối thiểu 6", [
         dk_u, ("POST", "/api/forgot-password", {"email": U}, None, {})]),
-    "A-03": ("User enumeration: email khong ton tai tra 404, email ton tai tra 200", [
+    "A-03": ("User enumeration: email không tồn tại trả 404, email tồn tại trả 200", [
         dk_u,
         ("POST", "/api/forgot-password", {"email": U}, None, {}),
         ("POST", "/api/forgot-password", {"email": "khongtontai." + SID + "@test.local"}, None, {})]),
-    "A-05": ("reset-password khong kiem tra do manh mat khau", [
+    "A-05": ("reset-password không kiểm tra độ mạnh mật khẩu", [
         dk_u,
         ("POST", "/api/forgot-password", {"email": U}, None, {"otp": "resetToken"}),
         ("POST", "/api/reset-password", {"email": U, "resetToken": "$otp", "newPassword": "1"}, None, {}),
         ("POST", "/api/login", {"email": U, "password": "1"}, None, {})]),
-    "A-07": ("login tra ve nguyen ban ghi user gom ca password plaintext va reset_token", [
+    "A-07": ("login trả về nguyên bản ghi user gồm cả password plaintext và reset_token", [
         dk_u, li_u, ("GET", "/api/users/me", None, "$tokenU", {})]),
-    "A-08": ("forgot-password bo qua bien err cua db.get nen loi CSDL bi bao thanh 404", [
+    "A-08": ("forgot-password bỏ qua biến err của db.get nên lỗi CSDL bị báo thành 404", [
         ("POST", "/api/forgot-password", {"email": None}, None, {})]),
-    "A-09": ("Bo dem dang nhap sai cong +2 moi lan nen khoa ngay o lan sai thu HAI", [
+    "A-09": ("Bộ đếm đăng nhập sai cộng +2 mỗi lần nên khóa ngay ở lần sai thứ HAI", [
         dk_u,
         ("POST", "/api/login", {"email": U, "password": "SaiRoi1!"}, None, {}),
         ("POST", "/api/login", {"email": U, "password": "SaiRoi2!"}, None, {}),
         ("POST", "/api/login", {"email": U, "password": "Api1234!"}, None, {})]),
-    "X-01": ("PUT /api/users/me cho phep user thuong tu nang role len admin", [
+    "X-01": ("PUT /api/users/me cho phép user thường tự nâng role lên admin", [
         dk_a, li_a,
         ("PUT", "/api/users/me", {"name": "Attacker", "phone": "0900000000",
                                   "shipping_address": "Q5", "role": "admin"}, "$tokenA", {}),
         ("GET", "/api/users/me", None, "$tokenA", {})]),
-    "B-01": ("checkout tin tuyet doi total_amount tu client", [
+    "B-01": ("checkout tin tuyệt đối total_amount từ client", [
         dk_u, li_u,
         ("POST", "/api/checkout", {"total_amount": 1, "shipping_address": "1 Le Loi"}, "$tokenU", {"oid": "orderId"}),
         ("GET", "/api/orders/$oid", None, "$tokenU", {})]),
-    "B-01b": ("checkout chap nhan total_amount am", [
+    "B-01b": ("checkout chấp nhận total_amount âm", [
         dk_u, li_u,
         ("POST", "/api/checkout", {"total_amount": -500000, "shipping_address": "1 Le Loi"}, "$tokenU", {})]),
-    "B-02": ("GET /api/orders/:id thieu xac thuc - IDOR doc don hang cua bat ky ai", [
+    "B-02": ("GET /api/orders/:id thiếu xác thực - IDOR đọc đơn hàng của bất kỳ ai", [
         dk_u, li_u,
         ("POST", "/api/checkout", {"total_amount": 500000, "shipping_address": "1 Le Loi"}, "$tokenU", {"oid": "orderId"}),
         ("GET", "/api/orders/$oid", None, None, {})]),
-    "B-03": ("PUT /api/admin/orders/:id/status khong kiem role - user thuong doi don nguoi khac", [
+    "B-03": ("PUT /api/admin/orders/:id/status không kiểm role - user thường đổi đơn người khác", [
         dk_u, li_u, dk_a, li_a,
         ("POST", "/api/checkout", {"total_amount": 500000, "shipping_address": "1 Le Loi"}, "$tokenU", {"oid": "orderId"}),
         ("PUT", "/api/admin/orders/$oid/status", {"status": "confirmed"}, "$tokenA", {})]),
-    "B-05": ("Cong thuc coupon percent sai: discount = total*(1-value) cho ra so AM", [
+    "B-05": ("Công thức coupon percent sai: discount = total*(1-value) cho ra số ÂM", [
         ("POST", "/api/apply-coupon", {"code": "SAVE10", "total_amount": 500000, "user_id": 1}, None, {})]),
-    "B-06": ("Nguong don toi thieu dung > thay vi >=: don bang dung min_order_amount bi tu choi", [
+    "B-06": ("Ngưỡng đơn tối thiểu dùng > thay vì >=: đơn bằng đúng min_order_amount bị từ chối", [
         ("POST", "/api/apply-coupon", {"code": "SAVE10", "total_amount": 300000, "user_id": 1}, None, {}),
         ("POST", "/api/apply-coupon", {"code": "SAVE10", "total_amount": 300001, "user_id": 1}, None, {})]),
-    "B-07": ("apply-coupon khong xac thuc; bo user_id di la bo qua toan bo kiem tra han muc", [
+    "B-07": ("apply-coupon không xác thực; bỏ user_id đi là bỏ qua toàn bộ kiểm tra hạn mức", [
         ("POST", "/api/apply-coupon", {"code": "VIP100", "total_amount": 500000}, None, {})]),
-    "B-08": ("Kiem tra han su dung nam trong nhanh total > min nen thong bao loi sai nguyen nhan", [
+    "B-08": ("Kiểm tra hạn sử dụng nằm trong nhánh total > min nên thông báo lỗi sai nguyên nhân", [
         ("POST", "/api/apply-coupon", {"code": "EXPIRED", "total_amount": 50000, "user_id": 1}, None, {})]),
-    "B-09": ("PUT /api/orders/:id/cancel cho phep huy don dang shipping", [
+    "B-09": ("PUT /api/orders/:id/cancel cho phép hủy đơn đang shipping", [
         dk_u, li_u,
         ("POST", "/api/checkout", {"total_amount": 500000, "shipping_address": "1 Le Loi"}, "$tokenU", {"oid": "orderId"}),
         ("PUT", "/api/admin/orders/$oid/status", {"status": "confirmed"}, "$tokenU", {}),
         ("PUT", "/api/admin/orders/$oid/status", {"status": "shipping"}, "$tokenU", {}),
         ("PUT", "/api/orders/$oid/cancel", {}, "$tokenU", {}),
         ("GET", "/api/orders/$oid", None, None, {})]),
-    "B-10": ("admin/orders/:id/status cho phep canceled -> delivered", [
+    "B-10": ("admin/orders/:id/status cho phép canceled -> delivered", [
         dk_u, li_u,
         ("POST", "/api/checkout", {"total_amount": 500000, "shipping_address": "1 Le Loi"}, "$tokenU", {"oid": "orderId"}),
         ("PUT", "/api/orders/$oid/cancel", {}, "$tokenU", {}),
         ("PUT", "/api/admin/orders/$oid/status", {"status": "delivered"}, "$tokenU", {}),
         ("GET", "/api/orders/$oid", None, None, {})]),
-    "B-11": ("POST /api/coupon-usage ghi nhan luot dung cho coupon_id khong ton tai", [
+    "B-11": ("POST /api/coupon-usage ghi nhận lượt dùng cho coupon_id không tồn tại", [
         dk_u, li_u, ("POST", "/api/coupon-usage", {"coupon_id": 999999}, "$tokenU", {})]),
-    "B-12": ("checkout tao duoc don hang khi thieu han shipping_address", [
+    "B-12": ("checkout tạo được đơn hàng khi thiếu hẳn shipping_address", [
         dk_u, li_u,
         ("POST", "/api/checkout", {"total_amount": 100}, "$tokenU", {"oid": "orderId"}),
         ("GET", "/api/orders/$oid", None, None, {})]),
-    "B-14": ("checkout tra 200 thay vi 201 Created cho thao tac tao tai nguyen", [
+    "B-14": ("checkout trả 200 thay vì 201 Created cho thao tác tạo tài nguyên", [
         dk_u, li_u,
         ("POST", "/api/checkout", {"total_amount": 500000, "shipping_address": "1 Le Loi"}, "$tokenU", {})]),
-    "C-01": ("POST/PUT/DELETE /api/products hoan toan khong xac thuc", [
+    "C-01": ("POST/PUT/DELETE /api/products hoàn toàn không xác thực", [
         ("POST", "/api/products", {"name": "Khach vang lai " + SID, "price": 1,
                                    "description": "x", "imageUrl": "", "category_id": 1}, None, {"pid": "id"}),
         ("PUT", "/api/products/$pid", {"name": "Bi sua khong can token", "price": 2,
                                        "description": "x", "imageUrl": "", "category_id": 1}, None, {}),
         ("DELETE", "/api/products/$pid", None, None, {})]),
-    "C-02": ("GET /api/products?search= noi chuoi SQL truc tiep - SQL Injection", [
+    "C-02": ("GET /api/products?search= nối chuỗi SQL trực tiếp - SQL Injection", [
         ("GET", "/api/products?search=%25%27%20OR%20%271%27%3D%271", None, None, {}),
         ("GET", "/api/products?search=%25%27%20UNION%20SELECT%20id%2Cemail%2Cpassword%2Crole%2C1%2C1%20FROM%20users--%20",
          None, None, {})]),
-    "C-03": ("Loi SQL tra ve HTML kem thong diep cua tang CSDL thay vi JSON", [
+    "C-03": ("Lỗi SQL trả về HTML kèm thông điệp của tầng CSDL thay vì JSON", [
         ("GET", "/api/products?search=%27", None, None, {})]),
-    "C-04": ("GET /api/products/:id voi id khong ton tai tra 200 {} thay vi 404", [
+    "C-04": ("GET /api/products/:id với id không tồn tại trả 200 {} thay vì 404", [
         ("GET", "/api/products/999999", None, None, {})]),
-    "C-05": ("price la number voi id le nhung la string voi id chan", [
+    "C-05": ("price là number với id lẻ nhưng là string với id chẵn", [
         ("GET", "/api/products/1", None, None, {}),
         ("GET", "/api/products/2", None, None, {})]),
-    "C-06": ("POST /api/products khong validate gi: gia am, gia la chuoi, ten null deu duoc chap nhan", [
+    "C-06": ("POST /api/products không validate gì: giá âm, giá là chuỗi, tên null đều được chấp nhận", [
         ("POST", "/api/products", {"name": "Gia am " + SID, "price": -100,
                                    "description": "x", "imageUrl": "", "category_id": 1}, None, {}),
         ("POST", "/api/products", {"name": None, "price": "abc",
                                    "description": "x", "imageUrl": "", "category_id": 1}, None, {})]),
-    "C-07": ("PUT /api/products/:id voi id khong ton tai van tra 200 Product updated", [
+    "C-07": ("PUT /api/products/:id với id không tồn tại vẫn trả 200 Product updated", [
         ("PUT", "/api/products/999999", {"name": "Khong ton tai", "price": 1,
                                          "description": "x", "imageUrl": "", "category_id": 1}, None, {})]),
-    "C-08": ("DELETE /api/products/:id voi id khong ton tai van tra 200 Product deleted", [
+    "C-08": ("DELETE /api/products/:id với id không tồn tại vẫn trả 200 Product deleted", [
         ("DELETE", "/api/products/999999", None, None, {})]),
-    "C-09": ("PUT khong ho tro cap nhat mot phan: truong khong gui bi ghi de thanh null", [
+    "C-09": ("PUT không hỗ trợ cập nhật một phần: trường không gửi bị ghi đè thành null", [
         ("POST", "/api/products", {"name": "Day du " + SID, "price": 150000,
                                    "description": "Mo ta day du", "imageUrl": "https://e.com/a.png",
                                    "category_id": 2}, None, {"pid": "id"}),
         ("PUT", "/api/products/$pid", {"name": "Chi doi ten " + SID}, None, {}),
         ("GET", "/api/products/$pid", None, None, {})]),
-    "C-10": ("category_id khong duoc kiem khoa ngoai: tao duoc san pham thuoc danh muc khong ton tai", [
+    "C-10": ("category_id không được kiểm khóa ngoại: tạo được sản phẩm thuộc danh mục không tồn tại", [
         ("POST", "/api/products", {"name": "Danh muc la " + SID, "price": 1000,
                                    "description": "x", "imageUrl": "", "category_id": 9999}, None, {"pid": "id"}),
         ("GET", "/api/categories", None, None, {})]),
-    "C-11": ("name va description khong duoc sanitize: payload script duoc luu nguyen van", [
+    "C-11": ("name và description không được sanitize: payload script được lưu nguyên văn", [
         ("POST", "/api/products", {"name": "<script>alert('" + SID + "')</script>", "price": 1000,
                                    "description": "<img src=x onerror=alert(1)>", "imageUrl": "",
                                    "category_id": 1}, None, {"pid": "id"}),
         ("GET", "/api/products/$pid", None, None, {})]),
-    "C-13": ("Mot san pham co price = null lam SAP HAN backend khi doc lai (tu choi dich vu)", [
+    "C-13": ("Một sản phẩm có price = null làm SẬP HẲN backend khi đọc lại (từ chối dịch vụ)", [
         # Dùng sản phẩm id = 2 có sẵn từ seed. Phải là id CHẴN: nhánh gây sập chỉ chạy khi
         # row.id % 2 === 0. Nếu tạo sản phẩm mới thì id là ngẫu nhiên chẵn/lẻ và bug sẽ không
         # tái hiện được một cách ổn định.
@@ -212,7 +212,7 @@ def kich_ban():
         ("GET", "/api/products/2", None, None, {}),
         # Bat ky request nao sau do cung Connection refused: toan bo API da chet.
         ("GET", "/api/products", None, None, {})]),
-    "C-12": ("POST /api/products tra 200 thay vi 201 Created", [
+    "C-12": ("POST /api/products trả 200 thay vì 201 Created", [
         ("POST", "/api/products", {"name": "Ma trang thai " + SID, "price": 1000,
                                    "description": "x", "imageUrl": "", "category_id": 1}, None, {})]),
     }
@@ -275,25 +275,25 @@ def main():
         slug = bug.lower().replace("-", "")
         ctx = {"U": "api.%s.victim.%s@test.local" % (slug, SID),
                "A": "api.%s.attacker.%s@test.local" % (slug, SID)}
-        ghi = ["# Bang chung tai hien bug %s" % bug, "",
+        ghi = ["# Bằng chứng tái hiện bug %s" % bug, "",
                "**%s**" % mo_ta, "",
-               "Thu tu %d buoc duoi day duoc chay tu dong bang" % len(buoc),
+               "Thứ tự %d bước dưới đây được chạy tự động bằng" % len(buoc),
                "`agent-skill/eshop-api-23127060/scripts/capture_bug_evidence.py` tren",
                "`%s` luc %s." % (a.base, time.strftime("%Y-%m-%d %H:%M:%S %z")),
-               "Buoc CUOI CUNG la buoc phoi bay bug; cac buoc truoc chi dung de chuan bi trang thai.", ""]
+               "Bước CUỐI CÙNG là bước phơi bày bug; các bước trước chỉ dùng để chuẩn bị trạng thái.", ""]
         for i, (m, p, b, tok, setv) in enumerate(buoc, 1):
             r = goi(a.base, m, p, b, tok, ctx)
             for ten, duong in setv.items():
                 v = dot(r["json"], duong)
                 if v is not None:
                     ctx[ten] = v
-            nhan = "**BUOC %d/%d — PHOI BAY BUG**" % (i, len(buoc)) if i == len(buoc) else "Buoc %d/%d (chuan bi)" % (i, len(buoc))
+            nhan = "**BƯỚC %d/%d — PHƠI BÀY BUG**" % (i, len(buoc)) if i == len(buoc) else "Bước %d/%d (chuẩn bị)" % (i, len(buoc))
             ghi += ["## %s" % nhan, "", "```bash", curl(a.base, r), "```", "",
                     "```http",
                     "HTTP/1.1 %s" % r["code"],
-                    "Content-Type: %s" % (r["content_type"] or "(khong co)"),
+                    "Content-Type: %s" % (r["content_type"] or "(không có)"),
                     "",
-                    r["raw"][:1200] + ("\n... (da cat bot)" if len(r["raw"]) > 1200 else ""),
+                    r["raw"][:1200] + ("\n... (đã cắt bớt)" if len(r["raw"]) > 1200 else ""),
                     "```", ""]
         p = os.path.join(a.out, "%s.md" % bug)
         open(p, "w", encoding="utf-8").write("\n".join(ghi) + "\n")
@@ -301,10 +301,10 @@ def main():
         tong += 1
         print("  %-6s %d buoc -> %s" % (bug, len(buoc), p))
 
-    idx = ["# Chi muc bang chung tai hien bug", "",
-           "Sinh tu dong bang `capture_bug_evidence.py`. Moi file chua nguyen van cap",
-           "request/response cua tung buoc.", "",
-           "| Bug | Mo ta | So buoc | File |", "|---|---|---|---|"]
+    idx = ["# Chỉ mục bằng chứng tái hiện bug", "",
+           "Sinh tự động bằng `capture_bug_evidence.py`. Mỗi file chứa nguyên văn cặp",
+           "request/response của từng bước.", "",
+           "| Bug | Mô tả | Số bước | File |", "|---|---|---|---|"]
     for bug, mo_ta, n in chi_muc:
         idx.append("| **%s** | %s | %d | [`%s.md`](%s.md) |" % (bug, mo_ta, n, bug, bug))
     open(os.path.join(a.out, "README.md"), "w", encoding="utf-8").write("\n".join(idx) + "\n")

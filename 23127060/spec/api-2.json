@@ -3,7 +3,7 @@
   "tc_prefix": "B2",
   "pool": "B",
   "fr": "FR-08",
-  "name": "Thanh toan (checkout) + ap ma giam gia + vong doi don hang",
+  "name": "Thanh toán (checkout) + áp mã giảm giá + vòng đời đơn hàng",
   "base_url": "{{baseUrl}}",
   "endpoints": [
     {
@@ -12,7 +12,7 @@
       "path": "/api/checkout",
       "auth_required": true,
       "success_status": 201,
-      "preconditions": "Da login, co {{token_user}}, gio hang co 1 san pham",
+      "preconditions": "Đã login, có {{token_user}}, giỏ hàng có 1 sản phẩm",
       "headers": "Authorization: Bearer {{token_user}}",
       "valid_body": { "items": [{ "product_id": 1, "quantity": 2 }], "total_amount": 200000, "shipping_address": "123 Nguyen Van Cu, Q5, TP.HCM" },
       "params": [
@@ -22,12 +22,12 @@
           "type": "number",
           "required": true,
           "partitions": [
-            { "id": "valid", "value": 200000, "valid": true, "desc": "tong tien khop voi gio hang", "expected_status": 201, "assertions": "body co orderId; total_amount trong DB = tong tinh tu server", "priority": "P0" },
-            { "id": "tampered_low", "value": 1, "valid": false, "desc": "client gui tong tien 1 dong - server phai tu tinh lai", "expected_status": 400, "assertions": "don hang KHONG duoc tao voi gia 1; GET /api/orders/:id phai tra dung gia that", "bug": "B-01", "priority": "P0" },
+            { "id": "valid", "value": 200000, "valid": true, "desc": "tổng tiền khớp với giỏ hàng", "expected_status": 201, "assertions": "body có orderId; total_amount trong DB = tổng tính từ server", "priority": "P0" },
+            { "id": "tampered_low", "value": 1, "valid": false, "desc": "client gửi tổng tiền 1 đồng - server phải tự tính lại", "expected_status": 400, "assertions": "đơn hàng KHÔNG được tạo với giá 1; GET /api/orders/:id phải trả đúng giá thật", "bug": "B-01", "priority": "P0" },
             { "id": "negative", "value": -100000, "valid": false, "desc": "tong tien am", "expected_status": 400, "bug": "B-01", "priority": "P0" },
             { "id": "zero", "value": 0, "valid": false, "boundary": true, "desc": "BVA - tong tien bang 0", "expected_status": 400, "bug": "B-01" },
-            { "id": "string", "value": "200000", "valid": false, "desc": "tong tien sai kieu (string)", "expected_status": 400 },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu total_amount", "expected_status": 400 },
+            { "id": "string", "value": "200000", "valid": false, "desc": "tổng tiền sai kiểu (string)", "expected_status": 400 },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu total_amount", "expected_status": 400 },
             { "id": "null", "value": null, "valid": false, "desc": "total_amount null", "expected_status": 400 },
             { "id": "huge", "value": 999999999999999, "valid": false, "boundary": true, "desc": "BVA - tong tien vuot gioi han", "expected_status": 400 },
             { "id": "float", "value": 200000.999, "valid": false, "desc": "tong tien co phan thap phan la", "expected_status": 400 }
@@ -39,14 +39,14 @@
           "type": "array",
           "required": true,
           "partitions": [
-            { "id": "empty_array", "value": [], "valid": false, "desc": "gio hang rong", "expected_status": 400, "assertions": "khong duoc tao don hang rong", "bug": "B-04", "priority": "P0" },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu items - server hien bo qua hoan toan", "expected_status": 400, "bug": "B-04", "priority": "P0" },
-            { "id": "qty_zero", "value": [{ "product_id": 1, "quantity": 0 }], "valid": false, "boundary": true, "desc": "BVA - so luong 0", "expected_status": 400 },
-            { "id": "qty_negative", "value": [{ "product_id": 1, "quantity": -5 }], "valid": false, "desc": "so luong am (co the sinh tien am)", "expected_status": 400, "priority": "P0" },
-            { "id": "qty_one", "value": [{ "product_id": 1, "quantity": 1 }], "valid": true, "boundary": true, "desc": "BVA - so luong 1 (bien duoi hop le)", "expected_status": 201 },
-            { "id": "product_not_exist", "value": [{ "product_id": 999999, "quantity": 1 }], "valid": false, "desc": "san pham khong ton tai", "expected_status": 404 },
+            { "id": "empty_array", "value": [], "valid": false, "desc": "giỏ hàng rỗng", "expected_status": 400, "assertions": "không được tạo đơn hàng rỗng", "bug": "B-04", "priority": "P0" },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu items - server hiện bỏ qua hoàn toàn", "expected_status": 400, "bug": "B-04", "priority": "P0" },
+            { "id": "qty_zero", "value": [{ "product_id": 1, "quantity": 0 }], "valid": false, "boundary": true, "desc": "BVA - số lượng 0", "expected_status": 400 },
+            { "id": "qty_negative", "value": [{ "product_id": 1, "quantity": -5 }], "valid": false, "desc": "số lượng âm (có thể sinh tiền âm)", "expected_status": 400, "priority": "P0" },
+            { "id": "qty_one", "value": [{ "product_id": 1, "quantity": 1 }], "valid": true, "boundary": true, "desc": "BVA - số lượng 1 (biên dưới hợp lệ)", "expected_status": 201 },
+            { "id": "product_not_exist", "value": [{ "product_id": 999999, "quantity": 1 }], "valid": false, "desc": "sản phẩm không tồn tại", "expected_status": 404 },
             { "id": "over_stock", "value": [{ "product_id": 1, "quantity": 100000 }], "valid": false, "desc": "vuot ton kho", "expected_status": 400 },
-            { "id": "wrong_type", "value": "khong-phai-array", "valid": false, "desc": "items sai kieu", "expected_status": 400 }
+            { "id": "wrong_type", "value": "khong-phai-array", "valid": false, "desc": "items sai kiểu", "expected_status": 400 }
           ]
         },
         {
@@ -55,12 +55,12 @@
           "type": "string",
           "required": true,
           "partitions": [
-            { "id": "valid", "value": "123 Nguyen Van Cu, Q5, TP.HCM", "valid": true, "desc": "dia chi hop le", "expected_status": 201 },
-            { "id": "empty", "value": "", "valid": false, "desc": "dia chi rong", "expected_status": 400, "bug": "B-12" },
-            { "id": "null", "value": null, "valid": false, "desc": "dia chi null - hien van tao duoc don", "expected_status": 400, "bug": "B-12", "priority": "P0" },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu dia chi", "expected_status": 400, "bug": "B-12" },
+            { "id": "valid", "value": "123 Nguyen Van Cu, Q5, TP.HCM", "valid": true, "desc": "địa chỉ hợp lệ", "expected_status": 201 },
+            { "id": "empty", "value": "", "valid": false, "desc": "địa chỉ rỗng", "expected_status": 400, "bug": "B-12" },
+            { "id": "null", "value": null, "valid": false, "desc": "địa chỉ null - hiện vẫn tạo được đơn", "expected_status": 400, "bug": "B-12", "priority": "P0" },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu địa chỉ", "expected_status": 400, "bug": "B-12" },
             { "id": "xss", "value": "<script>alert('23127060')</script>", "valid": false, "desc": "payload XSS trong dia chi", "expected_status": 400, "sec": "SEC-06" },
-            { "id": "too_long", "value": "A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A1", "valid": false, "boundary": true, "desc": "BVA - dia chi vuot 255 ky tu", "expected_status": 400 }
+            { "id": "too_long", "value": "A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A123456789A1", "valid": false, "boundary": true, "desc": "BVA - địa chỉ vượt 255 ký tự", "expected_status": 400 }
           ]
         }
       ]
@@ -71,7 +71,7 @@
       "path": "/api/apply-coupon",
       "auth_required": true,
       "success_status": 200,
-      "preconditions": "Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js",
+      "preconditions": "Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js",
       "headers": "Authorization: Bearer {{token_user}}",
       "valid_body": { "code": "SAVE10", "total_amount": 500000, "user_id": "{{userId}}" },
       "params": [
@@ -81,15 +81,15 @@
           "type": "string",
           "required": true,
           "partitions": [
-            { "id": "valid_percent", "value": "SAVE10", "valid": true, "desc": "Decision table T1 - ma % hop le, du dieu kien", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 50000 (10% cua 500000) theo cong thuc SRS FR-09", "bug": "B-05", "priority": "P0" },
-            { "id": "valid_fixed", "value": "BIGBUY", "valid": true, "desc": "Decision table T2 - ma so tien co dinh", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 50000" },
-            { "id": "expired", "value": "EXPIRED", "valid": false, "desc": "Decision table T3 - ma het han", "technique": "Decision Table", "expected_status": 400, "bug": "B-08", "priority": "P0" },
-            { "id": "multi_use", "value": "VIP100", "valid": true, "desc": "Decision table T4 - ma fixed con luot dung (max 2 luot/user). Khong co coupon is_active=0 nao duoc seed nen dong T4 goc (ma bi vo hieu hoa) khong kiem duoc qua API - xem report/01_api_selection.md", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 100000" },
-            { "id": "not_exist", "value": "KHONGCOMA23127060", "valid": false, "desc": "Decision table T5 - ma khong ton tai", "technique": "Decision Table", "expected_status": 404 },
-            { "id": "empty", "value": "", "valid": false, "desc": "ma rong", "expected_status": 400 },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu code", "expected_status": 400 },
-            { "id": "sqli", "value": "' OR '1'='1", "valid": false, "desc": "SQLi trong ma giam gia", "expected_status": 400, "sec": "SEC-01", "priority": "P0" },
-            { "id": "case_lower", "value": "perc10", "valid": true, "desc": "ma viet thuong - hanh vi phai nhat quan voi spec", "expected_status": 200 }
+            { "id": "valid_percent", "value": "SAVE10", "valid": true, "desc": "Decision table T1 - mã % hợp lệ, đủ điều kiện", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 50000 (10% của 500000) theo công thức SRS FR-09", "bug": "B-05", "priority": "P0" },
+            { "id": "valid_fixed", "value": "BIGBUY", "valid": true, "desc": "Decision table T2 - mã số tiền cố định", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 50000" },
+            { "id": "expired", "value": "EXPIRED", "valid": false, "desc": "Decision table T3 - mã hết hạn", "technique": "Decision Table", "expected_status": 400, "bug": "B-08", "priority": "P0" },
+            { "id": "multi_use", "value": "VIP100", "valid": true, "desc": "Decision table T4 - mã fixed còn lượt dùng (max 2 lượt/user). Không có coupon is_active=0 nào được seed nên dòng T4 gốc (mã bị vô hiệu hóa) không kiểm được qua API - xem report/01_api_selection.md", "technique": "Decision Table", "expected_status": 200, "assertions": "discount_amount = 100000" },
+            { "id": "not_exist", "value": "KHONGCOMA23127060", "valid": false, "desc": "Decision table T5 - mã không tồn tại", "technique": "Decision Table", "expected_status": 404 },
+            { "id": "empty", "value": "", "valid": false, "desc": "mã rỗng", "expected_status": 400 },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu code", "expected_status": 400 },
+            { "id": "sqli", "value": "' OR '1'='1", "valid": false, "desc": "SQLi trong mã giảm giá", "expected_status": 400, "sec": "SEC-01", "priority": "P0" },
+            { "id": "case_lower", "value": "perc10", "valid": true, "desc": "mã viết thường - hành vi phải nhất quán với spec", "expected_status": 200 }
           ]
         },
         {
@@ -98,11 +98,11 @@
           "type": "number",
           "required": true,
           "partitions": [
-            { "id": "below_min", "value": 299999, "valid": false, "boundary": true, "desc": "BVA - duoi min_order_amount 300000 cua SAVE10 dung 1 dong", "technique": "BVA", "expected_status": 400 },
-            { "id": "equal_min", "value": 300000, "valid": true, "boundary": true, "desc": "BVA - BANG dung min_order_amount 300000 (loi bien > thay vi >=)", "technique": "BVA", "expected_status": 200, "assertions": "phai duoc ap ma vi dieu kien la >= min_order_amount", "bug": "B-06", "priority": "P0" },
-            { "id": "above_min", "value": 300001, "valid": true, "boundary": true, "desc": "BVA - tren min_order_amount 300000 dung 1 dong", "technique": "BVA", "expected_status": 200 },
+            { "id": "below_min", "value": 299999, "valid": false, "boundary": true, "desc": "BVA - dưới min_order_amount 300000 của SAVE10 đúng 1 đồng", "technique": "BVA", "expected_status": 400 },
+            { "id": "equal_min", "value": 300000, "valid": true, "boundary": true, "desc": "BVA - BẰNG đúng min_order_amount 300000 (lỗi biên > thay vì >=)", "technique": "BVA", "expected_status": 200, "assertions": "phải được áp mã vì điều kiện là >= min_order_amount", "bug": "B-06", "priority": "P0" },
+            { "id": "above_min", "value": 300001, "valid": true, "boundary": true, "desc": "BVA - trên min_order_amount 300000 đúng 1 đồng", "technique": "BVA", "expected_status": 200 },
             { "id": "negative", "value": -200000, "valid": false, "desc": "tong tien am", "expected_status": 400 },
-            { "id": "discount_exceeds", "value": 10000, "valid": false, "desc": "don 10k nho hon so tien giam - final_amount khong duoc am", "expected_status": 400, "priority": "P0" }
+            { "id": "discount_exceeds", "value": 10000, "valid": false, "desc": "đơn 10k nhỏ hơn số tiền giảm - final_amount không được âm", "expected_status": 400, "priority": "P0" }
           ]
         },
         {
@@ -111,9 +111,9 @@
           "type": "number",
           "required": true,
           "partitions": [
-            { "id": "self", "value": "{{userId}}", "valid": true, "desc": "user_id cua chinh minh", "expected_status": 200 },
-            { "id": "other_user", "value": 99999, "valid": false, "desc": "user_id cua nguoi khac - server phai lay tu JWT", "expected_status": 403, "sec": "SEC-04", "bug": "B-07", "priority": "P0" },
-            { "id": "omit", "omit": true, "valid": false, "desc": "thieu user_id - bypass kiem tra han muc su dung", "expected_status": 401, "bug": "B-07", "priority": "P0" },
+            { "id": "self", "value": "{{userId}}", "valid": true, "desc": "user_id của chính mình", "expected_status": 200 },
+            { "id": "other_user", "value": 99999, "valid": false, "desc": "user_id của người khác - server phải lấy từ JWT", "expected_status": 403, "sec": "SEC-04", "bug": "B-07", "priority": "P0" },
+            { "id": "omit", "omit": true, "valid": false, "desc": "thiếu user_id - bypass kiểm tra hạn mức sử dụng", "expected_status": 401, "bug": "B-07", "priority": "P0" },
             { "id": "null", "value": null, "valid": false, "desc": "user_id null", "expected_status": 400, "bug": "B-07" }
           ]
         }
@@ -121,7 +121,7 @@
     }
   ],
   "state_machine": {
-    "name": "Vong doi don hang (FR-10)",
+    "name": "Vòng đời đơn hàng (FR-10)",
     "endpoint": "/api/admin/orders/{{orderId}}/status",
     "method": "PUT",
     "states": ["pending", "confirmed", "shipping", "delivered", "canceled"],
@@ -131,45 +131,45 @@
       { "from": "shipping", "to": "delivered", "allowed": true, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 200 },
       { "from": "pending", "to": "canceled", "allowed": true, "endpoint": "/api/orders/{{orderId}}/cancel", "body": {}, "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200 },
       { "from": "confirmed", "to": "canceled", "allowed": true, "endpoint": "/api/orders/{{orderId}}/cancel", "body": {}, "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200 },
-      { "from": "pending", "to": "shipping", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400, "preconditions": "Nhay coc trang thai" },
+      { "from": "pending", "to": "shipping", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400, "preconditions": "Nhảy cóc trạng thái" },
       { "from": "pending", "to": "delivered", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400 },
-      { "from": "confirmed", "to": "pending", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400, "preconditions": "Lui trang thai" },
+      { "from": "confirmed", "to": "pending", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400, "preconditions": "Lùi trạng thái" },
       { "from": "confirmed", "to": "delivered", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400 },
       { "from": "shipping", "to": "pending", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400 },
       { "from": "shipping", "to": "confirmed", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400 },
-      { "from": "shipping", "to": "canceled", "allowed": false, "endpoint": "/api/orders/{{orderId}}/cancel", "body": {}, "headers": "Authorization: Bearer {{token_user}}", "expected_status": 400, "assertions": "don dang giao KHONG duoc tu huy boi khach hang", "bug": "B-09", "priority": "P0" },
+      { "from": "shipping", "to": "canceled", "allowed": false, "endpoint": "/api/orders/{{orderId}}/cancel", "body": {}, "headers": "Authorization: Bearer {{token_user}}", "expected_status": 400, "assertions": "đơn đang giao KHÔNG được tự hủy bởi khách hàng", "bug": "B-09", "priority": "P0" },
       { "from": "delivered", "to": "shipping", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400 },
       { "from": "delivered", "to": "canceled", "allowed": false, "endpoint": "/api/orders/{{orderId}}/cancel", "body": {}, "headers": "Authorization: Bearer {{token_user}}", "expected_status": 400 },
-      { "from": "delivered", "to": "delivered", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400, "preconditions": "Trang thai cuoi - khong doi duoc nua" },
-      { "from": "canceled", "to": "delivered", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400, "assertions": "don da huy TUYET DOI khong duoc chuyen sang da giao", "bug": "B-10", "priority": "P0" },
+      { "from": "delivered", "to": "delivered", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400, "preconditions": "Trạng thái cuối - không đổi được nữa" },
+      { "from": "canceled", "to": "delivered", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400, "assertions": "đơn đã hủy TUYỆT ĐỐI không được chuyển sang đã giao", "bug": "B-10", "priority": "P0" },
       { "from": "canceled", "to": "confirmed", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "expected_status": 400 },
-      { "from": "canceled", "to": "canceled", "allowed": false, "endpoint": "/api/orders/{{orderId}}/cancel", "body": {}, "headers": "Authorization: Bearer {{token_user}}", "expected_status": 400, "preconditions": "Huy 2 lan" },
-      { "from": "pending", "to": "invalid_value", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "body": { "status": "khong_ton_tai_23127060" }, "expected_status": 400, "preconditions": "Gia tri trang thai khong nam trong enum" },
-      { "from": "pending", "to": "confirmed_by_user", "allowed": false, "headers": "Authorization: Bearer {{token_user}}", "body": { "status": "confirmed" }, "expected_status": 403, "assertions": "user thuong KHONG duoc doi trang thai don hang", "sec": "SEC-05", "bug": "B-03", "priority": "P0" }
+      { "from": "canceled", "to": "canceled", "allowed": false, "endpoint": "/api/orders/{{orderId}}/cancel", "body": {}, "headers": "Authorization: Bearer {{token_user}}", "expected_status": 400, "preconditions": "Hủy 2 lần" },
+      { "from": "pending", "to": "invalid_value", "allowed": false, "headers": "Authorization: Bearer {{token_admin}}", "body": { "status": "khong_ton_tai_23127060" }, "expected_status": 400, "preconditions": "Giá trị trạng thái không nằm trong enum" },
+      { "from": "pending", "to": "confirmed_by_user", "allowed": false, "headers": "Authorization: Bearer {{token_user}}", "body": { "status": "confirmed" }, "expected_status": 403, "assertions": "user thường KHÔNG được đổi trạng thái đơn hàng", "sec": "SEC-05", "bug": "B-03", "priority": "P0" }
     ]
   },
   "security": [
-    { "sec": "SEC-01", "technique": "SQL Injection", "title": "SQLi qua ma giam gia", "method": "POST", "endpoint": "/api/apply-coupon", "body": { "code": "' UNION SELECT 1,1,1,1,1,1--", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 400, "priority": "P0" },
-    { "sec": "SEC-02", "technique": "Information Disclosure", "title": "Response checkout khong duoc lo thong tin noi bo", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 201, "assertions": "body khong chua stack trace, ten bang, duong dan file" },
-    { "sec": "SEC-03", "technique": "Missing Authentication", "title": "Checkout khong kem token phai bi tu choi", "method": "POST", "endpoint": "/api/checkout", "headers": "-", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 401, "priority": "P0" },
-    { "sec": "SEC-03", "technique": "Missing Authentication", "title": "Apply-coupon khong kem token phai bi tu choi", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "-", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": 1 }, "expected_status": 401, "bug": "B-07", "priority": "P0" },
-    { "sec": "SEC-03", "technique": "Broken JWT", "title": "Token JWT bi sua chu ky phai bi tu choi", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0.invalid23127060", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 403, "priority": "P0" },
-    { "sec": "SEC-04", "technique": "IDOR", "title": "Xem don hang cua nguoi khac qua GET /api/orders/:id", "method": "GET", "endpoint": "/api/orders/{{victimOrderId}}", "headers": "Authorization: Bearer {{token_attacker}}", "expected_status": 403, "assertions": "khong tra ve dia chi, tong tien cua don hang nguoi khac", "bug": "B-02", "priority": "P0" },
-    { "sec": "SEC-04", "technique": "IDOR", "title": "Xem don hang khong kem token", "method": "GET", "endpoint": "/api/orders/{{victimOrderId}}", "headers": "-", "expected_status": 401, "bug": "B-02", "priority": "P0" },
-    { "sec": "SEC-04", "technique": "IDOR", "title": "Huy don hang cua nguoi khac", "method": "PUT", "endpoint": "/api/orders/{{victimOrderId}}/cancel", "headers": "Authorization: Bearer {{token_attacker}}", "body": {}, "expected_status": 403, "priority": "P0" },
-    { "sec": "SEC-05", "technique": "Privilege Escalation", "title": "User thuong goi endpoint admin doi trang thai don", "method": "PUT", "endpoint": "/api/admin/orders/{{orderId}}/status", "headers": "Authorization: Bearer {{token_user}}", "body": { "status": "delivered" }, "expected_status": 403, "bug": "B-03", "priority": "P0" },
-    { "sec": "SEC-05", "technique": "Privilege Escalation", "title": "User thuong xem toan bo don hang qua GET /api/admin/orders", "method": "GET", "endpoint": "/api/admin/orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 403, "priority": "P0" },
-    { "sec": "SEC-06", "technique": "Input Validation / XSS", "title": "XSS trong shipping_address phai bi chan hoac escape", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "<img src=x onerror=alert('23127060')>" }, "expected_status": 400 },
-    { "sec": "SEC-06", "technique": "Mass Assignment", "title": "Gui kem status='delivered' khi checkout", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5", "status": "delivered" }, "expected_status": 201, "assertions": "don hang moi tao phai o trang thai 'pending', KHONG phai 'delivered'", "priority": "P0" },
-    { "sec": "SEC-07", "technique": "Abuse / Race Condition", "title": "Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage limit", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "Authorization: Bearer {{token_user}}", "preconditions": "Chay Collection Runner 10 iteration", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 400, "assertions": "tu lan thu N+1 phai bi tu choi theo usage_limit", "bug": "B-11", "priority": "P0" },
-    { "sec": "SEC-07", "technique": "Abuse", "title": "Spam checkout 20 lan lien tiep phai bi rate-limit", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 429 }
+    { "sec": "SEC-01", "technique": "SQL Injection", "title": "SQLi qua mã giảm giá", "method": "POST", "endpoint": "/api/apply-coupon", "body": { "code": "' UNION SELECT 1,1,1,1,1,1--", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 400, "priority": "P0" },
+    { "sec": "SEC-02", "technique": "Information Disclosure", "title": "Response checkout không được lộ thông tin nội bộ", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 201, "assertions": "body không chứa stack trace, tên bảng, đường dẫn file" },
+    { "sec": "SEC-03", "technique": "Missing Authentication", "title": "Checkout không kèm token phải bị từ chối", "method": "POST", "endpoint": "/api/checkout", "headers": "-", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 401, "priority": "P0" },
+    { "sec": "SEC-03", "technique": "Missing Authentication", "title": "Apply-coupon không kèm token phải bị từ chối", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "-", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": 1 }, "expected_status": 401, "bug": "B-07", "priority": "P0" },
+    { "sec": "SEC-03", "technique": "Broken JWT", "title": "Token JWT bị sửa chữ ký phải bị từ chối", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0.invalid23127060", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 403, "priority": "P0" },
+    { "sec": "SEC-04", "technique": "IDOR", "title": "Xem đơn hàng của người khác qua GET /api/orders/:id", "method": "GET", "endpoint": "/api/orders/{{victimOrderId}}", "headers": "Authorization: Bearer {{token_attacker}}", "expected_status": 403, "assertions": "không trả về địa chỉ, tổng tiền của đơn hàng người khác", "bug": "B-02", "priority": "P0" },
+    { "sec": "SEC-04", "technique": "IDOR", "title": "Xem đơn hàng không kèm token", "method": "GET", "endpoint": "/api/orders/{{victimOrderId}}", "headers": "-", "expected_status": 401, "bug": "B-02", "priority": "P0" },
+    { "sec": "SEC-04", "technique": "IDOR", "title": "Hủy đơn hàng của người khác", "method": "PUT", "endpoint": "/api/orders/{{victimOrderId}}/cancel", "headers": "Authorization: Bearer {{token_attacker}}", "body": {}, "expected_status": 403, "priority": "P0" },
+    { "sec": "SEC-05", "technique": "Privilege Escalation", "title": "User thường gọi endpoint admin đổi trạng thái đơn", "method": "PUT", "endpoint": "/api/admin/orders/{{orderId}}/status", "headers": "Authorization: Bearer {{token_user}}", "body": { "status": "delivered" }, "expected_status": 403, "bug": "B-03", "priority": "P0" },
+    { "sec": "SEC-05", "technique": "Privilege Escalation", "title": "User thường xem toàn bộ đơn hàng qua GET /api/admin/orders", "method": "GET", "endpoint": "/api/admin/orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 403, "priority": "P0" },
+    { "sec": "SEC-06", "technique": "Input Validation / XSS", "title": "XSS trong shipping_address phải bị chặn hoặc escape", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "<img src=x onerror=alert('23127060')>" }, "expected_status": 400 },
+    { "sec": "SEC-06", "technique": "Mass Assignment", "title": "Gửi kèm status='delivered' khi checkout", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5", "status": "delivered" }, "expected_status": 201, "assertions": "đơn hàng mới tạo phải ở trạng thái 'pending', KHÔNG phải 'delivered'", "priority": "P0" },
+    { "sec": "SEC-07", "technique": "Abuse / Race Condition", "title": "Áp cùng 1 coupon 10 lần liên tiếp phải bị chặn bởi usage limit", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "Authorization: Bearer {{token_user}}", "preconditions": "Chay Collection Runner 10 iteration", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 400, "assertions": "từ lần thứ N+1 phải bị từ chối theo usage_limit", "bug": "B-11", "priority": "P0" },
+    { "sec": "SEC-07", "technique": "Abuse", "title": "Spam checkout 20 lần liên tiếp phải bị rate-limit", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 429 }
   ],
   "schema_cases": [
-    { "title": "Response 201 cua checkout khop schema { orderId: integer, message: string }", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 201, "schema_ref": "checkout_success" },
-    { "title": "Response loi cua checkout khop schema { error: string }", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [], "total_amount": -1, "shipping_address": null }, "expected_status": 400, "schema_ref": "error_schema" },
-    { "title": "Response cua apply-coupon khop schema { discount_amount: number, final_amount: number }", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "Authorization: Bearer {{token_user}}", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 200, "schema_ref": "coupon_success", "assertions": "discount_amount la number va > 0 va < total_amount", "bug": "B-05" },
-    { "title": "Response cua GET /api/orders/:id khop schema don hang day du", "method": "GET", "endpoint": "/api/orders/{{orderId}}", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "order_schema", "assertions": "co id, user_id, total_amount (number), status (enum 5 gia tri), shipping_address" },
-    { "title": "Truong status luon thuoc enum 5 gia tri hop le", "method": "GET", "endpoint": "/api/orders/my-orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "orders_array", "assertions": "moi phan tu co status thuoc [pending,confirmed,shipping,delivered,canceled]" },
-    { "title": "total_amount luon la number, khong bao gio la string", "method": "GET", "endpoint": "/api/orders/my-orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "orders_array", "assertions": "typeof total_amount === 'number' cho moi phan tu" }
+    { "title": "Response 201 của checkout khớp schema { orderId: integer, message: string }", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [{ "product_id": 1, "quantity": 1 }], "total_amount": 100000, "shipping_address": "Q5" }, "expected_status": 201, "schema_ref": "checkout_success" },
+    { "title": "Response lỗi của checkout khớp schema { error: string }", "method": "POST", "endpoint": "/api/checkout", "headers": "Authorization: Bearer {{token_user}}", "body": { "items": [], "total_amount": -1, "shipping_address": null }, "expected_status": 400, "schema_ref": "error_schema" },
+    { "title": "Response của apply-coupon khớp schema { discount_amount: number, final_amount: number }", "method": "POST", "endpoint": "/api/apply-coupon", "headers": "Authorization: Bearer {{token_user}}", "body": { "code": "SAVE10", "total_amount": 200000, "user_id": "{{userId}}" }, "expected_status": 200, "schema_ref": "coupon_success", "assertions": "discount_amount là number và > 0 và < total_amount", "bug": "B-05" },
+    { "title": "Response của GET /api/orders/:id khớp schema đơn hàng đầy đủ", "method": "GET", "endpoint": "/api/orders/{{orderId}}", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "order_schema", "assertions": "có id, user_id, total_amount (number), status (enum 5 giá trị), shipping_address" },
+    { "title": "Trường status luôn thuộc enum 5 giá trị hợp lệ", "method": "GET", "endpoint": "/api/orders/my-orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "orders_array", "assertions": "mỗi phần tử có status thuộc [pending,confirmed,shipping,delivered,canceled]" },
+    { "title": "total_amount luôn là number, không bao giờ là string", "method": "GET", "endpoint": "/api/orders/my-orders", "headers": "Authorization: Bearer {{token_user}}", "expected_status": 200, "schema_ref": "orders_array", "assertions": "typeof total_amount === 'number' cho mọi phần tử" }
   ]
 }

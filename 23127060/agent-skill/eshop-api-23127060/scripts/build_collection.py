@@ -22,6 +22,7 @@ import csv
 import json
 import os
 import re
+import unicodedata
 import uuid
 
 SID = "23127060"
@@ -118,12 +119,25 @@ def guess_schema_ref(row):
 
 
 # ---------------------------------------------------------------------------
+def bo_dau(s):
+    """Bo dau tieng Viet de cac mau khop duoc voi CA ban co dau lan khong dau.
+
+    Cac mau nhan dang assertion ben duoi duoc viet bang tieng Viet KHONG DAU. Khi tai lieu
+    va spec chuyen sang co dau, neu khong chuan hoa thi moi mau deu truot: assertion khong
+    duoc dich thanh phep kiem that, va so assertion trong bao cao Newman tut xuong ma khong
+    ai biet vi sao. Chuan hoa o day de mau khong phu thuoc vao viec co danh dau hay khong.
+    """
+    s = unicodedata.normalize("NFD", s)
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
+    return s.replace("\u0111", "d").replace("\u0110", "D")
+
+
 # Bộ dịch assertion: văn xuôi -> phép kiểm Postman thật
 # ---------------------------------------------------------------------------
 def compile_assertion(text, row):
     """Tra ve (list dong JS, da_tu_dong_hoa?)."""
     t = text.strip()
-    low = t.lower()
+    low = bo_dau(t).lower()
     name = js_str("%s | %s" % (row["TC_ID"], t[:80]))
     out = []
 
@@ -384,7 +398,8 @@ ORDER_FLOW = ["pending", "confirmed", "shipping", "delivered"]
 def build_prerequest(row):
     """Sinh script dua he thong ve dung precondition cua case."""
     ep = row["Endpoint"]
-    pre = str(row.get("Preconditions", ""))
+    # Chuan hoa bo dau: mau ben duoi viet khong dau nhung Preconditions da co dau.
+    pre = bo_dau(str(row.get("Preconditions", ""))).lower()
     lines = []
 
     if row["TC_ID"] in ISOLATED:
@@ -456,7 +471,7 @@ def build_prerequest(row):
         ]
 
     # (d) Case so sánh kiểu price giữa id lẻ và id chẵn: đọc id lẻ trước.
-    if "typeof price" in str(row.get("Expected_Assertions", "")).lower():
+    if "typeof price" in bo_dau(str(row.get("Expected_Assertions", ""))).lower():
         lines += [
             "// Doc san pham id le truoc de lay kieu cua price lam moc so sanh",
             "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/products/1',",
@@ -622,7 +637,7 @@ def setup_folder(api):
                    '  pm.environment.set("soLuongTruocKhiGoi", pm.response.json().length);',
                    '}']))
     return {"name": "_setup - chuan bi du lieu va token", "item": items,
-            "description": "Phai chay TRUOC moi folder khac. Dat cac bien: token_user, "
+            "description": "Phải chạy TRƯỚC mọi folder khác. Đặt các biến: token_user, "
                            "token_attacker, token_admin, userId, orderId, newProductId..."}
 
 
@@ -654,7 +669,7 @@ def build_collection(rows, api, sid, stats):
                 "header": [{"key": "Content-Type", "value": "application/json"}],
                 "url": _url(r["Endpoint"]),
                 "description": ("%s\n\nPreconditions: %s\nOracle: %s\nSEC: %s\nTag: %s\n"
-                                "Bug: %s\nNguon: %s\nAudit: %s\n%s"
+                                "Bug: %s\nNguồn: %s\nAudit: %s\n%s"
                                 % (r["Title"], r["Preconditions"], r["Oracle"], r["SEC_Ref"],
                                    r["Tag"], r["Bug_Ref"], r["Source"], r["Audit_Label"],
                                    r["Audit_Note"])),

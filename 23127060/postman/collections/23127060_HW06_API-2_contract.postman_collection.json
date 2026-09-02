@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "485d078e-8037-42c7-a877-cd964a347c20",
+    "_postman_id": "78b75b46-b1fa-4893-bd24-83faa2072906",
     "name": "23127060_HW06_API-2",
     "description": "HW06 API Testing - SV 23127060 Ninh Van Khai - API-2",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -316,13 +316,13 @@
           ]
         }
       ],
-      "description": "Phai chay TRUOC moi folder khac. Dat cac bien: token_user, token_attacker, token_admin, userId, orderId, newProductId..."
+      "description": "Phải chạy TRƯỚC mọi folder khác. Đặt các biến: token_user, token_attacker, token_admin, userId, orderId, newProductId..."
     },
     {
       "name": "DOM - Domain partition",
       "item": [
         {
-          "name": "TC-B2-DOM-026 @bug | POST /api/apply-coupon | code = EXPIRED (Decision table T3 - ma ",
+          "name": "TC-B2-DOM-026 @bug | POST /api/apply-coupon | code = EXPIRED (Decision table T3 - mã ",
           "event": [
             {
               "listen": "test",
@@ -330,17 +330,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-026 | DOM | Oracle=SPEC | Tag=@bug | Bug=B-08",
-                  "// POST /api/apply-coupon | code = EXPIRED (Decision table T3 - ma het han)",
+                  "// POST /api/apply-coupon | code = EXPIRED (Decision table T3 - mã hết hạn)",
                   "",
                   "pm.test(\"TC-B2-DOM-026 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-026 | body la JSON\", function () {",
+                  "pm.test(\"TC-B2-DOM-026 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-026 | co truong error\", function () {",
+                  "pm.test(\"TC-B2-DOM-026 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -369,7 +369,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "POST /api/apply-coupon | code = EXPIRED (Decision table T3 - ma het han)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-08\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/apply-coupon | code = EXPIRED (Decision table T3 - mã hết hạn)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-08\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"code\":\"EXPIRED\",\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
@@ -383,7 +383,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-DOM-027 @contract | POST /api/apply-coupon | code = VIP100 (Decision table T4 - ma f",
+          "name": "TC-B2-DOM-027 @contract | POST /api/apply-coupon | code = VIP100 (Decision table T4 - mã f",
           "event": [
             {
               "listen": "test",
@@ -391,7 +391,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-027 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/apply-coupon | code = VIP100 (Decision table T4 - ma fixed con luot dung (max 2 luot/user). Khong co coupon is_active=0 nao duoc seed nen dong T4 goc (ma bi vo hieu hoa) khong kiem duoc qua API - xem report/01_api_selection.md)",
+                  "// POST /api/apply-coupon | code = VIP100 (Decision table T4 - mã fixed còn lượt dùng (max 2 lượt/user). Không có coupon is_active=0 nào được seed nên dòng T4 gốc (mã bị vô hiệu hóa) không kiểm được qua API - xem report/01_api_selection.md)",
                   "",
                   "pm.test(\"TC-B2-DOM-027 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
@@ -427,7 +427,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "POST /api/apply-coupon | code = VIP100 (Decision table T4 - ma fixed con luot dung (max 2 luot/user). Khong co coupon is_active=0 nao duoc seed nen dong T4 goc (ma bi vo hieu hoa) khong kiem duoc qua API - xem report/01_api_selection.md)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/apply-coupon | code = VIP100 (Decision table T4 - mã fixed còn lượt dùng (max 2 lượt/user). Không có coupon is_active=0 nào được seed nên dòng T4 gốc (mã bị vô hiệu hóa) không kiểm được qua API - xem report/01_api_selection.md)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"code\":\"VIP100\",\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
@@ -449,17 +449,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-028 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/apply-coupon | code = KHONGCOMA23127060 (Decision table T5 - ma khong ton tai)",
+                  "// POST /api/apply-coupon | code = KHONGCOMA23127060 (Decision table T5 - mã không tồn tại)",
                   "",
                   "pm.test(\"TC-B2-DOM-028 | HTTP 404\", function () {",
                   "  pm.response.to.have.status(404);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-028 | body la JSON\", function () {",
+                  "pm.test(\"TC-B2-DOM-028 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-028 | co truong error\", function () {",
+                  "pm.test(\"TC-B2-DOM-028 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -488,7 +488,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "POST /api/apply-coupon | code = KHONGCOMA23127060 (Decision table T5 - ma khong ton tai)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/apply-coupon | code = KHONGCOMA23127060 (Decision table T5 - mã không tồn tại)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"code\":\"KHONGCOMA23127060\",\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
@@ -502,7 +502,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-DOM-029 @contract | POST /api/apply-coupon | code =  (ma rong)",
+          "name": "TC-B2-DOM-029 @contract | POST /api/apply-coupon | code =  (mã rỗng)",
           "event": [
             {
               "listen": "test",
@@ -510,17 +510,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-029 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/apply-coupon | code =  (ma rong)",
+                  "// POST /api/apply-coupon | code =  (mã rỗng)",
                   "",
                   "pm.test(\"TC-B2-DOM-029 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-029 | body la JSON\", function () {",
+                  "pm.test(\"TC-B2-DOM-029 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-029 | co truong error\", function () {",
+                  "pm.test(\"TC-B2-DOM-029 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -549,7 +549,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "POST /api/apply-coupon | code =  (ma rong)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/apply-coupon | code =  (mã rỗng)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"code\":\"\",\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
@@ -563,7 +563,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-DOM-030 @contract | POST /api/apply-coupon | code = <thieu key> (thieu code)",
+          "name": "TC-B2-DOM-030 @contract | POST /api/apply-coupon | code = <thieu key> (thiếu code)",
           "event": [
             {
               "listen": "test",
@@ -571,17 +571,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-030 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/apply-coupon | code = <thieu key> (thieu code)",
+                  "// POST /api/apply-coupon | code = <thieu key> (thiếu code)",
                   "",
                   "pm.test(\"TC-B2-DOM-030 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-030 | body la JSON\", function () {",
+                  "pm.test(\"TC-B2-DOM-030 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-030 | co truong error\", function () {",
+                  "pm.test(\"TC-B2-DOM-030 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -610,7 +610,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "POST /api/apply-coupon | code = <thieu key> (thieu code)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/apply-coupon | code = <thieu key> (thiếu code)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"total_amount\":500000,\"user_id\":\"{{userId}}\"}",
@@ -624,7 +624,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-DOM-033 @contract | POST /api/apply-coupon | total_amount = 299999 (BVA - duoi min_o",
+          "name": "TC-B2-DOM-033 @contract | POST /api/apply-coupon | total_amount = 299999 (BVA - dưới min_o",
           "event": [
             {
               "listen": "test",
@@ -632,17 +632,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-033 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/apply-coupon | total_amount = 299999 (BVA - duoi min_order_amount 300000 cua SAVE10 dung 1 dong)",
+                  "// POST /api/apply-coupon | total_amount = 299999 (BVA - dưới min_order_amount 300000 của SAVE10 đúng 1 đồng)",
                   "",
                   "pm.test(\"TC-B2-DOM-033 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-033 | body la JSON\", function () {",
+                  "pm.test(\"TC-B2-DOM-033 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-033 | co truong error\", function () {",
+                  "pm.test(\"TC-B2-DOM-033 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -671,7 +671,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "POST /api/apply-coupon | total_amount = 299999 (BVA - duoi min_order_amount 300000 cua SAVE10 dung 1 dong)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/apply-coupon | total_amount = 299999 (BVA - dưới min_order_amount 300000 của SAVE10 đúng 1 đồng)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"code\":\"SAVE10\",\"total_amount\":299999,\"user_id\":\"{{userId}}\"}",
@@ -699,11 +699,11 @@
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-036 | body la JSON\", function () {",
+                  "pm.test(\"TC-B2-DOM-036 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-036 | co truong error\", function () {",
+                  "pm.test(\"TC-B2-DOM-036 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -732,7 +732,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "POST /api/apply-coupon | total_amount = -200000 (tong tien am)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/apply-coupon | total_amount = -200000 (tong tien am)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"code\":\"SAVE10\",\"total_amount\":-200000,\"user_id\":\"{{userId}}\"}",
@@ -746,7 +746,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-DOM-037 @contract | POST /api/apply-coupon | total_amount = 10000 (don 10k nho hon s",
+          "name": "TC-B2-DOM-037 @contract | POST /api/apply-coupon | total_amount = 10000 (đơn 10k nhỏ hơn s",
           "event": [
             {
               "listen": "test",
@@ -754,17 +754,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-037 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/apply-coupon | total_amount = 10000 (don 10k nho hon so tien giam - final_amount khong duoc am)",
+                  "// POST /api/apply-coupon | total_amount = 10000 (đơn 10k nhỏ hơn số tiền giảm - final_amount không được âm)",
                   "",
                   "pm.test(\"TC-B2-DOM-037 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-037 | body la JSON\", function () {",
+                  "pm.test(\"TC-B2-DOM-037 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-037 | co truong error\", function () {",
+                  "pm.test(\"TC-B2-DOM-037 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -793,7 +793,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "POST /api/apply-coupon | total_amount = 10000 (don 10k nho hon so tien giam - final_amount khong duoc am)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 luot), EXPIRED (percent 20, min 100000, het han 2020-01-01) da co san tu database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/apply-coupon | total_amount = 10000 (đơn 10k nhỏ hơn số tiền giảm - final_amount không được âm)\n\nPreconditions: Coupon SAVE10 (percent 10, min 300000), BIGBUY (fixed 50000, min 500000), VIP100 (fixed 100000, min 300000, max 2 lượt), EXPIRED (percent 20, min 100000, hết hạn 2020-01-01) đã có sẵn từ database.js\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"code\":\"SAVE10\",\"total_amount\":10000,\"user_id\":\"{{userId}}\"}",
@@ -807,7 +807,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-DOM-901 @bug | Checkout voi total_amount = 1 roi doc lai don hang de xac nhan s",
+          "name": "TC-B2-DOM-901 @bug | Checkout với total_amount = 1 rồi đọc lại đơn hàng để xác nhận s",
           "event": [
             {
               "listen": "test",
@@ -815,17 +815,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-901 | DOM | Oracle=SPEC | Tag=@bug | Bug=B-01",
-                  "// Checkout voi total_amount = 1 roi doc lai don hang de xac nhan so tien that su duoc luu",
+                  "// Checkout với total_amount = 1 rồi đọc lại đơn hàng để xác nhận số tiền thật sự được lưu",
                   "",
                   "pm.test(\"TC-B2-DOM-901 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] total_amount cua don hang phai bang tong tinh tu gio hang (30000000), KHONG duoc bang 1",
+                  "// [CHUA TU DONG HOA] total_amount của đơn hàng phải bằng tổng tính từ giỏ hàng (30000000), KHÔNG được bằng 1",
                   "",
-                  "// [CHUA TU DONG HOA] SRS FR-08: 'Backend phai tu tinh lai tong tien",
+                  "// [CHUA TU DONG HOA] SRS FR-08: 'Backend phải tự tính lại tổng tiền",
                   "",
-                  "// [CHUA TU DONG HOA] khong chap nhan gia tri total_amount do client gui len'"
+                  "// [CHUA TU DONG HOA] không chấp nhận giá trị total_amount do client gửi lên'"
                 ]
               }
             }
@@ -853,12 +853,12 @@
                 "{{orderId}}"
               ]
             },
-            "description": "Checkout voi total_amount = 1 roi doc lai don hang de xac nhan so tien that su duoc luu\n\nPreconditions: Gio hang co 1 san pham gia 30.000.000d. Da goi POST /api/checkout voi total_amount = 1\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-01\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong."
+            "description": "Checkout với total_amount = 1 rồi đọc lại đơn hàng để xác nhận số tiền thật sự được lưu\n\nPreconditions: Giỏ hàng có 1 sản phẩm giá 30.000.000đ. Đã gọi POST /api/checkout với total_amount = 1\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-01\nNguồn: HUMAN\nAudit: VALID\nCase do sinh viên tự viết sau khi đọc mã nguồn SUT; không qua bộ sinh tự động."
           },
           "response": []
         },
         {
-          "name": "TC-B2-DOM-902 @bug | Sau khi thanh toan thanh cong, gio hang phai duoc xoa",
+          "name": "TC-B2-DOM-902 @bug | Sau khi thanh toán thành công, giỏ hàng phải được xóa",
           "event": [
             {
               "listen": "test",
@@ -866,13 +866,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-DOM-902 | DOM | Oracle=SPEC | Tag=@bug | Bug=B-13",
-                  "// Sau khi thanh toan thanh cong, gio hang phai duoc xoa",
+                  "// Sau khi thanh toán thành công, giỏ hàng phải được xóa",
                   "",
                   "pm.test(\"TC-B2-DOM-902 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-DOM-902 | gio hang phai la mang rong sau checkout (SRS FR-08: 'Sau thanh toan thanh cong, \", function () {",
+                  "pm.test(\"TC-B2-DOM-902 | giỏ hàng phải là mảng rỗng sau checkout (SRS FR-08: 'Sau thanh toán thành công, \", function () {",
                   "  var j = pm.response.json();",
                   "  pm.expect(Array.isArray(j)).to.be.true;",
                   "  pm.expect(j.length, 'phai rong').to.eql(0);",
@@ -903,7 +903,7 @@
                 "cart"
               ]
             },
-            "description": "Sau khi thanh toan thanh cong, gio hang phai duoc xoa\n\nPreconditions: Da them san pham vao gio va goi POST /api/checkout thanh cong\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-13\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong."
+            "description": "Sau khi thanh toán thành công, giỏ hàng phải được xóa\n\nPreconditions: Đã thêm sản phẩm vào giỏ và gọi POST /api/checkout thành công\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-13\nNguồn: HUMAN\nAudit: VALID\nCase do sinh viên tự viết sau khi đọc mã nguồn SUT; không qua bộ sinh tự động."
           },
           "response": []
         }
@@ -913,7 +913,7 @@
       "name": "STA - State transition",
       "item": [
         {
-          "name": "TC-B2-STA-001 @contract | Chuyen trang thai pending -> confirmed (hop le)",
+          "name": "TC-B2-STA-001 @contract | Chuyển trạng thái pending -> confirmed (hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -955,13 +955,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-001 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai pending -> confirmed (hop le)",
+                  "// Chuyển trạng thái pending -> confirmed (hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-001 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] trang thai sau khi goi = confirmed"
+                  "// [CHUA TU DONG HOA] trạng thái sau khi gọi = confirmed"
                 ]
               }
             }
@@ -991,7 +991,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai pending -> confirmed (hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái pending -> confirmed (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"confirmed\"}",
@@ -1005,7 +1005,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-002 @contract | Chuyen trang thai confirmed -> shipping (hop le)",
+          "name": "TC-B2-STA-002 @contract | Chuyển trạng thái confirmed -> shipping (hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1047,13 +1047,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-002 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai confirmed -> shipping (hop le)",
+                  "// Chuyển trạng thái confirmed -> shipping (hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-002 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] trang thai sau khi goi = shipping"
+                  "// [CHUA TU DONG HOA] trạng thái sau khi gọi = shipping"
                 ]
               }
             }
@@ -1083,7 +1083,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai confirmed -> shipping (hop le)\n\nPreconditions: Doi tuong dang o trang thai confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái confirmed -> shipping (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"shipping\"}",
@@ -1097,7 +1097,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-003 @contract | Chuyen trang thai shipping -> delivered (hop le)",
+          "name": "TC-B2-STA-003 @contract | Chuyển trạng thái shipping -> delivered (hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1139,13 +1139,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-003 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai shipping -> delivered (hop le)",
+                  "// Chuyển trạng thái shipping -> delivered (hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-003 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] trang thai sau khi goi = delivered"
+                  "// [CHUA TU DONG HOA] trạng thái sau khi gọi = delivered"
                 ]
               }
             }
@@ -1175,7 +1175,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai shipping -> delivered (hop le)\n\nPreconditions: Doi tuong dang o trang thai shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái shipping -> delivered (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"delivered\"}",
@@ -1189,7 +1189,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-004 @contract | Chuyen trang thai pending -> canceled (hop le)",
+          "name": "TC-B2-STA-004 @contract | Chuyển trạng thái pending -> canceled (hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1231,13 +1231,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-004 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai pending -> canceled (hop le)",
+                  "// Chuyển trạng thái pending -> canceled (hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-004 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] trang thai sau khi goi = canceled"
+                  "// [CHUA TU DONG HOA] trạng thái sau khi gọi = canceled"
                 ]
               }
             }
@@ -1266,7 +1266,7 @@
                 "cancel"
               ]
             },
-            "description": "Chuyen trang thai pending -> canceled (hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái pending -> canceled (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{}",
@@ -1280,7 +1280,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-005 @contract | Chuyen trang thai confirmed -> canceled (hop le)",
+          "name": "TC-B2-STA-005 @contract | Chuyển trạng thái confirmed -> canceled (hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1322,13 +1322,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-005 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai confirmed -> canceled (hop le)",
+                  "// Chuyển trạng thái confirmed -> canceled (hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-005 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] trang thai sau khi goi = canceled"
+                  "// [CHUA TU DONG HOA] trạng thái sau khi gọi = canceled"
                 ]
               }
             }
@@ -1357,7 +1357,7 @@
                 "cancel"
               ]
             },
-            "description": "Chuyen trang thai confirmed -> canceled (hop le)\n\nPreconditions: Doi tuong dang o trang thai confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái confirmed -> canceled (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{}",
@@ -1371,7 +1371,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-006 @contract | Chuyen trang thai pending -> shipping (KHONG hop le)",
+          "name": "TC-B2-STA-006 @contract | Chuyển trạng thái pending -> shipping (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1413,17 +1413,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-006 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai pending -> shipping (KHONG hop le)",
+                  "// Chuyển trạng thái pending -> shipping (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-006 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-006 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-006 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-006 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-006 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -1463,7 +1463,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai pending -> shipping (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. Nhay coc trang thai\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái pending -> shipping (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái pending. Nhảy cóc trạng thái\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"shipping\"}",
@@ -1477,7 +1477,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-007 @contract | Chuyen trang thai pending -> delivered (KHONG hop le)",
+          "name": "TC-B2-STA-007 @contract | Chuyển trạng thái pending -> delivered (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1519,17 +1519,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-007 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai pending -> delivered (KHONG hop le)",
+                  "// Chuyển trạng thái pending -> delivered (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-007 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-007 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-007 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-007 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-007 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -1569,7 +1569,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai pending -> delivered (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái pending -> delivered (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái pending. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"delivered\"}",
@@ -1583,7 +1583,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-008 @contract | Chuyen trang thai confirmed -> pending (KHONG hop le)",
+          "name": "TC-B2-STA-008 @contract | Chuyển trạng thái confirmed -> pending (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1625,17 +1625,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-008 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai confirmed -> pending (KHONG hop le)",
+                  "// Chuyển trạng thái confirmed -> pending (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-008 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-008 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-008 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-008 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-008 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -1675,7 +1675,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai confirmed -> pending (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai confirmed. Lui trang thai\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái confirmed -> pending (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái confirmed. Lùi trạng thái\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"pending\"}",
@@ -1689,7 +1689,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-009 @contract | Chuyen trang thai confirmed -> delivered (KHONG hop le)",
+          "name": "TC-B2-STA-009 @contract | Chuyển trạng thái confirmed -> delivered (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1731,17 +1731,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-009 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai confirmed -> delivered (KHONG hop le)",
+                  "// Chuyển trạng thái confirmed -> delivered (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-009 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-009 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-009 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-009 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-009 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -1781,7 +1781,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai confirmed -> delivered (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái confirmed -> delivered (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái confirmed. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"delivered\"}",
@@ -1795,7 +1795,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-010 @contract | Chuyen trang thai shipping -> pending (KHONG hop le)",
+          "name": "TC-B2-STA-010 @contract | Chuyển trạng thái shipping -> pending (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1837,17 +1837,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-010 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai shipping -> pending (KHONG hop le)",
+                  "// Chuyển trạng thái shipping -> pending (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-010 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-010 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-010 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-010 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-010 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -1887,7 +1887,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai shipping -> pending (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái shipping -> pending (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"pending\"}",
@@ -1901,7 +1901,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-011 @contract | Chuyen trang thai shipping -> confirmed (KHONG hop le)",
+          "name": "TC-B2-STA-011 @contract | Chuyển trạng thái shipping -> confirmed (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1943,17 +1943,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-011 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai shipping -> confirmed (KHONG hop le)",
+                  "// Chuyển trạng thái shipping -> confirmed (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-011 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-011 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-011 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-011 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-011 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -1993,7 +1993,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai shipping -> confirmed (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái shipping -> confirmed (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái shipping. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"confirmed\"}",
@@ -2007,7 +2007,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-013 @contract | Chuyen trang thai delivered -> shipping (KHONG hop le)",
+          "name": "TC-B2-STA-013 @contract | Chuyển trạng thái delivered -> shipping (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -2049,17 +2049,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-013 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai delivered -> shipping (KHONG hop le)",
+                  "// Chuyển trạng thái delivered -> shipping (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-013 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-013 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-013 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-013 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-013 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -2099,7 +2099,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai delivered -> shipping (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai delivered. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái delivered -> shipping (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái delivered. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"shipping\"}",
@@ -2113,7 +2113,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-014 @contract | Chuyen trang thai delivered -> canceled (KHONG hop le)",
+          "name": "TC-B2-STA-014 @contract | Chuyển trạng thái delivered -> canceled (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -2155,13 +2155,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-014 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai delivered -> canceled (KHONG hop le)",
+                  "// Chuyển trạng thái delivered -> canceled (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-014 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-014 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-014 | body.error chứa Invalid state transition\", function () {",
                   "  var e = pm.response.json().error || '';",
                   "  pm.expect(e, 'phai co thong bao tu choi').to.be.a('string').and.to.not.be.empty;",
                   "  pm.expect(e.toLowerCase()).to.satisfy(function (m) {",
@@ -2169,7 +2169,7 @@
                   "  });",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-014 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-014 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -2208,7 +2208,7 @@
                 "cancel"
               ]
             },
-            "description": "Chuyen trang thai delivered -> canceled (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai delivered. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái delivered -> canceled (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái delivered. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{}",
@@ -2222,7 +2222,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-015 @contract | Chuyen trang thai delivered -> delivered (KHONG hop le)",
+          "name": "TC-B2-STA-015 @contract | Chuyển trạng thái delivered -> delivered (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -2264,17 +2264,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-015 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai delivered -> delivered (KHONG hop le)",
+                  "// Chuyển trạng thái delivered -> delivered (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-015 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-015 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-015 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-015 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-015 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -2314,7 +2314,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai delivered -> delivered (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai delivered. Trang thai cuoi - khong doi duoc nua\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái delivered -> delivered (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái delivered. Trạng thái cuối - không đổi được nữa\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"delivered\"}",
@@ -2328,7 +2328,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-017 @contract | Chuyen trang thai canceled -> confirmed (KHONG hop le)",
+          "name": "TC-B2-STA-017 @contract | Chuyển trạng thái canceled -> confirmed (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -2370,17 +2370,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-017 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai canceled -> confirmed (KHONG hop le)",
+                  "// Chuyển trạng thái canceled -> confirmed (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-017 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-017 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-017 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-017 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-017 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -2420,7 +2420,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai canceled -> confirmed (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai canceled. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái canceled -> confirmed (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái canceled. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"confirmed\"}",
@@ -2434,7 +2434,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-018 @contract | Chuyen trang thai canceled -> canceled (KHONG hop le)",
+          "name": "TC-B2-STA-018 @contract | Chuyển trạng thái canceled -> canceled (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -2476,13 +2476,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-018 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai canceled -> canceled (KHONG hop le)",
+                  "// Chuyển trạng thái canceled -> canceled (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-018 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-018 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-018 | body.error chứa Invalid state transition\", function () {",
                   "  var e = pm.response.json().error || '';",
                   "  pm.expect(e, 'phai co thong bao tu choi').to.be.a('string').and.to.not.be.empty;",
                   "  pm.expect(e.toLowerCase()).to.satisfy(function (m) {",
@@ -2490,7 +2490,7 @@
                   "  });",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-018 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-018 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -2529,7 +2529,7 @@
                 "cancel"
               ]
             },
-            "description": "Chuyen trang thai canceled -> canceled (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai canceled. Huy 2 lan\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái canceled -> canceled (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái canceled. Hủy 2 lần\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{}",
@@ -2543,7 +2543,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-019 @contract | Chuyen trang thai pending -> invalid_value (KHONG hop le)",
+          "name": "TC-B2-STA-019 @contract | Chuyển trạng thái pending -> invalid_value (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -2585,17 +2585,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-019 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai pending -> invalid_value (KHONG hop le)",
+                  "// Chuyển trạng thái pending -> invalid_value (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-B2-STA-019 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-019 | body.error chua Invalid state transition\", function () {",
+                  "pm.test(\"TC-B2-STA-019 | body.error chứa Invalid state transition\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-019 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-019 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -2635,7 +2635,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen trang thai pending -> invalid_value (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai pending. Gia tri trang thai khong nam trong enum\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái pending -> invalid_value (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái pending. Giá trị trạng thái không nằm trong enum\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"khong_ton_tai_23127060\"}",
@@ -2649,7 +2649,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-STA-902 @contract | Chuyen tu pending sang chinh pending phai bi tu choi",
+          "name": "TC-B2-STA-902 @contract | Chuyển từ pending sang chính pending phải bị từ chối",
           "event": [
             {
               "listen": "prerequest",
@@ -2691,17 +2691,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-STA-902 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen tu pending sang chinh pending phai bi tu choi",
+                  "// Chuyển từ pending sang chính pending phải bị từ chối",
                   "",
                   "pm.test(\"TC-B2-STA-902 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-902 | body.error chua 'Invalid state transition'\", function () {",
+                  "pm.test(\"TC-B2-STA-902 | body.error chứa 'Invalid state transition'\", function () {",
                   "  pm.expect(pm.response.json().error || '').to.include('Invalid state transition');",
                   "});",
                   "",
-                  "pm.test(\"TC-B2-STA-902 | trang thai KHONG doi\", function () {",
+                  "pm.test(\"TC-B2-STA-902 | trạng thái KHÔNG đổi\", function () {",
                   "  var oid = pm.environment.get('orderId');",
                   "  var truoc = pm.environment.get('statusTruocKhiGoi');",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/orders/' + oid,",
@@ -2713,7 +2713,7 @@
                   "    });",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] so do FR-10 khong co mui ten nao tu mot trang thai ve chinh no"
+                  "// [CHUA TU DONG HOA] sơ đồ FR-10 không có mũi tên nào từ một trạng thái về chính nó"
                 ]
               }
             }
@@ -2743,7 +2743,7 @@
                 "status"
               ]
             },
-            "description": "Chuyen tu pending sang chinh pending phai bi tu choi\n\nPreconditions: Don dang o trang thai pending\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong.",
+            "description": "Chuyển từ pending sang chính pending phải bị từ chối\n\nPreconditions: Đơn đang ở trạng thái pending\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: HUMAN\nAudit: VALID\nCase do sinh viên tự viết sau khi đọc mã nguồn SUT; không qua bộ sinh tự động.",
             "body": {
               "mode": "raw",
               "raw": "{\"status\":\"pending\"}",
@@ -2762,7 +2762,7 @@
       "name": "SEC - Security SEC-01..07",
       "item": [
         {
-          "name": "TC-B2-SEC-003 @contract | [SEC-02] Checkout khong kem token phai bi tu choi",
+          "name": "TC-B2-SEC-003 @contract | [SEC-02] Checkout không kèm token phải bị từ chối",
           "event": [
             {
               "listen": "test",
@@ -2770,15 +2770,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-SEC-003 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// [SEC-02] Checkout khong kem token phai bi tu choi",
+                  "// [SEC-02] Checkout không kèm token phải bị từ chối",
                   "",
                   "pm.test(\"TC-B2-SEC-003 | HTTP 401\", function () {",
                   "  pm.response.to.have.status(401);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] tra 403 khi token hop le nhung role != 'admin'",
+                  "// [CHUA TU DONG HOA] trả 403 khi token hợp lệ nhưng role != 'admin'",
                   "",
-                  "pm.test(\"TC-B2-SEC-003 | hanh dong admin KHONG duoc thuc hien\", function () {",
+                  "pm.test(\"TC-B2-SEC-003 | hành động admin KHÔNG được thực hiện\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -2816,7 +2816,7 @@
                 "checkout"
               ]
             },
-            "description": "[SEC-02] Checkout khong kem token phai bi tu choi\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-02\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-03 -> SEC-02). Thieu JWT -> SEC-02; SEC-03 danh rieng cho viec kiem role.",
+            "description": "[SEC-02] Checkout không kèm token phải bị từ chối\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-02\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-03 -> SEC-02). Thiếu JWT -> SEC-02; SEC-03 dành riêng cho việc kiểm role.",
             "body": {
               "mode": "raw",
               "raw": "{\"items\":[{\"product_id\":1,\"quantity\":1}],\"total_amount\":100000,\"shipping_address\":\"Q5\"}",
@@ -2830,7 +2830,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-SEC-005 @contract | [SEC-02] Token JWT bi sua chu ky phai bi tu choi",
+          "name": "TC-B2-SEC-005 @contract | [SEC-02] Token JWT bị sửa chữ ký phải bị từ chối",
           "event": [
             {
               "listen": "test",
@@ -2838,15 +2838,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-SEC-005 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// [SEC-02] Token JWT bi sua chu ky phai bi tu choi",
+                  "// [SEC-02] Token JWT bị sửa chữ ký phải bị từ chối",
                   "",
                   "pm.test(\"TC-B2-SEC-005 | HTTP 403\", function () {",
                   "  pm.response.to.have.status(403);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] tra 403 khi token hop le nhung role != 'admin'",
+                  "// [CHUA TU DONG HOA] trả 403 khi token hợp lệ nhưng role != 'admin'",
                   "",
-                  "pm.test(\"TC-B2-SEC-005 | hanh dong admin KHONG duoc thuc hien\", function () {",
+                  "pm.test(\"TC-B2-SEC-005 | hành động admin KHÔNG được thực hiện\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -2888,7 +2888,7 @@
                 "checkout"
               ]
             },
-            "description": "[SEC-02] Token JWT bi sua chu ky phai bi tu choi\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-02\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-03 -> SEC-02). Token sai chu ky = token khong hop le -> SEC-02.",
+            "description": "[SEC-02] Token JWT bị sửa chữ ký phải bị từ chối\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-02\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-03 -> SEC-02). Token sai chữ ký = token không hợp lệ -> SEC-02.",
             "body": {
               "mode": "raw",
               "raw": "{\"items\":[{\"product_id\":1,\"quantity\":1}],\"total_amount\":100000,\"shipping_address\":\"Q5\"}",
@@ -2902,7 +2902,7 @@
           "response": []
         },
         {
-          "name": "TC-B2-SEC-013 @bug | [-] Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage lim",
+          "name": "TC-B2-SEC-013 @bug | [-] Áp cùng 1 coupon 10 lần liên tiếp phải bị chặn bởi usage lim",
           "event": [
             {
               "listen": "test",
@@ -2910,13 +2910,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-SEC-013 | SEC | Oracle=SPEC | Tag=@bug | Bug=B-11",
-                  "// [-] Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage limit",
+                  "// [-] Áp cùng 1 coupon 10 lần liên tiếp phải bị chặn bởi usage limit",
                   "",
                   "pm.test(\"TC-B2-SEC-013 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] tu lan thu N+1 phai bi tu choi theo usage_limit"
+                  "// [CHUA TU DONG HOA] từ lần thứ N+1 phải bị từ chối theo usage_limit"
                 ]
               }
             }
@@ -2943,7 +2943,7 @@
                 "apply-coupon"
               ]
             },
-            "description": "[-] Ap cung 1 coupon 10 lan lien tiep phai bi chan boi usage limit\n\nPreconditions: Chay Collection Runner 10 iteration\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-11\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-07 -> -). Han muc su dung coupon la FR-09 dieu kien C5, khong nam trong SEC-01..07.",
+            "description": "[-] Áp cùng 1 coupon 10 lần liên tiếp phải bị chặn bởi usage limit\n\nPreconditions: Chay Collection Runner 10 iteration\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: B-11\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-07 -> -). Hạn mức sử dụng coupon là FR-09 điều kiện C5, không nằm trong SEC-01..07.",
             "body": {
               "mode": "raw",
               "raw": "{\"code\":\"SAVE10\",\"total_amount\":200000,\"user_id\":\"{{userId}}\"}",
@@ -2962,7 +2962,7 @@
       "name": "SCH - Schema validation",
       "item": [
         {
-          "name": "TC-B2-SCH-004 @contract | Response cua GET /api/orders/:id khop schema don hang day du",
+          "name": "TC-B2-SCH-004 @contract | Response của GET /api/orders/:id khớp schema đơn hàng đầy đủ",
           "event": [
             {
               "listen": "test",
@@ -2970,13 +2970,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-SCH-004 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Response cua GET /api/orders/:id khop schema don hang day du",
+                  "// Response của GET /api/orders/:id khớp schema đơn hàng đầy đủ",
                   "",
                   "pm.test(\"TC-B2-SCH-004 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] co id, user_id, total_amount (number), status (enum 5 gia tri), shipping_address"
+                  "// [CHUA TU DONG HOA] có id, user_id, total_amount (number), status (enum 5 giá trị), shipping_address"
                 ]
               }
             }
@@ -3004,12 +3004,12 @@
                 "{{orderId}}"
               ]
             },
-            "description": "Response cua GET /api/orders/:id khop schema don hang day du\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "Response của GET /api/orders/:id khớp schema đơn hàng đầy đủ\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
         {
-          "name": "TC-B2-SCH-005 @contract | Truong status luon thuoc enum 5 gia tri hop le",
+          "name": "TC-B2-SCH-005 @contract | Trường status luôn thuộc enum 5 giá trị hợp lệ",
           "event": [
             {
               "listen": "test",
@@ -3017,13 +3017,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-SCH-005 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Truong status luon thuoc enum 5 gia tri hop le",
+                  "// Trường status luôn thuộc enum 5 giá trị hợp lệ",
                   "",
                   "pm.test(\"TC-B2-SCH-005 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] moi phan tu co status thuoc [pending,confirmed,shipping,delivered,canceled]"
+                  "// [CHUA TU DONG HOA] mỗi phần tử có status thuộc [pending,confirmed,shipping,delivered,canceled]"
                 ]
               }
             }
@@ -3051,12 +3051,12 @@
                 "my-orders"
               ]
             },
-            "description": "Truong status luon thuoc enum 5 gia tri hop le\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "Trường status luôn thuộc enum 5 giá trị hợp lệ\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
         {
-          "name": "TC-B2-SCH-006 @contract | total_amount luon la number, khong bao gio la string",
+          "name": "TC-B2-SCH-006 @contract | total_amount luôn là number, không bao giờ là string",
           "event": [
             {
               "listen": "test",
@@ -3064,13 +3064,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-B2-SCH-006 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// total_amount luon la number, khong bao gio la string",
+                  "// total_amount luôn là number, không bao giờ là string",
                   "",
                   "pm.test(\"TC-B2-SCH-006 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] typeof total_amount === 'number' cho moi phan tu"
+                  "// [CHUA TU DONG HOA] typeof total_amount === 'number' cho mọi phần tử"
                 ]
               }
             }
@@ -3098,7 +3098,7 @@
                 "my-orders"
               ]
             },
-            "description": "total_amount luon la number, khong bao gio la string\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "total_amount luôn là number, không bao giờ là string\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         }

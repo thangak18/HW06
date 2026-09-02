@@ -50,49 +50,49 @@ COLUMNS = None  # lấy từ file đầu vào
 # ---------------------------------------------------------------------------
 SEC_REMAP = {
     # --- API-1 ---
-    "TC-A1-SEC-001": ("SEC-05", "SQLi la vi pham SEC-05 (parameterized query), khong phai SEC-01 (luu mat khau plaintext)."),
+    "TC-A1-SEC-001": ("SEC-05", "SQLi là vi phạm SEC-05 (parameterized query), không phải SEC-01 (lưu mật khẩu plaintext)."),
     "TC-A1-SEC-002": ("SEC-05", "Nhu tren: SQLi thuoc SEC-05."),
-    "TC-A1-SEC-003": ("SEC-07", "Tra thang OTP ra response la loi vong doi OTP -> SEC-07, khong phai SEC-02 (yeu cau JWT)."),
-    "TC-A1-SEC-004": ("-", "User enumeration KHONG duoc bat ky ma SEC-01..07 nao phu. Van la test hop le nhung phai de SEC_Ref = '-' thay vi gan bua."),
-    "TC-A1-SEC-005": ("SEC-01", "Response login lo truong password chinh la bang chung mat khau duoc luu plaintext -> dung SEC-01."),
-    "TC-A1-SEC-006": ("SEC-07", "Reset phai doi OTP hop le -> thuoc vong doi OTP SEC-07, khong phai SEC-03 (kiem role admin)."),
-    "TC-A1-SEC-007": ("SEC-07", "'OTP chi hop le cho email da yeu cau' la yeu cau cua SEC-07 + FR-03, khong phai SEC-04 (escape XSS)."),
-    "TC-A1-SEC-008": ("SEC-06", "Gui kem truong role dung la SEC-06; SEC-05 la parameterized query."),
-    "TC-A1-SEC-009": ("SEC-04", "Payload XSS thuoc SEC-04; SEC-06 chi noi rieng ve truong role."),
+    "TC-A1-SEC-003": ("SEC-07", "Trả thẳng OTP ra response là lỗi vòng đời OTP -> SEC-07, không phải SEC-02 (yêu cầu JWT)."),
+    "TC-A1-SEC-004": ("-", "User enumeration KHÔNG được bất kỳ mã SEC-01..07 nào phủ. Vẫn là test hợp lệ nhưng phải để SEC_Ref = '-' thay vì gán bừa."),
+    "TC-A1-SEC-005": ("SEC-01", "Response login lộ trường password chính là bằng chứng mật khẩu được lưu plaintext -> đúng SEC-01."),
+    "TC-A1-SEC-006": ("SEC-07", "Reset phải đòi OTP hợp lệ -> thuộc vòng đời OTP SEC-07, không phải SEC-03 (kiểm role admin)."),
+    "TC-A1-SEC-007": ("SEC-07", "'OTP chỉ hợp lệ cho email đã yêu cầu' là yêu cầu của SEC-07 + FR-03, không phải SEC-04 (escape XSS)."),
+    "TC-A1-SEC-008": ("SEC-06", "Gửi kèm trường role đúng là SEC-06; SEC-05 là parameterized query."),
+    "TC-A1-SEC-009": ("SEC-04", "Payload XSS thuộc SEC-04; SEC-06 chỉ nói riêng về trường role."),
     "TC-A1-SEC-010": ("SEC-04", "Nhu tren."),
-    "TC-A1-SEC-011": ("SEC-07", "Do token thuoc SEC-07 (entropy OTP) - ma dung, nhung ky vong 429 sai, xem luat R1."),
-    "TC-A1-SEC-012": ("-", "Khoa tai khoan sau 3 lan sai la FR-02, khong nam trong SEC-01..07."),
-    "TC-A1-SEC-013": ("SEC-07", "Ma dung nhung noi dung case sai, xem luat R1."),
+    "TC-A1-SEC-011": ("SEC-07", "Dò token thuộc SEC-07 (entropy OTP) - mã đúng, nhưng kỳ vọng 429 sai, xem luật R1."),
+    "TC-A1-SEC-012": ("-", "Khóa tài khoản sau 3 lần sai là FR-02, không nằm trong SEC-01..07."),
+    "TC-A1-SEC-013": ("SEC-07", "Mã đúng nhưng nội dung case sai, xem luật R1."),
     # --- API-2 ---
     "TC-B2-SEC-001": ("SEC-05", "SQLi -> SEC-05."),
-    "TC-B2-SEC-002": ("-", "Khong lo stack trace khong duoc SEC-01..07 phu."),
-    "TC-B2-SEC-003": ("SEC-02", "Thieu JWT -> SEC-02; SEC-03 danh rieng cho viec kiem role."),
+    "TC-B2-SEC-002": ("-", "Không lộ stack trace không được SEC-01..07 phủ."),
+    "TC-B2-SEC-003": ("SEC-02", "Thiếu JWT -> SEC-02; SEC-03 dành riêng cho việc kiểm role."),
     "TC-B2-SEC-004": ("SEC-02", "Nhu tren."),
-    "TC-B2-SEC-005": ("SEC-02", "Token sai chu ky = token khong hop le -> SEC-02."),
-    "TC-B2-SEC-006": ("SEC-02", "GET /api/orders/:id thieu han middleware xac thuc -> vi pham SEC-02. SEC-04 la escape XSS."),
+    "TC-B2-SEC-005": ("SEC-02", "Token sai chữ ký = token không hợp lệ -> SEC-02."),
+    "TC-B2-SEC-006": ("SEC-02", "GET /api/orders/:id thiếu hẳn middleware xác thực -> vi phạm SEC-02. SEC-04 là escape XSS."),
     "TC-B2-SEC-007": ("SEC-02", "Nhu tren."),
     "TC-B2-SEC-008": ("SEC-02", "Nhu tren."),
     "TC-B2-SEC-009": ("SEC-03", "User thuong goi API admin -> dung SEC-03; SEC-05 la parameterized query."),
     "TC-B2-SEC-010": ("SEC-03", "Nhu tren."),
     "TC-B2-SEC-011": ("SEC-04", "XSS -> SEC-04."),
-    "TC-B2-SEC-012": ("-", "Mass assignment truong 'status' khong phai 'role' nen khong thuoc SEC-06; day la yeu cau FR-08/FR-10."),
-    "TC-B2-SEC-013": ("-", "Han muc su dung coupon la FR-09 dieu kien C5, khong nam trong SEC-01..07."),
-    "TC-B2-SEC-014": ("SEC-06", "Da viet lai thanh chuoi leo thang quyen (xem luat R1)."),
+    "TC-B2-SEC-012": ("-", "Mass assignment trường 'status' không phải 'role' nên không thuộc SEC-06; đây là yêu cầu FR-08/FR-10."),
+    "TC-B2-SEC-013": ("-", "Hạn mức sử dụng coupon là FR-09 điều kiện C5, không nằm trong SEC-01..07."),
+    "TC-B2-SEC-014": ("SEC-06", "Đã viết lại thành chuỗi leo thang quyền (xem luật R1)."),
     # --- API-3 ---
     "TC-C3-SEC-001": ("SEC-05", "SQLi -> SEC-05."),
     "TC-C3-SEC-002": ("SEC-05", "Nhu tren."),
-    "TC-C3-SEC-003": ("SEC-05", "Tra ve thong diep loi SQL la he qua truc tiep cua viec noi chuoi -> van la SEC-05."),
-    "TC-C3-SEC-004": ("-", "Xem luat R5: tham so ?debug=true khong ton tai."),
-    "TC-C3-SEC-005": ("SEC-02", "Thieu JWT -> SEC-02."),
+    "TC-C3-SEC-003": ("SEC-05", "Trả về thông điệp lỗi SQL là hệ quả trực tiếp của việc nối chuỗi -> vẫn là SEC-05."),
+    "TC-C3-SEC-004": ("-", "Xem luật R5: tham số ?debug=true không tồn tại."),
+    "TC-C3-SEC-005": ("SEC-02", "Thiếu JWT -> SEC-02."),
     "TC-C3-SEC-006": ("SEC-02", "Nhu tren."),
     "TC-C3-SEC-007": ("SEC-02", "Nhu tren."),
     "TC-C3-SEC-008": ("SEC-02", "Token sai chu ky -> SEC-02."),
-    "TC-C3-SEC-009": ("SEC-03", "User thuong sua san pham = thieu kiem role -> SEC-03, khong phai SEC-04."),
+    "TC-C3-SEC-009": ("SEC-03", "User thường sửa sản phẩm = thiếu kiểm role -> SEC-03, không phải SEC-04."),
     "TC-C3-SEC-010": ("SEC-03", "Dung SEC-03; truoc do gan SEC-05."),
     "TC-C3-SEC-011": ("SEC-03", "Nhu tren."),
     "TC-C3-SEC-012": ("SEC-04", "Stored XSS -> SEC-04."),
-    "TC-C3-SEC-013": ("-", "Ghi de khoa chinh 'id' khong phai truong 'role' nen khong thuoc SEC-06."),
-    "TC-C3-SEC-014": ("SEC-06", "Da viet lai thanh chuoi leo thang quyen (xem luat R1)."),
+    "TC-C3-SEC-013": ("-", "Ghi đè khóa chính 'id' không phải trường 'role' nên không thuộc SEC-06."),
+    "TC-C3-SEC-014": ("SEC-06", "Đã viết lại thành chuỗi leo thang quyền (xem luật R1)."),
 }
 
 # --- Các case NGOÀI nhóm SEC nhưng vẫn bị gán mã SEC theo bảng suy diễn ---
@@ -100,24 +100,24 @@ SEC_REMAP = {
 # leo thang quyen bi gan SEC-05. Chung nam rai rac trong nhom DOM/STA nen de bi bo sot
 # hơn các case trong nhóm SEC.
 SEC_REMAP.update({
-    "TC-A1-DOM-013": ("SEC-07", "Dung OTP cua tai khoan khac chinh la dieu SEC-07 + FR-03 quy dinh ('OTP chi hop le cho email da yeu cau'), khong phai SEC-04 (escape XSS)."),
-    "TC-A1-DOM-022": ("SEC-05", "SQLi -> SEC-05 (parameterized query), khong phai SEC-01 (luu mat khau plaintext)."),
-    "TC-A1-DOM-026": ("-", "Do manh mat khau la yeu cau FR-01/FR-03, khong nam trong SEC-01..07. SEC-06 chi noi rieng ve truong role."),
-    "TC-A1-DOM-029": ("-", "Nhu tren: do dai mat khau la FR-01, khong phai ma SEC."),
+    "TC-A1-DOM-013": ("SEC-07", "Dùng OTP của tài khoản khác chính là điều SEC-07 + FR-03 quy định ('OTP chỉ hợp lệ cho email đã yêu cầu'), không phải SEC-04 (escape XSS)."),
+    "TC-A1-DOM-022": ("SEC-05", "SQLi -> SEC-05 (parameterized query), không phải SEC-01 (lưu mật khẩu plaintext)."),
+    "TC-A1-DOM-026": ("-", "Độ mạnh mật khẩu là yêu cầu FR-01/FR-03, không nằm trong SEC-01..07. SEC-06 chỉ nói riêng về trường role."),
+    "TC-A1-DOM-029": ("-", "Như trên: độ dài mật khẩu là FR-01, không phải mã SEC."),
     "TC-A1-DOM-031": ("-", "Nhu tren: yeu cau co chu hoa la FR-01."),
     "TC-A1-DOM-032": ("-", "Nhu tren: yeu cau co chu so la FR-01."),
-    "TC-A1-DOM-033": ("-", "Nhu tren: mat khau yeu vi pham FR-01, khong phai ma SEC."),
+    "TC-A1-DOM-033": ("-", "Như trên: mật khẩu yếu vi phạm FR-01, không phải mã SEC."),
     "TC-A1-DOM-034": ("SEC-04", "Payload <script> -> SEC-04 (escape du lieu user nhap)."),
-    "TC-B2-DOM-022": ("SEC-04", "Payload <script> trong shipping_address -> SEC-04. SRS FR-18 con noi ro dia chi giao hang phai hien thi an toan."),
+    "TC-B2-DOM-022": ("SEC-04", "Payload <script> trong shipping_address -> SEC-04. SRS FR-18 còn nói rõ địa chỉ giao hàng phải hiển thị an toàn."),
     "TC-B2-DOM-031": ("SEC-05", "SQLi -> SEC-05."),
-    "TC-B2-DOM-039": ("SEC-02", "Lay user_id tu body thay vi tu JWT la vi pham SEC-02 (API bao mat phai dua tren token hop le), khong phai SEC-04."),
-    "TC-B2-STA-020": ("SEC-03", "User thuong tu xac nhan don hang = thao tac admin khong kiem role -> SEC-03, khong phai SEC-05."),
-    "TC-C3-DOM-009": ("SEC-04", "Stored XSS qua ten san pham -> SEC-04."),
+    "TC-B2-DOM-039": ("SEC-02", "Lấy user_id từ body thay vì từ JWT là vi phạm SEC-02 (API bảo mật phải dựa trên token hợp lệ), không phải SEC-04."),
+    "TC-B2-STA-020": ("SEC-03", "User thường tự xác nhận đơn hàng = thao tác admin không kiểm role -> SEC-03, không phải SEC-05."),
+    "TC-C3-DOM-009": ("SEC-04", "Stored XSS qua tên sản phẩm -> SEC-04."),
     "TC-C3-DOM-026": ("SEC-04", "URL scheme javascript: la vector XSS khi render -> SEC-04."),
-    "TC-C3-DOM-027": ("-", "Path traversal trong imageUrl khong duoc bat ky ma SEC-01..07 nao phu. Van la test hop le, de SEC_Ref = '-'."),
+    "TC-C3-DOM-027": ("-", "Path traversal trong imageUrl không được bất kỳ mã SEC-01..07 nào phủ. Vẫn là test hợp lệ, để SEC_Ref = '-'."),
     "TC-C3-DOM-034": ("SEC-05", "SQLi trong path param -> SEC-05."),
     "TC-C3-DOM-037": ("SEC-04", "Stored XSS qua description -> SEC-04."),
-    "TC-C3-DOM-045": ("SEC-05", "Lam vo cau SQL bang mot dau nhay don -> bang chung truc tiep cua viec noi chuoi -> SEC-05."),
+    "TC-C3-DOM-045": ("SEC-05", "Làm vỡ câu SQL bằng một dấu nháy đơn -> bằng chứng trực tiếp của việc nối chuỗi -> SEC-05."),
     "TC-C3-DOM-046": ("SEC-05", "SQLi -> SEC-05."),
     "TC-C3-DOM-047": ("SEC-05", "SQLi UNION SELECT -> SEC-05."),
     "TC-C3-DOM-048": ("SEC-05", "SQLi stacked query -> SEC-05."),
@@ -132,40 +132,31 @@ SEC_REMAP.update({
 REWRITE = {
     # ---- R1: ky vong 429 (rate limiting) ----
     "TC-A1-SEC-011": ("INVALID",
-        "R1 - Ky vong 429 khong co can cu: khong mot dong nao trong FR-01..FR-24 hay SEC-01..07 "
-        "yeu cau rate limiting. AI suy ra tu thoi quen bao mat chung chu khong tu dac ta. "
-        "DA SUA: giu nguyen kich ban do 20 gia tri (van la cach chung minh entropy yeu) nhung doi "
-        "oracle sang dieu SRS THUC SU noi - SEC-07 doi OTP toi thieu 6 chu so: khang dinh do dai "
-        "token >= 6 va khong lan do nao duoc chap nhan.",
+        "R1 - Kỳ vọng 429 không có căn cứ: không một dòng nào trong FR-01..FR-24 hay SEC-01..07 yêu cầu rate limiting. AI suy ra từ thói quen bảo mật chung chứ không từ đặc tả. ĐÃ SỬA: giữ nguyên kịch bản dò 20 giá trị (vẫn là cách chứng minh entropy yếu) nhưng đổi oracle sang điều SRS THỰC SỰ nói - SEC-07 đòi OTP tối thiểu 6 chữ số: khẳng định độ dài token >= 6 và không lần dò nào được chấp nhận.",
         {"Expected_Status": "400",
-         "Expected_Assertions": "moi lan do deu tra 400; do dai resetToken lay tu forgot-password phai >= 6 ky tu theo SEC-07",
-         "Title": "[SEC-07] Do 20 gia tri token: khong lan nao duoc chap nhan va OTP phai dai >= 6 chu so",
+         "Expected_Assertions": "mỗi lần dò đều trả 400; độ dài resetToken lấy từ forgot-password phải >= 6 ký tự theo SEC-07",
+         "Title": "[SEC-07] Dò 20 giá trị token: không lần nào được chấp nhận và OTP phải dài >= 6 chữ số",
          "Bug_Ref": "A-02"}),
     "TC-A1-SEC-013": ("INVALID",
-        "R1 - Ky vong 429 khong co can cu trong SRS (khong co yeu cau gioi han so lan goi). "
-        "DA SUA: doi thanh dieu SEC-07 that su quy dinh - OTP phai duoc vo hieu hoa khi bi thay the: "
-        "xin OTP lan 2 roi dung lai OTP lan 1.",
+        "R1 - Kỳ vọng 429 không có căn cứ trong SRS (không có yêu cầu giới hạn số lần gọi). ĐÃ SỬA: đổi thành điều SEC-07 thật sự quy định - OTP phải được vô hiệu hóa khi bị thay thế: xin OTP lần 2 rồi dùng lại OTP lần 1.",
         {"Expected_Status": "400",
-         "Expected_Assertions": "OTP cap lan 1 phai bi vo hieu hoa sau khi cap OTP lan 2; body co truong error",
-         "Title": "[SEC-07] Xin OTP lan 2 thi OTP lan 1 phai bi vo hieu hoa",
+         "Expected_Assertions": "OTP cấp lần 1 phải bị vô hiệu hóa sau khi cấp OTP lần 2; body có trường error",
+         "Title": "[SEC-07] Xin OTP lần 2 thì OTP lần 1 phải bị vô hiệu hóa",
          "Technique": "State Transition", "Bug_Ref": "A-04"}),
     "TC-B2-SEC-014": ("INVALID",
-        "R1 - Ky vong 429 khong co can cu trong SRS. DA SUA: thay bang chuoi leo thang quyen that "
-        "su kiem duoc va vi pham SEC-06 - user thuong tu nang role='admin' qua PUT /api/users/me roi "
-        "goi API admin doi trang thai don. Bug X-01 phat hien o STEP 0.",
+        "R1 - Kỳ vọng 429 không có căn cứ trong SRS. ĐÃ SỬA: thay bằng chuỗi leo thang quyền thật sự kiểm được và vi phạm SEC-06 - user thường tự nâng role='admin' qua PUT /api/users/me rồi gọi API admin đổi trạng thái đơn. Bug X-01 phát hiện ở STEP 0.",
         {"Expected_Status": "403",
-         "Expected_Assertions": "PUT /api/users/me KHONG duoc phep doi role; role sau khi goi van la 'user'; buoc goi API admin sau do phai bi tu choi",
-         "Title": "[SEC-06] User thuong tu nang role='admin' roi doi trang thai don hang",
+         "Expected_Assertions": "PUT /api/users/me KHÔNG được phép đổi role; role sau khi gọi vẫn là 'user'; bước gọi API admin sau đó phải bị từ chối",
+         "Title": "[SEC-06] User thường tự nâng role='admin' rồi đổi trạng thái đơn hàng",
          "Method": "PUT", "Endpoint": "/api/users/me",
          "Request_Body": '{"name":"Attacker 23127060","phone":"0900000000","shipping_address":"Q5","role":"admin"}',
          "Request_Headers": "Authorization: Bearer {{token_attacker}}",
          "Technique": "Privilege Escalation", "Bug_Ref": "X-01", "Tag": "@bug", "Priority": "P0"}),
     "TC-C3-SEC-014": ("INVALID",
-        "R1 - Ky vong 429 khong co can cu trong SRS. DA SUA: thay bang chuoi leo thang quyen "
-        "SEC-06 -> SEC-03: user thuong tu nang role roi tao san pham.",
+        "R1 - Kỳ vọng 429 không có căn cứ trong SRS. ĐÃ SỬA: thay bằng chuỗi leo thang quyền SEC-06 -> SEC-03: user thường tự nâng role rồi tạo sản phẩm.",
         {"Expected_Status": "403",
-         "Expected_Assertions": "role sau khi goi PUT /api/users/me van phai la 'user'; POST /api/products sau do phai tra 403",
-         "Title": "[SEC-06] User thuong tu nang role='admin' roi tao san pham",
+         "Expected_Assertions": "role sau khi gọi PUT /api/users/me vẫn phải là 'user'; POST /api/products sau đó phải trả 403",
+         "Title": "[SEC-06] User thường tự nâng role='admin' rồi tạo sản phẩm",
          "Method": "PUT", "Endpoint": "/api/users/me",
          "Request_Body": '{"name":"Attacker 23127060","phone":"0900000000","shipping_address":"Q5","role":"admin"}',
          "Request_Headers": "Authorization: Bearer {{token_attacker}}",
@@ -173,66 +164,50 @@ REWRITE = {
 
     # ---- R2: kỳ vọng 409 không có căn cứ ----
     "TC-C3-DOM-041": ("INVALID",
-        "R2 - Ky vong 409 khong co can cu: SRS FR-15 chi noi 'Admin co the Them/Xem/Sua/Xoa san pham', "
-        "khong he dat rang buoc khoa ngoai giua san pham va don hang. AI suy dien tu kinh nghiem CSDL. "
-        "DA SUA: ky vong 200 (xoa thanh cong) va bo sung khang dinh san pham thuc su bien mat.",
+        "R2 - Kỳ vọng 409 không có căn cứ: SRS FR-15 chỉ nói 'Admin có thể Thêm/Xem/Sửa/Xóa sản phẩm', không hề đặt ràng buộc khóa ngoại giữa sản phẩm và đơn hàng. AI suy diễn từ kinh nghiệm CSDL. ĐÃ SỬA: kỳ vọng 200 (xóa thành công) và bổ sung khẳng định sản phẩm thực sự biến mất.",
         {"Expected_Status": "200",
          "Endpoint": "/api/products/{{newProductId}}",
-         "Expected_Assertions": "body co message; GET lai san pham do sau khi xoa KHONG duoc tra ve du lieu (bug C-04 tra 200 {})",
-         "Title": "DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)",
+         "Expected_Assertions": "body có message; GET lại sản phẩm đó sau khi xóa KHÔNG được trả về dữ liệu (bug C-04 trả 200 {})",
+         "Title": "DELETE /api/products/:id (xóa sản phẩm vật thử do _setup tạo ra)",
          "Bug_Ref": "C-08"}),
     # Ghi chú thêm: ban đầu case này xóa sản phẩm id = 1. Nhưng id = 1 là vật cố định được
     # hàng chục case khác dùng làm mốc (vd TC-C3-DOM-051 kiểm kiểu của price ở id lẻ). Xóa nó
     # ở giữa lần chạy khiến những case chạy sau đó thất bại vì một lý do không liên quan gì
     # đến chính chúng. Đã đổi sang sản phẩm thứ do folder _setup tạo riêng.
     "TC-C3-STA-007": ("INVALID",
-        "R2 - Ky vong 409 khong co can cu: SRS khong yeu cau ten san pham duy nhat, va cot 'name' "
-        "trong database.js khong co rang buoc UNIQUE. DA SUA: ky vong 201 (tao thanh cong) va chuyen "
-        "trong tam sang dieu kiem duoc - hai ban ghi phai co id khac nhau.",
+        "R2 - Kỳ vọng 409 không có căn cứ: SRS không yêu cầu tên sản phẩm duy nhất, và cột 'name' trong database.js không có ràng buộc UNIQUE. ĐÃ SỬA: kỳ vọng 201 (tạo thành công) và chuyển trọng tâm sang điều kiểm được - hai bản ghi phải có id khác nhau.",
         {"Expected_Status": "201",
-         "Expected_Assertions": "tao thanh cong; id tra ve khac id cua san pham dau tien; SRS khong cam trung ten",
-         "Title": "Tao san pham trung ten voi san pham da co (SRS khong cam)",
+         "Expected_Assertions": "tạo thành công; id trả về khác id của sản phẩm đầu tiên; SRS không cấm trùng tên",
+         "Title": "Tạo sản phẩm trùng tên với sản phẩm đã có (SRS không cấm)",
          "Tag": "@bug", "Bug_Ref": "C-12"}),
 
     # ---- R4: mau thuan noi tai ----
     "TC-A1-STA-006": ("INVALID",
-        "R4 - Mau thuan noi tai: case danh dau chuyen trang thai HOP LE nhung lai ky vong 400. "
-        "Ngoai ra 'EXPIRED' khong phai mot trang thai ma bo sinh dieu khien duoc: SUT khong luu "
-        "thoi diem cap OTP nen khong the dua OTP ve trang thai het han qua API. "
-        "DA SUA: doi thanh chuyen KHONG hop le ISSUED -> USED_TWICE (dung lai OTP da dung), la dieu "
-        "SEC-07 quy dinh ro va kiem duoc hoan toan qua API.",
+        "R4 - Mâu thuẫn nội tại: case đánh dấu chuyển trạng thái HỢP LỆ nhưng lại kỳ vọng 400. Ngoài ra 'EXPIRED' không phải một trạng thái mà bộ sinh điều khiển được: SUT không lưu thời điểm cấp OTP nên không thể đưa OTP về trạng thái hết hạn qua API. ĐÃ SỬA: đổi thành chuyển KHÔNG hợp lệ ISSUED -> USED_TWICE (dùng lại OTP đã dùng), là điều SEC-07 quy định rõ và kiểm được hoàn toàn qua API.",
         {"Expected_Status": "400",
-         "Expected_Assertions": "lan reset thu hai voi cung OTP phai bi tu choi; body co truong error",
-         "Title": "Chuyen trang thai USED -> USED (dung lai OTP da dung - KHONG hop le)",
-         "Preconditions": "Da reset mat khau thanh cong mot lan bang OTP nay",
+         "Expected_Assertions": "lần reset thứ hai với cùng OTP phải bị từ chối; body có trường error",
+         "Title": "Chuyển trạng thái USED -> USED (dùng lại OTP đã dùng - KHÔNG hợp lệ)",
+         "Preconditions": "Đã reset mật khẩu thành công một lần bằng OTP này",
          "Tag": "@contract", "Bug_Ref": "-"}),
     "TC-C3-STA-009": ("INVALID",
-        "R4 - Mau thuan noi tai: danh dau KHONG hop le nhung ky vong 200. Ngoai ra 'IN_SEARCH' khong "
-        "phai mot trang thai cua vong doi tai nguyen ma la mot phep doc. "
-        "DA SUA: giu phep kiem (san pham da xoa khong duoc xuat hien trong ket qua tim kiem) nhung "
-        "phat bieu lai cho dung: ky vong 200 voi mang KHONG chua san pham da xoa.",
+        "R4 - Mâu thuẫn nội tại: đánh dấu KHÔNG hợp lệ nhưng kỳ vọng 200. Ngoài ra 'IN_SEARCH' không phải một trạng thái của vòng đời tài nguyên mà là một phép đọc. ĐÃ SỬA: giữ phép kiểm (sản phẩm đã xóa không được xuất hiện trong kết quả tìm kiếm) nhưng phát biểu lại cho đúng: kỳ vọng 200 với mảng KHÔNG chứa sản phẩm đã xóa.",
         {"Expected_Status": "200",
-         "Expected_Assertions": "HTTP 200 voi mang ket qua; mang KHONG duoc chua san pham vua bi xoa",
-         "Title": "Sau khi DELETE, san pham khong duoc con trong ket qua GET /api/products?search="}),
+         "Expected_Assertions": "HTTP 200 với mảng kết quả; mảng KHÔNG được chứa sản phẩm vừa bị xóa",
+         "Title": "Sau khi DELETE, sản phẩm không được còn trong kết quả GET /api/products?search="}),
 
     # ---- R5: tham so bia ----
     "TC-C3-SEC-004": ("INVALID",
-        "R5 - Tham so bia: `?debug=true` khong ton tai trong api_specification.md lan trong server.js. "
-        "AI tu nghi ra mot co debug de test. Test se 'pass' nhung khong chung minh dieu gi vi tham so "
-        "bi bo qua hoan toan. DA SUA: bo tham so bia, kiem dung dieu co the kiem - response san pham "
-        "khong duoc chua truong nam ngoai schema da dac ta.",
+        "R5 - Tham số bịa: `?debug=true` không tồn tại trong api_specification.md lẫn trong server.js. AI tự nghĩ ra một cờ debug để test. Test sẽ 'pass' nhưng không chứng minh điều gì vì tham số bị bỏ qua hoàn toàn. ĐÃ SỬA: bỏ tham số bịa, kiểm đúng điều có thể kiểm - response sản phẩm không được chứa trường nằm ngoài schema đã đặc tả.",
         {"Endpoint": "/api/products/1",
-         "Expected_Assertions": "body chi duoc chua dung 6 truong id,name,price,description,imageUrl,category_id; khong co truong noi bo nao khac",
-         "Title": "[--] Response san pham khong duoc chua truong nam ngoai schema"}),
+         "Expected_Assertions": "body chỉ được chứa đúng 6 trường id,name,price,description,imageUrl,category_id; không có trường nội bộ nào khác",
+         "Title": "[--] Response sản phẩm không được chứa trường nằm ngoài schema"}),
 
     # ---- R3b: kỳ vọng không có căn cứ (không liên quan SEC) ----
     "TC-A1-DOM-035": ("INVALID",
-        "R3b - Ky vong 400 khong co can cu: SRS FR-01/FR-03 chi doi mat khau moi THOA DIEU KIEN DO MANH, "
-        "khong he cam dat lai trung mat khau cu. AI ap mot chinh sach ma dac ta khong co. "
-        "DA SUA: ky vong 200, va them khang dinh mat khau cu van dang nhap duoc (vi no chinh la mat khau moi).",
+        "R3b - Kỳ vọng 400 không có căn cứ: SRS FR-01/FR-03 chỉ đòi mật khẩu mới THỎA ĐIỀU KIỆN ĐỘ MẠNH, không hề cấm đặt lại trùng mật khẩu cũ. AI áp một chính sách mà đặc tả không có. ĐÃ SỬA: kỳ vọng 200, và thêm khẳng định mật khẩu cũ vẫn đăng nhập được (vì nó chính là mật khẩu mới).",
         {"Expected_Status": "200",
-         "Expected_Assertions": "reset thanh cong; SRS khong cam dat lai trung mat khau cu; login bang mat khau do phai thanh cong",
-         "Title": "POST /api/reset-password | newPassword = Api1234! (dat lai trung mat khau cu - SRS khong cam)"}),
+         "Expected_Assertions": "reset thành công; SRS không cấm đặt lại trùng mật khẩu cũ; login bằng mật khẩu đó phải thành công",
+         "Title": "POST /api/reset-password | newPassword = Api1234! (đặt lại trùng mật khẩu cũ - SRS không cấm)"}),
 }
 
 # ---------------------------------------------------------------------------
@@ -240,8 +215,8 @@ REWRITE = {
 # SRS viết ra. Không sai đến mức INVALID, nhưng phải ghi rõ oracle là suy diễn.
 # ---------------------------------------------------------------------------
 INFERRED_ORACLE = {
-    "TC-A1-DOM-002": "email khong ton tai van tra 200 (chong user enumeration)",
-    "TC-A1-DOM-009": "email khong phan biet hoa thuong",
+    "TC-A1-DOM-002": "email không tồn tại vẫn trả 200 (chống user enumeration)",
+    "TC-A1-DOM-009": "email không phân biệt hoa thường",
     "TC-A1-DOM-010": "email tu cat khoang trang dau-cuoi",
     "TC-A1-DOM-020": "do dai OTP duoi bien",
     "TC-A1-DOM-021": "do dai OTP tren bien",
@@ -251,8 +226,8 @@ INFERRED_ORACLE = {
 # ("body.error chua Invalid state transition; trang thai KHONG doi") KHÔNG nằm trong đây,
 # vì vế cuối của nó đã chính là phép kiểm tác dụng phụ mà luật R7 đòi hỏi.
 GENERIC_ASSERTS = {
-    "body la JSON; co truong error",
-    "body la JSON; khop schema thanh cong",
+    "body là JSON; có trường error",
+    "body là JSON; khớp schema thành công",
 }
 MUTATING = {"POST", "PUT", "DELETE", "PATCH"}
 
@@ -281,7 +256,7 @@ def has_observable_side_effect(r):
 
 
 def audit_row(r):
-    """Tra ve (label, note, overrides). Thu tu luat la thu tu uu tien."""
+    "Trả về (label, note, overrides). Thứ tự luật là thứ tự ưu tiên."
     tc = r["TC_ID"]
     notes = []
     ov = {}
@@ -307,9 +282,7 @@ def audit_row(r):
 
     # --- Luật oracle suy diễn ---
     if tc in INFERRED_ORACLE:
-        notes.append("R6 - Ky vong '%s' KHONG duoc SRS phat bieu truc tiep; day la suy dien tu "
-                     "thong le. DA SUA: ghi ro Oracle = SPEC(suy dien) de nguoi cham phan biet "
-                     "duoc voi cac ky vong trich thang tu dac ta." % INFERRED_ORACLE[tc])
+        notes.append("R6 - Kỳ vọng '%s' KHÔNG được SRS phát biểu trực tiếp; đây là suy diễn từ thông lệ. ĐÃ SỬA: ghi rõ Oracle = SPEC(suy diễn) để người chấm phân biệt được với các kỳ vọng trích thẳng từ đặc tả." % INFERRED_ORACLE[tc])
         ov["Oracle"] = "SPEC(suy dien)"
         return "INCOMPLETE", " | ".join(notes), ov
 
@@ -318,16 +291,11 @@ def audit_row(r):
     st = int(r["Expected_Status"])
     if a in GENERIC_ASSERTS:
         if has_observable_side_effect(r) and st >= 400:
-            notes.append("R7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. "
-                         "Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API "
-                         "tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc "
-                         "lai tai nguyen sau khi goi.")
-            ov["Expected_Assertions"] = a + "; VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi"
+            notes.append("R7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.")
+            ov["Expected_Assertions"] = a + "; VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi"
             return "INCOMPLETE", " | ".join(notes), ov
         if st < 300:
-            notes.append("R8 - Case thanh cong nhung chi kiem 'khop schema'. Thieu khang dinh gia tri "
-                         "that su duoc luu dung. DA SUA: bo sung buoc doc lai tai nguyen va so khop "
-                         "gia tri vua gui.")
+            notes.append("R8 - Case thành công nhưng chỉ kiểm 'khớp schema'. Thiếu khẳng định giá trị thật sự được lưu đúng. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên và so khớp giá trị vừa gửi.")
             ov["Expected_Assertions"] = a + "; VA doc lai tai nguyen de xac nhan gia tri luu dung bang gia tri da gui"
             return "INCOMPLETE", " | ".join(notes), ov
         # Con lai: endpoint CHI DOC bi tu choi dau vao xau. "Tra 4xx + co truong error" da la
@@ -335,14 +303,11 @@ def audit_row(r):
 
     # --- Luật thiếu precondition cho case phụ thuộc biến động ---
     if "{{" in r["Request_Body"] and r["Preconditions"] in ("SUT da seed", "-", ""):
-        notes.append("R10 - Case dung bien Postman ({{...}}) nhung precondition chi ghi 'SUT da seed', "
-                     "khong noi bien do duoc dat o dau. Chay doc lap se that bai. DA SUA: ghi ro buoc "
-                     "_setup phai chay truoc.")
-        ov["Preconditions"] = "Folder _setup da chay xong va da dat cac bien moi truong can thiet"
+        notes.append("R10 - Case dùng biến Postman ({{...}}) nhưng precondition chỉ ghi 'SUT da seed', không nói biến đó được đặt ở đâu. Chạy độc lập sẽ thất bại. ĐÃ SỬA: ghi rõ bước _setup phải chạy trước.")
+        ov["Preconditions"] = "Folder _setup đã chạy xong và đã đặt các biến môi trường cần thiết"
         return "INCOMPLETE", " | ".join(notes), ov
 
-    return "VALID", ("Buoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; "
-                     "chay doc lap duoc sau khi _setup chay xong."), ov
+    return "VALID", ("Bước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."), ov
 
 
 def process(path_in, path_out):

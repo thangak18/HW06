@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "e37c8a1f-315a-4282-8f4b-fa453082224d",
+    "_postman_id": "356cdad7-dc9f-4a59-80da-5e667ad78b1c",
     "name": "23127060_HW06_API-3",
     "description": "HW06 API Testing - SV 23127060 Ninh Van Khai - API-3",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -355,13 +355,13 @@
           ]
         }
       ],
-      "description": "Phai chay TRUOC moi folder khac. Dat cac bien: token_user, token_attacker, token_admin, userId, orderId, newProductId..."
+      "description": "Phải chạy TRƯỚC mọi folder khác. Đặt các biến: token_user, token_attacker, token_admin, userId, orderId, newProductId..."
     },
     {
       "name": "DOM - Domain partition",
       "item": [
         {
-          "name": "TC-C3-DOM-035 @bug | PUT /api/products/:id | description = <thieu key> (PUT khong gui",
+          "name": "TC-C3-DOM-035 @bug | PUT /api/products/:id | description = <thieu key> (PUT không gửi",
           "event": [
             {
               "listen": "test",
@@ -369,13 +369,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-035 | DOM | Oracle=SPEC | Tag=@bug | Bug=C-09",
-                  "// PUT /api/products/:id | description = <thieu key> (PUT khong gui description - KHONG duoc ghi de thanh null)",
+                  "// PUT /api/products/:id | description = <thieu key> (PUT không gửi description - KHÔNG được ghi đè thành null)",
                   "",
                   "pm.test(\"TC-C3-DOM-035 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] GET lai san pham: description phai giu nguyen gia tri cu"
+                  "// [CHUA TU DONG HOA] GET lại sản phẩm: description phải giữ nguyên giá trị cũ"
                 ]
               }
             }
@@ -403,10 +403,10 @@
                 ":id"
               ]
             },
-            "description": "PUT /api/products/:id | description = <thieu key> (PUT khong gui description - KHONG duoc ghi de thanh null)\n\nPreconditions: San pham id=1 ton tai\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-09\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "PUT /api/products/:id | description = <thieu key> (PUT không gửi description - KHÔNG được ghi đè thành null)\n\nPreconditions: Sản phẩm id=1 tồn tại\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-09\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
-              "raw": "{\"name\":\"SP Da Sua 23127060\",\"price\":180000,\"imageUrl\":\"https://example.com/b.png\",\"category_id\":1}",
+              "raw": "{\"name\":\"SP Đã Sửa 23127060\",\"price\":180000,\"imageUrl\":\"https://example.com/b.png\",\"category_id\":1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -417,7 +417,7 @@
           "response": []
         },
         {
-          "name": "TC-C3-DOM-038 @contract | DELETE /api/products/:id | id = 3 (xoa san pham ton tai)",
+          "name": "TC-C3-DOM-038 @contract | DELETE /api/products/:id | id = 3 (xóa sản phẩm tồn tại)",
           "event": [
             {
               "listen": "test",
@@ -425,13 +425,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-038 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// DELETE /api/products/:id | id = 3 (xoa san pham ton tai)",
+                  "// DELETE /api/products/:id | id = 3 (xóa sản phẩm tồn tại)",
                   "",
                   "pm.test(\"TC-C3-DOM-038 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] GET lai id=3 phai tra 404"
+                  "// [CHUA TU DONG HOA] GET lại id=3 phải trả 404"
                 ]
               }
             }
@@ -459,12 +459,12 @@
                 "3"
               ]
             },
-            "description": "DELETE /api/products/:id | id = 3 (xoa san pham ton tai)\n\nPreconditions: San pham id=3 ton tai\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "DELETE /api/products/:id | id = 3 (xóa sản phẩm tồn tại)\n\nPreconditions: Sản phẩm id=3 tồn tại\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
         {
-          "name": "TC-C3-DOM-041 @contract | DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)",
+          "name": "TC-C3-DOM-041 @contract | DELETE /api/products/:id (xóa sản phẩm vật thử do _setup tạo ra)",
           "event": [
             {
               "listen": "test",
@@ -472,17 +472,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-041 | DOM | Oracle=SPEC | Tag=@contract | Bug=C-08",
-                  "// DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)",
+                  "// DELETE /api/products/:id (xóa sản phẩm vật thử do _setup tạo ra)",
                   "",
                   "pm.test(\"TC-C3-DOM-041 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-C3-DOM-041 | body co message\", function () {",
+                  "pm.test(\"TC-C3-DOM-041 | body có message\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('message');",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] GET lai san pham do sau khi xoa KHONG duoc tra ve du lieu (bug C-04 tra 200 {})"
+                  "// [CHUA TU DONG HOA] GET lại sản phẩm đó sau khi xóa KHÔNG được trả về dữ liệu (bug C-04 trả 200 {})"
                 ]
               }
             }
@@ -510,12 +510,12 @@
                 "{{newProductId}}"
               ]
             },
-            "description": "DELETE /api/products/:id (xoa san pham vat thu do _setup tao ra)\n\nPreconditions: San pham id=3 ton tai\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: C-08\nNguon: AI\nAudit: INVALID\nR2 - Ky vong 409 khong co can cu: SRS FR-15 chi noi 'Admin co the Them/Xem/Sua/Xoa san pham', khong he dat rang buoc khoa ngoai giua san pham va don hang. AI suy dien tu kinh nghiem CSDL. DA SUA: ky vong 200 (xoa thanh cong) va bo sung khang dinh san pham thuc su bien mat."
+            "description": "DELETE /api/products/:id (xóa sản phẩm vật thử do _setup tạo ra)\n\nPreconditions: Sản phẩm id=3 tồn tại\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: C-08\nNguồn: AI\nAudit: INVALID\nR2 - Kỳ vọng 409 không có căn cứ: SRS FR-15 chỉ nói 'Admin có thể Thêm/Xem/Sửa/Xóa sản phẩm', không hề đặt ràng buộc khóa ngoại giữa sản phẩm và đơn hàng. AI suy diễn từ kinh nghiệm CSDL. ĐÃ SỬA: kỳ vọng 200 (xóa thành công) và bổ sung khẳng định sản phẩm thực sự biến mất."
           },
           "response": []
         },
         {
-          "name": "TC-C3-DOM-042 @contract | GET /api/products | search = Laptop (tu khoa binh thuong)",
+          "name": "TC-C3-DOM-042 @contract | GET /api/products | search = Laptop (từ khóa bình thường)",
           "event": [
             {
               "listen": "test",
@@ -523,15 +523,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-042 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// GET /api/products | search = Laptop (tu khoa binh thuong)",
+                  "// GET /api/products | search = Laptop (từ khóa bình thường)",
                   "",
                   "pm.test(\"TC-C3-DOM-042 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] tra ve mang",
+                  "// [CHUA TU DONG HOA] trả về mảng",
                   "",
-                  "// [CHUA TU DONG HOA] moi phan tu co name chua 'Laptop'"
+                  "// [CHUA TU DONG HOA] mỗi phần tử có name chứa 'Laptop'"
                 ]
               }
             }
@@ -560,12 +560,12 @@
                 }
               ]
             },
-            "description": "GET /api/products | search = Laptop (tu khoa binh thuong)\n\nPreconditions: DB da seed san pham\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "GET /api/products | search = Laptop (từ khóa bình thường)\n\nPreconditions: DB đã seed sản phẩm\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
         {
-          "name": "TC-C3-DOM-044 @contract | GET /api/products | search = KhongTonTai23127060 (khong co ket q",
+          "name": "TC-C3-DOM-044 @contract | GET /api/products | search = KhongTonTai23127060 (không có kết q",
           "event": [
             {
               "listen": "test",
@@ -573,13 +573,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-044 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// GET /api/products | search = KhongTonTai23127060 (khong co ket qua - phai tra mang rong chu khong loi)",
+                  "// GET /api/products | search = KhongTonTai23127060 (không có kết quả - phải trả mảng rỗng chứ không lỗi)",
                   "",
                   "pm.test(\"TC-C3-DOM-044 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-C3-DOM-044 | body la mang rong []\", function () {",
+                  "pm.test(\"TC-C3-DOM-044 | body là mảng rỗng []\", function () {",
                   "  var j = pm.response.json();",
                   "  pm.expect(Array.isArray(j)).to.be.true;",
                   "  pm.expect(j.length, 'phai rong').to.eql(0);",
@@ -612,7 +612,7 @@
                 }
               ]
             },
-            "description": "GET /api/products | search = KhongTonTai23127060 (khong co ket qua - phai tra mang rong chu khong loi)\n\nPreconditions: DB da seed san pham\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "GET /api/products | search = KhongTonTai23127060 (không có kết quả - phải trả mảng rỗng chứ không lỗi)\n\nPreconditions: DB đã seed sản phẩm\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
@@ -625,13 +625,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-049 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// GET /api/products | search = %3Cscript%3Ealert(1)%3C%2Fscript%3E (reflected XSS trong tu khoa)",
+                  "// GET /api/products | search = %3Cscript%3Ealert(1)%3C%2Fscript%3E (reflected XSS trong từ khóa)",
                   "",
                   "pm.test(\"TC-C3-DOM-049 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] response khong echo lai the script chua escape"
+                  "// [CHUA TU DONG HOA] response không echo lại thẻ script chưa escape"
                 ]
               }
             }
@@ -660,7 +660,7 @@
                 }
               ]
             },
-            "description": "GET /api/products | search = %3Cscript%3Ealert(1)%3C%2Fscript%3E (reflected XSS trong tu khoa)\n\nPreconditions: DB da seed san pham\nOracle: SPEC\nSEC: SEC-04\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-06 -> SEC-04). Reflected XSS qua tham so search -> SEC-04."
+            "description": "GET /api/products | search = %3Cscript%3Ealert(1)%3C%2Fscript%3E (reflected XSS trong từ khóa)\n\nPreconditions: DB đã seed sản phẩm\nOracle: SPEC\nSEC: SEC-04\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-06 -> SEC-04). Reflected XSS qua tham so search -> SEC-04."
           },
           "response": []
         },
@@ -673,17 +673,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-050 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// GET /api/products | search = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa (BVA - tu khoa rat dai)",
+                  "// GET /api/products | search = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa (BVA - từ khóa rất dài)",
                   "",
                   "pm.test(\"TC-C3-DOM-050 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-C3-DOM-050 | body la JSON\", function () {",
+                  "pm.test(\"TC-C3-DOM-050 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-C3-DOM-050 | khop schema thanh cong\", function () {",
+                  "pm.test(\"TC-C3-DOM-050 | khớp schema thành công\", function () {",
                   "  var schema = JSON.parse(pm.collectionVariables.get('schema_product_list') || '{}');",
                   "  if (Object.keys(schema).length) { pm.response.to.have.jsonSchema(schema); }",
                   "});",
@@ -717,12 +717,12 @@
                 }
               ]
             },
-            "description": "GET /api/products | search = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa (BVA - tu khoa rat dai)\n\nPreconditions: DB da seed san pham\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR8 - Case thanh cong nhung chi kiem 'khop schema'. Thieu khang dinh gia tri that su duoc luu dung. DA SUA: bo sung buoc doc lai tai nguyen va so khop gia tri vua gui."
+            "description": "GET /api/products | search = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa (BVA - từ khóa rất dài)\n\nPreconditions: DB đã seed sản phẩm\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR8 - Case thành công nhưng chỉ kiểm 'khớp schema'. Thiếu khẳng định giá trị thật sự được lưu đúng. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên và so khớp giá trị vừa gửi."
           },
           "response": []
         },
         {
-          "name": "TC-C3-DOM-051 @contract | GET /api/products/:id | id = 1 (id le - price phai la number)",
+          "name": "TC-C3-DOM-051 @contract | GET /api/products/:id | id = 1 (id lẻ - price phải là number)",
           "event": [
             {
               "listen": "prerequest",
@@ -744,7 +744,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-051 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// GET /api/products/:id | id = 1 (id le - price phai la number)",
+                  "// GET /api/products/:id | id = 1 (id lẻ - price phải là number)",
                   "",
                   "pm.test(\"TC-C3-DOM-051 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
@@ -778,12 +778,12 @@
                 "1"
               ]
             },
-            "description": "GET /api/products/:id | id = 1 (id le - price phai la number)\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "GET /api/products/:id | id = 1 (id lẻ - price phải là number)\n\nPreconditions: SUT đã seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
         {
-          "name": "TC-C3-DOM-901 @bug | PUT chi gui truong name: cac truong khong gui KHONG duoc bi ghi ",
+          "name": "TC-C3-DOM-901 @bug | PUT chỉ gửi trường name: các trường không gửi KHÔNG được bị ghi ",
           "event": [
             {
               "listen": "test",
@@ -791,17 +791,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-901 | DOM | Oracle=SPEC | Tag=@bug | Bug=C-09",
-                  "// PUT chi gui truong name: cac truong khong gui KHONG duoc bi ghi de thanh null",
+                  "// PUT chỉ gửi trường name: các trường không gửi KHÔNG được bị ghi đè thành null",
                   "",
                   "pm.test(\"TC-C3-DOM-901 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] name phai la ten moi",
+                  "// [CHUA TU DONG HOA] name phải là tên mới",
                   "",
-                  "// [CHUA TU DONG HOA] NHUNG price, description, imageUrl, category_id phai giu nguyen gia tri cu, KHONG duoc bien thanh null",
+                  "// [CHUA TU DONG HOA] NHƯNG price, description, imageUrl, category_id phải giữ nguyên giá trị cũ, KHÔNG được biến thành null",
                   "",
-                  "// [CHUA TU DONG HOA] SRS FR-15: 'Khi Sua mot san pham, chi san pham do bi thay doi'"
+                  "// [CHUA TU DONG HOA] SRS FR-15: 'Khi Sửa một sản phẩm, chỉ sản phẩm đó bị thay đổi'"
                 ]
               }
             }
@@ -825,12 +825,12 @@
                 "{{newProductId}}"
               ]
             },
-            "description": "PUT chi gui truong name: cac truong khong gui KHONG duoc bi ghi de thanh null\n\nPreconditions: Da tao san pham day du 5 truong, sau do goi PUT chi voi {\"name\": \"Ten moi 23127060\"}\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-09\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong."
+            "description": "PUT chỉ gửi trường name: các trường không gửi KHÔNG được bị ghi đè thành null\n\nPreconditions: Đã tạo sản phẩm đầy đủ 5 trường, sau đó gọi PUT chỉ với {\"name\": \"Ten moi 23127060\"}\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-09\nNguồn: HUMAN\nAudit: VALID\nCase do sinh viên tự viết sau khi đọc mã nguồn SUT; không qua bộ sinh tự động."
           },
           "response": []
         },
         {
-          "name": "TC-C3-DOM-902 @bug | Tao san pham voi category_id khong ton tai roi doi chieu voi dan",
+          "name": "TC-C3-DOM-902 @bug | Tạo sản phẩm với category_id không tồn tại rồi đối chiếu với dan",
           "event": [
             {
               "listen": "test",
@@ -838,17 +838,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-DOM-902 | DOM | Oracle=SPEC | Tag=@bug | Bug=C-10",
-                  "// Tao san pham voi category_id khong ton tai roi doi chieu voi danh sach danh muc",
+                  "// Tạo sản phẩm với category_id không tồn tại rồi đối chiếu với danh sách danh mục",
                   "",
                   "pm.test(\"TC-C3-DOM-902 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] danh sach danh muc chi co id 1, 2, 3",
+                  "// [CHUA TU DONG HOA] danh sách danh mục chỉ có id 1, 2, 3",
                   "",
-                  "// [CHUA TU DONG HOA] san pham vua tao tro toi category_id = 9999 la mot tham chieu treo",
+                  "// [CHUA TU DONG HOA] sản phẩm vừa tạo trỏ tới category_id = 9999 là một tham chiếu treo",
                   "",
-                  "// [CHUA TU DONG HOA] SRS FR-15: 'Danh muc: bat buoc, phai chon tu danh sach co san'"
+                  "// [CHUA TU DONG HOA] SRS FR-15: 'Danh mục: bắt buộc, phải chọn từ danh sách có sẵn'"
                 ]
               }
             }
@@ -871,7 +871,7 @@
                 "categories"
               ]
             },
-            "description": "Tao san pham voi category_id khong ton tai roi doi chieu voi danh sach danh muc\n\nPreconditions: Da goi POST /api/products voi category_id = 9999\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-10\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong."
+            "description": "Tạo sản phẩm với category_id không tồn tại rồi đối chiếu với danh sách danh mục\n\nPreconditions: Da goi POST /api/products voi category_id = 9999\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: C-10\nNguồn: HUMAN\nAudit: VALID\nCase do sinh viên tự viết sau khi đọc mã nguồn SUT; không qua bộ sinh tự động."
           },
           "response": []
         }
@@ -881,7 +881,7 @@
       "name": "STA - State transition",
       "item": [
         {
-          "name": "TC-C3-STA-002 @contract | Chuyen trang thai CREATED -> UPDATED (hop le)",
+          "name": "TC-C3-STA-002 @contract | Chuyển trạng thái CREATED -> UPDATED (hợp lệ)",
           "event": [
             {
               "listen": "test",
@@ -889,13 +889,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-STA-002 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai CREATED -> UPDATED (hop le)",
+                  "// Chuyển trạng thái CREATED -> UPDATED (hợp lệ)",
                   "",
                   "pm.test(\"TC-C3-STA-002 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] trang thai sau khi goi = UPDATED"
+                  "// [CHUA TU DONG HOA] trạng thái sau khi gọi = UPDATED"
                 ]
               }
             }
@@ -923,7 +923,7 @@
                 "{{newProductId}}"
               ]
             },
-            "description": "Chuyen trang thai CREATED -> UPDATED (hop le)\n\nPreconditions: Doi tuong dang o trang thai CREATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái CREATED -> UPDATED (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái CREATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"name\":\"SP STA 23127060 v2\",\"price\":120000}",
@@ -937,7 +937,7 @@
           "response": []
         },
         {
-          "name": "TC-C3-STA-003 @contract | Chuyen trang thai UPDATED -> DELETED (hop le)",
+          "name": "TC-C3-STA-003 @contract | Chuyển trạng thái UPDATED -> DELETED (hợp lệ)",
           "event": [
             {
               "listen": "test",
@@ -945,13 +945,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-STA-003 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai UPDATED -> DELETED (hop le)",
+                  "// Chuyển trạng thái UPDATED -> DELETED (hợp lệ)",
                   "",
                   "pm.test(\"TC-C3-STA-003 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] trang thai sau khi goi = DELETED"
+                  "// [CHUA TU DONG HOA] trạng thái sau khi gọi = DELETED"
                 ]
               }
             }
@@ -979,12 +979,12 @@
                 "{{newProductId}}"
               ]
             },
-            "description": "Chuyen trang thai UPDATED -> DELETED (hop le)\n\nPreconditions: Doi tuong dang o trang thai UPDATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "Chuyển trạng thái UPDATED -> DELETED (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái UPDATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
         {
-          "name": "TC-C3-STA-008 @contract | Chuyen trang thai CREATED -> IN_SEARCH (hop le)",
+          "name": "TC-C3-STA-008 @contract | Chuyển trạng thái CREATED -> IN_SEARCH (hợp lệ)",
           "event": [
             {
               "listen": "test",
@@ -992,13 +992,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-STA-008 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai CREATED -> IN_SEARCH (hop le)",
+                  "// Chuyển trạng thái CREATED -> IN_SEARCH (hợp lệ)",
                   "",
                   "pm.test(\"TC-C3-STA-008 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] san pham vua tao xuat hien trong ket qua tim kiem"
+                  "// [CHUA TU DONG HOA] sản phẩm vừa tạo xuất hiện trong kết quả tìm kiếm"
                 ]
               }
             }
@@ -1031,12 +1031,12 @@
                 }
               ]
             },
-            "description": "Chuyen trang thai CREATED -> IN_SEARCH (hop le)\n\nPreconditions: Doi tuong dang o trang thai CREATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "Chuyển trạng thái CREATED -> IN_SEARCH (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái CREATED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
         {
-          "name": "TC-C3-STA-009 @contract | Sau khi DELETE, san pham khong duoc con trong ket qua GET /api/p",
+          "name": "TC-C3-STA-009 @contract | Sau khi DELETE, sản phẩm không được còn trong kết quả GET /api/p",
           "event": [
             {
               "listen": "test",
@@ -1044,15 +1044,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-STA-009 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Sau khi DELETE, san pham khong duoc con trong ket qua GET /api/products?search=",
+                  "// Sau khi DELETE, sản phẩm không được còn trong kết quả GET /api/products?search=",
                   "",
                   "pm.test(\"TC-C3-STA-009 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] HTTP 200 voi mang ket qua",
+                  "// [CHUA TU DONG HOA] HTTP 200 với mảng kết quả",
                   "",
-                  "// [CHUA TU DONG HOA] mang KHONG duoc chua san pham vua bi xoa"
+                  "// [CHUA TU DONG HOA] mảng KHÔNG được chứa sản phẩm vừa bị xóa"
                 ]
               }
             }
@@ -1085,7 +1085,7 @@
                 }
               ]
             },
-            "description": "Sau khi DELETE, san pham khong duoc con trong ket qua GET /api/products?search=\n\nPreconditions: Doi tuong dang o trang thai DELETED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR4 - Mau thuan noi tai: danh dau KHONG hop le nhung ky vong 200. Ngoai ra 'IN_SEARCH' khong phai mot trang thai cua vong doi tai nguyen ma la mot phep doc. DA SUA: giu phep kiem (san pham da xoa khong duoc xuat hien trong ket qua tim kiem) nhung phat bieu lai cho dung: ky vong 200 voi mang KHONG chua san pham da xoa."
+            "description": "Sau khi DELETE, sản phẩm không được còn trong kết quả GET /api/products?search=\n\nPreconditions: Đối tượng đang ở trạng thái DELETED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR4 - Mâu thuẫn nội tại: đánh dấu KHÔNG hợp lệ nhưng kỳ vọng 200. Ngoài ra 'IN_SEARCH' không phải một trạng thái của vòng đời tài nguyên mà là một phép đọc. ĐÃ SỬA: giữ phép kiểm (sản phẩm đã xóa không được xuất hiện trong kết quả tìm kiếm) nhưng phát biểu lại cho đúng: kỳ vọng 200 với mảng KHÔNG chứa sản phẩm đã xóa."
           },
           "response": []
         }
@@ -1095,7 +1095,7 @@
       "name": "SEC - Security SEC-01..07",
       "item": [
         {
-          "name": "TC-C3-SEC-004 @contract | [-] Response san pham khong duoc chua truong nam ngoai schema",
+          "name": "TC-C3-SEC-004 @contract | [-] Response sản phẩm không được chứa trường nằm ngoài schema",
           "event": [
             {
               "listen": "test",
@@ -1103,15 +1103,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-SEC-004 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// [-] Response san pham khong duoc chua truong nam ngoai schema",
+                  "// [-] Response sản phẩm không được chứa trường nằm ngoài schema",
                   "",
                   "pm.test(\"TC-C3-SEC-004 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] body chi duoc chua dung 6 truong id,name,price,description,imageUrl,category_id",
+                  "// [CHUA TU DONG HOA] body chỉ được chứa đúng 6 trường id,name,price,description,imageUrl,category_id",
                   "",
-                  "// [CHUA TU DONG HOA] khong co truong noi bo nao khac"
+                  "// [CHUA TU DONG HOA] không có trường nội bộ nào khác"
                 ]
               }
             }
@@ -1135,7 +1135,7 @@
                 "1"
               ]
             },
-            "description": "[-] Response san pham khong duoc chua truong nam ngoai schema\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-02 -> -). Xem luat R5: tham so ?debug=true khong ton tai. | R5 - Tham so bia: `?debug=true` khong ton tai trong api_specification.md lan trong server.js. AI tu nghi ra mot co debug de test. Test se 'pass' nhung khong chung minh dieu gi vi tham so bi bo qua hoan toan. DA SUA: bo tham so bia, kiem dung dieu co the kiem - response san pham khong duoc chua truong nam ngoai schema da dac ta."
+            "description": "[-] Response sản phẩm không được chứa trường nằm ngoài schema\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-02 -> -). Xem luật R5: tham số ?debug=true không tồn tại. | R5 - Tham số bịa: `?debug=true` không tồn tại trong api_specification.md lẫn trong server.js. AI tự nghĩ ra một cờ debug để test. Test sẽ 'pass' nhưng không chứng minh điều gì vì tham số bị bỏ qua hoàn toàn. ĐÃ SỬA: bỏ tham số bịa, kiểm đúng điều có thể kiểm - response sản phẩm không được chứa trường nằm ngoài schema đã đặc tả."
           },
           "response": []
         }
@@ -1145,7 +1145,7 @@
       "name": "SCH - Schema validation",
       "item": [
         {
-          "name": "TC-C3-SCH-001 @contract | GET /api/products tra ve mang doi tuong dung schema",
+          "name": "TC-C3-SCH-001 @contract | GET /api/products trả về mảng đối tượng đúng schema",
           "event": [
             {
               "listen": "test",
@@ -1153,15 +1153,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-SCH-001 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// GET /api/products tra ve mang doi tuong dung schema",
+                  "// GET /api/products trả về mảng đối tượng đúng schema",
                   "",
                   "pm.test(\"TC-C3-SCH-001 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] body la array",
+                  "// [CHUA TU DONG HOA] body là array",
                   "",
-                  "pm.test(\"TC-C3-SCH-001 | moi phan tu co id (integer), name (string), price (number)\", function () {",
+                  "pm.test(\"TC-C3-SCH-001 | mỗi phần tử có id (integer), name (string), price (number)\", function () {",
                   "  var j = pm.response.json();",
                   "  var p = Array.isArray(j) ? j[0] : j;",
                   "  pm.expect(typeof p.price, 'kieu cua price').to.eql('number');",
@@ -1188,12 +1188,12 @@
                 "products"
               ]
             },
-            "description": "GET /api/products tra ve mang doi tuong dung schema\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "GET /api/products trả về mảng đối tượng đúng schema\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         },
         {
-          "name": "TC-C3-SCH-002 @contract | GET /api/products/1 khop schema san pham don",
+          "name": "TC-C3-SCH-002 @contract | GET /api/products/1 khớp schema sản phẩm đơn",
           "event": [
             {
               "listen": "test",
@@ -1201,13 +1201,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-C3-SCH-002 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// GET /api/products/1 khop schema san pham don",
+                  "// GET /api/products/1 khớp schema sản phẩm đơn",
                   "",
                   "pm.test(\"TC-C3-SCH-002 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-C3-SCH-002 | body khop jsonSchema product_schema\", function () {",
+                  "pm.test(\"TC-C3-SCH-002 | body khớp jsonSchema product_schema\", function () {",
                   "  var schema = JSON.parse(pm.collectionVariables.get('schema_product') || '{}');",
                   "  if (Object.keys(schema).length) { pm.response.to.have.jsonSchema(schema); }",
                   "});",
@@ -1236,7 +1236,7 @@
                 "1"
               ]
             },
-            "description": "GET /api/products/1 khop schema san pham don\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong."
+            "description": "GET /api/products/1 khớp schema sản phẩm đơn\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong."
           },
           "response": []
         }

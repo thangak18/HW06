@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "9b917a18-b0f2-4f98-af3b-859ff36e031c",
+    "_postman_id": "7f6b4634-da05-47a5-8d73-fda67f93aa46",
     "name": "23127060_HW06_API-1",
     "description": "HW06 API Testing - SV 23127060 Ninh Van Khai - API-1",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -310,7 +310,7 @@
           ]
         }
       ],
-      "description": "Phai chay TRUOC moi folder khac. Dat cac bien: token_user, token_attacker, token_admin, userId, orderId, newProductId..."
+      "description": "Phải chạy TRƯỚC mọi folder khác. Đặt các biến: token_user, token_attacker, token_admin, userId, orderId, newProductId..."
     },
     {
       "name": "DOM - Domain partition",
@@ -342,19 +342,19 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-012 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | email = api.victim.23127060@test.local (email dung chu token)",
+                  "// POST /api/reset-password | email = api.victim.23127060@test.local (email đúng chứ token)",
                   "",
                   "pm.test(\"TC-A1-DOM-012 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-012 | body co message\", function () {",
+                  "pm.test(\"TC-A1-DOM-012 | body có message\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('message');",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] login bang mat khau moi thanh cong",
+                  "// [CHUA TU DONG HOA] login bằng mật khẩu mới thành công",
                   "",
-                  "// [CHUA TU DONG HOA] login bang mat khau cu that bai"
+                  "// [CHUA TU DONG HOA] login bằng mật khẩu cũ thất bại"
                 ]
               }
             }
@@ -377,7 +377,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | email = api.victim.23127060@test.local (email dung chu token)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "POST /api/reset-password | email = api.victim.23127060@test.local (email đúng chứ token)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"NewApi1234!\"}",
@@ -417,17 +417,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-013 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | email = api.attacker.23127060@test.local (dung token cua user khac)",
+                  "// POST /api/reset-password | email = api.attacker.23127060@test.local (dùng token của user khác)",
                   "",
                   "pm.test(\"TC-A1-DOM-013 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-013 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-013 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-013 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-013 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -452,7 +452,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | email = api.attacker.23127060@test.local (dung token cua user khac)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: SEC-07\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-04 -> SEC-07). Dung OTP cua tai khoan khac chinh la dieu SEC-07 + FR-03 quy dinh ('OTP chi hop le cho email da yeu cau'), khong phai SEC-04 (escape XSS).",
+            "description": "POST /api/reset-password | email = api.attacker.23127060@test.local (dùng token của user khác)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: SEC-07\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-04 -> SEC-07). Dùng OTP của tài khoản khác chính là điều SEC-07 + FR-03 quy định ('OTP chỉ hợp lệ cho email đã yêu cầu'), không phải SEC-04 (escape XSS).",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.attacker.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"NewApi1234!\"}",
@@ -466,7 +466,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-014 @contract | POST /api/reset-password | email = <thieu key> (thieu key email)",
+          "name": "TC-A1-DOM-014 @contract | POST /api/reset-password | email = <thieu key> (thiếu key email)",
           "event": [
             {
               "listen": "prerequest",
@@ -492,21 +492,21 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-014 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | email = <thieu key> (thieu key email)",
+                  "// POST /api/reset-password | email = <thieu key> (thiếu key email)",
                   "",
                   "pm.test(\"TC-A1-DOM-014 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-014 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-014 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-014 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-014 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-014 | VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi\", function () {",
+                  "pm.test(\"TC-A1-DOM-014 | VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -539,7 +539,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | email = <thieu key> (thieu key email)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc lai tai nguyen sau khi goi.",
+            "description": "POST /api/reset-password | email = <thieu key> (thiếu key email)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.",
             "body": {
               "mode": "raw",
               "raw": "{\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"NewApi1234!\"}",
@@ -585,15 +585,15 @@
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-015 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-015 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-015 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-015 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-015 | VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi\", function () {",
+                  "pm.test(\"TC-A1-DOM-015 | VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -626,7 +626,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | email = - (email null)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc lai tai nguyen sau khi goi.",
+            "description": "POST /api/reset-password | email = - (email null)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":null,\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"NewApi1234!\"}",
@@ -672,15 +672,15 @@
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-016 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-016 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-016 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-016 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-016 | VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi\", function () {",
+                  "pm.test(\"TC-A1-DOM-016 | VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -713,7 +713,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken = 0000 (token sai)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc lai tai nguyen sau khi goi.",
+            "description": "POST /api/reset-password | resetToken = 0000 (token sai)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"0000\",\"newPassword\":\"NewApi1234!\"}",
@@ -727,7 +727,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-017 @contract | POST /api/reset-password | resetToken =  (token rong)",
+          "name": "TC-A1-DOM-017 @contract | POST /api/reset-password | resetToken =  (token rỗng)",
           "event": [
             {
               "listen": "prerequest",
@@ -753,21 +753,21 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-017 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | resetToken =  (token rong)",
+                  "// POST /api/reset-password | resetToken =  (token rỗng)",
                   "",
                   "pm.test(\"TC-A1-DOM-017 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-017 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-017 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-017 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-017 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-017 | VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi\", function () {",
+                  "pm.test(\"TC-A1-DOM-017 | VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -800,7 +800,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken =  (token rong)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc lai tai nguyen sau khi goi.",
+            "description": "POST /api/reset-password | resetToken =  (token rỗng)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"\",\"newPassword\":\"NewApi1234!\"}",
@@ -814,7 +814,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-018 @contract | POST /api/reset-password | resetToken = <thieu key> (thieu token",
+          "name": "TC-A1-DOM-018 @contract | POST /api/reset-password | resetToken = <thieu key> (thiếu token",
           "event": [
             {
               "listen": "prerequest",
@@ -840,21 +840,21 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-018 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | resetToken = <thieu key> (thieu token)",
+                  "// POST /api/reset-password | resetToken = <thieu key> (thiếu token)",
                   "",
                   "pm.test(\"TC-A1-DOM-018 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-018 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-018 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-018 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-018 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-018 | VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi\", function () {",
+                  "pm.test(\"TC-A1-DOM-018 | VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -887,7 +887,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken = <thieu key> (thieu token)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc lai tai nguyen sau khi goi.",
+            "description": "POST /api/reset-password | resetToken = <thieu key> (thiếu token)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"newPassword\":\"NewApi1234!\"}",
@@ -933,15 +933,15 @@
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-019 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-019 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-019 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-019 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-019 | VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi\", function () {",
+                  "pm.test(\"TC-A1-DOM-019 | VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -974,7 +974,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken = - (token null)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc lai tai nguyen sau khi goi.",
+            "description": "POST /api/reset-password | resetToken = - (token null)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":null,\"newPassword\":\"NewApi1234!\"}",
@@ -988,7 +988,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-020 @contract | POST /api/reset-password | resetToken = 123 (BVA - token 3 ky tu",
+          "name": "TC-A1-DOM-020 @contract | POST /api/reset-password | resetToken = 123 (BVA - token 3 ký tự",
           "event": [
             {
               "listen": "prerequest",
@@ -1014,17 +1014,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-020 | DOM | Oracle=SPEC(suy dien) | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | resetToken = 123 (BVA - token 3 ky tu (duoi bien))",
+                  "// POST /api/reset-password | resetToken = 123 (BVA - token 3 ký tự (dưới biên))",
                   "",
                   "pm.test(\"TC-A1-DOM-020 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-020 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-020 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-020 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-020 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -1049,7 +1049,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken = 123 (BVA - token 3 ky tu (duoi bien))\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC(suy dien)\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR6 - Ky vong 'do dai OTP duoi bien' KHONG duoc SRS phat bieu truc tiep; day la suy dien tu thong le. DA SUA: ghi ro Oracle = SPEC(suy dien) de nguoi cham phan biet duoc voi cac ky vong trich thang tu dac ta.",
+            "description": "POST /api/reset-password | resetToken = 123 (BVA - token 3 ký tự (dưới biên))\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC(suy dien)\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR6 - Kỳ vọng 'do dai OTP duoi bien' KHÔNG được SRS phát biểu trực tiếp; đây là suy diễn từ thông lệ. ĐÃ SỬA: ghi rõ Oracle = SPEC(suy diễn) để người chấm phân biệt được với các kỳ vọng trích thẳng từ đặc tả.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"123\",\"newPassword\":\"NewApi1234!\"}",
@@ -1063,7 +1063,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-021 @contract | POST /api/reset-password | resetToken = 12345 (BVA - token 5 ky ",
+          "name": "TC-A1-DOM-021 @contract | POST /api/reset-password | resetToken = 12345 (BVA - token 5 ký ",
           "event": [
             {
               "listen": "prerequest",
@@ -1089,17 +1089,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-021 | DOM | Oracle=SPEC(suy dien) | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | resetToken = 12345 (BVA - token 5 ky tu (tren bien))",
+                  "// POST /api/reset-password | resetToken = 12345 (BVA - token 5 ký tự (trên biên))",
                   "",
                   "pm.test(\"TC-A1-DOM-021 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-021 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-021 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-021 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-021 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -1124,7 +1124,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken = 12345 (BVA - token 5 ky tu (tren bien))\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC(suy dien)\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR6 - Ky vong 'do dai OTP tren bien' KHONG duoc SRS phat bieu truc tiep; day la suy dien tu thong le. DA SUA: ghi ro Oracle = SPEC(suy dien) de nguoi cham phan biet duoc voi cac ky vong trich thang tu dac ta.",
+            "description": "POST /api/reset-password | resetToken = 12345 (BVA - token 5 ký tự (trên biên))\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC(suy dien)\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR6 - Kỳ vọng 'do dai OTP tren bien' KHÔNG được SRS phát biểu trực tiếp; đây là suy diễn từ thông lệ. ĐÃ SỬA: ghi rõ Oracle = SPEC(suy diễn) để người chấm phân biệt được với các kỳ vọng trích thẳng từ đặc tả.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"12345\",\"newPassword\":\"NewApi1234!\"}",
@@ -1138,7 +1138,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-022 @contract | POST /api/reset-password | resetToken = ' OR '1'='1 (token chua ",
+          "name": "TC-A1-DOM-022 @contract | POST /api/reset-password | resetToken = ' OR '1'='1 (token chứa ",
           "event": [
             {
               "listen": "prerequest",
@@ -1164,17 +1164,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-022 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | resetToken = ' OR '1'='1 (token chua SQLi)",
+                  "// POST /api/reset-password | resetToken = ' OR '1'='1 (token chứa SQLi)",
                   "",
                   "pm.test(\"TC-A1-DOM-022 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-022 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-022 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-022 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-022 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});"
                 ]
@@ -1199,7 +1199,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken = ' OR '1'='1 (token chua SQLi)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: SEC-05\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-01 -> SEC-05). SQLi -> SEC-05 (parameterized query), khong phai SEC-01 (luu mat khau plaintext).",
+            "description": "POST /api/reset-password | resetToken = ' OR '1'='1 (token chứa SQLi)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: SEC-05\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-01 -> SEC-05). SQLi -> SEC-05 (parameterized query), không phải SEC-01 (lưu mật khẩu plaintext).",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"' OR '1'='1\",\"newPassword\":\"NewApi1234!\"}",
@@ -1213,7 +1213,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-023 @contract | POST /api/reset-password | resetToken = 1234 (token sai kieu (nu",
+          "name": "TC-A1-DOM-023 @contract | POST /api/reset-password | resetToken = 1234 (token sai kiểu (nu",
           "event": [
             {
               "listen": "prerequest",
@@ -1239,21 +1239,21 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-023 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | resetToken = 1234 (token sai kieu (number))",
+                  "// POST /api/reset-password | resetToken = 1234 (token sai kiểu (number))",
                   "",
                   "pm.test(\"TC-A1-DOM-023 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-023 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-023 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-023 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-023 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-023 | VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi\", function () {",
+                  "pm.test(\"TC-A1-DOM-023 | VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -1286,7 +1286,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken = 1234 (token sai kieu (number))\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc lai tai nguyen sau khi goi.",
+            "description": "POST /api/reset-password | resetToken = 1234 (token sai kiểu (number))\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":1234,\"newPassword\":\"NewApi1234!\"}",
@@ -1326,21 +1326,21 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-024 | DOM | Oracle=SPEC | Tag=@bug | Bug=A-04",
-                  "// POST /api/reset-password | resetToken = {{oldResetToken}} (token cu sau khi xin token moi - phai het hieu luc)",
+                  "// POST /api/reset-password | resetToken = {{oldResetToken}} (token cũ sau khi xin token mới - phải hết hiệu lực)",
                   "",
                   "pm.test(\"TC-A1-DOM-024 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-024 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-024 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-024 | co truong error\", function () {",
+                  "pm.test(\"TC-A1-DOM-024 | có trường error\", function () {",
                   "  pm.expect(pm.response.json()).to.have.property('error');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-024 | VA doc lai tai nguyen sau khi goi de xac nhan du lieu KHONG bi thay doi\", function () {",
+                  "pm.test(\"TC-A1-DOM-024 | VÀ đọc lại tài nguyên sau khi gọi để xác nhận dữ liệu KHÔNG bị thay đổi\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -1373,7 +1373,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | resetToken = {{oldResetToken}} (token cu sau khi xin token moi - phai het hieu luc)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-04\nNguon: AI\nAudit: INCOMPLETE\nR7 - Case tu choi mot thao tac GHI nhung chi kiem 'co truong error'. Thieu phan quan trong nhat: chung minh THAO TAC DA KHONG XAY RA. Mot API tra 400 roi van ghi vao CSDL se pass case nay. DA SUA: bo sung buoc doc lai tai nguyen sau khi goi.",
+            "description": "POST /api/reset-password | resetToken = {{oldResetToken}} (token cũ sau khi xin token mới - phải hết hiệu lực)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-04\nNguồn: AI\nAudit: INCOMPLETE\nR7 - Case từ chối một thao tác GHI nhưng chỉ kiểm 'có trường error'. Thiếu phần quan trọng nhất: chứng minh THAO TÁC ĐÃ KHÔNG XẢY RA. Một API trả 400 rồi vẫn ghi vào CSDL sẽ pass case này. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên sau khi gọi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{oldResetToken}}\",\"newPassword\":\"NewApi1234!\"}",
@@ -1387,7 +1387,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-025 @contract | POST /api/reset-password | newPassword = NewApi1234! (mat khau m",
+          "name": "TC-A1-DOM-025 @contract | POST /api/reset-password | newPassword = NewApi1234! (mật khẩu m",
           "event": [
             {
               "listen": "prerequest",
@@ -1413,17 +1413,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-025 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | newPassword = NewApi1234! (mat khau manh hop le)",
+                  "// POST /api/reset-password | newPassword = NewApi1234! (mật khẩu mạnh hợp lệ)",
                   "",
                   "pm.test(\"TC-A1-DOM-025 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-025 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-025 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-025 | khop schema thanh cong\", function () {",
+                  "pm.test(\"TC-A1-DOM-025 | khớp schema thành công\", function () {",
                   "  var schema = JSON.parse(pm.collectionVariables.get('schema_reset_success') || '{}');",
                   "  if (Object.keys(schema).length) { pm.response.to.have.jsonSchema(schema); }",
                   "});",
@@ -1451,7 +1451,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | newPassword = NewApi1234! (mat khau manh hop le)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR8 - Case thanh cong nhung chi kiem 'khop schema'. Thieu khang dinh gia tri that su duoc luu dung. DA SUA: bo sung buoc doc lai tai nguyen va so khop gia tri vua gui.",
+            "description": "POST /api/reset-password | newPassword = NewApi1234! (mật khẩu mạnh hợp lệ)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR8 - Case thành công nhưng chỉ kiểm 'khớp schema'. Thiếu khẳng định giá trị thật sự được lưu đúng. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên và so khớp giá trị vừa gửi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"NewApi1234!\"}",
@@ -1465,7 +1465,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-030 @contract | POST /api/reset-password | newPassword = Ab1234!x (BVA - dung 8 ",
+          "name": "TC-A1-DOM-030 @contract | POST /api/reset-password | newPassword = Ab1234!x (BVA - đúng 8 ",
           "event": [
             {
               "listen": "prerequest",
@@ -1491,17 +1491,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-030 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | newPassword = Ab1234!x (BVA - dung 8 ky tu)",
+                  "// POST /api/reset-password | newPassword = Ab1234!x (BVA - đúng 8 ký tự)",
                   "",
                   "pm.test(\"TC-A1-DOM-030 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-030 | body la JSON\", function () {",
+                  "pm.test(\"TC-A1-DOM-030 | body là JSON\", function () {",
                   "  pm.expect(function(){ pm.response.json(); }).to.not.throw();",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-DOM-030 | khop schema thanh cong\", function () {",
+                  "pm.test(\"TC-A1-DOM-030 | khớp schema thành công\", function () {",
                   "  var schema = JSON.parse(pm.collectionVariables.get('schema_reset_success') || '{}');",
                   "  if (Object.keys(schema).length) { pm.response.to.have.jsonSchema(schema); }",
                   "});",
@@ -1529,7 +1529,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | newPassword = Ab1234!x (BVA - dung 8 ky tu)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR8 - Case thanh cong nhung chi kiem 'khop schema'. Thieu khang dinh gia tri that su duoc luu dung. DA SUA: bo sung buoc doc lai tai nguyen va so khop gia tri vua gui.",
+            "description": "POST /api/reset-password | newPassword = Ab1234!x (BVA - đúng 8 ký tự)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR8 - Case thành công nhưng chỉ kiểm 'khớp schema'. Thiếu khẳng định giá trị thật sự được lưu đúng. ĐÃ SỬA: bổ sung bước đọc lại tài nguyên và so khớp giá trị vừa gửi.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"Ab1234!x\"}",
@@ -1543,7 +1543,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-DOM-035 @contract | POST /api/reset-password | newPassword = Api1234! (dat lai trung",
+          "name": "TC-A1-DOM-035 @contract | POST /api/reset-password | newPassword = Api1234! (đặt lại trùng",
           "event": [
             {
               "listen": "prerequest",
@@ -1569,17 +1569,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-DOM-035 | DOM | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// POST /api/reset-password | newPassword = Api1234! (dat lai trung mat khau cu - SRS khong cam)",
+                  "// POST /api/reset-password | newPassword = Api1234! (đặt lại trùng mật khẩu cũ - SRS không cấm)",
                   "",
                   "pm.test(\"TC-A1-DOM-035 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] reset thanh cong",
+                  "// [CHUA TU DONG HOA] reset thành công",
                   "",
-                  "// [CHUA TU DONG HOA] SRS khong cam dat lai trung mat khau cu",
+                  "// [CHUA TU DONG HOA] SRS không cấm đặt lại trùng mật khẩu cũ",
                   "",
-                  "// [CHUA TU DONG HOA] login bang mat khau do phai thanh cong"
+                  "// [CHUA TU DONG HOA] login bằng mật khẩu đó phải thành công"
                 ]
               }
             }
@@ -1602,7 +1602,7 @@
                 "reset-password"
               ]
             },
-            "description": "POST /api/reset-password | newPassword = Api1234! (dat lai trung mat khau cu - SRS khong cam)\n\nPreconditions: Da goi forgot-password va co {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3b - Ky vong 400 khong co can cu: SRS FR-01/FR-03 chi doi mat khau moi THOA DIEU KIEN DO MANH, khong he cam dat lai trung mat khau cu. AI ap mot chinh sach ma dac ta khong co. DA SUA: ky vong 200, va them khang dinh mat khau cu van dang nhap duoc (vi no chinh la mat khau moi).",
+            "description": "POST /api/reset-password | newPassword = Api1234! (đặt lại trùng mật khẩu cũ - SRS không cấm)\n\nPreconditions: Đã gọi forgot-password và có {{resetToken}}\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3b - Kỳ vọng 400 không có căn cứ: SRS FR-01/FR-03 chỉ đòi mật khẩu mới THỎA ĐIỀU KIỆN ĐỘ MẠNH, không hề cấm đặt lại trùng mật khẩu cũ. AI áp một chính sách mà đặc tả không có. ĐÃ SỬA: kỳ vọng 200, và thêm khẳng định mật khẩu cũ vẫn đăng nhập được (vì nó chính là mật khẩu mới).",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"Api1234!\"}",
@@ -1621,7 +1621,7 @@
       "name": "STA - State transition",
       "item": [
         {
-          "name": "TC-A1-STA-001 @contract | Chuyen trang thai NONE -> USED (KHONG hop le)",
+          "name": "TC-A1-STA-001 @contract | Chuyển trạng thái NONE -> USED (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "test",
@@ -1629,15 +1629,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-STA-001 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai NONE -> USED (KHONG hop le)",
+                  "// Chuyển trạng thái NONE -> USED (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-A1-STA-001 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] body.error co gia tri",
+                  "// [CHUA TU DONG HOA] body.error có giá trị",
                   "",
-                  "// [CHUA TU DONG HOA] mat khau KHONG doi"
+                  "// [CHUA TU DONG HOA] mật khẩu KHÔNG đổi"
                 ]
               }
             }
@@ -1664,7 +1664,7 @@
                 "reset-password"
               ]
             },
-            "description": "Chuyen trang thai NONE -> USED (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai NONE. Chua goi forgot-password lan nao\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái NONE -> USED (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái NONE. Chua goi forgot-password lan nao\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"1234\",\"newPassword\":\"NewApi1234!\"}",
@@ -1678,7 +1678,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-STA-002 @bug | Chuyen trang thai NONE -> ISSUED (hop le)",
+          "name": "TC-A1-STA-002 @bug | Chuyển trạng thái NONE -> ISSUED (hợp lệ)",
           "event": [
             {
               "listen": "test",
@@ -1686,15 +1686,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-STA-002 | STA | Oracle=SPEC | Tag=@bug | Bug=A-01",
-                  "// Chuyen trang thai NONE -> ISSUED (hop le)",
+                  "// Chuyển trạng thái NONE -> ISSUED (hợp lệ)",
                   "",
                   "pm.test(\"TC-A1-STA-002 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] token duoc tao va gui qua kenh ngoai band",
+                  "// [CHUA TU DONG HOA] token được tạo và gửi qua kênh ngoài băng",
                   "",
-                  "// [CHUA TU DONG HOA] KHONG tra trong response",
+                  "// [CHUA TU DONG HOA] KHÔNG trả trong response",
                   "",
                   "if (pm.response.code === 200) {",
                   "  var j = pm.response.json();",
@@ -1726,7 +1726,7 @@
                 "forgot-password"
               ]
             },
-            "description": "Chuyen trang thai NONE -> ISSUED (hop le)\n\nPreconditions: Doi tuong dang o trang thai NONE. \nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-01\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái NONE -> ISSUED (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái NONE. \nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-01\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\"}",
@@ -1740,7 +1740,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-STA-003 @contract | Chuyen trang thai ISSUED -> USED (hop le)",
+          "name": "TC-A1-STA-003 @contract | Chuyển trạng thái ISSUED -> USED (hợp lệ)",
           "event": [
             {
               "listen": "test",
@@ -1748,15 +1748,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-STA-003 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai ISSUED -> USED (hop le)",
+                  "// Chuyển trạng thái ISSUED -> USED (hợp lệ)",
                   "",
                   "pm.test(\"TC-A1-STA-003 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] reset_token bi xoa",
+                  "// [CHUA TU DONG HOA] reset_token bị xóa",
                   "",
-                  "// [CHUA TU DONG HOA] login bang mat khau moi OK"
+                  "// [CHUA TU DONG HOA] login bằng mật khẩu mới OK"
                 ]
               }
             }
@@ -1783,7 +1783,7 @@
                 "reset-password"
               ]
             },
-            "description": "Chuyen trang thai ISSUED -> USED (hop le)\n\nPreconditions: Doi tuong dang o trang thai ISSUED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái ISSUED -> USED (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái ISSUED. \nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"NewApi1234!\"}",
@@ -1797,7 +1797,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-STA-004 @contract | Chuyen trang thai USED -> USED (KHONG hop le)",
+          "name": "TC-A1-STA-004 @contract | Chuyển trạng thái USED -> USED (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "test",
@@ -1805,13 +1805,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-STA-004 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai USED -> USED (KHONG hop le)",
+                  "// Chuyển trạng thái USED -> USED (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-A1-STA-004 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] token dung 1 lan duy nhat"
+                  "// [CHUA TU DONG HOA] token dùng 1 lần duy nhất"
                 ]
               }
             }
@@ -1838,7 +1838,7 @@
                 "reset-password"
               ]
             },
-            "description": "Chuyen trang thai USED -> USED (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai USED. Token da dung 1 lan\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái USED -> USED (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái USED. Token đã dùng 1 lần\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"AnotherApi1234!\"}",
@@ -1852,7 +1852,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-STA-005 @bug | Chuyen trang thai ISSUED -> ISSUED (hop le)",
+          "name": "TC-A1-STA-005 @bug | Chuyển trạng thái ISSUED -> ISSUED (hợp lệ)",
           "event": [
             {
               "listen": "test",
@@ -1860,13 +1860,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-STA-005 | STA | Oracle=SPEC | Tag=@bug | Bug=A-04",
-                  "// Chuyen trang thai ISSUED -> ISSUED (hop le)",
+                  "// Chuyển trạng thái ISSUED -> ISSUED (hợp lệ)",
                   "",
                   "pm.test(\"TC-A1-STA-005 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] token cu phai bi vo hieu hoa",
+                  "// [CHUA TU DONG HOA] token cũ phải bị vô hiệu hóa",
                   "",
                   "if (pm.response.code === 200) {",
                   "  var j = pm.response.json();",
@@ -1898,7 +1898,7 @@
                 "forgot-password"
               ]
             },
-            "description": "Chuyen trang thai ISSUED -> ISSUED (hop le)\n\nPreconditions: Doi tuong dang o trang thai ISSUED. Da co token, xin token moi\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-04\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái ISSUED -> ISSUED (hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái ISSUED. Đã có token, xin token mới\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-04\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\"}",
@@ -1912,7 +1912,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-STA-008 @contract | Chuyen trang thai USED -> LOGIN_OLD (KHONG hop le)",
+          "name": "TC-A1-STA-008 @contract | Chuyển trạng thái USED -> LOGIN_OLD (KHÔNG hợp lệ)",
           "event": [
             {
               "listen": "prerequest",
@@ -1948,13 +1948,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-STA-008 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Chuyen trang thai USED -> LOGIN_OLD (KHONG hop le)",
+                  "// Chuyển trạng thái USED -> LOGIN_OLD (KHÔNG hợp lệ)",
                   "",
                   "pm.test(\"TC-A1-STA-008 | HTTP 401\", function () {",
                   "  pm.response.to.have.status(401);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] mat khau cu khong con dung duoc"
+                  "// [CHUA TU DONG HOA] mật khẩu cũ không còn dùng được"
                 ]
               }
             }
@@ -1981,7 +1981,7 @@
                 "login"
               ]
             },
-            "description": "Chuyen trang thai USED -> LOGIN_OLD (KHONG hop le)\n\nPreconditions: Doi tuong dang o trang thai USED. Da reset mat khau thanh cong\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Chuyển trạng thái USED -> LOGIN_OLD (KHÔNG hợp lệ)\n\nPreconditions: Đối tượng đang ở trạng thái USED. Đã reset mật khẩu thành công\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"{{isoEmail}}\",\"password\":\"Api1234!\"}",
@@ -1995,7 +1995,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-STA-901 @contract | Sau khi reset, mat khau CU phai het hieu luc va mat khau MOI pha",
+          "name": "TC-A1-STA-901 @contract | Sau khi reset, mật khẩu CŨ phải hết hiệu lực và mật khẩu MỚI phả",
           "event": [
             {
               "listen": "prerequest",
@@ -2031,15 +2031,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-STA-901 | STA | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Sau khi reset, mat khau CU phai het hieu luc va mat khau MOI phai dang nhap duoc",
+                  "// Sau khi reset, mật khẩu CŨ phải hết hiệu lực và mật khẩu MỚI phải đăng nhập được",
                   "",
                   "pm.test(\"TC-A1-STA-901 | HTTP 401\", function () {",
                   "  pm.response.to.have.status(401);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] login bang mat khau CU tra 401",
+                  "// [CHUA TU DONG HOA] login bằng mật khẩu CŨ trả 401",
                   "",
-                  "// [CHUA TU DONG HOA] ngay sau do login bang mat khau MOI tra 200 kem token"
+                  "// [CHUA TU DONG HOA] ngay sau đó login bằng mật khẩu MỚI trả 200 kèm token"
                 ]
               }
             }
@@ -2062,7 +2062,7 @@
                 "login"
               ]
             },
-            "description": "Sau khi reset, mat khau CU phai het hieu luc va mat khau MOI phai dang nhap duoc\n\nPreconditions: Da chay xong chuoi: forgot-password -> reset-password voi newPassword = NewApi1234!\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong.",
+            "description": "Sau khi reset, mật khẩu CŨ phải hết hiệu lực và mật khẩu MỚI phải đăng nhập được\n\nPreconditions: Đã chạy xong chuỗi: forgot-password -> reset-password với newPassword = NewApi1234!\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: HUMAN\nAudit: VALID\nCase do sinh viên tự viết sau khi đọc mã nguồn SUT; không qua bộ sinh tự động.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"{{isoEmail}}\",\"password\":\"Api1234!\"}",
@@ -2081,7 +2081,7 @@
       "name": "SEC - Security SEC-01..07",
       "item": [
         {
-          "name": "TC-A1-SEC-002 @contract | [SEC-05] SQLi qua resetToken de bypass kiem tra token",
+          "name": "TC-A1-SEC-002 @contract | [SEC-05] SQLi qua resetToken để bypass kiểm tra token",
           "event": [
             {
               "listen": "prerequest",
@@ -2107,15 +2107,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SEC-002 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// [SEC-05] SQLi qua resetToken de bypass kiem tra token",
+                  "// [SEC-05] SQLi qua resetToken để bypass kiểm tra token",
                   "",
                   "pm.test(\"TC-A1-SEC-002 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] mat khau KHONG bi doi",
+                  "// [CHUA TU DONG HOA] mật khẩu KHÔNG bị đổi",
                   "",
-                  "// [CHUA TU DONG HOA] kiem tra bang cach login lai bang mat khau cu"
+                  "// [CHUA TU DONG HOA] kiểm tra bằng cách login lại bằng mật khẩu cũ"
                 ]
               }
             }
@@ -2138,7 +2138,7 @@
                 "reset-password"
               ]
             },
-            "description": "[SEC-05] SQLi qua resetToken de bypass kiem tra token\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-05\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-01 -> SEC-05). Nhu tren: SQLi thuoc SEC-05.",
+            "description": "[SEC-05] SQLi qua resetToken để bypass kiểm tra token\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-05\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-01 -> SEC-05). Nhu tren: SQLi thuoc SEC-05.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"' OR '1'='1\",\"newPassword\":\"Hacked1234!\"}",
@@ -2152,7 +2152,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-SEC-006 @contract | [SEC-07] Reset password khong duoc chap nhan khi thieu ca token ",
+          "name": "TC-A1-SEC-006 @contract | [SEC-07] Reset password không được chấp nhận khi thiếu cả token ",
           "event": [
             {
               "listen": "prerequest",
@@ -2178,15 +2178,15 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SEC-006 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// [SEC-07] Reset password khong duoc chap nhan khi thieu ca token lan xac thuc",
+                  "// [SEC-07] Reset password không được chấp nhận khi thiếu cả token lẫn xác thực",
                   "",
                   "pm.test(\"TC-A1-SEC-006 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] tra 403 khi token hop le nhung role != 'admin'",
+                  "// [CHUA TU DONG HOA] trả 403 khi token hợp lệ nhưng role != 'admin'",
                   "",
-                  "pm.test(\"TC-A1-SEC-006 | hanh dong admin KHONG duoc thuc hien\", function () {",
+                  "pm.test(\"TC-A1-SEC-006 | hành động admin KHÔNG được thực hiện\", function () {",
                   "  // Doc lai danh sach san pham/don hang de chung minh thao tac bi tu choi",
                   "  // that su KHONG de lai dau vet trong CSDL (luat R7 cua STEP 3).",
                   "  var soTruoc = Number(pm.environment.get('soLuongTruocKhiGoi') || -1);",
@@ -2219,7 +2219,7 @@
                 "reset-password"
               ]
             },
-            "description": "[SEC-07] Reset password khong duoc chap nhan khi thieu ca token lan xac thuc\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-07\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-03 -> SEC-07). Reset phai doi OTP hop le -> thuoc vong doi OTP SEC-07, khong phai SEC-03 (kiem role admin).",
+            "description": "[SEC-07] Reset password không được chấp nhận khi thiếu cả token lẫn xác thực\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-07\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-03 -> SEC-07). Reset phải đòi OTP hợp lệ -> thuộc vòng đời OTP SEC-07, không phải SEC-03 (kiểm role admin).",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"newPassword\":\"Hacked1234!\"}",
@@ -2233,7 +2233,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-SEC-007 @contract | [SEC-07] Dung token cua user A de doi mat khau user B",
+          "name": "TC-A1-SEC-007 @contract | [SEC-07] Dùng token của user A để đổi mật khẩu user B",
           "event": [
             {
               "listen": "prerequest",
@@ -2259,13 +2259,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SEC-007 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// [SEC-07] Dung token cua user A de doi mat khau user B",
+                  "// [SEC-07] Dùng token của user A để đổi mật khẩu user B",
                   "",
                   "pm.test(\"TC-A1-SEC-007 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] mat khau cua victim KHONG doi"
+                  "// [CHUA TU DONG HOA] mật khẩu của victim KHÔNG đổi"
                 ]
               }
             }
@@ -2288,7 +2288,7 @@
                 "reset-password"
               ]
             },
-            "description": "[SEC-07] Dung token cua user A de doi mat khau user B\n\nPreconditions: Attacker tu xin token cho chinh minh\nOracle: SPEC\nSEC: SEC-07\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-04 -> SEC-07). 'OTP chi hop le cho email da yeu cau' la yeu cau cua SEC-07 + FR-03, khong phai SEC-04 (escape XSS).",
+            "description": "[SEC-07] Dùng token của user A để đổi mật khẩu user B\n\nPreconditions: Attacker tự xin token cho chính mình\nOracle: SPEC\nSEC: SEC-07\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-04 -> SEC-07). 'OTP chỉ hợp lệ cho email đã yêu cầu' là yêu cầu của SEC-07 + FR-03, không phải SEC-04 (escape XSS).",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{attackerResetToken}}\",\"newPassword\":\"Hacked1234!\"}",
@@ -2302,7 +2302,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-SEC-008 @contract | [SEC-06] Reset password khong duoc cho phep gui kem truong role",
+          "name": "TC-A1-SEC-008 @contract | [SEC-06] Reset password không được cho phép gửi kèm trường role",
           "event": [
             {
               "listen": "prerequest",
@@ -2328,13 +2328,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SEC-008 | SEC | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// [SEC-06] Reset password khong duoc cho phep gui kem truong role",
+                  "// [SEC-06] Reset password không được cho phép gửi kèm trường role",
                   "",
                   "pm.test(\"TC-A1-SEC-008 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-SEC-008 | sau khi reset, GET /api/users/me tra role='user' chu KHONG phai 'admin'\", function () {",
+                  "pm.test(\"TC-A1-SEC-008 | sau khi reset, GET /api/users/me trả role='user' chứ KHÔNG phải 'admin'\", function () {",
                   "  pm.sendRequest({ url: pm.environment.get('baseUrl') + '/api/users/me',",
                   "    method: 'GET', header: { 'X-Student-Id': pm.environment.get('studentId'),",
                   "      'Authorization': 'Bearer ' + pm.environment.get('token_attacker') } },",
@@ -2365,7 +2365,7 @@
                 "reset-password"
               ]
             },
-            "description": "[SEC-06] Reset password khong duoc cho phep gui kem truong role\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-06\nTag: @contract\nBug: -\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-05 -> SEC-06). Gui kem truong role dung la SEC-06; SEC-05 la parameterized query.",
+            "description": "[SEC-06] Reset password không được cho phép gửi kèm trường role\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: SEC-06\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-05 -> SEC-06). Gửi kèm trường role đúng là SEC-06; SEC-05 là parameterized query.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"NewApi1234!\",\"role\":\"admin\"}",
@@ -2379,7 +2379,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-SEC-012 @bug | [-] Do mat khau login lien tiep phai bi khoa dung sau 3 lan",
+          "name": "TC-A1-SEC-012 @bug | [-] Dò mật khẩu login liên tiếp phải bị khóa đúng sau 3 lần",
           "event": [
             {
               "listen": "prerequest",
@@ -2415,13 +2415,13 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SEC-012 | SEC | Oracle=SPEC | Tag=@bug | Bug=A-09",
-                  "// [-] Do mat khau login lien tiep phai bi khoa dung sau 3 lan",
+                  "// [-] Dò mật khẩu login liên tiếp phải bị khóa đúng sau 3 lần",
                   "",
                   "pm.test(\"TC-A1-SEC-012 | HTTP 403\", function () {",
                   "  pm.response.to.have.status(403);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] lan thu 3 moi bi khoa (khong duoc khoa som o lan thu 2 do login_attempts+2)"
+                  "// [CHUA TU DONG HOA] lần thứ 3 mới bị khóa (không được khóa sớm ở lần thứ 2 do login_attempts+2)"
                 ]
               }
             }
@@ -2444,7 +2444,7 @@
                 "login"
               ]
             },
-            "description": "[-] Do mat khau login lien tiep phai bi khoa dung sau 3 lan\n\nPreconditions: Chay 3 lan lien tiep voi mat khau sai\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-09\nNguon: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-07 -> -). Khoa tai khoan sau 3 lan sai la FR-02, khong nam trong SEC-01..07.",
+            "description": "[-] Dò mật khẩu login liên tiếp phải bị khóa đúng sau 3 lần\n\nPreconditions: Chạy 3 lần liên tiếp với mật khẩu sai\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-09\nNguồn: AI\nAudit: INVALID\nR3 - Gan sai ma SEC (SEC-07 -> -). Khóa tài khoản sau 3 lần sai là FR-02, không nằm trong SEC-01..07.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"{{isoEmail}}\",\"password\":\"SaiRoi123!\"}",
@@ -2458,7 +2458,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-SEC-905 @contract | [SEC-07] OTP cua nguoi nay dung duoc cho email cua nguoi kia neu",
+          "name": "TC-A1-SEC-905 @contract | [SEC-07] OTP của người này dùng được cho email của người kia nếu",
           "event": [
             {
               "listen": "prerequest",
@@ -2484,17 +2484,17 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SEC-905 | SEC | Oracle=SPEC | Tag=@contract | Bug=A-02",
-                  "// [SEC-07] OTP cua nguoi nay dung duoc cho email cua nguoi kia neu trung gia tri",
+                  "// [SEC-07] OTP của người này dùng được cho email của người kia nếu trùng giá trị",
                   "",
                   "pm.test(\"TC-A1-SEC-905 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] OTP cua tai khoan khac phai bi tu choi",
+                  "// [CHUA TU DONG HOA] OTP của tài khoản khác phải bị từ chối",
                   "",
-                  "// [CHUA TU DONG HOA] mat khau cua victim KHONG duoc doi",
+                  "// [CHUA TU DONG HOA] mật khẩu của victim KHÔNG được đổi",
                   "",
-                  "// [CHUA TU DONG HOA] voi khong gian chi 9000 gia tri, xac suat hai OTP trung nhau la dang ke nen dieu kien AND email + token la khong du"
+                  "// [CHUA TU DONG HOA] với không gian chỉ 9000 giá trị, xác suất hai OTP trùng nhau là đáng kể nên điều kiện AND email + token là không đủ"
                 ]
               }
             }
@@ -2517,7 +2517,7 @@
                 "reset-password"
               ]
             },
-            "description": "[SEC-07] OTP cua nguoi nay dung duoc cho email cua nguoi kia neu trung gia tri\n\nPreconditions: Ca hai tai khoan victim va attacker deu da goi forgot-password. Ghi lai OTP cua attacker\nOracle: SPEC\nSEC: SEC-07\nTag: @contract\nBug: A-02\nNguon: HUMAN\nAudit: VALID\nCase do sinh vien tu viet sau khi doc ma nguon SUT; khong qua bo sinh tu dong.",
+            "description": "[SEC-07] OTP của người này dùng được cho email của người kia nếu trùng giá trị\n\nPreconditions: Cả hai tài khoản victim và attacker đều đã gọi forgot-password. Ghi lại OTP của attacker\nOracle: SPEC\nSEC: SEC-07\nTag: @contract\nBug: A-02\nNguồn: HUMAN\nAudit: VALID\nCase do sinh viên tự viết sau khi đọc mã nguồn SUT; không qua bộ sinh tự động.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{attackerResetToken}}\",\"newPassword\":\"Hacked123!\"}",
@@ -2536,7 +2536,7 @@
       "name": "SCH - Schema validation",
       "item": [
         {
-          "name": "TC-A1-SCH-001 @bug | Response 200 cua forgot-password khop schema { message: string }",
+          "name": "TC-A1-SCH-001 @bug | Response 200 của forgot-password khớp schema { message: string }",
           "event": [
             {
               "listen": "test",
@@ -2544,7 +2544,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SCH-001 | SCH | Oracle=SPEC | Tag=@bug | Bug=A-01",
-                  "// Response 200 cua forgot-password khop schema { message: string }",
+                  "// Response 200 của forgot-password khớp schema { message: string }",
                   "",
                   "pm.test(\"TC-A1-SCH-001 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
@@ -2554,7 +2554,7 @@
                   "  pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
                   "});",
                   "",
-                  "// [CHUA TU DONG HOA] body khop { message: string }",
+                  "// [CHUA TU DONG HOA] body khớp { message: string }",
                   "",
                   "// [CHUA TU DONG HOA] additionalProperties=false",
                   "",
@@ -2584,7 +2584,7 @@
                 "forgot-password"
               ]
             },
-            "description": "Response 200 cua forgot-password khop schema { message: string }\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-01\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Response 200 của forgot-password khớp schema { message: string }\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @bug\nBug: A-01\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\"}",
@@ -2598,7 +2598,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-SCH-003 @contract | Response 200 cua reset-password khop schema { message: string }",
+          "name": "TC-A1-SCH-003 @contract | Response 200 của reset-password khớp schema { message: string }",
           "event": [
             {
               "listen": "prerequest",
@@ -2624,7 +2624,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SCH-003 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Response 200 cua reset-password khop schema { message: string }",
+                  "// Response 200 của reset-password khớp schema { message: string }",
                   "",
                   "pm.test(\"TC-A1-SCH-003 | HTTP 200\", function () {",
                   "  pm.response.to.have.status(200);",
@@ -2660,7 +2660,7 @@
                 "reset-password"
               ]
             },
-            "description": "Response 200 cua reset-password khop schema { message: string }\n\nPreconditions: Folder _setup da chay xong va da dat cac bien moi truong can thiet\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: INCOMPLETE\nR10 - Case dung bien Postman ({{...}}) nhung precondition chi ghi 'SUT da seed', khong noi bien do duoc dat o dau. Chay doc lap se that bai. DA SUA: ghi ro buoc _setup phai chay truoc.",
+            "description": "Response 200 của reset-password khớp schema { message: string }\n\nPreconditions: Folder _setup đã chạy xong và đã đặt các biến môi trường cần thiết\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: INCOMPLETE\nR10 - Case dùng biến Postman ({{...}}) nhưng precondition chỉ ghi 'SUT da seed', không nói biến đó được đặt ở đâu. Chạy độc lập sẽ thất bại. ĐÃ SỬA: ghi rõ bước _setup phải chạy trước.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"{{resetToken}}\",\"newPassword\":\"NewApi1234!\"}",
@@ -2674,7 +2674,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-SCH-004 @contract | Response loi cua reset-password khop schema { error: string }",
+          "name": "TC-A1-SCH-004 @contract | Response lỗi của reset-password khớp schema { error: string }",
           "event": [
             {
               "listen": "prerequest",
@@ -2700,7 +2700,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SCH-004 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Response loi cua reset-password khop schema { error: string }",
+                  "// Response lỗi của reset-password khớp schema { error: string }",
                   "",
                   "pm.test(\"TC-A1-SCH-004 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
@@ -2736,7 +2736,7 @@
                 "reset-password"
               ]
             },
-            "description": "Response loi cua reset-password khop schema { error: string }\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Response lỗi của reset-password khớp schema { error: string }\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":\"api.victim.23127060@test.local\",\"resetToken\":\"0000\",\"newPassword\":\"NewApi1234!\"}",
@@ -2750,7 +2750,7 @@
           "response": []
         },
         {
-          "name": "TC-A1-SCH-006 @contract | Moi response loi deu phai la application/json chu khong phai HTM",
+          "name": "TC-A1-SCH-006 @contract | Mọi response lỗi đều phải là application/json chứ không phải HTM",
           "event": [
             {
               "listen": "prerequest",
@@ -2776,7 +2776,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "// TC-A1-SCH-006 | SCH | Oracle=SPEC | Tag=@contract | Bug=-",
-                  "// Moi response loi deu phai la application/json chu khong phai HTML",
+                  "// Mọi response lỗi đều phải là application/json chứ không phải HTML",
                   "",
                   "pm.test(\"TC-A1-SCH-006 | HTTP 400\", function () {",
                   "  pm.response.to.have.status(400);",
@@ -2786,7 +2786,7 @@
                   "  pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
                   "});",
                   "",
-                  "pm.test(\"TC-A1-SCH-006 | body khong chua <h1>\", function () {",
+                  "pm.test(\"TC-A1-SCH-006 | body không chứa <h1>\", function () {",
                   "  pm.expect(pm.response.text()).to.not.include('<h1>');",
                   "  pm.expect(pm.response.text()).to.not.include('<p>');",
                   "});"
@@ -2812,7 +2812,7 @@
                 "reset-password"
               ]
             },
-            "description": "Moi response loi deu phai la application/json chu khong phai HTML\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguon: AI\nAudit: VALID\nBuoc, du lieu va ky vong deu doi chieu duoc voi SRS; assertion da cu the; chay doc lap duoc sau khi _setup chay xong.",
+            "description": "Mọi response lỗi đều phải là application/json chứ không phải HTML\n\nPreconditions: SUT da seed\nOracle: SPEC\nSEC: -\nTag: @contract\nBug: -\nNguồn: AI\nAudit: VALID\nBước, dữ liệu và kỳ vọng đều đối chiếu được với SRS; assertion đã cụ thể; chạy độc lập được sau khi _setup chạy xong.",
             "body": {
               "mode": "raw",
               "raw": "{\"email\":null,\"resetToken\":null,\"newPassword\":null}",

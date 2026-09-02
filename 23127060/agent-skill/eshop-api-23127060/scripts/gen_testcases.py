@@ -33,13 +33,13 @@ CATS = ["DOM", "STA", "SEC", "SCH"]
 # Bang nay bam theo eshop-sut/README.md muc 9 "Yeu cau Bao mat" (ban that),
 # KHÔNG phải bảng SEC suy diễn theo OWASP. Xem report/00_environment.md mục 4.
 SEC_DEFAULT_ASSERT = {
-    "SEC-01": "response KHONG chua truong password (du plaintext hay hash); mat khau khong duoc luu plaintext",
-    "SEC-02": "tra 401 khi thieu token / 403 khi token sai; du lieu KHONG bi doc hay thay doi",
-    "SEC-03": "tra 403 khi token hop le nhung role != 'admin'; hanh dong admin KHONG duoc thuc hien",
-    "SEC-04": "payload HTML/script khong duoc luu tho; server tra ve ban da escape hoac tu choi (4xx)",
-    "SEC-05": "truy van dung parameterized query: payload SQLi bi coi la chuoi tim kiem thuong, khong doi ngu nghia cau lenh; khong tra HTML loi DB",
-    "SEC-06": "truong role trong body bi bo qua; role cua tai khoan sau khi goi van la 'user'",
-    "SEC-07": "OTP dai >= 6 chu so, het han sau thoi gian quy dinh, va khong dung lai duoc lan thu hai",
+    "SEC-01": "response KHÔNG chứa trường password (dù plaintext hay hash); mật khẩu không được lưu plaintext",
+    "SEC-02": "trả 401 khi thiếu token / 403 khi token sai; dữ liệu KHÔNG bị đọc hay thay đổi",
+    "SEC-03": "trả 403 khi token hợp lệ nhưng role != 'admin'; hành động admin KHÔNG được thực hiện",
+    "SEC-04": "payload HTML/script không được lưu thô; server trả về bản đã escape hoặc từ chối (4xx)",
+    "SEC-05": "truy vấn dùng parameterized query: payload SQLi bị coi là chuỗi tìm kiếm thường, không đổi ngữ nghĩa câu lệnh; không trả HTML lỗi DB",
+    "SEC-06": "trường role trong body bị bỏ qua; role của tài khoản sau khi gọi vẫn là 'user'",
+    "SEC-07": "OTP dài >= 6 chữ số, hết hạn sau thời gian quy định, và không dùng lại được lần thứ hai",
 }
 
 
@@ -102,7 +102,7 @@ def gen_domain(spec):
                     Technique=part.get("technique", "BVA" if part.get("boundary") else "EP"),
                     Title=title,
                     Method=ep["method"], Endpoint=endpoint,
-                    Preconditions=ep.get("preconditions", "SUT da seed"),
+                    Preconditions=ep.get("preconditions", "SUT đã seed"),
                     Request_Headers=ep.get("headers", "-"),
                     Request_Body=jdump(body),
                     Expected_Status=part.get(
@@ -110,8 +110,8 @@ def gen_domain(spec):
                         ep.get("success_status", 200) if valid else 400),
                     Expected_Assertions=part.get(
                         "assertions",
-                        "body la JSON; khop schema thanh cong" if valid
-                        else "body la JSON; co truong error"),
+                        "body là JSON; khớp schema thành công" if valid
+                        else "body là JSON; có trường error"),
                     Oracle=part.get("oracle", "SPEC"),
                     SEC_Ref=part.get("sec", "-"),
                     Priority=part.get("priority", "P1" if valid else "P2"),
@@ -133,17 +133,17 @@ def gen_state(spec):
     for t in sm.get("transitions", []):
         n += 1
         allowed = t.get("allowed", False)
-        default_assert = ("trang thai sau khi goi = " + t["to"]) if allowed else (
-            "body.error chua Invalid state transition; trang thai KHONG doi")
+        default_assert = ("trạng thái sau khi gọi = " + t["to"]) if allowed else (
+            "body.error chứa Invalid state transition; trạng thái KHÔNG đổi")
         rows.append(mk_row(
             TC_ID="TC-%s-STA-%03d" % (pref, n),
             API=api, FR=spec["fr"], Category="STA",
             Technique="State Transition",
-            Title="Chuyen trang thai %s -> %s (%s)" % (
-                t["from"], t["to"], "hop le" if allowed else "KHONG hop le"),
+            Title="Chuyển trạng thái %s -> %s (%s)" % (
+                t["from"], t["to"], "hợp lệ" if allowed else "KHÔNG hợp lệ"),
             Method=t.get("method", "PUT"),
             Endpoint=t.get("endpoint", sm.get("endpoint", "-")),
-            Preconditions="Doi tuong dang o trang thai " + t["from"] + ". " + t.get("preconditions", ""),
+            Preconditions="Đối tượng đang ở trạng thái " + t["from"] + ". " + t.get("preconditions", ""),
             Request_Headers=t.get("headers", "Authorization: Bearer {{token_user}}"),
             Request_Body=jdump(t.get("body", {"status": t["to"]})),
             Expected_Status=t.get("expected_status", 200 if allowed else 400),
