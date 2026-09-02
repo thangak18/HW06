@@ -73,7 +73,7 @@ PASS: 38 formal cases in corrected Run04
 FAIL: 6 normative formal cases in corrected Run04
 BLOCKED: 0
 Bugs: 3
-Issues: #29, #30, #31 (live; final screenshot hash/embed update pending)
+Issues: #29, #30, #31 (live; permanent commit-backed native screenshots embedded and verified)
 
 ## FR14 Canonical Accounting
 
@@ -118,8 +118,8 @@ Issues: NOT_YET_VERIFIED
 ## Git State
 
 Branch: `thang/hw06-implementation`
-HEAD: `579c4c96307adb9954f3343eb24d4a448598b793`
-Last meaningful commit: `579c4c9 docs(23127259): embed FR02 issue evidence`
+HEAD: `b069174`
+Last meaningful commit: `b069174 fix(23127259): complete FR10 canonical replacement and evidence`
 Working tree clean: NO
 Uncommitted paths: interrupted AI-audit files, three FR10 screenshots, and this checkpoint.
 
@@ -128,11 +128,10 @@ Uncommitted paths: interrupted AI-audit files, three FR10 screenshots, and this 
 SUT: Reachable through genuine FR02 and FR10 Postman Desktop Runner executions on `http://localhost:3000`.
 Postman: Live Desktop 11.89.0 controlled through Computer Use; FR02 native run and screenshots complete; FR10 strict run remains open and verified.
 GitHub Actions: NOT_YET_VERIFIED.
-Issues: FR02 #1/#2/#3 verified live and updated in place with permanent native screenshot embeds; FR10 #29/#30/#31 verified live but still reference stale screenshot hashes.
+Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place with permanent native screenshot embeds.
 
 ## Known Problems / Risks
 
-- FR10 live Issues #29/#30/#31 still require final commit-backed screenshot/hash embeds after the FR10 commit is pushed.
 - Historical Run03 and strict JSON/HTML contain resolved runtime tokens. They remain immutable by instruction and require explicit legacy-risk documentation; final Run04 is disclosure-controlled.
 - FR14 has not yet begun and must wait for truthful FR02 and FR10 final gates.
 - Existing AI-interaction logs contain pending transcript backfills that require evidence-based resolution without invention.
@@ -148,4 +147,4 @@ Issues: FR02 #1/#2/#3 verified live and updated in place with permanent native s
 
 ## NEXT EXACT ACTION
 
-Commit and push the verified FR10 provenance/Run04/evidence repair, update Issues #29/#30/#31 in place with permanent screenshot embeds, then audit the FR14 Anti worktree's uncommitted oracle, Run02, validators, and screenshots before selecting files for procedural integration.
+Audit the FR14 Anti worktree's committed and uncommitted requirement analysis, raw draft, Human Audit, canonical mapping, validators, Run01/Run02, bug triage, and screenshots read-only; classify each artifact before selectively integrating it into the primary branch through honest procedural commits.
