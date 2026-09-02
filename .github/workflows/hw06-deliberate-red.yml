@@ -1,0 +1,57 @@
+name: HW06 Deliberate Red Sample (23127259)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deliberate-red:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SUT_PORT: 3010
+      BASE_URL: http://localhost:3010
+      STUDENT_ID: "23127259"
+      DELIBERATE_RED: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Newman + HTMLExtra reporter
+        run: |
+          npm install --no-save newman@5 newman-reporter-htmlextra@1
+
+      - name: Start SUT on port 3010
+        working-directory: 23127259/ci/sut
+        run: |
+          if [ -f package.json ]; then
+            npm install --no-audit --no-fund
+          fi
+          PORT=3010 node server.js &
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:3010/api/categories >/dev/null 2>&1 || curl -fsS http://localhost:3010/api/products >/dev/null 2>&1; then
+              echo "SUT ready"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run FR10 with one deliberately failing assertion
+        run: |
+          bash scripts/run_fr10_newman.sh "${{ github.run_id }}/FR10-red"
+
+      - name: Upload deliberate-red artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hw06-23127259-deliberate-red-${{ github.run_id }}
+          path: 23127259/ci/evidence/**/*.json
+          retention-days: 30
+          if-no-files-found: ignore

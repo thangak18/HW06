@@ -19,7 +19,11 @@
           "pm.request.headers.upsert({",
           "    key: 'X-Student-Id',",
           "    value: studentId",
-          "});"
+          "});",
+          "// DELIBERATE_RED sample flag (used by hw06-deliberate-red CI workflow).",
+          "// When set, the helper request HELPER-LOGIN-OWNER is patched to expect a 401 instead of 200,",
+          "// producing a single deliberate failure while every other assertion passes.",
+          "pm.environment.set('deliberateRed', pm.environment.get('DELIBERATE_RED') || '0');"
         ]
       }
     }
@@ -299,6 +303,15 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
+                  "// Deliberate-red sample flag (CI deliberate-red workflow only).",
+                  "// When DELIBERATE_RED=1, the very first assertion is forced to fail;",
+                  "// all other assertions remain intact. This satisfies the assignment's",
+                  "// requirement of one failing test in an otherwise green pipeline.",
+                  "if (pm.environment.get('deliberateRed') === '1' && pm.info.iteration === 0 && pm.info.requestName === '[FR10-AI-001] Admin Confirms Pending Order') {",
+                  "    pm.test('[DELIBERATE-RED] Sample failing assertion (CI only)', function () {",
+                  "        pm.expect(true).to.eql(false, 'Deliberate red sample for CI FAIL run');",
+                  "    });",
+                  "}",
                   "// Assertion for [FR10-AI-001]",
                   "pm.test('[FR10-AI-001] - Status & Semantic Assertion', function () {",
                   "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",

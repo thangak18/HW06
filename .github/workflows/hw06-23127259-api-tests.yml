@@ -1,0 +1,78 @@
+name: HW06 API Tests (23127259)
+
+on:
+  push:
+    branches: [thang/hw06-implementation, thang/fr14-anti, thang/fr14-final]
+  pull_request:
+    branches: [thang/hw06-implementation]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SUT_PORT: 3010
+      BASE_URL: http://localhost:3010
+      STUDENT_ID: "23127259"
+      CI_RUN: "true"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install Newman + HTMLExtra reporter
+        run: |
+          npm install --no-save newman@5 newman-reporter-htmlextra@1
+          npx newman --version
+          npx newman run --help | grep -q htmlextra || echo "htmlextra reporter registered"
+
+      - name: Setup SUT (EShop backend) on port 3010
+        working-directory: 23127259/ci/sut
+        run: |
+          if [ -f package.json ]; then
+            npm install --no-audit --no-fund
+          fi
+          PORT=3010 node server.js &
+          SUT_PID=$!
+          echo "SUT_PID=$SUT_PID"
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:3010/api/categories >/dev/null 2>&1 || curl -fsS http://localhost:3010/api/products >/dev/null 2>&1; then
+              echo "SUT ready on port 3010"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Prepare evidence folder
+        run: |
+          mkdir -p 23127259/ci/evidence/${{ github.run_id }}
+
+      - name: Run FR10 Newman (canonical Run04)
+        run: |
+          bash scripts/run_fr10_newman.sh "${{ github.run_id }}/FR10"
+
+      - name: Run FR14 Newman (canonical corrected)
+        run: |
+          bash scripts/run_fr14_newman.sh "${{ github.run_id }}/FR14"
+
+      - name: Upload Newman artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hw06-23127259-newman-${{ github.run_id }}
+          path: |
+            23127259/ci/evidence/**/*.json
+            23127259/ci/evidence/**/*.html
+            23127259/ci/evidence/**/*.log
+          if-no-files-found: ignore
+          retention-days: 30
