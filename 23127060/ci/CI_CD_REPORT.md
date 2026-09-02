@@ -1,89 +1,89 @@
-# BAO CAO CI/CD — HW06 API Testing
+# BÁO CÁO CI/CD — HW06 API Testing
 
-> SV **Ninh Van Khai — 23127060** | De bai muc 6 (Integrate into CI/CD)
+> SV **Ninh Văn Khải — 23127060** | Đề bài mục 6 (Integrate into CI/CD)
 
-De bai: *"Add your API test cases to a CI/CD pipeline for the SUT... and write a short CI/CD
+Đề bài: *"Add your API test cases to a CI/CD pipeline for the SUT... and write a short CI/CD
 report describing the pipeline configuration and the two runs below, with screenshots and
 links. Provide two sample commits: one whose pipeline run shows all API test cases passing,
 and another whose pipeline run shows one test case failing."*
 
 ---
 
-## 1. Cau hinh pipeline
+## 1. Cấu hình pipeline
 
-| Hang muc | Gia tri |
+| Hạng mục | Giá trị |
 |---|---|
-| Nen tang | GitHub Actions |
-| File workflow | `.github/workflows/api-tests-23127060.yml` (ban sao: `ci/api-tests-23127060.yml`) |
-| Runner | `ubuntu-latest`, gioi han 20 phut |
-| Kich hoat | `push` va `pull_request` cham vao `23127060/**`, hoac chay tay bang `workflow_dispatch` |
+| Nền tảng | GitHub Actions |
+| File workflow | `.github/workflows/api-tests-23127060.yml` (bản sao: `ci/api-tests-23127060.yml`) |
+| Runner | `ubuntu-latest`, giới hạn 20 phút |
+| Kích hoạt | `push` và `pull_request` chạm vào `23127060/**`, hoặc chạy tay bằng `workflow_dispatch` |
 | Node.js | 20 |
-| Cong cu | `newman` + `newman-reporter-htmlextra` (cai toan cuc) |
-| SUT | Clone `ttbhanh/eshop-sut` va **ghim dung commit `85af3ba`** |
-| Base URL | `http://localhost:3000` — thoa yeu cau chong gian lan cua de bai muc 11 |
-| San pham dau ra | Bao cao HTML + JSON tai len lam artifact, giu 30 ngay |
+| Công cụ | `newman` + `newman-reporter-htmlextra` (cài toàn cục) |
+| SUT | Clone `ttbhanh/eshop-sut` và **ghim đúng commit `85af3ba`** |
+| Base URL | `http://localhost:3000` — thỏa yêu cầu chống gian lận của đề bài mục 11 |
+| Sản phẩm đầu ra | Báo cáo HTML + JSON tải lên làm artifact, giữ 30 ngày |
 
-### Cac buoc trong job
+### Các bước trong job
 
-1. **Checkout** bai lam.
+1. **Checkout** bài làm.
 2. **Setup Node 20**.
-3. **Cai Newman** va reporter `htmlextra`.
-4. **Clone SUT va `git checkout 85af3ba`** — ghim commit la bat buoc: neu SUT thay doi, moc hoi
-   quy se do vi mot ly do khong lien quan gi den bai lam.
-5. **Cai dependency cua SUT**.
-6. **Xac dinh che do chay** (`contract` hoac `full`).
-7. **Chay Newman cho ca 3 API**, moi API khoi dong lai backend truoc (xem muc 2).
-8. **Tong hop ket qua vao Job Summary** bang `summarize_newman.py`.
-9. **Kiem chung header `X-Student-Id`** bang `verify_header.py`, ket qua in thang vao Job Summary.
-10. **Upload artifact** bao cao HTML/JSON.
-11. **In log cua SUT** neu job that bai; **dung backend** trong moi truong hop.
+3. **Cài Newman** và reporter `htmlextra`.
+4. **Clone SUT và `git checkout 85af3ba`** — ghim commit là bắt buộc: nếu SUT thay đổi, mốc hồi
+   quy sẽ đỏ vì một lý do không liên quan gì đến bài làm.
+5. **Cài dependency của SUT**.
+6. **Xác định chế độ chạy** (`contract` hoặc `full`).
+7. **Chạy Newman cho cả 3 API**, mỗi API khởi động lại backend trước (xem mục 2).
+8. **Tổng hợp kết quả vào Job Summary** bằng `summarize_newman.py`.
+9. **Kiểm chứng header `X-Student-Id`** bằng `verify_header.py`, kết quả in thẳng vào Job Summary.
+10. **Upload artifact** báo cáo HTML/JSON.
+11. **In log của SUT** nếu job thất bại; **dừng backend** trong mọi trường hợp.
 
-## 2. Hai quyet dinh cau hinh dang giai thich
+## 2. Hai quyết định cấu hình em muốn giải thích
 
-### 2.1 Khoi dong lai backend truoc **moi** collection
+### 2.1 Khởi động lại backend trước **mọi** collection
 
-`backend/database.js` goi `initDatabase()` ngay khi module duoc `require`, va ham do bat dau
-bang mot loat `DROP TABLE`. Nen khoi dong lai backend chinh la cach dua CSDL ve trang thai
-seed goc.
+`backend/database.js` gọi `initDatabase()` ngay khi module được `require`, và hàm đó bắt đầu
+bằng một loạt `DROP TABLE`. Nên khởi động lại backend chính là cách đưa CSDL về trạng thái
+seed gốc.
 
-Day khong phai toi uu cho dep ma la **dieu kien de ket qua co nghia**. SUT co bug **A-09**:
-moi lan dang nhap sai cong `+2` vao `login_attempts` va khoa tai khoan 180 giay khi dat 3.
-Neu chay collection thu hai tren CSDL cua collection thu nhat, tai khoan test da bi khoa va
-hang loat test se that bai vi mot ly do khong lien quan gi den chat luong API. Lan chay thu
-nghiem dau tien o may cuc bo dinh dung loi nay: 7 test case that bai day chuyen tu **mot**
-nguyen nhan duy nhat.
+Đây không phải tối ưu cho đẹp mà là **điều kiện để kết quả có nghĩa**. SUT có bug **A-09**:
+mỗi lần đăng nhập sai cộng `+2` vào `login_attempts` và khóa tài khoản 180 giây khi đạt 3.
+Nếu chạy collection thứ hai trên CSDL của collection thứ nhất, tài khoản test đã bị khóa và
+hàng loạt test sẽ thất bại vì một lý do không liên quan gì đến chất lượng API. Lần chạy thử
+nghiệm đầu tiên của em ở máy cục bộ dính đúng lỗi này: 7 test case thất bại dây chuyền từ
+**một** nguyên nhân duy nhất.
 
-### 2.2 Hai che do chay, va vi sao khong ep bo test day du phai xanh
+### 2.2 Hai chế độ chạy, và vì sao em không ép bộ test đầy đủ phải xanh
 
-SUT co **34 bug that**. Bo test day du (243 case, oracle la dac ta) **phai do** — do la ket
-qua kiem thu dung. Neu ep no xanh thi chi con mot cach: sua ky vong cho khop voi hanh vi sai
-cua SUT, tuc la **nguy tao ket qua**.
+SUT có **34 bug thật**. Bộ test đầy đủ (243 case, oracle là đặc tả) **phải đỏ** — đó là kết
+quả kiểm thử đúng. Nếu ép nó xanh thì chỉ còn một cách: sửa kỳ vọng cho khớp với hành vi sai
+của SUT, tức là **ngụy tạo kết quả**.
 
-Vi vay pipeline co hai che do:
+Vì vậy pipeline có hai chế độ:
 
-| Che do | Chay gi | Ky vong | Dung de lam gi |
+| Chế độ | Chạy gì | Kỳ vọng | Dùng để làm gì |
 |---|---|---|---|
-| `contract` | 84 test case ma SUT **hien dang** dap ung | ✅ XANH | Moc hoi quy — bao dong khi mot dieu dang dung bi pha |
-| `full` | Toan bo 243 test case, oracle la dac ta | ❌ DO (dung y do) | Ket qua kiem thu that su; do khoang cach giua dac ta va hien thuc |
+| `contract` | 84 test case mà SUT **hiện đang** đáp ứng | ✅ XANH | Mốc hồi quy — báo động khi một điều đang đúng bị phá |
+| `full` | Toàn bộ 243 test case, oracle là đặc tả | ❌ ĐỎ (đúng ý đồ) | Kết quả kiểm thử thật sự; đo khoảng cách giữa đặc tả và hiện thực |
 
-Bo `contract` **khong** khang dinh "API nay dung". No khang dinh "nhung dieu API nay dang lam
-dung thi khong duoc pha". Danh sach 84 case do duoc suy ra tu **ket qua chay that** bang
-`scripts/derive_contract.py`, khong phai tu phan doan luc thiet ke — xem
+Bộ `contract` **không** khẳng định "API này đúng". Nó khẳng định "những điều API này đang làm
+đúng thì không được phá". Danh sách 84 case đó được suy ra từ **kết quả chạy thật** bằng
+`scripts/derive_contract.py`, không phải từ phán đoán lúc thiết kế — xem
 `postman/contract_baseline/API-*.txt`.
 
-## 3. Hai lan chay bat buoc
+## 3. Hai lần chạy bắt buộc
 
-### 3.1 Lan chay PASS — che do `contract`
+### 3.1 Lần chạy PASS — chế độ `contract`
 
 | | |
 |---|---|
-| **Commit** | `<dien hash sau khi push>` |
-| **Thong diep commit** | `ci: run all api tests (expect pass)` |
-| **Link run** | `<dien link GitHub Actions>` |
-| **Anh chup** | `ci/evidence/ci_run_pass.png` |
-| **Ket qua mong doi** | 84 test case, **406 assertion, 0 that bai**, job xanh |
+| **Commit** | `<điền hash sau khi push>` |
+| **Thông điệp commit** | `ci: run all api tests (expect pass)` |
+| **Link run** | `<điền link GitHub Actions>` |
+| **Ảnh chụp** | `ci/evidence/ci_run_pass.png` |
+| **Kết quả mong đợi** | 84 test case, **406 assertion, 0 thất bại**, job xanh |
 
-Ket qua **da kiem chung tren may cuc bo** truoc khi push (`ci/evidence/local_ci_run_pass.log`):
+Kết quả em **đã kiểm chứng trên máy cục bộ** trước khi push (`ci/evidence/local_ci_run_pass.log`):
 
 ```
 API-1 contract:  163 assertion,  0 that bai
@@ -93,17 +93,17 @@ API-3 contract:   79 assertion,  0 that bai
 Tong:            406 assertion,  0 that bai   -> exit code 0
 ```
 
-### 3.2 Lan chay FAIL — lam sai dung **mot** assertion
+### 3.2 Lần chạy FAIL — làm sai đúng **một** assertion
 
 | | |
 |---|---|
-| **Commit** | `<dien hash sau khi push>` |
-| **Thong diep commit** | `ci: introduce one failing assertion to demo pipeline failure` |
-| **Link run** | `<dien link GitHub Actions>` |
-| **Anh chup** | `ci/evidence/ci_run_fail.png` |
-| **Ket qua mong doi** | 406 assertion, **dung 1 that bai**, job do |
+| **Commit** | `<điền hash sau khi push>` |
+| **Thông điệp commit** | `ci: introduce one failing assertion to demo pipeline failure` |
+| **Link run** | `<điền link GitHub Actions>` |
+| **Ảnh chụp** | `ci/evidence/ci_run_fail.png` |
+| **Kết quả mong đợi** | 406 assertion, **đúng 1 thất bại**, job đỏ |
 
-Thay doi duoc thuc hien bang script, de tai lap va tra lai duoc:
+Thay đổi được thực hiện bằng script, để tái lập và trả lại được:
 
 ```bash
 python3 ci/inject_failing_test.py --apply    # lam sai 1 assertion
@@ -111,16 +111,16 @@ python3 ci/inject_failing_test.py --check    # xem dang o trang thai nao
 python3 ci/inject_failing_test.py --revert   # tra lai nhu cu
 ```
 
-Script doi ky vong ma trang thai cua `TC-A1-DOM-012` (`POST /api/reset-password` voi du lieu
-hop le) tu **200** thanh **201**. Chon dung case nay vi ba ly do:
+Script đổi kỳ vọng mã trạng thái của `TC-A1-DOM-012` (`POST /api/reset-password` với dữ liệu
+hợp lệ) từ **200** thành **201**. Em chọn đúng case này vì ba lý do:
 
-- No nam trong bo hoi quy nen binh thuong **chac chan PASS** — khi pipeline do thi ly do duy
-  nhat la thay doi vua chen vao, khong the do nguyen nhan khac.
-- No la case DOM dau tien cua bo hoi quy API-1 nen xuat hien som trong log CI, de nhin thay.
-- Nham `200` voi `201` la loi con nguoi hay mac that (quy uoc REST cho thao tac tao moi), nen
-  no minh hoa dung loai loi ma pipeline sinh ra de bat — thay vi mot loi bia dat.
+- Nó nằm trong bộ hồi quy nên bình thường **chắc chắn PASS** — khi pipeline đỏ thì lý do duy
+  nhất là thay đổi vừa chèn vào, không thể do nguyên nhân khác.
+- Nó là case DOM đầu tiên của bộ hồi quy API-1 nên xuất hiện sớm trong log CI, dễ nhìn thấy.
+- Nhầm `200` với `201` là lỗi con người hay mắc thật (quy ước REST cho thao tác tạo mới), nên
+  nó minh họa đúng loại lỗi mà pipeline sinh ra để bắt — thay vì một lỗi bịa đặt.
 
-Ket qua **da kiem chung tren may cuc bo** (`ci/evidence/local_ci_run_fail.log`):
+Kết quả em **đã kiểm chứng trên máy cục bộ** (`ci/evidence/local_ci_run_fail.log`):
 
 ```
 API-1 contract:  163 assertion,  1 that bai
@@ -133,67 +133,67 @@ API-3 contract:   79 assertion,  0 that bai
 newman exit code = 1   -> GitHub Actions danh dau job that bai
 ```
 
-> Luu y ky thuat: `scripts/run_newman.sh` dung co `--suppress-exit-code` de mot API do khong
-> lam dut chuoi chay cac API con lai o may cuc bo. Workflow CI **khong** dung co do — no thu
-> ma thoat cua tung lan chay va tra ve ma khac 0 o cuoi job, nen GitHub Actions danh dau job
-> la that bai dung nhu mong doi.
+> Lưu ý kỹ thuật: `scripts/run_newman.sh` dùng cờ `--suppress-exit-code` để một API đỏ không
+> làm đứt chuỗi chạy các API còn lại ở máy cục bộ. Workflow CI **không** dùng cờ đó — nó thu
+> mã thoát của từng lần chạy và trả về mã khác 0 ở cuối job, nên GitHub Actions đánh dấu job
+> là thất bại đúng như mong đợi.
 
-## 4. Bang chung header `X-Student-Id` ngay trong pipeline
+## 4. Bằng chứng header `X-Student-Id` ngay trong pipeline
 
-Buoc **"Kiem chung header X-Student-Id"** chay `verify_header.py`, doc thang phan
-`request.header` ma Newman ghi lai cho tung request that su roi len duong, roi in ket qua vao
-**Job Summary** cua GitHub Actions. Nghia la bang chung chong gian lan nam ngay trong trang
-ket qua cua pipeline, ai mo link cung xem duoc, khong phu thuoc vao mot anh chup man hinh.
+Bước **"Kiểm chứng header X-Student-Id"** chạy `verify_header.py`, đọc thẳng phần
+`request.header` mà Newman ghi lại cho từng request thật sự rời đường, rồi in kết quả vào
+**Job Summary** của GitHub Actions. Nghĩa là bằng chứng chống gian lận nằm ngay trong trang
+kết quả của pipeline, ai mở link cũng xem được, không phụ thuộc vào một ảnh chụp màn hình.
 
-Ket qua o may cuc bo: **823/823 request mang `X-Student-Id: 23127060`, khong request nao
-thieu** — xem `ci/evidence/header_evidence.md`.
+Kết quả ở máy cục bộ: **823/823 request mang `X-Student-Id: 23127060`, không request nào
+thiếu** — xem `ci/evidence/header_evidence.md`.
 
-## 5. CONG VIEC CON LAI CUA SINH VIEN (HUMAN H5)
+## 5. CÔNG VIỆC CÒN LẠI CỦA EM (HUMAN H5)
 
-> Toan bo phan cau hinh va kiem chung logic da xong va **da chay dung o may cuc bo**. Phan con
-> lai bat buoc phai do sinh vien thuc hien vi no doi hoi quyen day ma len GitHub.
+> Toàn bộ phần cấu hình và kiểm chứng logic đã xong và **đã chạy đúng ở máy cục bộ**. Phần còn
+> lại bắt buộc em phải tự thực hiện vì nó đòi hỏi quyền đẩy mã lên GitHub.
 >
-> Thu muc lam viec dang tro toi remote `https://github.com/thangak18/HW06.git` — **khong phai
-> tai khoan cua sinh vien** (`gh` dang dang nhap bang `nvkhai238`). Vi vay khong tu dong day
-> ma len: viec day ma vao repo cua nguoi khac phai duoc chinh chu dong y truoc.
+> Thư mục làm việc đang trỏ tới remote `https://github.com/thangak18/HW06.git` — **không phải
+> tài khoản của em** (`gh` đang đăng nhập bằng `nvkhai238`). Vì vậy em không tự động đẩy mã
+> lên: việc đẩy mã vào repo của người khác phải được chính chủ đồng ý trước.
 
-### Cac buoc
+### Các bước
 
-1. **Chot repo se dung.** Hoac xin quyen ghi vao `thangak18/HW06`, hoac fork ve tai khoan
-   `nvkhai238` roi doi remote:
+1. **Chốt repo sẽ dùng.** Hoặc xin quyền ghi vào `thangak18/HW06`, hoặc fork về tài khoản
+   `nvkhai238` rồi đổi remote:
    ```bash
    gh repo fork thangak18/HW06 --clone=false --remote=false
    git remote add mine https://github.com/nvkhai238/HW06.git
    ```
-2. **Day ma va tao lan chay PASS:**
+2. **Đẩy mã và tạo lần chạy PASS:**
    ```bash
    git push mine main
    gh workflow run "API Tests 23127060" -f mode=contract
    gh run watch
    ```
-   Doi job xanh, chup man hinh -> `ci/evidence/ci_run_pass.png`, chep link run vao muc 3.1.
-3. **Tao lan chay FAIL:**
+   Đợi job xanh, chụp màn hình → `ci/evidence/ci_run_pass.png`, chép link run vào mục 3.1.
+3. **Tạo lần chạy FAIL:**
    ```bash
    python3 ci/inject_failing_test.py --apply
    git add -A && git commit -m "ci: introduce one failing assertion to demo pipeline failure"
    git push mine main
    gh run watch
    ```
-   Doi job do, chup man hinh (phai thay ro dong `TC-A1-DOM-012 ... expected 201 but got 200`)
-   -> `ci/evidence/ci_run_fail.png`, chep link run vao muc 3.2.
-4. **Tra lai trang thai binh thuong:**
+   Đợi job đỏ, chụp màn hình (phải thấy rõ dòng `TC-A1-DOM-012 ... expected 201 but got 200`)
+   → `ci/evidence/ci_run_fail.png`, chép link run vào mục 3.2.
+4. **Trả lại trạng thái bình thường:**
    ```bash
    python3 ci/inject_failing_test.py --revert
    git add -A && git commit -m "ci: revert the demo failing assertion"
    git push mine main
    ```
-5. **Dien hai commit hash va hai link run** vao bang o muc 3.
-6. **Cong khai repo** (de bai muc 14 doi link GitHub cong khai) va dien link vao `README.md`.
+5. **Điền hai commit hash và hai link run** vào bảng ở mục 3.
+6. **Công khai repo** (đề bài mục 14 đòi link GitHub công khai) và điền link vào `README.md`.
 
-### Bang kiem truoc khi coi la xong
+### Bảng kiểm trước khi coi là xong
 
-- [ ] Link run PASS, job xanh, artifact tai ve duoc
-- [ ] Link run FAIL, job do, log co dong `TC-A1-DOM-012 ... expected 201 but got 200`
-- [ ] `ci/evidence/ci_run_pass.png` va `ci/evidence/ci_run_fail.png`
-- [ ] Hai commit hash da dien vao muc 3
-- [ ] Da chay `inject_failing_test.py --revert` va commit lai
+- [ ] Link run PASS, job xanh, artifact tải về được
+- [ ] Link run FAIL, job đỏ, log có dòng `TC-A1-DOM-012 ... expected 201 but got 200`
+- [ ] `ci/evidence/ci_run_pass.png` và `ci/evidence/ci_run_fail.png`
+- [ ] Hai commit hash đã điền vào mục 3
+- [ ] Đã chạy `inject_failing_test.py --revert` và commit lại
