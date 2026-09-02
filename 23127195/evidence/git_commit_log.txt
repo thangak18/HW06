@@ -1,7 +1,7 @@
 GIT COMMIT LOG - HW06 API Testing
 Sinh vien : 23127195
 Repository: https://github.com/thangak18/HW06
-Xuat luc  : 2026-09-02 15:22:44
+Xuat luc  : 2026-09-02 16:33:25
 
 Theo muc 12 cua de bai: 'Create a new Git commit for each step of the procedure'.
 
@@ -114,6 +114,30 @@ BANG DOI CHIEU COMMIT <-> BUOC QUY TRINH
 21. 604fa7ce  2026-09-02 15:22:37
     Commit : docs(evidence): anh chup Postman Console + giai phong log console khoi .gitignore
     Buoc   : Bang chung muc 11 - anh chup Postman Console + giai phong log khoi .gitignore
+
+22. 3de872b3  2026-09-02 15:23:14
+    Commit : chore(evidence): sinh lai git commit log (21 commit, tat ca da gan buoc)
+    Buoc   : Chi muc bang chung - script sinh git commit log
+
+23. 03d0cb98  2026-09-02 15:33:50
+    Commit : ci: them TC-A2-013 vao cong chan hoi quy (BUG-A2-03 duoc bao la da sua)
+    Buoc   : Tich hop CI/CD - commit mau B lam pipeline do
+
+24. 7d5404f3  2026-09-02 15:38:05
+    Commit : ci: tra cong chan ve trang thai xanh + ghi nhan 2 lan chay mau vao bao cao
+    Buoc   : Tich hop CI/CD - hai lan chay mau (xanh / do dung 1 test case)
+
+25. 7991fe90  2026-09-02 15:40:20
+    Commit : docs(bugs): tach bang chung theo tung ma loi + tro giup chup anh cho 24 issue
+    Buoc   : Buoc 5 Report - bao cao loi + noi dung GitHub Issue
+
+26. fcb613e4  2026-09-02 16:03:30
+    Commit : docs(bugs): 24 anh chup man hinh bang chung loi cho GitHub Issues
+    Buoc   : Buoc 5 Report - bao cao loi + noi dung GitHub Issue
+
+27. 2f6882c1  2026-09-02 16:26:49
+    Commit : fix(bugs): lenh curl in ra phai dung bang lenh duoc chay + sua 2 loi bang chung
+    Buoc   : Buoc 5 Report - sua bang chung: lenh in ra dung bang lenh chay
 
 ====================================================================================================
 NHAT KY DAY DU (git log --stat)
@@ -522,3 +546,234 @@ docs(evidence): anh chup Postman Console + giai phong log console khoi .gitignor
  23127195/newman/sut-server.log                        |   3 +
  23127195/scripts/export_git_log.py                    |   2 +
  13 files changed, 3840 insertions(+), 8 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  3de872b31cb47543e819b04d18aab6897b18aeeb
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:23:14 2026 +0700
+
+chore(evidence): sinh lai git commit log (21 commit, tat ca da gan buoc)
+
+ 23127195/evidence/git_commit_log.txt | 57 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 56 insertions(+), 1 deletion(-)
+
+
+
+----------------------------------------------------------------------
+commit  03d0cb98904f16806dba320251c6c2a5403377ad
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:33:50 2026 +0700
+
+ci: them TC-A2-013 vao cong chan hoi quy (BUG-A2-03 duoc bao la da sua)
+
+ 23127195/ci/baseline_allowlist.json                             |  6 ++-
+ .../baseline_api2_fr09_apply_coupon.postman_collection.json     | 65 +++++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+), 2 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  7d5404f340d0f180d33b8d6915b3038f30c12bb4
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:38:05 2026 +0700
+
+ci: tra cong chan ve trang thai xanh + ghi nhan 2 lan chay mau vao bao cao
+
+ 23127195/README.md                                              |  2 +-
+ 23127195/bugs/split_evidence.py                                 | 95 +++++++++++++++++++++++++++++
+ 23127195/ci/CI_CD_REPORT.md                                     | 71 ++++++++++++++-------
+ 23127195/ci/baseline_allowlist.json                             |  6 +-
+ .../baseline_api2_fr09_apply_coupon.postman_collection.json     | 65 --------------------
+ 5 files changed, 148 insertions(+), 91 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  7991fe90f025af77274dfb452ad08c6981f20a06
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 15:40:20 2026 +0700
+
+docs(bugs): tach bang chung theo tung ma loi + tro giup chup anh cho 24 issue
+
+ 23127195/bugs/capture_screenshots.sh         | 72 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-01.txt | 15 ++++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-02.txt |  7 +++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-03.txt | 12 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-04.txt |  9 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-05.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-01.txt |  9 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-02.txt | 11 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-03.txt |  9 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-04.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-05.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-06.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-07.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A2-08.txt |  7 +++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-01.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-02.txt | 12 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-03.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-04.txt | 10 +++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-05.txt | 12 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-06.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-07.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-08.txt | 12 ++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-09.txt | 16 +++++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-10.txt |  8 ++++++
+ 23127195/bugs/evidence/per_bug/BUG-A3-11.txt |  7 +++++
+ 23127195/bugs/split_evidence.py              |  4 ++-
+ 23127195/newman/sut-server.log               | 22 +++++++++++++++
+ 27 files changed, 335 insertions(+), 1 deletion(-)
+
+
+
+----------------------------------------------------------------------
+commit  fcb613e49d560c0179d5b40e0f4261ed95bff5d3
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:03:30 2026 +0700
+
+docs(bugs): 24 anh chup man hinh bang chung loi cho GitHub Issues
+
+ 23127195/ai/AI_AUDIT_REPORT.md          |  33 +++++++++--
+ 23127195/bugs/capture_screenshots.ps1   | 154 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 23127195/bugs/capture_screenshots.sh    |  72 ------------------------
+ 23127195/bugs/screenshots/BUG-A1-01.png | Bin 0 -> 80709 bytes
+ 23127195/bugs/screenshots/BUG-A1-02.png | Bin 0 -> 97938 bytes
+ 23127195/bugs/screenshots/BUG-A1-03.png | Bin 0 -> 87117 bytes
+ 23127195/bugs/screenshots/BUG-A1-04.png | Bin 0 -> 92000 bytes
+ 23127195/bugs/screenshots/BUG-A1-05.png | Bin 0 -> 85065 bytes
+ 23127195/bugs/screenshots/BUG-A2-01.png | Bin 0 -> 87290 bytes
+ 23127195/bugs/screenshots/BUG-A2-02.png | Bin 0 -> 78469 bytes
+ 23127195/bugs/screenshots/BUG-A2-03.png | Bin 0 -> 85090 bytes
+ 23127195/bugs/screenshots/BUG-A2-04.png | Bin 0 -> 73701 bytes
+ 23127195/bugs/screenshots/BUG-A2-05.png | Bin 0 -> 73696 bytes
+ 23127195/bugs/screenshots/BUG-A2-06.png | Bin 0 -> 94306 bytes
+ 23127195/bugs/screenshots/BUG-A2-07.png | Bin 0 -> 98947 bytes
+ 23127195/bugs/screenshots/BUG-A2-08.png | Bin 0 -> 102817 bytes
+ 23127195/bugs/screenshots/BUG-A3-01.png | Bin 0 -> 95555 bytes
+ 23127195/bugs/screenshots/BUG-A3-02.png | Bin 0 -> 74619 bytes
+ 23127195/bugs/screenshots/BUG-A3-03.png | Bin 0 -> 74915 bytes
+ 23127195/bugs/screenshots/BUG-A3-04.png | Bin 0 -> 74900 bytes
+ 23127195/bugs/screenshots/BUG-A3-05.png | Bin 0 -> 78990 bytes
+ 23127195/bugs/screenshots/BUG-A3-06.png | Bin 0 -> 93615 bytes
+ 23127195/bugs/screenshots/BUG-A3-07.png | Bin 0 -> 93571 bytes
+ 23127195/bugs/screenshots/BUG-A3-08.png | Bin 0 -> 79018 bytes
+ 23127195/bugs/screenshots/BUG-A3-09.png | Bin 0 -> 94896 bytes
+ 23127195/bugs/screenshots/BUG-A3-10.png | Bin 0 -> 97116 bytes
+ 23127195/bugs/screenshots/BUG-A3-11.png | Bin 0 -> 100655 bytes
+ 27 files changed, 182 insertions(+), 77 deletions(-)
+
+
+
+----------------------------------------------------------------------
+commit  2f6882c19589079f173f875db04ba74895616c85
+Author  hungtmh <hungtmh20002@gmail.com>
+Date    Wed Sep 2 16:26:49 2026 +0700
+
+fix(bugs): lenh curl in ra phai dung bang lenh duoc chay + sua 2 loi bang chung
+
+ 23127195/ai/AI_AUDIT_REPORT.md                            |  12 +-
+ 23127195/bugs/capture_screenshots.ps1                     |  27 ++--
+ 23127195/bugs/chunk_evidence.py                           | 123 +++++++++++++++
+ 23127195/bugs/evidence/per_bug/BUG-A1-01.txt              |  23 +--
+ 23127195/bugs/evidence/per_bug/BUG-A1-02.txt              |   4 +-
+ 23127195/bugs/evidence/per_bug/BUG-A1-03.txt              |  21 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A1-04.txt              |  12 +-
+ 23127195/bugs/evidence/per_bug/BUG-A1-05.txt              |  15 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-01.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-02.txt              |   8 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-03.txt              |  13 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-04.txt              |  16 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-05.txt              |  16 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-06.txt              |   9 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-07.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A2-08.txt              |   6 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-01.txt              |  11 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-02.txt              |  13 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-03.txt              |  20 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A3-04.txt              |  20 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A3-05.txt              |  21 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A3-06.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-07.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-08.txt              |  21 ++-
+ 23127195/bugs/evidence/per_bug/BUG-A3-09.txt              |  10 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-10.txt              |  13 +-
+ 23127195/bugs/evidence/per_bug/BUG-A3-11.txt              |   9 +-
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-01.part1.txt |  11 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-01.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-02.part1.txt |   8 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-03.part1.txt |  16 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-03.part2.txt |   7 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-04.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A1-05.part1.txt |  14 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-01.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-02.part1.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-03.part1.txt |  13 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-04.part1.txt |  13 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-04.part2.txt |   7 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-05.part1.txt |  13 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-05.part2.txt |   7 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-06.part1.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-07.part1.txt |  11 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A2-08.part1.txt |   8 +
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-01.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-02.part1.txt |  14 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-03.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-03.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-04.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-04.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-05.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-05.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-06.part1.txt |  11 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-07.part1.txt |  11 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-08.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-08.part2.txt |  10 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-09.part1.txt |  17 +++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-10.part1.txt |  12 ++
+ 23127195/bugs/evidence/per_bug/chunks/BUG-A3-11.part1.txt |  11 ++
+ 23127195/bugs/evidence/reproduce_output.txt               | 219 ++++++++++++++++++---------
+ 23127195/bugs/reproduce_bugs.sh                           | 272 ++++++++++++++++++++--------------
+ 23127195/bugs/screenshots/BUG-A1-01.png                   | Bin 80709 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A1-01_p1.png                | Bin 0 -> 84464 bytes
+ 23127195/bugs/screenshots/BUG-A1-01_p2.png                | Bin 0 -> 97084 bytes
+ 23127195/bugs/screenshots/BUG-A1-02.png                   | Bin 97938 -> 86227 bytes
+ 23127195/bugs/screenshots/BUG-A1-03.png                   | Bin 87117 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A1-03_p1.png                | Bin 0 -> 103975 bytes
+ 23127195/bugs/screenshots/BUG-A1-03_p2.png                | Bin 0 -> 109057 bytes
+ 23127195/bugs/screenshots/BUG-A1-04.png                   | Bin 92000 -> 83367 bytes
+ 23127195/bugs/screenshots/BUG-A1-05.png                   | Bin 85065 -> 93348 bytes
+ 23127195/bugs/screenshots/BUG-A2-01.png                   | Bin 87290 -> 74020 bytes
+ 23127195/bugs/screenshots/BUG-A2-02.png                   | Bin 78469 -> 73632 bytes
+ 23127195/bugs/screenshots/BUG-A2-03.png                   | Bin 85090 -> 89762 bytes
+ 23127195/bugs/screenshots/BUG-A2-04.png                   | Bin 73701 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A2-04_p1.png                | Bin 0 -> 86367 bytes
+ 23127195/bugs/screenshots/BUG-A2-04_p2.png                | Bin 0 -> 88946 bytes
+ 23127195/bugs/screenshots/BUG-A2-05.png                   | Bin 73696 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A2-05_p1.png                | Bin 0 -> 86208 bytes
+ 23127195/bugs/screenshots/BUG-A2-05_p2.png                | Bin 0 -> 92594 bytes
+ 23127195/bugs/screenshots/BUG-A2-06.png                   | Bin 94306 -> 68551 bytes
+ 23127195/bugs/screenshots/BUG-A2-07.png                   | Bin 98947 -> 66467 bytes
+ 23127195/bugs/screenshots/BUG-A2-08.png                   | Bin 102817 -> 93153 bytes
+ 23127195/bugs/screenshots/BUG-A3-01.png                   | Bin 95555 -> 89823 bytes
+ 23127195/bugs/screenshots/BUG-A3-02.png                   | Bin 74619 -> 93093 bytes
+ 23127195/bugs/screenshots/BUG-A3-03.png                   | Bin 74915 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A3-03_p1.png                | Bin 0 -> 101793 bytes
+ 23127195/bugs/screenshots/BUG-A3-03_p2.png                | Bin 0 -> 86091 bytes
+ 23127195/bugs/screenshots/BUG-A3-04.png                   | Bin 74900 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A3-04_p1.png                | Bin 0 -> 101783 bytes
+ 23127195/bugs/screenshots/BUG-A3-04_p2.png                | Bin 0 -> 86087 bytes
+ 23127195/bugs/screenshots/BUG-A3-05.png                   | Bin 78990 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A3-05_p1.png                | Bin 0 -> 102839 bytes
+ 23127195/bugs/screenshots/BUG-A3-05_p2.png                | Bin 0 -> 79390 bytes
+ 23127195/bugs/screenshots/BUG-A3-06.png                   | Bin 93615 -> 82419 bytes
+ 23127195/bugs/screenshots/BUG-A3-07.png                   | Bin 93571 -> 82384 bytes
+ 23127195/bugs/screenshots/BUG-A3-08.png                   | Bin 79018 -> 0 bytes
+ 23127195/bugs/screenshots/BUG-A3-08_p1.png                | Bin 0 -> 102874 bytes
+ 23127195/bugs/screenshots/BUG-A3-08_p2.png                | Bin 0 -> 79424 bytes
+ 23127195/bugs/screenshots/BUG-A3-09.png                   | Bin 94896 -> 90752 bytes
+ 23127195/bugs/screenshots/BUG-A3-10.png                   | Bin 97116 -> 87210 bytes
+ 23127195/bugs/screenshots/BUG-A3-11.png                   | Bin 100655 -> 85801 bytes
+ 23127195/evidence/EVIDENCE_INDEX.md                       |  11 +-
+ 23127195/newman/sut-server.log                            |  22 ---
+ 103 files changed, 1033 insertions(+), 332 deletions(-)

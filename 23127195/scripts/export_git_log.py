@@ -59,6 +59,10 @@ STEPS = [
     ("feat(diagram+issues):",       "So do tu ve + tao 24 GitHub Issue that"),
     ("chore(evidence):",            "Chi muc bang chung - script sinh git commit log"),
     ("docs(evidence):",             "Bang chung muc 11 - anh chup Postman Console + giai phong log khoi .gitignore"),
+    ("ci: tra cong chan",           "Tich hop CI/CD - hai lan chay mau (xanh / do dung 1 test case)"),
+    ("ci: them TC-A2-013",          "Tich hop CI/CD - commit mau B lam pipeline do"),
+    ("docs(bugs):",                 "Buoc 5 Report - anh chup bang chung cho 24 GitHub Issue"),
+    ("fix(bugs):",                  "Buoc 5 Report - sua bang chung: lenh in ra dung bang lenh chay"),
 ]
 
 HEADER = """GIT COMMIT LOG - HW06 API Testing
