@@ -1,29 +1,29 @@
-# Pseudocode — Bo sinh test case tu dong (AI-driven API test generator)
+# Pseudocode — Bộ sinh test case tự động (AI-driven API test generator)
 
-SV: Ninh Van Khai — 23127060 — HW06
-Ban hien thuc that: `agent-skill/eshop-api-23127060/scripts/gen_testcases.py`
-So do tuong ung: `agent-skill/diagram/23127060_generator_diagram.png` — **do sinh vien tu ve**
-(de bai muc 11 cam so do nay duoc sinh bang AI). Mo ta khoi va luong de ve: `agent-skill/diagram/DIAGRAM_BRIEF.md`.
-
----
-
-## 0. Y tuong
-
-Thay vi bao AI "hay viet 35 test case" (ket qua khong on dinh, khong lap lai duoc),
-ta tach lam 2 lop:
-
-- **Lop tri thuc (AI + nguoi lam)**: dich dac ta API thanh mot file `spec/api-N.json`
-  may doc duoc — liet ke param, phan hoach tuong duong, gia tri bien, chuyen trang thai,
-  ca kiem thu bao mat.
-- **Lop sinh (may lam, tat dinh)**: mot chuong trinh duyet spec do va sinh ra test case
-  theo dung 4 ky thuat kiem thu. Cung 1 spec luon cho ra cung 1 bo test case.
-
-Nho vay: bo test **lap lai duoc**, **do phu do duoc**, va **mo rong duoc** cho API moi
-chi bang cach viet them 1 file JSON.
+SV: Ninh Văn Khải — 23127060 — HW06
+Bản hiện thực thật: `agent-skill/eshop-api-23127060/scripts/gen_testcases.py`
+Sơ đồ tương ứng: `agent-skill/diagram/23127060_generator_diagram.png` — **do sinh viên tự vẽ**
+(đề bài mục 11 cấm sơ đồ này được sinh bằng AI). Mô tả khối và luồng để vẽ: `agent-skill/diagram/DIAGRAM_BRIEF.md`.
 
 ---
 
-## 1. Cau truc du lieu
+## 0. Ý tưởng
+
+Thay vì bảo AI "hãy viết 35 test case" (kết quả không ổn định, không lặp lại được),
+em tách làm 2 lớp:
+
+- **Lớp tri thức (AI + người làm)**: dịch đặc tả API thành một file `spec/api-N.json`
+  máy đọc được — liệt kê param, phân hoạch tương đương, giá trị biên, chuyển trạng thái,
+  ca kiểm thử bảo mật.
+- **Lớp sinh (máy làm, tất định)**: một chương trình duyệt spec đó và sinh ra test case
+  theo đúng 4 kỹ thuật kiểm thử. Cùng 1 spec luôn cho ra cùng 1 bộ test case.
+
+Nhờ vậy: bộ test **lặp lại được**, **độ phủ đo được**, và **mở rộng được** cho API mới
+chỉ bằng cách viết thêm 1 file JSON.
+
+---
+
+## 1. Cấu trúc dữ liệu
 
 ```
 SPEC := {
@@ -53,130 +53,130 @@ TESTCASE := 22 truong (xem COLUMNS trong gen_testcases.py)
 
 ---
 
-## 2. Thuat toan chinh
+## 2. Thuật toán chính
 
 ```
-HAM main(duong_dan_spec, duong_dan_csv, cac_nhom_can_sinh):
+HÀM main(đường_dẫn_spec, đường_dẫn_csv, các_nhóm_cần_sinh):
 
-    spec  <- DOC_JSON(duong_dan_spec)
-    spec  <- CHUAN_HOA(spec)          # dien mac dinh, suy ra tc_prefix
+    spec  <- ĐỌC_JSON(đường_dẫn_spec)
+    spec  <- CHUẨN_HÓA(spec)          # dien mac dinh, suy ra tc_prefix
 
-    cases <- danh sach rong
+    cases <- danh sách rỗng
 
-    NEU "DOM" thuoc cac_nhom_can_sinh: cases += SINH_DOMAIN(spec)
-    NEU "STA" thuoc cac_nhom_can_sinh: cases += SINH_STATE(spec)
-    NEU "SEC" thuoc cac_nhom_can_sinh: cases += SINH_SECURITY(spec)
-    NEU "SCH" thuoc cac_nhom_can_sinh: cases += SINH_SCHEMA(spec)
+    NẾU "DOM" thuộc các_nhóm_cần_sinh: cases += SINH_DOMAIN(spec)
+    NẾU "STA" thuộc các_nhóm_cần_sinh: cases += SINH_STATE(spec)
+    NẾU "SEC" thuộc các_nhóm_cần_sinh: cases += SINH_SECURITY(spec)
+    NẾU "SCH" thuộc các_nhóm_cần_sinh: cases += SINH_SCHEMA(spec)
 
-    cases <- KHU_TRUNG(cases)
-    cases <- DANH_SO_LAI(cases)       # TC-<prefix>-<NHOM>-<3 chu so>
+    cases <- KHỬ_TRÙNG(cases)
+    cases <- ĐÁNH_SỐ_LẠI(cases)       # TC-<prefix>-<NHOM>-<3 chu so>
 
-    bao_cao <- KIEM_TRA_DO_PHU(spec, cases)
-    IN(bao_cao)
+    báo_cáo <- KIỂM_TRA_ĐỘ_PHỦ(spec, cases)
+    IN(báo_cáo)
 
-    GHI_CSV(cases, duong_dan_csv)     # utf-8-sig, 22 cot
-    TRA VE cases
+    GHI_CSV(cases, đường_dẫn_csv)     # utf-8-sig, 22 cot
+    TRẢ VỀ cases
 ```
 
 ---
 
-## 3. Bo sinh Domain — Equivalence Partitioning + BVA
+## 3. Bộ sinh Domain — Equivalence Partitioning + BVA
 
 ```
-HAM SINH_DOMAIN(spec):
-    ket_qua <- rong
+HÀM SINH_DOMAIN(spec):
+    kết_quả <- rỗng
 
-    VOI MOI ep TRONG spec.endpoints:
-        VOI MOI p TRONG ep.params:
-            VOI MOI part TRONG p.partitions:
+    VỚI MỖI ep TRONG spec.endpoints:
+        VỚI MỖI p TRONG ep.params:
+            VỚI MỖI part TRONG p.partitions:
 
                 # Nguyen tac "one-variable-at-a-time":
                 # chi bien doi DUY NHAT param dang xet, cac param khac giu gia tri hop le.
-                body <- BAN_SAO(ep.valid_body)
+                body <- BẢN_SAO(ep.valid_body)
 
-                NEU part.omit == dung:
-                    XOA_KHOA(body, p.name)
-                NGUOC LAI NEU p.in == "body":
+                NẾU part.omit == đúng:
+                    XÓA_KHÓA(body, p.name)
+                NGƯỢC LẠI NẾU p.in == "body":
                     body[p.name] <- part.value
-                NGUOC LAI NEU p.in == "query":
-                    duong_dan <- ep.path + "?" + p.name + "=" + part.value
-                NGUOC LAI NEU p.in == "path":
-                    duong_dan <- THAY_THE(ep.path, ":" + p.name, part.value)
+                NGƯỢC LẠI NẾU p.in == "query":
+                    đường_dẫn <- ep.path + "?" + p.name + "=" + part.value
+                NGƯỢC LẠI NẾU p.in == "path":
+                    đường_dẫn <- THAY_THẾ(ep.path, ":" + p.name, part.value)
 
-                ky_thuat <- "BVA" NEU part.boundary NGUOC LAI "EP"
+                kỹ_thuật <- "BVA" NẾU part.boundary NGƯỢC LẠI "EP"
 
-                tc <- TAO_CASE(
-                    nhom            = "DOM",
-                    ky_thuat        = ky_thuat,
-                    tieu_de         = ep.method + " " + ep.path + " - "
+                tc <- TẠO_CASE(
+                    nhóm            = "DOM",
+                    kỹ_thuật        = kỹ_thuật,
+                    tiêu_đề         = ep.method + " " + ep.path + " - "
                                       + p.name + " = " + part.desc,
                     body            = body,
-                    trang_thai_mong_doi = part.expected_status
-                                          HOAC (ep.success_status NEU part.valid
-                                                NGUOC LAI 400),
-                    khang_dinh      = part.assertions HOAC SINH_MAC_DINH(part),
-                    oracle          = part.oracle HOAC ("IMPL" NEU part.bug
-                                                        NGUOC LAI "SPEC"),
-                    tag             = "@bug" NEU part.bug NGUOC LAI "@contract",
+                    trạng_thái_mong_đợi = part.expected_status
+                                          HOẶC (ep.success_status NẾU part.valid
+                                                NGƯỢC LẠI 400),
+                    khẳng_định      = part.assertions HOẶC SINH_MẶC_ĐỊNH(part),
+                    oracle          = part.oracle HOẶC ("IMPL" NẾU part.bug
+                                                        NGƯỢC LẠI "SPEC"),
+                    tag             = "@bug" NẾU part.bug NGƯỢC LẠI "@contract",
                     bug_ref         = part.bug,
-                    nguon           = "AI"
+                    nguồn           = "AI"
                 )
-                ket_qua.THEM(tc)
+                kết_quả.THÊM(tc)
 
-    TRA VE ket_qua
+    TRẢ VỀ kết_quả
 ```
 
-> Do phu dat duoc: **moi phan hoach cua moi tham so deu co it nhat 1 test case**.
-> Voi tham so so hoc, spec luon khai bao bo ba bien `duoi bien / dung bien / tren bien`.
+> Độ phủ đạt được: **mọi phân hoạch của mọi tham số đều có ít nhất 1 test case**.
+> Với tham số số học, spec luôn khai báo bộ ba biên `dưới biên / đúng biên / trên biên`.
 
 ---
 
-## 4. Bo sinh State Transition
+## 4. Bộ sinh State Transition
 
 ```
-HAM SINH_STATE(spec):
+HÀM SINH_STATE(spec):
     sm <- spec.state_machine
-    NEU sm rong: TRA VE rong
+    NẾU sm rỗng: TRẢ VỀ rỗng
 
-    ket_qua <- rong
-    VOI MOI t TRONG sm.transitions:
+    kết_quả <- rỗng
+    VỚI MỖI t TRONG sm.transitions:
 
-        NEU t.allowed == dung:
+        NẾU t.allowed == đúng:
             # chuyen hop le -> phai thanh cong
-            trang_thai_mong_doi <- t.expected_status HOAC 200
-            tieu_de <- "Chuyen hop le: " + t.from + " -> " + t.to
-        NGUOC LAI:
+            trạng_thái_mong_đợi <- t.expected_status HOẶC 200
+            tiêu_đề <- "Chuyen hop le: " + t.from + " -> " + t.to
+        NGƯỢC LẠI:
             # chuyen KHONG hop le -> phai bi tu choi.
             # Day la phan AI hay bo sot nhat: sinh du ca o "cam" cua ma tran.
-            trang_thai_mong_doi <- t.expected_status HOAC 400
-            tieu_de <- "Chuyen KHONG hop le: " + t.from + " -> " + t.to
+            trạng_thái_mong_đợi <- t.expected_status HOẶC 400
+            tiêu_đề <- "Chuyen KHONG hop le: " + t.from + " -> " + t.to
                        + " (phai bi tu choi)"
 
-        tc <- TAO_CASE(
-            nhom      = "STA",
-            ky_thuat  = "State Transition Testing",
-            tieu_de   = tieu_de,
-            dieu_kien_truoc = t.preconditions
-                              HOAC ("Dua doi tuong ve trang thai " + t.from),
+        tc <- TẠO_CASE(
+            nhóm      = "STA",
+            kỹ_thuật  = "State Transition Testing",
+            tiêu_đề   = tiêu_đề,
+            điều_kiện_trước = t.preconditions
+                              HOẶC ("Dua doi tuong ve trang thai " + t.from),
             body      = t.body,
-            trang_thai_mong_doi = trang_thai_mong_doi,
-            khang_dinh = t.assertions
-                         HOAC ("trang thai sau khi goi phai la "
-                               + (t.to NEU t.allowed NGUOC LAI t.from)),
-            tag       = "@bug" NEU t.bug NGUOC LAI "@contract",
+            trạng_thái_mong_đợi = trạng_thái_mong_đợi,
+            khẳng_định = t.assertions
+                         HOẶC ("trang thai sau khi goi phai la "
+                               + (t.to NẾU t.allowed NGƯỢC LẠI t.from)),
+            tag       = "@bug" NẾU t.bug NGƯỢC LẠI "@contract",
             bug_ref   = t.bug,
-            nguon     = "AI"
+            nguồn     = "AI"
         )
-        ket_qua.THEM(tc)
+        kết_quả.THÊM(tc)
 
-    TRA VE ket_qua
+    TRẢ VỀ kết_quả
 ```
 
-> Kiem tra do phu: so o da phu / (so trang thai)^2. Bao cao o nao con trong.
+> Kiểm tra độ phủ: số ô đã phủ / (số trạng thái)^2. Báo cáo ô nào còn trống.
 
 ---
 
-## 5. Bo sinh Security — anh xa SEC-01..SEC-07
+## 5. Bộ sinh Security — ánh xạ SEC-01..SEC-07
 
 ```
 # CANH BAO DA HOC DUOC: bang nay tung duoc viet theo TRI NHO ve cac lo hong OWASP quen
@@ -187,7 +187,7 @@ HAM SINH_STATE(spec):
 # Ma SEC la mot NHAN KHONG TU GIAI THICH: doc "SEC-01" khong ai doan duoc no noi gi. Bo sinh
 # nao dung nhan kieu nay deu phai lay dinh nghia tu chinh tai lieu dac ta, khong duoc dien
 # tu tri nho. Xem `report/03_audit.md` muc 4.
-BANG_KHANG_DINH_MAC_DINH := {
+BẢNG_KHẲNG_ĐỊNH_MẶC_ĐỊNH := {
     "SEC-01": "response KHONG chua truong password; mat khau khong duoc luu plaintext",
     "SEC-02": "thieu token -> 401; token sai -> 403; du lieu KHONG bi doc hay thay doi",
     "SEC-03": "token hop le nhung role != 'admin' -> 403; thao tac admin KHONG duoc thuc hien",
@@ -197,24 +197,24 @@ BANG_KHANG_DINH_MAC_DINH := {
     "SEC-07": "OTP dai >= 6 chu so, co han su dung, va khong dung lai duoc lan hai"
 }
 
-HAM SINH_SECURITY(spec):
-    ket_qua <- rong
-    VOI MOI s TRONG spec.security:
-        tc <- TAO_CASE(
-            nhom       = "SEC",
-            ky_thuat   = s.technique,
-            tieu_de    = "[" + s.sec + "] " + s.title,
+HÀM SINH_SECURITY(spec):
+    kết_quả <- rỗng
+    VỚI MỖI s TRONG spec.security:
+        tc <- TẠO_CASE(
+            nhóm       = "SEC",
+            kỹ_thuật   = s.technique,
+            tiêu_đề    = "[" + s.sec + "] " + s.title,
             headers    = s.headers,
             body       = s.body,
-            trang_thai_mong_doi = s.expected_status,
-            khang_dinh = s.assertions HOAC BANG_KHANG_DINH_MAC_DINH[s.sec],
+            trạng_thái_mong_đợi = s.expected_status,
+            khẳng_định = s.assertions HOẶC BẢNG_KHẲNG_ĐỊNH_MẶC_ĐỊNH[s.sec],
             sec_ref    = s.sec,
-            oracle     = "IMPL" NEU s.bug NGUOC LAI "SPEC",
-            tag        = "@bug" NEU s.bug NGUOC LAI "@contract",
-            uu_tien    = s.priority HOAC "P1",
-            nguon      = "AI"
+            oracle     = "IMPL" NẾU s.bug NGƯỢC LẠI "SPEC",
+            tag        = "@bug" NẾU s.bug NGƯỢC LẠI "@contract",
+            ưu_tiên    = s.priority HOẶC "P1",
+            nguồn      = "AI"
         )
-        ket_qua.THEM(tc)
+        kết_quả.THÊM(tc)
 
     # Chot chan ve do phu.
     #
@@ -225,133 +225,133 @@ HAM SINH_SECURITY(spec):
     #
     # Chi tieu dung: du 7 ma tren TOAN BO bo test, con tung API chi phu nhung ma thuc su ap
     # dung duoc, va phan khong ap dung phai co giai trinh.
-    thieu <- { SEC-01..SEC-07 } \ { s.sec : s trong spec.security }
-    NEU thieu khong rong:
-        BAO_CAO("API nay khong ap dung cac ma: " + thieu
+    thiếu <- { SEC-01..SEC-07 } \ { s.sec : s trong spec.security }
+    NẾU thiếu không rỗng:
+        BÁO_CÁO("API nay khong ap dung cac ma: " + thiếu
                 + " -> can mot dong giai trinh trong bao cao, khong phai mot case gan bua")
 
-    TRA VE ket_qua
+    TRẢ VỀ kết_quả
 ```
 
 ---
 
-## 6. Bo sinh Schema
+## 6. Bộ sinh Schema
 
 ```
-HAM SINH_SCHEMA(spec):
-    ket_qua <- rong
-    VOI MOI sc TRONG spec.schema_cases:
-        tc <- TAO_CASE(
-            nhom       = "SCH",
-            ky_thuat   = "JSON Schema Validation",
-            tieu_de    = sc.title,
-            trang_thai_mong_doi = sc.expected_status,
-            khang_dinh = sc.assertions
+HÀM SINH_SCHEMA(spec):
+    kết_quả <- rỗng
+    VỚI MỖI sc TRONG spec.schema_cases:
+        tc <- TẠO_CASE(
+            nhóm       = "SCH",
+            kỹ_thuật   = "JSON Schema Validation",
+            tiêu_đề    = sc.title,
+            trạng_thái_mong_đợi = sc.expected_status,
+            khẳng_định = sc.assertions
                          + "; pm.response.to.have.jsonSchema(" + sc.schema_ref + ")",
-            oracle     = "IMPL" NEU sc.bug NGUOC LAI "SPEC",
-            nguon      = "AI"
+            oracle     = "IMPL" NẾU sc.bug NGƯỢC LẠI "SPEC",
+            nguồn      = "AI"
         )
-        ket_qua.THEM(tc)
-    TRA VE ket_qua
+        kết_quả.THÊM(tc)
+    TRẢ VỀ kết_quả
 ```
 
 ---
 
-## 7. Khu trung
+## 7. Khử trùng
 
 ```
-HAM KHU_TRUNG(cases):
-    da_thay <- tap rong
-    giu_lai <- rong
-    VOI MOI c TRONG cases:
+HÀM KHỬ_TRÙNG(cases):
+    đã_thấy <- tập rỗng
+    giữ_lại <- rỗng
+    VỚI MỖI c TRONG cases:
         # Hai test case chi trung nhau khi chung gui CUNG mot request VA khang dinh CUNG mot
         # dieu, trong CUNG mot nhom ky thuat, VA xuat phat tu CUNG mot precondition.
-        khoa <- (c.Category, c.Method, c.Endpoint, c.Request_Body,
+        khóa <- (c.Category, c.Method, c.Endpoint, c.Request_Body,
                  c.Expected_Status, c.Expected_Assertions, c.Preconditions)
-        NEU khoa KHONG thuoc da_thay:
-            da_thay.THEM(khoa)
-            giu_lai.THEM(c)
-    TRA VE giu_lai
+        NẾU khóa KHÔNG thuộc đã_thấy:
+            đã_thấy.THÊM(khóa)
+            giữ_lại.THÊM(c)
+    TRẢ VỀ giữ_lại
 ```
 
-> **Loi da mac va da sua o buoc nay.** Khoa khu trung ban dau chi gom
-> `(Method, Endpoint, Request_Body, Expected_Status)` — tuc la coi hai case la trung nhau khi
-> chung gui cung mot request, **bat ke chung khang dinh dieu gi**. Hau qua:
+> **Lỗi em đã mắc và đã sửa ở bước này.** Khóa khử trùng ban đầu chỉ gồm
+> `(Method, Endpoint, Request_Body, Expected_Status)` — tức là coi hai case là trùng nhau khi
+> chúng gửi cùng một request, **bất kể chúng khẳng định điều gì**. Hậu quả:
 >
-> - Mot case `SCH` ("response 200 khop schema `{message: string}`") va mot case `DOM`
->   ("email hop le tra 200") gui y het nhau nhung kiem hai thu khac han. Case `SCH` bi nuot:
->   API-1 khai bao 6 case schema nhung chi sinh ra **1**.
-> - Hai case `STA` "huy don dang `pending`" va "huy don dang `confirmed`" cung goi
->   `PUT /api/orders/:id/cancel` voi body rong; chung chi khac nhau o **trang thai ban dau**.
->   Case thu hai bi nuot: 9 chuyen trang thai chi sinh ra **5**.
+> - Một case `SCH` ("response 200 khớp schema `{message: string}`") và một case `DOM`
+>   ("email hợp lệ trả 200") gửi y hệt nhau nhưng kiểm hai thứ khác hẳn. Case `SCH` bị nuốt:
+>   API-1 khai báo 6 case schema nhưng chỉ sinh ra **1**.
+> - Hai case `STA` "hủy đơn đang `pending`" và "hủy đơn đang `confirmed`" cùng gọi
+>   `PUT /api/orders/:id/cancel` với body rỗng; chúng chỉ khác nhau ở **trạng thái ban đầu**.
+>   Case thứ hai bị nuốt: 9 chuyển trạng thái chỉ sinh ra **5**.
 >
-> Sau khi bo sung `Category`, `Expected_Assertions` va `Preconditions` vao khoa: tong so case
-> tu 191 len **225**, va do phu bang chuyen trang thai cua API-2 tu 11/25 len **20/25**.
+> Sau khi bổ sung `Category`, `Expected_Assertions` và `Preconditions` vào khóa: tổng số case
+> từ 191 lên **225**, và độ phủ bảng chuyển trạng thái của API-2 từ 11/25 lên **20/25**.
 >
-> Bai hoc: **cong cu tu dong cung phai duoc kiem thu.** Neu tin ngay con so dau tien thi da
-> bao cao thieu 34 test case va mot do phu state machine sai.
+> Bài học: **công cụ tự động cũng phải được kiểm thử.** Nếu em tin ngay con số đầu tiên thì đã
+> báo cáo thiếu 34 test case và một độ phủ state machine sai.
 
 ---
 
-## 8. Kiem tra do phu — "cong tac chan" cua toan bo bo sinh
+## 8. Kiểm tra độ phủ — "công tắc chặn" của toàn bộ bộ sinh
 
 ```
-HAM KIEM_TRA_DO_PHU(spec, cases):
-    dem_theo_nhom <- DEM(cases theo Category)
+HÀM KIỂM_TRA_ĐỘ_PHỦ(spec, cases):
+    đếm_theo_nhóm <- ĐẾM(cases theo Category)
 
-    canh_bao <- rong
+    cảnh_báo <- rỗng
 
-    NEU TONG(cases) < 35:
-        canh_bao.THEM("CHUA DAT: chi co " + TONG(cases)
+    NẾU TỔNG(cases) < 35:
+        cảnh_báo.THÊM("CHUA DAT: chi co " + TỔNG(cases)
                       + " case, de bai yeu cau >= 35")
 
-    param_chua_phu <- rong
-    VOI MOI ep, p TRONG spec.endpoints:
-        NEU khong co case nao nhac den p.name:
-            param_chua_phu.THEM(ep.key + "." + p.name)
+    param_chưa_phủ <- rỗng
+    VỚI MỖI ep, p TRONG spec.endpoints:
+        NẾU không có case nào nhắc đến p.name:
+            param_chưa_phủ.THÊM(ep.key + "." + p.name)
 
-    sec_thieu <- { SEC-01..07 } \ { c.SEC_Ref : c trong cases }
+    sec_thiếu <- { SEC-01..07 } \ { c.SEC_Ref : c trong cases }
 
-    o_trong <- { (a,b) : a,b trong sm.states
-                 va khong co transition nao phu (a,b) }
+    ô_trống <- { (a,b) : a,b trong sm.states
+                 và không có transition nào phủ (a,b) }
 
-    TRA VE bao cao gom: dem_theo_nhom, canh_bao,
-                        param_chua_phu, sec_thieu, o_trong
+    TRẢ VỀ báo cáo gồm: đếm_theo_nhóm, cảnh_báo,
+                        param_chưa_phủ, sec_thiếu, ô_trống
 ```
 
 ---
 
-## 9. Vi tri cua con nguoi trong quy trinh
+## 9. Vị trí của con người trong quy trình
 
-Bo sinh **khong** thay the nguoi kiem thu. Sau buoc 8, con nguoi phai:
+Bộ sinh **không** thay thế người kiểm thử. Sau bước 8, con người phải:
 
-1. **Audit**: doc tung case AI sinh, gan `VALID` / `INVALID` / `INCOMPLETE`, ghi ly do va sua lai.
-2. **Extend**: them >= 5 case ma bo sinh khong the nghi ra, danh so tu `900`, kem cot
-   `Why_AI_Missed` — roi vao 4 nhom:
-   - `PROMPT`  — prompt khoanh vung qua chat (vd chi neu 2 endpoint chinh cua FR-03)
-   - `MODEL`   — AI suy dien tu hinh dang API thay vi doc ma nguon
-   - `API`     — bug chi lo ra khi **ket hop nhieu request**
-   - `SPECGAP` — dac ta khong mo ta hanh vi nay nen AI khong co gi de bam vao
+1. **Audit**: đọc từng case AI sinh, gắn `VALID` / `INVALID` / `INCOMPLETE`, ghi lý do và sửa lại.
+2. **Extend**: thêm >= 5 case mà bộ sinh không thể nghĩ ra, đánh số từ `900`, kèm cột
+   `Why_AI_Missed` — rơi vào 4 nhóm:
+   - `PROMPT`  — prompt khoanh vùng quá chật (vd chỉ nêu 2 endpoint chính của FR-03)
+   - `MODEL`   — AI suy diễn từ hình dạng API thay vì đọc mã nguồn
+   - `API`     — bug chỉ lộ ra khi **kết hợp nhiều request**
+   - `SPECGAP` — đặc tả không mô tả hành vi này nên AI không có gì để bám vào
 
-   > **So lieu thuc te cua bai nay: 9/18 case bo sung thuoc nhom `API`.** Do la gioi han
-   > **cau truc** cua chinh thiet ke o tren: vong lap `VOI MOI part TRONG p.partitions` sinh
-   > ra cac test case **doc lap**, moi case mot request. Nhung mot nua so bug nghiem trong cua
-   > he thong nay chi lo ra khi noi nhieu request lai: kieu cua `price` chi sai khi so sanh
-   > hai response; don hang chi vao duoc trang thai `shipping` sau mot chuoi 4 request; mot
-   > lenh `PUT` thieu truong chi lam sap may chu o lan `GET` ke tiep.
+   > **Số liệu thực tế của bài này: 9/18 case bổ sung thuộc nhóm `API`.** Đó là giới hạn
+   > **cấu trúc** của chính thiết kế ở trên: vòng lặp `VỚI MỖI part TRONG p.partitions` sinh
+   > ra các test case **độc lập**, mỗi case một request. Nhưng một nửa số bug nghiêm trọng của
+   > hệ thống này chỉ lộ ra khi nối nhiều request lại: kiểu của `price` chỉ sai khi so sánh
+   > hai response; đơn hàng chỉ vào được trạng thái `shipping` sau một chuỗi 4 request; một
+   > lệnh `PUT` thiếu trường chỉ làm sập máy chủ ở lần `GET` kế tiếp.
    >
-   > Huong mo rong: bo sung mot truc thu nam `scenarios[]` khai bao **chuoi** request kem
-   > khang dinh bac cao lien ket cac buoc — xem `report/07_test_generator_design.md` muc 6.
-3. **Xac nhan oracle**: quyet dinh case nao la `@contract` (hop dong dung, dung cho CI)
-   va case nao la `@bug` (phoi bay loi that cua SUT, FAIL la dung).
+   > Hướng mở rộng: bổ sung một trục thứ năm `scenarios[]` khai báo **chuỗi** request kèm
+   > khẳng định bậc cao liên kết các bước — xem `report/07_test_generator_design.md` mục 6.
+3. **Xác nhận oracle**: quyết định case nào là `@contract` (hợp đồng đúng, dùng cho CI)
+   và case nào là `@bug` (phơi bày lỗi thật của SUT, FAIL là đúng).
 
 ---
 
-## 10. Do phuc tap
+## 10. Độ phức tạp
 
-Goi `E` = so endpoint, `P` = so param trung binh moi endpoint,
-`K` = so phan hoach trung binh moi param, `T` = so chuyen trang thai,
-`S` = so ca bao mat, `C` = so ca schema.
+Gọi `E` = số endpoint, `P` = số param trung bình mỗi endpoint,
+`K` = số phân hoạch trung bình mỗi param, `T` = số chuyển trạng thái,
+`S` = số ca bảo mật, `C` = số ca schema.
 
 ```
 So test case sinh ra  =  E * P * K  +  T  +  S  +  C
@@ -359,5 +359,5 @@ Do phuc tap thoi gian =  O(E*P*K + T + S + C)
 Do phuc tap bo nho    =  O(so test case)
 ```
 
-Voi API-3 (FR-15): `E=5`, `P~2`, `K~6` → khoang 60 case DOM `+` 9 STA `+` 14 SEC `+` 6 SCH,
-sau khu trung con khoang 70–80 case — vuot xa nguong 35 cua de bai.
+Với API-3 (FR-15): `E=5`, `P~2`, `K~6` → khoảng 60 case DOM `+` 9 STA `+` 14 SEC `+` 6 SCH,
+sau khử trùng còn khoảng 70–80 case — vượt xa ngưỡng 35 của đề bài.

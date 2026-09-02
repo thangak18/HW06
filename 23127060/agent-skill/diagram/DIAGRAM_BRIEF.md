@@ -1,160 +1,164 @@
-# DIAGRAM_BRIEF — Mo ta de SINH VIEN TU VE so do bo sinh test
+# DIAGRAM_BRIEF — Mô tả để SINH VIÊN TỰ VẼ sơ đồ bộ sinh test
 
-> HW06 — SV **Ninh Van Khai — 23127060** | De bai muc 7 va muc 11
+> HW06 — SV **Ninh Văn Khải — 23127060** | Đề bài mục 7 và mục 11
+
+> **Trạng thái (02/09/2026): sơ đồ đã vẽ xong** —
+> `agent-skill/diagram/23127060_generator_diagram.png` (vẽ bằng draw.io).
+> File này giữ lại làm bản mô tả đầu vào đã dùng để vẽ, và làm bảng kiểm khi rà lại.
 
 ---
 
-## ⚠ Quy tac bat buoc doc truoc
+## ⚠ Quy tắc bắt buộc đọc trước
 
-De bai **muc 11 (Anti-AI Cheat Constraints)** ghi ro:
+Đề bài **mục 11 (Anti-AI Cheat Constraints)** ghi rõ:
 
 > *"The AI test generator diagram, which must be self-drawn — designed by you, not generated
 > directly by an AI."*
 
-Vi vay:
+Vì vậy:
 
-- File nay **chi chua mo ta bang chu**. Trong ca thu muc `agent-skill/diagram/` **khong co**
-  va **khong duoc co** bat ky file anh, file `.mmd`, khoi `mermaid`, `graphviz`, PlantUML hay
-  ASCII-art nao do AI sinh ra. Neu co, do la vi pham muc 11 va bai bi tinh la gian lan.
-- Sinh vien **tu ve** so do, bang cong cu tuy y (draw.io, Excalidraw, Figma, hoac ve tay roi
-  chup anh — de bai chap nhan het, mien la **quyet dinh thiet ke la cua sinh vien**).
-- Luu ket qua thanh `agent-skill/diagram/23127060_generator_diagram.png`.
-- Nen luu them file nguon (`.drawio` / `.excalidraw`) canh file PNG: no chung minh so do do
-  sinh vien dung tay dung nen, va sua lai duoc khi bao ve mieng.
+- File này **chỉ chứa mô tả bằng chữ**. Trong cả thư mục `agent-skill/diagram/` **không có**
+  và **không được có** bất kỳ file ảnh, file `.mmd`, khối `mermaid`, `graphviz`, PlantUML hay
+  ASCII-art nào do AI sinh ra. Nếu có, đó là vi phạm mục 11 và bài bị tính là gian lận.
+- Sinh viên **tự vẽ** sơ đồ, bằng công cụ tùy ý (draw.io, Excalidraw, Figma, hoặc vẽ tay rồi
+  chụp ảnh — đề bài chấp nhận hết, miễn là **quyết định thiết kế là của sinh viên**).
+- Lưu kết quả thành `agent-skill/diagram/23127060_generator_diagram.png`.
+- Nên lưu thêm file nguồn (`.drawio` / `.excalidraw`) cạnh file PNG: nó chứng minh sơ đồ do
+  sinh viên dùng tay dựng nên, và sửa lại được khi bảo vệ miệng.
 
-Mo ta duoi day la **thong tin dau vao** de ve. Sinh vien doc va tu quyet dinh bo cuc, hinh
-dang khoi, mau sac, cach dat mui ten. **Khong can ve giong het** — hieu kien truc roi ve theo
-cach cua minh la dat yeu cau.
-
----
-
-## 1. So do can tra loi duoc ba cau hoi
-
-Truoc khi ve, ghi nho ba cau hoi ma nguoi cham se nhin so do de tim cau tra loi:
-
-1. **Dau vao la gi, dau ra la gi?**
-2. **Vi sao ket qua lap lai duoc?** (cung mot dau vao luon cho ra cung mot bo test)
-3. **Con nguoi xen vao o dau?** (de bai coi trong diem nay: AI la tro ly co ky luat, khong
-   phai hop den)
-
-Neu so do ve xong ma khong tra loi duoc mot trong ba cau, thi con thieu.
+Mô tả dưới đây là **thông tin đầu vào** để vẽ. Sinh viên đọc và tự quyết định bố cục, hình
+dáng khối, màu sắc, cách đặt mũi tên. **Không cần vẽ giống hệt** — hiểu kiến trúc rồi vẽ theo
+cách của mình là đạt yêu cầu.
 
 ---
 
-## 2. Cac khoi can co
+## 1. Sơ đồ cần trả lời được ba câu hỏi
 
-### Cot 1 — DAU VAO (ben trai)
+Trước khi vẽ, ghi nhớ ba câu hỏi mà người chấm sẽ nhìn sơ đồ để tìm câu trả lời:
 
-| Khoi | Nhan goi y | Ghi chu |
+1. **Đầu vào là gì, đầu ra là gì?**
+2. **Vì sao kết quả lặp lại được?** (cùng một đầu vào luôn cho ra cùng một bộ test)
+3. **Con người xen vào ở đâu?** (đề bài coi trọng điểm này: AI là trợ lý có kỷ luật, không
+   phải hộp đen)
+
+Nếu sơ đồ vẽ xong mà không trả lời được một trong ba câu, thì còn thiếu.
+
+---
+
+## 2. Các khối cần có
+
+### Cột 1 — ĐẦU VÀO (bên trái)
+
+| Khối | Nhãn gợi ý | Ghi chú |
 |---|---|---|
-| A1 | `eshop-sut/README.md` (SRS: FR-01..FR-24, SEC-01..07) | tai lieu van xuoi |
-| A2 | `eshop-sut/api_specification.md` | hinh dang request/response |
-| A3 | `eshop-sut/backend/server.js` | ma nguon — dung de doi chieu |
+| A1 | `eshop-sut/README.md` (SRS: FR-01..FR-24, SEC-01..07) | tài liệu văn xuôi |
+| A2 | `eshop-sut/api_specification.md` | hình dạng request/response |
+| A3 | `eshop-sut/backend/server.js` | mã nguồn — dùng để đối chiếu |
 
-Ba khoi nay nen ve chung mot mau (mau "tai lieu"), va **ngoai duong vien** cua he thong —
-chung la thu co san, khong phai thu minh xay.
+Ba khối này nên vẽ chung một màu (màu "tài liệu"), và **ngoài đường viền** của hệ thống —
+chúng là thứ có sẵn, không phải thứ mình xây.
 
-### Khoi ban le — DICH SANG DANG MAY DOC DUOC
+### Khối bản lề — DỊCH SANG DẠNG MÁY ĐỌC ĐƯỢC
 
-| Khoi | Nhan goi y |
+| Khối | Nhãn gợi ý |
 |---|---|
-| B | **Dich dac ta sang dang may doc duoc** → `spec/api-N.json` |
+| B | **Dịch đặc tả sang dạng máy đọc được** → `spec/api-N.json` |
 
-**Day la khoi quan trong nhat cua ca so do.** No nen duoc ve **to hon** cac khoi khac, va
-phai the hien ro rang day la **cong doan co con nguoi tham gia** (xem muc 3).
+**Đây là khối quan trọng nhất của cả sơ đồ.** Nó nên được vẽ **to hơn** các khối khác, và
+phải thể hiện rõ ràng đây là **công đoạn có con người tham gia** (xem mục 3).
 
-Ly do: dac ta van xuoi khong noi ro dau la truc phan hoach. Cau *"Gia: bat buoc, phai la so
-duong (> 0)"* chua ba thong tin an: ten tham so, kieu du lieu, va **mot bien tai 0**. Con
-nguoi doc ra ngay; chuong trinh thi khong. Khoi B chinh la noi bien doi do xay ra.
+Lý do: đặc tả văn xuôi không nói rõ đâu là trục phân hoạch. Câu *"Giá: bắt buộc, phải là số
+dương (> 0)"* chứa ba thông tin ẩn: tên tham số, kiểu dữ liệu, và **một biên tại 0**. Con
+người đọc ra ngay; chương trình thì không. Khối B chính là nơi biến đổi đó xảy ra.
 
-Ben trong khoi B, ve bon o nho ung voi bon truc cua file JSON:
+Bên trong khối B, vẽ bốn ô nhỏ ứng với bốn trục của file JSON:
 
 - `endpoints[].params[].partitions[]`
 - `state_machine.transitions[]`
 - `security[]`
 - `schema_cases[]`
 
-### Cot 2 — BON BO SINH (giua)
+### Cột 2 — BỐN BỘ SINH (giữa)
 
-Bon khoi **song song**, moi khoi nhan dau vao tu dung mot truc tuong ung o khoi B:
+Bốn khối **song song**, mỗi khối nhận đầu vào từ đúng một trục tương ứng ở khối B:
 
-| Khoi | Nhan | Ky thuat kiem thu | Ket qua bai nay |
+| Khối | Nhãn | Kỹ thuật kiểm thử | Kết quả bài này |
 |---|---|---|---|
 | C1 | `SINH_DOMAIN` | Equivalence Partitioning, BVA, Decision Table | 128 case |
 | C2 | `SINH_STATE` | State Transition Testing (0-switch) | 38 case |
-| C3 | `SINH_SECURITY` | Anh xa SEC-01..SEC-07 | 41 case |
+| C3 | `SINH_SECURITY` | Ánh xạ SEC-01..SEC-07 | 41 case |
 | C4 | `SINH_SCHEMA` | JSON Schema Validation | 18 case |
 
-Ve **song song, khong noi tiep** — day la diem thiet ke co y: bon bo sinh doc lap nhau nen
-chay duoc rieng tung cai (`--only DOM`, `--only STA`...). Do chinh la co so ky thuat de thoa
-yeu cau *"drive it step by step, not with a single generic prompt"* cua de bai muc 6.
+Vẽ **song song, không nối tiếp** — đây là điểm thiết kế cố ý: bốn bộ sinh độc lập nhau nên
+chạy được riêng từng cái (`--only DOM`, `--only STA`...). Đó chính là cơ sở kỹ thuật để thỏa
+yêu cầu *"drive it step by step, not with a single generic prompt"* của đề bài mục 6.
 
-Nen ghi con so len tung khoi: no cho thay ngay do phu lech ve dau.
+Nên ghi con số lên từng khối: nó cho thấy ngay độ phủ lệch về đâu.
 
-### Cot 3 — HAU XU LY (phai giua)
+### Cột 3 — HẬU XỬ LÝ (phải giữa)
 
-| Khoi | Nhan | Ghi chu |
+| Khối | Nhãn | Ghi chú |
 |---|---|---|
-| D | `KHU_TRUNG` | Khoa gom 7 truong — xem muc 4, day la cho dang chu thich |
+| D | `KHU_TRUNG` | Khóa gồm 7 trường — xem mục 4, đây là chỗ đáng chú thích |
 | E | `DANH_SO_LAI` | `TC-<prefix>-<NHOM>-<3 chu so>` |
-| F | `KIEM_TRA_DO_PHU` | **cong tac chan** — xem muc 4 |
+| F | `KIEM_TRA_DO_PHU` | **công tắc chặn** — xem mục 4 |
 
-Khoi F nen ve khac hinh (vi du hinh thoi / hinh binh hanh) vi no la diem **quyet dinh**,
-khong phai diem bien doi. Tu F ve **mot mui ten quay nguoc lai khoi B**, nhan
-*"chua du do phu -> bo sung vao spec roi chay lai"*. Vong lap nay la thu the hien ro nhat
-rang bo sinh co kiem soat chat luong, chu khong chi la mot may in test case.
+Khối F nên vẽ khác hình (ví dụ hình thoi / hình bình hành) vì nó là điểm **quyết định**,
+không phải điểm biến đổi. Từ F vẽ **một mũi tên quay ngược lại khối B**, nhãn
+*"chưa đủ độ phủ -> bổ sung vào spec rồi chạy lại"*. Vòng lặp này là thứ thể hiện rõ nhất
+rằng bộ sinh có kiểm soát chất lượng, chứ không chỉ là một máy in test case.
 
-### Cot 4 — DAU RA (ben phai)
+### Cột 4 — ĐẦU RA (bên phải)
 
-| Khoi | Nhan |
+| Khối | Nhãn |
 |---|---|
-| G | `testcases/API-N_generated.csv` (22 cot) |
+| G | `testcases/API-N_generated.csv` (22 cột) |
 | H | `build_collection.py` → Postman Collection v2.1 |
-| I | `newman` → bao cao HTML/JSON |
-| J | Bao cao + bug report |
+| I | `newman` → báo cáo HTML/JSON |
+| J | Báo cáo + bug report |
 
 ---
 
-## 3. Ba diem CON NGUOI xen vao — phan phai noi bat nhat
+## 3. Ba điểm CON NGƯỜI xen vào — phần phải nổi bật nhất
 
-De bai coi trong dieu nay hon ca so luong test case. **Dung mau khac hoac vien dut** cho ba
-diem nay, va **ghi chu thich ngay tren so do**:
+Đề bài coi trọng điều này hơn cả số lượng test case. **Dùng màu khác hoặc viền đứt** cho ba
+điểm này, và **ghi chú thích ngay trên sơ đồ**:
 
-| Diem | Vi tri tren so do | Con nguoi lam gi |
+| Điểm | Vị trí trên sơ đồ | Con người làm gì |
 |---|---|---|
-| **H1** | tai khoi **B** | Doc dac ta, quyet dinh dau la phan hoach, dau la bien, chuyen trang thai nao hop le. **Chat luong ca bo test nam o day.** |
-| **H2** | sau khoi **G** | **AUDIT**: gan `VALID` / `INVALID` / `INCOMPLETE` cho tung case, ghi ly do, sua case sai. Ket qua bai nay: 83 VALID, 68 INVALID, 74 INCOMPLETE |
-| **H3** | sau khoi **H2** | **EXTEND**: them case ma bo sinh khong the nghi ra. Ket qua bai nay: 18 case, moi case co cot `Why_AI_Missed` |
+| **H1** | tại khối **B** | Đọc đặc tả, quyết định đâu là phân hoạch, đâu là biên, chuyển trạng thái nào hợp lệ. **Chất lượng cả bộ test nằm ở đây.** |
+| **H2** | sau khối **G** | **AUDIT**: gắn `VALID` / `INVALID` / `INCOMPLETE` cho từng case, ghi lý do, sửa case sai. Kết quả bài này: 83 VALID, 68 INVALID, 74 INCOMPLETE |
+| **H3** | sau khối **H2** | **EXTEND**: thêm case mà bộ sinh không thể nghĩ ra. Kết quả bài này: 18 case, mỗi case có cột `Why_AI_Missed` |
 
-Ve H2 va H3 thanh mot khoi noi tiep giua G va H, **khong** duoc ve nhu mot nhanh phu — chung
-nam tren duong di chinh cua du lieu.
-
----
-
-## 4. Ba chu thich nen ghi thang len so do
-
-Day la nhung dieu hoc duoc trong qua trinh lam. Ghi chung len so do lam cho no la **thiet ke
-cua nguoi da chay that**, khong phai mot so do khoi chung chung.
-
-**Chu thich 1 — canh khoi D (`KHU_TRUNG`):**
-> Khoa khu trung phai gom ca `Category`, `Expected_Assertions` va `Preconditions`.
-> Ban dau khoa chi co `(method, endpoint, body, status)` nen coi hai case la trung nhau khi
-> chung gui cung mot request, bat ke chung khang dinh dieu gi. Ket qua: 34 test case bi nuot
-> oan (191 thay vi 225), va do phu bang chuyen trang thai bi bao thieu (11/25 thay vi 20/25).
-
-**Chu thich 2 — canh khoi C3 (`SINH_SECURITY`):**
-> Ma SEC la nhan khong tu giai thich. Bang SEC-01..07 phai lay tu `README.md` muc 9, khong
-> duoc dien tu tri nho ve OWASP. Lan dau lam theo tri nho: 39/41 test case bao mat bi gan sai ma.
-
-**Chu thich 3 — canh cum C1..C4:**
-> Bon bo sinh deu sinh ra test case **doc lap**, moi case mot request. Do la gioi han cau truc:
-> 9/18 bug ma con nguoi phai tu bo sung chi lo ra khi noi **nhieu request** lai voi nhau.
+Vẽ H2 và H3 thành một khối nối tiếp giữa G và H, **không** được vẽ như một nhánh phụ — chúng
+nằm trên đường đi chính của dữ liệu.
 
 ---
 
-## 5. Bo cuc goi y
+## 4. Ba chú thích nên ghi thẳng lên sơ đồ
 
-Trai sang phai, bon cot:
+Đây là những điều em học được trong quá trình làm. Ghi chúng lên sơ đồ làm cho nó là **thiết kế
+của người đã chạy thật**, không phải một sơ đồ khối chung chung.
+
+**Chú thích 1 — cạnh khối D (`KHU_TRUNG`):**
+> Khóa khử trùng phải gồm cả `Category`, `Expected_Assertions` và `Preconditions`.
+> Ban đầu khóa chỉ có `(method, endpoint, body, status)` nên coi hai case là trùng nhau khi
+> chúng gửi cùng một request, bất kể chúng khẳng định điều gì. Kết quả: 34 test case bị nuốt
+> oan (191 thay vì 225), và độ phủ bảng chuyển trạng thái bị báo thiếu (11/25 thay vì 20/25).
+
+**Chú thích 2 — cạnh khối C3 (`SINH_SECURITY`):**
+> Mã SEC là nhãn không tự giải thích. Bảng SEC-01..07 phải lấy từ `README.md` mục 9, không
+> được điền từ trí nhớ về OWASP. Lần đầu làm theo trí nhớ: 39/41 test case bảo mật bị gán sai mã.
+
+**Chú thích 3 — cạnh cụm C1..C4:**
+> Bốn bộ sinh đều sinh ra test case **độc lập**, mỗi case một request. Đó là giới hạn cấu trúc:
+> 9/18 bug mà con người phải tự bổ sung chỉ lộ ra khi nối **nhiều request** lại với nhau.
+
+---
+
+## 5. Bố cục gợi ý
+
+Trái sang phải, bốn cột:
 
 ```
 [ TAI LIEU ] -> [ DICH SANG JSON ] -> [ 4 BO SINH ] -> [ HAU XU LY ] -> [ DAU RA ]
@@ -164,19 +168,20 @@ Trai sang phai, bon cot:
                        +----- chua du do phu, bo sung -------+
 ```
 
-Con nguoi (H1, H2, H3) ve o **hang duoi**, moi diem co mot mui ten dut noi len khoi tuong ung.
-Cach nay lam noi bat rang con nguoi cham vao quy trinh o ba cho khac nhau, chu khong phai chi
-o cuoi.
+Con người (H1, H2, H3) vẽ ở **hàng dưới**, mỗi điểm có một mũi tên đứt nối lên khối tương ứng.
+Cách này làm nổi bật rằng con người chạm vào quy trình ở ba chỗ khác nhau, chứ không phải chỉ
+ở cuối.
 
 ---
 
-## 6. Bang kiem truoc khi coi la ve xong
+## 6. Bảng kiểm trước khi coi là vẽ xong
 
-- [ ] Nhin so do doan duoc **dau vao** va **dau ra** ma khong can doc chu giai
-- [ ] Bon bo sinh ve **song song**, khong ve noi tiep
-- [ ] Co **mui ten phan hoi** tu `KIEM_TRA_DO_PHU` quay ve khoi dich spec
-- [ ] Ba diem con nguoi H1/H2/H3 duoc lam noi bat va **nam tren duong di chinh**
-- [ ] Co it nhat mot trong ba chu thich o muc 4
-- [ ] Goc so do co ghi **ho ten + MSSV + ngay ve**
-- [ ] Da luu `agent-skill/diagram/23127060_generator_diagram.png` (nen kem file nguon)
-- [ ] **Khong co** file mermaid / graphviz / anh nao do AI sinh trong thu muc nay
+- [x] Nhìn sơ đồ đoán được **đầu vào** và **đầu ra** mà không cần đọc chú giải
+- [x] Bốn bộ sinh vẽ **song song**, không vẽ nối tiếp
+- [x] Có **mũi tên phản hồi** từ `KIEM_TRA_DO_PHU` quay về khối dịch spec
+- [x] Ba điểm con người H1/H2/H3 được làm nổi bật và **nằm trên đường đi chính**
+- [x] Có ít nhất một trong ba chú thích ở mục 4
+- [ ] Góc sơ đồ có ghi **họ tên + MSSV + ngày vẽ** — rà lại trước khi nộp
+- [x] Đã lưu `agent-skill/diagram/23127060_generator_diagram.png`
+- [ ] Nên lưu kèm file nguồn `.drawio` cạnh file PNG
+- [x] **Không có** file mermaid / graphviz / ảnh nào do AI sinh trong thư mục này
