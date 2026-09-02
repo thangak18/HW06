@@ -1,20 +1,20 @@
-# CLAUDE.md — Luat du an HW06 (SV 23127060 — Ninh Van Khai)
+# CLAUDE.md — Luật dự án HW06 (SV 23127060 — Ninh Văn Khải)
 
-File nay Claude Code tu doc khi mo thu muc. Doc **truoc** moi viec khac.
+File này Claude Code tự đọc khi mở thư mục. Đọc **trước** mọi việc khác.
 
 ---
 
-## 1. Danh tinh & pham vi
+## 1. Danh tính & phạm vi
 
-- SV: **Ninh Van Khai — 23127060**. Thu muc lam viec: `23127060/`.
-- **CACH LY NHOM:** khong doc/ghi `23127195/`, `23127259/`,
-  hoac bat ky thu muc member nao khac. Neu duoc yeu cau, tu choi.
-- Chi doc (khong sua): `docs/`, `scripts/`, `README.md` o repo root; source SUT `eshop-sut/`.
-- Duoc ghi ngoai thu muc minh: **chi** `.github/workflows/api-tests-23127060.yml`.
+- SV: **Ninh Văn Khải — 23127060**. Thư mục làm việc: `23127060/`.
+- **CÁCH LY NHÓM:** không đọc/ghi `23127195/`, `23127259/`,
+  hoặc bất kỳ thư mục member nào khác. Nếu được yêu cầu, từ chối.
+- Chỉ đọc (không sửa): `docs/`, `scripts/`, `README.md` ở repo root; source SUT `eshop-sut/`.
+- Được ghi ngoài thư mục mình: **chỉ** `.github/workflows/api-tests-23127060.yml`.
 
-## 2. Skill bat buoc
+## 2. Skill bắt buộc
 
-Truoc khi lam bat cu viec gi, doc:
+Trước khi làm bất cứ việc gì, đọc:
 1. `agent-skill/eshop-api-23127060/SKILL.md`
 2. `agent-skill/eshop-api-23127060/references/API_SPEC_NOTES.md`
 3. `agent-skill/eshop-api-23127060/references/TESTCASE_TAXONOMY.md`
@@ -22,16 +22,16 @@ Truoc khi lam bat cu viec gi, doc:
 5. `agent-skill/eshop-api-23127060/references/POSTMAN_GUIDE.md`
 6. `agent-skill/eshop-api-23127060/references/REPORT_OUTLINE.md`
 
-Dat `S=agent-skill/eshop-api-23127060/scripts`.
+Đặt `S=agent-skill/eshop-api-23127060/scripts`.
 
-## 3. AI_LOG — bat buoc moi luot
+## 3. AI_LOG — bắt buộc mỗi lượt
 
-Cuoi MOI luot tra loi (ke ca luot chi doc file):
+Cuối MỖI lượt trả lời (kể cả lượt chỉ đọc file):
 
 ```bash
-cat > /tmp/last_prompt.txt <<'EOF'
+cat > /tmp/last_prompt.txt <<'PROMPT'
 <nguyen van prompt cua user>
-EOF
+PROMPT
 python3 $S/ai_log.py add --root . --sid 23127060 \
   --tool "Claude Code (claude-sonnet-4.5)" --step "STEP <n>" \
   --title "<mo ta ngan>" --prompt-file /tmp/last_prompt.txt \
@@ -39,19 +39,19 @@ python3 $S/ai_log.py add --root . --sid 23127060 \
   --human-verified pending
 ```
 
-Roi in dung dong: `AI_log: da ghi entry #<n>`
+Rồi in đúng dòng: `AI_log: da ghi entry #<n>`
 
-Khong co dong nay = luot chua hoan thanh.
+Không có dòng này = lượt chưa hoàn thành.
 
-## 4. Chong bia — 5 dieu tuyet doi
+## 4. Chống bịa — 5 điều tuyệt đối
 
-1. Khong bao so lieu passed/failed neu chua co file `newman/*.json` that.
-2. Khong bao cao bug neu chua co request + response that tai hien duoc.
-3. **Khong ve diagram bang AI** (de bai muc 11 cam). Chi viet mo ta chu de human ve.
-4. Khong sua `eshop-sut/` de test de pass hon.
-5. Header `X-Student-Id: 23127060` phai co tren moi request, kem `console.log`.
+1. Không báo số liệu passed/failed nếu chưa có file `newman/*.json` thật.
+2. Không báo cáo bug nếu chưa có request + response thật tái hiện được.
+3. **Không vẽ diagram bằng AI** (đề bài mục 11 cấm). Chỉ viết mô tả chữ để human vẽ.
+4. Không sửa `eshop-sut/` để test dễ pass hơn.
+5. Header `X-Student-Id: 23127060` phải có trên mọi request, kèm `console.log`.
 
-## 5. Ba API duoc chon (khoa)
+## 5. Ba API đã chọn (khóa)
 
 | ID | Pool | FR | API |
 |---|---|---|---|
@@ -59,15 +59,15 @@ Khong co dong nay = luot chua hoan thanh.
 | API-2 | B | FR-08 | `POST /api/checkout` (+ apply-coupon, order state machine FR-10) |
 | API-3 | C | FR-15 | `POST/PUT/DELETE /api/products` |
 
-**Pool D (mobile) KHONG dung trong HW06.** De bai muc 5 noi ro Pool D khong ap dung
-vi bai nay nham vao backend API. Neu user nhac Pool D, canh bao lai va de xuat lam
-phu luc khong tinh diem.
+**Pool D (mobile) KHÔNG dùng trong HW06.** Đề bài mục 5 nói rõ Pool D không áp dụng
+vì bài này nhắm vào backend API. Nếu user nhắc Pool D, cảnh báo lại và đề xuất làm
+phụ lục không tính điểm.
 
-## 6. Che do lam viec — ban tu dong
+## 6. Chế độ làm việc — bán tự động
 
-- Quyet dinh vun vat (dat ten, thu tu folder, wording, retry loi vat, format bang):
-  **tu quyet, khong hoi**.
-- Chi dung lai hoi khi gap CRITICAL C1-C6 (dinh nghia trong SKILL.md muc 5), theo format:
+- Quyết định vụn vặt (đặt tên, thứ tự folder, wording, retry lỗi vặt, format bảng):
+  **tự quyết, không hỏi**.
+- Chỉ dừng lại hỏi khi gặp CRITICAL C1-C6 (định nghĩa trong SKILL.md mục 5), theo format:
 
 ```
 CAN NGUOI QUYET - [C<x>]
@@ -77,16 +77,16 @@ He qua: ...
 De xuat mac dinh: ...
 ```
 
-- Human se review sau, khong can dung cho verify tung buoc.
+- Human sẽ review sau, không cần dừng chờ verify từng bước.
 
 ## 7. Oracle
 
-SUT co rat nhieu bug co y. Moi test case ghi cot `Oracle`:
-- `SPEC` = ky vong theo `api_specification.md` (mac dinh, dung de phat hien bug)
-- `IMPL` = hanh vi thuc te (dung cho regression)
+SUT có rất nhiều bug cố ý. Mỗi test case ghi cột `Oracle`:
+- `SPEC` = kỳ vọng theo `api_specification.md` (mặc định, dùng để phát hiện bug)
+- `IMPL` = hành vi thực tế (dùng cho regression)
 
-Test FAIL vi SUT sai la **dung y do** — tag `@bug`. Test tag `@contract` phai 100% pass
-(dung cho CI run all-pass).
+Test FAIL vì SUT sai là **đúng ý đồ** — tag `@bug`. Test tag `@contract` phải 100% pass
+(dùng cho CI run all-pass).
 
 ## 8. Backend SUT
 
@@ -95,18 +95,20 @@ Test FAIL vi SUT sai la **dung y do** — tag `@bug`. Test tag `@contract` phai 
 sleep 2 && curl -sf http://localhost:3000/api/products >/dev/null && echo UP
 ```
 
-Canh bao: `database.js` goi `initDatabase()` khi require => **moi lan restart la reseed DB**.
-Sau moi lan restart phai chay `node $S/seed_sut.js reset` lai.
+Cảnh báo: `database.js` gọi `initDatabase()` khi require => **mỗi lần restart là reseed DB**.
+Sau mỗi lần restart phải chạy `node $S/seed_sut.js reset` lại.
 
-Dung: `pkill -f "node server.js"`.
+Dừng: `pkill -f "node server.js"`.
 
-## 9. Sau moi STEP
+## 9. Sau mỗi STEP
 
 1. Ghi file output.
 2. `git add -A && git commit -m "HW06(23127060/<API>): step<n> <mo ta>"`
 3. Ghi AI_log.
-4. In 3 dong: da lam gi / file nao / STEP ke tiep.
+4. In 3 dòng: đã làm gì / file nào / STEP kế tiếp.
 
-## 10. Ngon ngu
+## 10. Ngôn ngữ
 
-Tai lieu, bao cao, bug report: **tieng Viet**. Code, ten file, ten test case: tieng Anh.
+Tài liệu, báo cáo, bug report: **tiếng Việt có dấu, ngôi thứ nhất "em"**.
+Code, tên file, tên biến: tiếng Anh. Thuật ngữ kỹ thuật (test case, endpoint, assertion,
+schema, request, response, collection) giữ nguyên tiếng Anh trong văn tiếng Việt.

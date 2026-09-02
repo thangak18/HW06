@@ -1,108 +1,108 @@
-# HW06 — API Testing with AI — Ninh Van Khai — 23127060
+# HW06 — API Testing with AI — Ninh Văn Khải — 23127060
 
 | | |
 |---|---|
-| Ho ten | **Ninh Van Khai** |
+| Họ tên | **Ninh Văn Khải** |
 | MSSV | **23127060** |
-| Lop / Nhom | `<dien lop>` / `<dien nhom>` |
-| Repo cong khai | `<dien link — xem ci/CI_CD_REPORT.md muc 5>` |
+| Lớp / Nhóm | `<điền lớp>` / `<điền nhóm>` |
+| Repo công khai | `<điền link — xem ci/CI_CD_REPORT.md mục 5>` |
 | SUT | https://github.com/ttbhanh/eshop-sut, commit `85af3ba875c88283615e22cb108f13e2fccaf0e9` |
-| Ngay lam | 01/09/2026 |
-| Video demo bo sinh (tuy chon) | `<dien link YouTube — kich ban o agent-skill/VIDEO_SCRIPT.md>` |
+| Ngày làm | 01/09/2026 |
+| Video demo bộ sinh (tùy chọn) | `<điền link YouTube — kịch bản ở agent-skill/VIDEO_SCRIPT.md>` |
 
-**Bao cao chinh:** [`report/MAIN_REPORT.md`](report/MAIN_REPORT.md)
+**Báo cáo chính:** [`report/MAIN_REPORT.md`](report/MAIN_REPORT.md)
 
 ---
 
-## 1. Ba API duoc chon
+## 1. Ba API em chọn
 
-| # | Pool | FR | Chuc nang | Endpoint chinh |
+| # | Pool | FR | Chức năng | Endpoint chính |
 |---|---|---|---|---|
-| API-1 | A | FR-03 | Quen mat khau & dat lai mat khau | `POST /api/forgot-password`, `POST /api/reset-password` |
-| API-2 | B | FR-08 | Thanh toan (+ FR-09 coupon, FR-10 vong doi don hang) | `POST /api/checkout` |
-| API-3 | C | FR-15 | Quan ly san pham (CRUD + tim kiem) | `POST` / `PUT` / `DELETE /api/products` |
+| API-1 | A | FR-03 | Quên mật khẩu & đặt lại mật khẩu | `POST /api/forgot-password`, `POST /api/reset-password` |
+| API-2 | B | FR-08 | Thanh toán (+ FR-09 coupon, FR-10 vòng đời đơn hàng) | `POST /api/checkout` |
+| API-3 | C | FR-15 | Quản lý sản phẩm (CRUD + tìm kiếm) | `POST` / `PUT` / `DELETE /api/products` |
 
-**Pool D (Mobile) khong su dung** — de bai muc 5 loai tru vi bai nay nham vao backend API.
+**Pool D (Mobile) em không sử dụng** — đề bài mục 5 loại trừ vì bài này nhắm vào backend API.
 
 ---
 
 ## 2. Test summary
 
-| Chi so | Gia tri |
+| Chỉ số | Giá trị |
 |---|---|
-| So API kiem thu | **3** |
+| Số API kiểm thử | **3** |
 | Test case do AI sinh | **225** |
-| Test case tu bo sung | **18** |
-| **Tong test case** | **243** |
-| Da thuc thi | **243** (100%) |
+| Test case em tự bổ sung | **18** |
+| **Tổng test case** | **243** |
+| Đã thực thi | **243** (100%) |
 | Test case PASS | **84** |
 | Test case FAIL | **159** |
-| — trong do that bai **co chu dich** (`@bug`) | 91 |
-| — trong do that bai **ngoai du kien** (`@contract`) | 68 |
-| Tong assertion da chay | **1146** |
-| Assertion that bai | **234** |
-| So bug bao cao | **34** (12 Critical, 11 High, 9 Medium, 2 Low) |
-| So GitHub Issue da mo | `<dien sau khi lam H3>` |
+| — trong đó thất bại **có chủ đích** (`@bug`) | 91 |
+| — trong đó thất bại **ngoài dự kiến** (`@contract`) | 68 |
+| Tổng assertion đã chạy | **1146** |
+| Assertion thất bại | **234** |
+| Số bug báo cáo | **34** (12 Critical, 11 High, 9 Medium, 2 Low) |
+| Số GitHub Issue đã mở | `<điền sau khi làm H3>` |
 
-### Phan bo theo nhom ky thuat
+### Phân bố theo nhóm kỹ thuật
 
-| API | Domain (DOM) | State transition (STA) | Security (SEC) | Schema (SCH) | Tong |
+| API | Domain (DOM) | State transition (STA) | Security (SEC) | Schema (SCH) | Tổng |
 |---|---|---|---|---|---|
 | API-1 | 36 | 10 | 18 | 6 | 70 |
 | API-2 | 43 | 22 | 16 | 6 | 87 |
 | API-3 | 53 | 9 | 16 | 8 | 86 |
-| **Tong** | **132** | **41** | **50** | **20** | **243** |
+| **Tổng** | **132** | **41** | **50** | **20** | **243** |
 
-### Ket qua audit test case do AI sinh
+### Kết quả audit test case do AI sinh
 
-| API | Tong AI sinh | VALID | INVALID | INCOMPLETE | % VALID |
+| API | Tổng AI sinh | VALID | INVALID | INCOMPLETE | % VALID |
 |---|---|---|---|---|---|
 | API-1 | 64 | 22 | 23 | 19 | 34% |
 | API-2 | 81 | 40 | 18 | 23 | 49% |
 | API-3 | 80 | 21 | 27 | 32 | 26% |
-| **Tong** | **225** | **83** | **68** | **74** | **37%** |
+| **Tổng** | **225** | **83** | **68** | **74** | **37%** |
 
-> **Toan bo 41 test case nhom bao mat deu INVALID** — khong phai 41 loi doc lap ma la mot loi
-> duy nhat nhan ban 41 lan: bang SEC-01..07 duoc dien tu tri nho ve OWASP thay vi doc
-> `eshop-sut/README.md` muc 9. Xem [`report/03_audit.md`](report/03_audit.md) muc 4.
+> **Toàn bộ 41 test case nhóm bảo mật đều INVALID** — không phải 41 lỗi độc lập mà là một lỗi
+> duy nhất nhân bản 41 lần: bảng SEC-01..07 được điền từ trí nhớ về OWASP thay vì đọc
+> `eshop-sut/README.md` mục 9. Xem [`report/03_audit.md`](report/03_audit.md) mục 4.
 
-### Ket qua thuc thi
+### Kết quả thực thi
 
-| Bo | Case | Assertion | Assertion FAIL | Y nghia |
+| Bộ | Case | Assertion | Assertion FAIL | Ý nghĩa |
 |---|---|---|---|---|
-| Day du (Oracle = SPEC) | 243 | 1146 | 234 | Ket qua kiem thu that su — **phai** co that bai vi SUT co 34 bug |
-| Hoi quy (`@contract`) | 84 | 406 | **0** | Moc hoi quy, dung cho lan chay CI all-pass |
-| Data-driven | 48 vong lap | 96 | 30 | 4 data file, chay bang `newman -d` |
+| Đầy đủ (Oracle = SPEC) | 243 | 1146 | 234 | Kết quả kiểm thử thật sự — **phải** có thất bại vì SUT có 34 bug |
+| Hồi quy (`@contract`) | 84 | 406 | **0** | Mốc hồi quy, dùng cho lần chạy CI all-pass |
+| Data-driven | 48 vòng lặp | 96 | 30 | 4 data file, chạy bằng `newman -d` |
 
-> Nhieu test FAIL la **co chu dich**: moi ky vong duoc viet theo dac ta chu khong theo hanh vi
-> thuc te cua SUT. Neu sua ky vong cho khop hanh vi sai de bo test xanh thi do la nguy tao
-> ket qua.
+> Nhiều test FAIL là **có chủ đích**: mọi kỳ vọng em viết theo đặc tả chứ không theo hành vi
+> thực tế của SUT. Nếu sửa kỳ vọng cho khớp hành vi sai để bộ test xanh thì đó là ngụy tạo
+> kết quả.
 
 ---
 
-## 3. Bug noi bat (12 bug Critical)
+## 3. Bug nổi bật (12 bug Critical)
 
-| ID | API | Mo ta ngan | GitHub Issue |
+| ID | API | Mô tả ngắn | GitHub Issue |
 |---|---|---|---|
-| **A-01** | API-1 | `forgot-password` tra thang ma OTP trong response body | `<link>` |
-| **A-07** | API-1 | Mat khau luu plaintext, bi tra ve trong response `login` | `<link>` |
-| **B-01** | API-2 | `checkout` tin tuyet doi `total_amount` do client gui | `<link>` |
-| **B-01b** | API-2 | `checkout` chap nhan `total_amount` am | `<link>` |
-| **B-02** | API-2 | `GET /api/orders/:id` thieu han xac thuc — IDOR | `<link>` |
-| **B-03** | API-2 | `admin/orders/:id/status` khong kiem `role` | `<link>` |
-| **B-05** | API-2 | Cong thuc coupon `percent` sai dau — so tien giam **am** | `<link>` |
-| **B-07** | API-2 | `apply-coupon` khong xac thuc; bo `user_id` la bo qua han muc | `<link>` |
-| **C-01** | API-3 | CRUD san pham hoan toan khong xac thuc | `<link>` |
-| **C-02** | API-3 | SQL Injection qua `?search=` — lay duoc mat khau admin | `<link>` |
-| **C-13** | API-3 | `price = null` lam **sap han backend** (tu choi dich vu) | `<link>` |
-| **X-01** | lien API | `PUT /api/users/me` cho user thuong tu nang `role` len `admin` | `<link>` |
+| **A-01** | API-1 | `forgot-password` trả thẳng mã OTP trong response body | `<link>` |
+| **A-07** | API-1 | Mật khẩu lưu plaintext, bị trả về trong response `login` | `<link>` |
+| **B-01** | API-2 | `checkout` tin tuyệt đối `total_amount` do client gửi | `<link>` |
+| **B-01b** | API-2 | `checkout` chấp nhận `total_amount` âm | `<link>` |
+| **B-02** | API-2 | `GET /api/orders/:id` thiếu hẳn xác thực — IDOR | `<link>` |
+| **B-03** | API-2 | `admin/orders/:id/status` không kiểm `role` | `<link>` |
+| **B-05** | API-2 | Công thức coupon `percent` sai dấu — số tiền giảm **âm** | `<link>` |
+| **B-07** | API-2 | `apply-coupon` không xác thực; bỏ `user_id` là bỏ qua hạn mức | `<link>` |
+| **C-01** | API-3 | CRUD sản phẩm hoàn toàn không xác thực | `<link>` |
+| **C-02** | API-3 | SQL Injection qua `?search=` — lấy được mật khẩu admin | `<link>` |
+| **C-13** | API-3 | `price = null` làm **sập hẳn backend** (từ chối dịch vụ) | `<link>` |
+| **X-01** | liên API | `PUT /api/users/me` cho user thường tự nâng `role` lên `admin` | `<link>` |
 
-Chi tiet 34 bug + bang chung request/response that:
+Chi tiết 34 bug + bằng chứng request/response thật:
 [`bugs/BUG_REPORT.md`](bugs/BUG_REPORT.md).
 
 ---
 
-## 4. Cau truc thu muc
+## 4. Cấu trúc thư mục
 
 ```
 23127060/
@@ -131,7 +131,7 @@ Chi tiet 34 bug + bang chung request/response that:
 
 ---
 
-## 5. Cach chay lai toan bo
+## 5. Cách chạy lại toàn bộ
 
 ```bash
 # 0) Chuan bi (chay mot lan)
@@ -188,53 +188,53 @@ python3 $S/validate_submission.py --root . --sid 23127060
 
 ---
 
-## 6. Bang tu danh gia
+## 6. Bảng tự đánh giá
 
-| Muc | Yeu cau de bai | Diem toi da | Tu cham | Bang chung |
+| Mục | Yêu cầu đề bài | Điểm tối đa | Tự chấm | Bằng chứng |
 |---|---|---|---|---|
-| API-1 — Generate | >= 35 TC, du 4 nhom ky thuat | 8 | `<>` | 64 TC — `testcases/API-1_final.csv` |
-| API-1 — Audit | Gan nhan + ly giai + sua | 7 | `<>` | `report/03_audit.md` |
-| API-1 — Extend | >= 5 TC tu viet + ly do AI bo sot | 5 | `<>` | 6 TC — `TC-A1-*-9xx` |
+| API-1 — Generate | >= 35 TC, đủ 4 nhóm kỹ thuật | 8 | `<>` | 64 TC — `testcases/API-1_final.csv` |
+| API-1 — Audit | Gắn nhãn + lý giải + sửa | 7 | `<>` | `report/03_audit.md` |
+| API-1 — Extend | >= 5 TC tự viết + lý do AI bỏ sót | 5 | `<>` | 6 TC — `TC-A1-*-9xx` |
 | API-1 — Execute | Postman + Newman + HTML report | 6 | `<>` | `newman/23127060_API-1_*.html` |
 | API-1 — Bug report | Markdown + Issues + screenshot | 4 | `<>` | 7 bug — `bugs/BUG_REPORT.md` |
-| **API-1 tong** | | **30** | `<>` | |
+| **API-1 tổng** | | **30** | `<>` | |
 | API-2 — Generate | | 8 | `<>` | 81 TC |
 | API-2 — Audit | | 7 | `<>` | |
 | API-2 — Extend | | 5 | `<>` | 6 TC |
 | API-2 — Execute | | 6 | `<>` | `newman/23127060_API-2_*.html` |
 | API-2 — Bug report | | 4 | `<>` | 13 bug |
-| **API-2 tong** | | **30** | `<>` | |
+| **API-2 tổng** | | **30** | `<>` | |
 | API-3 — Generate | | 8 | `<>` | 80 TC |
 | API-3 — Audit | | 7 | `<>` | |
 | API-3 — Extend | | 5 | `<>` | 6 TC |
 | API-3 — Execute | | 6 | `<>` | `newman/23127060_API-3_*.html` |
 | API-3 — Bug report | | 4 | `<>` | 13 bug |
-| **API-3 tong** | | **30** | `<>` | |
-| Agent Skill | Bo sinh + so do tu ve + pseudocode | 10 | `<>` | `agent-skill/`, `report/07_*.md` |
-| **TONG** | | **100** | `<>` | |
+| **API-3 tổng** | | **30** | `<>` | |
+| Agent Skill | Bộ sinh + sơ đồ tự vẽ + pseudocode | 10 | `<>` | `agent-skill/`, `report/07_*.md` |
+| **TỔNG** | | **100** | `<>` | |
 
-### Deliverable bat buoc (thieu mot muc la 0 diem — de bai muc 17)
+### Deliverable bắt buộc (thiếu một mục là 0 điểm — đề bài mục 17)
 
-| Deliverable | Trang thai | Duong dan |
+| Deliverable | Trạng thái | Đường dẫn |
 |---|---|---|
-| Bao cao chinh (MD) | ✅ | `report/MAIN_REPORT.md` |
-| Bao cao chinh (PDF) | ✅ | `report/MAIN_REPORT.pdf` (10 trang) |
-| Link GitHub cong khai | ⬜ HUMAN | xem `ci/CI_CD_REPORT.md` muc 5 |
+| Báo cáo chính (MD) | ✅ | `report/MAIN_REPORT.md` |
+| Báo cáo chính (PDF) | ✅ | `report/MAIN_REPORT.pdf` (11 trang) |
+| Link GitHub công khai | ⬜ HUMAN | xem `ci/CI_CD_REPORT.md` mục 5 |
 | Postman collection `.json` | ✅ | `postman/collections/` (7 file) |
-| Danh sach Postman feature | ✅ | `report/05_postman_features.md` (23 feature) |
+| Danh sách Postman feature | ✅ | `report/05_postman_features.md` (23 feature) |
 | Newman report HTML | ✅ | `newman/` (10 file) |
-| Bao cao CI/CD + 2 lan chay | ⚠️ cau hinh xong, **chua push** | `ci/CI_CD_REPORT.md` |
+| Báo cáo CI/CD + 2 lần chạy | ⚠️ cấu hình xong, **chưa push** | `ci/CI_CD_REPORT.md` |
 | Excel test case + sheet Summary | ✅ | `testcases/23127060_HW06_testcases.xlsx` |
-| So do bo sinh (**TU VE**) | ⬜ HUMAN | `agent-skill/diagram/DIAGRAM_BRIEF.md` |
-| Pseudocode bo sinh | ✅ | `agent-skill/pseudocode/generator.pseudo.md` |
+| Sơ đồ bộ sinh (**TỰ VẼ**) | ⬜ HUMAN | `agent-skill/diagram/DIAGRAM_BRIEF.md` |
+| Pseudocode bộ sinh | ✅ | `agent-skill/pseudocode/generator.pseudo.md` |
 | Bug report (MD + PDF) | ✅ | `bugs/BUG_REPORT.md` / `.pdf` (34 bug, 25 trang) |
-| Screenshot GitHub Issues | ⬜ HUMAN | `bugs/ISSUE_TEMPLATES/` da san sang |
+| Screenshot GitHub Issues | ⬜ HUMAN | `bugs/ISSUE_TEMPLATES/` đã sẵn sàng |
 | AI Audit Report (MD + PDF) | ✅ | `ai/audit/AI_AUDIT_REPORT.md` / `.pdf` |
-| AI Critique (MD + PDF, 200–300 tu) | ✅ **299 tu** | `ai/critique/AI_CRITIQUE.md` / `.pdf` |
+| AI Critique (MD + PDF, 200–300 từ) | ✅ **297 từ** | `ai/critique/AI_CRITIQUE.md` / `.pdf` |
 | Git commit log | ✅ | `git-log/23127060_git_commit_log.txt` |
-| README co bang tu danh gia | ✅ | file nay |
+| README có bảng tự đánh giá | ✅ | file này |
 
-### Trang thai kiem tra tu dong
+### Trạng thái kiểm tra tự động
 
 ```
 $ python3 agent-skill/eshop-api-23127060/scripts/validate_submission.py --root . --sid 23127060
@@ -246,34 +246,34 @@ CHO SINH VIEN LAM (3 muc, khong tu dong hoa duoc):
   - Screenshot Issues + Console -> H3+H4: chup man hinh, luu vao bugs/screenshots/
 ```
 
-Ba muc con lai **khong the tu dong hoa**: mot muc bi de bai cam AI lam (so do phai tu ve), hai
-muc con lai doi hoi thao tac tren giao dien va quyen truy cap tai khoan GitHub.
+Ba mục còn lại **không thể tự động hóa**: một mục bị đề bài cấm AI làm (sơ đồ phải tự vẽ), hai
+mục còn lại đòi hỏi thao tác trên giao diện và quyền truy cập tài khoản GitHub.
 
 ---
 
-## 7. Cong cu AI da dung
+## 7. Công cụ AI em đã dùng
 
-| Cong cu | Phien ban | Dung vao viec gi |
+| Công cụ | Phiên bản | Dùng vào việc gì |
 |---|---|---|
-| Claude Code (CLI) | `claude-opus-5` | Sinh test case, audit, dung Postman collection, phan tich ket qua Newman, soan bao cao |
+| Claude Code (CLI) | `claude-opus-5` | Sinh test case, audit, dựng Postman collection, phân tích kết quả Newman, soạn báo cáo |
 
-**13 luot tuong tac** duoc ghi **tu dong ngay tai thoi diem xay ra** trong
-[`ai/AI_log.md`](ai/AI_log.md), tong hop thanh
-[`ai/audit/AI_AUDIT_REPORT.md`](ai/audit/AI_AUDIT_REPORT.md). Prompt goc cua tung buoc:
-[`ai/prompts/`](ai/prompts/). Danh gia ca nhan ve AI:
+**14 lượt tương tác** được ghi **tự động ngay tại thời điểm xảy ra** trong
+[`ai/AI_log.md`](ai/AI_log.md), tổng hợp thành
+[`ai/audit/AI_AUDIT_REPORT.md`](ai/audit/AI_AUDIT_REPORT.md). Prompt gốc của từng bước:
+[`ai/prompts/`](ai/prompts/). Đánh giá cá nhân của em về AI:
 [`ai/critique/AI_CRITIQUE.md`](ai/critique/AI_CRITIQUE.md).
 
 ---
 
-## 8. Cam ket lien chinh (de bai muc 11)
+## 8. Cam kết liêm chính (đề bài mục 11)
 
-- ✅ **Header `X-Student-Id: 23127060` tren moi request** — kiem chung tu dong:
-  **823/823 request**, xem `ci/evidence/header_evidence.md`. Anh chup Postman Console:
+- ✅ **Header `X-Student-Id: 23127060` trên mọi request** — kiểm chứng tự động:
+  **823/823 request**, xem `ci/evidence/header_evidence.md`. Ảnh chụp Postman Console:
   `bugs/screenshots/console_header.png` (HUMAN H4).
-- ✅ **Newman chay tren `localhost:3000`**, hostname hien ro trong bao cao HTML.
-- ⬜ **So do bo sinh do sinh vien TU VE**, khong dung AI sinh anh. Thu muc
-  `agent-skill/diagram/` hien **khong chua** file anh / mermaid / graphviz nao (HUMAN H1).
-- ✅ **Khong bia so lieu:** moi con so passed/failed sinh tu `newman/*.json.gz` bang
-  `summarize_newman.py`; moi request/response trong bug report trich tu `bugs/evidence/`
-  do `capture_bug_evidence.py` chay that.
-- ✅ **Khong sao chep prompt / bai lam cua thanh vien khac trong nhom.**
+- ✅ **Newman chạy trên `localhost:3000`**, hostname hiện rõ trong báo cáo HTML.
+- ⬜ **Sơ đồ bộ sinh do em TỰ VẼ**, không dùng AI sinh ảnh. Thư mục
+  `agent-skill/diagram/` hiện **không chứa** file ảnh / mermaid / graphviz nào (HUMAN H1).
+- ✅ **Không bịa số liệu:** mọi con số passed/failed sinh từ `newman/*.json.gz` bằng
+  `summarize_newman.py`; mọi request/response trong bug report trích từ `bugs/evidence/`
+  do `capture_bug_evidence.py` chạy thật.
+- ✅ **Không sao chép prompt / bài làm của thành viên khác trong nhóm.**

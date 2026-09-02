@@ -47,7 +47,10 @@ def main():
         txt = open(readme, encoding="utf-8").read()
         has_repo = bool(re.search(r"https://github\.com/[\w.-]+/[\w.-]+", txt))
         chk(PASS if has_repo else FAIL, "README.md co link GitHub repo cong khai")
-        chk(PASS if "Tu cham" in txt or "Self" in txt or "tu danh gia" in txt.lower()
+        # chap nhan ca ban co dau lan khong dau (tai lieu da chuyen sang tieng Viet co dau)
+        low = txt.lower()
+        chk(PASS if any(k in low for k in
+                        ("tu cham", "tự chấm", "self", "tu danh gia", "tự đánh giá"))
             else FAIL, "README.md co bang tu danh gia")
         chk(PASS if "summary" in txt.lower() else WARN, "README.md co test summary")
     else:

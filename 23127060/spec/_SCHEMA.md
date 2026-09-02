@@ -1,15 +1,15 @@
-# `spec/api-*.json` — Dinh dang spec may doc duoc (dau vao cua bo sinh test)
+# `spec/api-*.json` — Định dạng spec máy đọc được (đầu vào của bộ sinh test)
 
-> HW06 — SV 23127060. File nay mo ta **hop dong du lieu** giua con nguoi va bo sinh test
+> HW06 — SV 23127060. File này mô tả **hợp đồng dữ liệu** giữa con người và bộ sinh test
 > `agent-skill/eshop-api-23127060/scripts/gen_testcases.py`.
 >
-> Y tuong cot loi cua muc 7 de bai: *"given the API specification, it produces test cases
-> automatically"*. Dac ta van xuoi (`eshop-sut/README.md`) khong the dua thang cho may;
-> phai dich no sang mot cau truc co **truc phan hoach ro rang**. Do chinh la file nay.
+> Ý tưởng cốt lõi của mục 7 đề bài: *"given the API specification, it produces test cases
+> automatically"*. Đặc tả văn xuôi (`eshop-sut/README.md`) không thể đưa thẳng cho máy;
+> phải dịch nó sang một cấu trúc có **trục phân hoạch rõ ràng**. Đó chính là file này.
 
 ---
 
-## 1. Cau truc tong the
+## 1. Cấu trúc tổng thể
 
 ```jsonc
 {
@@ -27,12 +27,12 @@
 }
 ```
 
-Bon khoa `endpoints` / `state_machine` / `security` / `schema_cases` anh xa **mot doi mot**
-sang bon nhom ky thuat ma de bai muc 6.1 doi hoi: domain partition, state transition,
-security SEC-01..07, schema validation. Do la ly do bo sinh chay duoc 4 vong prompt rieng
-(`--only DOM`, `--only STA`, ...) thay vi mot prompt tong.
+Bốn khóa `endpoints` / `state_machine` / `security` / `schema_cases` ánh xạ **một đối một**
+sang bốn nhóm kỹ thuật mà đề bài mục 6.1 đòi hỏi: domain partition, state transition,
+security SEC-01..07, schema validation. Đó là lý do bộ sinh chạy được 4 vòng prompt riêng
+(`--only DOM`, `--only STA`, ...) thay vì một prompt tổng.
 
-## 2. `endpoints[]` — nguon cua nhom DOM
+## 2. `endpoints[]` — nguồn của nhóm DOM
 
 ```jsonc
 {
@@ -48,11 +48,11 @@ security SEC-01..07, schema validation. Do la ly do bo sinh chay duoc 4 vong pro
 }
 ```
 
-`valid_body` la **body neo**: khi sinh case cho tham so `price`, bo sinh giu nguyen moi
-truong khac cua `valid_body` va chi thay `price`. Nho vay moi case chi thay doi **dung mot
-bien** — dieu kien bat buoc de ket qua test quy duoc trach nhiem ve dung tham so do.
+`valid_body` là **body neo**: khi sinh case cho tham số `price`, bộ sinh giữ nguyên mọi
+trường khác của `valid_body` và chỉ thay `price`. Nhờ vậy mỗi case chỉ thay đổi **đúng một
+biến** — điều kiện bắt buộc để kết quả test quy được trách nhiệm về đúng tham số đó.
 
-### 2.1 `params[].partitions[]` — mot lop tuong duong
+### 2.1 `params[].partitions[]` — một lớp tương đương
 
 ```jsonc
 {
@@ -73,21 +73,21 @@ bien** — dieu kien bat buoc de ket qua test quy duoc trach nhiem ve dung tham 
 }
 ```
 
-**Quy tac suy dien khi thieu truong:**
+**Quy tắc suy diễn khi thiếu trường:**
 
-| Truong thieu | Gia tri suy ra |
+| Trường thiếu | Giá trị suy ra |
 |---|---|
-| `expected_status` | `endpoint.success_status` neu `valid=true`, nguoc lai `400` |
-| `assertions` | "body la JSON; khop schema thanh cong" / "body la JSON; co truong error" |
-| `technique` | `BVA` neu `boundary=true`, nguoc lai `EP` |
-| `priority` | `P1` neu `valid=true`, nguoc lai `P2` |
+| `expected_status` | `endpoint.success_status` nếu `valid=true`, ngược lại `400` |
+| `assertions` | "body là JSON; khớp schema thành công" / "body là JSON; có trường error" |
+| `technique` | `BVA` nếu `boundary=true`, ngược lại `EP` |
+| `priority` | `P1` nếu `valid=true`, ngược lại `P2` |
 | `oracle` | `SPEC` |
-| `tag` | `@bug` neu co `bug`, nguoc lai `@contract` |
+| `tag` | `@bug` nếu có `bug`, ngược lại `@contract` |
 
-`in` nhan 3 gia tri: `body` (mac dinh), `query` (noi vao query string), `path`
-(thay `:ten` trong duong dan).
+`in` nhận 3 giá trị: `body` (mặc định), `query` (nối vào query string), `path`
+(thay `:tên` trong đường dẫn).
 
-## 3. `state_machine` — nguon cua nhom STA
+## 3. `state_machine` — nguồn của nhóm STA
 
 ```jsonc
 {
@@ -110,12 +110,12 @@ bien** — dieu kien bat buoc de ket qua test quy duoc trach nhiem ve dung tham 
 }
 ```
 
-Bo sinh phu **0-switch coverage**: moi phan tu `transitions[]` la mot o trong bang
-`states x states`. Ham `coverage()` in ra ty le `so o da test / |states|^2` de biet con
-thieu o nao. `allowed` la ky vong theo **SRS**, khong phai theo code — nho vay cac o ma
-impl lam sai (B-09, B-10) van duoc sinh ra voi ky vong dung va se FAIL co chu dich.
+Bộ sinh phủ **0-switch coverage**: mỗi phần tử `transitions[]` là một ô trong bảng
+`states x states`. Hàm `coverage()` in ra tỷ lệ `số ô đã test / |states|^2` để biết còn
+thiếu ô nào. `allowed` là kỳ vọng theo **SRS**, không phải theo code — nhờ vậy các ô mà
+impl làm sai (B-09, B-10) vẫn được sinh ra với kỳ vọng đúng và sẽ FAIL có chủ đích.
 
-## 4. `security[]` — nguon cua nhom SEC
+## 4. `security[]` — nguồn của nhóm SEC
 
 ```jsonc
 {
@@ -133,14 +133,14 @@ impl lam sai (B-09, B-10) van duoc sinh ra voi ky vong dung va se FAIL co chu di
 }
 ```
 
-Neu thieu `assertions`, bo sinh dien assertion mac dinh theo `sec` tu bang
-`SEC_DEFAULT_ASSERT` trong `gen_testcases.py`. **Bang do bam theo `eshop-sut/README.md`
-muc 9 (ban that), khong phai bang SEC suy dien theo OWASP** — xem `report/00_environment.md`
-muc 4 de biet vi sao dieu nay tung sai.
+Nếu thiếu `assertions`, bộ sinh điền assertion mặc định theo `sec` từ bảng
+`SEC_DEFAULT_ASSERT` trong `gen_testcases.py`. **Bảng đó bám theo `eshop-sut/README.md`
+mục 9 (bản thật), không phải bảng SEC suy diễn theo OWASP** — xem `report/00_environment.md`
+mục 4 để biết vì sao điều này từng sai.
 
-Ham `coverage()` canh bao neu chua du 7 ma SEC-01..SEC-07.
+Hàm `coverage()` cảnh báo nếu chưa đủ 7 mã SEC-01..SEC-07.
 
-## 5. `schema_cases[]` — nguon cua nhom SCH
+## 5. `schema_cases[]` — nguồn của nhóm SCH
 
 ```jsonc
 {
@@ -156,21 +156,21 @@ Ham `coverage()` canh bao neu chua du 7 ma SEC-01..SEC-07.
 }
 ```
 
-`schema_ref` duoc `build_collection.py` dich thanh mot loi goi
+`schema_ref` được `build_collection.py` dịch thành một lời gọi
 `pm.response.to.have.jsonSchema(schemas["product"])` trong tests script.
 
-## 6. Rang buoc bat buoc khi sua file spec
+## 6. Ràng buộc bắt buộc khi sửa file spec
 
-1. **`sec` phai nam trong SEC-01..SEC-07 that.** Dat sai ma la loi nghiem trong: no lam
-   sai toan bo bang do phu bao mat trong bao cao.
-2. **`expected_status` luon viet theo SRS**, khong bao gio viet theo hanh vi thuc te. Case
-   nao phoi bay bug thi dat them `bug` — bo sinh se tu gan tag `@bug`, va nguoi doc bao cao
-   hieu ngay day la "expected failure".
-3. **Khong hardcode host.** Luon dung `{{baseUrl}}` va cac bien Postman khac.
-4. **Chi dung du lieu co that trong `database.js`.** Vi du: chi co 4 ma giam gia
-   `SAVE10` / `BIGBUY` / `VIP100` / `EXPIRED`; khong co ma nao `is_active = 0`.
-   Dat mot gia tri khong ton tai lam cho test that bai vi ly do sai.
-5. **Kiem tra lai sau moi lan sua:**
+1. **`sec` phải nằm trong SEC-01..SEC-07 thật.** Đặt sai mã là lỗi nghiêm trọng: nó làm
+   sai toàn bộ bảng độ phủ bảo mật trong báo cáo.
+2. **`expected_status` luôn viết theo SRS**, không bao giờ viết theo hành vi thực tế. Case
+   nào phơi bày bug thì đặt thêm `bug` — bộ sinh sẽ tự gắn tag `@bug`, và người đọc báo cáo
+   hiểu ngay đây là "expected failure".
+3. **Không hardcode host.** Luôn dùng `{{baseUrl}}` và các biến Postman khác.
+4. **Chỉ dùng dữ liệu có thật trong `database.js`.** Ví dụ: chỉ có 4 mã giảm giá
+   `SAVE10` / `BIGBUY` / `VIP100` / `EXPIRED`; không có mã nào `is_active = 0`.
+   Đặt một giá trị không tồn tại làm cho test thất bại vì lý do sai.
+5. **Kiểm tra lại sau mỗi lần sửa:**
 
 ```bash
 python3 -c "import json,glob;[json.load(open(f,encoding='utf-8')) for f in glob.glob('spec/api-*.json')];print('spec OK')"
