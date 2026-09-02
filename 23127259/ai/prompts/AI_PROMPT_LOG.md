@@ -24184,3 +24184,38 @@ canonical self-check validator, run all 5 static validators, collection parser r
 Run03 artifact freeze, environment cleanliness, do not run Run03, git commit, end report]
 ```
 
+---
+
+## INT-049
+
+- **Interaction ID:** INT-049
+- **Date & Time:** 2026-09-02 08:56:07+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Stage:** Phase 2D.1D.3.1 – FR-10 AI-028 Tampered-JWT Fail-Fast Hardening
+- **Detailed Interaction File:** `ai/interactions/INT-049-fr10-ai028-tampered-jwt-failfast-hardening.md`
+
+### Submitted Prompt
+
+```text
+/Speckit /Speckit Perform ONE FINAL MICRO-HARDENING before Run 03.
+
+PHASE 2D.1D.3.1 – FR-10 AI-028 TAMPERED-JWT FAIL-FAST HARDENING
+
+Current canonical repair commit: ff510ae
+
+DO NOT run Newman.
+DO NOT send HTTP.
+DO NOT call localhost.
+DO NOT confirm defects.
+DO NOT create GitHub Issues.
+
+Everything from Phase 2D.1D.3 is accepted EXCEPT one remaining harness issue in
+FR10-AI-028.
+
+[Sections 1-17: AI Audit, preserve immutable artifacts, defect in current AI-028 harness,
+required AI-028 fail-fast logic, no fallback token, preserve header and payload,
+security / secret hygiene, harden canonical validator, optional dedicated static check,
+re-run all static validators, verify AI-028 collection item, other canonical cases must not change,
+freeze Run03 artifacts again, environment cleanliness, do not run Run03, git commit, end report]
+```
+

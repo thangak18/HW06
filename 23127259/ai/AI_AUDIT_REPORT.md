@@ -388,3 +388,11 @@
 - **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2160, Output: Pending backfill)
 - **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-048`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** [`ai/interactions/INT-048-fr10-canonical-collection-repair-run03.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-048-fr10-canonical-collection-repair-run03.md)
+
+### INT-049: Phase 2D.1D.3.1: FR-10 AI-028 Tampered-JWT Fail-Fast Hardening
+- **Date & Time:** 2026-09-02 08:56:07+07:00
+- **Tool / Model:** Antigravity IDE Assistant / Gemini 3.7 Flash
+- **Purpose:** Phase 2D.1D.3.1: Micro-hardening of `FR10-AI-028` tampered JWT generation pre-request script (elimination of fallback branch, strict 3-segment check, fail-fast exceptions), dedicated validator creation, and collection re-freeze for Run 03
+- **Transcript Reference:** `transcript_full.jsonl` (Prompt: Step 2162, Output: Pending backfill)
+- **Prompt Log Reference:** [`ai/prompts/AI_PROMPT_LOG.md#int-049`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Detailed Interaction File:** [`ai/interactions/INT-049-fr10-ai028-tampered-jwt-failfast-hardening.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-049-fr10-ai028-tampered-jwt-failfast-hardening.md)

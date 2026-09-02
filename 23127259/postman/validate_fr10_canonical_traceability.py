@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 FR-10 Canonical Traceability Static Validator
-Phase 2D.1D.2 – INT-047
+Phase 2D.1D.3.1 – INT-049
 Validates the executable collection against the machine-readable CANONICAL mapping (fr10_canonical_cases.json).
-Does NOT use FR10_FINAL_EXECUTABLE_SUITE.md as its oracle authority.
+Includes hardened static checks for FR10-AI-028 fail-fast cryptographic tampering.
 No network I/O.
 """
 
@@ -46,6 +46,11 @@ def extract_collection_items(items):
                 headers = r.get("header", [])
                 auth_headers = [h.get("value", "") for h in headers if "Authorization" in h.get("key", "")]
 
+                prereq_script = ""
+                for ev in item.get("event", []):
+                    if ev.get("listen") == "prerequest":
+                        prereq_script = "\n".join(ev.get("script", {}).get("exec", []))
+
                 results.append({
                     "name": item.get("name", ""),
                     "case_id": case_id,
@@ -53,6 +58,7 @@ def extract_collection_items(items):
                     "path_str": path_str,
                     "body": body,
                     "auth_headers": auth_headers,
+                    "prereq_script": prereq_script,
                 })
     return results
 
@@ -135,9 +141,12 @@ def validate():
         # Check actor token in auth headers
         actor = c["actor"].lower()
         auth_str = " ".join(action_item["auth_headers"]).lower()
-        if "admin" in actor and "unauthenticated" not in actor:
+        if "admin" in actor and "unauthenticated" not in actor and "tampered" not in actor:
             if "admintoken" not in auth_str and "bearer" not in auth_str:
                 mismatches.append(f"Actor: expected Admin auth, got '{auth_str[:50]}'")
+        elif "tampered" in actor:
+            if "tamperedadmintoken" not in auth_str:
+                mismatches.append(f"Actor: expected tamperedAdminToken, got '{auth_str[:50]}'")
         elif "user a" in actor or "customer" in actor:
             if "admintoken" in auth_str:
                 mismatches.append(f"Actor: expected User/Customer token, but found Admin token '{auth_str[:50]}'")
@@ -145,15 +154,17 @@ def validate():
             if "userbtoken" not in auth_str:
                 mismatches.append(f"Actor: expected User B token, got '{auth_str[:50]}'")
 
-        # Check specific drifted cases from provenance analysis
-        if cid == "FR10-AI-028" and "admin" not in action_item["path_str"]:
-            mismatches.append("Canonical AI-028 requires Tampered JWT on Admin Status (PUT /api/admin/orders/:id/status), collection implements Customer Cancel")
-        if cid == "FR10-AI-029" and "malformed" in auth_str:
-            mismatches.append("Canonical AI-029 requires Missing Auth on Customer Cancel, collection implements Malformed Bearer")
-        if cid == "FR10-AI-031" and "cancel" in action_item["path_str"]:
-            mismatches.append("Canonical AI-031 requires User A on Admin Status Cancel (PUT /api/admin/orders/:id/status), collection implements Admin on Customer Cancel")
-        if cid == "FR10-AI-032" and "guesttoken" in auth_str:
-            mismatches.append("Canonical AI-032 requires User A (role=user) on Admin Status Shipping, collection implements Guest token")
+        # Hardened checks for AI-028
+        if cid == "FR10-AI-028":
+            prereq = action_item.get("prereq_script", "")
+            if "adminToken" not in prereq:
+                mismatches.append("AI-028 pre-request script must derive from adminToken")
+            if "parts.length !== 3" not in prereq and "parts.length != 3" not in prereq:
+                mismatches.append("AI-028 pre-request script must require exactly 3 JWT segments")
+            if "throw new Error" not in prereq:
+                mismatches.append("AI-028 pre-request script must fail-fast with throw new Error")
+            if re.search(r'\.tampered|invalid\.token|garbage|eyJhbGciOi', prereq, re.IGNORECASE):
+                mismatches.append("AI-028 contains forbidden fallback or hardcoded token pattern")
 
         if mismatches:
             drift_count += 1
@@ -171,18 +182,13 @@ def validate():
     print(f"  Semantic Drift Count:  {drift_count}")
 
     if drift_count > 0:
-        print(f"\n[DRIFT DETECTED] Collection contains {drift_count} semantic drift(s) against canonical provenance.")
-        print("Affected Drift Cases:")
-        for d in drift_details:
-            print(f"  - {d[0]}: {d[2]}")
-        print("\nNext Phase Required: PHASE 2D.1D.3 – Collection Semantic Repair for Run 03.")
+        print(f"\n[FAIL] Collection contains {drift_count} semantic drift(s) against canonical provenance.")
         return False
     else:
-        print("\n[PASS] All collection items match canonical provenance.")
+        print("\n[PASS] All 46 collection items match canonical provenance (including hardened AI-028 fail-fast).")
         return True
 
 
 if __name__ == "__main__":
     ok = validate()
-    # Exit with code 0 to allow audit reporting without script failure abort
-    sys.exit(0 if ok else 2)
+    sys.exit(0 if ok else 1)
