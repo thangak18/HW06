@@ -73,6 +73,12 @@ Bộ `contract` **không** khẳng định "API này đúng". Nó khẳng địn
 
 ## 3. Hai lần chạy bắt buộc
 
+**Ảnh chụp tab Actions** — thấy rõ cả hai lần chạy bắt buộc trong cùng một danh sách:
+commit `cb5939e` (merge PR #72 vào `main`) chạy xanh, và commit `2240802` (nhánh
+`feat/23127060-hw06`) chạy đỏ đúng ý đồ, kèm commit `2e435b4` trả về xanh ngay sau đó.
+
+![Danh sách các lần chạy GitHub Actions — PASS, FAIL, revert](../bugs/screenshots/Workflow_CI_CD.png)
+
 ### 3.1 Lần chạy PASS — chế độ `contract`
 
 | | |
@@ -183,6 +189,6 @@ một nhánh khớp `branches: [main, master, "feat/23127060-**"]` — đó là 
 - [x] Link run FAIL, job đỏ, log có dòng `TC-A1-DOM-012 ... expected response to have status code 201 but got 200` — [Run #33665075630](https://github.com/thangak18/HW06/actions/runs/33665075630)
 - [x] Hai commit hash đã điền vào mục 3.1 / 3.2
 - [x] Đã chạy `inject_failing_test.py --revert` và commit lại (`2e435b4`)
-- [ ] Ảnh chụp `ci/evidence/ci_run_pass.png` / `ci_run_fail.png` — link run ở trên đã đủ làm
-      bằng chứng kiểm chứng lại được; ảnh chụp là tùy chọn bổ sung, không bắt buộc theo
+- [x] Ảnh chụp tab Actions — [`bugs/screenshots/Workflow_CI_CD.png`](../bugs/screenshots/Workflow_CI_CD.png)
+      (thấy cả lần PASS, FAIL và revert trong cùng một danh sách chạy)
       `validate_submission.py`.
