@@ -8,7 +8,7 @@
 | Repo công khai | https://github.com/thangak18/HW06 (nhánh `main`, PR [#72](https://github.com/thangak18/HW06/pull/72)) |
 | SUT | https://github.com/ttbhanh/eshop-sut, commit `85af3ba875c88283615e22cb108f13e2fccaf0e9` |
 | Ngày làm | 01/09/2026 |
-| Video demo bộ sinh (tùy chọn) | `<điền link YouTube — kịch bản ở agent-skill/VIDEO_SCRIPT.md>` |
+| Video demo bộ sinh (tùy chọn) | https://youtu.be/JZwzS1jXhUw |
 
 **Báo cáo chính:** [`report/MAIN_REPORT.md`](report/MAIN_REPORT.md)
 
@@ -223,7 +223,7 @@ python3 $S/validate_submission.py --root . --sid 23127060
 | Postman collection `.json` | ✅ | `postman/collections/` (7 file) |
 | Danh sách Postman feature | ✅ | `report/05_postman_features.md` (23 feature) |
 | Newman report HTML | ✅ | `newman/` (10 file) |
-| Báo cáo CI/CD + 2 lần chạy | ⚠️ cấu hình xong, **chưa push** | `ci/CI_CD_REPORT.md` |
+| Báo cáo CI/CD + 2 lần chạy | ✅ | `ci/CI_CD_REPORT.md` (2 run thật trên GitHub Actions) |
 | Excel test case + sheet Summary | ✅ | `testcases/23127060_HW06_testcases.xlsx` |
 | Sơ đồ bộ sinh (**TỰ VẼ**) | ✅ | `agent-skill/diagram/23127060_generator_diagram.png` (draw.io) |
 | Pseudocode bộ sinh | ✅ | `agent-skill/pseudocode/generator.pseudo.md` |
@@ -238,16 +238,12 @@ python3 $S/validate_submission.py --root . --sid 23127060
 
 ```
 $ python3 agent-skill/eshop-api-23127060/scripts/validate_submission.py --root . --sid 23127060
-PASS=62  WARN=2  FAIL=3
-
-CHO SINH VIEN LAM (3 muc, khong tu dong hoa duoc):
-  - Diagram bo sinh test        -> H1: ve tay theo agent-skill/diagram/DIAGRAM_BRIEF.md
-  - Link GitHub Issues          -> H3: mo Issue tu bugs/ISSUE_TEMPLATES/*.md
-  - Screenshot Issues + Console -> H3+H4: chup man hinh, luu vao bugs/screenshots/
+PASS=65  WARN=2  FAIL=0
+OK. Nen nop.
 ```
 
-Ba mục còn lại **không thể tự động hóa**: một mục bị đề bài cấm AI làm (sơ đồ phải tự vẽ), hai
-mục còn lại đòi hỏi thao tác trên giao diện và quyền truy cập tài khoản GitHub.
+Toàn bộ mục bắt buộc đã xong: sơ đồ tự vẽ (H1), 34 GitHub Issue (H3), ảnh chụp Postman Console
+và Issues (H4), CI/CD chạy thật trên GitHub Actions (H5), và video demo (H7, tùy chọn).
 
 ---
 

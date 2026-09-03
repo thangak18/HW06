@@ -118,8 +118,12 @@ bash agent-skill/eshop-api-23127060/scripts/run_newman.sh API-3
 
 ## Bảng kiểm sau khi quay
 
+> Video đã up: https://youtu.be/JZwzS1jXhUw — link đã điền vào `README.md` và
+> `report/MAIN_REPORT.md`. Bốn dòng đầu em tự xác nhận khi xem lại video (AI không xem được
+> nội dung video).
+
 - [ ] Video < 8 phút, tiếng nói rõ
 - [ ] Có cảnh **chạy thật** trong terminal (không phải ảnh tĩnh)
 - [ ] Có cảnh mở **sơ đồ tự vẽ**
 - [ ] Có cảnh mở báo cáo HTML của Newman
-- [ ] Up YouTube chế độ **unlisted**, điền link vào `README.md` và `report/MAIN_REPORT.md`
+- [x] Up YouTube, điền link vào `README.md` và `report/MAIN_REPORT.md`
