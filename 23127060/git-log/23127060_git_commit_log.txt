@@ -1,10 +1,32 @@
 # Git commit log — HW06 API Testing — SV 23127060 (Ninh Văn Khải)
-# Sinh lúc: 2026-09-02T20:40:11+07:00
+# Sinh lúc: 2026-09-03T10:55:34+07:00
 # Lệnh: git log --pretty=format:'%h | %ad | %s' --date=iso -- 23127060 members/23127060 .github/workflows/api-tests-23127060.yml
 # Ghi chú: đường dẫn cũ `members/23127060` được giữ trong lệnh để log không đứt
 #          ở các commit trước khi nhóm đổi cấu trúc thư mục (02/09/2026).
-# Tổng: 23 commit
+# Tổng: 45 commit
 
+b147fc1 | 2026-09-03 10:55:21 +0700 | HW06(23127060): tao file tu danh gia rieng, don dep file thua, them PDF xuat lai
+db57197 | 2026-09-03 10:43:07 +0700 | HW06(23127060): nhung anh so do that vao MAIN_REPORT.md muc 10
+165cc20 | 2026-09-03 10:25:12 +0700 | HW06(23127060): them link video demo YouTube, cap nhat trang thai H3-H9
+b3686aa | 2026-09-03 01:16:19 +0700 | HW06(23127060): them anh chup Actions lam bang chung CI/CD
+275dac9 | 2026-09-03 01:09:10 +0700 | HW06(23127060): dien ket qua CI that (2 lan chay tren GitHub Actions)
+2e435b4 | 2026-09-03 01:06:25 +0700 | ci: revert the demo failing assertion
+2240802 | 2026-09-03 01:05:20 +0700 | ci: introduce one failing assertion to demo pipeline failure
+755453a | 2026-09-03 00:59:31 +0700 | HW06(23127060): dien bang tu danh gia = 100/100
+e1addb6 | 2026-09-03 00:55:31 +0700 | HW06(23127060): them 9 anh chup man hinh, nhung vao bao cao - validator FAIL=0
+552c1f9 | 2026-09-03 00:17:16 +0700 | HW06(23127060): chot 3 muc human review da xong (H1, H2, H8)
+e245934 | 2026-09-03 00:09:29 +0700 | HW06(23127060): mo 34 GitHub Issue + nhung link nguoc vao bao cao
+fe9c2cc | 2026-09-03 00:02:08 +0700 | HW06(23127060): chay lai 2 kich ban CI de dong bo bang chung
+d56b067 | 2026-09-02 23:59:13 +0700 | HW06(23127060): tieng Viet co dau cho chuoi du lieu + chay lai toan bo, so lieu khop 100%
+bba4d41 | 2026-09-02 23:28:00 +0700 | HW06(23127060): tieng Viet co dau cho comment va docstring cua 14 script
+01ebdcd | 2026-09-02 23:16:19 +0700 | HW06(23127060): tieng Viet co dau cho RESTRUCTURE.md + dong bo ban sao .claude/
+7a8edb6 | 2026-09-02 23:14:37 +0700 | HW06(23127060): tieng Viet co dau cho pseudocode, DIAGRAM_BRIEF, VIDEO_SCRIPT
+086f4d6 | 2026-09-02 23:10:35 +0700 | HW06(23127060): tieng Viet co dau cho API_SPEC_NOTES.md (tai lieu tham chieu lon nhat)
+1ae0df8 | 2026-09-02 23:08:19 +0700 | HW06(23127060): tieng Viet co dau cho WORKFLOW.md, REPORT_OUTLINE.md
+c692b72 | 2026-09-02 23:06:02 +0700 | HW06(23127060): tieng Viet co dau cho SKILL.md, POSTMAN_GUIDE.md, TESTCASE_TAXONOMY.md
+a4c7695 | 2026-09-02 23:02:26 +0700 | HW06(23127060): them so do tu ve + tieng Viet co dau cho README/CLAUDE/_SCHEMA
+32c7f59 | 2026-09-02 20:40:55 +0700 | HW06(23127060): thuc su bo MAIN_REPORT.html khoi git + them vao .gitignore
+d144911 | 2026-09-02 20:40:31 +0700 | HW06(23127060): sinh lai git commit log + bo file HTML trung gian khoi git
 b24116f | 2026-09-02 20:38:38 +0700 | HW06(23127060): dot 6 - tieng Viet co dau cho bug report 34 bug + xuat lai 4 PDF
 91ec9f5 | 2026-09-02 20:34:06 +0700 | HW06(23127060): dot 5 - tieng Viet co dau cho bao cao chinh va CI/CD
 6a331cd | 2026-09-02 20:29:43 +0700 | HW06(23127060): dot 4 - tieng Viet co dau cho STEP 3 (audit test case)
