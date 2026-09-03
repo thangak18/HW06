@@ -2,7 +2,7 @@
 
 ## Sync Commit
 
-PENDING_STABILIZATION_COMMIT
+`3865bc017374249fa9f6c67858049c5fda6c34b6` - `audit(23127259): stabilize cross-agent forensic corrections`
 
 ## Primary Branch
 
