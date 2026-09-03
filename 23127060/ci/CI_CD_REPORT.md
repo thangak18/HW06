@@ -2,26 +2,26 @@
 
 > SV **Ninh Văn Khải — 23127060** | Đề bài mục 6 (Integrate into CI/CD)
 
-Đề bài: *"Add your API test cases to a CI/CD pipeline for the SUT... and write a short CI/CD
+Đề bài: _"Add your API test cases to a CI/CD pipeline for the SUT... and write a short CI/CD
 report describing the pipeline configuration and the two runs below, with screenshots and
 links. Provide two sample commits: one whose pipeline run shows all API test cases passing,
-and another whose pipeline run shows one test case failing."*
+and another whose pipeline run shows one test case failing."_
 
 ---
 
 ## 1. Cấu hình pipeline
 
-| Hạng mục | Giá trị |
-|---|---|
-| Nền tảng | GitHub Actions |
-| File workflow | `.github/workflows/api-tests-23127060.yml` (bản sao: `ci/api-tests-23127060.yml`) |
-| Runner | `ubuntu-latest`, giới hạn 20 phút |
-| Kích hoạt | `push` và `pull_request` chạm vào `23127060/**`, hoặc chạy tay bằng `workflow_dispatch` |
-| Node.js | 20 |
-| Công cụ | `newman` + `newman-reporter-htmlextra` (cài toàn cục) |
-| SUT | Clone `ttbhanh/eshop-sut` và **ghim đúng commit `85af3ba`** |
-| Base URL | `http://localhost:3000` — thỏa yêu cầu chống gian lận của đề bài mục 11 |
-| Sản phẩm đầu ra | Báo cáo HTML + JSON tải lên làm artifact, giữ 30 ngày |
+| Hạng mục        | Giá trị                                                                                 |
+| --------------- | --------------------------------------------------------------------------------------- |
+| Nền tảng        | GitHub Actions                                                                          |
+| File workflow   | `.github/workflows/api-tests-23127060.yml` (bản sao: `ci/api-tests-23127060.yml`)       |
+| Runner          | `ubuntu-latest`, giới hạn 20 phút                                                       |
+| Kích hoạt       | `push` và `pull_request` chạm vào `23127060/**`, hoặc chạy tay bằng `workflow_dispatch` |
+| Node.js         | 20                                                                                      |
+| Công cụ         | `newman` + `newman-reporter-htmlextra` (cài toàn cục)                                   |
+| SUT             | Clone `ttbhanh/eshop-sut` và **ghim đúng commit `85af3ba`**                             |
+| Base URL        | `http://localhost:3000` — thỏa yêu cầu chống gian lận của đề bài mục 11                 |
+| Sản phẩm đầu ra | Báo cáo HTML + JSON tải lên làm artifact, giữ 30 ngày                                   |
 
 ### Các bước trong job
 
@@ -61,10 +61,10 @@ của SUT, tức là **ngụy tạo kết quả**.
 
 Vì vậy pipeline có hai chế độ:
 
-| Chế độ | Chạy gì | Kỳ vọng | Dùng để làm gì |
-|---|---|---|---|
-| `contract` | 84 test case mà SUT **hiện đang** đáp ứng | ✅ XANH | Mốc hồi quy — báo động khi một điều đang đúng bị phá |
-| `full` | Toàn bộ 243 test case, oracle là đặc tả | ❌ ĐỎ (đúng ý đồ) | Kết quả kiểm thử thật sự; đo khoảng cách giữa đặc tả và hiện thực |
+| Chế độ     | Chạy gì                                   | Kỳ vọng        | Dùng để làm gì                                                    |
+| ---------- | ----------------------------------------- | -------------- | ----------------------------------------------------------------- |
+| `contract` | 84 test case mà SUT **hiện đang** đáp ứng | XANH           | Mốc hồi quy — báo động khi một điều đang đúng bị phá              |
+| `full`     | Toàn bộ 243 test case, oracle là đặc tả   | ĐỎ (đúng ý đồ) | Kết quả kiểm thử thật sự; đo khoảng cách giữa đặc tả và hiện thực |
 
 Bộ `contract` **không** khẳng định "API này đúng". Nó khẳng định "những điều API này đang làm
 đúng thì không được phá". Danh sách 84 case đó được suy ra từ **kết quả chạy thật** bằng
@@ -81,13 +81,13 @@ commit `cb5939e` (merge PR #72 vào `main`) chạy xanh, và commit `2240802` (n
 
 ### 3.1 Lần chạy PASS — chế độ `contract`
 
-| | |
-|---|---|
-| **Commit** | [`cb5939e`](https://github.com/thangak18/HW06/commit/cb5939e4e8b31e378fc6bf14fe79d5555c003091) (merge PR #72, nhánh `nvk` → `main`) |
-| **Thông điệp commit** | `Merge pull request #72 from thangak18/nvk` |
-| **Link run** | [Run #33664683452](https://github.com/thangak18/HW06/actions/runs/33664683452) |
-| **Kết quả thực tế** | ✅ **success** — 406 assertion, **0 thất bại**, job xanh |
-| **Kết quả mong đợi** | 84 test case, **406 assertion, 0 thất bại**, job xanh |
+|                       |                                                                                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Commit**            | [`cb5939e`](https://github.com/thangak18/HW06/commit/cb5939e4e8b31e378fc6bf14fe79d5555c003091) (merge PR #72, nhánh `nvk` → `main`) |
+| **Thông điệp commit** | `Merge pull request #72 from thangak18/nvk`                                                                                         |
+| **Link run**          | [Run #33664683452](https://github.com/thangak18/HW06/actions/runs/33664683452)                                                      |
+| **Kết quả thực tế**   | **success** — 406 assertion, **0 thất bại**, job xanh                                                                               |
+| **Kết quả mong đợi**  | 84 test case, **406 assertion, 0 thất bại**, job xanh                                                                               |
 
 Kết quả em **đã kiểm chứng trên máy cục bộ** trước khi push (`ci/evidence/local_ci_run_pass.log`):
 
@@ -101,14 +101,14 @@ Tong:            406 assertion,  0 that bai   -> exit code 0
 
 ### 3.2 Lần chạy FAIL — làm sai đúng **một** assertion
 
-| | |
-|---|---|
-| **Commit** | [`2240802`](https://github.com/thangak18/HW06/commit/2240802) (nhánh `feat/23127060-hw06`) |
-| **Thông điệp commit** | `ci: introduce one failing assertion to demo pipeline failure` |
-| **Link run** | [Run #33665075630](https://github.com/thangak18/HW06/actions/runs/33665075630) |
-| **Kết quả thực tế** | ❌ **failure** — 406 assertion, **đúng 1 thất bại**, job đỏ |
-| **Kết quả mong đợi** | 406 assertion, **đúng 1 thất bại**, job đỏ |
-| **Commit revert** | [`2e435b4`](https://github.com/thangak18/HW06/commit/2e435b4) — `ci: revert the demo failing assertion` |
+|                       |                                                                                                         |
+| --------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Commit**            | [`2240802`](https://github.com/thangak18/HW06/commit/2240802) (nhánh `feat/23127060-hw06`)              |
+| **Thông điệp commit** | `ci: introduce one failing assertion to demo pipeline failure`                                          |
+| **Link run**          | [Run #33665075630](https://github.com/thangak18/HW06/actions/runs/33665075630)                          |
+| **Kết quả thực tế**   | **failure** — 406 assertion, **đúng 1 thất bại**, job đỏ                                                |
+| **Kết quả mong đợi**  | 406 assertion, **đúng 1 thất bại**, job đỏ                                                              |
+| **Commit revert**     | [`2e435b4`](https://github.com/thangak18/HW06/commit/2e435b4) — `ci: revert the demo failing assertion` |
 
 Thay đổi được thực hiện bằng script, để tái lập và trả lại được:
 
@@ -141,8 +141,7 @@ newman exit code = 1   -> GitHub Actions danh dau job that bai
 ```
 
 > Lưu ý kỹ thuật: `scripts/run_newman.sh` dùng cờ `--suppress-exit-code` để một API đỏ không
-> làm đứt chuỗi chạy các API còn lại ở máy cục bộ. Workflow CI **không** dùng cờ đó — nó thu
-> mã thoát của từng lần chạy và trả về mã khác 0 ở cuối job, nên GitHub Actions đánh dấu job
+> làm đứt chuỗi chạy các API còn lại ở máy cục bộ. Workflow CI **không** dùng cờ đó — nó thu mã thoát của từng lần chạy và trả về mã khác 0 ở cuối job, nên GitHub Actions đánh dấu job
 > là thất bại đúng như mong đợi.
 
 ## 4. Bằng chứng header `X-Student-Id` ngay trong pipeline
@@ -156,9 +155,6 @@ Kết quả ở máy cục bộ: **823/823 request mang `X-Student-Id: 23127060`
 thiếu** — xem `ci/evidence/header_evidence.md`.
 
 ## 5. Đã hoàn thành (03/09/2026)
-
-> ✅ Em đã được cấp quyền `push` trên `thangak18/HW06` (repo chung của nhóm) và đã đẩy mã thật.
-> Cả hai lần chạy CI dưới đây là **kết quả thật trên GitHub Actions**, không phải mô phỏng.
 
 ### Những gì đã làm
 

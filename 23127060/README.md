@@ -107,8 +107,9 @@ Chi tiết 34 bug + bằng chứng request/response thật:
 ```
 23127060/
 ├── README.md                  <- file nay
-├── CLAUDE.md                  <- luat lam viec cho Claude Code
+├── .claude/CLAUDE.md          <- luat lam viec cho Claude Code
 ├── agent-skill/
+│   ├── CLAUDE.md               <- ban sao cua luat, cung thu muc voi skill
 │   ├── eshop-api-23127060/    <- goi skill: SKILL.md + references/ + scripts/ (13 script)
 │   ├── diagram/               <- DIAGRAM_BRIEF.md (so do do SINH VIEN TU VE)
 │   ├── pseudocode/            <- generator.pseudo.md
@@ -189,6 +190,8 @@ python3 $S/validate_submission.py --root . --sid 23127060
 ---
 
 ## 6. Bảng tự đánh giá
+
+> Bản tự đánh giá đầy đủ, có lý do cho từng mục điểm: [`SELF_ASSESSMENT.md`](SELF_ASSESSMENT.md).
 
 | Mục | Yêu cầu đề bài | Điểm tối đa | Tự chấm | Bằng chứng |
 |---|---|---|---|---|
