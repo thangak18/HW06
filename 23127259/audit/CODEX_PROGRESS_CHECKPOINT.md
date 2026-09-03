@@ -2,11 +2,11 @@
 
 ## Timestamp
 
-2026-09-02 22:56:14 +0700 (Asia/Ho_Chi_Minh)
+2026-09-03 08:03:08 +0700 (Asia/Ho_Chi_Minh)
 
 ## Current Phase
 
-Phase 4 - authentic CI PASS/FAIL repair before final visual audit.
+Cross-agent synchronization before Codex-only visual audit.
 
 ## Current Status
 
@@ -52,6 +52,9 @@ IN_PROGRESS
 - Independently rejected GitHub Actions run `33649719887` as assignment PASS evidence despite its green conclusion: its logs show FR10 collection ENOENT, an initial FR14 HTML reporter error, and 13 FR14 assertion failures masked by scripts that always exited zero.
 - Replaced the CI design locally with a dedicated all-green FR02/FR10/FR14 smoke collection and a branch-local deliberate-red workflow using the same healthy harness plus one named sentinel failure.
 - Local CI validation: passing smoke = 9 requests, 10 assertions, 10 pass, 0 fail; deliberate red = 9 requests, 10 assertions, exactly 1 intended `DELIBERATE_RED` failure, 0 request/script/harness errors.
+- Pushed CI repair commit `fa6eac3`; GitHub produced candidate PASS run 33651923618 (success, 10/10 assertions) and candidate FAIL run 33651923391 (failure, exactly one DELIBERATE_RED assertion). Cursor owns final non-visual acceptance/synchronization of these runs.
+- Reconfirmed FR14 canonical machine evidence: 60 requests, 70 assertions, 58 passed, 12 failed, 0 request/script/harness errors, exit 1.
+- Consolidated TC-FR14-037/038 into BUG-FR14-003 because they exercise the same false-success-on-no-entity root cause as TC-FR14-024/025. FR14 has four unique root causes; GitHub #37 is closed as duplicate of #34.
 
 ## FR02 Canonical Accounting
 
@@ -95,11 +98,11 @@ INCOMPLETE: 37
 Usable AI: 40
 Human: 6
 Formal: 46
-PASS: NOT_YET_VERIFIED
-FAIL: NOT_YET_VERIFIED
-BLOCKED: NOT_YET_VERIFIED
-Bugs: NOT_YET_VERIFIED
-Issues: NOT_YET_VERIFIED
+PASS: 20 formal cases
+FAIL: 12 normative formal cases
+BLOCKED: 0
+Bugs: 4 unique root causes
+Issues: #32, #33, #34, #36; #37 closed duplicate
 
 ## Files Created / Modified
 
@@ -128,16 +131,16 @@ Issues: NOT_YET_VERIFIED
 ## Git State
 
 Branch: `thang/hw06-implementation`
-HEAD: `5ed6a619082e5a47d81e49b546bbbc673edec6a8`
-Last meaningful commit: `5ed6a61 fix(ci): add .npmrc with legacy-peer-deps=true`
+HEAD: `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0` (local; sync stabilization commit pending)
+Last meaningful commit: `fa6eac3 ci(23127259): add truthful pass and deliberate-red samples`
 Working tree clean: NO
-Uncommitted paths: interrupted Cursor handoff/CI report edits plus CI smoke/workflow/trigger repair and this checkpoint.
+Uncommitted paths: stabilized FR14 12-failure/4-root-cause reconciliation, CI report/handoff corrections, aggregate registry, manifest, and sync documents.
 
 ## External State
 
 SUT: Reachable through genuine FR02 and FR10 Postman Desktop Runner executions on `http://localhost:3000`.
 Postman: Live Desktop 11.89.0 controlled through Computer Use; FR02 native run and screenshots complete; FR10 strict run remains open and verified.
-GitHub Actions: run 33649719887 is authentically green but invalid as an all-tests-pass sample because the workflow masked harness/assertion failures; replacement PASS/FAIL runs pending push.
+GitHub Actions: historical green 33649719887 rejected. Candidate final runs: PASS 33651923618 and deliberate FAIL 33651923391; Cursor non-visual owner must finalize textual acceptance.
 Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place with permanent native screenshot embeds.
 
 ## Known Problems / Risks
@@ -153,10 +156,11 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 - [x] Extract and visually review all relevant assignment requirements.
 - [x] Complete independent FR02 audit and repairs.
 - [x] Complete independent FR10 audit and distinct native evidence repair.
-- [ ] Implement and execute FR14 end to end.
-- [ ] Complete AI compliance, critique, diagram, CI/CD, hygiene, README, and final audits.
-- [ ] Commit logical milestones, push the branch, and verify a clean working tree.
+- [x] Implement and execute FR14 end to end (technical; visual pending).
+- [ ] Cursor: finalize non-visual CI/report/Excel/PDF/secret/compliance synchronization.
+- [ ] Codex: complete FR02/FR10 pixel audit, then final FR14/CI/diagram/Excel/PDF visual audit after Cursor handoff.
+- [ ] Integrate Cursor non-visual branch, finish final visual documents, push, and verify clean working tree.
 
 ## NEXT EXACT ACTION
 
-Commit and push the CI smoke/workflow repair and trigger. Wait for both branch push workflows, verify the green run has zero test/harness failures and the red run has exactly the named deliberate assertion failure, then update CI reports and capture genuine Actions screenshots.
+Commit and push the stabilized interrupted corrections plus `CROSS_AGENT_SYNC.md`, create `thang/cursor-nonvisual` at the synchronization point in `/Volumes/Thang/HW06/HW06-cursor-nonvisual`, then begin Codex-owned FR02/FR10 pixel audit only.

@@ -31,8 +31,8 @@
 
 | # | Requirement | FR02 | FR10 | FR14 | Technical Basis |
 |:---:|---|---|---|---|---|
-| C1 | Markdown bug reports | PASS (3) | PASS (3) | PASS (5) | `bugs/BUG-FR*-*.md` |
-| C2 | GitHub Issues filed | PASS (#1/#2/#3) | PASS (#29/#30/#31) | PASS (#32/#33/#34 + 2 PENDING_GH_ISSUE) | Live issue URLs |
+| C1 | Markdown bug reports | PASS (3) | PASS (3) | PASS (4 distinct root causes) | `bugs/BUG-FR*-*.md` |
+| C2 | GitHub Issues filed | PASS (#1/#2/#3) | PASS (#29/#30/#31) | PASS (#32/#33/#34/#36; #37 closed duplicate) | Live issue URLs |
 | C3 | Requirement source cited | PASS | PASS | PASS | Each bug report links to SRS / API spec section |
 
 ## D. AI Compliance
@@ -51,8 +51,8 @@
 | # | Requirement | Technical | Visual |
 |:---:|---|---|---|
 | E1 | Workflow YAML in `.github/workflows/` | PASS (2 files) | N/A |
-| E2 | PASS sample run | PASS (workflow configured) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
-| E3 | FAIL sample run | PASS (deliberate-red workflow) | PENDING_AUTHENTIC_RUN_URL; PENDING_CODEX_VISUAL_AUDIT |
+| E2 | PASS sample run | PASS ([run 33651923618](https://github.com/thangak18/HW06/actions/runs/33651923618): 9 requests, 10/10 assertions, 0 harness errors) | PENDING_CODEX_VISUAL_AUDIT |
+| E3 | FAIL sample run | PASS ([run 33651923391](https://github.com/thangak18/HW06/actions/runs/33651923391): exactly one DELIBERATE_RED assertion failure) | PENDING_CODEX_VISUAL_AUDIT |
 | E4 | CI/CD report describes pipeline | PASS (`ci/CI_CD_REPORT.md`) | PENDING_CODEX_VISUAL_AUDIT (PDF) |
 
 ## F. Submission Deliverables

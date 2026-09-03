@@ -6,8 +6,8 @@
 |---|---:|
 | Total HTTP requests | 60 |
 | Total pm.test() assertions | 70 |
-| Passed assertions | 57 |
-| Failed assertions | 13 |
+| Passed assertions | 58 |
+| Failed assertions | 12 |
 | Request errors | 0 |
 | Script errors | 0 |
 | Harness errors | 0 |
@@ -70,9 +70,9 @@ Each formal ID receives exactly one final verdict.
 
 | Verdict | Count |
 |---|---:|
-| PASS | 30 |
-| FAIL — NORMATIVE ORACLE VIOLATION | 10 |
-| EXPLORATORY OBSERVATION | 6 |
+| PASS | 20 |
+| FAIL — NORMATIVE ORACLE VIOLATION | 12 |
+| EXPLORATORY OBSERVATION | 14 |
 | BLOCKED | 0 |
 | **Total** | **46** |
 
@@ -82,9 +82,8 @@ Each formal ID receives exactly one final verdict.
 |---|---|---|
 | BUG-FR14-001 | TC-FR14-012, TC-FR14-013, TC-FR14-014 | `role=user` can mutate categories (RBAC violation) |
 | BUG-FR14-002 | TC-FR14-016, TC-FR14-017, TC-FR14-018, TC-FR14-019 | Empty/null/whitespace/missing name accepted (FR-14 violation) |
-| BUG-FR14-003 | TC-FR14-024, TC-FR14-025 | Nonexistent ID mutations report false-success (CRUD integrity violation) |
+| BUG-FR14-003 | TC-FR14-024, TC-FR14-025, TC-FR14-037, TC-FR14-038 | Nonexistent/already-deleted entity mutations report false-success (one CRUD-integrity root cause) |
 | BUG-FR14-004 | TC-FR14-H05 | Empty PUT body corrupts existing name to null (FR-14 mutation integrity) |
-| BUG-FR14-005 | TC-FR14-037, TC-FR14-038 | Deleted entity mutations report false-success (CRUD integrity) |
 
 ## Canonical Evidence
 

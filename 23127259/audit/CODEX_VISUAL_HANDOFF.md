@@ -24,12 +24,12 @@
 
 | Item | Expected Path | What the screenshot must prove |
 |---|---|---|
-| Console screenshot (collection) | `23127259/evidence/postman/FR02_POSTMAN_CONSOLE_SCREENSHOT.png` | Postman Console shows outgoing requests with `X-Student-Id: 23127259` header on every request (login attempts, lockout, register, recovery). |
-| Runner screenshot (collection) | `23127259/evidence/postman/FR02_POSTMAN_RUNNER_SCREENSHOT.png` | Postman Runner green/red pass-fail view of FR02 collection. Must show non-zero iterations, an `X-Student-Id` column or pre-request script trace, and green assertions. |
+| Console screenshot (collection) | `23127259/evidence/postman/FR02-postman-console-x-student-id.png` | Real Postman Console shows an FR02 request to localhost with `X-Student-Id: 23127259`. |
+| Runner screenshot (collection) | `23127259/evidence/postman/FR02-postman-runner-result.png` | Real Postman Runner shows FR02 collection, FR02-local, 71 assertions, 67 passed, 4 failed, 0 errors. |
 | Newman CLI/JSON/HTML | `23127259/newman/fr02/FR02-run-03.{json,html}` | Sanitized Newman outputs. Codex should re-open the HTML and visually verify the table shows expected case names and pass/fail counts. |
-| Bug #1 screenshot | PENDING_CODEX | Visible plaintext password leak in `/api/users` response. |
-| Bug #2 screenshot | PENDING_CODEX | Multiple `/api/login` attempts without rate-limit / lockout escalation. |
-| Bug #3 screenshot | PENDING_CODEX | Account-lockout counter reset observation (exploratory). |
+| Bug #1 screenshot | `23127259/bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png` | Login response exposes plaintext password. |
+| Bug #2 screenshot | `23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png` | Correct login remains rejected after the documented 30-second lock expires. |
+| Bug #3 screenshot | `23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png` | Correct login is rejected after only two failed attempts. |
 
 **Visual status: PENDING_CODEX_VISUAL_AUDIT**
 
@@ -39,12 +39,12 @@
 
 | Item | Expected Path | What the screenshot must prove |
 |---|---|---|
-| Console screenshot (Run04) | `23127259/evidence/postman/FR10_POSTMAN_CONSOLE_SCREENSHOT.png` | Postman Console for Run04 (canonical Run04). Must show `X-Student-Id: 23127259` on every request. |
+| Console screenshot | `23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png` | Real Postman Console shows FR10 localhost request and student header. |
 | Runner screenshot (Run04) | `23127259/evidence/postman/FR10_POSTMAN_RUNNER_SCREENSHOT.png` | Runner view of FR10 collection Run04. Must show 176 HTTP operations, 12 red assertions corresponding to 3 confirmed normative bugs. |
 | Newman CLI/JSON/HTML | `23127259/evidence/fr10/newman/public-safe/FR10-run04-*.{txt,json,html}` | Sanitized Newman outputs. HTML must show case names, methods, statuses, pass/fail. |
-| Bug #29 screenshot | PENDING_CODEX | Owner cancels confirmed order despite RBAC (canonical TC `FR10-AI-007`). |
-| Bug #30 screenshot | PENDING_CODEX | Non-existent order status update returns 200 with echoed payload (TC `FR10-AI-034`). |
-| Bug #31 screenshot | PENDING_CODEX | Delivered order can be re-shipped (TC `FR10-AI-033`). |
+| Bug #29 screenshot | `23127259/evidence/fr10/bugs/BUG-FR10-001-postman-runner.png` | Owner User cancels a shipping order; HTTP 200 and persisted canceled state. |
+| Bug #30 screenshot | `23127259/evidence/fr10/bugs/BUG-FR10-002-postman-runner.png` | Canceled terminal order transitions to delivered. |
+| Bug #31 screenshot | `23127259/evidence/fr10/bugs/BUG-FR10-003-postman-runner.png` | Normal `role=user` token mutates order status through Admin route. |
 | Historical Run03 evidence | `23127259/evidence/postman/FR10_HON_RUN03_HISTORICAL.png` | Historical run captured before the canonical correction; must be **excluded** from final visual evidence. Codex must visually confirm it is not used as primary evidence. |
 
 **Visual status: PENDING_CODEX_VISUAL_AUDIT**
@@ -60,9 +60,8 @@
 | Newman CLI/JSON/HTML | `23127259/evidence/fr14/newman/FR14-run01.{cli,json,html}` (and `FR14-run01-sanitized.{json,html}`) | Sanitized public-safe outputs. |
 | Bug #32 screenshot | PENDING_CODEX | Non-admin `customer` role mutates categories (TC `TC-FR14-014`). |
 | Bug #33 screenshot | PENDING_CODEX | Empty / null / whitespace / missing name accepted on POST `/api/categories` (TCs `TC-FR14-016..019`). |
-| Bug #34 screenshot | PENDING_CODEX | Nonexistent category PUT/DELETE returns 200 with false-success (TCs `TC-FR14-024`, `TC-FR14-025`). |
-| BUG-FR14-004 screenshot | PENDING_CODEX (Issue pending `GH_AUTH_REQUIRED`) | Empty PUT body corrupts existing category name to `null` (TC `TC-FR14-H05`). |
-| BUG-FR14-005 screenshot | PENDING_CODEX (Issue pending `GH_AUTH_REQUIRED`) | PUT/DELETE on already-deleted category returns false-success (TCs `TC-FR14-037`, `TC-FR14-038`). |
+| Bug #34 screenshot | PENDING_CODEX | False-success for nonexistent/already-deleted category PUT/DELETE (TCs `TC-FR14-024`, `025`, `037`, `038`). Issue #37 is a closed duplicate. |
+| BUG-FR14-004 screenshot | PENDING_CODEX_VISUAL_AUDIT (Issue [#36](https://github.com/thangak18/HW06/issues/36) live) | Empty PUT body corrupts existing category name to `null` (TC `TC-FR14-H05`). |
 | Exploratory TC-H01 | NO screenshot needed | Content-Type HTTP 500 is exploratory; not a confirmed defect. |
 
 **Visual status: PENDING_CODEX_VISUAL_AUDIT**
@@ -73,18 +72,12 @@
 
 | Run | URL | Run ID | SHA | Expected Visual |
 |---|---|---|---|---|
-| PASS | `GH_AUTH_REQUIRED` | `GH_AUTH_REQUIRED` | `GH_AUTH_REQUIRED` | Green Actions run with Newman artifacts uploaded. |
-| FAIL | `GH_AUTH_REQUIRED` | `GH_AUTH_REQUIRED` | `GH_AUTH_REQUIRED` | Red Actions run with exactly one failed assertion (deliberate red flag). |
+| PASS | https://github.com/thangak18/HW06/actions/runs/33651923618 | 33651923618 | `fa6eac3` | Green run: SUT healthy, 9 requests, 10/10 assertions passed, 0 harness errors. |
+| FAIL | https://github.com/thangak18/HW06/actions/runs/33651923391 | 33651923391 | `fa6eac3` | Red run: same healthy harness, exactly one named DELIBERATE_RED assertion failure. |
 
-> **GH_AUTH_REQUIRED.** The `gh` CLI authentication is not available in
-> this sandbox. The CI operator must run `gh auth login -h github.com`
-> (or set `GITHUB_TOKEN` as an Actions secret) to perform the first
-> authentic PASS/FAIL run. The workflow YAMLs at
-> `.github/workflows/hw06-23127259-api-tests.yml` and
-> `.github/workflows/hw06-deliberate-red.yml` are committed and ready to
-> trigger. Until the first authentic run is created, the run URL / ID /
-> SHA remain `GH_AUTH_REQUIRED` and the PASS/FAIL screenshots remain
-> `PENDING_CODEX_VISUAL_AUDIT` by transitive dependency.
+Run `33649719887` is superseded and must not be used as PASS evidence because its green conclusion masked a missing FR10 collection and FR14 assertion failures.
+
+Screenshots remain `PENDING_CODEX_VISUAL_AUDIT` for the two final runs.
 
 **Visual status: PENDING_CODEX_VISUAL_AUDIT**
 
@@ -123,11 +116,11 @@ Codex should open each PDF and verify page-by-page:
 
 | Item | Path | Visual inspection required |
 |---|---|---|
-| Workbook | [`23127259/excel/HW06_Test_Cases.xlsx`](../../excel/HW06_Test_Cases.xlsx) | Sheets: Cover, FR02_Login (41 rows), FR10_Orders (47), FR14_Categories (47), Summary, Bugs (12 rows = header + 11 bugs) |
+| Workbook | [`23127259/excel/HW06_Test_Cases.xlsx`](../../excel/HW06_Test_Cases.xlsx) | Sheets: Cover, FR02_Login (41 rows), FR10_Orders (47), FR14_Categories (47), Summary, Bugs (11 rows = header + 10 distinct bugs) |
 
 Codex should visually inspect:
 - header formatting
-- row counts matching the summary (40 / 46 / 46 formal cases; 11 bugs total: FR02 3, FR10 3, FR14 5)
+- row counts matching the summary (40 / 46 / 46 formal cases; 10 distinct bugs total: FR02 3, FR10 3, FR14 4)
 - bug sheet columns
 - hyperlinks (if any)
 
@@ -161,7 +154,6 @@ These paths must **NOT** be used as final visual evidence:
 - [ ] FR14 Runner (Run01) screenshot inspect/recapture
 - [ ] FR14 Bug #32/#33/#34 screenshots inspect/recapture
 - [ ] FR14 BUG-FR14-004 screenshot inspect/recapture (after Issue created)
-- [ ] FR14 BUG-FR14-005 screenshot inspect/recapture (after Issue created)
 - [ ] CI PASS screenshot inspect/capture (after authentic run)
 - [ ] CI FAIL screenshot inspect/capture (after authentic run)
 - [ ] AI test-generator diagram rendering/inspection
@@ -186,9 +178,7 @@ These paths must **NOT** be used as final visual evidence:
   referencing `FR14-run05-*` is stale and must not be used.
 - BUG-FR14-004 is **CONFIRMED_NORMATIVE_BUG** (TC-FR14-H05 empty PUT body
   corrupts existing name; FR-14 explicit rule treats corruption as
-  normative). BUG-FR14-005 is **CONFIRMED_NORMATIVE_BUG** (TC-FR14-037/038
-  already-deleted entity PUT/DELETE returns false-success; FR-14 CRUD
-  integrity is normative). Both have prepared issue bodies but require
-  `gh` auth or a GitHub PAT to POST.
+  normative). GitHub Issue [#36](https://github.com/thangak18/HW06/issues/36) is live.
+- TC-FR14-037/038 are manifestations of BUG-FR14-003, the same false-success-on-no-entity root cause as TC-FR14-024/025. Issue [#37](https://github.com/thangak18/HW06/issues/37) is closed as duplicate of [#34](https://github.com/thangak18/HW06/issues/34).
 - TC-FR14-H01 (missing Content-Type → HTTP 500) is **EXPLORATORY**, NOT
   a bug; no screenshot required for it.

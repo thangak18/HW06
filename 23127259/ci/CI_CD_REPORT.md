@@ -1,162 +1,72 @@
-# CI/CD Report (HW06 · 23127259)
+# HW06 CI/CD Report
 
-## Purpose
+## Pipeline Design
 
-This document records the CI/CD pipeline that executes the canonical Postman
-collections for the selected APIs/Features (FR02, FR10, FR14) and provides
-authenticated PASS / FAIL run references for the assignment.
+Two branch-local GitHub Actions workflows run against a bundled EShop SUT on `http://localhost:3010`:
 
-A separate Codex agent will perform the visual audit of CI screenshots; this
-report only records the technical pipeline configuration and authenticated
-run metadata.
+- `.github/workflows/hw06-23127259-api-tests.yml` - all-green smoke across FR02, FR10, and FR14.
+- `.github/workflows/hw06-deliberate-red.yml` - identical healthy setup with exactly one intentionally failing sentinel assertion.
 
-## Pipeline Configuration
+Both workflows:
 
-### Workflow File
+1. check out `thang/hw06-implementation`;
+2. install Newman 6;
+3. start the SUT and require a successful health check;
+4. run `HW06_CI_Passing_Smoke.postman_collection.json`;
+5. upload safe CLI/JUnit evidence (no response bodies or resolved JWTs).
 
-`.github/workflows/hw06-23127259-api-tests.yml`
+Every smoke request contains `X-Student-Id: 23127259`. The PASS suite covers valid login (FR02), an Admin category create/read persistence flow (FR14), and a User checkout plus Admin state transition/read persistence flow (FR10).
 
-### Triggers
+## Authentic PASS Run
 
-- `push` to `thang/hw06-implementation`, `thang/fr14-anti`, `thang/fr14-final`
-- `pull_request` into `thang/hw06-implementation`
-- `workflow_dispatch` (manual trigger)
+| Attribute | Verified Value |
+|---|---|
+| Workflow | `HW06 API Tests (23127259)` |
+| Run ID | `33651923618` |
+| URL | https://github.com/thangak18/HW06/actions/runs/33651923618 |
+| Branch | `thang/hw06-implementation` |
+| Event | `push` |
+| Commit | `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0` |
+| Conclusion | **success** |
+| SUT health check | PASS |
+| HTTP requests | 9 executed, 0 failed |
+| Assertions | 10 executed, 10 passed, 0 failed |
+| Request/script/harness errors | 0 |
+| Artifact | `hw06-23127259-passing-33651923618` (artifact ID `9855118936`) |
 
-### Jobs
+The log explicitly ends with: `Verified all FR02/FR10/FR14 CI smoke assertions passed.`
 
-`api-tests` runs on `ubuntu-latest` with a 20-minute timeout.
+## Authentic FAIL Run
 
-The job performs:
+| Attribute | Verified Value |
+|---|---|
+| Workflow | `HW06 Deliberate Red Sample (23127259)` |
+| Run ID | `33651923391` |
+| URL | https://github.com/thangak18/HW06/actions/runs/33651923391 |
+| Branch | `thang/hw06-implementation` |
+| Event | `push` via `23127259/ci/deliberate-red-trigger.txt` |
+| Commit | `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0` |
+| Conclusion | **failure** |
+| SUT health check | PASS |
+| HTTP requests | 9 executed, 0 failed |
+| Assertions | 10 executed, 9 passed, exactly 1 failed |
+| Failed assertion | `DELIBERATE_RED: intentional single CI failure` |
+| Request/script/harness errors | 0 |
+| Artifact | `hw06-23127259-deliberate-red-33651923391` (artifact ID `9855119363`) |
 
-1. Check out the repository.
-2. Set up Node.js 20 with npm caching.
-3. Install `newman@5` and `newman-reporter-htmlextra@1`.
-4. Provision a writable copy of the EShop SUT backend on port `3010`
-   (mirrors the local sandbox configuration documented in
-   `23127259/evidence/fr14/SUT_LOCAL_3010.md`).
-5. Wait for the SUT `/api/categories` or `/api/products` endpoint to respond.
-6. Execute the FR10 canonical collection via `scripts/run_fr10_newman.sh`.
-7. Execute the FR14 canonical collection via `scripts/run_fr14_newman.sh`.
-8. Upload Newman CLI/JSON/HTML/exit-code artifacts as build artifacts
-   (`hw06-23127259-newman-<run-id>`) with a 30-day retention.
+The workflow validates the JUnit report before returning Newman's nonzero status. It refuses the run if the failure count is not exactly one or the failed assertion is not named `DELIBERATE_RED`.
 
-### Required Header Propagation
+## Superseded Green Run
 
-All Newman runs use the canonical environment file with `studentId = 23127259`,
-ensuring the per-request `X-Student-Id: 23127259` header is injected via the
-collection's pre-request script for every HTTP operation (setup, helper,
-`pm.sendRequest`, formal, verification, cleanup).
+Run `33649719887` had a green GitHub conclusion but is **not** used as PASS evidence. Its logs show a missing FR10 collection path, an HTML reporter setup error, and canonical FR14 assertion failures masked by scripts that always exited zero. The final evidence uses only runs `33651923618` and `33651923391`.
 
-## PASS Run
+## Screenshots
 
-| Attribute       | Value |
-|-----------------|-------|
-| Workflow        | `HW06 API Tests (23127259)` |
-| Run URL         | PENDING_AUTHENTIC_GH_RUN |
-| Run ID          | PENDING_AUTHENTIC_GH_RUN |
-| Commit SHA      | PENDING_AUTHENTIC_GH_RUN |
-| Artifact        | `hw06-23127259-newman-<run-id>` |
-| Newman exit (FR10) | `0` |
-| Newman exit (FR14) | `non-zero` (5 confirmed normative FR14 bugs — expected for the canonical collection; the `deliberate-red.yml` workflow is the FAIL-sample) |
+| Evidence | Path | Status |
+|---|---|---|
+| PASS Actions run | `23127259/ci/evidence/CI-PASS-33651923618.png` | PENDING_CODEX_VISUAL_AUDIT |
+| FAIL Actions run | `23127259/ci/evidence/CI-FAIL-33651923391.png` | PENDING_CODEX_VISUAL_AUDIT |
 
-> NOTE: In the production workflow the FR14 collection is executed as-is, so
-> the recorded Newman exit for the FR14 suite is non-zero because of the five
-> confirmed normative bugs. A separate `deliberate-red` workflow exists for the
-> FAIL-sample requirement and re-runs the FR10 collection with one intentionally
-> red-flagged test case; see `deliberate-red.yml`. The unified PASS run is the
-> run in which all FR02 and FR10 assertions pass; the five FR14 normative
-> bugs are tracked as accepted defects rather than pipeline failures.
+## Final CI Gate
 
-### PASS Run – Authenticated Links
-
-PENDING_AUTHENTIC_GH_RUN
-
-The PASS run references above will be populated by the CI operator after the
-first authentic Actions run completes. Until then, the canonical local
-Newman runs in `23127259/evidence/fr10/newman/` (Run04) and
-`23127259/evidence/fr14/newman/` (Run01) are the trusted machine-readable
-evidence for this report.
-
-> `GH_AUTH_REQUIRED`: The CI operator must run `gh auth login -h github.com`
-> (or set `GITHUB_TOKEN` as an Actions secret) to perform the first authentic
-> PASS/FAIL run. Until the first authentic run is created, run URL / ID / SHA
-> remain `PENDING_AUTHENTIC_GH_RUN` and the PASS/FAIL screenshots remain
-> `PENDING_CODEX_VISUAL_AUDIT` by transitive dependency.
-
-## FAIL Run
-
-| Attribute       | Value |
-|-----------------|-------|
-| Workflow        | `HW06 Deliberate Red Sample` |
-| Run URL         | PENDING_AUTHENTIC_GH_RUN |
-| Run ID          | PENDING_AUTHENTIC_GH_RUN |
-| Commit SHA      | PENDING_AUTHENTIC_GH_RUN |
-| Intent          | Demonstrate one failing assertion in a green pipeline |
-
-### FAIL Workflow File
-
-`.github/workflows/hw06-deliberate-red.yml`
-
-This workflow runs the FR10 collection with a `DELIBERATE_RED=1` env var. The
-collection's pre-request script detects this flag and patches a single assertion
-to always fail, producing a single deliberate failure while every other
-assertion passes.
-
-### FAIL Run – Authenticated Links
-
-PENDING_AUTHENTIC_GH_RUN
-
-The FAIL run references above will be populated by the CI operator after the
-first authentic Actions run completes.
-
-## Artifact Provenance
-
-### Local Canonical FR10 Run04
-
-Path: `23127259/evidence/fr10/newman/FR10-run04*`
-
-- CLI: `FR10-run04-cli.txt`
-- JSON: `FR10-run04.json`
-- HTML: `FR10-run04.html`
-- Exit: `FR10-run04-exitcode.txt` (value = 1, accepted because the run surfaces
-  three confirmed FR10 normative bugs)
-
-### Local Canonical FR14 Run01
-
-Path: `23127259/evidence/fr14/newman/FR14-run01*`
-
-- CLI: `FR14-run01-cli.txt`
-- JSON: `FR14-run01.json`
-- HTML: `FR14-run01.html`
-- Exit: `FR14-run01-exitcode.txt` (value = 1, accepted because the run surfaces
-  five confirmed FR14 normative bugs)
-- Sanitized public-safe copies: `FR14-run01-sanitized.{json,html}`
-
-### Secret-Safe Public Derivatives
-
-Path: `23127259/evidence/fr10/newman/public-safe/` and
-`23127259/evidence/fr14/newman/public-safe/`
-
-These contain the disclosure-controlled JSON/HTML outputs used in the final
-non-visual grader navigation. They preserve test names, methods, endpoints,
-statuses, assertion names, pass/fail, timings, and counts but redact any
-resolved Bearer/JWT values.
-
-## Visual Evidence
-
-| Item             | Path                                           | Visual Status                |
-|------------------|------------------------------------------------|------------------------------|
-| PASS run screenshot | PENDING_CODEX_VISUAL_AUDIT               | PENDING_CODEX_VISUAL_AUDIT   |
-| FAIL run screenshot | PENDING_CODEX_VISUAL_AUDIT               | PENDING_CODEX_VISUAL_AUDIT   |
-| Runner screenshot   | `23127259/evidence/fr10/newman/public-safe/FR10-run04.html` (runner view available from HTML report) | PENDING_CODEX_VISUAL_AUDIT |
-
-Final visual validity remains `PENDING_CODEX_VISUAL_AUDIT` until Codex
-performs the screenshot inspection.
-
-## Open Items / Blockers
-
-- Authentication token for `gh` is not currently available in this sandbox.
-  Authentic run URLs/IDs/SHAs will be populated by the CI operator after the
-  first authenticated run.
-- No screenshot capture is performed by this report; visual evidence is
-  delegated to Codex per the project division of responsibility.
+**TECHNICAL PASS - AUTHENTIC GREEN AND INTENTIONAL RED RUNS VERIFIED; SCREENSHOT CAPTURE PENDING**

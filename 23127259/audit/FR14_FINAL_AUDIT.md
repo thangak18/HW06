@@ -4,7 +4,7 @@
 
 **FR14_TECHNICALLY_READY_PENDING_CODEX_VISUAL_AUDIT**
 
-FR14 has a complete, source-grounded Level-1 oracle, a 42-case raw AI draft with documented Human Audit corrections, six accepted Human extensions, a 46-case canonical suite, a fully self-built Postman collection, and a canonical Newman Run01 with trustworthy Bash exit capture. Five normative root-cause bugs were confirmed against the SUT runtime and source. Each bug is documented in a Markdown bug report and will be issued on GitHub with the issue numbers below.
+FR14 has a complete, source-grounded Level-1 oracle, a 42-case raw AI draft with documented Human Audit corrections, six accepted Human extensions, a 46-case canonical suite, a fully self-built Postman collection, and a canonical Newman Run01 with trustworthy Bash exit capture. Four distinct normative root-cause bugs were confirmed. A fifth issue created later duplicated BUG-FR14-003 and is closed as duplicate.
 
 Visual evidence remains pending Codex visual audit. All screenshot-bearing fields in the bug reports and the Codex Visual Handoff are deliberately marked `PENDING_CODEX_VISUAL_AUDIT`.
 
@@ -69,8 +69,8 @@ Source: `23127259/evidence/fr14/FR14_FORMAL_HTTP_RECONCILIATION.md`
 
 - HTTP requests: 60
 - pm.test() assertions: 70
-- Passed assertions: 57
-- Failed assertions: 13
+- Passed assertions: 58
+- Failed assertions: 12
 - Request errors: 0
 - Script errors: 0
 - Harness errors: 0
@@ -80,9 +80,9 @@ Source: `23127259/evidence/fr14/FR14_FORMAL_HTTP_RECONCILIATION.md`
 
 | Verdict | Count |
 |---|---:|
-| PASS | 30 |
-| FAIL — NORMATIVE ORACLE VIOLATION | 10 |
-| EXPLORATORY OBSERVATION | 6 |
+| PASS | 20 |
+| FAIL — NORMATIVE ORACLE VIOLATION | 12 |
+| EXPLORATORY OBSERVATION | 14 |
 | BLOCKED | 0 |
 | **Total** | **46** |
 
@@ -92,11 +92,10 @@ Source: `23127259/evidence/fr14/FR14_FORMAL_HTTP_RECONCILIATION.md`
 |---|---|---|---|
 | BUG-FR14-001 | TC-012, TC-013, TC-014 | `role=user` mutates categories | SRS FR-12 + SEC-03 |
 | BUG-FR14-002 | TC-016, TC-017, TC-018, TC-019 | Empty/null/missing/whitespace name accepted | SRS FR-14 mandatory-name rule |
-| BUG-FR14-003 | TC-024, TC-025 | Nonexistent ID PUT/DELETE returns false-success | FR-14 CRUD-integrity rule |
+| BUG-FR14-003 | TC-024, TC-025, TC-037, TC-038 | Nonexistent/already-deleted ID PUT/DELETE returns false-success | FR-14 CRUD-integrity rule |
 | BUG-FR14-004 | TC-H05 | Empty PUT body corrupts existing name to `null` | SRS FR-14 (mandatory-name integrity on update) |
-| BUG-FR14-005 | TC-037, TC-038 | Already-deleted entity PUT/DELETE returns false-success | FR-14 CRUD-integrity rule |
 
-**Total confirmed normative bugs: 5.**
+**Total confirmed normative root-cause bugs: 4.**
 
 ## Exploratory Observations (NOT promoted to bugs)
 
@@ -140,7 +139,8 @@ Source: `23127259/evidence/fr14/FR14_FORMAL_HTTP_RECONCILIATION.md`
 | BUG-FR14-002 | [#33](https://github.com/thangak18/HW06/issues/33) |
 | BUG-FR14-003 | [#34](https://github.com/thangak18/HW06/issues/34) |
 | BUG-FR14-004 | [#36](https://github.com/thangak18/HW06/issues/36) |
-| BUG-FR14-005 | [#37](https://github.com/thangak18/HW06/issues/37) |
+
+Issue [#37](https://github.com/thangak18/HW06/issues/37) is closed as a duplicate manifestation of BUG-FR14-003 / #34.
 
 ## Canonical Newman Run01 Provenance
 
