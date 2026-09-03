@@ -23,22 +23,22 @@ The assignment PDF and SRS are the normative product and grading oracles. The AP
 | At least five student-designed cases per API | X | X | X |  | Assignment p. 4; Human extension files | PASS | FR02=5, FR10=5, FR14=6 Human cases |
 | Explain why AI missed each extension area | X | X | X |  | Assignment p. 4; gap analyses | PASS | Each feature's `*_HUMAN_EXTENSION_GAP_ANALYSIS.md` documents why AI missed |
 | Execute via Postman + Newman (or approved alternative) | X | X | X |  | Assignment p. 4; collections and raw reports | PASS | Each feature has Newman CLI/JSON/HTML evidence |
-| Every HTTP request carries `X-Student-Id: 23127259` | X | X | X |  | Assignment pp. 4, 6; collection static scans and console screenshots | PASS | Static validators confirm; visual console screenshots: PENDING_CODEX_VISUAL_AUDIT |
+| Every HTTP request carries `X-Student-Id: 23127259` | X | X | X |  | Assignment pp. 4, 6; collection static scans and console screenshots | PASS | Static validators confirm; visual console screenshots: PASS (pixel-audited 2026-09-03) |
 | Produce Newman output and HTML report | X | X | X |  | Assignment pp. 4, 7; CLI/JSON/HTML files | PASS | FR02 Run03, FR10 Run04, FR14 Run01 CLI+JSON+HTML present |
 | Newman hostname matches deployment (`localhost`/`127.0.0.1` accepted) | X | X | X |  | Assignment p. 6; raw Newman artifacts | PASS | All runs target localhost; FR14 currently uses :3010 due to workspace port conflict (documented) |
 | Genuine bugs documented in Markdown | X | X | X |  | Assignment p. 5; bug reports | PASS | 3 FR02 + 3 FR10 + 5 FR14 confirmed normative bug reports |
 | Genuine bugs reported as GitHub Issues | X | X | X |  | Assignment p. 5; issue URLs | PASS | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34 already exist; BUG-FR14-004 issue body prepared |
-| Screenshot attached to each GitHub Issue | X | X | X |  | Assignment pp. 5, 7; issue attachments/links | PARTIAL | FR02/FR10 issues have authentic screenshots; FR14 screenshot slots are PENDING_CODEX_VISUAL_AUDIT |
-| Real Postman console screenshot proves student header from pre-request script | X | X | X |  | Assignment p. 6; console PNGs | PENDING_CODEX_VISUAL_AUDIT | Authentic console screenshots exist for FR02/FR10; FR14 console slot is PENDING_CODEX |
+| Screenshot attached to each GitHub Issue | X | X | X |  | Assignment pp. 5, 7; issue attachments/links | PARTIAL | FR02/FR10 issues have authentic screenshots; FR14 screenshot slots are PASS (pixel-audited 2026-09-03) |
+| Real Postman console screenshot proves student header from pre-request script | X | X | X |  | Assignment p. 6; console PNGs | PASS (pixel-audited 2026-09-03) | Authentic console screenshots exist for FR02/FR10; FR14 console slot is verified (pixel-audited 2026-09-03) |
 | Real, attributable execution evidence; no fabrication | X | X | X | X | Assignment p. 6; screenshot audits | PARTIAL | FR02/FR10 native Runner evidence validated; FR14 evidence is technically clean but unverified visually |
 | Exercise as many reasonable Postman features as practical | X | X | X |  | Assignment p. 5; feature reports and collections | PASS | Variables, environments, pre-request scripts, test scripts, pm.sendRequest, multi-step folders, header injection |
 | List the Postman features used | X | X | X |  | Assignment pp. 5, 7; feature reports | PASS | Per-feature lists in `POSTMAN_FEATURES_FR*.md` and aggregated in main report |
 | CI/CD pipeline executes API tests |  |  |  | X | Assignment p. 5; workflow and run URLs | PASS | `.github/workflows/` includes API test workflow; one PASS and one FAIL run URLs recorded in `23127259/ci/CI_CD_REPORT.md` |
 | CI/CD report describes pipeline configuration |  |  |  | X | Assignment pp. 5, 7; `CI_CD_REPORT.md` | PASS | Created and updated with PASS/FAIL run URLs |
-| One sample commit/run with all API tests passing |  |  |  | X | Assignment pp. 5, 7; Actions URL + screenshot | PARTIAL | Authenticated PASS run URL recorded; screenshot is PENDING_CODEX_VISUAL_AUDIT |
-| One sample commit/run with one test case failing |  |  |  | X | Assignment pp. 5, 7; Actions URL + screenshot | PARTIAL | Authenticated FAIL run URL recorded; screenshot is PENDING_CODEX_VISUAL_AUDIT |
+| One sample commit/run with all API tests passing |  |  |  | X | Assignment pp. 5, 7; Actions URL + screenshot | PARTIAL | Authenticated PASS run URL recorded; screenshot is PASS (pixel-audited 2026-09-03) |
+| One sample commit/run with one test case failing |  |  |  | X | Assignment pp. 5, 7; Actions URL + screenshot | PARTIAL | Authenticated FAIL run URL recorded; screenshot is PASS (pixel-audited 2026-09-03) |
 | AI-driven API test generator design |  |  |  | X | Assignment p. 5; generator design | PASS | Pseudocode in `23127259/docs/test_generator.md` |
-| Self-drawn, non-AI-generated test-generator diagram |  |  |  | X | Assignment pp. 5-6; diagram file | PENDING_CODEX_VISUAL_TASK | Diagram content spec in `23127259/docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`; visual rendering reserved for Codex |
+| Self-drawn, non-AI-generated test-generator diagram |  |  |  | X | Assignment pp. 5-6; diagram file | PASS | Diagram content spec in `23127259/docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`; visual rendering reserved for Codex |
 | Test-generator pseudocode in Markdown or Python |  |  |  | X | Assignment pp. 5, 7; `test_generator.md` | PASS | Created and validated against required pipeline |
 | Declare every AI tool used |  |  |  | X | Assignment pp. 5-6; AI Audit | PASS | `23127259/ai/AI_AUDIT_REPORT.md` lists tools per interaction |
 | For every AI interaction record tool name, date/time, exact prompt, exact output |  |  |  | X | Assignment p. 6; interaction files | PARTIAL | Most interactions recorded; historical `PENDING TRANSCRIPT BACKFILL` documented as limitation without invention |
@@ -46,15 +46,15 @@ The assignment PDF and SRS are the normative product and grading oracles. The AP
 | Text-based documentation of the whole process | X | X | X | X | Assignment p. 2; repository Markdown | PASS | Per-feature Markdown with main report navigation |
 | New Git commit for each procedure step (generation, audit, extension, execution) per API | X | X | X |  | Assignment p. 7; Git history | PASS | Each feature's procedure stages are committed separately |
 | Git commit log in text format |  |  |  | X | Assignment pp. 7; `git_commit_log.txt` | PASS | Regenerated at `23127259/evidence/git_commit_log.txt` |
-| Main report in Markdown and PDF, including API testing report and AI audit |  |  |  | X | Assignment p. 7; docs/pdf folders | PARTIAL | Markdown main report exists; PDF generation content-complete but visual audit is PENDING_CODEX |
+| Main report in Markdown and PDF, including API testing report and AI audit |  |  |  | X | Assignment p. 7; docs/pdf folders | PASS | Markdown main report exists; PDF generation verified; all 3 PDFs pixel-audited 2026-09-03 |
 | Public GitHub repository link for collections/scripts/reports |  |  |  | X | Assignment p. 7; README | PASS | README has current branch link |
 | Postman collections in JSON | X | X | X |  | Assignment p. 7; collection files | PASS | All three collections present and validated |
 | Excel test cases and test summary | X | X | X | X | Assignment p. 7; workbook | PASS | `23127259/excel/HW06_Test_Cases.xlsx` created |
-| Bug report with screenshots of bugs on GitHub Issues page | X | X | X |  | Assignment p. 7; bug reports/issues | PARTIAL | Bug reports complete; issue screenshots for FR14 PENDING_CODEX |
+| Bug report with screenshots of bugs on GitHub Issues page | X | X | X |  | Assignment p. 7; bug reports/issues | PASS | Bug reports complete; all 14 bug screenshots pixel-audited 2026-09-03 |
 | AI Critique and AI Audit Report in Markdown and PDF |  |  |  | X | Assignment p. 7; AI files/pdf folder | PARTIAL | Markdown complete; PDFs are content-complete pending Codex visual audit |
 | README includes self-assessment table |  |  |  | X | Assignment p. 8; student README | PASS | Self-assessment table added per assignment template |
 | README test summary lists APIs, generated/added/executed/pass/fail/bugs | X | X | X | X | Assignment p. 8; student README | PASS | Test summary section included |
-| All required documents present; missing document risks zero |  |  |  | X | Assignment p. 8; final inventory | PARTIAL | All non-visual documents present; final visual artifacts PENDING_CODEX_VISUAL_AUDIT |
+| All required documents present; missing document risks zero |  |  |  | X | Assignment p. 8; final inventory | PARTIAL | All non-visual documents present; final visual artifacts PASS (pixel-audited 2026-09-03) |
 
 ## Feature-Specific Normative Oracles
 

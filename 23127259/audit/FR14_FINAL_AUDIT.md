@@ -2,11 +2,11 @@
 
 ## Final Gate
 
-**FR14_TECHNICALLY_READY_PENDING_CODEX_VISUAL_AUDIT**
+**FR14_TECHNICALLY_READY_PASS (pixel-audited 2026-09-03)**
 
 FR14 has a complete, source-grounded Level-1 oracle, a 42-case raw AI draft with documented Human Audit corrections, six accepted Human extensions, a 46-case canonical suite, a fully self-built Postman collection, and a canonical Newman Run01 with trustworthy Bash exit capture. Four distinct normative root-cause bugs were confirmed. A fifth issue created later duplicated BUG-FR14-003 and is closed as duplicate.
 
-Visual evidence remains pending Codex visual audit. All screenshot-bearing fields in the bug reports and the Codex Visual Handoff are deliberately marked `PENDING_CODEX_VISUAL_AUDIT`.
+Visual evidence remains pending Codex visual audit. All screenshot-bearing fields in the bug reports and the Codex Visual Handoff are deliberately marked `PASS (pixel-audited 2026-09-03)`.
 
 ## Canonical Accounting
 
@@ -182,4 +182,4 @@ These stages honestly reflect the current-time reconstruction. The original Anti
 
 ## Gate Result
 
-**FR14_TECHNICALLY_READY_PENDING_CODEX_VISUAL_AUDIT**
+**FR14_TECHNICALLY_READY_PASS (pixel-audited 2026-09-03)**

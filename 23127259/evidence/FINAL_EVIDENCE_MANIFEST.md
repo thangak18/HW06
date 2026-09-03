@@ -19,8 +19,9 @@
 | FR10 JSON | `de73cc49094f7bdcea1db88f3f7f9c5369f973cf227d5b4efad192f6d1f81b99` |
 | FR10 HTML | `52141602b2933640e49b7cde40130b4836c48e33977d26b50319975c9f855de6` |
 | FR14 CLI | `94a2e379e35289c9c28f5658928960d2d41072a35a6d0e2551cdb5d5833368bb` |
-| FR14 sanitized JSON | PENDING_CURSOR_NONVISUAL final secret-safe regeneration |
-| FR14 sanitized HTML | PENDING_CURSOR_NONVISUAL final secret-safe regeneration |
+| FR14 JSON (raw) | `eb3d05509d304a736ba99fbe0ea96dfcccceaa67b8fc97e81de1a945e8a24868` |
+| FR14 sanitized JSON | `6fc6a6fc194f0bfc248f125745e3f59de879fc9b4a46d6488413ce326a86a676` |
+| FR14 sanitized HTML | `790cd4de01f8ec72814d633c95b0b5dd7d17aed10b3ab3f934c7bfa34662de80` |
 
 ## Frozen AI Provenance
 
@@ -52,23 +53,32 @@ Issue #37 is closed as duplicate of FR14 Issue #34 and is not separately counted
 
 | Sample | Run | Commit | Result | Technical Proof | Screenshot |
 |---|---|---|---|---|---|
-| PASS | [33651923618](https://github.com/thangak18/HW06/actions/runs/33651923618) | `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0` | success | 9 requests; 10/10 assertions; 0 harness errors | `ci/evidence/CI-PASS-33651923618.png` pending visual capture |
-| FAIL | [33651923391](https://github.com/thangak18/HW06/actions/runs/33651923391) | `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0` | failure | same healthy harness; exactly one `DELIBERATE_RED` assertion failure | `ci/evidence/CI-FAIL-33651923391.png` pending visual capture |
+| PASS | [33651923618](https://github.com/thangak18/HW06/actions/runs/33651923618) | `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0` | success | 9 requests; 10/10 assertions; 0 harness errors | `ci/evidence/CI-PASS-33651923618.png` **PASS** |
+| FAIL | [33651923391](https://github.com/thangak18/HW06/actions/runs/33651923391) | `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0` | failure | same healthy harness; exactly one `DELIBERATE_RED` assertion failure | `ci/evidence/CI-FAIL-33651923391.png` **PASS** |
 
 Run 33649719887 is superseded and excluded because its green conclusion masked harness and assertion failures.
 
 ## Visual Evidence Status
 
+All visual evidence has been pixel-audited (Fable, 2026-09-03). All images are authentic, secret-free, and correctly scoped.
+
 | Area | Status |
 |---|---|
-| FR02 Console/Runner/3 bug images | Pixel audit pending |
-| FR10 Console/Runner/3 bug images | Pixel audit pending |
-| FR14 Console/Runner/4 bug images | Capture/pixel audit pending |
-| CI PASS/FAIL images | Capture pending |
-| AI test-generator diagram | Render/visual audit pending |
-| Excel workbook | Visual audit pending |
-| Three PDFs | Page-by-page audit pending |
+| FR02 Console (Postman) | **PASS** — `FR02-postman-console-x-student-id.png` |
+| FR02 Runner | **PASS** — `FR02-postman-runner-result.png` |
+| FR02 3 bug screenshots | **PASS** — `bugs/screenshots/FR02/` |
+| FR10 Console | **PASS** — `FR10-postman-console-x-student-id-smoke.png` (replaced stale FR02-mislabeled image) |
+| FR10 Runner | **PASS** — `BUG-FR10-001-postman-runner.png` |
+| FR10 3 bug screenshots | **PASS** — `evidence/fr10/bugs/` |
+| FR14 Console | **PASS** — `FR14-postman-console-x-student-id.png` — `X-Student-Id: 23127259` visible |
+| FR14 Runner | **PASS** — `FR14-postman-runner-result.png` — 46 tests, 6 failed, 0 errors |
+| FR14 4 bug screenshots | **PASS** — `evidence/fr14/bugs/` (BUG-FR14-001/002/003/004). No standalone BUG-FR14-005 screenshot (Issue #37 is duplicate of #34) |
+| CI PASS screenshot | **PASS** — `CI-PASS-33651923618.png` — green, 9 requests, 10/10 assertions |
+| CI FAIL screenshot | **PASS** — `CI-FAIL-33651923391.png` — red, DELIBERATE_RED failure |
+| AI test-generator diagram | **PASS** — `AI_TEST_GENERATOR_DIAGRAM.png` (self-drawn PIL; 14 nodes, 15 edges, correct values) |
+| Excel workbook | **PASS** — 6 sheets, 10 bugs, all counts correct |
+| Three PDFs | **PASS** — Main Report 4pp, AI Audit 16pp, AI Critique 1pp; no stale values |
 
 ## Current Gate
 
-**NON-VISUAL EVIDENCE RECONCILED; FINAL VISUAL/SECRET AUDIT PENDING**
+**SUBMISSION_READY**

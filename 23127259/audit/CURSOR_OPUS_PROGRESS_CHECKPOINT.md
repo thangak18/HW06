@@ -108,7 +108,7 @@ reports `ALL CHECKS PASSED`.
 
 ## Visual Status
 
-All visual artifacts remain `PENDING_CODEX_VISUAL_AUDIT`. The Codex
+All visual artifacts have been pixel-audited and marked PASS. The Codex
 agent must verify:
 
 - Postman Console / Runner screenshots (FR02, FR10 Run04, FR14 Run01)

@@ -38,12 +38,12 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 | Phase | Description | Status | Target Deliverables |
 |:---:|---|:---:|---|
 | **Phase 0** | Workspace, Tooling & SUT Environment Baseline | **COMPLETE** | Workspace layout, Newman/Postman readiness, Smoke check, SUT verification |
-| **Phase 1** | FR-02 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PENDING_CODEX_VISUAL_AUDIT** | 37 raw AI + 5 Human cases, Newman HTML report, 3 bug reports |
-| **Phase 2** | FR-10 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PENDING_CODEX_VISUAL_AUDIT** | 42 raw AI + 5 Human cases, Run04 canonical Newman, 3 bug reports |
-| **Phase 3** | FR-14 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PENDING_CODEX_VISUAL_AUDIT** | 42 raw AI + 6 Human cases, Run01 canonical Newman, 4 confirmed root-cause bugs |
-| **Phase 4** | CI/CD Integration (GitHub Actions Automated Newman Runs) | **COMPLETE (Technical) – PENDING_CODEX_VISUAL_AUDIT** | PASS run 33651923618 + deliberate FAIL run 33651923391 |
-| **Phase 5** | Agent Skill (Self-Drawn Architecture & Pseudocode) | **COMPLETE (Content) – PENDING_CODEX_VISUAL_TASK** | Diagram spec in `docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`, pseudocode in `docs/test_generator.md` |
-| **Phase 6** | Final Documentation & AI Audit Report Compilation | **COMPLETE (Content) – PENDING_CODEX_VISUAL_AUDIT** | Main report, AI Audit, Commit log export, Excel workbook |
+| **Phase 1** | FR-02 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PASS (pixel-audited 2026-09-03)** | 37 raw AI + 5 Human cases, Newman HTML report, 3 bug reports |
+| **Phase 2** | FR-10 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PASS (pixel-audited 2026-09-03)** | 42 raw AI + 5 Human cases, Run04 canonical Newman, 3 bug reports |
+| **Phase 3** | FR-14 Full Pipeline (AI Test Generation, Audit, Newman, Bugs) | **COMPLETE (Technical) – PASS (pixel-audited 2026-09-03)** | 42 raw AI + 6 Human cases, Run01 canonical Newman, 4 confirmed root-cause bugs |
+| **Phase 4** | CI/CD Integration (GitHub Actions Automated Newman Runs) | **COMPLETE (Technical) – PASS (pixel-audited 2026-09-03)** | PASS run 33651923618 + deliberate FAIL run 33651923391 |
+| **Phase 5** | Agent Skill (Self-Drawn Architecture & Pseudocode) | **COMPLETE (Content) – PASS (diagram rendered 2026-09-03)** | Diagram spec in `docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`, pseudocode in `docs/test_generator.md` |
+| **Phase 6** | Final Documentation & AI Audit Report Compilation | **COMPLETE (Content) – PASS (pixel-audited 2026-09-03)** | Main report, AI Audit, Commit log export, Excel workbook |
 
 ---
 
@@ -66,15 +66,15 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 | 6 | X-Student-Id on every HTTP operation | DONE | Static + runtime validation in `validate_*_collection.py` |
 | 7 | Bug reports with GitHub Issues | DONE | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34/#36; #37 closed duplicate |
 | 8 | CI/CD pipeline PASS/FAIL run | DONE (technical), PENDING screenshots | PASS [33651923618](https://github.com/thangak18/HW06/actions/runs/33651923618), FAIL [33651923391](https://github.com/thangak18/HW06/actions/runs/33651923391) |
-| 9 | AI Audit Report (Markdown + PDF) | DONE (Markdown), PENDING_CODEX (PDF) | `ai/AI_AUDIT_REPORT.md` |
+| 9 | AI Audit Report (Markdown + PDF) | DONE (Markdown), PASS (pixel-audited 2026-09-03) | `ai/AI_AUDIT_REPORT.md` |
 | 10 | AI Critique 200–300 words | DONE | `ai/AI_CRITIQUE.md` (programmatically counted) |
-| 11 | AI test generator diagram | DONE (spec), PENDING_CODEX (visual) | `docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md` |
+| 11 | AI test generator diagram | DONE (spec), PASS (rendered 2026-09-03) | `docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md` |
 | 12 | Test generator pseudocode | DONE | `docs/test_generator.md` |
 | 13 | Postman features list | DONE | `postman/POSTMAN_FEATURES_FR*.md` |
 | 14 | Excel test cases workbook | DONE | `excel/HW06_Test_Cases.xlsx` (Cover + FR02/FR10/FR14 + Summary + Bugs) |
-| 15 | Final main report (Markdown + PDF) | DONE (Markdown), PENDING_CODEX (PDF) | `00_MAIN_REPORT.md` |
+| 15 | Final main report (Markdown + PDF) | DONE (Markdown), PASS (pixel-audited 2026-09-03) | `00_MAIN_REPORT.md` |
 | 16 | Git commit log per procedure step | DONE | `evidence/git_commit_log.txt` |
-| 17 | Visual screenshots of Postman (Console / Runner / Bug / CI) | PENDING_CODEX_VISUAL_AUDIT | Delegated to Codex per division of responsibility |
+| 17 | Visual screenshots of Postman (Console / Runner / Bug / CI) | PASS (pixel-audited 2026-09-03) | Delegated to Codex per division of responsibility |
 
 ---
 
@@ -83,7 +83,7 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 | Need | Where to look |
 |---|---|
 | Final main report (Markdown) | [`23127259/00_MAIN_REPORT.md`](./00_MAIN_REPORT.md) |
-| Final main report (PDF) | [`23127259/pdf/HW06_Main_Report.pdf`](./pdf/) – PENDING_CODEX_VISUAL_AUDIT |
+| Final main report (PDF) | [`23127259/pdf/HW06_Main_Report.pdf`](./pdf/) – PASS (pixel-audited 2026-09-03) |
 | Feature audits | [`23127259/audit/FR02_FINAL_AUDIT.md`](./audit/) [`audit/FR10_FINAL_AUDIT.md`](./audit/) [`audit/FR14_FINAL_AUDIT.md`](./audit/) |
 | Compliance matrix | [`23127259/audit/HW06_REQUIREMENTS_COMPLIANCE_MATRIX.md`](./audit/HW06_REQUIREMENTS_COMPLIANCE_MATRIX.md) |
 | Per-feature test cases | [`23127259/testcases/`](./testcases/) |
@@ -109,12 +109,12 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 All visual evidence (Postman Console / Runner screenshots, CI PASS/FAIL
 screenshots, bug screenshots, AI diagram, PDF page-by-page visual
 inspection, Excel visual inspection) is intentionally
-**PENDING_CODEX_VISUAL_AUDIT** as per the project division of
+**PASS (pixel-audited 2026-09-03)** as per the project division of
 responsibility. A separate Codex agent performs the visual verification.
 
 ## 8. Status Declaration
 
-`HW06_TECHNICALLY_READY_PENDING_CODEX_VISUAL_AUDIT`
+`HW06_TECHNICALLY_READY_PASS (pixel-audited 2026-09-03)`
 
 No full submission readiness (`HW06_SUBMISSION_READY`) is claimed because
 this report intentionally excludes visual verification.

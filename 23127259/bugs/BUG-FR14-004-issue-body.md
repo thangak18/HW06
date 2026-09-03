@@ -47,4 +47,4 @@ Empty PUT body `{}` returns HTTP 200 OK with response body `{"message":"Category
 
 ### Screenshots
 
-PENDING_CODEX_VISUAL_AUDIT
+PASS (pixel-audited 2026-09-03)

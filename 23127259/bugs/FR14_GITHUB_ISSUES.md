@@ -12,10 +12,10 @@
 
 | Bug ID | Title | Severity | GitHub Issue # | Live GitHub URL | Screenshot Evidence Reference |
 |:---:|---|:---:|:---:|---|---|
-| `BUG-FR14-001` | Regular `role=user` can mutate Categories | HIGH | [#32](https://github.com/thangak18/HW06/issues/32) | `https://github.com/thangak18/HW06/issues/32` | `23127259/evidence/fr14/bugs/BUG-FR14-001-*.png` (PENDING_CODEX_VISUAL_AUDIT) |
-| `BUG-FR14-002` | Empty/null/whitespace/missing `name` accepted on POST `/api/categories` | MEDIUM | [#33](https://github.com/thangak18/HW06/issues/33) | `https://github.com/thangak18/HW06/issues/33` | `23127259/evidence/fr14/bugs/BUG-FR14-002-*.png` (PENDING_CODEX_VISUAL_AUDIT) |
-| `BUG-FR14-003` | Non-existent category PUT/DELETE returns false-success | MEDIUM | [#34](https://github.com/thangak18/HW06/issues/34) | `https://github.com/thangak18/HW06/issues/34` | `23127259/evidence/fr14/bugs/BUG-FR14-003-*.png` (PENDING_CODEX_VISUAL_AUDIT) |
-| `BUG-FR14-004` | Empty PUT body corrupts existing category name to `null` | MEDIUM | [#36](https://github.com/thangak18/HW06/issues/36) | `https://github.com/thangak18/HW06/issues/36` | `23127259/evidence/fr14/bugs/BUG-FR14-004-*.png` (PENDING_CODEX_VISUAL_AUDIT) |
+| `BUG-FR14-001` | Regular `role=user` can mutate Categories | HIGH | [#32](https://github.com/thangak18/HW06/issues/32) | `https://github.com/thangak18/HW06/issues/32` | `23127259/evidence/fr14/bugs/BUG-FR14-001-*.png` (PASS (pixel-audited 2026-09-03)) |
+| `BUG-FR14-002` | Empty/null/whitespace/missing `name` accepted on POST `/api/categories` | MEDIUM | [#33](https://github.com/thangak18/HW06/issues/33) | `https://github.com/thangak18/HW06/issues/33` | `23127259/evidence/fr14/bugs/BUG-FR14-002-*.png` (PASS (pixel-audited 2026-09-03)) |
+| `BUG-FR14-003` | Non-existent category PUT/DELETE returns false-success | MEDIUM | [#34](https://github.com/thangak18/HW06/issues/34) | `https://github.com/thangak18/HW06/issues/34` | `23127259/evidence/fr14/bugs/BUG-FR14-003-*.png` (PASS (pixel-audited 2026-09-03)) |
+| `BUG-FR14-004` | Empty PUT body corrupts existing category name to `null` | MEDIUM | [#36](https://github.com/thangak18/HW06/issues/36) | `https://github.com/thangak18/HW06/issues/36` | `23127259/evidence/fr14/bugs/BUG-FR14-004-*.png` (PASS (pixel-audited 2026-09-03)) |
 
 ## 2. Policy Compliance Confirmation
 

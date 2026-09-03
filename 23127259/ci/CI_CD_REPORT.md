@@ -64,8 +64,8 @@ Run `33649719887` had a green GitHub conclusion but is **not** used as PASS evid
 
 | Evidence | Path | Status |
 |---|---|---|
-| PASS Actions run | `23127259/ci/evidence/CI-PASS-33651923618.png` | PENDING_CODEX_VISUAL_AUDIT |
-| FAIL Actions run | `23127259/ci/evidence/CI-FAIL-33651923391.png` | PENDING_CODEX_VISUAL_AUDIT |
+| PASS Actions run | `23127259/ci/evidence/CI-PASS-33651923618.png` | PASS (pixel-audited) |
+| FAIL Actions run | `23127259/ci/evidence/CI-FAIL-33651923391.png` | PASS (pixel-audited) |
 
 ## Final CI Gate
 

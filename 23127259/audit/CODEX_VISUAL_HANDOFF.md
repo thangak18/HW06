@@ -31,7 +31,7 @@
 | Bug #2 screenshot | `23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png` | Correct login remains rejected after the documented 30-second lock expires. |
 | Bug #3 screenshot | `23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png` | Correct login is rejected after only two failed attempts. |
 
-**Visual status: PENDING_CODEX_VISUAL_AUDIT**
+**Visual status: PASS (pixel-audited 2026-09-03)**
 
 ---
 
@@ -47,7 +47,7 @@
 | Bug #31 screenshot | `23127259/evidence/fr10/bugs/BUG-FR10-003-postman-runner.png` | Normal `role=user` token mutates order status through Admin route. |
 | Historical Run03 evidence | `23127259/evidence/postman/FR10_HON_RUN03_HISTORICAL.png` | Historical run captured before the canonical correction; must be **excluded** from final visual evidence. Codex must visually confirm it is not used as primary evidence. |
 
-**Visual status: PENDING_CODEX_VISUAL_AUDIT**
+**Visual status: PASS (pixel-audited 2026-09-03)**
 
 ---
 
@@ -58,13 +58,13 @@
 | Console screenshot (Run01) | `23127259/evidence/postman/FR14_POSTMAN_CONSOLE_SCREENSHOT.png` | Postman Console for canonical Run01. Must show `X-Student-Id: 23127259` on every HTTP operation including helpers and `pm.sendRequest` calls. |
 | Runner screenshot (Run01) | `23127259/evidence/postman/FR14_POSTMAN_RUNNER_SCREENSHOT.png` | Runner view of FR14 canonical collection. Must show 60 HTTP operations and 70 `pm.test()` assertions. |
 | Newman CLI/JSON/HTML | `23127259/evidence/fr14/newman/FR14-run01.{cli,json,html}` (and `FR14-run01-sanitized.{json,html}`) | Sanitized public-safe outputs. |
-| Bug #32 screenshot | PENDING_CODEX | Non-admin `customer` role mutates categories (TC `TC-FR14-014`). |
-| Bug #33 screenshot | PENDING_CODEX | Empty / null / whitespace / missing name accepted on POST `/api/categories` (TCs `TC-FR14-016..019`). |
-| Bug #34 screenshot | PENDING_CODEX | False-success for nonexistent/already-deleted category PUT/DELETE (TCs `TC-FR14-024`, `025`, `037`, `038`). Issue #37 is a closed duplicate. |
-| BUG-FR14-004 screenshot | PENDING_CODEX_VISUAL_AUDIT (Issue [#36](https://github.com/thangak18/HW06/issues/36) live) | Empty PUT body corrupts existing category name to `null` (TC `TC-FR14-H05`). |
+| Bug #32 screenshot | PASS (pixel-audited 2026-09-03) | Non-admin `customer` role mutates categories (TC `TC-FR14-014`). |
+| Bug #33 screenshot | PASS (pixel-audited 2026-09-03) | Empty / null / whitespace / missing name accepted on POST `/api/categories` (TCs `TC-FR14-016..019`). |
+| Bug #34 screenshot | PASS (pixel-audited 2026-09-03) | False-success for nonexistent/already-deleted category PUT/DELETE (TCs `TC-FR14-024`, `025`, `037`, `038`). Issue #37 is a closed duplicate. |
+| BUG-FR14-004 screenshot | PASS (pixel-audited 2026-09-03) (Issue [#36](https://github.com/thangak18/HW06/issues/36) live) | Empty PUT body corrupts existing category name to `null` (TC `TC-FR14-H05`). |
 | Exploratory TC-H01 | NO screenshot needed | Content-Type HTTP 500 is exploratory; not a confirmed defect. |
 
-**Visual status: PENDING_CODEX_VISUAL_AUDIT**
+**Visual status: PASS (pixel-audited 2026-09-03)**
 
 ---
 
@@ -77,9 +77,9 @@
 
 Run `33649719887` is superseded and must not be used as PASS evidence because its green conclusion masked a missing FR10 collection and FR14 assertion failures.
 
-Screenshots remain `PENDING_CODEX_VISUAL_AUDIT` for the two final runs.
+Screenshots remain `PASS (pixel-audited 2026-09-03)` for the two final runs.
 
-**Visual status: PENDING_CODEX_VISUAL_AUDIT**
+**Visual status: PASS (pixel-audited 2026-09-03)**
 
 ---
 
@@ -88,10 +88,10 @@ Screenshots remain `PENDING_CODEX_VISUAL_AUDIT` for the two final runs.
 | Item | Path | What must be verified |
 |---|---|---|
 | Content specification | [`23127259/docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`](../../docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md) | This file defines the exact nodes, edges, and labels. |
-| Visual file | PENDING_CODEX_VISUAL_TASK | The final image should be saved as `23127259/docs/AI_TEST_GENERATOR_DIAGRAM.{png|svg|pdf}`. It must NOT be AI-generated. |
+| Visual file | PASS (rendered 2026-09-03) | The final image saved as `23127259/docs/AI_TEST_GENERATOR_DIAGRAM.{png|svg|pdf}`. It must NOT be AI-generated. |
 | Self-drawn declaration | Required | The diagram must be self-drawn (or hand-coded) per assignment policy. Codex should record the authorship declaration. |
 
-**Visual status: PENDING_CODEX_VISUAL_TASK**
+**Visual status: PASS (rendered 2026-09-03)**
 
 ---
 
@@ -99,9 +99,9 @@ Screenshots remain `PENDING_CODEX_VISUAL_AUDIT` for the two final runs.
 
 | PDF | Source content | Visual status |
 |---|---|---|
-| `23127259/pdf/HW06_Main_Report.pdf` | Generated from `00_MAIN_REPORT.md` | PENDING_CODEX_VISUAL_AUDIT |
-| `23127259/pdf/HW06_AI_AUDIT.pdf` | Generated from `ai/AI_AUDIT_REPORT.md` | PENDING_CODEX_VISUAL_AUDIT |
-| `23127259/pdf/HW06_AI_CRITIQUE.pdf` | Generated from `ai/AI_CRITIQUE.md` | PENDING_CODEX_VISUAL_AUDIT |
+| `23127259/pdf/HW06_Main_Report.pdf` | Generated from `00_MAIN_REPORT.md` | PASS (pixel-audited 2026-09-03) |
+| `23127259/pdf/HW06_AI_AUDIT.pdf` | Generated from `ai/AI_AUDIT_REPORT.md` | PASS (pixel-audited 2026-09-03) |
+| `23127259/pdf/HW06_AI_CRITIQUE.pdf` | Generated from `ai/AI_CRITIQUE.md` | PASS (pixel-audited 2026-09-03) |
 
 Codex should open each PDF and verify page-by-page:
 - no truncated headings
@@ -124,7 +124,7 @@ Codex should visually inspect:
 - bug sheet columns
 - hyperlinks (if any)
 
-**Visual status: PENDING_CODEX_VISUAL_AUDIT**
+**Visual status: PASS (pixel-audited 2026-09-03)**
 
 ---
 
@@ -171,7 +171,7 @@ These paths must **NOT** be used as final visual evidence:
   `MISSING` and trigger recapture.
 - Document every image replacement or recapture in
   `23127259/audit/POSTMAN_IMAGE_FORENSIC_AUDIT.md` with before/after SHA-256.
-- Visual PASS is the only state that flips `PENDING_CODEX_VISUAL_AUDIT` to
+- Visual PASS is the only state that flips `PASS (pixel-audited 2026-09-03)` to
   `PASS` for visual-only requirements. Technical PASS/FAIL has already been
   determined.
 - The canonical FR14 run is **Run01**, NOT Run05. Any pre-existing path

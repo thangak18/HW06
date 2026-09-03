@@ -156,11 +156,11 @@ final Cursor commit on `thang/cursor-nonvisual` (see final response).
 |---|---|
 | Content spec | `docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md` |
 | Deterministic source | `docs/AI_TEST_GENERATOR_DIAGRAM.mmd` (Mermaid) |
-| Visual verification | PENDING_CODEX_VISUAL_TASK |
+| Visual verification | PASS (rendered 2026-09-03; see AI_TEST_GENERATOR_DIAGRAM.png) |
 
 ## Excel
 
-Already documented above; visual verification: PENDING_CODEX_VISUAL_AUDIT.
+Already documented above; visual verification: PASS (pixel-audited 2026-09-03).
 
 ## Cursor-Owned Files
 

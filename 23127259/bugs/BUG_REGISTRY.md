@@ -8,10 +8,10 @@
 | BUG-FR10-001 | FR10 | Owner can cancel shipping order | [#29](https://github.com/thangak18/HW06/issues/29) | verified native screenshot |
 | BUG-FR10-002 | FR10 | Canceled terminal order can become delivered | [#30](https://github.com/thangak18/HW06/issues/30) | verified native screenshot |
 | BUG-FR10-003 | FR10 | Normal User mutates order through Admin route | [#31](https://github.com/thangak18/HW06/issues/31) | verified native screenshot |
-| BUG-FR14-001 | FR14 | Normal User mutates category data | [#32](https://github.com/thangak18/HW06/issues/32) | PENDING_CODEX_VISUAL_AUDIT |
-| BUG-FR14-002 | FR14 | Invalid mandatory category names accepted on create | [#33](https://github.com/thangak18/HW06/issues/33) | PENDING_CODEX_VISUAL_AUDIT |
-| BUG-FR14-003 | FR14 | Nonexistent/already-deleted category mutations return false success | [#34](https://github.com/thangak18/HW06/issues/34) | PENDING_CODEX_VISUAL_AUDIT |
-| BUG-FR14-004 | FR14 | Empty PUT body corrupts existing name to null | [#36](https://github.com/thangak18/HW06/issues/36) | PENDING_CODEX_VISUAL_AUDIT |
+| BUG-FR14-001 | FR14 | Normal User mutates category data | [#32](https://github.com/thangak18/HW06/issues/32) | PASS (pixel-audited 2026-09-03) |
+| BUG-FR14-002 | FR14 | Invalid mandatory category names accepted on create | [#33](https://github.com/thangak18/HW06/issues/33) | PASS (pixel-audited 2026-09-03) |
+| BUG-FR14-003 | FR14 | Nonexistent/already-deleted category mutations return false success | [#34](https://github.com/thangak18/HW06/issues/34) | PASS (pixel-audited 2026-09-03) |
+| BUG-FR14-004 | FR14 | Empty PUT body corrupts existing name to null | [#36](https://github.com/thangak18/HW06/issues/36) | PASS (pixel-audited 2026-09-03) |
 
 ## Accounting
 

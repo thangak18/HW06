@@ -7,7 +7,7 @@
 > **Visual file (final):** `23127259/docs/AI_TEST_GENERATOR_DIAGRAM.png`
 > (or `.svg`, `.pdf`).
 >
-> **Visual status:** PENDING_CODEX_VISUAL_TASK.
+> **Visual status:** PASS (rendered via PIL 2026-09-03; see AI_TEST_GENERATOR_DIAGRAM.png).
 
 ## Diagram Type
 

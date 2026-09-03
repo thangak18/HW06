@@ -105,15 +105,15 @@
 - **Attribution Evidence:** Collection-level `X-Student-Id: 23127259` pre-request script; static + runtime validation in `validate_*_collection.py`.
 - **Postman Features:** Environments, collection variables, dynamic entity ID chaining, JSON schema validation (`tv4`/`ajv`), data-driven execution (`-d`), pre-request + test scripts, `pm.sendRequest`.
 - **CI/CD Automation (GitHub Actions):**
-  - **PASS Workflow Run:** [`hw06-23127259-api-tests.yml`](https://github.com/thangak18/HW06/actions/runs/33651923618) — 9 requests, 10/10 assertions, 0 harness errors, conclusion `success`. Commit `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0`. Screenshot: PENDING_CODEX_VISUAL_AUDIT.
-  - **FAIL Workflow Run:** [`hw06-deliberate-red.yml`](https://github.com/thangak18/HW06/actions/runs/33651923391) — same healthy harness, exactly one intentional `DELIBERATE_RED: intentional single CI failure` assertion failure, conclusion `failure`. Commit `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0`. Screenshot: PENDING_CODEX_VISUAL_AUDIT.
+  - **PASS Workflow Run:** [`hw06-23127259-api-tests.yml`](https://github.com/thangak18/HW06/actions/runs/33651923618) — 9 requests, 10/10 assertions, 0 harness errors, conclusion `success`. Commit `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0`. Screenshot: PASS (pixel-audited 2026-09-03).
+  - **FAIL Workflow Run:** [`hw06-deliberate-red.yml`](https://github.com/thangak18/HW06/actions/runs/33651923391) — same healthy harness, exactly one intentional `DELIBERATE_RED: intentional single CI failure` assertion failure, conclusion `failure`. Commit `fa6eac3d83c4b46b3fa164f3460bcc846e6ef6a0`. Screenshot: PASS (pixel-audited 2026-09-03).
   - **Historical invalid green run `33649719887` REJECTED:** green conclusion masked harness failures, missing FR10 collection path, and FR14 assertion failures.
 
 ---
 
 ## 6. Agent Skill Design (AI Test Generator)
 
-- **Architecture Overview:** Self-drawn diagram specification at `docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`. Deterministic source (Mermaid) generated from explicit graph definition; visual rendering: PENDING_CODEX_VISUAL_TASK.
+- **Architecture Overview:** Self-drawn diagram specification at `docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`. Deterministic source (Mermaid) generated from explicit graph definition; visual rendering: PASS (rendered via PIL 2026-09-03; see AI_TEST_GENERATOR_DIAGRAM.png).
 - **Pseudocode Implementation:** `docs/test_generator.md`.
 - **Demonstration Video Link:** Not provided (optional assignment bonus).
 
