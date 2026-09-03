@@ -783,10 +783,10 @@ PHASE 2D.1A – FR-10 MINIMAL AUTH + CHECKOUT + STATE-FIXTURE SMOKE
 ---
 
 ## 1. AI Audit Verification
-- **INT-038 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1752) backfilled into [`23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md).
-- **INT-039 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md).
-- **INT-039 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-038 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1752) backfilled into [`23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md`](INT-038-fr10-fixture-route-execution-readiness-audit.md).
+- **INT-039 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md`](INT-039-fr10-per-case-fixture-isolation-hardening.md).
+- **INT-039 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-039 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -827,11 +827,11 @@ PHASE 2D.1A – FR-10 MINIMAL AUTH + CHECKOUT + STATE-FIXTURE SMOKE
 ---
 
 ## 5. Route Discipline & Authoritative Sourcing
-- **Login Route:** `POST /api/auth/login` (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L30-L32) FR-02 & [`docs/team-api-allocation.md`](file:///Volumes/Thang/HW06/HW06/docs/team-api-allocation.md#L12)).
-- **Checkout Route:** `POST /api/checkout` (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L45-L48) FR-08).
-- **Status Mutation Route:** `PUT /api/admin/orders/:id/status` (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L88-L92) FR-18).
-- **Cancellation Route:** **`PUT /api/orders/:id/cancel`** (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L50-L53) FR-10; all references to secondary POST removed).
-- **Order Read / Persistence Route:** `GET /api/orders/:id` (Authoritative source: [`docs/assignment-notes.md`](file:///Volumes/Thang/HW06/HW06/docs/assignment-notes.md#L55-L58) FR-11).
+- **Login Route:** `POST /api/auth/login` (Authoritative source: `docs/assignment-notes.md` FR-02 & `docs/team-api-allocation.md`).
+- **Checkout Route:** `POST /api/checkout` (Authoritative source: `docs/assignment-notes.md` FR-08).
+- **Status Mutation Route:** `PUT /api/admin/orders/:id/status` (Authoritative source: `docs/assignment-notes.md` FR-18).
+- **Cancellation Route:** **`PUT /api/orders/:id/cancel`** (Authoritative source: `docs/assignment-notes.md` FR-10; all references to secondary POST removed).
+- **Order Read / Persistence Route:** `GET /api/orders/:id` (Authoritative source: `docs/assignment-notes.md` FR-11).
 
 ---
 
@@ -844,7 +844,7 @@ PHASE 2D.1A – FR-10 MINIMAL AUTH + CHECKOUT + STATE-FIXTURE SMOKE
 
 ## 7. HTTP Operation Accounting Reconciliation
 
-Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md):
+Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](../../postman/FR10_HTTP_OPERATION_INVENTORY.md):
 
 | Category | HTTP Operation Count | Description |
 |---|:---:|---|
@@ -860,7 +860,7 @@ Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volu
 
 ## 8. Automated Static Fixture Isolation Validator Gate
 
-Validator script: [`23127259/postman/validate_fr10_fixture_isolation.py`](file:///Volumes/Thang/HW06/HW06/23127259/postman/validate_fr10_fixture_isolation.py)
+Validator script: [`23127259/postman/validate_fr10_fixture_isolation.py`](../../postman/validate_fr10_fixture_isolation.py)
 
 ```
 === RUNNING FR-10 FIXTURE ISOLATION STATIC VALIDATOR ===
@@ -881,7 +881,7 @@ Validator script: [`23127259/postman/validate_fr10_fixture_isolation.py`](file:/
 === ALL 10 PER-CASE FIXTURE ISOLATION GATES PASSED (100% READY) ===
 ```
 
-- **46 Fixture Mappings:** **YES** (Documented in [`23127259/postman/FR10_PER_CASE_FIXTURE_MATRIX.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_PER_CASE_FIXTURE_MATRIX.md))
+- **46 Fixture Mappings:** **YES** (Documented in [`23127259/postman/FR10_PER_CASE_FIXTURE_MATRIX.md`](../../postman/FR10_PER_CASE_FIXTURE_MATRIX.md))
 - **Shared Mutable Variables:** **`0`**
 - **Fallback IDs:** **`0`**
 - **Unsafe State Dependency:** **`0`**

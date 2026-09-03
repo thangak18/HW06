@@ -759,10 +759,10 @@ PHASE 2A.5 – FR-10 INPUT DOMAIN, ID, SCHEMA, PERSISTENCE, AND SEC-05 FINAL AI 
 ---
 
 ## 1. AI Audit Verification
-- **INT-027 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1351) backfilled into [`23127259/ai/interactions/INT-027-fr10-backward-terminal-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-027-fr10-backward-terminal-generation.md).
-- **INT-028 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md).
-- **INT-028 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-027 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1351) backfilled into [`23127259/ai/interactions/INT-027-fr10-backward-terminal-generation.md`](INT-027-fr10-backward-terminal-generation.md).
+- **INT-028 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md`](INT-028-fr10-auth-rbac-ownership-generation.md).
+- **INT-028 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-028 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -778,16 +778,16 @@ PHASE 2A.5 – FR-10 INPUT DOMAIN, ID, SCHEMA, PERSISTENCE, AND SEC-05 FINAL AI 
 
 | Test Case ID | Security Dimension | Actor / Auth Context | Target Endpoint & State | Expected State After |
 |---|---|---|---|:---:|
-| [`FR10-AI-025`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-025--sec-02-missing-authorization-header-on-valid-admin-status-transition) | `SEC-02`: Missing Auth Header | Anonymous (No Token) | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
-| [`FR10-AI-026`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-026--sec-02-malformed-authorization-header-on-valid-admin-status-transition) | `SEC-02`: Malformed Header | Malformed Bearer | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
-| [`FR10-AI-027`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-027--sec-02-syntactically-invalid--random-jwt-on-valid-admin-transition) | `SEC-02`: Invalid / Garbage JWT | Pseudo-token String | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
-| [`FR10-AI-028`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-028--sec-02-cryptographically-tampered-jwt-on-valid-admin-transition) | `SEC-02`: Tampered Signature JWT | Tampered Admin JWT | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
-| [`FR10-AI-029`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-029--sec-02-missing-authorization-header-on-customer-cancellation-endpoint) | `SEC-02`: Missing Auth Header | Anonymous (No Token) | `PUT /api/orders/:id/cancel` (`pending` $\rightarrow$ `canceled`) | `pending` (Unchanged) |
-| [`FR10-AI-030`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-030--sec-03-normal-customer-role-attempting-valid-admin-transition) | `SEC-03`: RBAC Privilege Boundary | Normal User (`role = 'user'`) | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
-| [`FR10-AI-031`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-031--sec-03-normal-customer-role-attempting-admin-cancellation-route) | `SEC-03`: Admin Route Access | Normal User (`role = 'user'`) | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `canceled`) | `pending` (Unchanged) |
-| [`FR10-AI-032`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-032--sec-03-normal-customer-role-attempting-admin-transit-dispatch) | `SEC-03`: RBAC Post-Confirmation | Normal User (`role = 'user'`) | `PUT /api/admin/orders/:id/status` (`confirmed` $\rightarrow$ `shipping`) | `confirmed` (Unchanged) |
-| [`FR10-AI-033`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-033--cross-user-ownership-boundary-customer-b-cancelling-customer-as-pending-order) | Cross-Tenant Ownership Boundary | User B on User A's Order | `PUT /api/orders/:id/cancel` (`pending` state) | `pending` (Unchanged) |
-| [`FR10-AI-034`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-034--cross-user-ownership-boundary-customer-b-cancelling-customer-as-confirmed-order) | Cross-Tenant Ownership Boundary | User B on User A's Order | `PUT /api/orders/:id/cancel` (`confirmed` state) | `confirmed` (Unchanged) |
+| [`FR10-AI-025`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-025--sec-02-missing-authorization-header-on-valid-admin-status-transition) | `SEC-02`: Missing Auth Header | Anonymous (No Token) | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
+| [`FR10-AI-026`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-026--sec-02-malformed-authorization-header-on-valid-admin-status-transition) | `SEC-02`: Malformed Header | Malformed Bearer | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
+| [`FR10-AI-027`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-027--sec-02-syntactically-invalid--random-jwt-on-valid-admin-transition) | `SEC-02`: Invalid / Garbage JWT | Pseudo-token String | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
+| [`FR10-AI-028`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-028--sec-02-cryptographically-tampered-jwt-on-valid-admin-transition) | `SEC-02`: Tampered Signature JWT | Tampered Admin JWT | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
+| [`FR10-AI-029`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-029--sec-02-missing-authorization-header-on-customer-cancellation-endpoint) | `SEC-02`: Missing Auth Header | Anonymous (No Token) | `PUT /api/orders/:id/cancel` (`pending` $\rightarrow$ `canceled`) | `pending` (Unchanged) |
+| [`FR10-AI-030`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-030--sec-03-normal-customer-role-attempting-valid-admin-transition) | `SEC-03`: RBAC Privilege Boundary | Normal User (`role = 'user'`) | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `confirmed`) | `pending` (Unchanged) |
+| [`FR10-AI-031`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-031--sec-03-normal-customer-role-attempting-admin-cancellation-route) | `SEC-03`: Admin Route Access | Normal User (`role = 'user'`) | `PUT /api/admin/orders/:id/status` (`pending` $\rightarrow$ `canceled`) | `pending` (Unchanged) |
+| [`FR10-AI-032`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-032--sec-03-normal-customer-role-attempting-admin-transit-dispatch) | `SEC-03`: RBAC Post-Confirmation | Normal User (`role = 'user'`) | `PUT /api/admin/orders/:id/status` (`confirmed` $\rightarrow$ `shipping`) | `confirmed` (Unchanged) |
+| [`FR10-AI-033`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-033--cross-user-ownership-boundary-customer-b-cancelling-customer-as-pending-order) | Cross-Tenant Ownership Boundary | User B on User A's Order | `PUT /api/orders/:id/cancel` (`pending` state) | `pending` (Unchanged) |
+| [`FR10-AI-034`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-034--cross-user-ownership-boundary-customer-b-cancelling-customer-as-confirmed-order) | Cross-Tenant Ownership Boundary | User B on User A's Order | `PUT /api/orders/:id/cancel` (`confirmed` state) | `confirmed` (Unchanged) |
 
 ---
 

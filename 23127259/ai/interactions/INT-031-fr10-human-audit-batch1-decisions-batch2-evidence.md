@@ -569,10 +569,10 @@ FR10-AI-013 .. FR10-AI-024
 ---
 
 ## 1. AI Audit Verification
-- **INT-030 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1446) backfilled into [`23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md).
-- **INT-031 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md).
-- **INT-031 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-030 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1446) backfilled into [`23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md`](INT-030-fr10-human-audit-preparation-batch1.md).
+- **INT-031 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md`](INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md).
+- **INT-031 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-031 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -587,18 +587,18 @@ FR10-AI-013 .. FR10-AI-024
 
 | Test ID | AI Objective Summary | Student Verdict | Required Correction | Executable After Correction? |
 |---|---|:---:|---|:---:|
-| [`FR10-AI-001`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-001--verdict-valid) | Valid Admin `pending` $\rightarrow$ `confirmed` | **VALID** | NONE | **YES** |
-| [`FR10-AI-002`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-002--verdict-valid) | Valid Admin `confirmed` $\rightarrow$ `shipping` | **VALID** | NONE | **YES** |
-| [`FR10-AI-003`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-003--verdict-valid) | Valid Admin `shipping` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
-| [`FR10-AI-004`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-004--verdict-valid) | Linear sequence `pending` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
-| [`FR10-AI-005`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-005--verdict-valid) | Customer cancels own `pending` order | **VALID** | NONE | **YES** |
-| [`FR10-AI-006`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-006--verdict-valid) | Admin cancels `pending` order | **VALID** | NONE | **YES** |
-| [`FR10-AI-007`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-007--verdict-valid) | Customer cancels own `confirmed` order | **VALID** | NONE | **YES** |
-| [`FR10-AI-008`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-008--verdict-valid) | Admin cancels `confirmed` order | **VALID** | NONE | **YES** |
-| [`FR10-AI-009`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-009--verdict-valid) | Illegal Admin skip `pending` $\rightarrow$ `shipping` | **VALID** | NONE | **YES** |
-| [`FR10-AI-010`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-010--verdict-valid) | Illegal Admin skip `pending` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
-| [`FR10-AI-011`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-011--verdict-valid) | Illegal Admin skip `confirmed` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
-| [`FR10-AI-012`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-012--verdict-invalid) | Customer skip attempt `pending` $\rightarrow$ `shipping` | **INVALID** | NONE – REJECT RAW CASE FROM EXECUTABLE SUITE | **NO** |
+| [`FR10-AI-001`](../TC_AUDIT_FR10.md#fr10-ai-001--verdict-valid) | Valid Admin `pending` $\rightarrow$ `confirmed` | **VALID** | NONE | **YES** |
+| [`FR10-AI-002`](../TC_AUDIT_FR10.md#fr10-ai-002--verdict-valid) | Valid Admin `confirmed` $\rightarrow$ `shipping` | **VALID** | NONE | **YES** |
+| [`FR10-AI-003`](../TC_AUDIT_FR10.md#fr10-ai-003--verdict-valid) | Valid Admin `shipping` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
+| [`FR10-AI-004`](../TC_AUDIT_FR10.md#fr10-ai-004--verdict-valid) | Linear sequence `pending` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
+| [`FR10-AI-005`](../TC_AUDIT_FR10.md#fr10-ai-005--verdict-valid) | Customer cancels own `pending` order | **VALID** | NONE | **YES** |
+| [`FR10-AI-006`](../TC_AUDIT_FR10.md#fr10-ai-006--verdict-valid) | Admin cancels `pending` order | **VALID** | NONE | **YES** |
+| [`FR10-AI-007`](../TC_AUDIT_FR10.md#fr10-ai-007--verdict-valid) | Customer cancels own `confirmed` order | **VALID** | NONE | **YES** |
+| [`FR10-AI-008`](../TC_AUDIT_FR10.md#fr10-ai-008--verdict-valid) | Admin cancels `confirmed` order | **VALID** | NONE | **YES** |
+| [`FR10-AI-009`](../TC_AUDIT_FR10.md#fr10-ai-009--verdict-valid) | Illegal Admin skip `pending` $\rightarrow$ `shipping` | **VALID** | NONE | **YES** |
+| [`FR10-AI-010`](../TC_AUDIT_FR10.md#fr10-ai-010--verdict-valid) | Illegal Admin skip `pending` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
+| [`FR10-AI-011`](../TC_AUDIT_FR10.md#fr10-ai-011--verdict-valid) | Illegal Admin skip `confirmed` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
+| [`FR10-AI-012`](../TC_AUDIT_FR10.md#fr10-ai-012--verdict-invalid) | Customer skip attempt `pending` $\rightarrow$ `shipping` | **INVALID** | NONE – REJECT RAW CASE FROM EXECUTABLE SUITE | **NO** |
 
 ---
 
@@ -617,24 +617,24 @@ FR10-AI-013 .. FR10-AI-024
 
 | Test ID | AI Objective | Duplicate Risk | Confound Risk | Over-Spec Risk | Key Human Audit Decision Question |
 |---|---|:---:|:---:|:---:|---|
-| [`FR10-AI-013`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-013) | Admin backward regression: `confirmed` $\rightarrow$ `pending` | NO | NO | NO | Does this provide an authoritative single-step backward regression probe? |
-| [`FR10-AI-014`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-014) | Admin backward regression: `shipping` $\rightarrow$ `confirmed` | NO | NO | NO | Does this cleanly isolate in-transit backward reversal to pre-shipment? |
-| [`FR10-AI-015`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-015) | Admin multi-stage regression: `shipping` $\rightarrow$ `pending` | NO | NO | NO | Is a multi-stage backward reversal probe a valuable distinct negative FSM test? |
-| [`FR10-AI-016`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-016) | Customer prohibited cancellation of `shipping` order | NO | NO | NO | Does this directly test the explicit SRS 4.10 rule barring in-transit customer cancellations? |
-| [`FR10-AI-017`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-017) | Terminal mutation: `delivered` $\rightarrow$ `pending` | POSSIBLE (Terminal Family) | NO | NO | Should mutation from `delivered` to `pending` be retained as a distinct state-pair test? |
-| [`FR10-AI-018`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-018) | Terminal mutation: `delivered` $\rightarrow$ `confirmed` | POSSIBLE (Terminal Family) | NO | NO | Does this provide meaningful protection against resurrecting fulfilled orders to confirmed? |
-| [`FR10-AI-019`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-019) | Terminal mutation: `delivered` $\rightarrow$ `shipping` | POSSIBLE (Terminal Family) | NO | NO | Does this cleanly verify that completed delivery cannot regress to active transit? |
-| [`FR10-AI-020`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-020) | Terminal mutation: `delivered` $\rightarrow$ `canceled` | NO (Critical Business Rule) | NO | NO | Does this represent a critical boundary ensuring fulfilled transactions cannot be voided? |
-| [`FR10-AI-021`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-021) | Terminal mutation: `canceled` $\rightarrow$ `pending` | POSSIBLE (Terminal Family) | NO | NO | Does this confirm protection against resurrecting canceled orders back to pending? |
-| [`FR10-AI-022`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-022) | Terminal mutation: `canceled` $\rightarrow$ `confirmed` | POSSIBLE (Terminal Family) | NO | NO | Does this test verify that canceled orders cannot be directly confirmed? |
-| [`FR10-AI-023`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-023) | Terminal mutation: `canceled` $\rightarrow$ `shipping` | POSSIBLE (Terminal Family) | NO | NO | Does this prevent accidental warehouse dispatch of voided transactions? |
-| [`FR10-AI-024`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-024) | Terminal mutation: `canceled` $\rightarrow$ `delivered` | NO (Cross-Terminal Isolation) | NO | NO | Does this provide an essential check ensuring voided orders cannot be marked delivered? |
+| [`FR10-AI-013`](../TC_AUDIT_FR10.md#fr10-ai-013) | Admin backward regression: `confirmed` $\rightarrow$ `pending` | NO | NO | NO | Does this provide an authoritative single-step backward regression probe? |
+| [`FR10-AI-014`](../TC_AUDIT_FR10.md#fr10-ai-014) | Admin backward regression: `shipping` $\rightarrow$ `confirmed` | NO | NO | NO | Does this cleanly isolate in-transit backward reversal to pre-shipment? |
+| [`FR10-AI-015`](../TC_AUDIT_FR10.md#fr10-ai-015) | Admin multi-stage regression: `shipping` $\rightarrow$ `pending` | NO | NO | NO | Is a multi-stage backward reversal probe a valuable distinct negative FSM test? |
+| [`FR10-AI-016`](../TC_AUDIT_FR10.md#fr10-ai-016) | Customer prohibited cancellation of `shipping` order | NO | NO | NO | Does this directly test the explicit SRS 4.10 rule barring in-transit customer cancellations? |
+| [`FR10-AI-017`](../TC_AUDIT_FR10.md#fr10-ai-017) | Terminal mutation: `delivered` $\rightarrow$ `pending` | POSSIBLE (Terminal Family) | NO | NO | Should mutation from `delivered` to `pending` be retained as a distinct state-pair test? |
+| [`FR10-AI-018`](../TC_AUDIT_FR10.md#fr10-ai-018) | Terminal mutation: `delivered` $\rightarrow$ `confirmed` | POSSIBLE (Terminal Family) | NO | NO | Does this provide meaningful protection against resurrecting fulfilled orders to confirmed? |
+| [`FR10-AI-019`](../TC_AUDIT_FR10.md#fr10-ai-019) | Terminal mutation: `delivered` $\rightarrow$ `shipping` | POSSIBLE (Terminal Family) | NO | NO | Does this cleanly verify that completed delivery cannot regress to active transit? |
+| [`FR10-AI-020`](../TC_AUDIT_FR10.md#fr10-ai-020) | Terminal mutation: `delivered` $\rightarrow$ `canceled` | NO (Critical Business Rule) | NO | NO | Does this represent a critical boundary ensuring fulfilled transactions cannot be voided? |
+| [`FR10-AI-021`](../TC_AUDIT_FR10.md#fr10-ai-021) | Terminal mutation: `canceled` $\rightarrow$ `pending` | POSSIBLE (Terminal Family) | NO | NO | Does this confirm protection against resurrecting canceled orders back to pending? |
+| [`FR10-AI-022`](../TC_AUDIT_FR10.md#fr10-ai-022) | Terminal mutation: `canceled` $\rightarrow$ `confirmed` | POSSIBLE (Terminal Family) | NO | NO | Does this test verify that canceled orders cannot be directly confirmed? |
+| [`FR10-AI-023`](../TC_AUDIT_FR10.md#fr10-ai-023) | Terminal mutation: `canceled` $\rightarrow$ `shipping` | POSSIBLE (Terminal Family) | NO | NO | Does this prevent accidental warehouse dispatch of voided transactions? |
+| [`FR10-AI-024`](../TC_AUDIT_FR10.md#fr10-ai-024) | Terminal mutation: `canceled` $\rightarrow$ `delivered` | NO (Cross-Terminal Isolation) | NO | NO | Does this provide an essential check ensuring voided orders cannot be marked delivered? |
 
 ---
 
 ## 6. Git Status
 - **Human Audit Completion Commit Created:** **NO** (Withheld until all 42 decisions are completed).
-- **Working Tree:** [`23127259/ai/TC_AUDIT_FR10.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md) and interaction logs updated and ready in working tree.
+- **Working Tree:** [`23127259/ai/TC_AUDIT_FR10.md`](../TC_AUDIT_FR10.md) and interaction logs updated and ready in working tree.
 
 ---
 

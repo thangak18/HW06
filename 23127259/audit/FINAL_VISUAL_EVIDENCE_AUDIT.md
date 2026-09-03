@@ -12,8 +12,9 @@
 
 | Category | Count |
 |---|---:|
-| Total grader-facing images inspected | 19 |
-| VALID_FINAL | 19 |
+| Logical grader-facing evidence slots | 19 |
+| Distinct physical final image files | 18 |
+| VALID_FINAL logical slots | 19 |
 | VALID_FINAL (historical) | 0 |
 | Historical excluded (int053/int054 synthetic) | 0 in final set |
 | Wrong FR | 0 |
@@ -31,7 +32,7 @@
 |---|---|---|---|---|---|---|---|---|
 | `evidence/postman/FR02-postman-console-x-student-id.png` | FR02 | FR02 | Console + X-Student-Id | Real Postman Desktop; FR02 login request; expanded headers with `X-Student-Id: 23127259` | `ff37fd5cc13d56f37a97df37e4ff5ba0e5afae7ba89d655624d0585f91a55851` | YES | YES | **VALID_FINAL** |
 | `evidence/postman/FR02-postman-runner-result.png` | FR02 | FR02 | Runner overview | Real Postman Desktop Runner; `FR02_Login_Account_Lockout`; 71 tests, 67 passed, 4 failed, 0 errors | `cc017ada960ad3fa60d4d7523bc8efade654d4abd49eb0cbd2ae8ee37d362f46` | YES | YES | **VALID_FINAL** |
-| `bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png` | FR02 | FR02 | Bug #1 evidence | Real Postman Runner; failed assertion identifying FR02-AI-028; HTTP 200 plaintext password in response | `57b3c3d8af3d5194fe4c5abce34519d2914fea9789059d159bd7416c4c926c9a` | YES | YES | **VALID_FINAL** |
+| `bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png` | FR02 | FR02 | Bug #1 evidence | Real Postman Runner; failed password-omission assertion identifies FR02-AI-028 with HTTP 200. The credential value itself is not displayed. | `57b3c3d8af3d5194fe4c5abce34519d2914fea9789059d159bd7416c4c926c9a` | YES | YES | **VALID_FINAL** |
 | `bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png` | FR02 | FR02 | Bug #2 evidence | Real Postman Runner; FR02-AI-021 selected; HTTP 403 after T=32s; lock response visible | `f2cb12236b277a0a718ba21bdbfdc9747eebfa290cd34ad01069cddf2dc95ba0` | YES | YES | **VALID_FINAL** |
 | `bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png` | FR02 | FR02 | Bug #3 evidence | Real Postman Runner; FR02-HUM-003 selected; HTTP 403 at N=2; lock response visible | `a166792be577e1d9765645f9e12a8ae8d216f2cb7ac540dedf31becf73049840` | YES | YES | **VALID_FINAL** |
 
@@ -52,8 +53,8 @@
 
 | Path | Intended FR | Actual FR | Purpose | Visible Evidence | SHA-256 | Authentic | Secret-Free | Status |
 |---|---|---|---|---|---|---|---|---|
-| `evidence/fr14/FR14-postman-console-x-student-id.png` | FR14 | FR14 | Console + X-Student-Id | Real Postman Desktop; `FR14_Category_CRUD Copy`; GET `http://localhost:3010/api/categories`; status 200 OK; headers with `X-Student-Id: 23127259` | `a7eb1faee23ad8c35dde401c0b4b1d98a07f6543199a7ddb86b44e9be0c65791` | YES | YES | **VALID_FINAL** |
-| `evidence/fr14/FR14-postman-runner-result.png` | FR14 | FR14 | Runner overview | Real Postman Runner; `FR14_Category_CRUD Copy`; environment `FR14-local`; **46 test items**; 6 failed; 0 errors | `65cc316415efb76c09e0369c8f1812709fb5bf2aa0b4586213f55b8f8e5d3f9b` | YES | YES | **VALID_FINAL** |
+| `evidence/fr14/FR14-postman-console-x-student-id.png` | FR14 | FR14 | Console + X-Student-Id | Real Postman Desktop; `FR14_Category_CRUD Copy`; GET `http://localhost:3000/api/categories`; status 200 OK; headers with `X-Student-Id: 23127259` | `a7eb1faee23ad8c35dde401c0b4b1d98a07f6543199a7ddb86b44e9be0c65791` | YES | YES | **VALID_FINAL** |
+| `evidence/fr14/FR14-postman-runner-result.png` | FR14 | FR14 | Runner overview | Real Postman Runner; `FR14_Category_CRUD Copy`; environment `FR14-local`; UI summary shows 70 tests/assertions, 58 passed, 12 failed, 0 errors. These cover 46 formal cases, 58 stored request items, and 60 HTTP operations including 2 scripted verification GETs. | `65cc316415efb76c09e0369c8f1812709fb5bf2aa0b4586213f55b8f8e5d3f9b` | YES | YES | **VALID_FINAL** |
 | `evidence/fr14/bugs/BUG-FR14-001-postman-runner.png` | FR14 | FR14 | Bug #32 evidence | Real Postman Runner; TC-FR14-012/013/014 selected; `role=user` mutates category with HTTP 200 visible | `9d03d85e62936609f460d7e7947a0b02436cb6ed16e3bc2e480a6fd8f4eb39d4` | YES | YES | **VALID_FINAL** |
 | `evidence/fr14/bugs/BUG-FR14-002-postman-runner.png` | FR14 | FR14 | Bug #33 evidence | Real Postman Runner; TC-FR14-016/017/018/019 selected; empty/null/whitespace name accepted visible | `15919c31baf60b391b694bb53633c1173aeb7e42c30fdfe943f8cc7ffe61c7f0` | YES | YES | **VALID_FINAL** |
 | `evidence/fr14/bugs/BUG-FR14-003-postman-runner.png` | FR14 | FR14 | Bug #34 evidence (covers TC-024/025/037/038) | Real Postman Runner; TC-FR14-024 selected; nonexistent ID PUT returns HTTP 200 visible. Also covers TC-FR14-037/038 (already-deleted ID, same root cause). | `9d3d6c65008d483e75277fbe0a7bed406f69bc04b3136a3b30277f08998bb0b8` | YES | YES | **VALID_FINAL** |
@@ -93,11 +94,11 @@ No stale or wrong-FR images remain in the final image set.
 
 ## Secret Audit
 
-All 19 final images were checked for visible secrets:
+All 19 logical evidence slots represented by 18 distinct final image files were checked for visible secrets:
 
 - No JWT tokens visible in any Postman or CI screenshot.
 - No bearer tokens visible in any screenshot.
-- No plaintext passwords visible in any screenshot (except `BUG-FR02-001` which is the bug itself — the plaintext password in the response body is the confirmed defect, not a credential leak in the evidence artifact).
+- No plaintext passwords are visibly rendered in any screenshot. `BUG-FR02-001` proves the defect through the failed password-omission assertion without displaying the credential value.
 - No API keys, OAuth tokens, or session cookies visible.
 
 ---

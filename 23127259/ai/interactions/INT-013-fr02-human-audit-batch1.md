@@ -82,7 +82,7 @@ PLANNER_RESPONSE at step 574: len 0
 
 ## 1. Summary of Batch 1 Student Audit Decisions (`FR02-AI-001` .. `FR02-AI-010`)
 
-All 10 student decisions for Batch 1 have been recorded in [TC_AUDIT_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR02.md):
+All 10 student decisions for Batch 1 have been recorded in [TC_AUDIT_FR02.md](../TC_AUDIT_FR02.md):
 
 | AI Case ID | Raw Title | Student Verdict | Final Disposition | Key Summary of Student Reasoning & Correction |
 |---|---|:---:|:---:|---|

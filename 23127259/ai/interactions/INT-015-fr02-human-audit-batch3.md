@@ -74,7 +74,7 @@ Correction: NONE
 
 ## 1. Summary of Batch 3 Student Audit Decisions (`FR02-AI-021` .. `FR02-AI-030`)
 
-All 10 student decisions for Batch 3 have been recorded in [TC_AUDIT_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR02.md):
+All 10 student decisions for Batch 3 have been recorded in [TC_AUDIT_FR02.md](../TC_AUDIT_FR02.md):
 
 | AI Case ID | Raw Title | Student Verdict | Final Disposition | Key Summary of Student Reasoning & Correction |
 |---|---|:---:|:---:|---|

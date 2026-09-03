@@ -11,9 +11,9 @@
 
 | Bug ID | Title | Severity | GitHub Issue # | Live GitHub URL | Filed At (UTC+7) | Screenshot Evidence Reference |
 |:---:|---|:---:|:---:|---|:---:|---|
-| **`BUG-FR02-001`** | [BUG-FR02-001] Sensitive Password Exposure in Successful Login Response | **HIGH** | [#1](https://github.com/thangak18/HW06/issues/1) | `https://github.com/thangak18/HW06/issues/1` | 2026-09-01 20:33:53 | [`screenshots/FR02/BUG-FR02-001-login-password-exposure.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png) |
-| **`BUG-FR02-002`** | [BUG-FR02-002] Account Remains Locked Beyond Documented 30-Second Lockout Duration | **HIGH** | [#2](https://github.com/thangak18/HW06/issues/2) | `https://github.com/thangak18/HW06/issues/2` | 2026-09-01 20:33:57 | [`screenshots/FR02/BUG-FR02-002-lock-after-30s.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png) |
-| **`BUG-FR02-003`** | [BUG-FR02-003] Correct Login Rejected After Two Consecutive Failed Attempts | **HIGH** | [#3](https://github.com/thangak18/HW06/issues/3) | `https://github.com/thangak18/HW06/issues/3` | 2026-09-01 20:34:03 | [`screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png) |
+| **`BUG-FR02-001`** | [BUG-FR02-001] Sensitive Password Exposure in Successful Login Response | **HIGH** | [#1](https://github.com/thangak18/HW06/issues/1) | `https://github.com/thangak18/HW06/issues/1` | 2026-09-01 20:33:53 | [`screenshots/FR02/BUG-FR02-001-login-password-exposure.png`](screenshots/FR02/BUG-FR02-001-login-password-exposure.png) |
+| **`BUG-FR02-002`** | [BUG-FR02-002] Account Remains Locked Beyond Documented 30-Second Lockout Duration | **HIGH** | [#2](https://github.com/thangak18/HW06/issues/2) | `https://github.com/thangak18/HW06/issues/2` | 2026-09-01 20:33:57 | [`screenshots/FR02/BUG-FR02-002-lock-after-30s.png`](screenshots/FR02/BUG-FR02-002-lock-after-30s.png) |
+| **`BUG-FR02-003`** | [BUG-FR02-003] Correct Login Rejected After Two Consecutive Failed Attempts | **HIGH** | [#3](https://github.com/thangak18/HW06/issues/3) | `https://github.com/thangak18/HW06/issues/3` | 2026-09-01 20:34:03 | [`screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png`](screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png) |
 
 ---
 

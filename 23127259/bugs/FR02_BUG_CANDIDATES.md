@@ -43,7 +43,7 @@
 - **Severity:** **HIGH** (Information Disclosure / Sensitive Data Exposure)
 - **Oracle Basis:** `api_specification.md` specifies `user` profile attributes (`id`, `name`, `email`, `role`) and does not document password. Disclosing plaintext passwords violates fundamental response data sanitization principles.
 - **Observed Behavior:** `POST /api/login` returns HTTP 200 with `"password": "User1234!"` inside `response.user`.
-- **Status:** **CONFIRMED SPEC/CONTRACT DEFECT**. Issue draft: [`issues/BUG-FR02-001.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-001.md).
+- **Status:** **CONFIRMED SPEC/CONTRACT DEFECT**. Issue draft: [`issues/BUG-FR02-001.md`](issues/BUG-FR02-001.md).
 
 ---
 
@@ -53,7 +53,7 @@
 - **Severity:** **HIGH** (Denial of Service / Core Business Logic Violation)
 - **Oracle Basis:** SRS §2 FR-02: "If consecutive failed attempts >= 3, temporarily lock account for 30 seconds. After 30 seconds, the account must automatically unlock and accept authentication."
 - **Observed Behavior:** Submitting valid credentials after waiting 36 seconds ($> 30	ext{s}$) continues returning HTTP 403 Forbidden (`{"error": "Tài khoản đã bị khóa. Vui lòng thử lại sau."}`).
-- **Status:** **CONFIRMED SPEC DEFECT**. Issue draft: [`issues/BUG-FR02-002.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-002.md).
+- **Status:** **CONFIRMED SPEC DEFECT**. Issue draft: [`issues/BUG-FR02-002.md`](issues/BUG-FR02-002.md).
 
 ---
 
@@ -63,7 +63,7 @@
 - **Severity:** **HIGH** (Authentication Flaw / Premature Account Denial)
 - **Oracle Basis:** SRS §2 FR-02: Lockout threshold is 3 CONSECUTIVE failed login attempts. Submitting correct credentials on request #3 after 2 prior failures ($N=2$) must succeed (HTTP 200 + JWT) and reset consecutive failure progression.
 - **Observed Behavior:** SUT locks the account on the 3rd attempt even when valid credentials are submitted.
-- **Status:** **CONFIRMED SPEC DEFECT**. Issue draft: [`issues/BUG-FR02-003.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-003.md).
+- **Status:** **CONFIRMED SPEC DEFECT**. Issue draft: [`issues/BUG-FR02-003.md`](issues/BUG-FR02-003.md).
 
 ---
 
@@ -73,4 +73,4 @@
 - **Severity:** **MEDIUM** (Robustness / Parser Error)
 - **Oracle Basis:** Exploratory / Transport Robustness. `api_specification.md` specifies JSON communication (`application/json`) but does not explicitly define mandatory status codes for form-encoded payloads.
 - **Observed Behavior:** `POST /api/login` with `Content-Type: application/x-www-form-urlencoded` causes an unhandled 500 Internal Server Error.
-- **Status:** **DOWNGRADED TO EXPLORATORY OBSERVATION** (Not eligible for formal spec-backed GitHub bug issue by default). Evidence preserved in [`evidence/FR02/OBS-FR02-001-observation.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt).
+- **Status:** **DOWNGRADED TO EXPLORATORY OBSERVATION** (Not eligible for formal spec-backed GitHub bug issue by default). Evidence preserved in [`evidence/FR02/OBS-FR02-001-observation.txt`](evidence/FR02/OBS-FR02-001-observation.txt).

@@ -776,10 +776,10 @@ PHASE 2B – FR-10 HUMAN AUDIT OF ALL 42 RAW AI CASES
 ---
 
 ## 1. AI Audit Verification
-- **INT-028 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1388) backfilled into [`23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md).
-- **INT-029 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md).
-- **INT-029 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-028 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1388) backfilled into [`23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md`](INT-028-fr10-auth-rbac-ownership-generation.md).
+- **INT-029 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](INT-029-fr10-input-id-schema-security-final-generation.md).
+- **INT-029 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-029 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -795,14 +795,14 @@ PHASE 2B – FR-10 HUMAN AUDIT OF ALL 42 RAW AI CASES
 
 | Test Case ID | Test Dimension / Scenario | Primary Oracle Basis | Target Endpoint & Input | Expected State After |
 |---|---|---|---|:---:|
-| [`FR10-AI-035`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-035--status-domain-undocumented-status-enum-value) | Undocumented Status Enum | `SPECIFICATION-BACKED` (SRS 4.10) | `PUT /api/admin/orders/:id/status` (`{"status": "processing"}`) | `pending` (Unchanged) |
-| [`FR10-AI-036`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-036--status-domain-missing-required-status-property-in-request-body) | Missing `status` Property | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/:id/status` (`{}`) | `pending` (Unchanged) |
-| [`FR10-AI-037`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-037--status-domain-null-status-value-in-mutation-body) | Null `status` Value | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/:id/status` (`{"status": null}`) | `pending` (Unchanged) |
-| [`FR10-AI-038`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-038--status-domain-wrong-json-type-for-status-field) | Wrong JSON Type (Numeric) | `PARTIALLY SPECIFICATION-BACKED` | `PUT /api/admin/orders/:id/status` (`{"status": 123}`) | `pending` (Unchanged) |
-| [`FR10-AI-039`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-039--order-id-partitions-well-formed-non-existing-order-id) | Non-Existent Order ID | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/999999/status` | Non-existent |
-| [`FR10-AI-040`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-040--order-id-partitions-malformed--non-numeric-order-id-path-parameter) | Malformed / Non-Numeric ID | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/not-an-id/status` | Unaltered |
-| [`FR10-AI-041`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-041--response--persistence-consistency-on-valid-transition) | Response Schema & Persistence | `SPECIFICATION-BACKED` (SRS 4.10) | `PUT /api/admin/orders/:id/status` $\rightarrow$ `GET /api/orders/:id` | `confirmed` |
-| [`FR10-AI-042`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-042--sec-05-partial-black-box-behavioral-sql-injection-probe-in-order-id-path-parameter) | SEC-05 Black-Box SQLi Probe | `SEC-05 / PARTIAL BEHAVIORAL` | `PUT /api/admin/orders/1%27%20OR%20%271%27=%271/status` | Unaltered |
+| [`FR10-AI-035`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-035--status-domain-undocumented-status-enum-value) | Undocumented Status Enum | `SPECIFICATION-BACKED` (SRS 4.10) | `PUT /api/admin/orders/:id/status` (`{"status": "processing"}`) | `pending` (Unchanged) |
+| [`FR10-AI-036`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-036--status-domain-missing-required-status-property-in-request-body) | Missing `status` Property | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/:id/status` (`{}`) | `pending` (Unchanged) |
+| [`FR10-AI-037`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-037--status-domain-null-status-value-in-mutation-body) | Null `status` Value | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/:id/status` (`{"status": null}`) | `pending` (Unchanged) |
+| [`FR10-AI-038`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-038--status-domain-wrong-json-type-for-status-field) | Wrong JSON Type (Numeric) | `PARTIALLY SPECIFICATION-BACKED` | `PUT /api/admin/orders/:id/status` (`{"status": 123}`) | `pending` (Unchanged) |
+| [`FR10-AI-039`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-039--order-id-partitions-well-formed-non-existing-order-id) | Non-Existent Order ID | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/999999/status` | Non-existent |
+| [`FR10-AI-040`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-040--order-id-partitions-malformed--non-numeric-order-id-path-parameter) | Malformed / Non-Numeric ID | `SPECIFICATION-BACKED` (API-SPEC) | `PUT /api/admin/orders/not-an-id/status` | Unaltered |
+| [`FR10-AI-041`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-041--response--persistence-consistency-on-valid-transition) | Response Schema & Persistence | `SPECIFICATION-BACKED` (SRS 4.10) | `PUT /api/admin/orders/:id/status` $\rightarrow$ `GET /api/orders/:id` | `confirmed` |
+| [`FR10-AI-042`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-042--sec-05-partial-black-box-behavioral-sql-injection-probe-in-order-id-path-parameter) | SEC-05 Black-Box SQLi Probe | `SEC-05 / PARTIAL BEHAVIORAL` | `PUT /api/admin/orders/1%27%20OR%20%271%27=%271/status` | Unaltered |
 
 ---
 
@@ -815,7 +815,7 @@ PHASE 2B – FR-10 HUMAN AUDIT OF ALL 42 RAW AI CASES
 
 ---
 
-## 5. Coverage Matrix Summary ([`FR10_AI_GENERATION_COVERAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_GENERATION_COVERAGE.md))
+## 5. Coverage Matrix Summary ([`FR10_AI_GENERATION_COVERAGE.md`](../../testcases/FR10_AI_GENERATION_COVERAGE.md))
 
 | Coverage Dimension | Included Test Case IDs | Count | Specification Strength |
 |---|---|:---:|---|

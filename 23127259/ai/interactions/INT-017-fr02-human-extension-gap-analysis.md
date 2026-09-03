@@ -493,8 +493,8 @@ Do NOT create Human test cases.
 ---
 
 ## 1. Audit Evidence
-- **INT-016 Output Backfilled:** **YES** — Exact output (Step 631, 3,773 bytes) backfilled into [`INT-016-fr02-human-audit-batch4-completion.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-016-fr02-human-audit-batch4-completion.md).
-- **INT-017 Prompt Stored:** **YES (Verbatim)** in [`INT-017-fr02-human-extension-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md) and [`AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (153,109 bytes).
+- **INT-016 Output Backfilled:** **YES** — Exact output (Step 631, 3,773 bytes) backfilled into [`INT-016-fr02-human-audit-batch4-completion.md`](INT-016-fr02-human-audit-batch4-completion.md).
+- **INT-017 Prompt Stored:** **YES (Verbatim)** in [`INT-017-fr02-human-extension-gap-analysis.md`](INT-017-fr02-human-extension-gap-analysis.md) and [`AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md) (153,109 bytes).
 - **INT-017 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -517,7 +517,7 @@ Do NOT create Human test cases.
 ---
 
 ## 4. Human Workspace Setup
-- **Workspace Document:** [FR02_HUMAN_EXTENSION_DESIGN.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_EXTENSION_DESIGN.md)
+- **Workspace Document:** [FR02_HUMAN_EXTENSION_DESIGN.md](../../testcases/FR02_HUMAN_EXTENSION_DESIGN.md)
 - **Blank Human Design Slots:** **5** (`HUMAN SLOT 1` .. `HUMAN SLOT 5`)
 - **FR02-HUM IDs Created:** **0** (No premature ID assignment)
 - **AI-Generated Human Test Designs:** **0** (Purely blank student template preserved)

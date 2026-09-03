@@ -576,15 +576,15 @@ PHASE 1D – FR-02 POSTMAN COLLECTION IMPLEMENTATION
 ---
 
 ## 1. Audit Evidence
-- **INT-017 Output Backfilled:** **YES** — Exact output (Step 643, 5,913 bytes) backfilled into [`INT-017-fr02-human-extension-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md).
-- **INT-018 Prompt Stored:** **YES (Verbatim)** in [`INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md) and [`AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (167,042 bytes).
+- **INT-017 Output Backfilled:** **YES** — Exact output (Step 643, 5,913 bytes) backfilled into [`INT-017-fr02-human-extension-gap-analysis.md`](INT-017-fr02-human-extension-gap-analysis.md).
+- **INT-018 Prompt Stored:** **YES (Verbatim)** in [`INT-018-fr02-human-extension-finalization.md`](INT-018-fr02-human-extension-finalization.md) and [`AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md) (167,042 bytes).
 - **INT-018 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
 
 ## 2. Finalized Human Extension Test Suite (`FR02-HUM-001` .. `FR02-HUM-005`)
 
-The 5 student-selected Human extension test cases have been authored and recorded in [FR02_HUMAN_TEST_CASES.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_TEST_CASES.md):
+The 5 student-selected Human extension test cases have been authored and recorded in [FR02_HUMAN_TEST_CASES.md](../../testcases/FR02_HUMAN_TEST_CASES.md):
 
 | Human ID | Source Gap | Test Title | Technique | Oracle Classification | Distinct From AI Cases? |
 |:---:|:---:|---|---|:---:|:---:|
@@ -612,9 +612,9 @@ $$\begin{aligned}
 ---
 
 ## 4. Test Artifact Cryptographic & Audit Integrity
-- **Raw AI Draft Hash:** `b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c` *(Unchanged & preserved in [`testcases/FR02_AI_DRAFT.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_AI_DRAFT.md))*.
-- **Human Audit Worksheet:** [TC_AUDIT_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR02.md) *(Preserved with 100% student verdicts)*.
-- **Design Workspace:** [FR02_HUMAN_EXTENSION_DESIGN.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_EXTENSION_DESIGN.md) *(Updated with finalized selections)*.
+- **Raw AI Draft Hash:** `b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c` *(Unchanged & preserved in [`testcases/FR02_AI_DRAFT.md`](../../testcases/FR02_AI_DRAFT.md))*.
+- **Human Audit Worksheet:** [TC_AUDIT_FR02.md](../TC_AUDIT_FR02.md) *(Preserved with 100% student verdicts)*.
+- **Design Workspace:** [FR02_HUMAN_EXTENSION_DESIGN.md](../../testcases/FR02_HUMAN_EXTENSION_DESIGN.md) *(Updated with finalized selections)*.
 
 ---
 

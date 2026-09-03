@@ -660,8 +660,8 @@ Then STOP.
 # Phase 2D.1A.2 FR-10 Pre-Newman Readiness Report
 
 ## AI Audit
-- **INT-041 Output Backfilled:** [`23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md)
-- **INT-042 Prompt Stored:** [`23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **INT-041 Output Backfilled:** [`23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md`](INT-041-fr10-runtime-readiness-correction.md)
+- **INT-042 Prompt Stored:** [`23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md`](INT-042-fr10-admin-provenance-inventory-capacity-gate.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md)
 - **INT-042 Output Pending:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`
 
 ---

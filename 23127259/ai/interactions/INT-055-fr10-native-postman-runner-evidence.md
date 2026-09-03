@@ -22,17 +22,17 @@ See `AI_PROMPT_LOG.md#int-055` for complete verbatim prompt (26 sections, Phase 
 # Phase 2D.1F.3 FR-10 Native Postman Runner Evidence Report
 
 ## AI Audit
-- **INT-054 backfilled:** YES ([`23127259/ai/interactions/INT-054-fr10-authentic-postman-runner-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-054-fr10-authentic-postman-runner-evidence.md))
-- **INT-055 stored:** YES ([`23127259/ai/interactions/INT-055-fr10-native-postman-runner-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-055-fr10-native-postman-runner-evidence.md))
+- **INT-054 backfilled:** YES ([`23127259/ai/interactions/INT-054-fr10-authentic-postman-runner-evidence.md`](INT-054-fr10-authentic-postman-runner-evidence.md))
+- **INT-055 stored:** YES ([`23127259/ai/interactions/INT-055-fr10-native-postman-runner-evidence.md`](INT-055-fr10-native-postman-runner-evidence.md))
 - **INT-055 output pending:** YES (Pending transcript backfill after completion)
-- **Prompt Log & Audit Report Updated:** YES ([`AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md#int-055), [`AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md#int-055))
+- **Prompt Log & Audit Report Updated:** YES ([`AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md#int-055), [`AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md#int-055))
 
 ---
 
 ## Prior Invalid Evidence
-- **INT053 DOM-rendered screenshots invalid:** YES (Quarantined in [`23127259/evidence/fr10/bugs/historical-invalid/int053/`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/bugs/historical-invalid/int053/))
-- **INT054 DOM-rendered Runner screenshots invalid:** YES (Quarantined in [`23127259/evidence/fr10/bugs/historical-invalid/int054/`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/bugs/historical-invalid/int054/))
-- **Historical files preserved:** YES ([`int054/README.md`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/bugs/historical-invalid/int054/README.md))
+- **INT053 DOM-rendered screenshots invalid:** YES (Quarantined in `23127259/evidence/fr10/bugs/historical-invalid/int053/`)
+- **INT054 DOM-rendered Runner screenshots invalid:** YES (Quarantined in `23127259/evidence/fr10/bugs/historical-invalid/int054/`)
+- **Historical files preserved:** YES (`int054/README.md`)
 
 ---
 

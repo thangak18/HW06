@@ -71,7 +71,7 @@ All visual evidence has been pixel-audited (Fable, 2026-09-03). All images are a
 | FR10 Runner | **PASS** — `BUG-FR10-001-postman-runner.png` |
 | FR10 3 bug screenshots | **PASS** — `evidence/fr10/bugs/` |
 | FR14 Console | **PASS** — `FR14-postman-console-x-student-id.png` — `X-Student-Id: 23127259` visible |
-| FR14 Runner | **PASS** — `FR14-postman-runner-result.png` — 46 tests, 6 failed, 0 errors |
+| FR14 Runner | **PASS** — `FR14-postman-runner-result.png` — Postman UI shows 70 tests/assertions, 58 passed, 12 failed, 0 errors. The collection contains 46 formal cases implemented by 58 stored request items plus 2 scripted verification GETs (60 HTTP operations). |
 | FR14 4 bug screenshots | **PASS** — `evidence/fr14/bugs/` (BUG-FR14-001/002/003/004). No standalone BUG-FR14-005 screenshot (Issue #37 is duplicate of #34) |
 | CI PASS screenshot | **PASS** — `CI-PASS-33651923618.png` — green, 9 requests, 10/10 assertions |
 | CI FAIL screenshot | **PASS** — `CI-FAIL-33651923391.png` — red, DELIBERATE_RED failure |

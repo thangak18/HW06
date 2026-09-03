@@ -730,10 +730,10 @@ PHASE 2D.0 – FR-10 FINAL EXECUTABLE SUITE + POSTMAN MATERIALIZATION
 ---
 
 ## 1. AI Audit Verification
-- **INT-034 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1558) backfilled into [`23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md).
-- **INT-035 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md).
-- **INT-035 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-034 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1558) backfilled into [`23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](INT-034-fr10-final-human-audit-and-gap-analysis.md).
+- **INT-035 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md`](INT-035-fr10-human-extension-finalization.md).
+- **INT-035 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-035 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -752,15 +752,15 @@ PHASE 2D.0 – FR-10 FINAL EXECUTABLE SUITE + POSTMAN MATERIALIZATION
 
 ## 4. Formal Human Extension Test Cases Specification
 
-Documented in [`23127259/testcases/FR10_HUMAN_EXTENSION_DESIGN.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_EXTENSION_DESIGN.md) and [`23127259/testcases/FR10_HUMAN_TEST_CASES.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md):
+Documented in [`23127259/testcases/FR10_HUMAN_EXTENSION_DESIGN.md`](../../testcases/FR10_HUMAN_EXTENSION_DESIGN.md) and [`23127259/testcases/FR10_HUMAN_TEST_CASES.md`](../../testcases/FR10_HUMAN_TEST_CASES.md):
 
 | Human ID | Gap | Classification | Distinct Added Value & Coverage Dimension |
 |:---:|:---:|---|---|
-| [`FR10-HUM-001`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-001) | `G-04` | `SPECIFICATION-BACKED / STATE-MACHINE CONTINUITY` | **State-Machine Recovery Sequence:** Verifies rejection of illegal skip (`pending -> shipping`) leaves state `pending`, and subsequent legal Admin confirmation (`pending -> confirmed`) succeeds cleanly without state corruption. |
-| [`FR10-HUM-002`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-002) | `G-05` | `SPECIFICATION-BACKED / ENTITY-STATE ISOLATION` | **Multi-Entity Isolation:** Creates Order A and Order B in `pending`; mutates Order A to `confirmed`; explicitly verifies Order A is `confirmed` and Order B remains strictly `pending` (guards against missing `WHERE` clause / bulk updates). |
-| [`FR10-HUM-003`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-003) | `G-07` | `SPECIFICATION-BACKED / LIFECYCLE CONTINUITY` | **Downstream Fulfillment Recovery:** Proves that after an owner customer's prohibited cancellation during `shipping` is rejected, the Admin can successfully fulfill the order to terminal `delivered`. |
-| [`FR10-HUM-004`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-004) | `G-01` | `EXPLORATORY / API CONTRACT` | **Same-State Self-Loop Probe:** Admin submits `confirmed -> confirmed`. Probes whether redundant status updates are handled idempotently or rejected without corrupting state. |
-| [`FR10-HUM-005`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-005) | `G-08` | `EXPLORATORY / API CONTRACT` | **Non-JSON Content-Type Robustness:** Admin sends JSON-formatted body under `Content-Type: text/plain` to probe media-type negotiation robustness and detect unhandled HTTP 500 crashes. |
+| [`FR10-HUM-001`](../../testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-001) | `G-04` | `SPECIFICATION-BACKED / STATE-MACHINE CONTINUITY` | **State-Machine Recovery Sequence:** Verifies rejection of illegal skip (`pending -> shipping`) leaves state `pending`, and subsequent legal Admin confirmation (`pending -> confirmed`) succeeds cleanly without state corruption. |
+| [`FR10-HUM-002`](../../testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-002) | `G-05` | `SPECIFICATION-BACKED / ENTITY-STATE ISOLATION` | **Multi-Entity Isolation:** Creates Order A and Order B in `pending`; mutates Order A to `confirmed`; explicitly verifies Order A is `confirmed` and Order B remains strictly `pending` (guards against missing `WHERE` clause / bulk updates). |
+| [`FR10-HUM-003`](../../testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-003) | `G-07` | `SPECIFICATION-BACKED / LIFECYCLE CONTINUITY` | **Downstream Fulfillment Recovery:** Proves that after an owner customer's prohibited cancellation during `shipping` is rejected, the Admin can successfully fulfill the order to terminal `delivered`. |
+| [`FR10-HUM-004`](../../testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-004) | `G-01` | `EXPLORATORY / API CONTRACT` | **Same-State Self-Loop Probe:** Admin submits `confirmed -> confirmed`. Probes whether redundant status updates are handled idempotently or rejected without corrupting state. |
+| [`FR10-HUM-005`](../../testcases/FR10_HUMAN_TEST_CASES.md#fr10-hum-005) | `G-08` | `EXPLORATORY / API CONTRACT` | **Non-JSON Content-Type Robustness:** Admin sends JSON-formatted body under `Content-Type: text/plain` to probe media-type negotiation robustness and detect unhandled HTTP 500 crashes. |
 
 ---
 

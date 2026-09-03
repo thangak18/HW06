@@ -587,8 +587,8 @@ Then STOP.
 # Phase 2D.1A.1 FR-10 Runtime Readiness Correction Report
 
 ## AI Audit
-- **INT-040 Output Backfilled:** [`23127259/ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md)
-- **INT-041 Prompt Stored:** [`23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **INT-040 Output Backfilled:** [`23127259/ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md`](INT-040-fr10-minimal-fixture-runtime-smoke.md)
+- **INT-041 Prompt Stored:** [`23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md`](INT-041-fr10-runtime-readiness-correction.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md)
 - **INT-041 Output Pending:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`
 
 ---
@@ -596,7 +596,7 @@ Then STOP.
 ## Corrected HTTP Accounting
 - **All Diagnostic + Smoke HTTP Requests during INT-040:** `28` HTTP requests (1 reachability curl, 7 auth route/lockout diagnostic probes, 4 provisioning probes, 2 product catalog/detail inspections, 2 checkout extraction probes, 8 final controlled smoke flow, 4 Postman UI console captures).
 - **Final Controlled Smoke Flow Requests:** `8` HTTP requests.
-- **Previous "8 Total" Corrected:** **YES** (Audited and documented in [`FR10_RUNTIME_SMOKE_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_RUNTIME_SMOKE_REPORT.md)).
+- **Previous "8 Total" Corrected:** **YES** (Audited and documented in [`FR10_RUNTIME_SMOKE_REPORT.md`](../../postman/FR10_RUNTIME_SMOKE_REPORT.md)).
 
 ---
 
@@ -632,7 +632,7 @@ Then STOP.
 ## Harness
 - **`/api/login` Runtime Compatibility Confirmed:** **YES**
 - **`body.orderId` Fail-Fast Extraction Confirmed:** **YES** (Applied across all 44 checkout helpers with zero fallbacks)
-- **`X-Student-Id` Evidence Retained:** **YES** ([`23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png))
+- **`X-Student-Id` Evidence Retained:** **YES** ([`23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png`](../../evidence/fr10/FR10-postman-console-x-student-id-smoke.png))
 - **Fixture-Isolation Validator:** **PASS** (10/10 checks passing)
 
 ---

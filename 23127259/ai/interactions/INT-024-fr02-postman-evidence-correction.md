@@ -232,7 +232,7 @@ Return:
 ## 2. Visual Inspection Proof
 
 ### 2.1 Postman Console & Pre-Request Anti-Cheat Evidence
-- **File:** [`23127259/evidence/postman/FR02-postman-console-x-student-id.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-console-x-student-id.png)
+- **File:** [`23127259/evidence/postman/FR02-postman-console-x-student-id.png`](../../evidence/postman/FR02-postman-console-x-student-id.png)
 - **Active Workspace & Collection:** `Thang's Workspace` $\rightarrow$ `FR02_Login_Account_Lockout` $\rightarrow$ `01 – Positive Authentication` $\rightarrow$ `FR02-AI-001 – Valid User Login`
 - **Active Environment:** `FR02-local` (`baseUrl = http://localhost:3000`, `studentId = 23127259`)
 - **Visible Request:** `POST http://localhost:3000/api/login` (Status: `200 OK`, `22 ms`, `660 B`, `Test Results (2/2)`)
@@ -246,7 +246,7 @@ Return:
 - **Visual Inspection Gate:** **PASS**
 
 ### 2.2 Postman Collection Runner Results Screen
-- **File:** [`23127259/evidence/postman/FR02-postman-runner-result.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-runner-result.png)
+- **File:** [`23127259/evidence/postman/FR02-postman-runner-result.png`](../../evidence/postman/FR02-postman-runner-result.png)
 - **View Type:** **Postman Collection Runner Execution Results Dashboard** (Header: `FR02_Login_Account_Lockout - Run results`)
 - **Source:** `Runner`
 - **Environment:** `FR02-local`
@@ -267,17 +267,17 @@ Return:
 
 | File | SHA-256 Checksum | File Size |
 |---|---|---|
-| [`FR02-postman-console-x-student-id.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-console-x-student-id.png) | `ff37fd5cc13d56f37a97df37e4ff5ba0e5afae7ba89d655624d0585f91a55851` | 376,068 bytes |
-| [`FR02-postman-runner-result.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-runner-result.png) | `cc017ada960ad3fa60d4d7523bc8efade654d4abd49eb0cbd2ae8ee37d362f46` | 422,740 bytes |
+| [`FR02-postman-console-x-student-id.png`](../../evidence/postman/FR02-postman-console-x-student-id.png) | `ff37fd5cc13d56f37a97df37e4ff5ba0e5afae7ba89d655624d0585f91a55851` | 376,068 bytes |
+| [`FR02-postman-runner-result.png`](../../evidence/postman/FR02-postman-runner-result.png) | `cc017ada960ad3fa60d4d7523bc8efade654d4abd49eb0cbd2ae8ee37d362f46` | 422,740 bytes |
 
 ---
 
 ## 4. Documentation & AI Audit Updates
-- **INT-023 Output Backfilled:** Complete output logged in [`23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md).
-- **INT-024 Created:** Verbatim correction prompt logged in [`23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md).
-- **Prompt Log Appended:** Updated [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **Master Audit Report Updated:** Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
-- **Postman Evidence Report Updated:** Updated [`23127259/evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md).
+- **INT-023 Output Backfilled:** Complete output logged in [`23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md`](INT-023-fr02-real-postman-execution-evidence.md).
+- **INT-024 Created:** Verbatim correction prompt logged in [`23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md`](INT-024-fr02-postman-evidence-correction.md).
+- **Prompt Log Appended:** Updated [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **Master Audit Report Updated:** Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
+- **Postman Evidence Report Updated:** Updated [`23127259/evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md`](../../evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md).
 
 ---
 

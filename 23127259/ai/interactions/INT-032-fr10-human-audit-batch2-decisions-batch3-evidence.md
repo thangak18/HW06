@@ -686,10 +686,10 @@ FR10-AI-025 .. FR10-AI-034
 ---
 
 ## 1. AI Audit Verification
-- **INT-031 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1473) backfilled into [`23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md).
-- **INT-032 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md).
-- **INT-032 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-031 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1473) backfilled into [`23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md`](INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md).
+- **INT-032 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md`](INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md).
+- **INT-032 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-032 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -704,18 +704,18 @@ FR10-AI-025 .. FR10-AI-034
 
 | Test ID | AI Objective Summary | Student Verdict | Required Correction | Executable After Correction? |
 |---|---|:---:|---|:---:|
-| [`FR10-AI-013`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-013--verdict-valid) | Admin backward regression `confirmed` $\rightarrow$ `pending` | **VALID** | NONE | **YES** |
-| [`FR10-AI-014`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-014--verdict-valid) | Admin backward regression `shipping` $\rightarrow$ `confirmed` | **VALID** | NONE | **YES** |
-| [`FR10-AI-015`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-015--verdict-valid) | Admin multi-stage regression `shipping` $\rightarrow$ `pending` | **VALID** | NONE | **YES** |
-| [`FR10-AI-016`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-016--verdict-valid) | Customer prohibited cancellation of `shipping` order | **VALID** | NONE | **YES** |
-| [`FR10-AI-017`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-017--verdict-valid) | Terminal mutation: `delivered` $\rightarrow$ `pending` | **VALID** | NONE | **YES** |
-| [`FR10-AI-018`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-018--verdict-valid) | Terminal mutation: `delivered` $\rightarrow$ `confirmed` | **VALID** | NONE | **YES** |
-| [`FR10-AI-019`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-019--verdict-valid) | Terminal mutation: `delivered` $\rightarrow$ `shipping` | **VALID** | NONE | **YES** |
-| [`FR10-AI-020`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-020--verdict-valid) | Terminal mutation: `delivered` $\rightarrow$ `canceled` | **VALID** | NONE | **YES** |
-| [`FR10-AI-021`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-021--verdict-valid) | Terminal mutation: `canceled` $\rightarrow$ `pending` | **VALID** | NONE | **YES** |
-| [`FR10-AI-022`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-022--verdict-valid) | Terminal mutation: `canceled` $\rightarrow$ `confirmed` | **VALID** | NONE | **YES** |
-| [`FR10-AI-023`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-023--verdict-valid) | Terminal mutation: `canceled` $\rightarrow$ `shipping` | **VALID** | NONE | **YES** |
-| [`FR10-AI-024`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-024--verdict-valid) | Terminal mutation: `canceled` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
+| [`FR10-AI-013`](../TC_AUDIT_FR10.md#fr10-ai-013--verdict-valid) | Admin backward regression `confirmed` $\rightarrow$ `pending` | **VALID** | NONE | **YES** |
+| [`FR10-AI-014`](../TC_AUDIT_FR10.md#fr10-ai-014--verdict-valid) | Admin backward regression `shipping` $\rightarrow$ `confirmed` | **VALID** | NONE | **YES** |
+| [`FR10-AI-015`](../TC_AUDIT_FR10.md#fr10-ai-015--verdict-valid) | Admin multi-stage regression `shipping` $\rightarrow$ `pending` | **VALID** | NONE | **YES** |
+| [`FR10-AI-016`](../TC_AUDIT_FR10.md#fr10-ai-016--verdict-valid) | Customer prohibited cancellation of `shipping` order | **VALID** | NONE | **YES** |
+| [`FR10-AI-017`](../TC_AUDIT_FR10.md#fr10-ai-017--verdict-valid) | Terminal mutation: `delivered` $\rightarrow$ `pending` | **VALID** | NONE | **YES** |
+| [`FR10-AI-018`](../TC_AUDIT_FR10.md#fr10-ai-018--verdict-valid) | Terminal mutation: `delivered` $\rightarrow$ `confirmed` | **VALID** | NONE | **YES** |
+| [`FR10-AI-019`](../TC_AUDIT_FR10.md#fr10-ai-019--verdict-valid) | Terminal mutation: `delivered` $\rightarrow$ `shipping` | **VALID** | NONE | **YES** |
+| [`FR10-AI-020`](../TC_AUDIT_FR10.md#fr10-ai-020--verdict-valid) | Terminal mutation: `delivered` $\rightarrow$ `canceled` | **VALID** | NONE | **YES** |
+| [`FR10-AI-021`](../TC_AUDIT_FR10.md#fr10-ai-021--verdict-valid) | Terminal mutation: `canceled` $\rightarrow$ `pending` | **VALID** | NONE | **YES** |
+| [`FR10-AI-022`](../TC_AUDIT_FR10.md#fr10-ai-022--verdict-valid) | Terminal mutation: `canceled` $\rightarrow$ `confirmed` | **VALID** | NONE | **YES** |
+| [`FR10-AI-023`](../TC_AUDIT_FR10.md#fr10-ai-023--verdict-valid) | Terminal mutation: `canceled` $\rightarrow$ `shipping` | **VALID** | NONE | **YES** |
+| [`FR10-AI-024`](../TC_AUDIT_FR10.md#fr10-ai-024--verdict-valid) | Terminal mutation: `canceled` $\rightarrow$ `delivered` | **VALID** | NONE | **YES** |
 
 > **Terminal Family Duplicate Policy Decision:** `FR10-AI-017` .. `FR10-AI-024` are confirmed non-duplicates. While sharing the terminal-state immutability invariant, each test isolates a distinct ordered state-transition pair, providing pairwise transition-matrix completeness.
 
@@ -736,16 +736,16 @@ FR10-AI-025 .. FR10-AI-034
 
 | Test ID | Dimension / Group | Duplicate Risk | Confound Risk | Oracle Risk | Key Human Audit Decision Question |
 |---|---|:---:|:---:|:---:|---|
-| [`FR10-AI-025`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-025) | `SEC-02`: Missing Auth Header (Admin status) | NO | NO | NO | Does this provide a clean unauthenticated baseline for Admin status mutation? |
-| [`FR10-AI-026`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-026) | `SEC-02`: Malformed Header Scheme | NO | NO | NO | Does header syntax parsing provide distinct valuable robustness under SEC-02? |
-| [`FR10-AI-027`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-027) | `SEC-02`: Invalid / Garbage JWT String | NO | NO | NO | Does this cleanly verify that non-JWT garbage strings cannot authenticate state mutation? |
-| [`FR10-AI-028`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-028) | `SEC-02`: Tampered Cryptographic Signature | NO | NO | NO | Does this test provide necessary behavioral evidence of cryptographic signature checks? |
-| [`FR10-AI-029`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-029) | `SEC-02`: Missing Auth Header (Customer cancel) | NO | NO | NO | Does this verify authentication enforcement specifically on customer-facing cancellation? |
-| [`FR10-AI-030`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-030) | `SEC-03`: Customer Role on `pending -> confirmed` | NO | NO | NO | Does this case cleanly isolate the `SEC-03` role boundary on Admin status mutation? |
-| [`FR10-AI-031`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-031) | `SEC-03`: Customer Role on Admin Cancel Route | NO | NO | NO | Does this confirm that route-level RBAC is enforced regardless of target state payload? |
-| [`FR10-AI-032`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-032) | `SEC-03`: Customer Role on `confirmed -> shipping` | POSSIBLE | NO | NO | Is testing `SEC-03` on downstream transit dispatch a valuable distinct RBAC probe? |
-| [`FR10-AI-033`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-033) | Ownership: User B cancels User A `pending` | NO | NO | MEDIUM | How should implied ownership wording ("customer can cancel their order") be audited? |
-| [`FR10-AI-034`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-034) | Ownership: User B cancels User A `confirmed` | NO | NO | MEDIUM | Does this provide distinct ownership boundary coverage for pre-shipment confirmed orders? |
+| [`FR10-AI-025`](../TC_AUDIT_FR10.md#fr10-ai-025) | `SEC-02`: Missing Auth Header (Admin status) | NO | NO | NO | Does this provide a clean unauthenticated baseline for Admin status mutation? |
+| [`FR10-AI-026`](../TC_AUDIT_FR10.md#fr10-ai-026) | `SEC-02`: Malformed Header Scheme | NO | NO | NO | Does header syntax parsing provide distinct valuable robustness under SEC-02? |
+| [`FR10-AI-027`](../TC_AUDIT_FR10.md#fr10-ai-027) | `SEC-02`: Invalid / Garbage JWT String | NO | NO | NO | Does this cleanly verify that non-JWT garbage strings cannot authenticate state mutation? |
+| [`FR10-AI-028`](../TC_AUDIT_FR10.md#fr10-ai-028) | `SEC-02`: Tampered Cryptographic Signature | NO | NO | NO | Does this test provide necessary behavioral evidence of cryptographic signature checks? |
+| [`FR10-AI-029`](../TC_AUDIT_FR10.md#fr10-ai-029) | `SEC-02`: Missing Auth Header (Customer cancel) | NO | NO | NO | Does this verify authentication enforcement specifically on customer-facing cancellation? |
+| [`FR10-AI-030`](../TC_AUDIT_FR10.md#fr10-ai-030) | `SEC-03`: Customer Role on `pending -> confirmed` | NO | NO | NO | Does this case cleanly isolate the `SEC-03` role boundary on Admin status mutation? |
+| [`FR10-AI-031`](../TC_AUDIT_FR10.md#fr10-ai-031) | `SEC-03`: Customer Role on Admin Cancel Route | NO | NO | NO | Does this confirm that route-level RBAC is enforced regardless of target state payload? |
+| [`FR10-AI-032`](../TC_AUDIT_FR10.md#fr10-ai-032) | `SEC-03`: Customer Role on `confirmed -> shipping` | POSSIBLE | NO | NO | Is testing `SEC-03` on downstream transit dispatch a valuable distinct RBAC probe? |
+| [`FR10-AI-033`](../TC_AUDIT_FR10.md#fr10-ai-033) | Ownership: User B cancels User A `pending` | NO | NO | MEDIUM | How should implied ownership wording ("customer can cancel their order") be audited? |
+| [`FR10-AI-034`](../TC_AUDIT_FR10.md#fr10-ai-034) | Ownership: User B cancels User A `confirmed` | NO | NO | MEDIUM | Does this provide distinct ownership boundary coverage for pre-shipment confirmed orders? |
 
 ---
 
@@ -762,7 +762,7 @@ FR10-AI-025 .. FR10-AI-034
 
 ## 7. Git Status
 - **Human Audit Completion Commit Created:** **NO** (Withheld until all 42 decisions are completed).
-- **Working Tree Status:** [`23127259/ai/TC_AUDIT_FR10.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md) and interaction logs updated in working tree.
+- **Working Tree Status:** [`23127259/ai/TC_AUDIT_FR10.md`](../TC_AUDIT_FR10.md) and interaction logs updated in working tree.
 
 ---
 

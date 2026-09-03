@@ -55,7 +55,7 @@ Correction: Retain the test as an exploratory/additional-security parameter-inje
 ```markdown
 # Phase 1B Complete – FR-02 Human Test-Case Audit Finalized
 
-All 37 raw AI-generated test cases (`FR02-AI-001` .. `FR02-AI-037`) have undergone the mandatory **Student Human Test-Case Audit**. All verdicts, technical rationales, required corrections, and final dispositions have been recorded in [TC_AUDIT_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR02.md).
+All 37 raw AI-generated test cases (`FR02-AI-001` .. `FR02-AI-037`) have undergone the mandatory **Student Human Test-Case Audit**. All verdicts, technical rationales, required corrections, and final dispositions have been recorded in [TC_AUDIT_FR02.md](../TC_AUDIT_FR02.md).
 
 ---
 
@@ -86,13 +86,13 @@ $$\text{Net Accepted AI Test Cases} = 16\text{ (VALID)} + 19\text{ (INCOMPLETE w
 | **INT-015** | Phase 1B.3: Human Audit Batch 3 Decisions (`021..030`) | 2026-09-01 19:54 | Antigravity (Gemini 3.7 Flash) | Verified & Logged |
 | **INT-016** | Phase 1B.4: Human Audit Batch 4 Decisions (`031..037`) | 2026-09-01 19:56 | Antigravity (Gemini 3.7 Flash) | Verified & Logged |
 
-- **Consolidated Master Prompt Log:** [AI_PROMPT_LOG.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (142,455 bytes, 16 interactions registered verbatim).
-- **Master Audit Report:** [AI_AUDIT_REPORT.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **Consolidated Master Prompt Log:** [AI_PROMPT_LOG.md](../prompts/AI_PROMPT_LOG.md) (142,455 bytes, 16 interactions registered verbatim).
+- **Master Audit Report:** [AI_AUDIT_REPORT.md](../AI_AUDIT_REPORT.md).
 
 ---
 
 ## 3. Raw Inventory Cryptographic Integrity
-- **Raw AI Draft File:** [`23127259/testcases/FR02_AI_DRAFT.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_AI_DRAFT.md)
+- **Raw AI Draft File:** [`23127259/testcases/FR02_AI_DRAFT.md`](../../testcases/FR02_AI_DRAFT.md)
 - **Raw Generation SHA-256:**
   ```text
   b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c

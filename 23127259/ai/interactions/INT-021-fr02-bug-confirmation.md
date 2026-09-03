@@ -651,15 +651,15 @@ PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING
 ---
 
 ## 1. AI Audit Verification
-- **INT-020 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 816, 8,388 bytes) backfilled into [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md).
-- **INT-021 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-021-fr02-bug-confirmation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-021-fr02-bug-confirmation.md) and appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (215,537 bytes).
+- **INT-020 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 816, 8,388 bytes) backfilled into [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](INT-020-fr02-controlled-execution.md).
+- **INT-021 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-021-fr02-bug-confirmation.md`](INT-021-fr02-bug-confirmation.md) and appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md) (215,537 bytes).
 - **INT-021 Output:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
-- **Master Report Updated:** [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **Master Report Updated:** [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 
 ---
 
 ## 2. Execution Coverage & Request Reconciliation
-- **Formal Test Case IDs Executed:** **40 / 40 (100.0%)** — Verified in [`23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md).
+- **Formal Test Case IDs Executed:** **40 / 40 (100.0%)** — Verified in [`23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md`](../../newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md).
 - **Helper / Support Requests Executed:** **16 requests** (8 account setup helpers in Folder 00 + 8 pre-request setup helper invocations across multi-step test cases).
 - **Mathematical Explanation for 56 Total Requests:**
   $$\text{Total Requests} = 8 \text{ (Setup Helpers)} + 36 \text{ (Single-Request Cases)} + 12 \text{ (4 Multi-Step Cases)} = 56 \text{ Requests}$$
@@ -671,7 +671,7 @@ PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING
 - **Independent Reproduction Result:** **CONFIRMED (100% Deterministic)** — `POST /api/login` returns HTTP `200 OK` with `"password": "UserSecure123!"` present inside `response.user`.
 - **Final Severity:** **HIGH** (Compromises user credential confidentiality and exposes credentials to client-side caching and logging).
 - **Final Classification:** `Sensitive Data Exposure / Login Response Contract Violation [ADDITIONAL-SEC]`.
-- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-001.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-001.md).
+- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-001.md`](../../bugs/issues/BUG-FR02-001.md).
 
 ---
 
@@ -681,7 +681,7 @@ PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING
 - **Independent Reproduction Result:** **CONFIRMED (100% Deterministic)** — At $T = 36.03\text{s}$, submitting valid credentials continues returning HTTP `403 Forbidden` (`{"error": "Tài khoản đã bị khóa. Vui lòng thử lại sau."}`). The account never unlocks automatically.
 - **Final Severity:** **HIGH** (Denial of Service / Core Business Logic Violation).
 - **Final Classification:** `Core Specification Defect (State Machine / Lock Expiration)`.
-- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-002.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-002.md).
+- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-002.md`](../../bugs/issues/BUG-FR02-002.md).
 
 ---
 
@@ -695,14 +695,14 @@ PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING
 - **Independent Reproduction Result:** **CONFIRMED (100% Deterministic)**.
 - **Final Severity:** **HIGH** (Authentication Flaw / Premature Account Lockout on Valid Credentials).
 - **Final Classification:** `Core Specification Defect (State Machine / Attempt Counter Logic)`.
-- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-003.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-003.md).
+- **GitHub Issue Eligible?:** **YES (Ready to File)** — Drafted in [`23127259/bugs/issues/BUG-FR02-003.md`](../../bugs/issues/BUG-FR02-003.md).
 
 ---
 
 ## 6. OBS-FR02-001: Unhandled HTTP 500 on Non-Documented Form-Encoded Login Request
 - **Original Test ID:** `FR02-HUM-005` (formerly candidate `BUG-FR02-004`).
 - **Why Exploratory?:** `api_specification.md` defines JSON transport contracts (`application/json`) but does not explicitly define mandatory status codes (e.g. 400 vs 415) for non-JSON MIME types.
-- **Preserved Actual Behavior:** Submitting `application/x-www-form-urlencoded` causes an unhandled 500 Internal Server Error. Evidence preserved in [`23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt).
+- **Preserved Actual Behavior:** Submitting `application/x-www-form-urlencoded` causes an unhandled 500 Internal Server Error. Evidence preserved in [`23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt`](../../bugs/evidence/FR02/OBS-FR02-001-observation.txt).
 - **GitHub Issue Eligible?:** **NO (Downgraded to Exploratory Robustness Observation by default)**.
 
 ---
@@ -719,18 +719,18 @@ PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING
 ---
 
 ## 8. Artifact Evidence References
-- **Master Bug Confirmation Matrix:** [`23127259/bugs/FR02_BUG_CONFIRMATION_MATRIX.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_BUG_CONFIRMATION_MATRIX.md)
-- **Issue Drafts Directory:** [`23127259/bugs/issues/`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/)
-  - [`BUG-FR02-001.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-001.md)
-  - [`BUG-FR02-002.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-002.md)
-  - [`BUG-FR02-003.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/BUG-FR02-003.md)
-- **Independent Reproduction Evidence Directory:** [`23127259/bugs/evidence/FR02/`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/)
-  - [`BUG-FR02-001-reproduction.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/BUG-FR02-001-reproduction.txt)
-  - [`BUG-FR02-002-reproduction.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/BUG-FR02-002-reproduction.txt)
-  - [`BUG-FR02-003-reproduction.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/BUG-FR02-003-reproduction.txt)
-  - [`OBS-FR02-001-observation.txt`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/OBS-FR02-001-observation.txt)
-- **Execution Coverage Reconciliation:** [`23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md)
-- **Screenshot Checklist:** [`23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md)
+- **Master Bug Confirmation Matrix:** [`23127259/bugs/FR02_BUG_CONFIRMATION_MATRIX.md`](../../bugs/FR02_BUG_CONFIRMATION_MATRIX.md)
+- **Issue Drafts Directory:** [`23127259/bugs/issues/`](../../bugs/issues)
+  - [`BUG-FR02-001.md`](../../bugs/issues/BUG-FR02-001.md)
+  - [`BUG-FR02-002.md`](../../bugs/issues/BUG-FR02-002.md)
+  - [`BUG-FR02-003.md`](../../bugs/issues/BUG-FR02-003.md)
+- **Independent Reproduction Evidence Directory:** [`23127259/bugs/evidence/FR02/`](../../bugs/evidence/FR02)
+  - [`BUG-FR02-001-reproduction.txt`](../../bugs/evidence/FR02/BUG-FR02-001-reproduction.txt)
+  - [`BUG-FR02-002-reproduction.txt`](../../bugs/evidence/FR02/BUG-FR02-002-reproduction.txt)
+  - [`BUG-FR02-003-reproduction.txt`](../../bugs/evidence/FR02/BUG-FR02-003-reproduction.txt)
+  - [`OBS-FR02-001-observation.txt`](../../bugs/evidence/FR02/OBS-FR02-001-observation.txt)
+- **Execution Coverage Reconciliation:** [`23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md`](../../newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md)
+- **Screenshot Checklist:** [`23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md`](../../bugs/FR02_SCREENSHOT_CHECKLIST.md)
 
 ---
 

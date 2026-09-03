@@ -13,7 +13,7 @@
 
 - **Raw AI-Generated Test Count:** 37 test cases
 - **Test Case ID Range:** `FR02-AI-001` .. `FR02-AI-037`
-- **Target File:** [`testcases/FR02_AI_DRAFT.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_AI_DRAFT.md)
+- **Target File:** [`testcases/FR02_AI_DRAFT.md`](FR02_AI_DRAFT.md)
 - **Raw Generation SHA-256:** `b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c`
 
 ---

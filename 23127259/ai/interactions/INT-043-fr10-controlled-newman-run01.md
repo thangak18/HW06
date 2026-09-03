@@ -810,8 +810,8 @@ Do NOT perform Run 02 in the same interaction.
 # Phase 2D.1B FR-10 Newman Run 01 Report
 
 ## AI Audit
-- **INT-042 Output Backfilled:** [`23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md)
-- **INT-043 Prompt Stored:** [`23127259/ai/interactions/INT-043-fr10-controlled-newman-run01.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-043-fr10-controlled-newman-run01.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **INT-042 Output Backfilled:** [`23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md`](INT-042-fr10-admin-provenance-inventory-capacity-gate.md)
+- **INT-043 Prompt Stored:** [`23127259/ai/interactions/INT-043-fr10-controlled-newman-run01.md`](INT-043-fr10-controlled-newman-run01.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md)
 - **INT-043 Output Pending:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`
 
 ---
@@ -895,9 +895,9 @@ Do NOT perform Run 02 in the same interaction.
 ---
 
 ## Evidence
-- **CLI Log:** [`23127259/evidence/fr10/newman/FR10-run01-cli.txt`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01-cli.txt) (`SHA-256: 368d24e3ff788f4e0b07d9b1df542554be786098154f9abe0b8ab222cad8a25f`)
-- **JSON Report:** [`23127259/evidence/fr10/newman/FR10-run01.json`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01.json) (`SHA-256: d893515103fffbcc5cd4e8ad31981464893f42c43ceb07a0c6daff1760969d67`)
-- **HTML Interactive Report:** [`23127259/evidence/fr10/newman/FR10-run01.html`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01.html) (`SHA-256: 569c8c2e0111075fb82dc10e1fb553be9e45bee0a04d78d586544b08c40ec6a4`)
+- **CLI Log:** [`23127259/evidence/fr10/newman/FR10-run01-cli.txt`](../../evidence/fr10/newman/FR10-run01-cli.txt) (`SHA-256: 368d24e3ff788f4e0b07d9b1df542554be786098154f9abe0b8ab222cad8a25f`)
+- **JSON Report:** [`23127259/evidence/fr10/newman/FR10-run01.json`](../../evidence/fr10/newman/FR10-run01.json) (`SHA-256: d893515103fffbcc5cd4e8ad31981464893f42c43ceb07a0c6daff1760969d67`)
+- **HTML Interactive Report:** [`23127259/evidence/fr10/newman/FR10-run01.html`](../../evidence/fr10/newman/FR10-run01.html) (`SHA-256: 569c8c2e0111075fb82dc10e1fb553be9e45bee0a04d78d586544b08c40ec6a4`)
 
 ---
 

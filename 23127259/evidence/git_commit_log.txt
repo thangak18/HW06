@@ -1,4 +1,30 @@
-# HW06 Git Commit Log – 23127259
-# Generated during Phase 6 export via: git log --oneline --decorate --author="thangak18"
+# HW06 Git Commit Log - 23127259
+# Truthful assignment-relevant progression from the current repository history.
+# Format: short hash | ISO-8601 author date | commit subject
 
-TODO – Export complete repository commit history at project completion in Phase 6.
+## FR02 audit, evidence, and Issues
+d6b1b04 | 2026-09-02T12:33:15+07:00 | audit(23127259): finalize FR02 compliance review
+579c4c9 | 2026-09-02T12:35:12+07:00 | docs(23127259): embed FR02 issue evidence
+
+## FR10 generation/audit reconstruction, execution, and evidence
+172bfb5 | 2026-09-02T08:48:48+07:00 | test(23127259): reconstruct FR-10 canonical test provenance
+04b6859 | 2026-09-02T08:43:56+07:00 | test(23127259): audit FR-10 Run 02 semantic traceability
+e659c4c | 2026-09-01T23:14:10+07:00 | test(23127259): execute FR-10 Newman run 02
+9da6647 | 2026-09-02T09:01:03+07:00 | test(23127259): execute canonical FR-10 Newman run 03
+b069174 | 2026-09-02T16:03:47+07:00 | fix(23127259): complete FR10 canonical replacement and evidence
+72e0b5c | 2026-09-02T16:05:26+07:00 | docs(23127259): embed FR10 issue evidence
+
+## FR14 generation, Human Audit, extension, execution, and bugs
+f3047bc | 2026-09-02T16:12:21+07:00 | test(23127259): reconstruct FR14 generation provenance
+cb52e0d | 2026-09-02T16:16:30+07:00 | test(23127259): audit FR14 AI cases against Level-1
+254f42e | 2026-09-02T16:21:53+07:00 | test(23127259): add FR14 human extensions and canonical suite
+2d4971f | 2026-09-02T21:22:12+07:00 | test(23127259): execute corrected FR14 canonical suite
+347e6f3 | 2026-09-02T21:22:16+07:00 | fix(23127259): finalize confirmed FR14 defect reports and runtime evidence
+42259e6 | 2026-09-03T08:19:20+07:00 | audit(23127259): record FR14 root-cause consolidation in BUG-FR14-003
+
+## CI and final visual/document closure
+fa6eac3 | 2026-09-02T22:57:25+07:00 | ci(23127259): add truthful pass and deliberate-red samples
+5066671 | 2026-09-03T13:12:18+07:00 | evidence(23127259): capture FR14 and CI visuals
+b3c1d5a | 2026-09-03T13:29:49+07:00 | fable(23127259): final visual closure - diagram, PDFs, evidence audit, compliance
+02d7654 | 2026-09-03T15:27:49+07:00 | fix(23127259): complete required AI critique and final audit cleanup
+b64a657 | 2026-09-03T15:40:47+07:00 | merge: complete HW06 submission for 23127259

@@ -15,9 +15,9 @@
 
 | Artifact | File Path | SHA-256 Checksum |
 |---|---|---|
-| **CLI Output Log** | [`23127259/evidence/fr10/newman/FR10-run01-cli.txt`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01-cli.txt) | `368d24e3ff788f4e0b07d9b1df542554be786098154f9abe0b8ab222cad8a25f` |
-| **JSON Execution Data** | [`23127259/evidence/fr10/newman/FR10-run01.json`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01.json) | `d893515103fffbcc5cd4e8ad31981464893f42c43ceb07a0c6daff1760969d67` |
-| **HTML Interactive Report** | [`23127259/evidence/fr10/newman/FR10-run01.html`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/newman/FR10-run01.html) | `569c8c2e0111075fb82dc10e1fb553be9e45bee0a04d78d586544b08c40ec6a4` |
+| **CLI Output Log** | [`23127259/evidence/fr10/newman/FR10-run01-cli.txt`](newman/FR10-run01-cli.txt) | `368d24e3ff788f4e0b07d9b1df542554be786098154f9abe0b8ab222cad8a25f` |
+| **JSON Execution Data** | [`23127259/evidence/fr10/newman/FR10-run01.json`](newman/FR10-run01.json) | `d893515103fffbcc5cd4e8ad31981464893f42c43ceb07a0c6daff1760969d67` |
+| **HTML Interactive Report** | [`23127259/evidence/fr10/newman/FR10-run01.html`](newman/FR10-run01.html) | `569c8c2e0111075fb82dc10e1fb553be9e45bee0a04d78d586544b08c40ec6a4` |
 
 ---
 

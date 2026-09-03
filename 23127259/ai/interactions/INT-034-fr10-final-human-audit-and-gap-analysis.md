@@ -877,10 +877,10 @@ Wait for the Student to select >=5 Human Extension directions.
 ---
 
 ## 1. AI Audit Verification
-- **INT-033 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1517) backfilled into [`23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md).
-- **INT-034 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md).
-- **INT-034 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-033 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1517) backfilled into [`23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md).
+- **INT-034 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](INT-034-fr10-final-human-audit-and-gap-analysis.md).
+- **INT-034 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-034 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -896,14 +896,14 @@ Wait for the Student to select >=5 Human Extension directions.
 
 | Test ID | AI Objective Summary | Student Verdict | Required Correction | Executable After Correction? |
 |---|---|:---:|---|:---:|
-| [`FR10-AI-035`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-035--verdict-valid) | Undocumented Status Enum (`"processing"`) | **VALID** | NONE | **YES** |
-| [`FR10-AI-036`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-036--verdict-valid) | Missing Mandatory `status` Body Property (`{}`) | **VALID** | NONE | **YES** |
-| [`FR10-AI-037`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-037--verdict-valid) | Explicit Null Status Value (`{"status": null}`) | **VALID** | NONE | **YES** |
-| [`FR10-AI-038`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-038--verdict-valid) | Numeric Status Value (`{"status": 123}`) | **VALID** | NONE | **YES** |
-| [`FR10-AI-039`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-039--verdict-valid) | Well-Formed Non-Existent Order ID (`:id = 999999`) | **VALID** | NONE | **YES** |
-| [`FR10-AI-040`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-040--verdict-incomplete) | Malformed Non-Numeric ID (`:id = "not-an-id"`) | **INCOMPLETE** | Classify as `PARTIALLY SPECIFICATION-BACKED / INPUT ROBUSTNESS`; describe as malformed identifier probe; require no unintended mutation; do not require exact 400/404; if handled safely, record actual behavior without filing bug. | **YES** |
-| [`FR10-AI-041`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-041--verdict-valid) | Response Schema & Read-After-Write Consistency | **VALID** | NONE | **YES** |
-| [`FR10-AI-042`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-042--verdict-valid) | `SEC-05` Black-Box SQL Injection Behavioral Probe | **VALID** | NONE | **YES** |
+| [`FR10-AI-035`](../TC_AUDIT_FR10.md#fr10-ai-035--verdict-valid) | Undocumented Status Enum (`"processing"`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-036`](../TC_AUDIT_FR10.md#fr10-ai-036--verdict-valid) | Missing Mandatory `status` Body Property (`{}`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-037`](../TC_AUDIT_FR10.md#fr10-ai-037--verdict-valid) | Explicit Null Status Value (`{"status": null}`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-038`](../TC_AUDIT_FR10.md#fr10-ai-038--verdict-valid) | Numeric Status Value (`{"status": 123}`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-039`](../TC_AUDIT_FR10.md#fr10-ai-039--verdict-valid) | Well-Formed Non-Existent Order ID (`:id = 999999`) | **VALID** | NONE | **YES** |
+| [`FR10-AI-040`](../TC_AUDIT_FR10.md#fr10-ai-040--verdict-incomplete) | Malformed Non-Numeric ID (`:id = "not-an-id"`) | **INCOMPLETE** | Classify as `PARTIALLY SPECIFICATION-BACKED / INPUT ROBUSTNESS`; describe as malformed identifier probe; require no unintended mutation; do not require exact 400/404; if handled safely, record actual behavior without filing bug. | **YES** |
+| [`FR10-AI-041`](../TC_AUDIT_FR10.md#fr10-ai-041--verdict-valid) | Response Schema & Read-After-Write Consistency | **VALID** | NONE | **YES** |
+| [`FR10-AI-042`](../TC_AUDIT_FR10.md#fr10-ai-042--verdict-valid) | `SEC-05` Black-Box SQL Injection Behavioral Probe | **VALID** | NONE | **YES** |
 
 ---
 
@@ -921,7 +921,7 @@ Wait for the Student to select >=5 Human Extension directions.
 ---
 
 ## 5. Human Audit Correction Manifest Summary
-The detailed correction document [`23127259/testcases/FR10_HUMAN_AUDIT_CORRECTIONS.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_AUDIT_CORRECTIONS.md) records:
+The detailed correction document [`23127259/testcases/FR10_HUMAN_AUDIT_CORRECTIONS.md`](../../testcases/FR10_HUMAN_AUDIT_CORRECTIONS.md) records:
 - **`FR10-AI-033` (Pending Ownership):** Classified as `PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION`; preserves User B token, pending order of User A, ownership mismatch; non-success status code; persistence verified via User A / Admin GET.
 - **`FR10-AI-034` (Confirmed Ownership):** Classified as `PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION`; preserves User B token, confirmed order of User A, ownership mismatch; non-success status code; persistence verified via User A / Admin GET.
 - **`FR10-AI-040` (Non-Numeric ID):** Classified as `PARTIALLY SPECIFICATION-BACKED / INPUT ROBUSTNESS`; treated as malformed identifier probe without asserting strict numeric regex; accepts safe 400/404 rejection.
@@ -938,7 +938,7 @@ The detailed correction document [`23127259/testcases/FR10_HUMAN_AUDIT_CORRECTIO
 
 ## 7. Human Extension Gap Analysis
 
-Documented in [`23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md):
+Documented in [`23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md`](../../testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md):
 
 | Gap ID | Proposed Testing Direction | Specification Strength | Distinctness & Value | Recommended? |
 |:---:|---|---|---|:---:|
@@ -968,7 +968,7 @@ Documented in [`23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md`](file:/
 - **SUT Execution Performed:** **NO** (Strict static audit and gap analysis only).
 - **Git Status:**
   - Audit procedural commit: `e7ae93e` (Pushed to remote).
-  - Gap-analysis artifact: [`23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md) uncommitted in working tree for Student review.
+  - Gap-analysis artifact: [`23127259/testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md`](../../testcases/FR10_HUMAN_EXTENSION_GAP_ANALYSIS.md) uncommitted in working tree for Student review.
 
 ---
 

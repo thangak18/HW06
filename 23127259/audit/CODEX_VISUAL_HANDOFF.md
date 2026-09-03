@@ -87,7 +87,7 @@ Screenshots remain `PASS (pixel-audited 2026-09-03)` for the two final runs.
 
 | Item | Path | What must be verified |
 |---|---|---|
-| Content specification | [`23127259/docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`](../../docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md) | This file defines the exact nodes, edges, and labels. |
+| Content specification | [`23127259/docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md`](../docs/AI_TEST_GENERATOR_DIAGRAM_SPEC.md) | This file defines the exact nodes, edges, and labels. |
 | Visual file | PASS (rendered 2026-09-03) | The final image saved as `23127259/docs/AI_TEST_GENERATOR_DIAGRAM.{png|svg|pdf}`. It must NOT be AI-generated. |
 | Self-drawn declaration | Required | The diagram must be self-drawn (or hand-coded) per assignment policy. Codex should record the authorship declaration. |
 
@@ -116,7 +116,7 @@ Codex should open each PDF and verify page-by-page:
 
 | Item | Path | Visual inspection required |
 |---|---|---|
-| Workbook | [`23127259/excel/HW06_Test_Cases.xlsx`](../../excel/HW06_Test_Cases.xlsx) | Sheets: Cover, FR02_Login (41 rows), FR10_Orders (47), FR14_Categories (47), Summary, Bugs (11 rows = header + 10 distinct bugs) |
+| Workbook | [`23127259/excel/HW06_Test_Cases.xlsx`](../excel/HW06_Test_Cases.xlsx) | Sheets: Cover, FR02_Login (41 rows), FR10_Orders (47), FR14_Categories (47), Summary, Bugs (11 rows = header + 10 distinct bugs) |
 
 Codex should visually inspect:
 - header formatting

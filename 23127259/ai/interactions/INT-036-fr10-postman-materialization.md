@@ -918,10 +918,10 @@ PHASE 2D.1 – FR-10 CONTROLLED POSTMAN + NEWMAN EXECUTION
 ---
 
 ## 1. AI Audit Verification
-- **INT-035 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1590) backfilled into [`23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md).
-- **INT-036 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-036-fr10-postman-materialization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-036-fr10-postman-materialization.md).
-- **INT-036 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-035 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1590) backfilled into [`23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md`](INT-035-fr10-human-extension-finalization.md).
+- **INT-036 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-036-fr10-postman-materialization.md`](INT-036-fr10-postman-materialization.md).
+- **INT-036 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-036 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -937,18 +937,18 @@ PHASE 2D.1 – FR-10 CONTROLLED POSTMAN + NEWMAN EXECUTION
 - **Rejected Raw AI Case:** `1` (`FR10-AI-012` excluded from execution suite)
 - **Human-Designed Extension Cases:** `5` (`FR10-HUM-001` .. `FR10-HUM-005`)
 - **Total Formal Executable Suite:** **`46` Formal Test Cases**
-- **Authoritative Specification:** Documented in [`23127259/testcases/FR10_FINAL_EXECUTABLE_SUITE.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_FINAL_EXECUTABLE_SUITE.md).
+- **Authoritative Specification:** Documented in [`23127259/testcases/FR10_FINAL_EXECUTABLE_SUITE.md`](../../testcases/FR10_FINAL_EXECUTABLE_SUITE.md).
 
 ---
 
 ## 4. Postman Artifacts Inventory
-- **Postman Collection:** [`23127259/postman/collections/FR10_Order_State_Machine.postman_collection.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/collections/FR10_Order_State_Machine.postman_collection.json)
-- **Postman Environment:** [`23127259/postman/environments/FR10-local.postman_environment.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/environments/FR10-local.postman_environment.json)
-- **Domain Data File:** [`23127259/postman/data/fr10-domain-data.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/data/fr10-domain-data.json)
-- **Execution Traceability:** [`23127259/testcases/FR10_EXECUTION_TRACEABILITY.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_EXECUTION_TRACEABILITY.md)
-- **Fixture Allocation Strategy:** [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_FIXTURE_STRATEGY.md)
-- **Postman Features Manifest:** [`23127259/postman/POSTMAN_FEATURES_FR10.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/POSTMAN_FEATURES_FR10.md)
-- **Implementation Strategy:** [`23127259/postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md)
+- **Postman Collection:** [`23127259/postman/collections/FR10_Order_State_Machine.postman_collection.json`](../../postman/collections/FR10_Order_State_Machine.postman_collection.json)
+- **Postman Environment:** [`23127259/postman/environments/FR10-local.postman_environment.json`](../../postman/environments/FR10-local.postman_environment.json)
+- **Domain Data File:** [`23127259/postman/data/fr10-domain-data.json`](../../postman/data/fr10-domain-data.json)
+- **Execution Traceability:** [`23127259/testcases/FR10_EXECUTION_TRACEABILITY.md`](../../testcases/FR10_EXECUTION_TRACEABILITY.md)
+- **Fixture Allocation Strategy:** [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](../../postman/FR10_FIXTURE_STRATEGY.md)
+- **Postman Features Manifest:** [`23127259/postman/POSTMAN_FEATURES_FR10.md`](../../postman/POSTMAN_FEATURES_FR10.md)
+- **Implementation Strategy:** [`23127259/postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md`](../../postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md)
 
 ---
 

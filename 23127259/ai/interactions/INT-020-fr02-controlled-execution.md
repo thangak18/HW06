@@ -723,8 +723,8 @@ PHASE 1D.2 – FR-02 BUG CONFIRMATION, EVIDENCE, AND GITHUB ISSUE FILING
 ---
 
 ## 1. AI Audit Verification & Integrity Gate
-- **INT-019 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 713, 6,178 bytes) backfilled into [`23127259/ai/interactions/INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md).
-- **INT-020 Initialized:** **YES** — Verbatim prompt recorded in [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md), appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (201,561 bytes), and logged in [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-019 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 713, 6,178 bytes) backfilled into [`23127259/ai/interactions/INT-019-fr02-postman-implementation.md`](INT-019-fr02-postman-implementation.md).
+- **INT-020 Initialized:** **YES** — Verbatim prompt recorded in [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](INT-020-fr02-controlled-execution.md), appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md) (201,561 bytes), and logged in [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **Frozen AI Draft SHA-256 Hash:**
   `b5ab203bac9e560190649f50b7d7b5c258810915e7ae84ec02f87e371573317c` (`FR02_AI_DRAFT.md` — Verified unmodified).
 
@@ -806,7 +806,7 @@ graph TD
 ---
 
 ## 6. Test Harness Repairs & Oracle Preservation Verification
-- **Total Harness Repairs Applied:** 7 (`REP-001` .. `REP-007` documented in [`23127259/newman/fr02/FR02_HARNESS_REPAIRS.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_HARNESS_REPAIRS.md)).
+- **Total Harness Repairs Applied:** 7 (`REP-001` .. `REP-007` documented in [`23127259/newman/fr02/FR02_HARNESS_REPAIRS.md`](../../newman/fr02/FR02_HARNESS_REPAIRS.md)).
 - **Specification Oracles Changed:** **0 (0.0%)** — All assertions strictly reflect normative requirements from SRS §2 FR-02 and `api_specification.md`.
 
 ---
@@ -814,21 +814,21 @@ graph TD
 ## 7. Artifacts Created & Committed
 
 - **Newman Execution Artifacts:**
-  - [`23127259/newman/fr02/FR02-run-03-console.txt`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03-console.txt) (Console output log)
-  - [`23127259/newman/fr02/FR02-run-03.json`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.json) (Raw Newman JSON report)
-  - [`23127259/newman/fr02/FR02-run-03.html`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.html) (HTML Extra rich dashboard report)
-  - [`23127259/newman/fr02/FR02_EXECUTION_SUMMARY.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_EXECUTION_SUMMARY.md) (Master execution summary)
-  - [`23127259/newman/fr02/FR02_RUN01_TRIAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_RUN01_TRIAGE.md) (Run 01 initial failure triage)
-  - [`23127259/newman/fr02/FR02_HARNESS_REPAIRS.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_HARNESS_REPAIRS.md) (Detailed harness repairs log)
+  - [`23127259/newman/fr02/FR02-run-03-console.txt`](../../newman/fr02/FR02-run-03-console.txt) (Console output log)
+  - [`23127259/newman/fr02/FR02-run-03.json`](../../newman/fr02/FR02-run-03.json) (Raw Newman JSON report)
+  - [`23127259/newman/fr02/FR02-run-03.html`](../../newman/fr02/FR02-run-03.html) (HTML Extra rich dashboard report)
+  - [`23127259/newman/fr02/FR02_EXECUTION_SUMMARY.md`](../../newman/fr02/FR02_EXECUTION_SUMMARY.md) (Master execution summary)
+  - [`23127259/newman/fr02/FR02_RUN01_TRIAGE.md`](../../newman/fr02/FR02_RUN01_TRIAGE.md) (Run 01 initial failure triage)
+  - [`23127259/newman/fr02/FR02_HARNESS_REPAIRS.md`](../../newman/fr02/FR02_HARNESS_REPAIRS.md) (Detailed harness repairs log)
 - **Bug Discovery & Verification Artifacts:**
-  - [`23127259/bugs/FR02_BUG_CANDIDATES.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_BUG_CANDIDATES.md) (Master bug catalog for BUG-FR02-001..004)
-  - [`23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md) (Visual verification checklist)
+  - [`23127259/bugs/FR02_BUG_CANDIDATES.md`](../../bugs/FR02_BUG_CANDIDATES.md) (Master bug catalog for BUG-FR02-001..004)
+  - [`23127259/bugs/FR02_SCREENSHOT_CHECKLIST.md`](../../bugs/FR02_SCREENSHOT_CHECKLIST.md) (Visual verification checklist)
 - **Documentation & AI Interaction Logs:**
-  - [`23127259/docs/POSTMAN_FEATURES_FR02.md`](file:///Volumes/Thang/HW06/HW06/23127259/docs/POSTMAN_FEATURES_FR02.md) (Updated architecture guide)
-  - [`23127259/ai/interactions/INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md) (Backfilled with exact output)
-  - [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md) (Initialized with verbatim prompt)
-  - [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (Updated prompt registry)
-  - [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md) (Master audit report)
+  - [`23127259/docs/POSTMAN_FEATURES_FR02.md`](../../docs/POSTMAN_FEATURES_FR02.md) (Updated architecture guide)
+  - [`23127259/ai/interactions/INT-019-fr02-postman-implementation.md`](INT-019-fr02-postman-implementation.md) (Backfilled with exact output)
+  - [`23127259/ai/interactions/INT-020-fr02-controlled-execution.md`](INT-020-fr02-controlled-execution.md) (Initialized with verbatim prompt)
+  - [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md) (Updated prompt registry)
+  - [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md) (Master audit report)
 
 ---
 

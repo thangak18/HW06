@@ -760,10 +760,10 @@ PHASE 2A.3 – FR-10 BACKWARD, TERMINAL, AND USER-CANCELLATION STATE TEST GENERA
 ---
 
 ## 1. AI Audit Verification
-- **INT-025 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1287) backfilled into [`23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md).
-- **INT-026 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md).
-- **INT-026 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-025 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1287) backfilled into [`23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md`](INT-025-fr10-requirement-state-analysis.md).
+- **INT-026 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md`](INT-026-fr10-analysis-correction-core-state-generation.md).
+- **INT-026 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-026 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -804,18 +804,18 @@ PHASE 2A.3 – FR-10 BACKWARD, TERMINAL, AND USER-CANCELLATION STATE TEST GENERA
 - **Cumulative Raw AI Count:** **12 / 40 cases**
 
 ### Test Case Itemized Manifest:
-1. [`FR10-AI-001`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-001--valid-admin-forward-transition-pending-to-confirmed): Valid Admin Transition from `pending` to `confirmed` (`PUT /api/admin/orders/:id/status`)
-2. [`FR10-AI-002`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-002--valid-admin-forward-transition-confirmed-to-shipping): Valid Admin Transition from `confirmed` to `shipping` (`PUT /api/admin/orders/:id/status`)
-3. [`FR10-AI-003`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-003--valid-admin-forward-transition-shipping-to-delivered): Valid Admin Transition from `shipping` to `delivered` (`PUT /api/admin/orders/:id/status`)
-4. [`FR10-AI-004`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-004--complete-happy-path-order-lifecycle-continuity-sequence): End-to-End Sequential Progression (`pending` $\rightarrow$ `confirmed` $\rightarrow$ `shipping` $\rightarrow$ `delivered`)
-5. [`FR10-AI-005`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-005--valid-customer-self-cancellation-on-pending-order): Customer Cancels Own `pending` Order via `PUT /api/orders/:id/cancel`
-6. [`FR10-AI-006`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-006--valid-admin-cancellation-on-pending-order): Administrator Cancels `pending` Order via `PUT /api/admin/orders/:id/status`
-7. [`FR10-AI-007`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-007--valid-customer-self-cancellation-on-confirmed-order): Customer Cancels Own `confirmed` Order Prior to Shipment via `PUT /api/orders/:id/cancel`
-8. [`FR10-AI-008`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-008--valid-admin-cancellation-on-confirmed-order): Administrator Cancels `confirmed` Order Prior to Shipment via `PUT /api/admin/orders/:id/status`
-9. [`FR10-AI-009`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-009--invalid-forward-skip-transition-pending-directly-to-shipping): Illegal Forward State Skip: `pending` Directly to `shipping`
-10. [`FR10-AI-010`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-010--invalid-forward-skip-transition-pending-directly-to-delivered): Illegal Forward State Skip: `pending` Directly to `delivered`
-11. [`FR10-AI-011`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-011--invalid-forward-skip-transition-confirmed-directly-to-delivered): Illegal Forward State Skip: `confirmed` Directly to `delivered`
-12. [`FR10-AI-012`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-012--invalid-forward-skip-attempt-by-normal-customer-token): Unauthorized Customer Forward Skip Attempt (`pending` $\rightarrow$ `shipping`)
+1. [`FR10-AI-001`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-001--valid-admin-forward-transition-pending-to-confirmed): Valid Admin Transition from `pending` to `confirmed` (`PUT /api/admin/orders/:id/status`)
+2. [`FR10-AI-002`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-002--valid-admin-forward-transition-confirmed-to-shipping): Valid Admin Transition from `confirmed` to `shipping` (`PUT /api/admin/orders/:id/status`)
+3. [`FR10-AI-003`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-003--valid-admin-forward-transition-shipping-to-delivered): Valid Admin Transition from `shipping` to `delivered` (`PUT /api/admin/orders/:id/status`)
+4. [`FR10-AI-004`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-004--complete-happy-path-order-lifecycle-continuity-sequence): End-to-End Sequential Progression (`pending` $\rightarrow$ `confirmed` $\rightarrow$ `shipping` $\rightarrow$ `delivered`)
+5. [`FR10-AI-005`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-005--valid-customer-self-cancellation-on-pending-order): Customer Cancels Own `pending` Order via `PUT /api/orders/:id/cancel`
+6. [`FR10-AI-006`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-006--valid-admin-cancellation-on-pending-order): Administrator Cancels `pending` Order via `PUT /api/admin/orders/:id/status`
+7. [`FR10-AI-007`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-007--valid-customer-self-cancellation-on-confirmed-order): Customer Cancels Own `confirmed` Order Prior to Shipment via `PUT /api/orders/:id/cancel`
+8. [`FR10-AI-008`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-008--valid-admin-cancellation-on-confirmed-order): Administrator Cancels `confirmed` Order Prior to Shipment via `PUT /api/admin/orders/:id/status`
+9. [`FR10-AI-009`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-009--invalid-forward-skip-transition-pending-directly-to-shipping): Illegal Forward State Skip: `pending` Directly to `shipping`
+10. [`FR10-AI-010`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-010--invalid-forward-skip-transition-pending-directly-to-delivered): Illegal Forward State Skip: `pending` Directly to `delivered`
+11. [`FR10-AI-011`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-011--invalid-forward-skip-transition-confirmed-directly-to-delivered): Illegal Forward State Skip: `confirmed` Directly to `delivered`
+12. [`FR10-AI-012`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-012--invalid-forward-skip-attempt-by-normal-customer-token): Unauthorized Customer Forward Skip Attempt (`pending` $\rightarrow$ `shipping`)
 
 ---
 

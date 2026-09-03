@@ -73,7 +73,7 @@ During the Phase 2D.1A runtime smoke investigation (INT-040), network requests w
 ## 5. X-Student-Id Runtime Evidence
 
 - **Header Transmitted:** `X-Student-Id: 23127259`
-- **Postman Console Screenshot:** [`23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png)
+- **Postman Console Screenshot:** [`23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png`](../evidence/fr10/FR10-postman-console-x-student-id-smoke.png)
 - **Hostname Visible:** `localhost:3000`
 - **Request URL Visible:** `http://localhost:3000/api/login`
 

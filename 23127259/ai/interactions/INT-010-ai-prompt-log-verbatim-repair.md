@@ -73,7 +73,7 @@ EXACT ORIGINAL PROMPT VERBATIM
 ```markdown
 # Consolidated AI Prompt Log Created
 
-The master prompt registry has been created and populated at [AI_PROMPT_LOG.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
+The master prompt registry has been created and populated at [AI_PROMPT_LOG.md](../prompts/AI_PROMPT_LOG.md).
 
 ---
 
@@ -94,9 +94,9 @@ The master prompt registry has been created and populated at [AI_PROMPT_LOG.md](
 
 ### 2. Ongoing Maintenance Protocol
 Every future prompt submitted in HW06 will automatically be appended to:
-- **Master Log:** [AI_PROMPT_LOG.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **Master Log:** [AI_PROMPT_LOG.md](../prompts/AI_PROMPT_LOG.md)
 - **Detailed Interaction File:** `23127259/ai/interactions/INT-xxx-....md`
-- **Master Audit Table:** [AI_AUDIT_REPORT.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md)
+- **Master Audit Table:** [AI_AUDIT_REPORT.md](../AI_AUDIT_REPORT.md)
 
 ---
 

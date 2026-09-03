@@ -3,7 +3,7 @@
 - **Student Name:** Nguyễn Tấn Thắng
 - **Student ID:** `23127259`
 - **Feature:** FR-10 – Order Status & State Machine (Pool B)
-- **Primary Source File:** [`23127259/testcases/FR10_AI_DRAFT.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md)
+- **Primary Source File:** [`23127259/testcases/FR10_AI_DRAFT.md`](FR10_AI_DRAFT.md)
 - **Frozen Raw AI Draft SHA-256:** `303b5383f648a336b3a310aaad139422ee6525793444614dd3853902d30029cc`
 - **Total Raw AI Cases:** `42`
 - **Status:** **FROZEN FOR HUMAN AUDIT (PHASE 2B)**

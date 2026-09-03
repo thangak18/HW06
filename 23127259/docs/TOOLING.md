@@ -15,7 +15,7 @@
 | **npm** | `11.8.0` | `/opt/homebrew/bin/npm` | Verified |
 | **Newman CLI** | `6.2.2` | `/opt/homebrew/bin/newman` | Verified |
 | **Newman HTML Extra Reporter** | `newman-reporter-htmlextra` (latest) | Global npm package | Verified |
-| **Postman Desktop Client** | `TODO – verify manually from Postman App (Help -> About)` | Desktop Application | Pending Manual Inspection |
+| **Postman Desktop Client** | `11.89.0` | Desktop Application | Verified |
 
 ---
 
@@ -24,10 +24,10 @@
 | Attribute | Configuration Detail |
 |---|---|
 | **SUT Repository** | [https://github.com/ttbhanh/eshop-sut](https://github.com/ttbhanh/eshop-sut) |
-| **Local SUT Directory** | `/Volumes/Thang/eshop-sut` (sibling directory outside HW06 repo) |
+| **Local SUT Directory** | `../eshop-sut` (sibling directory outside HW06 repo) |
 | **Backend Tech Stack** | Node.js, Express, SQLite3 (`sqlite3` module) |
-| **Backend Entry Point** | `/Volumes/Thang/eshop-sut/backend/server.js` |
-| **Database File** | `/Volumes/Thang/eshop-sut/backend/database.sqlite` (auto-seeded on server startup) |
+| **Backend Entry Point** | `backend/server.js` |
+| **Database File** | `backend/database.sqlite` (auto-seeded on server startup) |
 | **Active Host / Port** | `http://localhost:3000` |
-| **Startup Command** | `cd /Volumes/Thang/eshop-sut/backend && node server.js` |
+| **Startup Command** | `node backend/server.js` (from SUT root) |
 | **Database Reset Behavior** | `initDatabase()` executes on every server restart, dropping and re-seeding all tables |

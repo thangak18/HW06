@@ -598,10 +598,10 @@ FR10-AI-001 .. FR10-AI-012
 ---
 
 ## 1. AI Audit Verification
-- **INT-029 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1422) backfilled into [`23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md).
-- **INT-030 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md).
-- **INT-030 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-029 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1422) backfilled into [`23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](INT-029-fr10-input-id-schema-security-final-generation.md).
+- **INT-030 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md`](INT-030-fr10-human-audit-preparation-batch1.md).
+- **INT-030 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-030 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -616,7 +616,7 @@ FR10-AI-001 .. FR10-AI-012
 ---
 
 ## 3. Human Audit Workspace
-- **Audit Worksheet File:** [`23127259/ai/TC_AUDIT_FR10.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md)
+- **Audit Worksheet File:** [`23127259/ai/TC_AUDIT_FR10.md`](../TC_AUDIT_FR10.md)
 - **Total Audit Rows Initialized:** `42`
 - **Human Verdicts Pre-filled:** **0** (All 42 rows strictly initialized to `PENDING HUMAN DECISION`).
 
@@ -626,18 +626,18 @@ FR10-AI-001 .. FR10-AI-012
 
 | Test ID | AI Objective | Closest Other Case | Duplicate Risk | Confound Risk | Key Human Audit Decision Question |
 |---|---|---|:---:|:---:|---|
-| [`FR10-AI-001`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-001) | Admin `pending` $\rightarrow$ `confirmed` | `004` (step 1), `041` | NO | NO | Is this atomic single-edge forward transition valid as the baseline first fulfillment step? |
-| [`FR10-AI-002`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-002) | Admin `confirmed` $\rightarrow$ `shipping` | `004` (step 2) | NO | NO | Does this case cleanly isolate the dispatch/transit transition edge from a confirmed state? |
-| [`FR10-AI-003`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-003) | Admin `shipping` $\rightarrow$ `delivered` | `004` (step 3) | NO | NO | Does this case cleanly isolate the terminal fulfillment transition edge from carrier transit? |
-| [`FR10-AI-004`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-004) | Linear multi-step sequence (`pending` $\rightarrow$ `delivered`) | `001`..`003` | POSSIBLE | NO | Should full lifecycle continuity on a single entity be retained alongside atomic unit transitions? |
-| [`FR10-AI-005`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-005) | Customer cancels own `pending` order | `006` (Admin), `007` | NO | NO | Does this case accurately test customer self-service cancellation via the customer cancellation route? |
-| [`FR10-AI-006`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-006) | Admin cancels `pending` order | `005` (User), `008` | NO | NO | Does this case verify merchant order rejection/cancellation via the admin status endpoint? |
-| [`FR10-AI-007`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-007) | Customer cancels own `confirmed` order | `005`, `008` (Admin) | NO | NO | Does this case directly evaluate explicit SRS Section 4.10 customer cancellation before carrier transit? |
-| [`FR10-AI-008`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-008) | Admin cancels `confirmed` order | `006`, `007` (User) | NO | NO | Does this case confirm administrator cancellation authority on confirmed pre-shipment orders? |
-| [`FR10-AI-009`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-009) | Illegal Admin skip `pending` $\rightarrow$ `shipping` | `010`, `012` | NO | NO | Does this test provide an unconfounded probe ensuring confirmation review cannot be bypassed? |
-| [`FR10-AI-010`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-010) | Illegal Admin skip `pending` $\rightarrow$ `delivered` | `009`, `011` | NO | NO | Does this case verify protection against immediate fulfillment skips of unconfirmed orders? |
-| [`FR10-AI-011`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-011) | Illegal Admin skip `confirmed` $\rightarrow$ `delivered` | `009`, `010` | NO | NO | Does this test ensure confirmed orders must be marked shipping before delivery completion? |
-| [`FR10-AI-012`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-012) | Customer skip attempt `pending` $\rightarrow$ `shipping` | `009` (Admin skip), `030` | NO | **YES** | Should this confounded test be classified as `INCOMPLETE` requiring dimension separation? |
+| [`FR10-AI-001`](../TC_AUDIT_FR10.md#fr10-ai-001) | Admin `pending` $\rightarrow$ `confirmed` | `004` (step 1), `041` | NO | NO | Is this atomic single-edge forward transition valid as the baseline first fulfillment step? |
+| [`FR10-AI-002`](../TC_AUDIT_FR10.md#fr10-ai-002) | Admin `confirmed` $\rightarrow$ `shipping` | `004` (step 2) | NO | NO | Does this case cleanly isolate the dispatch/transit transition edge from a confirmed state? |
+| [`FR10-AI-003`](../TC_AUDIT_FR10.md#fr10-ai-003) | Admin `shipping` $\rightarrow$ `delivered` | `004` (step 3) | NO | NO | Does this case cleanly isolate the terminal fulfillment transition edge from carrier transit? |
+| [`FR10-AI-004`](../TC_AUDIT_FR10.md#fr10-ai-004) | Linear multi-step sequence (`pending` $\rightarrow$ `delivered`) | `001`..`003` | POSSIBLE | NO | Should full lifecycle continuity on a single entity be retained alongside atomic unit transitions? |
+| [`FR10-AI-005`](../TC_AUDIT_FR10.md#fr10-ai-005) | Customer cancels own `pending` order | `006` (Admin), `007` | NO | NO | Does this case accurately test customer self-service cancellation via the customer cancellation route? |
+| [`FR10-AI-006`](../TC_AUDIT_FR10.md#fr10-ai-006) | Admin cancels `pending` order | `005` (User), `008` | NO | NO | Does this case verify merchant order rejection/cancellation via the admin status endpoint? |
+| [`FR10-AI-007`](../TC_AUDIT_FR10.md#fr10-ai-007) | Customer cancels own `confirmed` order | `005`, `008` (Admin) | NO | NO | Does this case directly evaluate explicit SRS Section 4.10 customer cancellation before carrier transit? |
+| [`FR10-AI-008`](../TC_AUDIT_FR10.md#fr10-ai-008) | Admin cancels `confirmed` order | `006`, `007` (User) | NO | NO | Does this case confirm administrator cancellation authority on confirmed pre-shipment orders? |
+| [`FR10-AI-009`](../TC_AUDIT_FR10.md#fr10-ai-009) | Illegal Admin skip `pending` $\rightarrow$ `shipping` | `010`, `012` | NO | NO | Does this test provide an unconfounded probe ensuring confirmation review cannot be bypassed? |
+| [`FR10-AI-010`](../TC_AUDIT_FR10.md#fr10-ai-010) | Illegal Admin skip `pending` $\rightarrow$ `delivered` | `009`, `011` | NO | NO | Does this case verify protection against immediate fulfillment skips of unconfirmed orders? |
+| [`FR10-AI-011`](../TC_AUDIT_FR10.md#fr10-ai-011) | Illegal Admin skip `confirmed` $\rightarrow$ `delivered` | `009`, `010` | NO | NO | Does this test ensure confirmed orders must be marked shipping before delivery completion? |
+| [`FR10-AI-012`](../TC_AUDIT_FR10.md#fr10-ai-012) | Customer skip attempt `pending` $\rightarrow$ `shipping` | `009` (Admin skip), `030` | NO | **YES** | Should this confounded test be classified as `INCOMPLETE` requiring dimension separation? |
 
 ---
 

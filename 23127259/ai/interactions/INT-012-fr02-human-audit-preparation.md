@@ -536,13 +536,13 @@ DO NOT ASSIGN HUMAN VERDICTS.
 - **Verified Output Transcript Step:** `transcript_full.jsonl` **Step 542** (`type: "PLANNER_RESPONSE"`, 6,246 bytes)
 - **Prompt Entry Type:** `USER_INPUT`
 - **Output Entry Type:** `PLANNER_RESPONSE`
-- **Correction Required:** **YES** — Corrected prompt/output steps and updated verbatim text in [`INT-011-fr02-generation-coverage-freeze.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-011-fr02-generation-coverage-freeze.md), [`AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md), and [`AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **Correction Required:** **YES** — Corrected prompt/output steps and updated verbatim text in [`INT-011-fr02-generation-coverage-freeze.md`](INT-011-fr02-generation-coverage-freeze.md), [`AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md), and [`AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **Correction Commit SHA:** [`3133d08`](https://github.com/thangak18/HW06/commit/3133d08) (`docs(23127259): correct INT-011 AI audit evidence` pushed to `origin/thang/hw06-implementation`).
 
 ---
 
 ## 2. INT-012 Audit Logging
-- **Exact Prompt Stored:** **YES (Verbatim)** in [`INT-012-fr02-human-audit-preparation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-012-fr02-human-audit-preparation.md) and [`AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (Step 543).
+- **Exact Prompt Stored:** **YES (Verbatim)** in [`INT-012-fr02-human-audit-preparation.md`](INT-012-fr02-human-audit-preparation.md) and [`AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md) (Step 543).
 - **Prompt Log Updated:** **YES** (`AI_PROMPT_LOG.md` total 125,476 bytes).
 - **Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
@@ -559,7 +559,7 @@ DO NOT ASSIGN HUMAN VERDICTS.
 ---
 
 ## 4. Human Audit Workspace Initialization
-- **Audit Worksheet File:** [TC_AUDIT_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR02.md)
+- **Audit Worksheet File:** [TC_AUDIT_FR02.md](../TC_AUDIT_FR02.md)
 - **Total Master Rows Prepared:** **37 rows**
 - **Student Verdicts Pre-Filled:** **0** (All marked `PENDING STUDENT REVIEW`)
 - **Batch Prepared for Review:** **Batch 1 (`FR02-AI-001` .. `FR02-AI-010`)**

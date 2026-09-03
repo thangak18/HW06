@@ -791,8 +791,8 @@ PHASE 1D.1 – FR-02 CONTROLLED POSTMAN/NEWMAN EXECUTION
 ---
 
 ## 1. AI Audit Verification
-- **INT-018 Output Backfilled:** **YES** — Exact output (Step 661, 4,239 bytes) backfilled into [`INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md).
-- **INT-019 Prompt Stored:** **YES (Verbatim)** in [`INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md) and [`AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md) (184,752 bytes).
+- **INT-018 Output Backfilled:** **YES** — Exact output (Step 661, 4,239 bytes) backfilled into [`INT-018-fr02-human-extension-finalization.md`](INT-018-fr02-human-extension-finalization.md).
+- **INT-019 Prompt Stored:** **YES (Verbatim)** in [`INT-019-fr02-postman-implementation.md`](INT-019-fr02-postman-implementation.md) and [`AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md) (184,752 bytes).
 - **INT-019 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -808,17 +808,17 @@ $$\begin{aligned}
 \mathbf{\text{Total Final Executable Candidate Suite}} &= \mathbf{40\text{ Test Cases}}
 \end{aligned}$$
 
-- **Authoritative Executable Suite Specification:** [FR02_FINAL_EXECUTABLE_SUITE.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_FINAL_EXECUTABLE_SUITE.md).
-- **Full Traceability Matrix:** [FR02_EXECUTION_TRACEABILITY.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_EXECUTION_TRACEABILITY.md).
+- **Authoritative Executable Suite Specification:** [FR02_FINAL_EXECUTABLE_SUITE.md](../../testcases/FR02_FINAL_EXECUTABLE_SUITE.md).
+- **Full Traceability Matrix:** [FR02_EXECUTION_TRACEABILITY.md](../../testcases/FR02_EXECUTION_TRACEABILITY.md).
 
 ---
 
 ## 3. Postman Collection Architecture
 
-- **Collection File:** [`23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json)
-- **Environment File:** [`23127259/postman/environments/FR02-local.postman_environment.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/environments/FR02-local.postman_environment.json)
-- **Domain Data File:** [`23127259/postman/data/fr02-domain-data.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/data/fr02-domain-data.json)
-- **Features Documentation:** [POSTMAN_FEATURES_FR02.md](file:///Volumes/Thang/HW06/HW06/23127259/docs/POSTMAN_FEATURES_FR02.md)
+- **Collection File:** [`23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json`](../../postman/collections/FR02_Login_Account_Lockout.postman_collection.json)
+- **Environment File:** [`23127259/postman/environments/FR02-local.postman_environment.json`](../../postman/environments/FR02-local.postman_environment.json)
+- **Domain Data File:** [`23127259/postman/data/fr02-domain-data.json`](../../postman/data/fr02-domain-data.json)
+- **Features Documentation:** [POSTMAN_FEATURES_FR02.md](../../docs/POSTMAN_FEATURES_FR02.md)
 
 ### Folder Structure & Mapping:
 | Folder | Helper Requests | Formal Test Requests | Mapped Test IDs |
@@ -835,7 +835,7 @@ $$\begin{aligned}
 ---
 
 ## 4. Stateful Isolation & Repeatability Strategy
-Detailed in [FR02_POSTMAN_STATE_STRATEGY.md](file:///Volumes/Thang/HW06/HW06/23127259/docs/FR02_POSTMAN_STATE_STRATEGY.md):
+Detailed in [FR02_POSTMAN_STATE_STRATEGY.md](../../docs/FR02_POSTMAN_STATE_STRATEGY.md):
 1. **Account Segregation:** Distinct accounts allocated per test domain (`user@eshop.com`, `admin@eshop.com`, `user_domain@eshop.com`, `lockout_fr02@eshop.com`, `reset_fr02@eshop.com`, `victim_fr02@eshop.com`, `isolated_fr02@eshop.com`).
 2. **Setup Mechanism:** Documented `POST /api/register` helper endpoints ensure dedicated test accounts exist prior to state progression tests.
 3. **Timing Bracketing:** Deterministic timing delays safely bracket the 30-second lockout window ($T \approx 25\text{s}$ pre-expiry and $T \approx 32\text{s}$ post-expiry).
@@ -844,7 +844,7 @@ Detailed in [FR02_POSTMAN_STATE_STRATEGY.md](file:///Volumes/Thang/HW06/HW06/231
 ---
 
 ## 5. Non-Execution Static Validation Summary
-Detailed in [FR02_POSTMAN_STATIC_VALIDATION.md](file:///Volumes/Thang/HW06/HW06/23127259/docs/FR02_POSTMAN_STATIC_VALIDATION.md):
+Detailed in [FR02_POSTMAN_STATIC_VALIDATION.md](../../docs/FR02_POSTMAN_STATIC_VALIDATION.md):
 - **Collection & Environment JSON Syntax:** **PASS** (Valid JSON, verified by parser).
 - **Total Mapped Test Cases:** **40** (Exactly 35 AI-derived + 5 Human extensions).
 - **Duplicate Exclusion:** Confirmed `FR02-AI-016` (**Absent**) and `FR02-AI-017` (**Absent**).
@@ -855,7 +855,7 @@ Detailed in [FR02_POSTMAN_STATIC_VALIDATION.md](file:///Volumes/Thang/HW06/HW06/
 ---
 
 ## 6. Provenance & Classification Refinements
-- **Human Extension Provenance:** Verified in [FR02_HUMAN_TEST_CASES.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_TEST_CASES.md) and [FR02_HUMAN_EXTENSION_DESIGN.md](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR02_HUMAN_EXTENSION_DESIGN.md):
+- **Human Extension Provenance:** Verified in [FR02_HUMAN_TEST_CASES.md](../../testcases/FR02_HUMAN_TEST_CASES.md) and [FR02_HUMAN_EXTENSION_DESIGN.md](../../testcases/FR02_HUMAN_EXTENSION_DESIGN.md):
   > *"Student-selected and finalized Human Extension cases after AI-assisted coverage-gap analysis."*
 - **`FR02-HUM-004` Oracle Classification:** Refined to `PARTIALLY SPECIFICATION-BACKED / STATE ISOLATION` (grounded in per-user authentication architecture without overstating explicit cross-account SRS wording).
 

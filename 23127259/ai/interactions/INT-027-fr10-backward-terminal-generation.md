@@ -677,10 +677,10 @@ PHASE 2A.4 – FR-10 AUTHENTICATION, RBAC, OWNERSHIP AI TEST GENERATION
 ---
 
 ## 1. AI Audit Verification
-- **INT-026 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1319) backfilled into [`23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md).
-- **INT-027 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-027-fr10-backward-terminal-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-027-fr10-backward-terminal-generation.md).
-- **INT-027 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-026 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1319) backfilled into [`23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md`](INT-026-fr10-analysis-correction-core-state-generation.md).
+- **INT-027 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-027-fr10-backward-terminal-generation.md`](INT-027-fr10-backward-terminal-generation.md).
+- **INT-027 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-027 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -696,18 +696,18 @@ PHASE 2A.4 – FR-10 AUTHENTICATION, RBAC, OWNERSHIP AI TEST GENERATION
 
 | Test Case ID | Target State Mutation / Test Scenario | Actor | Endpoint Used | Expected State After |
 |---|---|---|---|:---:|
-| [`FR10-AI-013`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-013--invalid-backward-state-regression-confirmed-to-pending) | Backward: `confirmed` $\rightarrow$ `pending` | Admin | `PUT /api/admin/orders/:id/status` | `confirmed` (Unchanged) |
-| [`FR10-AI-014`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-014--invalid-backward-state-regression-shipping-to-confirmed) | Backward: `shipping` $\rightarrow$ `confirmed` | Admin | `PUT /api/admin/orders/:id/status` | `shipping` (Unchanged) |
-| [`FR10-AI-015`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-015--invalid-backward-state-regression-shipping-to-pending) | Backward: `shipping` $\rightarrow$ `pending` | Admin | `PUT /api/admin/orders/:id/status` | `shipping` (Unchanged) |
-| [`FR10-AI-016`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-016--customer-prohibited-in-transit-cancellation-attempt) | In-Transit Cancel: `shipping` $\rightarrow$ `canceled` | Owner User | `PUT /api/orders/:id/cancel` | `shipping` (Unchanged) |
-| [`FR10-AI-017`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-017--invalid-terminal-state-mutation-delivered-to-pending) | Terminal Mut: `delivered` $\rightarrow$ `pending` | Admin | `PUT /api/admin/orders/:id/status` | `delivered` (Unchanged) |
-| [`FR10-AI-018`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-018--invalid-terminal-state-mutation-delivered-to-confirmed) | Terminal Mut: `delivered` $\rightarrow$ `confirmed` | Admin | `PUT /api/admin/orders/:id/status` | `delivered` (Unchanged) |
-| [`FR10-AI-019`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-019--invalid-terminal-state-mutation-delivered-to-shipping) | Terminal Mut: `delivered` $\rightarrow$ `shipping` | Admin | `PUT /api/admin/orders/:id/status` | `delivered` (Unchanged) |
-| [`FR10-AI-020`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-020--invalid-terminal-state-mutation-delivered-to-canceled) | Terminal Mut: `delivered` $\rightarrow$ `canceled` | Admin | `PUT /api/admin/orders/:id/status` | `delivered` (Unchanged) |
-| [`FR10-AI-021`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-021--invalid-terminal-state-mutation-canceled-to-pending) | Terminal Mut: `canceled` $\rightarrow$ `pending` | Admin | `PUT /api/admin/orders/:id/status` | `canceled` (Unchanged) |
-| [`FR10-AI-022`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-022--invalid-terminal-state-mutation-canceled-to-confirmed) | Terminal Mut: `canceled` $\rightarrow$ `confirmed` | Admin | `PUT /api/admin/orders/:id/status` | `canceled` (Unchanged) |
-| [`FR10-AI-023`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-023--invalid-terminal-state-mutation-canceled-to-shipping) | Terminal Mut: `canceled` $\rightarrow$ `shipping` | Admin | `PUT /api/admin/orders/:id/status` | `canceled` (Unchanged) |
-| [`FR10-AI-024`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_AI_DRAFT.md#fr10-ai-024--invalid-terminal-state-mutation-canceled-to-delivered) | Terminal Mut: `canceled` $\rightarrow$ `delivered` | Admin | `PUT /api/admin/orders/:id/status` | `canceled` (Unchanged) |
+| [`FR10-AI-013`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-013--invalid-backward-state-regression-confirmed-to-pending) | Backward: `confirmed` $\rightarrow$ `pending` | Admin | `PUT /api/admin/orders/:id/status` | `confirmed` (Unchanged) |
+| [`FR10-AI-014`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-014--invalid-backward-state-regression-shipping-to-confirmed) | Backward: `shipping` $\rightarrow$ `confirmed` | Admin | `PUT /api/admin/orders/:id/status` | `shipping` (Unchanged) |
+| [`FR10-AI-015`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-015--invalid-backward-state-regression-shipping-to-pending) | Backward: `shipping` $\rightarrow$ `pending` | Admin | `PUT /api/admin/orders/:id/status` | `shipping` (Unchanged) |
+| [`FR10-AI-016`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-016--customer-prohibited-in-transit-cancellation-attempt) | In-Transit Cancel: `shipping` $\rightarrow$ `canceled` | Owner User | `PUT /api/orders/:id/cancel` | `shipping` (Unchanged) |
+| [`FR10-AI-017`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-017--invalid-terminal-state-mutation-delivered-to-pending) | Terminal Mut: `delivered` $\rightarrow$ `pending` | Admin | `PUT /api/admin/orders/:id/status` | `delivered` (Unchanged) |
+| [`FR10-AI-018`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-018--invalid-terminal-state-mutation-delivered-to-confirmed) | Terminal Mut: `delivered` $\rightarrow$ `confirmed` | Admin | `PUT /api/admin/orders/:id/status` | `delivered` (Unchanged) |
+| [`FR10-AI-019`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-019--invalid-terminal-state-mutation-delivered-to-shipping) | Terminal Mut: `delivered` $\rightarrow$ `shipping` | Admin | `PUT /api/admin/orders/:id/status` | `delivered` (Unchanged) |
+| [`FR10-AI-020`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-020--invalid-terminal-state-mutation-delivered-to-canceled) | Terminal Mut: `delivered` $\rightarrow$ `canceled` | Admin | `PUT /api/admin/orders/:id/status` | `delivered` (Unchanged) |
+| [`FR10-AI-021`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-021--invalid-terminal-state-mutation-canceled-to-pending) | Terminal Mut: `canceled` $\rightarrow$ `pending` | Admin | `PUT /api/admin/orders/:id/status` | `canceled` (Unchanged) |
+| [`FR10-AI-022`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-022--invalid-terminal-state-mutation-canceled-to-confirmed) | Terminal Mut: `canceled` $\rightarrow$ `confirmed` | Admin | `PUT /api/admin/orders/:id/status` | `canceled` (Unchanged) |
+| [`FR10-AI-023`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-023--invalid-terminal-state-mutation-canceled-to-shipping) | Terminal Mut: `canceled` $\rightarrow$ `shipping` | Admin | `PUT /api/admin/orders/:id/status` | `canceled` (Unchanged) |
+| [`FR10-AI-024`](../../testcases/FR10_AI_DRAFT.md#fr10-ai-024--invalid-terminal-state-mutation-canceled-to-delivered) | Terminal Mut: `canceled` $\rightarrow$ `delivered` | Admin | `PUT /api/admin/orders/:id/status` | `canceled` (Unchanged) |
 
 ---
 

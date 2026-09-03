@@ -721,8 +721,8 @@ Do NOT run full Newman in this interaction.
 # Phase 2D.1A FR-10 Minimal Runtime Smoke Report
 
 ## AI Audit
-- **INT-039 Output Backfilled:** [`23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md)
-- **INT-040 Prompt Stored:** [`23127259/ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md)
+- **INT-039 Output Backfilled:** [`23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md`](INT-039-fr10-per-case-fixture-isolation-hardening.md)
+- **INT-040 Prompt Stored:** [`23127259/ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md`](INT-040-fr10-minimal-fixture-runtime-smoke.md) & [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md)
 - **INT-040 Output Pending:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`
 
 ---
@@ -753,7 +753,7 @@ Do NOT run full Newman in this interaction.
 
 ## X-Student-Id Runtime Evidence
 - **Transmitted:** **YES**
-- **Postman Console Evidence Path:** [`23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png)
+- **Postman Console Evidence Path:** [`23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png`](../../evidence/fr10/FR10-postman-console-x-student-id-smoke.png)
 - **Real Hostname Visible (`localhost:3000`):** **YES**
 
 ---

@@ -736,10 +736,10 @@ FR10-AI-035 .. FR10-AI-042
 ---
 
 ## 1. AI Audit Verification
-- **INT-032 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1495) backfilled into [`23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md).
-- **INT-033 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md).
-- **INT-033 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-032 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1495) backfilled into [`23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md`](INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md).
+- **INT-033 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md).
+- **INT-033 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-033 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -754,16 +754,16 @@ FR10-AI-035 .. FR10-AI-042
 
 | Test ID | AI Objective Summary | Student Verdict | Required Correction | Executable After Correction? |
 |---|---|:---:|---|:---:|
-| [`FR10-AI-025`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-025--verdict-valid) | `SEC-02`: Missing Auth Header (Admin status) | **VALID** | NONE | **YES** |
-| [`FR10-AI-026`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-026--verdict-valid) | `SEC-02`: Malformed Header Scheme | **VALID** | NONE | **YES** |
-| [`FR10-AI-027`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-027--verdict-valid) | `SEC-02`: Invalid / Random JWT String | **VALID** | NONE | **YES** |
-| [`FR10-AI-028`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-028--verdict-valid) | `SEC-02`: Tampered JWT Signature | **VALID** | NONE | **YES** |
-| [`FR10-AI-029`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-029--verdict-valid) | `SEC-02`: Missing Auth Header (Customer cancel) | **VALID** | NONE | **YES** |
-| [`FR10-AI-030`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-030--verdict-valid) | `SEC-03`: Normal User on `pending -> confirmed` | **VALID** | NONE | **YES** |
-| [`FR10-AI-031`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-031--verdict-valid) | `SEC-03`: Normal User on Admin Cancel Route | **VALID** | NONE | **YES** |
-| [`FR10-AI-032`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-032--verdict-valid) | `SEC-03`: Normal User on `confirmed -> shipping` | **VALID** | NONE | **YES** |
-| [`FR10-AI-033`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-033--verdict-incomplete) | Ownership: User B cancels User A `pending` | **INCOMPLETE** | Classify as `PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION`; preserve valid User B auth, pending state, only ownership mismatch; do not claim exact status; report unexpected mutations conservatively. | **YES** |
-| [`FR10-AI-034`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-034--verdict-incomplete) | Ownership: User B cancels User A `confirmed` | **INCOMPLETE** | Classify as `PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION`; preserve valid User B auth, confirmed order belonging to User A, otherwise-valid cancellation state, ownership mismatch; do not invent exact status. | **YES** |
+| [`FR10-AI-025`](../TC_AUDIT_FR10.md#fr10-ai-025--verdict-valid) | `SEC-02`: Missing Auth Header (Admin status) | **VALID** | NONE | **YES** |
+| [`FR10-AI-026`](../TC_AUDIT_FR10.md#fr10-ai-026--verdict-valid) | `SEC-02`: Malformed Header Scheme | **VALID** | NONE | **YES** |
+| [`FR10-AI-027`](../TC_AUDIT_FR10.md#fr10-ai-027--verdict-valid) | `SEC-02`: Invalid / Random JWT String | **VALID** | NONE | **YES** |
+| [`FR10-AI-028`](../TC_AUDIT_FR10.md#fr10-ai-028--verdict-valid) | `SEC-02`: Tampered JWT Signature | **VALID** | NONE | **YES** |
+| [`FR10-AI-029`](../TC_AUDIT_FR10.md#fr10-ai-029--verdict-valid) | `SEC-02`: Missing Auth Header (Customer cancel) | **VALID** | NONE | **YES** |
+| [`FR10-AI-030`](../TC_AUDIT_FR10.md#fr10-ai-030--verdict-valid) | `SEC-03`: Normal User on `pending -> confirmed` | **VALID** | NONE | **YES** |
+| [`FR10-AI-031`](../TC_AUDIT_FR10.md#fr10-ai-031--verdict-valid) | `SEC-03`: Normal User on Admin Cancel Route | **VALID** | NONE | **YES** |
+| [`FR10-AI-032`](../TC_AUDIT_FR10.md#fr10-ai-032--verdict-valid) | `SEC-03`: Normal User on `confirmed -> shipping` | **VALID** | NONE | **YES** |
+| [`FR10-AI-033`](../TC_AUDIT_FR10.md#fr10-ai-033--verdict-incomplete) | Ownership: User B cancels User A `pending` | **INCOMPLETE** | Classify as `PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION`; preserve valid User B auth, pending state, only ownership mismatch; do not claim exact status; report unexpected mutations conservatively. | **YES** |
+| [`FR10-AI-034`](../TC_AUDIT_FR10.md#fr10-ai-034--verdict-incomplete) | Ownership: User B cancels User A `confirmed` | **INCOMPLETE** | Classify as `PARTIALLY SPECIFICATION-BACKED / BUSINESS AUTHORIZATION`; preserve valid User B auth, confirmed order belonging to User A, otherwise-valid cancellation state, ownership mismatch; do not invent exact status. | **YES** |
 
 ---
 
@@ -783,14 +783,14 @@ FR10-AI-035 .. FR10-AI-042
 
 | Test ID | Dimension / Group | Oracle Strength | Duplicate Risk | Over-Spec Risk | Key Human Audit Decision Question |
 |---|---|:---:|:---:|:---:|---|
-| [`FR10-AI-035`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-035) | Domain: Undocumented Status Enum (`"processing"`) | `SPECIFICATION-BACKED` | NO | LOW | Is rejecting an out-of-enum status value an authoritative, specification-backed domain constraint? |
-| [`FR10-AI-036`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-036) | Schema: Missing Mandatory `status` Body Property (`{}`) | `SPECIFICATION-BACKED` | NO | LOW | Does this cleanly verify that the mandatory `status` property is strictly required in payload? |
-| [`FR10-AI-037`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-037) | Input: Explicit Null Value (`{"status": null}`) | `SPECIFICATION-BACKED` | NO | LOW | Is explicit null value rejection sufficiently distinct from missing property validation? |
-| [`FR10-AI-038`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-038) | Type: Numeric Status Value (`{"status": 123}`) | `PARTIALLY SPEC-BACKED` | NO | MEDIUM | Should type robustness (`status: 123`) be audited as `VALID` or `INCOMPLETE` with a spec-limited oracle? |
-| [`FR10-AI-039`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-039) | Resource: Non-Existent Entity ID (`:id = 999999`) | `SPECIFICATION-BACKED` | NO | LOW | Is testing non-existent order ID resolution a valid, non-duplicate FR-10 resource boundary? |
-| [`FR10-AI-040`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-040) | Parameter: Malformed Non-Numeric ID (`:id = "not-an-id"`) | `PARTIALLY SPEC-BACKED` | NO | MEDIUM | Does specification explicitly restrict `:id` to numeric format, or does it require robustness-oriented correction? |
-| [`FR10-AI-041`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-041) | Schema/Persistence: Response Contract & Read-After-Write | `SPECIFICATION-BACKED` | POSSIBLE | LOW | Is response schema and read-after-write consistency distinct enough to retain alongside unit transition AI-001? |
-| [`FR10-AI-042`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md#fr10-ai-042) | `SEC-05`: Black-Box SQL Injection Probe (`:id = 1' OR '1'='1`) | `PARTIAL BEHAVIORAL EVIDENCE` | NO | HIGH (if internal proof claimed) | Can this test be audited as behavioral `SEC-05` evidence while maintaining strict black-box oracle boundaries? |
+| [`FR10-AI-035`](../TC_AUDIT_FR10.md#fr10-ai-035) | Domain: Undocumented Status Enum (`"processing"`) | `SPECIFICATION-BACKED` | NO | LOW | Is rejecting an out-of-enum status value an authoritative, specification-backed domain constraint? |
+| [`FR10-AI-036`](../TC_AUDIT_FR10.md#fr10-ai-036) | Schema: Missing Mandatory `status` Body Property (`{}`) | `SPECIFICATION-BACKED` | NO | LOW | Does this cleanly verify that the mandatory `status` property is strictly required in payload? |
+| [`FR10-AI-037`](../TC_AUDIT_FR10.md#fr10-ai-037) | Input: Explicit Null Value (`{"status": null}`) | `SPECIFICATION-BACKED` | NO | LOW | Is explicit null value rejection sufficiently distinct from missing property validation? |
+| [`FR10-AI-038`](../TC_AUDIT_FR10.md#fr10-ai-038) | Type: Numeric Status Value (`{"status": 123}`) | `PARTIALLY SPEC-BACKED` | NO | MEDIUM | Should type robustness (`status: 123`) be audited as `VALID` or `INCOMPLETE` with a spec-limited oracle? |
+| [`FR10-AI-039`](../TC_AUDIT_FR10.md#fr10-ai-039) | Resource: Non-Existent Entity ID (`:id = 999999`) | `SPECIFICATION-BACKED` | NO | LOW | Is testing non-existent order ID resolution a valid, non-duplicate FR-10 resource boundary? |
+| [`FR10-AI-040`](../TC_AUDIT_FR10.md#fr10-ai-040) | Parameter: Malformed Non-Numeric ID (`:id = "not-an-id"`) | `PARTIALLY SPEC-BACKED` | NO | MEDIUM | Does specification explicitly restrict `:id` to numeric format, or does it require robustness-oriented correction? |
+| [`FR10-AI-041`](../TC_AUDIT_FR10.md#fr10-ai-041) | Schema/Persistence: Response Contract & Read-After-Write | `SPECIFICATION-BACKED` | POSSIBLE | LOW | Is response schema and read-after-write consistency distinct enough to retain alongside unit transition AI-001? |
+| [`FR10-AI-042`](../TC_AUDIT_FR10.md#fr10-ai-042) | `SEC-05`: Black-Box SQL Injection Probe (`:id = 1' OR '1'='1`) | `PARTIAL BEHAVIORAL EVIDENCE` | NO | HIGH (if internal proof claimed) | Can this test be audited as behavioral `SEC-05` evidence while maintaining strict black-box oracle boundaries? |
 
 ---
 
@@ -804,7 +804,7 @@ FR10-AI-035 .. FR10-AI-042
 
 ## 7. Git Status
 - **Human Audit Completion Commit Created:** **NO** (Withheld until all 42 decisions are completed).
-- **Working Tree Status:** [`23127259/ai/TC_AUDIT_FR10.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/TC_AUDIT_FR10.md) and interaction logs updated in working tree.
+- **Working Tree Status:** [`23127259/ai/TC_AUDIT_FR10.md`](../TC_AUDIT_FR10.md) and interaction logs updated in working tree.
 
 ---
 

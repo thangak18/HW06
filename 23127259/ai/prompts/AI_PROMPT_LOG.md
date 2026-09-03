@@ -15,29 +15,29 @@
 
 | INT | Date/Time (UTC+7) | Tool | Model | Stage / Purpose | Prompt Available | Interaction File |
 |:---:|:---:|---|---|---|:---:|---|
-| **INT-001** | 2026-08-30 22:00 | Antigravity Assistant | Gemini 3.7 Flash | Initial Repository Architecture & Multi-Member Setup Planning | YES (Verbatim) | [`INT-001-plan-initial.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-001-plan-initial.md) |
-| **INT-002** | 2026-09-01 15:55 | Antigravity Assistant | Opus Reasoning | Initial Technical Implementation Planning for FR-02, FR-10, FR-14 | YES (Verbatim) | [`INT-002-plan-review.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-002-plan-review.md) |
-| **INT-003** | 2026-09-01 16:15 | Antigravity Assistant | Claude Sonnet 4.6 | Implementation Plan Revision (SEC Mappings & Specification Oracle Separation) | YES (Verbatim) | [`INT-003-plan-revision.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-003-plan-revision.md) |
-| **INT-004** | 2026-09-01 18:25 | Antigravity Assistant | Gemini 3.7 Flash | Final Implementation Plan Freeze & Pre-Implementation Gate Confirmation | YES (Verbatim) | [`INT-004-plan-final.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-004-plan-final.md) |
-| **INT-005** | 2026-09-01 18:48 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.1: FR-02 Requirement, Parameter, and Domain Analysis | YES (Verbatim) | [`INT-005-fr02-requirement-domain-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-005-fr02-requirement-domain-analysis.md) |
-| **INT-006** | 2026-09-01 18:53 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.2: FR-02 Domain Partition and Boundary Test Case Generation | YES (Verbatim) | [`INT-006-fr02-domain-boundary-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-006-fr02-domain-boundary-generation.md) |
-| **INT-007** | 2026-09-01 18:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.3: FR-02 Lockout State-Transition Test Generation | YES (Verbatim) | [`INT-007-fr02-lockout-state-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-007-fr02-lockout-state-generation.md) |
-| **INT-008** | 2026-09-01 18:59 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.4: FR-02 Security Test Generation | YES (Verbatim) | [`INT-008-fr02-security-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-008-fr02-security-generation.md) |
-| **INT-009** | 2026-09-01 19:02 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.5: FR-02 Response Schema and Error-Contract Test Generation | YES (Verbatim) | [`INT-009-fr02-schema-error-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-009-fr02-schema-error-generation.md) |
-| **INT-010** | 2026-09-01 19:26 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part A): AI Prompt Log Verbatim Repair | YES (Verbatim) | [`INT-010-ai-prompt-log-verbatim-repair.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-010-ai-prompt-log-verbatim-repair.md) |
-| **INT-011** | 2026-09-01 19:33 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part B): FR-02 AI Generation Coverage Review and Freeze | YES (Verbatim) | [`INT-011-fr02-generation-coverage-freeze.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-011-fr02-generation-coverage-freeze.md) |
-| **INT-012** | 2026-09-01 19:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.0: INT-011 Audit Repair + FR-02 Human Audit Workspace Preparation | YES (Verbatim) | [`INT-012-fr02-human-audit-preparation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-012-fr02-human-audit-preparation.md) |
-| **INT-013** | 2026-09-01 19:46 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.1: FR-02 Human Audit Batch 1 Decisions & Batch 2 Preparation | YES (Verbatim) | [`INT-013-fr02-human-audit-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-013-fr02-human-audit-batch1.md) |
-| **INT-014** | 2026-09-01 19:51 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation | YES (Verbatim) | [`INT-014-fr02-human-audit-batch2.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-014-fr02-human-audit-batch2.md) |
-| **INT-015** | 2026-09-01 19:54 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation | YES (Verbatim) | [`INT-015-fr02-human-audit-batch3.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-015-fr02-human-audit-batch3.md) |
-| **INT-016** | 2026-09-01 19:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion | YES (Verbatim) | [`INT-016-fr02-human-audit-batch4-completion.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-016-fr02-human-audit-batch4-completion.md) |
-| **INT-017** | 2026-09-01 19:59 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.0: FR-02 Human Extension Gap Analysis & Student Design Workspace | YES (Verbatim) | [`INT-017-fr02-human-extension-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md) |
-| **INT-018** | 2026-09-01 20:03 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.1: FR-02 Student-Selected Human Extension Finalization | YES (Verbatim) | [`INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md) |
-| **INT-019** | 2026-09-01 20:06 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.0: FR-02 Final Executable Suite Materialization & Postman Collection Implementation | YES (Verbatim) | [`INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md) |
-| **INT-020** | 2026-09-01 20:11 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.1: FR-02 Controlled Postman/Newman Execution and Result Triage | YES (Verbatim) | [`INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md) |
-| **INT-021** | 2026-09-01 20:23 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.2: FR-02 Execution Reconciliation and Bug Confirmation | YES (Verbatim) | [`INT-021-fr02-bug-confirmation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-021-fr02-bug-confirmation.md) |
-| **INT-022** | 2026-09-01 20:27 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.3: FR-02 Real Postman MCP Evidence Capture & GitHub Issue Filing | YES (Verbatim) | [`INT-022-fr02-postman-mcp-evidence-and-issues.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md) |
-| **INT-023** | 2026-09-01 20:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.4: FR-02 Real Postman Execution Evidence & X-Student-Id Console Proof | YES (Verbatim) | [`INT-023-fr02-real-postman-execution-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md) |
+| **INT-001** | 2026-08-30 22:00 | Antigravity Assistant | Gemini 3.7 Flash | Initial Repository Architecture & Multi-Member Setup Planning | YES (Verbatim) | [`INT-001-plan-initial.md`](../interactions/INT-001-plan-initial.md) |
+| **INT-002** | 2026-09-01 15:55 | Antigravity Assistant | Opus Reasoning | Initial Technical Implementation Planning for FR-02, FR-10, FR-14 | YES (Verbatim) | [`INT-002-plan-review.md`](../interactions/INT-002-plan-review.md) |
+| **INT-003** | 2026-09-01 16:15 | Antigravity Assistant | Claude Sonnet 4.6 | Implementation Plan Revision (SEC Mappings & Specification Oracle Separation) | YES (Verbatim) | [`INT-003-plan-revision.md`](../interactions/INT-003-plan-revision.md) |
+| **INT-004** | 2026-09-01 18:25 | Antigravity Assistant | Gemini 3.7 Flash | Final Implementation Plan Freeze & Pre-Implementation Gate Confirmation | YES (Verbatim) | [`INT-004-plan-final.md`](../interactions/INT-004-plan-final.md) |
+| **INT-005** | 2026-09-01 18:48 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.1: FR-02 Requirement, Parameter, and Domain Analysis | YES (Verbatim) | [`INT-005-fr02-requirement-domain-analysis.md`](../interactions/INT-005-fr02-requirement-domain-analysis.md) |
+| **INT-006** | 2026-09-01 18:53 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.2: FR-02 Domain Partition and Boundary Test Case Generation | YES (Verbatim) | [`INT-006-fr02-domain-boundary-generation.md`](../interactions/INT-006-fr02-domain-boundary-generation.md) |
+| **INT-007** | 2026-09-01 18:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.3: FR-02 Lockout State-Transition Test Generation | YES (Verbatim) | [`INT-007-fr02-lockout-state-generation.md`](../interactions/INT-007-fr02-lockout-state-generation.md) |
+| **INT-008** | 2026-09-01 18:59 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.4: FR-02 Security Test Generation | YES (Verbatim) | [`INT-008-fr02-security-generation.md`](../interactions/INT-008-fr02-security-generation.md) |
+| **INT-009** | 2026-09-01 19:02 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.5: FR-02 Response Schema and Error-Contract Test Generation | YES (Verbatim) | [`INT-009-fr02-schema-error-generation.md`](../interactions/INT-009-fr02-schema-error-generation.md) |
+| **INT-010** | 2026-09-01 19:26 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part A): AI Prompt Log Verbatim Repair | YES (Verbatim) | [`INT-010-ai-prompt-log-verbatim-repair.md`](../interactions/INT-010-ai-prompt-log-verbatim-repair.md) |
+| **INT-011** | 2026-09-01 19:33 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1A.6 (Part B): FR-02 AI Generation Coverage Review and Freeze | YES (Verbatim) | [`INT-011-fr02-generation-coverage-freeze.md`](../interactions/INT-011-fr02-generation-coverage-freeze.md) |
+| **INT-012** | 2026-09-01 19:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.0: INT-011 Audit Repair + FR-02 Human Audit Workspace Preparation | YES (Verbatim) | [`INT-012-fr02-human-audit-preparation.md`](../interactions/INT-012-fr02-human-audit-preparation.md) |
+| **INT-013** | 2026-09-01 19:46 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.1: FR-02 Human Audit Batch 1 Decisions & Batch 2 Preparation | YES (Verbatim) | [`INT-013-fr02-human-audit-batch1.md`](../interactions/INT-013-fr02-human-audit-batch1.md) |
+| **INT-014** | 2026-09-01 19:51 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.2: FR-02 Human Audit Batch 2 Decisions & Batch 3 Preparation | YES (Verbatim) | [`INT-014-fr02-human-audit-batch2.md`](../interactions/INT-014-fr02-human-audit-batch2.md) |
+| **INT-015** | 2026-09-01 19:54 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.3: FR-02 Human Audit Batch 3 Decisions & Batch 4 Preparation | YES (Verbatim) | [`INT-015-fr02-human-audit-batch3.md`](../interactions/INT-015-fr02-human-audit-batch3.md) |
+| **INT-016** | 2026-09-01 19:56 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1B.4: FR-02 Human Audit Batch 4 Decisions & Audit Completion | YES (Verbatim) | [`INT-016-fr02-human-audit-batch4-completion.md`](../interactions/INT-016-fr02-human-audit-batch4-completion.md) |
+| **INT-017** | 2026-09-01 19:59 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.0: FR-02 Human Extension Gap Analysis & Student Design Workspace | YES (Verbatim) | [`INT-017-fr02-human-extension-gap-analysis.md`](../interactions/INT-017-fr02-human-extension-gap-analysis.md) |
+| **INT-018** | 2026-09-01 20:03 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1C.1: FR-02 Student-Selected Human Extension Finalization | YES (Verbatim) | [`INT-018-fr02-human-extension-finalization.md`](../interactions/INT-018-fr02-human-extension-finalization.md) |
+| **INT-019** | 2026-09-01 20:06 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.0: FR-02 Final Executable Suite Materialization & Postman Collection Implementation | YES (Verbatim) | [`INT-019-fr02-postman-implementation.md`](../interactions/INT-019-fr02-postman-implementation.md) |
+| **INT-020** | 2026-09-01 20:11 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.1: FR-02 Controlled Postman/Newman Execution and Result Triage | YES (Verbatim) | [`INT-020-fr02-controlled-execution.md`](../interactions/INT-020-fr02-controlled-execution.md) |
+| **INT-021** | 2026-09-01 20:23 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.2: FR-02 Execution Reconciliation and Bug Confirmation | YES (Verbatim) | [`INT-021-fr02-bug-confirmation.md`](../interactions/INT-021-fr02-bug-confirmation.md) |
+| **INT-022** | 2026-09-01 20:27 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.3: FR-02 Real Postman MCP Evidence Capture & GitHub Issue Filing | YES (Verbatim) | [`INT-022-fr02-postman-mcp-evidence-and-issues.md`](../interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md) |
+| **INT-023** | 2026-09-01 20:37 | Antigravity Assistant | Gemini 3.7 Flash | Phase 1D.4: FR-02 Real Postman Execution Evidence & X-Student-Id Console Proof | YES (Verbatim) | [`INT-023-fr02-real-postman-execution-evidence.md`](../interactions/INT-023-fr02-real-postman-execution-evidence.md) |
 
 ---
 
@@ -46,7 +46,7 @@
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-08-30 22:00:00+07:00
-- **Interaction File:** [`../interactions/INT-001-plan-initial.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-001-plan-initial.md)
+- **Interaction File:** [`../interactions/INT-001-plan-initial.md`](../interactions/INT-001-plan-initial.md)
 
 ### Exact Prompt
 
@@ -371,7 +371,7 @@ PASTE THE EXACT PROMPT HERE
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Opus Reasoning
 - **Date/Time:** 2026-09-01 15:55:00+07:00
-- **Interaction File:** [`../interactions/INT-002-plan-review.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-002-plan-review.md)
+- **Interaction File:** [`../interactions/INT-002-plan-review.md`](../interactions/INT-002-plan-review.md)
 
 ### Exact Prompt
 
@@ -1055,7 +1055,7 @@ Do not implement anything until I explicitly approve the plan.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Claude Sonnet 4.6
 - **Date/Time:** 2026-09-01 16:15:00+07:00
-- **Interaction File:** [`../interactions/INT-003-plan-revision.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-003-plan-revision.md)
+- **Interaction File:** [`../interactions/INT-003-plan-revision.md`](../interactions/INT-003-plan-revision.md)
 
 ### Exact Prompt
 
@@ -1476,7 +1476,7 @@ DO NOT IMPLEMENT ANYTHING.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 18:25:00+07:00
-- **Interaction File:** [`../interactions/INT-004-plan-final.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-004-plan-final.md)
+- **Interaction File:** [`../interactions/INT-004-plan-final.md`](../interactions/INT-004-plan-final.md)
 
 ### Exact Prompt
 
@@ -1649,7 +1649,7 @@ Do not begin Phase 0.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 18:48:12+07:00
-- **Interaction File:** [`../interactions/INT-005-fr02-requirement-domain-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-005-fr02-requirement-domain-analysis.md)
+- **Interaction File:** [`../interactions/INT-005-fr02-requirement-domain-analysis.md`](../interactions/INT-005-fr02-requirement-domain-analysis.md)
 
 ### Exact Prompt
 
@@ -2120,7 +2120,7 @@ PHASE 1A.2 – FR-02 BOUNDARY AND DOMAIN TEST CASE GENERATION
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 18:53:51+07:00
-- **Interaction File:** [`../interactions/INT-006-fr02-domain-boundary-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-006-fr02-domain-boundary-generation.md)
+- **Interaction File:** [`../interactions/INT-006-fr02-domain-boundary-generation.md`](../interactions/INT-006-fr02-domain-boundary-generation.md)
 
 ### Exact Prompt
 
@@ -2566,7 +2566,7 @@ PHASE 1A.3 – FR-02 LOCKOUT STATE-TRANSITION TEST GENERATION
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 18:56:52+07:00
-- **Interaction File:** [`../interactions/INT-007-fr02-lockout-state-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-007-fr02-lockout-state-generation.md)
+- **Interaction File:** [`../interactions/INT-007-fr02-lockout-state-generation.md`](../interactions/INT-007-fr02-lockout-state-generation.md)
 
 ### Exact Prompt
 
@@ -3008,7 +3008,7 @@ PHASE 1A.4 – FR-02 SECURITY TEST GENERATION
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 18:59:26+07:00
-- **Interaction File:** [`../interactions/INT-008-fr02-security-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-008-fr02-security-generation.md)
+- **Interaction File:** [`../interactions/INT-008-fr02-security-generation.md`](../interactions/INT-008-fr02-security-generation.md)
 
 ### Exact Prompt
 
@@ -3525,7 +3525,7 @@ PHASE 1A.5 – FR-02 SCHEMA AND ERROR-CONTRACT TEST GENERATION
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:02:22+07:00
-- **Interaction File:** [`../interactions/INT-009-fr02-schema-error-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-009-fr02-schema-error-generation.md)
+- **Interaction File:** [`../interactions/INT-009-fr02-schema-error-generation.md`](../interactions/INT-009-fr02-schema-error-generation.md)
 
 ### Exact Prompt
 
@@ -4027,7 +4027,7 @@ PHASE 1A.6 – FR-02 AI COVERAGE REVIEW, DEDUPLICATION, AND FREEZE
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:26:56+07:00
-- **Interaction File:** [`../interactions/INT-010-ai-prompt-log-verbatim-repair.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-010-ai-prompt-log-verbatim-repair.md)
+- **Interaction File:** [`../interactions/INT-010-ai-prompt-log-verbatim-repair.md`](../interactions/INT-010-ai-prompt-log-verbatim-repair.md)
 
 ### Exact Prompt
 
@@ -4094,7 +4094,7 @@ EXACT ORIGINAL PROMPT VERBATIM
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:33:18+07:00
-- **Interaction File:** [`../interactions/INT-011-fr02-generation-coverage-freeze.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-011-fr02-generation-coverage-freeze.md)
+- **Interaction File:** [`../interactions/INT-011-fr02-generation-coverage-freeze.md`](../interactions/INT-011-fr02-generation-coverage-freeze.md)
 
 ### Exact Prompt
 
@@ -4650,7 +4650,7 @@ PHASE 1B – FR-02 HUMAN TEST-CASE AUDIT
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:37:53+07:00
-- **Interaction File:** [`../interactions/INT-012-fr02-human-audit-preparation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-012-fr02-human-audit-preparation.md)
+- **Interaction File:** [`../interactions/INT-012-fr02-human-audit-preparation.md`](../interactions/INT-012-fr02-human-audit-preparation.md)
 
 ### Exact Prompt
 
@@ -5172,7 +5172,7 @@ DO NOT ASSIGN HUMAN VERDICTS.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:46:24+07:00
-- **Interaction File:** [`../interactions/INT-013-fr02-human-audit-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-013-fr02-human-audit-batch1.md)
+- **Interaction File:** [`../interactions/INT-013-fr02-human-audit-batch1.md`](../interactions/INT-013-fr02-human-audit-batch1.md)
 
 ### Exact Prompt
 
@@ -5243,7 +5243,7 @@ PLANNER_RESPONSE at step 574: len 0
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:51:24+07:00
-- **Interaction File:** [`../interactions/INT-014-fr02-human-audit-batch2.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-014-fr02-human-audit-batch2.md)
+- **Interaction File:** [`../interactions/INT-014-fr02-human-audit-batch2.md`](../interactions/INT-014-fr02-human-audit-batch2.md)
 
 ### Exact Prompt
 
@@ -5306,7 +5306,7 @@ Correction: NONE
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:54:34+07:00
-- **Interaction File:** [`../interactions/INT-015-fr02-human-audit-batch3.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-015-fr02-human-audit-batch3.md)
+- **Interaction File:** [`../interactions/INT-015-fr02-human-audit-batch3.md`](../interactions/INT-015-fr02-human-audit-batch3.md)
 
 ### Exact Prompt
 
@@ -5369,7 +5369,7 @@ Correction: NONE
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:56:42+07:00
-- **Interaction File:** [`../interactions/INT-016-fr02-human-audit-batch4-completion.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-016-fr02-human-audit-batch4-completion.md)
+- **Interaction File:** [`../interactions/INT-016-fr02-human-audit-batch4-completion.md`](../interactions/INT-016-fr02-human-audit-batch4-completion.md)
 
 ### Exact Prompt
 
@@ -5417,7 +5417,7 @@ Correction: Retain the test as an exploratory/additional-security parameter-inje
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 19:59:15+07:00
-- **Interaction File:** [`../interactions/INT-017-fr02-human-extension-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-017-fr02-human-extension-gap-analysis.md)
+- **Interaction File:** [`../interactions/INT-017-fr02-human-extension-gap-analysis.md`](../interactions/INT-017-fr02-human-extension-gap-analysis.md)
 
 ### Exact Prompt
 
@@ -5900,7 +5900,7 @@ Do NOT create Human test cases.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 20:03:37+07:00
-- **Interaction File:** [`../interactions/INT-018-fr02-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-018-fr02-human-extension-finalization.md)
+- **Interaction File:** [`../interactions/INT-018-fr02-human-extension-finalization.md`](../interactions/INT-018-fr02-human-extension-finalization.md)
 
 ### Exact Prompt
 
@@ -6466,7 +6466,7 @@ PHASE 1D – FR-02 POSTMAN COLLECTION IMPLEMENTATION
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 20:06:50+07:00
-- **Interaction File:** [`../interactions/INT-019-fr02-postman-implementation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-019-fr02-postman-implementation.md)
+- **Interaction File:** [`../interactions/INT-019-fr02-postman-implementation.md`](../interactions/INT-019-fr02-postman-implementation.md)
 
 ### Exact Prompt
 
@@ -7247,7 +7247,7 @@ PHASE 1D.1 – FR-02 CONTROLLED POSTMAN/NEWMAN EXECUTION
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 20:11:35+07:00
-- **Interaction File:** [`../interactions/INT-020-fr02-controlled-execution.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-020-fr02-controlled-execution.md)
+- **Interaction File:** [`../interactions/INT-020-fr02-controlled-execution.md`](../interactions/INT-020-fr02-controlled-execution.md)
 
 ### Exact Prompt
 
@@ -7960,7 +7960,7 @@ PHASE 1D.2 – FR-02 BUG CONFIRMATION, EVIDENCE, AND GITHUB ISSUE FILING
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 20:23:14+07:00
-- **Interaction File:** [`../interactions/INT-021-fr02-bug-confirmation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-021-fr02-bug-confirmation.md)
+- **Interaction File:** [`../interactions/INT-021-fr02-bug-confirmation.md`](../interactions/INT-021-fr02-bug-confirmation.md)
 
 ### Exact Prompt
 
@@ -8601,7 +8601,7 @@ PHASE 1D.3 – FR-02 REAL SCREENSHOT EVIDENCE AND GITHUB ISSUE FILING
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 20:27:56+07:00
-- **Interaction File:** [`../interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md)
+- **Interaction File:** [`../interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md`](../interactions/INT-022-fr02-postman-mcp-evidence-and-issues.md)
 
 ### Exact Prompt
 
@@ -9183,7 +9183,7 @@ Do not begin FR-10 until FR-02 evidence is fully finalized.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 20:37:56+07:00
-- **Interaction File:** [`../interactions/INT-023-fr02-real-postman-execution-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-023-fr02-real-postman-execution-evidence.md)
+- **Interaction File:** [`../interactions/INT-023-fr02-real-postman-execution-evidence.md`](../interactions/INT-023-fr02-real-postman-execution-evidence.md)
 
 ### Exact Prompt
 
@@ -9652,7 +9652,7 @@ YES / NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 20:45:00+07:00
-- **Interaction File:** [`../interactions/INT-024-fr02-postman-evidence-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md)
+- **Interaction File:** [`../interactions/INT-024-fr02-postman-evidence-correction.md`](../interactions/INT-024-fr02-postman-evidence-correction.md)
 
 ### Exact Prompt
 
@@ -9861,7 +9861,7 @@ Return:
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:06:24+07:00
-- **Interaction File:** [`../interactions/INT-025-fr10-requirement-state-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md)
+- **Interaction File:** [`../interactions/INT-025-fr10-requirement-state-analysis.md`](../interactions/INT-025-fr10-requirement-state-analysis.md)
 
 ### Exact Prompt
 
@@ -10613,7 +10613,7 @@ FR10_REQUIREMENT_ANALYSIS.md
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:12:46+07:00
-- **Interaction File:** [`../interactions/INT-026-fr10-analysis-correction-core-state-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-026-fr10-analysis-correction-core-state-generation.md)
+- **Interaction File:** [`../interactions/INT-026-fr10-analysis-correction-core-state-generation.md`](../interactions/INT-026-fr10-analysis-correction-core-state-generation.md)
 
 ### Exact Prompt
 
@@ -11355,7 +11355,7 @@ List categories intentionally NOT generated yet.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:16:23+07:00
-- **Interaction File:** [`../interactions/INT-027-fr10-backward-terminal-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-027-fr10-backward-terminal-generation.md)
+- **Interaction File:** [`../interactions/INT-027-fr10-backward-terminal-generation.md`](../interactions/INT-027-fr10-backward-terminal-generation.md)
 
 ### Exact Prompt
 
@@ -12014,7 +12014,7 @@ confounded authorization + invalid-transition dimensions
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:19:28+07:00
-- **Interaction File:** [`../interactions/INT-028-fr10-auth-rbac-ownership-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-028-fr10-auth-rbac-ownership-generation.md)
+- **Interaction File:** [`../interactions/INT-028-fr10-auth-rbac-ownership-generation.md`](../interactions/INT-028-fr10-auth-rbac-ownership-generation.md)
 
 ### Exact Prompt
 
@@ -12755,7 +12755,7 @@ Return:
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:23:04+07:00
-- **Interaction File:** [`../interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-029-fr10-input-id-schema-security-final-generation.md)
+- **Interaction File:** [`../interactions/INT-029-fr10-input-id-schema-security-final-generation.md`](../interactions/INT-029-fr10-input-id-schema-security-final-generation.md)
 
 ### Exact Prompt
 
@@ -13513,7 +13513,7 @@ SUT execution performed: NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:27:22+07:00
-- **Interaction File:** [`../interactions/INT-030-fr10-human-audit-preparation-batch1.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-030-fr10-human-audit-preparation-batch1.md)
+- **Interaction File:** [`../interactions/INT-030-fr10-human-audit-preparation-batch1.md`](../interactions/INT-030-fr10-human-audit-preparation-batch1.md)
 
 ### Exact Prompt
 
@@ -14094,7 +14094,7 @@ describe the two invalid dimensions.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:30:05+07:00
-- **Interaction File:** [`../interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md)
+- **Interaction File:** [`../interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md`](../interactions/INT-031-fr10-human-audit-batch1-decisions-batch2-evidence.md)
 
 ### Exact Prompt
 
@@ -14645,7 +14645,7 @@ for FR10-AI-013 .. 024.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:32:46+07:00
-- **Interaction File:** [`../interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md)
+- **Interaction File:** [`../interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md`](../interactions/INT-032-fr10-human-audit-batch2-decisions-batch3-evidence.md)
 
 ### Exact Prompt
 
@@ -15313,7 +15313,7 @@ verdicts.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:35:36+07:00
-- **Interaction File:** [`../interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md)
+- **Interaction File:** [`../interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md`](../interactions/INT-033-fr10-human-audit-batch3-decisions-batch4-evidence.md)
 
 ### Exact Prompt
 
@@ -16031,7 +16031,7 @@ without verdicts.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 21:39:21+07:00
-- **Interaction File:** [`../interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md)
+- **Interaction File:** [`../interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md`](../interactions/INT-034-fr10-final-human-audit-and-gap-analysis.md)
 
 ### Exact Prompt
 
@@ -16892,7 +16892,7 @@ SUT execution performed: NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:03:31+07:00
-- **Interaction File:** [`../interactions/INT-035-fr10-human-extension-finalization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-035-fr10-human-extension-finalization.md)
+- **Interaction File:** [`../interactions/INT-035-fr10-human-extension-finalization.md`](../interactions/INT-035-fr10-human-extension-finalization.md)
 
 ### Exact Prompt
 
@@ -17604,7 +17604,7 @@ SUT execution performed: NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:08:23+07:00
-- **Interaction File:** [`../interactions/INT-036-fr10-postman-materialization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-036-fr10-postman-materialization.md)
+- **Interaction File:** [`../interactions/INT-036-fr10-postman-materialization.md`](../interactions/INT-036-fr10-postman-materialization.md)
 
 ### Exact Prompt
 
@@ -18504,7 +18504,7 @@ Newman executed: NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:13:15+07:00
-- **Interaction File:** [`../interactions/INT-037-fr10-postman-deep-static-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md)
+- **Interaction File:** [`../interactions/INT-037-fr10-postman-deep-static-audit.md`](../interactions/INT-037-fr10-postman-deep-static-audit.md)
 
 ### Exact Prompt
 
@@ -19158,7 +19158,7 @@ Newman run: NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:19:13+07:00
-- **Interaction File:** [`../interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md)
+- **Interaction File:** [`../interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md`](../interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md)
 
 ### Exact Prompt
 
@@ -19915,7 +19915,7 @@ Newman run: NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:29:34+07:00
-- **Interaction File:** [`../interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md)
+- **Interaction File:** [`../interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md`](../interactions/INT-039-fr10-per-case-fixture-isolation-hardening.md)
 
 ### Exact Prompt
 
@@ -20680,7 +20680,7 @@ Newman: NOT RUN
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:34:37+07:00
-- **Interaction File:** [`../interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md)
+- **Interaction File:** [`../interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md`](../interactions/INT-040-fr10-minimal-fixture-runtime-smoke.md)
 
 ### Exact Prompt
 
@@ -21387,7 +21387,7 @@ Reason:
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:41:55+07:00
-- **Interaction File:** [`../interactions/INT-041-fr10-runtime-readiness-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-041-fr10-runtime-readiness-correction.md)
+- **Interaction File:** [`../interactions/INT-041-fr10-runtime-readiness-correction.md`](../interactions/INT-041-fr10-runtime-readiness-correction.md)
 
 ### Exact Prompt
 
@@ -21961,7 +21961,7 @@ Newman full run: NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:46:28+07:00
-- **Interaction File:** [`../interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md)
+- **Interaction File:** [`../interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md`](../interactions/INT-042-fr10-admin-provenance-inventory-capacity-gate.md)
 
 ### Exact Prompt
 
@@ -22609,7 +22609,7 @@ full formal suite executed: NO
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:55:07+07:00
-- **Interaction File:** [`../interactions/INT-043-fr10-controlled-newman-run01.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-043-fr10-controlled-newman-run01.md)
+- **Interaction File:** [`../interactions/INT-043-fr10-controlled-newman-run01.md`](../interactions/INT-043-fr10-controlled-newman-run01.md)
 
 ### Exact Prompt
 
@@ -23407,7 +23407,7 @@ Then STOP.
 - **Tool:** Antigravity IDE Assistant
 - **Model:** Gemini 3.7 Flash
 - **Date/Time:** 2026-09-01 22:59:21+07:00
-- **Interaction File:** [`../interactions/INT-044-fr10-run01-reconciliation-auth-harness-repair.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-044-fr10-run01-reconciliation-auth-harness-repair.md)
+- **Interaction File:** [`../interactions/INT-044-fr10-run01-reconciliation-auth-harness-repair.md`](../interactions/INT-044-fr10-run01-reconciliation-auth-harness-repair.md)
 
 ### Exact Prompt
 

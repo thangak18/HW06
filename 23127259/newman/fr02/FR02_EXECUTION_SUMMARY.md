@@ -43,7 +43,7 @@
 
 ## 3. Multi-Run Execution Progression & Request Reconciliation
 
-In Newman Run 03, **56 total HTTP requests** were dispatched to execute the 40 formal test cases and 8 setup helpers. This includes 12 requests generated across 4 multi-step sequential test cases (`FR02-AI-022`, `FR02-AI-023`, `FR02-HUM-003`, `FR02-HUM-004`) via `pm.sendRequest` pre-request chaining. Detailed reconciliation is documented in [`FR02_RUN03_EXECUTION_COVERAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md).
+In Newman Run 03, **56 total HTTP requests** were dispatched to execute the 40 formal test cases and 8 setup helpers. This includes 12 requests generated across 4 multi-step sequential test cases (`FR02-AI-022`, `FR02-AI-023`, `FR02-HUM-003`, `FR02-HUM-004`) via `pm.sendRequest` pre-request chaining. Detailed reconciliation is documented in [`FR02_RUN03_EXECUTION_COVERAGE.md`](FR02_RUN03_EXECUTION_COVERAGE.md).
 
 ### Run Comparison Table
 
@@ -90,10 +90,10 @@ Newman Run 03 Failed Assertions: 4
 ---
 
 ## 6. Execution Artifact References
-- **Execution Coverage Reconciliation:** [`FR02_RUN03_EXECUTION_COVERAGE.md`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02_RUN03_EXECUTION_COVERAGE.md)
-- **Bug Confirmation Matrix:** [`../../bugs/FR02_BUG_CONFIRMATION_MATRIX.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_BUG_CONFIRMATION_MATRIX.md)
-- **Issue Drafts Directory:** [`../../bugs/issues/`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/issues/)
-- **Reproduction Evidence Directory:** [`../../bugs/evidence/FR02/`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/evidence/FR02/)
-- **Newman Console Output:** [`FR02-run-03-console.txt`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03-console.txt)
-- **Newman JSON Export:** [`FR02-run-03.json`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.json)
-- **Newman HTML Report:** [`FR02-run-03.html`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.html)
+- **Execution Coverage Reconciliation:** [`FR02_RUN03_EXECUTION_COVERAGE.md`](FR02_RUN03_EXECUTION_COVERAGE.md)
+- **Bug Confirmation Matrix:** [`../../bugs/FR02_BUG_CONFIRMATION_MATRIX.md`](../../bugs/FR02_BUG_CONFIRMATION_MATRIX.md)
+- **Issue Drafts Directory:** [`../../bugs/issues/`](../../bugs/issues)
+- **Reproduction Evidence Directory:** [`../../bugs/evidence/FR02/`](../../bugs/evidence/FR02)
+- **Newman Console Output:** [`FR02-run-03-console.txt`](FR02-run-03-console.txt)
+- **Newman JSON Export:** [`FR02-run-03.json`](FR02-run-03.json)
+- **Newman HTML Report:** [`FR02-run-03.html`](FR02-run-03.html)

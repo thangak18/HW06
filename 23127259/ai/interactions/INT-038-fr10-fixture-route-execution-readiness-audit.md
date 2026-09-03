@@ -777,10 +777,10 @@ PHASE 2D.1 – FR-10 CONTROLLED AUTH/FIXTURE SMOKE + NEWMAN EXECUTION
 ---
 
 ## 1. AI Audit Verification
-- **INT-037 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1689) backfilled into [`23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md).
-- **INT-038 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md).
-- **INT-038 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-037 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1689) backfilled into [`23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md`](INT-037-fr10-postman-deep-static-audit.md).
+- **INT-038 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-038-fr10-fixture-route-execution-readiness-audit.md`](INT-038-fr10-fixture-route-execution-readiness-audit.md).
+- **INT-038 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-038 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -820,7 +820,7 @@ Verified against `docs/assignment-notes.md`, `docs/team-api-allocation.md`, and 
 
 ## 4. Variable Provenance Inventory
 
-Documented in [`23127259/postman/FR10_VARIABLE_PROVENANCE.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_VARIABLE_PROVENANCE.md):
+Documented in [`23127259/postman/FR10_VARIABLE_PROVENANCE.md`](../../postman/FR10_VARIABLE_PROVENANCE.md):
 
 - **Total Dynamic Variables:** **`18`**
 - **Unexplained Variables:** **`0 / 18`**
@@ -830,7 +830,7 @@ Documented in [`23127259/postman/FR10_VARIABLE_PROVENANCE.md`](file:///Volumes/T
 
 ## 5. Formal Fixture Mapping & Cross-Test State Isolation
 
-Documented in [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_FIXTURE_STRATEGY.md):
+Documented in [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](../../postman/FR10_FIXTURE_STRATEGY.md):
 
 | Fixture Variable | Consuming Formal Cases | Mutated In-Place? | Isolation Safety Guarantee |
 |---|---|:---:|---|
@@ -865,7 +865,7 @@ Documented in [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](file:///Volumes/Than
 
 ## 8. HTTP Count Reconciliation
 
-Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md):
+Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](../../postman/FR10_HTTP_OPERATION_INVENTORY.md):
 
 | Category | HTTP Operation Count | Description |
 |---|:---:|---|
@@ -881,7 +881,7 @@ Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volu
 
 ## 9. Execution Order Variable Readiness
 
-Documented in [`23127259/postman/FR10_EXECUTION_VARIABLE_READINESS.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_EXECUTION_VARIABLE_READINESS.md):
+Documented in [`23127259/postman/FR10_EXECUTION_VARIABLE_READINESS.md`](../../postman/FR10_EXECUTION_VARIABLE_READINESS.md):
 
 - **Uninitialized Required Variables at First Use:** **`0`**
 - **Placeholder Blockers:** **`0`**
@@ -891,7 +891,7 @@ Documented in [`23127259/postman/FR10_EXECUTION_VARIABLE_READINESS.md`](file:///
 
 ## 10. Automated Static Execution Readiness Validator Gate
 
-Validator script: [`23127259/postman/validate_fr10_execution_readiness.py`](file:///Volumes/Thang/HW06/HW06/23127259/postman/validate_fr10_execution_readiness.py)
+Validator script: [`23127259/postman/validate_fr10_execution_readiness.py`](../../postman/validate_fr10_execution_readiness.py)
 
 ```
 === RUNNING FR-10 EXECUTION READINESS STATIC VALIDATOR ===

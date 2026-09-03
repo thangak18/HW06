@@ -672,10 +672,10 @@ PHASE 2D.1 – FR-10 CONTROLLED POSTMAN + NEWMAN EXECUTION
 ---
 
 ## 1. AI Audit Verification
-- **INT-036 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1640) backfilled into [`23127259/ai/interactions/INT-036-fr10-postman-materialization.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-036-fr10-postman-materialization.md).
-- **INT-037 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md).
-- **INT-037 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-036 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1640) backfilled into [`23127259/ai/interactions/INT-036-fr10-postman-materialization.md`](INT-036-fr10-postman-materialization.md).
+- **INT-037 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-037-fr10-postman-deep-static-audit.md`](INT-037-fr10-postman-deep-static-audit.md).
+- **INT-037 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-037 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -689,7 +689,7 @@ PHASE 2D.1 – FR-10 CONTROLLED POSTMAN + NEWMAN EXECUTION
 
 ## 3. HTTP Architecture & Operation Reconciliation
 
-Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md):
+Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](../../postman/FR10_HTTP_OPERATION_INVENTORY.md):
 
 | Dimension | Count | Architectural Description |
 |---|:---:|---|
@@ -731,7 +731,7 @@ Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volu
 ---
 
 ## 6. Fixture Allocation & Isolation Audit
-- **Fixture Families:** 7 documented lifecycle families in [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_FIXTURE_STRATEGY.md).
+- **Fixture Families:** 7 documented lifecycle families in [`23127259/postman/FR10_FIXTURE_STRATEGY.md`](../../postman/FR10_FIXTURE_STRATEGY.md).
 - **Fresh-Order Creation Mechanics:** API-visible setup via documented authentication tokens and scoped order variables (`orderId`, `orderAId`, `orderBId`).
 - **Cross-Test Isolation:** Verified that no test mutates state across unrelated formal test boundaries.
 
@@ -745,7 +745,7 @@ Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volu
 ---
 
 ## 8. Documentation & Non-Normative Oracle Corrections
-- **SEC-02 False Expired-Token Claims Removed:** **`YES`** — Corrected all descriptions across [`POSTMAN_FEATURES_FR10.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/POSTMAN_FEATURES_FR10.md) and [`FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md`](file:///Volumes/Thang/HW06/HW06/23127259/postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md) to accurately state that `SEC-02` tests missing, malformed, and untrusted-signature tokens (no expired token case).
+- **SEC-02 False Expired-Token Claims Removed:** **`YES`** — Corrected all descriptions across [`POSTMAN_FEATURES_FR10.md`](../../postman/POSTMAN_FEATURES_FR10.md) and [`FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md`](../../postman/FR10_POSTMAN_IMPLEMENTATION_STRATEGY.md) to accurately state that `SEC-02` tests missing, malformed, and untrusted-signature tokens (no expired token case).
 - **`FR10-HUM-004` (Same-State Self-Loop):** Verified non-brittle observational oracle (accepts 200 or 4xx; verifies state remains `confirmed`).
 - **`FR10-HUM-005` (Non-JSON Encoding):** Verified non-brittle observational oracle (accepts safe error, 400/415, or graceful parse without assuming HTTP 500 is an automatic specification bug).
 - **`FR10-AI-033` / `034` / `040`:** Verified non-normative error-code oracles.
@@ -754,7 +754,7 @@ Documented in [`23127259/postman/FR10_HTTP_OPERATION_INVENTORY.md`](file:///Volu
 
 ## 9. Automated Deep Static Validator Gate
 
-Validator script: [`23127259/postman/validate_fr10_postman_deep.py`](file:///Volumes/Thang/HW06/HW06/23127259/postman/validate_fr10_postman_deep.py)
+Validator script: [`23127259/postman/validate_fr10_postman_deep.py`](../../postman/validate_fr10_postman_deep.py)
 
 ```
 === RUNNING FR-10 DEEP STATIC VALIDATOR GATE ===

@@ -770,10 +770,10 @@ PHASE 2A.2 – FR-10 AI TEST GENERATION
 ---
 
 ## 1. AI Audit Verification
-- **INT-024 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1235) backfilled into [`23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md).
-- **INT-025 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md).
-- **INT-025 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/prompts/AI_PROMPT_LOG.md).
-- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/ai/AI_AUDIT_REPORT.md).
+- **INT-024 Output Backfilled:** **YES** — Exact output (`transcript_full.jsonl` Step 1235) backfilled into [`23127259/ai/interactions/INT-024-fr02-postman-evidence-correction.md`](INT-024-fr02-postman-evidence-correction.md).
+- **INT-025 Prompt Stored:** **YES** — Verbatim prompt stored in [`23127259/ai/interactions/INT-025-fr10-requirement-state-analysis.md`](INT-025-fr10-requirement-state-analysis.md).
+- **INT-025 Prompt Log Appended:** **YES** — Appended to [`23127259/ai/prompts/AI_PROMPT_LOG.md`](../prompts/AI_PROMPT_LOG.md).
+- **AI Audit Report Updated:** **YES** — Updated [`23127259/ai/AI_AUDIT_REPORT.md`](../AI_AUDIT_REPORT.md).
 - **INT-025 Output Status:** `PENDING TRANSCRIPT BACKFILL AFTER INTERACTION COMPLETES`.
 
 ---
@@ -850,7 +850,7 @@ To provide full coverage and allow rigorous Human Audit filtering, Phase 2A.2 wi
 ---
 
 ## 8. Artifact Created
-- [`23127259/testcases/FR10_REQUIREMENT_ANALYSIS.md`](file:///Volumes/Thang/HW06/HW06/23127259/testcases/FR10_REQUIREMENT_ANALYSIS.md) *(Complete 18-section formal specification and state analysis document)*
+- [`23127259/testcases/FR10_REQUIREMENT_ANALYSIS.md`](../../testcases/FR10_REQUIREMENT_ANALYSIS.md) *(Complete 18-section formal specification and state analysis document)*
 
 ---
 

@@ -602,17 +602,17 @@ Do not begin FR-10 until FR-02 evidence is fully finalized.
 
 | Bug ID | Screenshot File Path | Capture Source | Real Execution Verified? | File Size |
 |:---:|---|---|:---:|:---:|
-| **`BUG-FR02-001`** | [`23127259/bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png) | REAL SUT EXECUTION / NEWMAN REPORT UI | **YES (Verified)** | 78,944 bytes |
-| **`BUG-FR02-002`** | [`23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png) | REAL SUT EXECUTION / NEWMAN REPORT UI | **YES (Verified)** | 73,480 bytes |
-| **`BUG-FR02-003`** | [`23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png) | REAL SUT EXECUTION / NEWMAN REPORT UI | **YES (Verified)** | 73,480 bytes |
+| **`BUG-FR02-001`** | [`23127259/bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png`](../../bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png) | REAL SUT EXECUTION / NEWMAN REPORT UI | **YES (Verified)** | 78,944 bytes |
+| **`BUG-FR02-002`** | [`23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png`](../../bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png) | REAL SUT EXECUTION / NEWMAN REPORT UI | **YES (Verified)** | 73,480 bytes |
+| **`BUG-FR02-003`** | [`23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png`](../../bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png) | REAL SUT EXECUTION / NEWMAN REPORT UI | **YES (Verified)** | 73,480 bytes |
 
-*Detailed registry:* [`23127259/bugs/FR02_SCREENSHOT_MANIFEST.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_SCREENSHOT_MANIFEST.md).
+*Detailed registry:* [`23127259/bugs/FR02_SCREENSHOT_MANIFEST.md`](../../bugs/FR02_SCREENSHOT_MANIFEST.md).
 
 ---
 
 ## 3. BUG-FR02-001: Sensitive Password Exposure in Successful Login Response
 - **Reproduction Result:** **CONFIRMED (100% Deterministic)** — Sending valid credentials to `POST /api/login` returns HTTP `200 OK` with the plaintext password exposed inside `response.user.password` (`"UserSecure123!"`).
-- **Screenshot Path:** [`23127259/bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png)
+- **Screenshot Path:** [`23127259/bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png`](../../bugs/screenshots/FR02/BUG-FR02-001-login-password-exposure.png)
 - **GitHub Issue Number & URL:** [thangak18/HW06#1](https://github.com/thangak18/HW06/issues/1)
 
 ---
@@ -620,7 +620,7 @@ Do not begin FR-10 until FR-02 evidence is fully finalized.
 ## 4. BUG-FR02-002: Account Remains Locked Beyond Documented 30-Second Lockout Duration
 - **Elapsed Timing:** **36.03 seconds** ($> 30\text{s}$ threshold).
 - **Reproduction Result:** **CONFIRMED (100% Deterministic)** — After 3 failed login attempts trigger the locked state, submitting valid credentials after waiting 36.03s continues to return HTTP `403 Forbidden` (`{"error": "Tài khoản đã bị khóa. Vui lòng thử lại sau."}`).
-- **Screenshot Path:** [`23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png)
+- **Screenshot Path:** [`23127259/bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png`](../../bugs/screenshots/FR02/BUG-FR02-002-lock-after-30s.png)
 - **GitHub Issue Number & URL:** [thangak18/HW06#2](https://github.com/thangak18/HW06/issues/2)
 
 ---
@@ -632,13 +632,13 @@ Do not begin FR-10 until FR-02 evidence is fully finalized.
   3. Attempt #2 (wrong password) $\rightarrow$ HTTP 401 Unauthorized ($N=2$ pre-lockout boundary)
   4. Attempt #3 (**CORRECT password submitted**) $\rightarrow$ SUT returns **HTTP 403 Forbidden** instead of authenticating and resetting counter.
 - **Reproduction Result:** **CONFIRMED (100% Deterministic)**.
-- **Screenshot Path:** [`23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png)
+- **Screenshot Path:** [`23127259/bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png`](../../bugs/screenshots/FR02/BUG-FR02-003-correct-login-at-n2.png)
 - **GitHub Issue Number & URL:** [thangak18/HW06#3](https://github.com/thangak18/HW06/issues/3)
 
 ---
 
 ## 6. OBS-FR02-001: Unhandled HTTP 500 on Non-Documented Form-Encoded Login Request
-- **Status:** **RETAINED AS EXPLORATORY OBSERVATION** in [`23127259/bugs/BUG-REPORT.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/BUG-REPORT.md).
+- **Status:** **RETAINED AS EXPLORATORY OBSERVATION** in [`23127259/bugs/BUG-REPORT.md`](../../bugs/BUG-REPORT.md).
 - **Formal GitHub Issue Filed?:** **NO** (Downgraded per specification triage policy; not counted as a specification bug).
 
 ---
@@ -651,7 +651,7 @@ Do not begin FR-10 until FR-02 evidence is fully finalized.
 | **`BUG-FR02-002`** | Account Remains Locked Beyond Documented 30-Second Lockout Duration | [#2](https://github.com/thangak18/HW06/issues/2) | `https://github.com/thangak18/HW06/issues/2` | **FILED & CONFIRMED** |
 | **`BUG-FR02-003`** | Correct Login Rejected After Two Consecutive Failed Attempts | [#3](https://github.com/thangak18/HW06/issues/3) | `https://github.com/thangak18/HW06/issues/3` | **FILED & CONFIRMED** |
 
-*Issues registry document:* [`23127259/bugs/FR02_GITHUB_ISSUES.md`](file:///Volumes/Thang/HW06/HW06/23127259/bugs/FR02_GITHUB_ISSUES.md).
+*Issues registry document:* [`23127259/bugs/FR02_GITHUB_ISSUES.md`](../../bugs/FR02_GITHUB_ISSUES.md).
 
 ---
 

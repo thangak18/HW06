@@ -3,8 +3,8 @@
 - **Feature ID:** FR-02 – Login and Account Lockout (Pool A)
 - **Primary Endpoint:** `POST /api/login`
 - **Student Name:** Nguyễn Tấn Thắng (23127259)
-- **Collection File:** [`23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json)
-- **Environment File:** [`23127259/postman/environments/FR02-local.postman_environment.json`](file:///Volumes/Thang/HW06/HW06/23127259/postman/environments/FR02-local.postman_environment.json)
+- **Collection File:** [`23127259/postman/collections/FR02_Login_Account_Lockout.postman_collection.json`](../postman/collections/FR02_Login_Account_Lockout.postman_collection.json)
+- **Environment File:** [`23127259/postman/environments/FR02-local.postman_environment.json`](../postman/environments/FR02-local.postman_environment.json)
 
 ---
 
@@ -20,8 +20,8 @@ The following table records the Postman capabilities actively implemented, verif
 | **Collection / Dynamic Variables** | **YES** | Dynamic per-run state isolation variables (`runId`, `userEmail`, `adminEmail`, `lockoutEmail`, `resetBoundaryEmail`, etc.) set dynamically via `pm.environment.set()`. |
 | **Pre-request Scripts** | **YES** | Collection-level mandatory `X-Student-Id` header enforcement and multi-step request chaining (`pm.sendRequest`). |
 | **pm.test Assertions** | **YES** | 71 formal Chai.js assertions validating status codes, response schemas, token integrity, and security bounds. |
-| **Postman Console** | **YES** | Runtime inspection of outgoing headers and payloads. Evidence: [`FR02-postman-console-x-student-id.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-console-x-student-id.png). |
-| **Collection Runner** | **YES** | Interactive suite execution in Postman Desktop UI. Evidence: [`FR02-postman-runner-result.png`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02-postman-runner-result.png). |
+| **Postman Console** | **YES** | Runtime inspection of outgoing headers and payloads. Evidence: [`FR02-postman-console-x-student-id.png`](../evidence/postman/FR02-postman-console-x-student-id.png). |
+| **Collection Runner** | **YES** | Interactive suite execution in Postman Desktop UI. Evidence: [`FR02-postman-runner-result.png`](../evidence/postman/FR02-postman-runner-result.png). |
 | **Newman CLI Execution** | **YES** | Automated headless execution (`FR02-run-03-console.txt` and `FR02-run-03.json`). |
 | **Newman HTML Reporter** | **YES** | Rich HTML Extra interactive dashboard (`FR02-run-03.html`). |
 | **Data-Driven Testing (Data File)** | **PREPARED** | Fixture file `fr02-domain-data.json` prepared in `postman/data/`. |
@@ -63,5 +63,5 @@ Complex multi-step state progression tests (such as consecutive failure sequence
 ---
 
 ## 3. Execution References
-- **Postman Execution Evidence Report:** [`23127259/evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md`](file:///Volumes/Thang/HW06/HW06/23127259/evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md)
-- **Newman Automated Execution Report:** [`23127259/newman/fr02/FR02-run-03.html`](file:///Volumes/Thang/HW06/HW06/23127259/newman/fr02/FR02-run-03.html)
+- **Postman Execution Evidence Report:** [`23127259/evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md`](../evidence/postman/FR02_POSTMAN_EXECUTION_EVIDENCE.md)
+- **Newman Automated Execution Report:** [`23127259/newman/fr02/FR02-run-03.html`](../newman/fr02/FR02-run-03.html)
