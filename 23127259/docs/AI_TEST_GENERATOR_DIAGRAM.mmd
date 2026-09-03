@@ -1,0 +1,39 @@
+%%{init: {"flowchart": {"htmlLabels": true, "themeVariables": {"fontSize": "14px"}}}}%%
+flowchart TD
+    REQ["<b>Requirements</b><br/>SRS · API Spec · Security Mapping"]
+    AIGEN["<b>AI Generation</b><br/>per-feature prompt<br/>FR02_AI_DRAFT.md /<br/>FR10_AI_DRAFT.md /<br/>FR14_AI_DRAFT.md"]
+    RAW["<b>Raw AI Inventory</b><br/>37 / 42 / 42 raw cases"]
+    AUDIT["<b>Human Audit</b><br/>TC_AUDIT_FR*.md<br/>VALID · INVALID · INCOMPLETE"]
+    GAP["<b>Gap Analysis</b><br/>FR*_HUMAN_EXTENSION_GAP_ANALYSIS.md"]
+    HEXT["<b>Human Extensions</b><br/>FR*_HUMAN_TEST_CASES.md<br/>5 / 5 / 6 cases"]
+    CANON["<b>Canonical Suite</b><br/>fr*_canonical_cases.json<br/>40 / 46 / 46 formal"]
+    POST["<b>Postman Collection</b><br/>FR*_*.postman_collection.json"]
+    XSID["X-Student-Id Injection<br/>pre-request script · studentId env<br/>23127259"]
+    NEW["<b>Newman Execution</b><br/>CLI · JSON · HTML · exit-code"]
+    RECON["<b>Formal Reconciliation</b><br/>FR*_FORMAL_RECONCILIATION.md"]
+    CONF["Targeted Bug Confirmation<br/>isolated fixtures · GET verification"]
+    BUG["<b>Bug Reports</b><br/>BUG-FR*.md · GitHub Issues<br/>10 confirmed root causes"]
+    CI["<b>CI/CD</b><br/>hw06-23127259-api-tests.yml<br/>hw06-deliberate-red.yml"]
+
+    REQ -->|"informs"| AIGEN
+    AIGEN -->|"produces"| RAW
+    RAW -->|"classifies"| AUDIT
+    AUDIT -->|"surfaces gaps"| GAP
+    GAP -->|"adds"| HEXT
+    AUDIT -->|"VALID-only flows"| CANON
+    HEXT -->|"merges"| CANON
+    CANON -->|"builds"| POST
+    POST -.->|"X-Student-Id: 23127259"| XSID
+    POST -->|"executes"| NEW
+    NEW -->|"reconciles"| RECON
+    RECON -->|"isolates"| CONF
+    CONF -->|"files"| BUG
+    BUG -->|"seeds red sample"| CI
+    CI -.->|"rerun on push"| NEW
+
+    classDef normative fill:#1F4E78,stroke:#0B2C4A,color:#FFFFFF,font-weight:bold;
+    classDef partial fill:#2E7D32,stroke:#1B5E20,color:#FFFFFF;
+    classDef exploratory fill:#F9A825,stroke:#B27300,color:#000000;
+    class REQ,AUDIT,RECON,CONF,BUG,CI,CANON,NEW,AIGEN,RAW,POST normative;
+    class GAP,HEXT partial;
+    class XSID exploratory;
