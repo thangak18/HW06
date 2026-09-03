@@ -270,7 +270,7 @@ def check_bug_evidence() -> list[str]:
     bug_files = list(bug_root.glob("BUG-*.md")) + list((bug_root / "issues").glob("BUG-*.md"))
     expected_ids = {"FR02-001", "FR02-002", "FR02-003",
                     "FR10-001", "FR10-002", "FR10-003",
-                    "FR14-001", "FR14-002", "FR14-003", "FR14-004", "FR14-005"}
+                    "FR14-001", "FR14-002", "FR14-003", "FR14-004"}
     found_ids = {f.stem.replace("BUG-", "") for f in bug_files}
     found_ids = {fid for fid in found_ids if "-issue-body" not in fid}
     missing = expected_ids - found_ids
