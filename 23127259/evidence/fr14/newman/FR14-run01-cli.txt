@@ -1,0 +1,341 @@
+newman
+
+FR14_Category_CRUD
+
+❏ 00 – Setup Helpers
+↳ HELPER-000A – Login as Admin (captures adminToken)
+  POST http://localhost:3010/api/login [200 OK, 640B, 17ms]
+  ✓  HELPER: Admin login succeeds
+
+↳ HELPER-000B – Login as Regular User (captures userToken)
+  POST http://localhost:3010/api/login [200 OK, 635B, 2ms]
+  ✓  HELPER: User login succeeds
+
+↳ HELPER-000C – Capture initial category count
+  GET http://localhost:3010/api/categories [200 OK, 17.78kB, 1ms]
+  ✓  HELPER: initial category count captured
+
+❏ 01 – Happy-Path CRUD
+↳ TC-FR14-001 – GET List All Categories (Public)
+  GET http://localhost:3010/api/categories [200 OK, 17.78kB, 3ms]
+  ✓  TC-FR14-001: public GET succeeds (non-error)
+  ✓  TC-FR14-001: response is JSON array
+
+↳ TC-FR14-002 – POST Create Category (Admin)
+  POST http://localhost:3010/api/categories [200 OK, 306B, 6ms]
+  ✓  TC-FR14-002: POST create as Admin succeeds
+  ✓  TC-FR14-002: response carries created id
+
+↳ TC-FR14-003 – GET Verify Created Category
+  GET http://localhost:3010/api/categories [200 OK, 17.81kB, 2ms]
+  ✓  TC-FR14-003: created category visible in list
+
+↳ TC-FR14-004 – PUT Update Category (Admin)
+  PUT http://localhost:3010/api/categories/243 [200 OK, 297B, 3ms]
+  ✓  TC-FR14-004: PUT update as Admin succeeds
+
+↳ TC-FR14-005 – GET Verify Updated Name
+  GET http://localhost:3010/api/categories [200 OK, 17.82kB, 1ms]
+  ✓  TC-FR14-005: updated name visible
+
+↳ TC-FR14-006 – DELETE Category (Admin)
+  DELETE http://localhost:3010/api/categories/243 [200 OK, 297B, 3ms]
+  ✓  TC-FR14-006: DELETE as Admin succeeds
+
+❏ 02 – Authentication (SEC-02)
+↳ TC-FR14-007 – POST Without Auth
+  POST http://localhost:3010/api/categories [401 Unauthorized, 301B, 1ms]
+  ✓  TC assertion: response is non-success (4xx)
+  ✓  TC assertion: response does not report a successful mutation
+
+↳ TC-FR14-008 – PUT Without Auth
+  PUT http://localhost:3010/api/categories/1 [401 Unauthorized, 301B, 1ms]
+  ✓  TC assertion: response is non-success (4xx)
+  ✓  TC assertion: response does not report a successful mutation
+
+↳ TC-FR14-009 – DELETE Without Auth
+  DELETE http://localhost:3010/api/categories/1 [401 Unauthorized, 301B, 2ms]
+  ✓  TC assertion: response is non-success (4xx)
+  ✓  TC assertion: response does not report a successful mutation
+
+↳ TC-FR14-010 – POST With Malformed Token
+  POST http://localhost:3010/api/categories [403 Forbidden, 295B, 2ms]
+  ✓  TC assertion: response is non-success (4xx)
+  ✓  TC assertion: response does not report a successful mutation
+
+↳ TC-FR14-011 – DELETE With Tampered Token
+  DELETE http://localhost:3010/api/categories/1 [403 Forbidden, 295B, 1ms]
+  ✓  TC assertion: response is non-success (4xx)
+  ✓  TC assertion: response does not report a successful mutation
+
+❏ 03 – Authorization RBAC (SEC-03)
+↳ TC-FR14-012 – POST Create as Regular User (RBAC)
+  POST http://localhost:3010/api/categories [200 OK, 306B, 2ms]
+  1. TC assertion: response is non-success (4xx)
+  ✓  TC assertion: response does not report a successful mutation
+
+↳ TC-FR14-013 – PUT Update as Regular User (RBAC)
+  PUT http://localhost:3010/api/categories/2 [200 OK, 297B, 1ms]
+  2. TC assertion: response is non-success (4xx)
+  ✓  TC assertion: response does not report a successful mutation
+
+↳ TC-FR14-014 – DELETE as Regular User (RBAC)
+  DELETE http://localhost:3010/api/categories/2 [200 OK, 297B, 2ms]
+  3. TC assertion: response is non-success (4xx)
+  ✓  TC assertion: response does not report a successful mutation
+
+↳ TC-FR14-015 – GET List as Regular User
+  GET http://localhost:3010/api/categories [200 OK, 17.82kB, 2ms]
+  ✓  TC-FR14-015: authenticated User can read public list
+
+❏ 04 – Name Validation
+↳ TC-FR14-016-Empty – POST 016-Empty
+  POST http://localhost:3010/api/categories [200 OK, 306B, 4ms]
+  4. TC-FR14-016-Empty: invalid name does not create entity (non-success)
+
+↳ TC-FR14-017-Null – POST 017-Null
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  5. TC-FR14-017-Null: invalid name does not create entity (non-success)
+
+↳ TC-FR14-018-MissingKey – POST 018-MissingKey
+  POST http://localhost:3010/api/categories [200 OK, 306B, 17ms]
+  6. TC-FR14-018-MissingKey: invalid name does not create entity (non-success)
+
+↳ TC-FR14-019-Whitespace – POST 019-Whitespace
+  POST http://localhost:3010/api/categories [200 OK, 306B, 4ms]
+  7. TC-FR14-019-Whitespace: invalid name does not create entity (non-success)
+
+↳ TC-FR14-020-LongName – POST Exploratory Name
+  POST http://localhost:3010/api/categories [200 OK, 306B, 4ms]
+  ✓  TC-FR14-020-LongName: exploratory observation
+
+↳ TC-FR14-021-Unicode – POST Exploratory Name
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-021-Unicode: exploratory observation
+
+↳ TC-FR14-022-Duplicate – POST Exploratory Name
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-022-Duplicate: exploratory observation
+
+↳ TC-FR14-023-Integer – POST Exploratory Name
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-023-Integer: exploratory observation
+
+❏ 05 – ID Validation
+↳ TC-FR14-024 – PUT Nonexistent
+  PUT http://localhost:3010/api/categories/99999 [200 OK, 297B, 2ms]
+  8. TC-FR14-024: nonexistent entity not falsely mutated
+
+↳ TC-FR14-025 – DELETE Nonexistent
+  DELETE http://localhost:3010/api/categories/99999 [200 OK, 297B, 2ms]
+  9. TC-FR14-025: nonexistent entity not falsely mutated
+
+↳ TC-FR14-026-Zero – PUT Boundary ID
+  PUT http://localhost:3010/api/categories/0 [200 OK, 297B, 1ms]
+  ✓  TC-FR14-026-Zero: exploratory boundary ID observation
+
+↳ TC-FR14-027-Negative – DELETE Boundary ID
+  DELETE http://localhost:3010/api/categories/-1 [200 OK, 297B, 1ms]
+  ✓  TC-FR14-027-Negative: exploratory boundary ID observation
+
+↳ TC-FR14-028-NonNumeric – PUT Boundary ID
+  PUT http://localhost:3010/api/categories/abc [200 OK, 297B, 2ms]
+  ✓  TC-FR14-028-NonNumeric: exploratory boundary ID observation
+
+❏ 06 – Security Probes
+↳ TC-FR14-029 – POST SQL Injection Probe
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-029: SQL-style payload accepted as text (no injection)
+  GET http://localhost:3010/api/categories [200 OK, 19.09kB, 1ms]
+  ✓  TC-FR14-029: categories table intact after SQL payload
+
+↳ TC-FR14-030 – POST XSS Payload
+  POST http://localhost:3010/api/categories [200 OK, 306B, 2ms]
+  ✓  TC-FR14-030: exploratory XSS payload observation
+
+↳ TC-FR14-031 – POST Mass Assignment
+  POST http://localhost:3010/api/categories [200 OK, 306B, 2ms]
+  ✓  TC-FR14-031: mass-assigned id/role ignored (response id matches server-generated)
+
+↳ TC-FR14-032 – PUT Mass Assignment Override ID
+  PUT http://localhost:3010/api/categories/2 [200 OK, 297B, 1ms]
+  ✓  TC-FR14-032: PUT does not honor body-id override
+
+↳ TC-FR14-033 – POST NoSQL Probe
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-033: object-type name exploratory
+
+❏ 07 – State Transitions
+↳ TC-FR14-035 – Lifecycle: Create
+  POST http://localhost:3010/api/categories [200 OK, 306B, 5ms]
+  ✓  TC-FR14-035a: lifecycle create succeeds
+
+↳ TC-FR14-035 – Lifecycle: Read After Create
+  GET http://localhost:3010/api/categories [200 OK, 19.24kB, 3ms]
+  ✓  TC-FR14-035b: lifecycle read-after-create
+
+↳ TC-FR14-035 – Lifecycle: Update
+  PUT http://localhost:3010/api/categories/257 [200 OK, 297B, 3ms]
+  ✓  TC-FR14-035c: lifecycle update succeeds
+
+↳ TC-FR14-035 – Lifecycle: Delete
+  DELETE http://localhost:3010/api/categories/257 [200 OK, 297B, 3ms]
+  ✓  TC-FR14-035d: lifecycle delete succeeds
+
+↳ TC-FR14-035 – Lifecycle: Read After Delete
+  GET http://localhost:3010/api/categories [200 OK, 19.21kB, 1ms]
+  ✓  TC-FR14-035e: lifecycle read-after-delete shows absence
+
+↳ TC-FR14-037 – PUT Update Deleted (Zombie)
+  PUT http://localhost:3010/api/categories/257 [200 OK, 297B, 1ms]
+ 10. TC-FR14-037: zombie PUT partial-oracle (no fake success)
+
+↳ TC-FR14-038 – Double DELETE
+  DELETE http://localhost:3010/api/categories/257 [200 OK, 297B, 1ms]
+ 11. TC-FR14-038: zombie DELETE partial-oracle (no fake success)
+
+❏ 08 – Schema Validation
+↳ TC-FR14-039 – GET Schema Validation
+  GET http://localhost:3010/api/categories [200 OK, 19.21kB, 0µs]
+  ✓  TC-FR14-039: GET schema
+
+↳ TC-FR14-040 – POST Schema Validation
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-040: response shape has id field
+
+↳ TC-FR14-041 – PUT Schema Validation
+  PUT http://localhost:3010/api/categories/258 [200 OK, 297B, 3ms]
+  ✓  TC-FR14-041: PUT succeeds
+
+↳ TC-FR14-042 – DELETE Schema Validation
+  DELETE http://localhost:3010/api/categories/258 [200 OK, 297B, 2ms]
+  ✓  TC-FR14-042: DELETE succeeds
+
+❏ 09 – Human Extensions
+↳ TC-FR14-H01 – POST Without Content-Type
+  POST http://localhost:3010/api/categories [200 OK, 306B, 2ms]
+  ✓  TC-FR14-H01: exploratory no-content-type observation
+
+↳ TC-FR14-H02 – POST Empty Body
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-H02: exploratory zero-byte body observation
+
+↳ TC-FR14-H03 – PATCH Unsupported Method
+  PATCH http://localhost:3010/api/categories/2 [404 Not Found, 461B, 1ms]
+  ✓  TC-FR14-H03: PATCH non-success (method not supported)
+
+↳ TC-FR14-H04 – GET Response Headers
+  GET http://localhost:3010/api/categories [200 OK, 19.27kB, 1ms]
+  ✓  TC-FR14-H04: response content-type is JSON-like
+  ✓  TC-FR14-H04: body parses as JSON
+
+↳ TC-FR14-H05 – Setup: Create Target
+  POST http://localhost:3010/api/categories [200 OK, 306B, 8ms]
+  ✓  TC-FR14-H05: setup category created
+
+↳ TC-FR14-H05 – Empty PUT Body
+  PUT http://localhost:3010/api/categories/261 [200 OK, 297B, 3ms]
+  GET http://localhost:3010/api/categories [200 OK, 19.29kB, 1ms]
+ 12. TC-FR14-H05: empty PUT does not corrupt original name
+
+↳ TC-FR14-H05 – Cleanup: Delete Target
+  DELETE http://localhost:3010/api/categories/261 [200 OK, 297B, 3ms]
+  ✓  TC-FR14-H05: cleanup succeeds
+
+↳ TC-FR14-H06 – Batch 1 Rapid Create
+  POST http://localhost:3010/api/categories [200 OK, 306B, 4ms]
+  ✓  TC-FR14-H06c1: batch 1 create
+
+↳ TC-FR14-H06 – Batch 2 Rapid Create
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-H06c2: batch 2 create
+
+↳ TC-FR14-H06 – Batch 3 Rapid Create
+  POST http://localhost:3010/api/categories [200 OK, 306B, 3ms]
+  ✓  TC-FR14-H06c3: batch 3 create
+
+↳ TC-FR14-H06 – Verify All Batch Entities
+  GET http://localhost:3010/api/categories [200 OK, 19.38kB, 2ms]
+  ✓  TC-FR14-H06: all three batch entities distinct and visible
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              60 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              58 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              58 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              70 │              12 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 895ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 222.83kB (approx)                      │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 2ms [min: 1ms, max: 17ms, s.d.: 2ms] │
+└─────────────────────────────────────────────────────────────┘
+
+   #  failure         detail                                                                                       
+                                                                                                                   
+ 01.  AssertionError  TC assertion: response is non-success (4xx)                                                  
+                      expected 200 to be at least 400                                                              
+                      at assertion:0 in test-script                                                                
+                      inside "03 – Authorization RBAC (SEC-03) / TC-FR14-012 – POST Create as Regular User (RBAC)" 
+                                                                                                                   
+ 02.  AssertionError  TC assertion: response is non-success (4xx)                                                  
+                      expected 200 to be at least 400                                                              
+                      at assertion:0 in test-script                                                                
+                      inside "03 – Authorization RBAC (SEC-03) / TC-FR14-013 – PUT Update as Regular User (RBAC)"  
+                                                                                                                   
+ 03.  AssertionError  TC assertion: response is non-success (4xx)                                                  
+                      expected 200 to be at least 400                                                              
+                      at assertion:0 in test-script                                                                
+                      inside "03 – Authorization RBAC (SEC-03) / TC-FR14-014 – DELETE as Regular User (RBAC)"      
+                                                                                                                   
+ 04.  AssertionError  TC-FR14-016-Empty: invalid name does not create entity (non-success)                         
+                      expected 200 to be at least 400                                                              
+                      at assertion:0 in test-script                                                                
+                      inside "04 – Name Validation / TC-FR14-016-Empty – POST 016-Empty"                           
+                                                                                                                   
+ 05.  AssertionError  TC-FR14-017-Null: invalid name does not create entity (non-success)                          
+                      expected 200 to be at least 400                                                              
+                      at assertion:0 in test-script                                                                
+                      inside "04 – Name Validation / TC-FR14-017-Null – POST 017-Null"                             
+                                                                                                                   
+ 06.  AssertionError  TC-FR14-018-MissingKey: invalid name does not create entity (non-success)                    
+                      expected 200 to be at least 400                                                              
+                      at assertion:0 in test-script                                                                
+                      inside "04 – Name Validation / TC-FR14-018-MissingKey – POST 018-MissingKey"                 
+                                                                                                                   
+ 07.  AssertionError  TC-FR14-019-Whitespace: invalid name does not create entity (non-success)                    
+                      expected 200 to be at least 400                                                              
+                      at assertion:0 in test-script                                                                
+                      inside "04 – Name Validation / TC-FR14-019-Whitespace – POST 019-Whitespace"                 
+                                                                                                                   
+ 08.  AssertionError  TC-FR14-024: nonexistent entity not falsely mutated                                          
+                      API falsely reports success on nonexistent ID: expected true to be false                     
+                      at assertion:0 in test-script                                                                
+                      inside "05 – ID Validation / TC-FR14-024 – PUT Nonexistent"                                  
+                                                                                                                   
+ 09.  AssertionError  TC-FR14-025: nonexistent entity not falsely mutated                                          
+                      API falsely reports success on nonexistent ID: expected true to be false                     
+                      at assertion:0 in test-script                                                                
+                      inside "05 – ID Validation / TC-FR14-025 – DELETE Nonexistent"                               
+                                                                                                                   
+ 10.  AssertionError  TC-FR14-037: zombie PUT partial-oracle (no fake success)                                     
+                      expected 21 to deeply equal -1                                                               
+                      at assertion:0 in test-script                                                                
+                      inside "07 – State Transitions / TC-FR14-037 – PUT Update Deleted (Zombie)"                  
+                                                                                                                   
+ 11.  AssertionError  TC-FR14-038: zombie DELETE partial-oracle (no fake success)                                  
+                      expected 21 to deeply equal -1                                                               
+                      at assertion:0 in test-script                                                                
+                      inside "07 – State Transitions / TC-FR14-038 – Double DELETE"                                
+                                                                                                                   
+ 12.  AssertionError  TC-FR14-H05: empty PUT does not corrupt original name                                        
+                      expected null to not deeply equal null                                                       
+                      at assertion:0 in test-script                                                                
+                      inside "09 – Human Extensions / TC-FR14-H05 – Empty PUT Body"                                

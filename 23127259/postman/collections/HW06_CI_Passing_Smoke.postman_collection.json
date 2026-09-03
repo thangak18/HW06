@@ -1,0 +1,274 @@
+{
+  "info": {
+    "name": "HW06_CI_Passing_Smoke",
+    "description": "All-green CI smoke subset across FR02, FR10, and FR14. DELIBERATE_RED=1 flips exactly the final assertion for the required red sample.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const sid = pm.environment.get('studentId') || '23127259';",
+          "pm.request.headers.upsert({ key: 'X-Student-Id', value: sid });"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3010" },
+    { "key": "studentId", "value": "23127259" },
+    { "key": "adminEmail", "value": "admin@eshop.com" },
+    { "key": "adminPassword", "value": "Admin123!" },
+    { "key": "userEmail", "value": "test@eshop.com" },
+    { "key": "userPassword", "value": "Test1234!" },
+    { "key": "adminToken", "value": "" },
+    { "key": "userToken", "value": "" },
+    { "key": "ciCategoryName", "value": "" },
+    { "key": "ciCategoryId", "value": "" },
+    { "key": "ciOrderId", "value": "" },
+    { "key": "deliberateRed", "value": "0" }
+  ],
+  "item": [
+    {
+      "name": "01 - FR02 valid Admin login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"email\":\"{{adminEmail}}\",\"password\":\"{{adminPassword}}\"}" },
+        "url": { "raw": "{{baseUrl}}/api/login", "host": ["{{baseUrl}}"], "path": ["api", "login"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('FR02 Admin login succeeds', () => pm.expect(pm.response.code).to.eql(200));",
+              "const body = pm.response.json();",
+              "pm.expect(body.token).to.be.a('string').and.not.empty;",
+              "pm.environment.set('adminToken', body.token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - FR02 valid User login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"email\":\"{{userEmail}}\",\"password\":\"{{userPassword}}\"}" },
+        "url": { "raw": "{{baseUrl}}/api/login", "host": ["{{baseUrl}}"], "path": ["api", "login"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('FR02 User login succeeds', () => pm.expect(pm.response.code).to.eql(200));",
+              "const body = pm.response.json();",
+              "pm.expect(body.token).to.be.a('string').and.not.empty;",
+              "pm.environment.set('userToken', body.token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - FR14 public category list",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/categories", "host": ["{{baseUrl}}"], "path": ["api", "categories"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('FR14 category list succeeds', () => pm.expect(pm.response.code).to.eql(200));",
+              "pm.test('FR14 category list is JSON array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - FR14 Admin creates isolated category",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const name = 'CI-Smoke-' + Date.now() + '-' + Math.floor(Math.random() * 1000000);",
+              "pm.environment.set('ciCategoryName', name);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('FR14 Admin create succeeds', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+              "const body = pm.response.json();",
+              "pm.expect(body.id).to.exist;",
+              "pm.environment.set('ciCategoryId', String(body.id));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"name\":\"{{ciCategoryName}}\"}" },
+        "url": { "raw": "{{baseUrl}}/api/categories", "host": ["{{baseUrl}}"], "path": ["api", "categories"] }
+      }
+    },
+    {
+      "name": "05 - FR14 created category is visible",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/categories", "host": ["{{baseUrl}}"], "path": ["api", "categories"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('FR14 created category persists', function () {",
+              "  const rows = pm.response.json();",
+              "  pm.expect(rows.some((row) => String(row.id) === pm.environment.get('ciCategoryId') && row.name === pm.environment.get('ciCategoryName'))).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - FR10 User creates isolated order",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{userToken}}" },
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"items\":[{\"productId\":1,\"quantity\":1}],\"shippingAddress\":{\"street\":\"123 CI Street\",\"city\":\"HCM\",\"country\":\"VN\"},\"paymentMethod\":\"cod\"}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/checkout", "host": ["{{baseUrl}}"], "path": ["api", "checkout"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('FR10 checkout succeeds', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+              "const body = pm.response.json();",
+              "const id = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id;",
+              "pm.expect(id).to.exist;",
+              "pm.environment.set('ciOrderId', String(id));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - FR10 Admin confirms pending order",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"status\":\"confirmed\"}" },
+        "url": { "raw": "{{baseUrl}}/api/admin/orders/{{ciOrderId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "admin", "orders", "{{ciOrderId}}", "status"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('FR10 Admin pending to confirmed succeeds', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - FR10 confirmed state is visible",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{userToken}}" },
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/orders/{{ciOrderId}}", "host": ["{{baseUrl}}"], "path": ["api", "orders", "{{ciOrderId}}"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('FR10 confirmed state persists', function () {",
+              "  pm.expect(pm.response.code).to.eql(200);",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.status ?? body.data?.status).to.eql('confirmed');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - CI deliberate-red sentinel",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "X-Student-Id", "value": "{{studentId}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/categories", "host": ["{{baseUrl}}"], "path": ["api", "categories"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('DELIBERATE_RED: intentional single CI failure', function () {",
+              "  pm.expect(pm.environment.get('deliberateRed') || '0').to.eql('0');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

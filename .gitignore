@@ -15,16 +15,18 @@ yarn-error.log*
 pnpm-debug.log*
 .pnpm-store/
 
-# Postman / Newman temporary files & reports
+# Postman / Newman temporary files & logs
 *.log
 *.tmp
 /tmp/
 
-# Sensitive data / Secrets / Token overrides
+# Sensitive data / Secrets / Local Postman environment overrides
 *.env
 *.env.*
 !.env.example
 *.secret.json
+**/HW06-env-local.json
+HW06-env-local.json
 
 # IDEs and Editors
 .idea/

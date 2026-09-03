@@ -1,0 +1,67 @@
+name: HW06 API Tests (23127259)
+
+on:
+  push:
+    branches:
+      - thang/hw06-implementation
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SUT_PORT: 3010
+      BASE_URL: http://localhost:3010
+      STUDENT_ID: "23127259"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Newman
+        run: |
+          npm install --no-save newman@6
+          npx newman --version
+
+      - name: Start and verify SUT on port 3010
+        working-directory: 23127259/ci/sut
+        run: |
+          npm install --no-audit --no-fund
+          PORT=3010 node server.js > /tmp/hw06-sut.log 2>&1 &
+          ready=false
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:3010/api/categories >/dev/null; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" != "true" ]; then
+            cat /tmp/hw06-sut.log
+            exit 1
+          fi
+          echo "SUT health check passed"
+
+      - name: Run all-passing FR02 FR10 FR14 smoke assertions
+        run: bash scripts/run_ci_smoke.sh "${{ github.run_id }}/passing"
+
+      - name: Upload safe JUnit and CLI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hw06-23127259-passing-${{ github.run_id }}
+          path: |
+            23127259/ci/evidence/${{ github.run_id }}/passing/*.xml
+            23127259/ci/evidence/${{ github.run_id }}/passing/*.log
+            23127259/ci/evidence/${{ github.run_id }}/passing/*.txt
+          if-no-files-found: error
+          retention-days: 30

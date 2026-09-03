@@ -1,0 +1,51 @@
+================================================================================
+BUG-FR02-001 INDEPENDENT REPRODUCTION EVIDENCE
+================================================================================
+Timestamp: 2026-09-01T20:23:54.577722+07:00
+Endpoint: POST /api/login
+Target SUT: http://localhost:3000
+
+--------------------------------------------------------------------------------
+1. HTTP REQUEST
+--------------------------------------------------------------------------------
+POST /api/login HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+X-Student-Id: 23127259
+
+{
+  "email": "repro_pw_1788269034@eshop.com",
+  "password": "UserSecure123!"
+}
+
+--------------------------------------------------------------------------------
+2. HTTP RESPONSE
+--------------------------------------------------------------------------------
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...[REDACTED_RUNTIME_JWT]",
+  "user": {
+    "id": 33,
+    "name": "Password Leak Test",
+    "email": "repro_pw_1788269034@eshop.com",
+    "password": "UserSecure123!",
+    "role": "user",
+    "login_attempts": 0,
+    "locked_until": null,
+    "reset_token": null,
+    "shipping_address": null,
+    "phone": null
+  }
+}
+
+--------------------------------------------------------------------------------
+3. DEFECT ANALYSIS
+--------------------------------------------------------------------------------
+- Expected Oracle: Response user object must only contain non-sensitive profile attributes (id, name, email, role) per API specification. Plaintext password MUST NOT be disclosed.
+- Actual Response: response.user.password is present with value 'UserSecure123!'.
+- SUT Status: HTTP 200 OK
+- Outcome: CONFIRMED – Plaintext password disclosed in response payload.
+================================================================================

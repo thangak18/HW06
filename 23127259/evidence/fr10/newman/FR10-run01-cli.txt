@@ -1,0 +1,1314 @@
+newman
+
+FR10_Order_State_Machine
+
+❏ 00 – Setup / Authentication Helpers
+↳ [SETUP] Register User B (Non-Owner) Account
+  POST http://localhost:3000/api/register [200 OK, 317B, 18ms]
+  ✓  User B Account Provisioned or Ready
+
+↳ [SETUP] Login Admin
+  POST http://localhost:3000/api/auth/login [404 Not Found, 458B, 2ms]
+  1. Admin Login Successful
+
+↳ [SETUP] Login User A (Customer A - Owner)
+  POST http://localhost:3000/api/auth/login [404 Not Found, 458B, 1ms]
+  2. User A Login Successful
+
+↳ [SETUP] Login User B (Customer B - Non-Owner)
+  POST http://localhost:3000/api/auth/login [404 Not Found, 458B, 1ms]
+  3. User B Login Successful
+
+❏ 01 – Valid Forward & Lifecycle Transitions
+↳ [FR10-AI-001][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+  4. [FR10-AI-001][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-001][ACTION] Admin Confirms Pending Order (pending -> confirmed)
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_001}}/status [401 Unauthorized, 301B, 1ms]
+  5. [FR10-AI-001] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-001] - Persistence Verification State
+
+↳ [FR10-AI-002][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+  6. [FR10-AI-002][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-002][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_002}}/status [401 Unauthorized, 301B, 1ms]
+  7. [FR10-AI-002][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-002][ACTION] Admin Dispatches Confirmed Order (confirmed -> shipping)
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_002}}/status [401 Unauthorized, 301B, 1ms]
+  8. [FR10-AI-002] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-002] - Persistence Verification State
+
+↳ [FR10-AI-003][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+  9. [FR10-AI-003][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-003][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_003}}/status [401 Unauthorized, 301B, 1ms]
+ 10. [FR10-AI-003][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-003][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_003}}/status [401 Unauthorized, 301B, 1ms]
+ 11. [FR10-AI-003][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-003][ACTION] Admin Delivers Shipping Order (shipping -> delivered)
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_003}}/status [401 Unauthorized, 301B, 1ms]
+ 12. [FR10-AI-003] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-003] - Persistence Verification State
+
+↳ [FR10-AI-004][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+ 13. [FR10-AI-004][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-004][STEP-1] Linear Progression: pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_004}}/status [401 Unauthorized, 301B, 1ms]
+ 14. [FR10-AI-004] - Status & Semantic Assertion
+
+↳ [FR10-AI-004][STEP-2] Linear Progression: confirmed -> shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_004}}/status [401 Unauthorized, 301B, 1ms]
+ 15. [FR10-AI-004] - Status & Semantic Assertion
+
+↳ [FR10-AI-004][STEP-3] Linear Progression: shipping -> delivered
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_004}}/status [401 Unauthorized, 301B, 1ms]
+ 16. [FR10-AI-004] - Status & Semantic Assertion
+
+↳ [FR10-AI-004][VERIFY] Read Terminal State: GET delivered
+  GET http://localhost:3000/api/orders/{{order_FR10_AI_004}} [404 Not Found, 301B, 1ms]
+ 17. [FR10-AI-004] - Status & Semantic Assertion
+
+❏ 02 – Order Cancellation Pathways
+↳ [FR10-AI-005][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 18. [FR10-AI-005][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-005][ACTION] Customer Cancellation on Pending Order
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_005}}/cancel [401 Unauthorized, 301B, 0µs]
+ 19. [FR10-AI-005] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 2ms]
+  ✓  [FR10-AI-005] - Persistence Verification State
+
+↳ [FR10-AI-006][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 2ms]
+ 20. [FR10-AI-006][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-006][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_006}}/status [401 Unauthorized, 301B, 1ms]
+ 21. [FR10-AI-006][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-006][ACTION] Customer Cancellation on Confirmed Order
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_006}}/cancel [401 Unauthorized, 301B, 1ms]
+ 22. [FR10-AI-006] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-006] - Persistence Verification State
+
+↳ [FR10-AI-007][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 23. [FR10-AI-007][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-007][ACTION] Admin Status Cancellation on Pending Order
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_007}}/status [401 Unauthorized, 301B, 1ms]
+ 24. [FR10-AI-007] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-007] - Persistence Verification State
+
+↳ [FR10-AI-008][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 25. [FR10-AI-008][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-008][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_008}}/status [401 Unauthorized, 301B, 1ms]
+ 26. [FR10-AI-008][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-008][ACTION] Admin Status Cancellation on Confirmed Order
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_008}}/status [401 Unauthorized, 301B, 1ms]
+ 27. [FR10-AI-008] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-008] - Persistence Verification State
+
+❏ 03 – Invalid Forward Skips & Backward Regressions
+↳ [FR10-AI-009][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 28. [FR10-AI-009][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-009][ACTION] Invalid Skip: Admin Attempts pending -> shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_009}}/status [401 Unauthorized, 301B, 1ms]
+ 29. [FR10-AI-009] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-009] - Persistence Verification State
+
+↳ [FR10-AI-010][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 30. [FR10-AI-010][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-010][ACTION] Invalid Skip: Admin Attempts pending -> delivered
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_010}}/status [401 Unauthorized, 301B, 1ms]
+ 31. [FR10-AI-010] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-010] - Persistence Verification State
+
+↳ [FR10-AI-011][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 32. [FR10-AI-011][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-011][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_011}}/status [401 Unauthorized, 301B, 1ms]
+ 33. [FR10-AI-011][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-011][ACTION] Invalid Skip: Admin Attempts confirmed -> delivered
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_011}}/status [401 Unauthorized, 301B, 1ms]
+ 34. [FR10-AI-011] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-011] - Persistence Verification State
+
+↳ [FR10-AI-013][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 35. [FR10-AI-013][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-013][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_013}}/status [401 Unauthorized, 301B, 1ms]
+ 36. [FR10-AI-013][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-013][ACTION] Invalid Regression: Admin Attempts confirmed -> pending
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_013}}/status [401 Unauthorized, 301B, 1ms]
+ 37. [FR10-AI-013] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-013] - Persistence Verification State
+
+↳ [FR10-AI-014][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 38. [FR10-AI-014][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-014][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_014}}/status [401 Unauthorized, 301B, 1ms]
+ 39. [FR10-AI-014][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-014][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_014}}/status [401 Unauthorized, 301B, 0µs]
+ 40. [FR10-AI-014][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-014][ACTION] Invalid Regression: Admin Attempts shipping -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_014}}/status [401 Unauthorized, 301B, 1ms]
+ 41. [FR10-AI-014] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-014] - Persistence Verification State
+
+↳ [FR10-AI-015][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 42. [FR10-AI-015][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-015][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_015}}/status [401 Unauthorized, 301B, 1ms]
+ 43. [FR10-AI-015][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-015][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_015}}/status [401 Unauthorized, 301B, 1ms]
+ 44. [FR10-AI-015][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-015][ACTION] Invalid Regression: Admin Attempts shipping -> pending
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_015}}/status [401 Unauthorized, 301B, 1ms]
+ 45. [FR10-AI-015] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-015] - Persistence Verification State
+
+↳ [FR10-AI-016][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+ 46. [FR10-AI-016][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-016][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_016}}/status [401 Unauthorized, 301B, 1ms]
+ 47. [FR10-AI-016][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-016][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_016}}/status [401 Unauthorized, 301B, 1ms]
+ 48. [FR10-AI-016][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-016][ACTION] Customer Cancel on In-Transit Order (rejected)
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_016}}/cancel [401 Unauthorized, 301B, 1ms]
+ 49. [FR10-AI-016] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-016] - Persistence Verification State
+
+❏ 04 – Terminal-State Immutability
+↳ [FR10-AI-017][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 50. [FR10-AI-017][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-017][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_017}}/status [401 Unauthorized, 301B, 1ms]
+ 51. [FR10-AI-017][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-017][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_017}}/status [401 Unauthorized, 301B, 1ms]
+ 52. [FR10-AI-017][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-017][SETUP-DELIVER] Transition to delivered
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_017}}/status [401 Unauthorized, 301B, 0µs]
+ 53. [FR10-AI-017][SETUP-DELIVER] Prerequisite Transition to delivered
+
+↳ [FR10-AI-017][ACTION] Terminal Immutability: delivered -> pending
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_017}}/status [401 Unauthorized, 301B, 0µs]
+ 54. [FR10-AI-017] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-017] - Persistence Verification State
+
+↳ [FR10-AI-018][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+ 55. [FR10-AI-018][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-018][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_018}}/status [401 Unauthorized, 301B, 0µs]
+ 56. [FR10-AI-018][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-018][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_018}}/status [401 Unauthorized, 301B, 1ms]
+ 57. [FR10-AI-018][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-018][SETUP-DELIVER] Transition to delivered
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_018}}/status [401 Unauthorized, 301B, 1ms]
+ 58. [FR10-AI-018][SETUP-DELIVER] Prerequisite Transition to delivered
+
+↳ [FR10-AI-018][ACTION] Terminal Immutability: delivered -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_018}}/status [401 Unauthorized, 301B, 0µs]
+ 59. [FR10-AI-018] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-018] - Persistence Verification State
+
+↳ [FR10-AI-019][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 60. [FR10-AI-019][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-019][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_019}}/status [401 Unauthorized, 301B, 1ms]
+ 61. [FR10-AI-019][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-019][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_019}}/status [401 Unauthorized, 301B, 1ms]
+ 62. [FR10-AI-019][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-019][SETUP-DELIVER] Transition to delivered
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_019}}/status [401 Unauthorized, 301B, 1ms]
+ 63. [FR10-AI-019][SETUP-DELIVER] Prerequisite Transition to delivered
+
+↳ [FR10-AI-019][ACTION] Terminal Immutability: delivered -> shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_019}}/status [401 Unauthorized, 301B, 0µs]
+ 64. [FR10-AI-019] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-019] - Persistence Verification State
+
+↳ [FR10-AI-020][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+ 65. [FR10-AI-020][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-020][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_020}}/status [401 Unauthorized, 301B, 1ms]
+ 66. [FR10-AI-020][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-020][SETUP-SHIP] Transition to shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_020}}/status [401 Unauthorized, 301B, 1ms]
+ 67. [FR10-AI-020][SETUP-SHIP] Prerequisite Transition to shipping
+
+↳ [FR10-AI-020][SETUP-DELIVER] Transition to delivered
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_020}}/status [401 Unauthorized, 301B, 1ms]
+ 68. [FR10-AI-020][SETUP-DELIVER] Prerequisite Transition to delivered
+
+↳ [FR10-AI-020][ACTION] Terminal Immutability: delivered -> canceled
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_020}}/status [401 Unauthorized, 301B, 1ms]
+ 69. [FR10-AI-020] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-020] - Persistence Verification State
+
+↳ [FR10-AI-021][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+ 70. [FR10-AI-021][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-021][SETUP-CANCEL] Cancel Order to canceled
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_021}}/cancel [401 Unauthorized, 301B, 1ms]
+ 71. [FR10-AI-021][SETUP-CANCEL] Prerequisite User Cancel to canceled
+
+↳ [FR10-AI-021][ACTION] Terminal Immutability: canceled -> pending
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_021}}/status [401 Unauthorized, 301B, 1ms]
+ 72. [FR10-AI-021] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-021] - Persistence Verification State
+
+↳ [FR10-AI-022][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 73. [FR10-AI-022][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-022][SETUP-CANCEL] Cancel Order to canceled
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_022}}/cancel [401 Unauthorized, 301B, 1ms]
+ 74. [FR10-AI-022][SETUP-CANCEL] Prerequisite User Cancel to canceled
+
+↳ [FR10-AI-022][ACTION] Terminal Immutability: canceled -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_022}}/status [401 Unauthorized, 301B, 0µs]
+ 75. [FR10-AI-022] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-022] - Persistence Verification State
+
+↳ [FR10-AI-023][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 76. [FR10-AI-023][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-023][SETUP-CANCEL] Cancel Order to canceled
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_023}}/cancel [401 Unauthorized, 301B, 1ms]
+ 77. [FR10-AI-023][SETUP-CANCEL] Prerequisite User Cancel to canceled
+
+↳ [FR10-AI-023][ACTION] Terminal Immutability: canceled -> shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_023}}/status [401 Unauthorized, 301B, 1ms]
+ 78. [FR10-AI-023] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-023] - Persistence Verification State
+
+↳ [FR10-AI-024][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 79. [FR10-AI-024][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-024][SETUP-CANCEL] Cancel Order to canceled
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_024}}/cancel [401 Unauthorized, 301B, 0µs]
+ 80. [FR10-AI-024][SETUP-CANCEL] Prerequisite User Cancel to canceled
+
+↳ [FR10-AI-024][ACTION] Terminal Immutability: canceled -> delivered
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_024}}/status [401 Unauthorized, 301B, 1ms]
+ 81. [FR10-AI-024] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-024] - Persistence Verification State
+
+❏ 05 – SEC-02 Authentication Invariants
+↳ [FR10-AI-025][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+ 82. [FR10-AI-025][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-025][ACTION] SEC-02: Missing Authorization on Admin Status
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_025}}/status [401 Unauthorized, 301B, 1ms]
+  ✓  [FR10-AI-025] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-025] - Persistence Verification State
+
+↳ [FR10-AI-026][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 83. [FR10-AI-026][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-026][ACTION] SEC-02: Malformed Bearer on Admin Status
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_026}}/status [403 Forbidden, 295B, 0µs]
+ 84. [FR10-AI-026] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-026] - Persistence Verification State
+
+↳ [FR10-AI-027][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 85. [FR10-AI-027][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-027][ACTION] SEC-02: Untrusted Signature on Admin Status
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_027}}/status [403 Forbidden, 295B, 1ms]
+ 86. [FR10-AI-027] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-027] - Persistence Verification State
+
+↳ [FR10-AI-028][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 87. [FR10-AI-028][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-028][ACTION] SEC-02: Missing Authorization on Customer Cancel
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_028}}/cancel [401 Unauthorized, 301B, 1ms]
+  ✓  [FR10-AI-028] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-028] - Persistence Verification State
+
+↳ [FR10-AI-029][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+ 88. [FR10-AI-029][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-029][ACTION] SEC-02: Malformed Bearer on Customer Cancel
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_029}}/cancel [403 Forbidden, 295B, 0µs]
+ 89. [FR10-AI-029] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-029] - Persistence Verification State
+
+❏ 06 – SEC-03 Role-Based Access Control (RBAC)
+↳ [FR10-AI-030][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 90. [FR10-AI-030][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-030][ACTION] SEC-03: Customer Token on Admin Status
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_030}}/status [401 Unauthorized, 301B, 0µs]
+  ✓  [FR10-AI-030] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-030] - Persistence Verification State
+
+↳ [FR10-AI-031][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 91. [FR10-AI-031][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-031][ACTION] SEC-03: Admin Token on Customer Cancel
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_031}}/cancel [401 Unauthorized, 301B, 1ms]
+  ✓  [FR10-AI-031] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-031] - Persistence Verification State
+
+↳ [FR10-AI-032][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 92. [FR10-AI-032][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-032][ACTION] SEC-03: Guest Token on Admin Status
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_032}}/status [403 Forbidden, 295B, 1ms]
+  ✓  [FR10-AI-032] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-032] - Persistence Verification State
+
+❏ 07 – Cross-User Ownership & Partial Authorization
+↳ [FR10-AI-033][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 93. [FR10-AI-033][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-033][ACTION] Customer B Probes Cancellation on Customer A Pending Order
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_033}}/cancel [401 Unauthorized, 301B, 0µs]
+  ✓  [FR10-AI-033] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-033] - Persistence Verification State
+
+↳ [FR10-AI-034][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 94. [FR10-AI-034][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-034][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_034}}/status [401 Unauthorized, 301B, 0µs]
+ 95. [FR10-AI-034][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-AI-034][ACTION] Customer B Probes Cancellation on Customer A Confirmed Order
+  PUT http://localhost:3000/api/orders/{{order_FR10_AI_034}}/cancel [401 Unauthorized, 301B, 1ms]
+  ✓  [FR10-AI-034] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-034] - Persistence Verification State
+
+❏ 08 – Status Enum & Order-ID Input Domain
+↳ [FR10-AI-035][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 96. [FR10-AI-035][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-035][ACTION] Input Domain: Undocumented Enum ('processing')
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_035}}/status [401 Unauthorized, 301B, 0µs]
+ 97. [FR10-AI-035] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 0µs]
+  ✓  [FR10-AI-035] - Persistence Verification State
+
+↳ [FR10-AI-036][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+ 98. [FR10-AI-036][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-036][ACTION] Input Domain: Missing Mandatory 'status' Key
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_036}}/status [401 Unauthorized, 301B, 0µs]
+ 99. [FR10-AI-036] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-036] - Persistence Verification State
+
+↳ [FR10-AI-037][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+100. [FR10-AI-037][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-037][ACTION] Input Domain: Explicit Null Status
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_037}}/status [401 Unauthorized, 301B, 1ms]
+101. [FR10-AI-037] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-037] - Persistence Verification State
+
+↳ [FR10-AI-038][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+102. [FR10-AI-038][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-038][ACTION] Input Domain: Numeric Status Type
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_038}}/status [401 Unauthorized, 301B, 0µs]
+103. [FR10-AI-038] - Status & Semantic Assertion
+  GET http://localhost:3000/api/orders/undefined [404 Not Found, 301B, 1ms]
+  ✓  [FR10-AI-038] - Persistence Verification State
+
+↳ [FR10-AI-039][ACTION] Admin Mutation on Non-Existent ID (:id = 999999)
+  PUT http://localhost:3000/api/admin/orders/999999/status [401 Unauthorized, 301B, 0µs]
+104. [FR10-AI-039] - Status & Semantic Assertion
+
+↳ [FR10-AI-040][ACTION] Admin Mutation on Malformed Non-Numeric ID (:id = 'not-an-id')
+  PUT http://localhost:3000/api/admin/orders/not-an-id/status [401 Unauthorized, 301B, 1ms]
+  ✓  [FR10-AI-040] - Status & Semantic Assertion
+
+❏ 09 – Response Schema, Persistence & SEC-05
+↳ [FR10-AI-041][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+105. [FR10-AI-041][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-AI-041][ACTION] Mutate Order pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_AI_041}}/status [401 Unauthorized, 301B, 1ms]
+106. [FR10-AI-041] - Status & Semantic Assertion
+
+↳ [FR10-AI-041][VERIFY] Query Mutated Order: GET confirmed
+  GET http://localhost:3000/api/orders/{{order_FR10_AI_041}} [404 Not Found, 301B, 1ms]
+107. [FR10-AI-041] - Status & Semantic Assertion
+
+↳ [FR10-AI-042][ACTION] SEC-05: Black-Box SQLi Probe on Status Route
+  PUT http://localhost:3000/api/admin/orders/1' OR '1'='1/status [401 Unauthorized, 301B, 0µs]
+108. [FR10-AI-042] - Status & Semantic Assertion
+
+❏ 10 – Human-Designed Extension Cases
+↳ [FR10-HUM-001][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+109. [FR10-HUM-001][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-001][ACTION-1] Illegal Skip: pending -> shipping (rejected)
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_001}}/status [401 Unauthorized, 301B, 1ms]
+110. [FR10-HUM-001] - Status & Semantic Assertion
+
+↳ [FR10-HUM-001][VERIFY-1] Verify Order Remains pending
+  GET http://localhost:3000/api/orders/{{order_FR10_HUM_001}} [404 Not Found, 301B, 1ms]
+111. [FR10-HUM-001] - Status & Semantic Assertion
+
+↳ [FR10-HUM-001][ACTION-2] Legal Admin Transition: pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_001}}/status [401 Unauthorized, 301B, 1ms]
+112. [FR10-HUM-001] - Status & Semantic Assertion
+
+↳ [FR10-HUM-001][VERIFY-2] Verify Order Successfully Reached confirmed
+  GET http://localhost:3000/api/orders/{{order_FR10_HUM_001}} [404 Not Found, 301B, 0µs]
+113. [FR10-HUM-001] - Status & Semantic Assertion
+
+↳ [FR10-HUM-002][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+114. [FR10-HUM-002][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-002][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+115. [FR10-HUM-002][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-002][ACTION] Mutate Order A: pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_002_A}}/status [401 Unauthorized, 301B, 1ms]
+116. [FR10-HUM-002] - Status & Semantic Assertion
+
+↳ [FR10-HUM-002][VERIFY-A] Verify Order A Is confirmed
+  GET http://localhost:3000/api/orders/{{order_FR10_HUM_002_A}} [404 Not Found, 301B, 1ms]
+117. [FR10-HUM-002] - Status & Semantic Assertion
+
+↳ [FR10-HUM-002][VERIFY-B] Verify Independent Order B Remains pending
+  GET http://localhost:3000/api/orders/{{order_FR10_HUM_002_B}} [404 Not Found, 301B, 1ms]
+118. [FR10-HUM-002] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+119. [FR10-HUM-003][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-003][ACTION-1] Admin Transitions: pending -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_003}}/status [401 Unauthorized, 301B, 0µs]
+120. [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][ACTION-2] Admin Transitions: confirmed -> shipping
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_003}}/status [401 Unauthorized, 301B, 0µs]
+121. [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][ACTION-3] Owner User Attempts Cancel During Shipping (rejected)
+  PUT http://localhost:3000/api/orders/{{order_FR10_HUM_003}}/cancel [401 Unauthorized, 301B, 1ms]
+122. [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][VERIFY-1] Verify State Remains shipping
+  GET http://localhost:3000/api/orders/{{order_FR10_HUM_003}} [404 Not Found, 301B, 0µs]
+123. [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][ACTION-4] Admin Transitions: shipping -> delivered (succeeds)
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_003}}/status [401 Unauthorized, 301B, 1ms]
+124. [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-003][VERIFY-2] Verify Final Fulfilled State: delivered
+  GET http://localhost:3000/api/orders/{{order_FR10_HUM_003}} [404 Not Found, 301B, 0µs]
+125. [FR10-HUM-003] - Status & Semantic Assertion
+
+↳ [FR10-HUM-004][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 1ms]
+126. [FR10-HUM-004][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-004][SETUP-CONFIRM] Transition to confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_004}}/status [401 Unauthorized, 301B, 0µs]
+127. [FR10-HUM-004][SETUP-CONFIRM] Prerequisite Transition to confirmed
+
+↳ [FR10-HUM-004][ACTION] Same-State Self-Loop Probe: confirmed -> confirmed
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_004}}/status [401 Unauthorized, 301B, 1ms]
+128. [FR10-HUM-004] - Status & Semantic Assertion
+
+↳ [FR10-HUM-005][SETUP-CREATE] Create Isolated Order Fixture
+  POST http://localhost:3000/api/checkout [401 Unauthorized, 301B, 0µs]
+129. [FR10-HUM-005][SETUP-CREATE] Checkout Succeeded
+
+↳ [FR10-HUM-005][ACTION] Non-JSON Media Type Robustness Probe
+  PUT http://localhost:3000/api/admin/orders/{{order_FR10_HUM_005}}/status [401 Unauthorized, 301B, 1ms]
+130. [FR10-HUM-005] - Status & Semantic Assertion
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │             175 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │             139 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │             183 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │             175 │             130 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 1567ms                                  │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 4.74kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 1ms [min: 1ms, max: 18ms, s.d.: 1ms] │
+└─────────────────────────────────────────────────────────────┘
+
+    #  failure         detail                                                                                                                                      
+                                                                                                                                                                   
+ 001.  AssertionError  Admin Login Successful                                                                                                                      
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "00 – Setup / Authentication Helpers / [SETUP] Login Admin"                                                                          
+                                                                                                                                                                   
+ 002.  AssertionError  User A Login Successful                                                                                                                     
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "00 – Setup / Authentication Helpers / [SETUP] Login User A (Customer A - Owner)"                                                    
+                                                                                                                                                                   
+ 003.  AssertionError  User B Login Successful                                                                                                                     
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "00 – Setup / Authentication Helpers / [SETUP] Login User B (Customer B - Non-Owner)"                                                
+                                                                                                                                                                   
+ 004.  AssertionError  [FR10-AI-001][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-001][SETUP-CREATE] Create Isolated Order Fixture"                             
+                                                                                                                                                                   
+ 005.  AssertionError  [FR10-AI-001] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-001][ACTION] Admin Confirms Pending Order (pending -> confirmed)"             
+                                                                                                                                                                   
+ 006.  AssertionError  [FR10-AI-002][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-002][SETUP-CREATE] Create Isolated Order Fixture"                             
+                                                                                                                                                                   
+ 007.  AssertionError  [FR10-AI-002][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-002][SETUP-CONFIRM] Transition to confirmed"                                  
+                                                                                                                                                                   
+ 008.  AssertionError  [FR10-AI-002] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-002][ACTION] Admin Dispatches Confirmed Order (confirmed -> shipping)"        
+                                                                                                                                                                   
+ 009.  AssertionError  [FR10-AI-003][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-003][SETUP-CREATE] Create Isolated Order Fixture"                             
+                                                                                                                                                                   
+ 010.  AssertionError  [FR10-AI-003][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-003][SETUP-CONFIRM] Transition to confirmed"                                  
+                                                                                                                                                                   
+ 011.  AssertionError  [FR10-AI-003][SETUP-SHIP] Prerequisite Transition to shipping                                                                               
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-003][SETUP-SHIP] Transition to shipping"                                      
+                                                                                                                                                                   
+ 012.  AssertionError  [FR10-AI-003] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-003][ACTION] Admin Delivers Shipping Order (shipping -> delivered)"           
+                                                                                                                                                                   
+ 013.  AssertionError  [FR10-AI-004][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-004][SETUP-CREATE] Create Isolated Order Fixture"                             
+                                                                                                                                                                   
+ 014.  AssertionError  [FR10-AI-004] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-004][STEP-1] Linear Progression: pending -> confirmed"                        
+                                                                                                                                                                   
+ 015.  AssertionError  [FR10-AI-004] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-004][STEP-2] Linear Progression: confirmed -> shipping"                       
+                                                                                                                                                                   
+ 016.  AssertionError  [FR10-AI-004] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-004][STEP-3] Linear Progression: shipping -> delivered"                       
+                                                                                                                                                                   
+ 017.  AssertionError  [FR10-AI-004] - Status & Semantic Assertion                                                                                                 
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "01 – Valid Forward & Lifecycle Transitions / [FR10-AI-004][VERIFY] Read Terminal State: GET delivered"                              
+                                                                                                                                                                   
+ 018.  AssertionError  [FR10-AI-005][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-005][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 019.  AssertionError  [FR10-AI-005] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-005][ACTION] Customer Cancellation on Pending Order"                                    
+                                                                                                                                                                   
+ 020.  AssertionError  [FR10-AI-006][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-006][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 021.  AssertionError  [FR10-AI-006][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-006][SETUP-CONFIRM] Transition to confirmed"                                            
+                                                                                                                                                                   
+ 022.  AssertionError  [FR10-AI-006] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-006][ACTION] Customer Cancellation on Confirmed Order"                                  
+                                                                                                                                                                   
+ 023.  AssertionError  [FR10-AI-007][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-007][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 024.  AssertionError  [FR10-AI-007] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-007][ACTION] Admin Status Cancellation on Pending Order"                                
+                                                                                                                                                                   
+ 025.  AssertionError  [FR10-AI-008][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-008][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 026.  AssertionError  [FR10-AI-008][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-008][SETUP-CONFIRM] Transition to confirmed"                                            
+                                                                                                                                                                   
+ 027.  AssertionError  [FR10-AI-008] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "02 – Order Cancellation Pathways / [FR10-AI-008][ACTION] Admin Status Cancellation on Confirmed Order"                              
+                                                                                                                                                                   
+ 028.  AssertionError  [FR10-AI-009][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-009][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 029.  AssertionError  [FR10-AI-009] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-009][ACTION] Invalid Skip: Admin Attempts pending -> shipping"         
+                                                                                                                                                                   
+ 030.  AssertionError  [FR10-AI-010][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-010][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 031.  AssertionError  [FR10-AI-010] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-010][ACTION] Invalid Skip: Admin Attempts pending -> delivered"        
+                                                                                                                                                                   
+ 032.  AssertionError  [FR10-AI-011][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-011][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 033.  AssertionError  [FR10-AI-011][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-011][SETUP-CONFIRM] Transition to confirmed"                           
+                                                                                                                                                                   
+ 034.  AssertionError  [FR10-AI-011] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-011][ACTION] Invalid Skip: Admin Attempts confirmed -> delivered"      
+                                                                                                                                                                   
+ 035.  AssertionError  [FR10-AI-013][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-013][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 036.  AssertionError  [FR10-AI-013][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-013][SETUP-CONFIRM] Transition to confirmed"                           
+                                                                                                                                                                   
+ 037.  AssertionError  [FR10-AI-013] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-013][ACTION] Invalid Regression: Admin Attempts confirmed -> pending"  
+                                                                                                                                                                   
+ 038.  AssertionError  [FR10-AI-014][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-014][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 039.  AssertionError  [FR10-AI-014][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-014][SETUP-CONFIRM] Transition to confirmed"                           
+                                                                                                                                                                   
+ 040.  AssertionError  [FR10-AI-014][SETUP-SHIP] Prerequisite Transition to shipping                                                                               
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-014][SETUP-SHIP] Transition to shipping"                               
+                                                                                                                                                                   
+ 041.  AssertionError  [FR10-AI-014] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-014][ACTION] Invalid Regression: Admin Attempts shipping -> confirmed" 
+                                                                                                                                                                   
+ 042.  AssertionError  [FR10-AI-015][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-015][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 043.  AssertionError  [FR10-AI-015][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-015][SETUP-CONFIRM] Transition to confirmed"                           
+                                                                                                                                                                   
+ 044.  AssertionError  [FR10-AI-015][SETUP-SHIP] Prerequisite Transition to shipping                                                                               
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-015][SETUP-SHIP] Transition to shipping"                               
+                                                                                                                                                                   
+ 045.  AssertionError  [FR10-AI-015] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-015][ACTION] Invalid Regression: Admin Attempts shipping -> pending"   
+                                                                                                                                                                   
+ 046.  AssertionError  [FR10-AI-016][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-016][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 047.  AssertionError  [FR10-AI-016][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-016][SETUP-CONFIRM] Transition to confirmed"                           
+                                                                                                                                                                   
+ 048.  AssertionError  [FR10-AI-016][SETUP-SHIP] Prerequisite Transition to shipping                                                                               
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-016][SETUP-SHIP] Transition to shipping"                               
+                                                                                                                                                                   
+ 049.  AssertionError  [FR10-AI-016] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "03 – Invalid Forward Skips & Backward Regressions / [FR10-AI-016][ACTION] Customer Cancel on In-Transit Order (rejected)"           
+                                                                                                                                                                   
+ 050.  AssertionError  [FR10-AI-017][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-017][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 051.  AssertionError  [FR10-AI-017][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-017][SETUP-CONFIRM] Transition to confirmed"                                            
+                                                                                                                                                                   
+ 052.  AssertionError  [FR10-AI-017][SETUP-SHIP] Prerequisite Transition to shipping                                                                               
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-017][SETUP-SHIP] Transition to shipping"                                                
+                                                                                                                                                                   
+ 053.  AssertionError  [FR10-AI-017][SETUP-DELIVER] Prerequisite Transition to delivered                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-017][SETUP-DELIVER] Transition to delivered"                                            
+                                                                                                                                                                   
+ 054.  AssertionError  [FR10-AI-017] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-017][ACTION] Terminal Immutability: delivered -> pending"                               
+                                                                                                                                                                   
+ 055.  AssertionError  [FR10-AI-018][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-018][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 056.  AssertionError  [FR10-AI-018][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-018][SETUP-CONFIRM] Transition to confirmed"                                            
+                                                                                                                                                                   
+ 057.  AssertionError  [FR10-AI-018][SETUP-SHIP] Prerequisite Transition to shipping                                                                               
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-018][SETUP-SHIP] Transition to shipping"                                                
+                                                                                                                                                                   
+ 058.  AssertionError  [FR10-AI-018][SETUP-DELIVER] Prerequisite Transition to delivered                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-018][SETUP-DELIVER] Transition to delivered"                                            
+                                                                                                                                                                   
+ 059.  AssertionError  [FR10-AI-018] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-018][ACTION] Terminal Immutability: delivered -> confirmed"                             
+                                                                                                                                                                   
+ 060.  AssertionError  [FR10-AI-019][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-019][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 061.  AssertionError  [FR10-AI-019][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-019][SETUP-CONFIRM] Transition to confirmed"                                            
+                                                                                                                                                                   
+ 062.  AssertionError  [FR10-AI-019][SETUP-SHIP] Prerequisite Transition to shipping                                                                               
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-019][SETUP-SHIP] Transition to shipping"                                                
+                                                                                                                                                                   
+ 063.  AssertionError  [FR10-AI-019][SETUP-DELIVER] Prerequisite Transition to delivered                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-019][SETUP-DELIVER] Transition to delivered"                                            
+                                                                                                                                                                   
+ 064.  AssertionError  [FR10-AI-019] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-019][ACTION] Terminal Immutability: delivered -> shipping"                              
+                                                                                                                                                                   
+ 065.  AssertionError  [FR10-AI-020][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-020][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 066.  AssertionError  [FR10-AI-020][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-020][SETUP-CONFIRM] Transition to confirmed"                                            
+                                                                                                                                                                   
+ 067.  AssertionError  [FR10-AI-020][SETUP-SHIP] Prerequisite Transition to shipping                                                                               
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-020][SETUP-SHIP] Transition to shipping"                                                
+                                                                                                                                                                   
+ 068.  AssertionError  [FR10-AI-020][SETUP-DELIVER] Prerequisite Transition to delivered                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-020][SETUP-DELIVER] Transition to delivered"                                            
+                                                                                                                                                                   
+ 069.  AssertionError  [FR10-AI-020] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-020][ACTION] Terminal Immutability: delivered -> canceled"                              
+                                                                                                                                                                   
+ 070.  AssertionError  [FR10-AI-021][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-021][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 071.  AssertionError  [FR10-AI-021][SETUP-CANCEL] Prerequisite User Cancel to canceled                                                                            
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-021][SETUP-CANCEL] Cancel Order to canceled"                                            
+                                                                                                                                                                   
+ 072.  AssertionError  [FR10-AI-021] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-021][ACTION] Terminal Immutability: canceled -> pending"                                
+                                                                                                                                                                   
+ 073.  AssertionError  [FR10-AI-022][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-022][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 074.  AssertionError  [FR10-AI-022][SETUP-CANCEL] Prerequisite User Cancel to canceled                                                                            
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-022][SETUP-CANCEL] Cancel Order to canceled"                                            
+                                                                                                                                                                   
+ 075.  AssertionError  [FR10-AI-022] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-022][ACTION] Terminal Immutability: canceled -> confirmed"                              
+                                                                                                                                                                   
+ 076.  AssertionError  [FR10-AI-023][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-023][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 077.  AssertionError  [FR10-AI-023][SETUP-CANCEL] Prerequisite User Cancel to canceled                                                                            
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-023][SETUP-CANCEL] Cancel Order to canceled"                                            
+                                                                                                                                                                   
+ 078.  AssertionError  [FR10-AI-023] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-023][ACTION] Terminal Immutability: canceled -> shipping"                               
+                                                                                                                                                                   
+ 079.  AssertionError  [FR10-AI-024][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-024][SETUP-CREATE] Create Isolated Order Fixture"                                       
+                                                                                                                                                                   
+ 080.  AssertionError  [FR10-AI-024][SETUP-CANCEL] Prerequisite User Cancel to canceled                                                                            
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-024][SETUP-CANCEL] Cancel Order to canceled"                                            
+                                                                                                                                                                   
+ 081.  AssertionError  [FR10-AI-024] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "04 – Terminal-State Immutability / [FR10-AI-024][ACTION] Terminal Immutability: canceled -> delivered"                              
+                                                                                                                                                                   
+ 082.  AssertionError  [FR10-AI-025][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "05 – SEC-02 Authentication Invariants / [FR10-AI-025][SETUP-CREATE] Create Isolated Order Fixture"                                  
+                                                                                                                                                                   
+ 083.  AssertionError  [FR10-AI-026][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "05 – SEC-02 Authentication Invariants / [FR10-AI-026][SETUP-CREATE] Create Isolated Order Fixture"                                  
+                                                                                                                                                                   
+ 084.  AssertionError  [FR10-AI-026] - Status & Semantic Assertion                                                                                                 
+                       expected 403 to deeply equal 401                                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "05 – SEC-02 Authentication Invariants / [FR10-AI-026][ACTION] SEC-02: Malformed Bearer on Admin Status"                             
+                                                                                                                                                                   
+ 085.  AssertionError  [FR10-AI-027][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "05 – SEC-02 Authentication Invariants / [FR10-AI-027][SETUP-CREATE] Create Isolated Order Fixture"                                  
+                                                                                                                                                                   
+ 086.  AssertionError  [FR10-AI-027] - Status & Semantic Assertion                                                                                                 
+                       expected 403 to deeply equal 401                                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "05 – SEC-02 Authentication Invariants / [FR10-AI-027][ACTION] SEC-02: Untrusted Signature on Admin Status"                          
+                                                                                                                                                                   
+ 087.  AssertionError  [FR10-AI-028][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "05 – SEC-02 Authentication Invariants / [FR10-AI-028][SETUP-CREATE] Create Isolated Order Fixture"                                  
+                                                                                                                                                                   
+ 088.  AssertionError  [FR10-AI-029][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "05 – SEC-02 Authentication Invariants / [FR10-AI-029][SETUP-CREATE] Create Isolated Order Fixture"                                  
+                                                                                                                                                                   
+ 089.  AssertionError  [FR10-AI-029] - Status & Semantic Assertion                                                                                                 
+                       expected 403 to deeply equal 401                                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "05 – SEC-02 Authentication Invariants / [FR10-AI-029][ACTION] SEC-02: Malformed Bearer on Customer Cancel"                          
+                                                                                                                                                                   
+ 090.  AssertionError  [FR10-AI-030][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "06 – SEC-03 Role-Based Access Control (RBAC) / [FR10-AI-030][SETUP-CREATE] Create Isolated Order Fixture"                           
+                                                                                                                                                                   
+ 091.  AssertionError  [FR10-AI-031][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "06 – SEC-03 Role-Based Access Control (RBAC) / [FR10-AI-031][SETUP-CREATE] Create Isolated Order Fixture"                           
+                                                                                                                                                                   
+ 092.  AssertionError  [FR10-AI-032][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "06 – SEC-03 Role-Based Access Control (RBAC) / [FR10-AI-032][SETUP-CREATE] Create Isolated Order Fixture"                           
+                                                                                                                                                                   
+ 093.  AssertionError  [FR10-AI-033][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "07 – Cross-User Ownership & Partial Authorization / [FR10-AI-033][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 094.  AssertionError  [FR10-AI-034][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "07 – Cross-User Ownership & Partial Authorization / [FR10-AI-034][SETUP-CREATE] Create Isolated Order Fixture"                      
+                                                                                                                                                                   
+ 095.  AssertionError  [FR10-AI-034][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                           
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "07 – Cross-User Ownership & Partial Authorization / [FR10-AI-034][SETUP-CONFIRM] Transition to confirmed"                           
+                                                                                                                                                                   
+ 096.  AssertionError  [FR10-AI-035][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-035][SETUP-CREATE] Create Isolated Order Fixture"                               
+                                                                                                                                                                   
+ 097.  AssertionError  [FR10-AI-035] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-035][ACTION] Input Domain: Undocumented Enum ('processing')"                    
+                                                                                                                                                                   
+ 098.  AssertionError  [FR10-AI-036][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-036][SETUP-CREATE] Create Isolated Order Fixture"                               
+                                                                                                                                                                   
+ 099.  AssertionError  [FR10-AI-036] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-036][ACTION] Input Domain: Missing Mandatory 'status' Key"                      
+                                                                                                                                                                   
+ 100.  AssertionError  [FR10-AI-037][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-037][SETUP-CREATE] Create Isolated Order Fixture"                               
+                                                                                                                                                                   
+ 101.  AssertionError  [FR10-AI-037] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-037][ACTION] Input Domain: Explicit Null Status"                                
+                                                                                                                                                                   
+ 102.  AssertionError  [FR10-AI-038][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-038][SETUP-CREATE] Create Isolated Order Fixture"                               
+                                                                                                                                                                   
+ 103.  AssertionError  [FR10-AI-038] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-038][ACTION] Input Domain: Numeric Status Type"                                 
+                                                                                                                                                                   
+ 104.  AssertionError  [FR10-AI-039] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to deeply equal 404                                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "08 – Status Enum & Order-ID Input Domain / [FR10-AI-039][ACTION] Admin Mutation on Non-Existent ID (:id = 999999)"                  
+                                                                                                                                                                   
+ 105.  AssertionError  [FR10-AI-041][SETUP-CREATE] Checkout Succeeded                                                                                              
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "09 – Response Schema, Persistence & SEC-05 / [FR10-AI-041][SETUP-CREATE] Create Isolated Order Fixture"                             
+                                                                                                                                                                   
+ 106.  AssertionError  [FR10-AI-041] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "09 – Response Schema, Persistence & SEC-05 / [FR10-AI-041][ACTION] Mutate Order pending -> confirmed"                               
+                                                                                                                                                                   
+ 107.  AssertionError  [FR10-AI-041] - Status & Semantic Assertion                                                                                                 
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "09 – Response Schema, Persistence & SEC-05 / [FR10-AI-041][VERIFY] Query Mutated Order: GET confirmed"                              
+                                                                                                                                                                   
+ 108.  AssertionError  [FR10-AI-042] - Status & Semantic Assertion                                                                                                 
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "09 – Response Schema, Persistence & SEC-05 / [FR10-AI-042][ACTION] SEC-05: Black-Box SQLi Probe on Status Route"                    
+                                                                                                                                                                   
+ 109.  AssertionError  [FR10-HUM-001][SETUP-CREATE] Checkout Succeeded                                                                                             
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-001][SETUP-CREATE] Create Isolated Order Fixture"                                   
+                                                                                                                                                                   
+ 110.  AssertionError  [FR10-HUM-001] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-001][ACTION-1] Illegal Skip: pending -> shipping (rejected)"                        
+                                                                                                                                                                   
+ 111.  AssertionError  [FR10-HUM-001] - Status & Semantic Assertion                                                                                                
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-001][VERIFY-1] Verify Order Remains pending"                                        
+                                                                                                                                                                   
+ 112.  AssertionError  [FR10-HUM-001] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-001][ACTION-2] Legal Admin Transition: pending -> confirmed"                        
+                                                                                                                                                                   
+ 113.  AssertionError  [FR10-HUM-001] - Status & Semantic Assertion                                                                                                
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-001][VERIFY-2] Verify Order Successfully Reached confirmed"                         
+                                                                                                                                                                   
+ 114.  AssertionError  [FR10-HUM-002][SETUP-CREATE] Checkout Succeeded                                                                                             
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-002][SETUP-CREATE] Create Isolated Order Fixture"                                   
+                                                                                                                                                                   
+ 115.  AssertionError  [FR10-HUM-002][SETUP-CREATE] Checkout Succeeded                                                                                             
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-002][SETUP-CREATE] Create Isolated Order Fixture"                                   
+                                                                                                                                                                   
+ 116.  AssertionError  [FR10-HUM-002] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-002][ACTION] Mutate Order A: pending -> confirmed"                                  
+                                                                                                                                                                   
+ 117.  AssertionError  [FR10-HUM-002] - Status & Semantic Assertion                                                                                                
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-002][VERIFY-A] Verify Order A Is confirmed"                                         
+                                                                                                                                                                   
+ 118.  AssertionError  [FR10-HUM-002] - Status & Semantic Assertion                                                                                                
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-002][VERIFY-B] Verify Independent Order B Remains pending"                          
+                                                                                                                                                                   
+ 119.  AssertionError  [FR10-HUM-003][SETUP-CREATE] Checkout Succeeded                                                                                             
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][SETUP-CREATE] Create Isolated Order Fixture"                                   
+                                                                                                                                                                   
+ 120.  AssertionError  [FR10-HUM-003] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][ACTION-1] Admin Transitions: pending -> confirmed"                             
+                                                                                                                                                                   
+ 121.  AssertionError  [FR10-HUM-003] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][ACTION-2] Admin Transitions: confirmed -> shipping"                            
+                                                                                                                                                                   
+ 122.  AssertionError  [FR10-HUM-003] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 400, 422, 403, 404 ]                                                                                            
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][ACTION-3] Owner User Attempts Cancel During Shipping (rejected)"               
+                                                                                                                                                                   
+ 123.  AssertionError  [FR10-HUM-003] - Status & Semantic Assertion                                                                                                
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][VERIFY-1] Verify State Remains shipping"                                       
+                                                                                                                                                                   
+ 124.  AssertionError  [FR10-HUM-003] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][ACTION-4] Admin Transitions: shipping -> delivered (succeeds)"                 
+                                                                                                                                                                   
+ 125.  AssertionError  [FR10-HUM-003] - Status & Semantic Assertion                                                                                                
+                       expected 404 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-003][VERIFY-2] Verify Final Fulfilled State: delivered"                             
+                                                                                                                                                                   
+ 126.  AssertionError  [FR10-HUM-004][SETUP-CREATE] Checkout Succeeded                                                                                             
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-004][SETUP-CREATE] Create Isolated Order Fixture"                                   
+                                                                                                                                                                   
+ 127.  AssertionError  [FR10-HUM-004][SETUP-CONFIRM] Prerequisite Transition to confirmed                                                                          
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-004][SETUP-CONFIRM] Transition to confirmed"                                        
+                                                                                                                                                                   
+ 128.  AssertionError  [FR10-HUM-004] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 200, 400, 404, 415, 422, 500 ]                                                                                  
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-004][ACTION] Same-State Self-Loop Probe: confirmed -> confirmed"                    
+                                                                                                                                                                   
+ 129.  AssertionError  [FR10-HUM-005][SETUP-CREATE] Checkout Succeeded                                                                                             
+                       expected 401 to be one of [ 200, 201 ]                                                                                                      
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-005][SETUP-CREATE] Create Isolated Order Fixture"                                   
+                                                                                                                                                                   
+ 130.  AssertionError  [FR10-HUM-005] - Status & Semantic Assertion                                                                                                
+                       expected 401 to be one of [ 200, 400, 404, 415, 422, 500 ]                                                                                  
+                       at assertion:0 in test-script                                                                                                               
+                       inside "10 – Human-Designed Extension Cases / [FR10-HUM-005][ACTION] Non-JSON Media Type Robustness Probe"                                  

@@ -1,0 +1,145 @@
+newman
+
+FR10_Defect_Evidence_Strict
+
+❏ 00 – Authentication Setup
+↳ [AUTH-01] Admin Login
+  POST http://localhost:3000/api/login [200 OK, 640B, 39ms]
+  ✓  Admin Login Success
+
+↳ [AUTH-02] User A Login
+  POST http://localhost:3000/api/login [200 OK, 638B, 2ms]
+  ✓  User A Login Success
+
+❏ 01 – BUG-FR10-001: Owner Cancel During Shipping
+↳ [BUG-FR10-001][SETUP-CREATE] User A Creates Fresh Order
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 4ms]
+  ✓  [BUG-FR10-001] Fixture Checkout Created
+
+↳ [BUG-FR10-001][SETUP-CONFIRM] Admin Advances to confirmed
+  PUT http://localhost:3000/api/admin/orders/99/status [200 OK, 301B, 5ms]
+  ✓  [BUG-FR10-001] Precondition Transition to confirmed
+
+↳ [BUG-FR10-001][SETUP-SHIPPING] Admin Advances to shipping
+  PUT http://localhost:3000/api/admin/orders/99/status [200 OK, 301B, 3ms]
+  ✓  [BUG-FR10-001] Precondition Transition to shipping
+
+↳ [BUG-FR10-001][VERIFY-SHIPPING] Verify Initial State Is shipping
+  GET http://localhost:3000/api/orders/99 [200 OK, 388B, 4ms]
+  ✓  [BUG-FR10-001] Initial State Verified as shipping
+
+↳ [BUG-FR10-001][ACTION-CANCEL] Owner User Attempts Cancel on Shipping Order
+  PUT http://localhost:3000/api/orders/99/cancel [200 OK, 308B, 3ms]
+  1. [BUG-FR10-001] Strict Canonical Oracle: Cancellation in shipping MUST be rejected (4xx)
+
+↳ [BUG-FR10-001][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State
+  GET http://localhost:3000/api/orders/99 [200 OK, 388B, 2ms]
+  2. [BUG-FR10-001] Strict Canonical Oracle: Persisted state MUST remain shipping
+
+❏ 02 – BUG-FR10-002: Admin Transition on Canceled Terminal Order
+↳ [BUG-FR10-002][SETUP-CREATE] User A Creates Fresh Order
+  POST http://localhost:3000/api/checkout [200 OK, 314B, 3ms]
+  ✓  [BUG-FR10-002] Fixture Checkout Created
+
+↳ [BUG-FR10-002][SETUP-CANCEL] Admin Transitions Order to canceled
+  PUT http://localhost:3000/api/admin/orders/100/status [200 OK, 301B, 3ms]
+  ✓  [BUG-FR10-002] Precondition Transition to canceled
+
+↳ [BUG-FR10-002][VERIFY-CANCELED] Verify Initial State Is canceled
+  GET http://localhost:3000/api/orders/100 [200 OK, 389B, 1ms]
+  ✓  [BUG-FR10-002] Initial State Verified as canceled
+
+↳ [BUG-FR10-002][ACTION-DELIVER] Admin Attempts canceled -> delivered Mutation
+  PUT http://localhost:3000/api/admin/orders/100/status [200 OK, 301B, 3ms]
+  3. [BUG-FR10-002] Strict Canonical Oracle: Terminal state transition MUST be rejected (4xx)
+
+↳ [BUG-FR10-002][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State
+  GET http://localhost:3000/api/orders/100 [200 OK, 390B, 0µs]
+  4. [BUG-FR10-002] Strict Canonical Oracle: Persisted state MUST remain canceled
+
+❏ 03 – BUG-FR10-003: Regular User Mutates Admin Status (SEC-03)
+↳ [BUG-FR10-003-A][SETUP-CREATE] User A Creates Fresh Order A
+  POST http://localhost:3000/api/checkout [200 OK, 314B, 2ms]
+  ✓  [BUG-FR10-003-A] Fixture Checkout Created
+
+↳ [BUG-FR10-003-A][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> confirmed)
+  PUT http://localhost:3000/api/admin/orders/101/status [200 OK, 301B, 3ms]
+  5. [BUG-FR10-003-A] Strict Canonical Oracle: Customer token on Admin endpoint MUST be rejected (403/401/404)
+
+↳ [BUG-FR10-003-A][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State A
+  GET http://localhost:3000/api/orders/101 [200 OK, 390B, 1ms]
+  6. [BUG-FR10-003-A] Strict Canonical Oracle: Persisted state MUST remain pending
+
+↳ [BUG-FR10-003-B][SETUP-CREATE] User A Creates Fresh Order B
+  POST http://localhost:3000/api/checkout [200 OK, 314B, 2ms]
+  ✓  [BUG-FR10-003-B] Fixture Checkout Created
+
+↳ [BUG-FR10-003-B][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> canceled)
+  PUT http://localhost:3000/api/admin/orders/102/status [200 OK, 301B, 2ms]
+  7. [BUG-FR10-003-B] Strict Canonical Oracle: Customer token on Admin endpoint MUST be rejected (403/401/404)
+
+↳ [BUG-FR10-003-B][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State B
+  GET http://localhost:3000/api/orders/102 [200 OK, 389B, 1ms]
+  8. [BUG-FR10-003-B] Strict Canonical Oracle: Persisted state MUST remain pending
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              19 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              19 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              19 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              19 │               8 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 310ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 1.9kB (approx)                         │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 4ms [min: 1ms, max: 39ms, s.d.: 8ms] │
+└─────────────────────────────────────────────────────────────┘
+
+  #  failure         detail                                                                                                                                                                  
+                                                                                                                                                                                             
+ 1.  AssertionError  [BUG-FR10-001] Strict Canonical Oracle: Cancellation in shipping MUST be rejected (4xx)                                                                                 
+                     expected 200 to be one of [ 400, 422, 403, 404 ]                                                                                                                        
+                     at assertion:0 in test-script                                                                                                                                           
+                     inside "01 – BUG-FR10-001: Owner Cancel During Shipping / [BUG-FR10-001][ACTION-CANCEL] Owner User Attempts Cancel on Shipping Order"                                   
+                                                                                                                                                                                             
+ 2.  AssertionError  [BUG-FR10-001] Strict Canonical Oracle: Persisted state MUST remain shipping                                                                                            
+                     expected 'canceled' to deeply equal 'shipping'                                                                                                                          
+                     at assertion:0 in test-script                                                                                                                                           
+                     inside "01 – BUG-FR10-001: Owner Cancel During Shipping / [BUG-FR10-001][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State"                                   
+                                                                                                                                                                                             
+ 3.  AssertionError  [BUG-FR10-002] Strict Canonical Oracle: Terminal state transition MUST be rejected (4xx)                                                                                
+                     expected 200 to be one of [ 400, 422, 403, 404 ]                                                                                                                        
+                     at assertion:0 in test-script                                                                                                                                           
+                     inside "02 – BUG-FR10-002: Admin Transition on Canceled Terminal Order / [BUG-FR10-002][ACTION-DELIVER] Admin Attempts canceled -> delivered Mutation"                  
+                                                                                                                                                                                             
+ 4.  AssertionError  [BUG-FR10-002] Strict Canonical Oracle: Persisted state MUST remain canceled                                                                                            
+                     expected 'delivered' to deeply equal 'canceled'                                                                                                                         
+                     at assertion:0 in test-script                                                                                                                                           
+                     inside "02 – BUG-FR10-002: Admin Transition on Canceled Terminal Order / [BUG-FR10-002][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State"                    
+                                                                                                                                                                                             
+ 5.  AssertionError  [BUG-FR10-003-A] Strict Canonical Oracle: Customer token on Admin endpoint MUST be rejected (403/401/404)                                                               
+                     expected 200 to be one of [ 403, 401, 404 ]                                                                                                                             
+                     at assertion:0 in test-script                                                                                                                                           
+                     inside "03 – BUG-FR10-003: Regular User Mutates Admin Status (SEC-03) / [BUG-FR10-003-A][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> confirmed)" 
+                                                                                                                                                                                             
+ 6.  AssertionError  [BUG-FR10-003-A] Strict Canonical Oracle: Persisted state MUST remain pending                                                                                           
+                     expected 'confirmed' to deeply equal 'pending'                                                                                                                          
+                     at assertion:0 in test-script                                                                                                                                           
+                     inside "03 – BUG-FR10-003: Regular User Mutates Admin Status (SEC-03) / [BUG-FR10-003-A][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State A"                 
+                                                                                                                                                                                             
+ 7.  AssertionError  [BUG-FR10-003-B] Strict Canonical Oracle: Customer token on Admin endpoint MUST be rejected (403/401/404)                                                               
+                     expected 200 to be one of [ 403, 401, 404 ]                                                                                                                             
+                     at assertion:0 in test-script                                                                                                                                           
+                     inside "03 – BUG-FR10-003: Regular User Mutates Admin Status (SEC-03) / [BUG-FR10-003-B][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> canceled)"  
+                                                                                                                                                                                             
+ 8.  AssertionError  [BUG-FR10-003-B] Strict Canonical Oracle: Persisted state MUST remain pending                                                                                           
+                     expected 'canceled' to deeply equal 'pending'                                                                                                                           
+                     at assertion:0 in test-script                                                                                                                                           
+                     inside "03 – BUG-FR10-003: Regular User Mutates Admin Status (SEC-03) / [BUG-FR10-003-B][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State B"                 

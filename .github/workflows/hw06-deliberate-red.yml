@@ -1,0 +1,70 @@
+name: HW06 Deliberate Red Sample (23127259)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - thang/hw06-implementation
+    paths:
+      - "23127259/ci/deliberate-red-trigger.txt"
+
+permissions:
+  contents: read
+
+jobs:
+  deliberate-red:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SUT_PORT: 3010
+      BASE_URL: http://localhost:3010
+      STUDENT_ID: "23127259"
+      DELIBERATE_RED: "1"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Newman
+        run: |
+          npm install --no-save newman@6
+          npx newman --version
+
+      - name: Start and verify SUT on port 3010
+        working-directory: 23127259/ci/sut
+        run: |
+          npm install --no-audit --no-fund
+          PORT=3010 node server.js > /tmp/hw06-sut.log 2>&1 &
+          ready=false
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:3010/api/categories >/dev/null; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" != "true" ]; then
+            cat /tmp/hw06-sut.log
+            exit 1
+          fi
+          echo "SUT health check passed"
+
+      - name: Run smoke suite with exactly one deliberate assertion failure
+        run: bash scripts/run_ci_smoke.sh "${{ github.run_id }}/deliberate-red"
+
+      - name: Upload deliberate-red JUnit and CLI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hw06-23127259-deliberate-red-${{ github.run_id }}
+          path: |
+            23127259/ci/evidence/${{ github.run_id }}/deliberate-red/*.xml
+            23127259/ci/evidence/${{ github.run_id }}/deliberate-red/*.log
+            23127259/ci/evidence/${{ github.run_id }}/deliberate-red/*.txt
+          if-no-files-found: error
+          retention-days: 30

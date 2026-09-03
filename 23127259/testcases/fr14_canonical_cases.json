@@ -1,0 +1,738 @@
+[
+  {
+    "id": "TC-FR14-001",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated Client",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Successful public category-list observation; exact seeds/order/schema are not normative.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-002",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Tablet"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Admin create succeeds and the new unique-name category is API-visible via GET.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "SRS FR-12/FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-003",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Admin create succeeds and the new unique-name category is API-visible via GET.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "SRS FR-12/FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-004",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/:id",
+    "input": {
+      "name": "Tablets & iPads"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Admin update succeeds and only the target category has the new API-visible name.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "SRS FR-12/FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-005",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Admin update succeeds and only the target category has the new API-visible name.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "SRS FR-12/FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-006",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/:id",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Admin delete succeeds and the isolated target is absent from the later list.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "SRS FR-12/FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-007",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated Client",
+    "auth_condition": "Missing Authorization Header",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Unauthorized Category"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Invalid or missing JWT receives any 4xx/non-success and category state is not mutated.",
+    "source_refs": [
+      "SRS SEC-02",
+      "SRS FR-12"
+    ]
+  },
+  {
+    "id": "TC-FR14-008",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated Client",
+    "auth_condition": "Missing Authorization Header",
+    "method": "PUT",
+    "endpoint": "/api/categories/1",
+    "input": {
+      "name": "Hacked Name"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Invalid or missing JWT receives any 4xx/non-success and category state is not mutated.",
+    "source_refs": [
+      "SRS SEC-02",
+      "SRS FR-12"
+    ]
+  },
+  {
+    "id": "TC-FR14-009",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Unauthenticated Client",
+    "auth_condition": "Missing Authorization Header",
+    "method": "DELETE",
+    "endpoint": "/api/categories/1",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Invalid or missing JWT receives any 4xx/non-success and category state is not mutated.",
+    "source_refs": [
+      "SRS SEC-02",
+      "SRS FR-12"
+    ]
+  },
+  {
+    "id": "TC-FR14-010",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Malformed Token Client",
+    "auth_condition": "Malformed JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Malformed Token Category"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Invalid or missing JWT receives any 4xx/non-success and category state is not mutated.",
+    "source_refs": [
+      "SRS SEC-02",
+      "SRS FR-12"
+    ]
+  },
+  {
+    "id": "TC-FR14-011",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Cryptographically Tampered JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/1",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Invalid or missing JWT receives any 4xx/non-success and category state is not mutated.",
+    "source_refs": [
+      "SRS SEC-02",
+      "SRS FR-12"
+    ]
+  },
+  {
+    "id": "TC-FR14-012",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "User Created Category"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "role=user category mutation receives any 4xx/non-success and no category state mutation.",
+    "source_refs": [
+      "SRS FR-12",
+      "SRS SEC-03"
+    ]
+  },
+  {
+    "id": "TC-FR14-013",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "PUT",
+    "endpoint": "/api/categories/2",
+    "input": {
+      "name": "User Modified Name"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "role=user category mutation receives any 4xx/non-success and no category state mutation.",
+    "source_refs": [
+      "SRS FR-12",
+      "SRS SEC-03"
+    ]
+  },
+  {
+    "id": "TC-FR14-014",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "DELETE",
+    "endpoint": "/api/categories/:id",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "role=user category mutation receives any 4xx/non-success and no category state mutation.",
+    "source_refs": [
+      "SRS FR-12",
+      "SRS SEC-03"
+    ]
+  },
+  {
+    "id": "TC-FR14-015",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Regular Customer",
+    "auth_condition": "Valid User JWT (role=user)",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Authenticated User can read the public category list.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-016",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": ""
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Mandatory non-empty name violation must not create an invalid API-visible category; exact error status is unspecified.",
+    "source_refs": [
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-017",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": null
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Mandatory non-empty name violation must not create an invalid API-visible category; exact error status is unspecified.",
+    "source_refs": [
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-018",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {},
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Mandatory non-empty name violation must not create an invalid API-visible category; exact error status is unspecified.",
+    "source_refs": [
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-019",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "   "
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Mandatory non-empty name violation must not create an invalid API-visible category; exact error status is unspecified.",
+    "source_refs": [
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-020",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe unspecified name length/Unicode/duplicate/type behavior without a normative defect verdict.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-021",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Điện tử 📱 & Phụ kiện"
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe unspecified name length/Unicode/duplicate/type behavior without a normative defect verdict.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-022",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Laptop"
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe unspecified name length/Unicode/duplicate/type behavior without a normative defect verdict.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-023",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": 12345
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe unspecified name length/Unicode/duplicate/type behavior without a normative defect verdict.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-024",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/99999",
+    "input": {
+      "name": "Ghost Category"
+    },
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Any status is allowed, but the API must not falsely report successful modification/deletion of no existing entity.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "FR-14 CRUD semantics"
+    ]
+  },
+  {
+    "id": "TC-FR14-025",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/99999",
+    "input": null,
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Any status is allowed, but the API must not falsely report successful modification/deletion of no existing entity.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "FR-14 CRUD semantics"
+    ]
+  },
+  {
+    "id": "TC-FR14-026",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/0",
+    "input": {
+      "name": "Zero ID"
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe unspecified zero/negative/non-numeric ID handling without exact status oracle.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-027",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/-1",
+    "input": null,
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe unspecified zero/negative/non-numeric ID handling without exact status oracle.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-028",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/abc",
+    "input": {
+      "name": "String ID"
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe unspecified zero/negative/non-numeric ID handling without exact status oracle.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-029",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "'; DROP TABLE categories;--"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "SQL-style input causes no query injection effect or category-table loss; black-box limitation recorded.",
+    "source_refs": [
+      "SRS SEC-05"
+    ]
+  },
+  {
+    "id": "TC-FR14-030",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "<script>alert('XSS')</script>"
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Record raw JSON persistence only; SEC-04 UI escaping cannot be adjudicated by this API response.",
+    "source_refs": [
+      "SRS SEC-04 (UI-scoped)"
+    ]
+  },
+  {
+    "id": "TC-FR14-031",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Mass Assign Test",
+      "id": 999,
+      "admin": true,
+      "role": "superuser"
+    },
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Observe that undocumented body fields do not override entity identity/authorization; SEC-07 is not claimed.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-032",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/2",
+    "input": {
+      "name": "Updated via Mass Assign",
+      "id": 999
+    },
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Observe that undocumented body fields do not override entity identity/authorization; SEC-07 is not claimed.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-033",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Attacker",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": {
+        "$gt": ""
+      }
+    },
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe object-type robustness without a NoSQL or exact-status oracle.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-035",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "MULTIPLE (POST, GET, PUT, DELETE)",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Lifecycle Test"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Isolated create/read/update/read/delete/read lifecycle produces the expected API-visible states.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "SRS FR-14"
+    ]
+  },
+  {
+    "id": "TC-FR14-037",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/:id",
+    "input": {
+      "name": "Zombie Category"
+    },
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Any status is allowed, but the API must not falsely report successful modification/deletion of no existing entity.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "FR-14 CRUD semantics"
+    ]
+  },
+  {
+    "id": "TC-FR14-038",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/:id",
+    "input": null,
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Any status is allowed, but the API must not falsely report successful modification/deletion of no existing entity.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "FR-14 CRUD semantics"
+    ]
+  },
+  {
+    "id": "TC-FR14-039",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Record observed response shape; only CRUD behavior and API-visible state are normative.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-040",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": {
+      "name": "Schema Test"
+    },
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Record observed response shape; only CRUD behavior and API-visible state are normative.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-041",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/:id",
+    "input": {
+      "name": "Schema Updated"
+    },
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Record observed response shape; only CRUD behavior and API-visible state are normative.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-042",
+    "provenance": "LEVEL 2 RAW AI",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "DELETE",
+    "endpoint": "/api/categories/:id",
+    "input": null,
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Record observed response shape; only CRUD behavior and API-visible state are normative.",
+    "source_refs": [
+      "API-SPEC §3.4"
+    ]
+  },
+  {
+    "id": "TC-FR14-H01",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": "Raw text stream without Content-Type",
+    "oracle_strength": "EXPLORATORY",
+    "semantic_oracle": "Observe missing Content-Type behavior; HTTP 500 is robustness evidence, not a normative FR-14 bug.",
+    "source_refs": [
+      "GAP-H01"
+    ]
+  },
+  {
+    "id": "TC-FR14-H02",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST",
+    "endpoint": "/api/categories",
+    "input": "Zero bytes",
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Zero-byte body does not establish a mandatory name; exact parser status is unspecified.",
+    "source_refs": [
+      "SRS FR-14",
+      "GAP-H02"
+    ]
+  },
+  {
+    "id": "TC-FR14-H03",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PATCH",
+    "endpoint": "/api/categories/2",
+    "input": {
+      "name": "PATCH attempt"
+    },
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Undocumented PATCH receives non-success and does not change the isolated category.",
+    "source_refs": [
+      "API-SPEC §3.4",
+      "GAP-H03"
+    ]
+  },
+  {
+    "id": "TC-FR14-H04",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Client Caller",
+    "auth_condition": "None",
+    "method": "GET",
+    "endpoint": "/api/categories",
+    "input": null,
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Record JSON parseability and response MIME without treating header variation as a defect.",
+    "source_refs": [
+      "GAP-H04"
+    ]
+  },
+  {
+    "id": "TC-FR14-H05",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "PUT",
+    "endpoint": "/api/categories/2",
+    "input": {},
+    "oracle_strength": "SPECIFICATION-BACKED",
+    "semantic_oracle": "Missing update name must not erase/corrupt the isolated category name.",
+    "source_refs": [
+      "SRS FR-14",
+      "GAP-H05"
+    ]
+  },
+  {
+    "id": "TC-FR14-H06",
+    "provenance": "LEVEL 4 HUMAN EXTENSION",
+    "actor": "Admin",
+    "auth_condition": "Valid Admin JWT",
+    "method": "POST (x3 sequential)",
+    "endpoint": "/api/categories",
+    "input": [
+      {
+        "name": "Batch 1"
+      },
+      {
+        "name": "Batch 2"
+      },
+      {
+        "name": "Batch 3"
+      }
+    ],
+    "oracle_strength": "PARTIAL-ORACLE",
+    "semantic_oracle": "Three rapid unique-name creates remain distinct and API-visible; monotonic IDs are observational.",
+    "source_refs": [
+      "SRS FR-14",
+      "GAP-H06"
+    ]
+  }
+]

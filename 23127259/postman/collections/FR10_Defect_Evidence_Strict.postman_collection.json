@@ -1,0 +1,875 @@
+{
+  "info": {
+    "name": "FR10_Defect_Evidence_Strict",
+    "description": "Strict Canonical Oracle Evidence Collection for Confirmed FR-10 Defects (BUG-FR10-001, BUG-FR10-002, BUG-FR10-003)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Mandatory X-Student-Id header injection across all confirmation requests",
+          "const studentId = pm.environment.get('studentId') || '23127259';",
+          "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "00 \u2013 Authentication Setup",
+      "item": [
+        {
+          "name": "[AUTH-01] Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Admin Login Success', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    const data = pm.response.json();",
+                  "    const token = data.token || (data.data && data.data.token);",
+                  "    pm.expect(token).to.be.a('string').and.not.empty;",
+                  "    pm.environment.set('adminToken', token);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[AUTH-02] User A Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{userAEmail}}\", \"password\": \"{{userAPassword}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('User A Login Success', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    const data = pm.response.json();",
+                  "    const token = data.token || (data.data && data.data.token);",
+                  "    pm.expect(token).to.be.a('string').and.not.empty;",
+                  "    pm.environment.set('userAToken', token);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 \u2013 BUG-FR10-001: Owner Cancel During Shipping",
+      "item": [
+        {
+          "name": "[BUG-FR10-001][SETUP-CREATE] User A Creates Fresh Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"123 Strict St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-001] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('strict_order_fsm01', String(oid));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-001][SETUP-CONFIRM] Admin Advances to confirmed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{strict_order_fsm01}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{strict_order_fsm01}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-001] Precondition Transition to confirmed', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-001][SETUP-SHIPPING] Admin Advances to shipping",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"shipping\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{strict_order_fsm01}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{strict_order_fsm01}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-001] Precondition Transition to shipping', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-001][VERIFY-SHIPPING] Verify Initial State Is shipping",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{strict_order_fsm01}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{strict_order_fsm01}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-001] Initial State Verified as shipping', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    const d = pm.response.json();",
+                  "    const st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('shipping');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-001][ACTION-CANCEL] Owner User Attempts Cancel on Shipping Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{strict_order_fsm01}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{strict_order_fsm01}}",
+                "cancel"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-001] Strict Canonical Oracle: Cancellation in shipping MUST be rejected (4xx)', function () {",
+                  "    // Level 1 SRS Section 4.10 strictly prohibits customer cancellation during shipping",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-001][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{strict_order_fsm01}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{strict_order_fsm01}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-001] Strict Canonical Oracle: Persisted state MUST remain shipping', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    const d = pm.response.json();",
+                  "    const st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('shipping');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 \u2013 BUG-FR10-002: Admin Transition on Canceled Terminal Order",
+      "item": [
+        {
+          "name": "[BUG-FR10-002][SETUP-CREATE] User A Creates Fresh Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"456 Strict St\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-002] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('strict_order_fsm02', String(oid));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-002][SETUP-CANCEL] Admin Transitions Order to canceled",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{strict_order_fsm02}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{strict_order_fsm02}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-002] Precondition Transition to canceled', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-002][VERIFY-CANCELED] Verify Initial State Is canceled",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{strict_order_fsm02}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{strict_order_fsm02}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-002] Initial State Verified as canceled', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    const d = pm.response.json();",
+                  "    const st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('canceled');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-002][ACTION-DELIVER] Admin Attempts canceled -> delivered Mutation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"delivered\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{strict_order_fsm02}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{strict_order_fsm02}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-002] Strict Canonical Oracle: Terminal state transition MUST be rejected (4xx)', function () {",
+                  "    // Level 1 SRS & FSM specify canceled is terminal and immutable",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 403, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-002][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{strict_order_fsm02}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{strict_order_fsm02}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-002] Strict Canonical Oracle: Persisted state MUST remain canceled', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    const d = pm.response.json();",
+                  "    const st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('canceled');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 \u2013 BUG-FR10-003: Regular User Mutates Admin Status (SEC-03)",
+      "item": [
+        {
+          "name": "[BUG-FR10-003-A][SETUP-CREATE] User A Creates Fresh Order A",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 Strict St A\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-003-A] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('strict_order_sec03_a', String(oid));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-003-A][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> confirmed)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"confirmed\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{strict_order_sec03_a}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{strict_order_sec03_a}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-003-A] Strict Canonical Oracle: Customer token on Admin endpoint MUST be rejected (403/401/404)', function () {",
+                  "    // Level 1 SEC-03 mandates Admin endpoints require role = admin",
+                  "    pm.expect(pm.response.code).to.be.oneOf([403, 401, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-003-A][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State A",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{strict_order_sec03_a}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{strict_order_sec03_a}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-003-A] Strict Canonical Oracle: Persisted state MUST remain pending', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    const d = pm.response.json();",
+                  "    const st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('pending');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-003-B][SETUP-CREATE] User A Creates Fresh Order B",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\": [{\"productId\": 1, \"quantity\": 1}], \"shippingAddress\": {\"street\": \"789 Strict St B\", \"city\": \"HCM\", \"country\": \"VN\"}, \"paymentMethod\": \"cod\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-003-B] Fixture Checkout Created', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "    const body = pm.response.json();",
+                  "    const oid = body.orderId ?? body.id ?? body.order?.id ?? body.data?.id ?? body.data?.orderId;",
+                  "    pm.expect(oid).to.be.ok;",
+                  "    pm.environment.set('strict_order_sec03_b', String(oid));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-003-B][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> canceled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userAToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"canceled\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/orders/{{strict_order_sec03_b}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders",
+                "{{strict_order_sec03_b}}",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-003-B] Strict Canonical Oracle: Customer token on Admin endpoint MUST be rejected (403/401/404)', function () {",
+                  "    // Level 1 SEC-03 mandates Admin endpoints require role = admin",
+                  "    pm.expect(pm.response.code).to.be.oneOf([403, 401, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[BUG-FR10-003-B][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State B",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{strict_order_sec03_b}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{strict_order_sec03_b}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[BUG-FR10-003-B] Strict Canonical Oracle: Persisted state MUST remain pending', function () {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "    const d = pm.response.json();",
+                  "    const st = d.status || (d.data && d.data.status);",
+                  "    pm.expect(st).to.eql('pending');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

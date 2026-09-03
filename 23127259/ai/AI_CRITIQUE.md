@@ -1,18 +1,18 @@
-# AI Critique (200–300 words)
+# AI Capability & Limitation Critique – API Testing
 
-**Student:** Nguyễn Tấn Thắng  
-**Student ID:** 23127259  
-**Exercise ID:** HW06-AI  
+- **Student:** Nguyễn Tấn Thắng (23127259)
+- **Course:** HW06 – API Testing
+- **Required Length:** 200–300 words
+- **Evidence Foundation:** Grounded in audit data from `ai/TC_AUDIT_FR02.md`, `ai/TC_AUDIT_FR10.md`, and `ai/TC_AUDIT_FR14.md`.
 
 ---
 
-## Critical Reflection on AI Collaboration
+## Critical Assessment
 
-*(Place your 200–300 words AI critique paragraph here answering the mandatory assignment prompts):*
+The HW06 pipeline demonstrates that AI accelerates API test generation substantially but cannot serve as the final oracle. Across three features, 121 raw AI-generated test cases were produced efficiently, covering broad SRS surface area including happy paths, boundary conditions, and RBAC permutations. This generation phase would have taken a human tester significantly longer to author manually.
 
-1. **Where did the AI get something wrong, biased, or incomplete?**
-   - E.g., The AI excelled at generating basic nominal parameter partitions and common negative strings, but frequently overlooked multi-step state mutations and subtle security boundaries (e.g., IDOR on resources belonging to other tenants, race conditions in coupon redemption, or rate-limiting lockout state resets).
-2. **Why did it fail to catch the issue?**
-   - E.g., The model lacked persistent contextual memory of backend database side-effects and treated individual API calls as stateless functional units rather than nodes in an evolving state machine.
-3. **What principle have you learned about collaborating with AI during this assignment?**
-   - E.g., AI is an effective accelerator for baseline test scaffolding, but rigorous human auditing, domain-specific state modeling, and strict anti-hallucination verification remain indispensable for high-confidence software quality assurance.
+However, human audit classified every AI case, revealing that raw output cannot be accepted blindly. FR-10 required correcting AI-generated assertions that assumed incorrect HTTP status codes based on implicit implementation guesses rather than strict SRS state-transition rules. FR-02 required eliminating security tests that conflated UI-level cookie disclosure (SEC-04) with API-level token leakage (SEC-01). Most critically, FR-14's 42 raw AI cases produced only 3 VALID verdicts; 2 were INVALID (conflicting oracle references) and 37 were INCOMPLETE (missing mandatory headers, incorrect HTTP methods, or body-parameter misalignments). After human correction, 40 usable AI cases plus 6 human-designed extensions produced a formal suite of 46 cases.
+
+Human gap analysis added cases the AI generation systematically missed: state-reset logic at failure-count boundaries (FR02-HUM-003), terminal-state immutability (FR10-HUM-002), and mass-assignment vulnerabilities (FR10-HUM-005). AI also failed to consolidate duplicate bug manifestations — FR-14's Issue #37 was independently filed as BUG-FR14-005 but merged into Issue #34 after human root-cause analysis revealed identical backend causes.
+
+These findings confirm that AI is valuable for speed and breadth, but human judgment remains essential for oracle accuracy, completeness, and defect deduplication.

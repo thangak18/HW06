@@ -1,0 +1,37 @@
+================================================================================
+BUG-FR02-002 INDEPENDENT REPRODUCTION EVIDENCE
+================================================================================
+Endpoint: POST /api/login
+Target SUT: http://localhost:3000
+Test User: repro_lock_1788269034@eshop.com
+
+--------------------------------------------------------------------------------
+1. SEQUENCE TIMELINE & EXECUTION TRACE
+--------------------------------------------------------------------------------
+[Baseline] Valid Login Initial Check: HTTP 200
+
+[Attempt 1] Timestamp: 2026-09-01T20:23:54.584129+07:00
+Status: HTTP 401 | Body: {"error": "Invalid email or password"}
+
+[Attempt 2] Timestamp: 2026-09-01T20:23:54.585699+07:00
+Status: HTTP 401 | Body: {"error": "Invalid email or password"}
+
+[Attempt 3 (Lock Triggered)] Timestamp: 2026-09-01T20:23:54.586893+07:00 (T0: 2026-09-01T20:23:54.583281+07:00)
+Status: HTTP 403 | Body: {"error": "T\u00e0i kho\u1ea3n \u0111\u00e3 b\u1ecb kh\u00f3a. Vui l\u00f2ng th\u1eed l\u1ea1i sau."}
+
+[Active Lock Verification] Timestamp: 2026-09-01T20:23:54.587801+07:00
+Status: HTTP 403 | Body: {"error": "T\u00e0i kho\u1ea3n \u0111\u00e3 b\u1ecb kh\u00f3a. Vui l\u00f2ng th\u1eed l\u1ea1i sau."}
+
+[Post-Expiration Attempt] Timestamp: 2026-09-01T20:24:30.593384+07:00 (T1: 2026-09-01T20:24:30.593384+07:00)
+Elapsed Duration: 36.01 seconds (Specification requirement: 30 seconds)
+Status: HTTP 403
+Body: {"error": "T\u00e0i kho\u1ea3n \u0111\u00e3 b\u1ecb kh\u00f3a. Vui l\u00f2ng th\u1eed l\u1ea1i sau."}
+
+--------------------------------------------------------------------------------
+2. DEFECT ANALYSIS
+--------------------------------------------------------------------------------
+- Expected Oracle (SRS §2 FR-02): After 30 seconds of lockout duration, submitting valid credentials must authenticate successfully (HTTP 200 OK + JWT).
+- Actual Behavior: At elapsed time 36.01s (> 30s threshold), SUT returned HTTP 403 Forbidden with message 'Tài khoản đã bị khóa. Vui lòng thử lại sau.'.
+- SUT Status: Account remains locked beyond the documented 30-second lockout window.
+- Outcome: CONFIRMED.
+================================================================================

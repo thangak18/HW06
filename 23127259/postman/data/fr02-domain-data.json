@@ -1,0 +1,30 @@
+[
+  {
+    "tcId": "FR02-AI-005",
+    "description": "Malformed email missing @",
+    "email": "malformed.email.com",
+    "password": "User1234!",
+    "expectedSemantic": "AUTH_FAILURE"
+  },
+  {
+    "tcId": "FR02-AI-006",
+    "description": "Empty string email",
+    "email": "",
+    "password": "User1234!",
+    "expectedSemantic": "AUTH_FAILURE"
+  },
+  {
+    "tcId": "FR02-AI-009",
+    "description": "Whitespace-only email",
+    "email": "   ",
+    "password": "User1234!",
+    "expectedSemantic": "AUTH_FAILURE"
+  },
+  {
+    "tcId": "FR02-AI-010",
+    "description": "Empty string password",
+    "email": "user@eshop.com",
+    "password": "",
+    "expectedSemantic": "AUTH_FAILURE"
+  }
+]

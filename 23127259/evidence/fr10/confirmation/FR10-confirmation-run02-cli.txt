@@ -1,0 +1,115 @@
+newman
+
+FR10_Defect_Confirmation
+
+❏ 00 – Authentication Setup
+↳ [AUTH-01] Admin Login
+  POST http://localhost:3000/api/login [200 OK, 640B, 13ms]
+  ✓  Admin Login Success
+
+↳ [AUTH-02] User A Login
+  POST http://localhost:3000/api/login [200 OK, 638B, 2ms]
+  ✓  User A Login Success
+
+❏ 01 – Cluster 1: CANDIDATE-FR10-FSM-01 (BUG-FR10-001)
+↳ [CONFIRM-FSM-01][SETUP-CREATE] User A Creates Fresh Order
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 3ms]
+  ✓  [CONFIRM-FSM-01] Fixture Checkout Created
+
+↳ [CONFIRM-FSM-01][SETUP-CONFIRM] Admin Advances to confirmed
+  PUT http://localhost:3000/api/admin/orders/95/status [200 OK, 301B, 3ms]
+  ✓  [CONFIRM-FSM-01] Precondition Transition to confirmed
+
+↳ [CONFIRM-FSM-01][SETUP-SHIPPING] Admin Advances to shipping
+  PUT http://localhost:3000/api/admin/orders/95/status [200 OK, 301B, 2ms]
+  ✓  [CONFIRM-FSM-01] Precondition Transition to shipping
+
+↳ [CONFIRM-FSM-01][VERIFY-SHIPPING] Verify Initial State Is shipping
+  GET http://localhost:3000/api/orders/95 [200 OK, 388B, 1ms]
+  ✓  [CONFIRM-FSM-01] Initial State Verified as shipping
+
+↳ [CONFIRM-FSM-01][ACTION-CANCEL] Owner User Attempts Cancel on Shipping Order
+  PUT http://localhost:3000/api/orders/95/cancel [200 OK, 308B, 3ms]
+  ✓  [CONFIRM-FSM-01] Candidate Action Execution (Expected 4xx, Actual 200 observed)
+
+↳ [CONFIRM-FSM-01][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State
+  GET http://localhost:3000/api/orders/95 [200 OK, 388B, 1ms]
+  ┌
+  │ '[CONFIRM-FSM-01] Persisted State: canceled'
+  └
+  ✓  [CONFIRM-FSM-01] Final Persisted State Observed
+
+❏ 02 – Cluster 2: CANDIDATE-FR10-FSM-02 (BUG-FR10-002)
+↳ [CONFIRM-FSM-02][SETUP-CREATE] User A Creates Fresh Order
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 5ms]
+  ✓  [CONFIRM-FSM-02] Fixture Checkout Created
+
+↳ [CONFIRM-FSM-02][SETUP-CANCEL] Admin Transitions Order to canceled
+  PUT http://localhost:3000/api/admin/orders/96/status [200 OK, 301B, 4ms]
+  ✓  [CONFIRM-FSM-02] Precondition Transition to canceled
+
+↳ [CONFIRM-FSM-02][VERIFY-CANCELED] Verify Initial State Is canceled
+  GET http://localhost:3000/api/orders/96 [200 OK, 388B, 1ms]
+  ✓  [CONFIRM-FSM-02] Initial State Verified as canceled
+
+↳ [CONFIRM-FSM-02][ACTION-DELIVER] Admin Attempts canceled -> delivered Mutation
+  PUT http://localhost:3000/api/admin/orders/96/status [200 OK, 301B, 3ms]
+  ✓  [CONFIRM-FSM-02] Candidate Action Execution
+
+↳ [CONFIRM-FSM-02][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State
+  GET http://localhost:3000/api/orders/96 [200 OK, 389B, 1ms]
+  ┌
+  │ '[CONFIRM-FSM-02] Persisted State: delivered'
+  └
+  ✓  [CONFIRM-FSM-02] Final Persisted State Observed
+
+❏ 03 – Cluster 3: CANDIDATE-SEC03-01 (BUG-FR10-003)
+↳ [CONFIRM-SEC03-A][SETUP-CREATE] User A Creates Fresh Order A
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 2ms]
+  ✓  [CONFIRM-SEC03-A] Fixture Checkout Created
+
+↳ [CONFIRM-SEC03-A][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> confirmed)
+  PUT http://localhost:3000/api/admin/orders/97/status [200 OK, 301B, 2ms]
+  ✓  [CONFIRM-SEC03-A] Candidate Action Execution
+
+↳ [CONFIRM-SEC03-A][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State A
+  GET http://localhost:3000/api/orders/97 [200 OK, 389B, 1ms]
+  ┌
+  │ '[CONFIRM-SEC03-A] Persisted State: confirmed'
+  └
+  ✓  [CONFIRM-SEC03-A] Final Persisted State Observed
+
+↳ [CONFIRM-SEC03-B][SETUP-CREATE] User A Creates Fresh Order B
+  POST http://localhost:3000/api/checkout [200 OK, 313B, 4ms]
+  ✓  [CONFIRM-SEC03-B] Fixture Checkout Created
+
+↳ [CONFIRM-SEC03-B][ACTION-MUTATE] User A (role=user) Mutates Admin Status (pending -> canceled)
+  PUT http://localhost:3000/api/admin/orders/98/status [200 OK, 301B, 2ms]
+  ✓  [CONFIRM-SEC03-B] Candidate Action Execution
+
+↳ [CONFIRM-SEC03-B][VERIFY-PERSISTENCE] Authorized GET Observes Persisted State B
+  GET http://localhost:3000/api/orders/98 [200 OK, 388B, 1ms]
+  ┌
+  │ '[CONFIRM-SEC03-B] Persisted State: canceled'
+  └
+  ✓  [CONFIRM-SEC03-B] Final Persisted State Observed
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              19 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              19 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │              19 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              19 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 269ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 1.89kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 2ms [min: 1ms, max: 13ms, s.d.: 2ms] │
+└─────────────────────────────────────────────────────────────┘

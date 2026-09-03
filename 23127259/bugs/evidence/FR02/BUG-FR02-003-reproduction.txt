@@ -1,0 +1,38 @@
+================================================================================
+BUG-FR02-003 INDEPENDENT REPRODUCTION EVIDENCE
+================================================================================
+Endpoint: POST /api/login
+Target SUT: http://localhost:3000
+Test User: repro_n2_1788269034@eshop.com
+
+--------------------------------------------------------------------------------
+1. EXACT REPRODUCTION SEQUENCE
+--------------------------------------------------------------------------------
+Step 1: Baseline Valid Login
+Timestamp: 2026-09-01T20:24:30.627987+07:00
+Status: HTTP 200 OK
+
+Step 2: Failed Login Attempt #1 (N=1 Failure)
+Timestamp: 2026-09-01T20:24:30.622597+07:00
+Payload: { "email": "repro_n2_1788269034@eshop.com", "password": "WrongPassword_1" }
+Status: HTTP 401 | Body: {"error": "Invalid email or password"}
+
+Step 3: Failed Login Attempt #2 (N=2 Failures - Pre-Lockout Boundary)
+Timestamp: 2026-09-01T20:24:30.624447+07:00
+Payload: { "email": "repro_n2_1788269034@eshop.com", "password": "WrongPassword_2" }
+Status: HTTP 401 | Body: {"error": "Invalid email or password"}
+
+Step 4: Valid Login Attempt on 3rd Request (CORRECT Password Submitted)
+Timestamp: 2026-09-01T20:24:30.626334+07:00
+Payload: { "email": "repro_n2_1788269034@eshop.com", "password": "N2PassSecure123!" }
+Status: HTTP 403
+Body: {"error": "T\u00e0i kho\u1ea3n \u0111\u00e3 b\u1ecb kh\u00f3a. Vui l\u00f2ng th\u1eed l\u1ea1i sau."}
+
+--------------------------------------------------------------------------------
+2. DEFECT ANALYSIS
+--------------------------------------------------------------------------------
+- Expected Oracle (SRS §2 FR-02): Lockout threshold is 3 CONSECUTIVE failed login attempts. At N=2 failures, account is not locked. Submitting the CORRECT password on request #3 is a SUCCESSFUL authentication attempt, which must return HTTP 200 OK + JWT and reset the consecutive failure counter to 0.
+- Actual Behavior: Submitting correct credentials on request #3 returned HTTP 403 Forbidden ('Tài khoản đã bị khóa. Vui lòng thử lại sau.').
+- SUT Mechanism: SUT increments/checks the consecutive attempt counter BEFORE validating password correctness, prematurely locking legitimate users.
+- Outcome: CONFIRMED.
+================================================================================
