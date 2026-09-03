@@ -82,13 +82,13 @@ The assignment establishes a strict requirement of **≥ 35 AI-generated test ca
 
 | Need | Where to look |
 |---|---|
-| Final main report (Markdown) | [`23127259/00_MAIN_REPORT.md`](./00_MAIN_REPORT.md) |
+| Final main report (Markdown) | [`23127259/docs/00_MAIN_REPORT.md`](./docs/00_MAIN_REPORT.md) |
 | Final main report (PDF) | [`23127259/pdf/HW06_Main_Report.pdf`](./pdf/) – PASS (pixel-audited 2026-09-03) |
 | Feature audits | [`23127259/audit/FR02_FINAL_AUDIT.md`](./audit/) [`audit/FR10_FINAL_AUDIT.md`](./audit/) [`audit/FR14_FINAL_AUDIT.md`](./audit/) |
 | Compliance matrix | [`23127259/audit/HW06_REQUIREMENTS_COMPLIANCE_MATRIX.md`](./audit/HW06_REQUIREMENTS_COMPLIANCE_MATRIX.md) |
 | Per-feature test cases | [`23127259/testcases/`](./testcases/) |
 | Postman collections | [`23127259/postman/collections/`](./postman/collections/) |
-| Newman runs (CLI / JSON / HTML / exit) | [`23127259/evidence/fr02/newman/`](./evidence/fr02/newman/) [`evidence/fr10/newman/`](./evidence/fr10/newman/) [`evidence/fr14/newman/`](./evidence/fr14/newman/) |
+| Newman runs (CLI / JSON / HTML / exit) | [`23127259/newman/fr02/`](./newman/fr02/) [`evidence/fr10/newman/`](./evidence/fr10/newman/) [`evidence/fr14/newman/`](./evidence/fr14/newman/) |
 | Bug reports | [`23127259/bugs/`](./bugs/) |
 | GitHub Issues | FR02 #1/#2/#3, FR10 #29/#30/#31, FR14 #32/#33/#34/#36 (#37 closed duplicate) |
 | AI audit | [`23127259/ai/AI_AUDIT_REPORT.md`](./ai/AI_AUDIT_REPORT.md) |
