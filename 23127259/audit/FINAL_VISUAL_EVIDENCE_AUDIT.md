@@ -76,7 +76,7 @@
 
 | Path | Type | Purpose | Evidence | SHA-256 | Status |
 |---|---|---|---|---|---|
-| `docs/AI_TEST_GENERATOR_DIAGRAM.png` | Self-drawn | AI test-generation pipeline | PIL/Pillow-rendered; 14 nodes, 15 edges; normative blue / partial green / exploratory amber; readable labels; correct values (40/46/46 formal, 10 bugs); author declaration present | `af60403064962dec3c9a5f7bb7e2d4c0` | **VALID_FINAL** |
+| `docs/AI_TEST_GENERATOR_DIAGRAM.png` | Self-drawn | AI test-generation pipeline | PIL/Pillow-rendered; 14 nodes, 15 edges; normative blue / partial green / exploratory amber; readable labels; correct values (40/46/46 formal, 10 bugs); author declaration present | `af60403064962decb731252d44d06ca8efdabb4b3573c55a0fcc78e345a5a621` | **VALID_FINAL** |
 
 ---
 
