@@ -2,15 +2,32 @@
 
 ## Timestamp
 
-2026-09-03 08:03:08 +0700 (Asia/Ho_Chi_Minh)
+2026-09-03 08:13:07 +0700 (Asia/Ho_Chi_Minh)
 
 ## Current Phase
 
-Cross-agent synchronization before Codex-only visual audit.
+FR02/FR10 Codex-only visual audit complete; waiting for Cursor non-visual handoff before FR14/CI/final-deliverable visual inspection.
 
 ## Current Status
 
 IN_PROGRESS
+
+## Cross-Agent Synchronization
+
+- Operational sync SHA: `1df132ca1f48efb2d6b1dae86d46d33768e5c7dd`.
+- Primary Codex branch/worktree: `thang/hw06-implementation` at `/Volumes/Thang/HW06/HW06`.
+- Cursor branch/worktree: `thang/cursor-nonvisual` at `/Volumes/Thang/HW06/HW06-cursor-nonvisual`.
+- Historical Anti worktree preserved: `/Volumes/Thang/HW06/HW06-fr14-anti`.
+- Ownership lock active: Codex changes visual evidence/worklogs only; Cursor owns the remaining technical/report generation.
+
+## Post-Sync Visual Audit Status
+
+- FR02: `PASS_COMPLETE`; all five final images opened and pixel-audited; no recapture required.
+- FR10: `PASS_COMPLETE_AFTER_ONE_RECAPTURE`; all four unique final files opened and pixel-audited; BUG-FR10-001 also serves as the overall Runner view.
+- FR10 recaptured file: `23127259/evidence/fr10/FR10-postman-console-x-student-id-smoke.png`, SHA-256 `82286c348e9e8ae48583a704c4c671d96295ecc576549dbd804ff9da1d5cd387`.
+- FR10 rejected stale Console SHA: `0aa5866a6f808b69cba1f09571db2902d6ea5be5d6b2ced0ae632d8396bcb8b9`; its pixels showed FR02, so it was replaced with authentic Postman Desktop evidence.
+- Historical synthetic `int053` and `int054` remain quarantined and excluded.
+- Exact per-image pixel findings and hashes are in `23127259/audit/CODEX_VISUAL_WORKLOG.md`.
 
 ## Completed Verified Work
 
@@ -131,10 +148,10 @@ Issues: #32, #33, #34, #36; #37 closed duplicate
 ## Git State
 
 Branch: `thang/hw06-implementation`
-HEAD: `3865bc017374249fa9f6c67858049c5fda6c34b6` (stabilized technical synchronization commit; metadata commit pending)
-Last meaningful commit: `3865bc0 audit(23127259): stabilize cross-agent forensic corrections`
+HEAD before this visual checkpoint: `1df132ca1f48efb2d6b1dae86d46d33768e5c7dd` (operational cross-agent sync commit)
+Cursor worktree start: exact same SHA `1df132ca1f48efb2d6b1dae86d46d33768e5c7dd`
 Working tree clean: NO
-Uncommitted paths: sync SHA metadata update only.
+Uncommitted paths at checkpoint: Codex-owned visual worklog/checkpoint plus the authentic FR10 Console replacement only.
 
 ## External State
 
@@ -158,9 +175,10 @@ Issues: FR02 #1/#2/#3 and FR10 #29/#30/#31 verified live and updated in place wi
 - [x] Complete independent FR10 audit and distinct native evidence repair.
 - [x] Implement and execute FR14 end to end (technical; visual pending).
 - [ ] Cursor: finalize non-visual CI/report/Excel/PDF/secret/compliance synchronization.
-- [ ] Codex: complete FR02/FR10 pixel audit, then final FR14/CI/diagram/Excel/PDF visual audit after Cursor handoff.
+- [x] Codex: complete FR02/FR10 pixel audit and repair the stale FR10 Console evidence.
+- [ ] Codex: complete final FR14/CI/diagram/Excel/PDF visual audit after Cursor handoff.
 - [ ] Integrate Cursor non-visual branch, finish final visual documents, push, and verify clean working tree.
 
 ## NEXT EXACT ACTION
 
-Commit and push this exact sync metadata, create `thang/cursor-nonvisual` from the resulting metadata commit in `/Volumes/Thang/HW06/HW06-cursor-nonvisual`, then begin Codex-owned FR02/FR10 pixel audit only.
+Preserve the ownership lock and wait for the Cursor non-visual handoff. Once Cursor supplies the finalized FR14 root-cause map and accepted CI run identities, begin the FR14 screenshot audit, then CI, diagrams, Excel, PDF, and the final cross-feature image forensic gate.
