@@ -58,6 +58,42 @@ Every listed file was opened and inspected from its actual pixels. `BUG-FR10-001
 - Everything under `evidence/fr10/bugs/historical-invalid/int054/` remains excluded from final evidence.
 - None of those files is referenced as a final FR10 Console, Runner, or bug screenshot.
 
+## FR14 Canonical Runner Metric Reconciliation
+
+- Canonical Postman collection request items: 58 (`[.. | objects | select(has("request"))] | length`).
+- Canonical Newman HTTP executions: 60 (`run.stats.requests.total`).
+- The two additional HTTP executions are legitimate `pm.sendRequest` verification GETs emitted by `TC-FR14-029` and `TC-FR14-H05`.
+- The run contains 60 execution records; those two item names each appear twice because the stored request item plus its scripted verification request are both counted.
+- Decision: no contradiction and no canonical data change. The correct distinction is 58 stored request items versus 60 actual HTTP operations.
+
+## FR14 Pixel Audit
+
+Status: `PASS_COMPLETE`
+
+The real Postman Desktop run used the separately imported current canonical collection copy, not the stale 49-case / 7-Human collection. The visible collection description states a canonical 46-case suite with 034, 036, and H07 excluded. Environment: `FR14-local`.
+
+| Final evidence | SHA-256 | Actual visible evidence | Final status |
+|---|---|---|---|
+| `evidence/fr14/FR14-postman-runner-result.png` | `65cc316415efb76c09e0369c8f1812709fb5bf2aa0b4586213f55b8f8e5d3f9b` | Real Postman Desktop Runner; `FR14_Category_CRUD Copy`; `FR14-local`; completed run; 70 tests, 58 passed, 12 failed, 0 errors; Category requests visible. No credential or token is visible. | VALID_FINAL |
+| `evidence/fr14/FR14-postman-console-x-student-id.png` | `a7eb1faee23ad8c35dde401c0b4b1d98a07f6543199a7ddb86b44e9be0c65791` | Real Postman Console beneath the same FR14 Runner; public `GET http://localhost:3000/api/categories`; expanded request headers show `X-Student-Id: 23127259`. No Authorization, JWT, bearer value, password, or cookie is visible. | VALID_FINAL |
+| `evidence/fr14/bugs/BUG-FR14-001-postman-runner.png` | `9d03d85e62936609f460d7e7947a0b02436cb6ed16e3bc2e480a6fd8f4eb39d4` | Failed-tab view shows TC-FR14-012/013/014 regular-user POST/PUT/DELETE Category mutations all returning HTTP 200 when 4xx is required. Matches BUG-FR14-001 and Issue #32. | VALID_FINAL |
+| `evidence/fr14/bugs/BUG-FR14-002-postman-runner.png` | `15919c31baf60b391b694bb53633c1173aeb7e42c30fdfe943f8cc7ffe61c7f0` | TC-FR14-016 invalid empty-name POST is selected; Runner shows HTTP 200 failure and response body `Category created` with an ID. Adjacent invalid-name failures are visible. Matches BUG-FR14-002 and Issue #33. | VALID_FINAL |
+| `evidence/fr14/bugs/BUG-FR14-003-postman-runner.png` | `9d3d6c65008d483e75277fbe0a7bed406f69bc04b3136a3b30277f08998bb0b8` | TC-FR14-024 nonexistent-ID PUT is selected; Runner shows `/api/categories/99999`, HTTP 200, false-success assertion failure, and response body `Category updated`; related 025/037/038 manifestations remain visible. Matches BUG-FR14-003 and Issue #34; no separate BUG-FR14-005 image exists. | VALID_FINAL |
+| `evidence/fr14/bugs/BUG-FR14-004-postman-runner.png` | `e06a8377bd7b93a209ed5efa1e04e0912342b5ea6d91e490dc6dd269356172e7` | TC-FR14-H05 Empty PUT Body is selected and visible; HTTP 200, `Category updated`, failed no-corruption assertion, and `expected null...` failure context are visible. Matches BUG-FR14-004 and Issue #36. | VALID_FINAL |
+
+All six files were reopened from their final saved PNG bytes. They are readable, authentic, distinct, correctly scoped to FR14, and visually secret-free.
+
+## CI Pixel Audit
+
+Status: `PASS_COMPLETE`
+
+| Final evidence | SHA-256 | Actual visible evidence | Final status |
+|---|---|---|---|
+| `ci/evidence/CI-PASS-33651923618.png` | `76ad1a1b46a17e9b7cc8aa30044fcaa42117c03af01947436169e5fa850da840` | Genuine GitHub Actions page for public repository `thangak18/HW06`; workflow `HW06 API Tests (23127259)` / `hw06-23127259-api-tests.yml`; commit `fa6eac3`; green `Success`; `api-tests` completed successfully. | VALID_FINAL |
+| `ci/evidence/CI-FAIL-33651923391.png` | `cb2156503b20b10ba278c85e4b9eaf9b51dd86e210f7cf83e50b4fc0a496797c` | Genuine GitHub Actions page for `thangak18/HW06`; workflow `HW06 Deliberate Red Sample (23127259)` / `hw06-deliberate-red.yml`; commit `fa6eac3`; red `Failure`; failed job is visibly named `deliberate-red`. Technical logs independently confirm exactly one intentional sentinel assertion and no setup/harness failure. | VALID_FINAL |
+
+Both final screenshots were opened from their saved PNG bytes. Historical invalid green run `33649719887` was not used.
+
 ## Concrete Contradictions for Cursor
 
 - Historical CI run 33649719887 is green only because failures were masked; exclude it.
@@ -67,13 +103,13 @@ Every listed file was opened and inspected from its actual pixels. `BUG-FR10-001
 
 No new technical contradiction was discovered during the completed FR02/FR10 pixel audit. The stale FR10 Console file was a Codex-owned visual defect and has been repaired in place.
 
-## Remaining Visual Work
+## Remaining Visual Work - Fable Ownership
 
-- Wait for Cursor's final FR14 machine/accounting and four-root-cause mapping, then audit/recapture the final FR14 screenshot set.
-- Wait for Cursor's accepted CI PASS and deliberate-FAIL run IDs/URLs/SHAs, then capture and audit final CI screenshots.
-- After Cursor regenerates non-visual deliverables, visually inspect diagrams, Excel, and every final PDF page.
-- Run the final cross-feature image forensic audit for readability, authenticity, secret exposure, staleness, and duplicate insufficiency.
+- Render and inspect the deterministic AI test-generator diagram.
+- Visually inspect every required Excel worksheet.
+- Render and inspect every PDF page.
+- Complete the global all-image forensic audit, final evidence manifest, and compliance cleanup.
 
 ## Next Visual Action
 
-Do not alter Cursor-owned artifacts. Await the Cursor non-visual handoff, then begin FR14 visual verification from the finalized root-cause map before CI, diagrams, Excel, and PDF.
+Hand off the completed FR02/FR10/FR14/CI visual state to Cursor Fable 5.1. Codex must not continue into diagram, Excel, PDF, global-forensic, manifest, or final-compliance work under the narrowed ownership split.
